@@ -1,15 +1,20 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-27T22:44:42Z
+Timestamp (UTC): 2026-10-27T23:40:07Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
+Run Context: SAME-RUN RECOVERY from session 29 (bounded remote checkpoint persistence failure). Do NOT end the GitHub Actions workflow.
+Current HEAD: 60d046f64cf7b1a82d1aba54f42dded8ff9e0932 | Last known remote-tracking: 59b5b04c82331183aa8bbbab5a2f175fb98d2225
+Local ahead: 2 commits (d3ae413, e63ba2c). Preserve all local commits. Controller will retry persistence after this session.
 
 ## Initial Task Message (for next agentic session)
 
-**PRIORITY: BUILD THE CRYPTOCURRENCY QUANTITATIVE OPTIONS ORDERFLOW STRATEGY — HEAVY ENGINEERING, NO PLACEHOLDERS**
+**PRIORITY: BUILD THE CRYPTOCURRENCY QUANTITATIVE OPTIONS ORDERFLOW STRATEGY — HEAVY ENGINEERING, NO PLACEHOLDERS — START NOW**
 
-You are tasked with building the cryptocurrency quantitative options orderflow strategy from scratch, prioritized by the project name. The strategy must ingest crypto options chain data and orderflow (trades, liquidations, funding), compute quantitative features (gamma exposure, delta-adjusted flow, IV skew, put/call ratio, max pain, orderflow imbalance), generate tradable signals, and backtest them with realistic execution, fees, slippage, and risk metrics.
+You are the next agentic worker in the SAME active GitHub Actions run. The previous session ended due to bounded remote checkpoint persistence failure. Do NOT reset/discard local commits; preserve all work. The controller will retry pushing all local-ahead commits after this session.
 
-Focus on heavy engineering work with no placeholders — implement production-quality, tested Python code that can process real options/orderflow data. Do not stop at scaffolding.
+Your sole priority (inferred from project name): build the cryptocurrency quantitative options orderflow strategy from scratch. The strategy must ingest crypto options chain data and orderflow (trades, liquidations, funding), compute quantitative features (gamma exposure, delta-adjusted flow, IV skew, put/call ratio, max pain, orderflow imbalance), generate tradable signals, and backtest them with realistic execution, fees, slippage, and risk metrics.
+
+Focus on heavy engineering work with no placeholders — implement production-quality, tested Python code that can process real options/orderflow data. Do not stop at scaffolding. Make meaningful commits as you progress. All tests must pass.
 
 ### Immediate Objectives:
 1. **Data Layer**: Create modules for options chain ingestion (Deribit/OKX/Binance options), orderflow data (trades, liquidations), and normalization across venues
@@ -64,3 +69,10 @@ Future agents must not avoid this campaign. Every phase below is required before
 - [ ] **Diagnostics**: Add performance tracking and strategy analytics
 
 **MANDATE**: This is a quantitative trading strategy project. Prioritize mathematical correctness, vectorized operations where appropriate, and realistic assumptions. No toy implementations — build something that could be extended to production. All phases above are mandatory; skipping phases is not permitted.
+
+## Recovery Notes (Same-Run)
+- Previous session (29) failed during bounded remote checkpoint persistence; not workflow completion.
+- Local commits ahead of origin/main: d3ae413, e63ba2c (total 2). All preserved.
+- Tests restored earlier: test_controller_progress_accounting.py, test_workflow_diagnostics_scanner.py, test_nonfinite_result_serialization.py, test_campaign_resume.py — all passing.
+- scripts/controller_progress.py present for checkpoint validation.
+- Do not rewrite history. If persistence fails again, diagnose and apply a materially different safe remedy before ending session. Controller will retry persistence of local-ahead commits after this session.
