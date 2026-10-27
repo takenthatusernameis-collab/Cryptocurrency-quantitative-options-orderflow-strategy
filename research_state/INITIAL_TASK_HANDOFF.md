@@ -1,10 +1,10 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-27T23:43:00Z
+Timestamp (UTC): 2026-10-27T23:50:25Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Run Context: SAME-RUN RECOVERY from session 30 (bounded remote checkpoint persistence failure). Do NOT end the GitHub Actions workflow.
-Current HEAD: 8838c3fa2216a114def2ac47b7f05a2dcfd49a66 | Last known remote-tracking: 59b5b04c82331183aa8bbbab5a2f175fb98d2225
-Local ahead: 3 commits (d3ae413, e63ba2c, 8838c3f). Preserve all local commits. Controller will retry persistence after this session.
+Run Context: SAME-RUN RECOVERY from session 31 (bounded remote checkpoint persistence failure). Do NOT end the GitHub Actions workflow.
+Current HEAD: f2f5c810c7b8f0c038f45b34b22bb343b0de061f | Last known remote-tracking: 59b5b04c82331183aa8bbbab5a2f175fb98d2225
+Local ahead: 4 commits (59b5b04 base, then d3ae413,e63ba2c,8838c3f,f2f5c81). Preserve all local commits. Controller will retry persistence after this session.
 
 ## Initial Task Message (for next agentic session)
 
@@ -36,6 +36,20 @@ Focus on heavy engineering work with no placeholders — implement production-qu
 
 - Restored the 4 missing CI test files deleted in commit 59b5b04: `tests/test_controller_progress_accounting.py`, `tests/test_workflow_diagnostics_scanner.py`, `tests/test_nonfinite_result_serialization.py`, `tests/test_campaign_resume.py`. The diagnostics-only activation step now has tests to run so CI is not blocked.
 - Created `scripts/controller_progress.py` for workflow checkpoint validation (enables checkpoint/persistence gating).
+
+
+
+## Session 31 Progress (Completed)
+- [x] Created full project structure (src/, data/, config/, notebooks/) with __init__.py files
+- [x] Implemented configuration system (src/config.py, config/settings.yaml)
+- [x] Built Pydantic data schemas for options, trades, liquidations, orderflow
+- [x] Created ingestion framework (base classes + Deribit structure)
+- [x] Implemented feature engineering: Gamma Exposure (GEX), orderflow imbalance/delta, volatility skew/IV/PCR/max pain
+- [x] Built event-driven backtesting engine with fees/slippage/metrics
+- [x] Created composite signal generator
+- [x] Added data validation utilities
+- [x] All core tests passing (9 new + 19 restored = 28 tests)
+- [x] Committed core foundation (f2f5c81)
 
 ## Next Focus Campaign (Execute in Order — MANDATORY)
 
