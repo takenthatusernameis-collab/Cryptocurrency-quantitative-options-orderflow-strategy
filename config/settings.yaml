@@ -1,0 +1,26 @@
+venues:
+  - deribit
+  - okx
+  - binance
+
+data:
+  symbols:
+    - BTC
+    - ETH
+  options:
+    interval: 60
+  orderflow:
+    include_liquidations: true
+    include_trades: true
+
+backtest:
+  initial_capital: 100000.0
+  fee_rate: 0.0005
+  slippage_bps: 1.0
+  risk_free_rate: 0.0
+
+risk:
+  max_position_pct: 0.1
+  max_drawdown_limit: 0.2
+  stop_loss_pct: 0.02
+  take_profit_pct: 0.04
