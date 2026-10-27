@@ -1,10 +1,10 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-27T23:40:07Z
+Timestamp (UTC): 2026-10-27T23:43:00Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Run Context: SAME-RUN RECOVERY from session 29 (bounded remote checkpoint persistence failure). Do NOT end the GitHub Actions workflow.
-Current HEAD: 60d046f64cf7b1a82d1aba54f42dded8ff9e0932 | Last known remote-tracking: 59b5b04c82331183aa8bbbab5a2f175fb98d2225
-Local ahead: 2 commits (d3ae413, e63ba2c). Preserve all local commits. Controller will retry persistence after this session.
+Run Context: SAME-RUN RECOVERY from session 30 (bounded remote checkpoint persistence failure). Do NOT end the GitHub Actions workflow.
+Current HEAD: 8838c3fa2216a114def2ac47b7f05a2dcfd49a66 | Last known remote-tracking: 59b5b04c82331183aa8bbbab5a2f175fb98d2225
+Local ahead: 3 commits (d3ae413, e63ba2c, 8838c3f). Preserve all local commits. Controller will retry persistence after this session.
 
 ## Initial Task Message (for next agentic session)
 
