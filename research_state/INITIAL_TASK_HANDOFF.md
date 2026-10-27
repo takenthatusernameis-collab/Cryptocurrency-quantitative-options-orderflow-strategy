@@ -1,13 +1,15 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-27T22:44:27Z
+Timestamp (UTC): 2026-10-27T22:44:42Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 
 ## Initial Task Message (for next agentic session)
 
-**PRIORITY: BUILD CORE STRATEGY IMPLEMENTATION** 
+**PRIORITY: BUILD THE CRYPTOCURRENCY QUANTITATIVE OPTIONS ORDERFLOW STRATEGY — HEAVY ENGINEERING, NO PLACEHOLDERS**
 
-You are tasked with building the cryptocurrency quantitative options orderflow strategy from scratch. Focus on heavy engineering work with no placeholders - implement production-quality code.
+You are tasked with building the cryptocurrency quantitative options orderflow strategy from scratch, prioritized by the project name. The strategy must ingest crypto options chain data and orderflow (trades, liquidations, funding), compute quantitative features (gamma exposure, delta-adjusted flow, IV skew, put/call ratio, max pain, orderflow imbalance), generate tradable signals, and backtest them with realistic execution, fees, slippage, and risk metrics.
+
+Focus on heavy engineering work with no placeholders — implement production-quality, tested Python code that can process real options/orderflow data. Do not stop at scaffolding.
 
 ### Immediate Objectives:
 1. **Data Layer**: Create modules for options chain ingestion (Deribit/OKX/Binance options), orderflow data (trades, liquidations), and normalization across venues
@@ -18,7 +20,7 @@ You are tasked with building the cryptocurrency quantitative options orderflow s
 
 ### Requirements:
 - Write clean, tested Python code (follow existing patterns)
-- Add unit tests for core logic - no placeholder tests
+- Add unit tests for core logic — no placeholder tests
 - Ensure all tests pass
 - Make meaningful commits as you progress
 - Focus on end-to-end functionality over perfection
@@ -27,12 +29,14 @@ You are tasked with building the cryptocurrency quantitative options orderflow s
 
 ## Bottlenecks Removed
 
-- Created missing `scripts/controller_progress.py` for workflow checkpoint validation
-- Existing placeholder tests allow CI to pass while core implementation is built
+- Restored the 4 missing CI test files deleted in commit 59b5b04: `tests/test_controller_progress_accounting.py`, `tests/test_workflow_diagnostics_scanner.py`, `tests/test_nonfinite_result_serialization.py`, `tests/test_campaign_resume.py`. The diagnostics-only activation step now has tests to run so CI is not blocked.
+- Created `scripts/controller_progress.py` for workflow checkpoint validation (enables checkpoint/persistence gating).
 
-## Next Focus Campaign (Execute in Order)
+## Next Focus Campaign (Execute in Order — MANDATORY)
 
-### Phase 1: Foundation (Critical Path)
+Future agents must not avoid this campaign. Every phase below is required before the strategy is considered functional.
+
+### Phase 1: Foundation (Critical Path) — MUST COMPLETE FIRST
 - [ ] **Project structure**: Create `src/`, `data/`, `config/`, `notebooks/` directories with proper `__init__.py` files
 - [ ] **Configuration**: Build config system for API keys, venues, parameters (pydantic/dataclass)
 - [ ] **Data schemas**: Define Pydantic models for options chains, trades, orderbooks, candles
@@ -44,7 +48,7 @@ You are tasked with building the cryptocurrency quantitative options orderflow s
 
 ### Phase 3: Quantitative Signals (Core Alpha)
 - [ ] **Gamma Exposure (GEX)**: Calculate dealer gamma exposure by strike/expiry
-- [ ] **Volatility Surface**: IV skew, term structure, smile analysis  
+- [ ] **Volatility Surface**: IV skew, term structure, smile analysis
 - [ ] **Orderflow Imbalance**: Cumulative delta, signed volume, aggressive flow detection
 - [ ] **Composite Signals**: Combine signals with regime detection
 
@@ -55,10 +59,8 @@ You are tasked with building the cryptocurrency quantitative options orderflow s
 - [ ] **Walk-forward**: Out-of-sample validation framework
 
 ### Phase 5: Testing & Diagnostics
-- [ ] **Unit tests**: Replace placeholders with real tests for calculations
+- [ ] **Unit tests**: Replace/extend tests with real tests for calculations (no `assert True` placeholders)
 - [ ] **Integration tests**: End-to-end data pipeline tests
 - [ ] **Diagnostics**: Add performance tracking and strategy analytics
 
-**MANDATE**: This is a quantitative trading strategy project. Prioritize mathematical correctness, vectorized operations where appropriate, and realistic assumptions. No toy implementations - build something that could be extended to production.
-" filePath">
-research_state/INITIAL_TASK_HANDOFF.md
+**MANDATE**: This is a quantitative trading strategy project. Prioritize mathematical correctness, vectorized operations where appropriate, and realistic assumptions. No toy implementations — build something that could be extended to production. All phases above are mandatory; skipping phases is not permitted.
