@@ -137,9 +137,10 @@ def validate_config(cfg: "StrategyConfig") -> None:
         errors.append("risk.allow_shorting must be bool")
     if errors:
         from .errors import ConfigError, get_logger
-    log = get_logger(__name__)
-    log.error("config_validation_failed", fields=errors)
-    raise ConfigError("Invalid config: " + "; ".join(errors), context={"fields": errors})
+
+        log = get_logger(__name__)
+        log.error("config_validation_failed", fields=errors)
+        raise ConfigError("Invalid config: " + "; ".join(errors), context={"fields": errors})
 
 
 def load_config(config_path: Optional[Path] = None) -> StrategyConfig:
