@@ -1,6 +1,6 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-28T02:40:19Z
+Timestamp (UTC): 2026-10-28T02:42:01Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. Working tree clean (pycache de-tracked from index). Do NOT end the GitHub Actions workflow.
 
@@ -23,14 +23,14 @@ You are continuing in the SAME active run. Scaffolding exists (30 tests pass). D
 - [MED] Add numeric tests for backtest shorts/sizing/SLTP/metrics and feature correctness; keep all passing.
 
 ## Next Focus Campaign
-Phase 1: Backtest Engine Correctness — **short equity, SL/TP, risk limits, metrics, non-finite safety.**
-Phase 2: Pipeline Robustness — **no silent swallows, normalization everywhere, --symbols, valid JSON.**
-Phase 3: Alpha Features — **GEX/PCR/skew/max-pain/CVD quantitatively correct.**
-Phase 4: Tests + Validation — **numeric tests, CI green, no placeholders.**
-Phase 5: Hygiene — **clean commits, no pycache tracked, working tree clean.**
+**Phase 1:** Backtest Engine Correctness — **short equity, SL/TP, risk limits, metrics, non-finite safety.**
+**Phase 2:** Pipeline Robustness — **no silent swallows, normalization everywhere, --symbols, valid JSON.**
+**Phase 3:** Alpha Features — **GEX/PCR/skew/max-pain/CVD quantitatively correct.**
+**Phase 4:** Tests + Validation — **numeric tests, CI green, no placeholders.**
+**Phase 5:** Hygiene — **clean commits, no pycache tracked, working tree clean.**
 
 ## MANDATE
-Heavy engineering only. No scaffolding-only "done". Mathematical correctness matters. Vectorize where sensible. Never deflect from implementation. Future agents must do substantial work.
+Heavy engineering only. No scaffolding-only "done". Mathematical correctness matters. Vectorize where sensible. Never deflect from implementation. Future agents must do substantial work. Leave the codebase in a state where the next agent cannot avoid heavy implementation.
 
 ## BOTTLENECKS REMOVED
 - Bytecode de-tracked from index; .gitignore excludes __pycache__/*.pyc.
