@@ -9,7 +9,12 @@ from ..data.schemas import OrderflowSnapshot, Trade
 
 
 def calculate_cumulative_delta(trades: List[Trade]) -> float:
-    """Calculate cumulative delta (buy volume - sell volume)."""
+    """Calculate cumulative delta (buy volume minus sell volume).
+
+    Iterates trades, adding volume for side ``'buy'`` and subtracting for
+    ``'sell'`` (case-insensitive). Skips invalid sizes/non-finite values.
+    Returns 0.0 if the result is non-finite.
+    """
     delta = 0.0
     for trade in trades:
         try:
@@ -32,7 +37,12 @@ def calculate_cumulative_delta(trades: List[Trade]) -> float:
 
 
 def calculate_cumulative_delta_robust(trades: List[Trade], window: Optional[int] = None) -> float:
-    """Robust cumulative delta with trade classification; optional windowing."""
+    """Robust cumulative delta with optional trailing window.
+
+    Classifies trades as buy/sell by side (case-insensitive); if ``window`` is
+    provided and > 0, only the last ``window`` trades are considered. Guards
+    against invalid volumes and returns 0.0 on non-finite results.
+    """
     if not trades:
         return 0.0
     trades_list = trades[-window:] if window is not None and window > 0 else trades
@@ -163,7 +173,13 @@ orderflow_imbalance_vectorized = calculate_orderflow_imbalance_vectorized
 
 
 def calculate_vwap_adjusted_delta(trades: List[Trade]) -> float:
-    """VWAP-adjusted signed delta."""
+    """Compute VWAP-adjusted signed delta.
+
+    Accumulates signed notional (``+vol*price`` for buys, ``-vol*price`` for
+    sells) divided by total traded volume to get a VWAP-like signed imbalance;
+    if total volume is zero/non-finite, falls back to ``calculate_cumulative_delta``.
+    Guards all values for finiteness.
+    """
     if not trades:
         return 0.0
     total_vol = 0.0
@@ -186,7 +202,11 @@ def calculate_vwap_adjusted_delta(trades: List[Trade]) -> float:
 
 
 def calculate_delta_adjusted_flow(trades: List[Trade], spot_price: Optional[float] = None) -> float:
-    """Calculate delta-adjusted orderflow."""
+    """Calculate delta-adjusted orderflow.
+
+    Returns ``cumulative_delta / spot_price`` if spot_price is positive and
+    finite, otherwise returns cumulative delta unchanged.
+    """
     cum_delta = calculate_cumulative_delta(trades)
     if spot_price and spot_price > 0:
         result = cum_delta / spot_price
@@ -197,7 +217,12 @@ def calculate_delta_adjusted_flow(trades: List[Trade], spot_price: Optional[floa
 
 
 def calculate_orderflow_imbalance(trades: List[Trade], window: int = 100) -> float:
-    """Calculate orderflow imbalance ratio."""
+    """Calculate orderflow imbalance ratio over a trailing window.
+
+    Takes the last ``window`` trades (or all if ``window <= 0`` or shorter),
+    sums buy/sell volumes by side, and returns ``(buy-sell)/(buy+sell)`` clamped
+    to [-1, 1]. Returns 0.0 on empty/zero total volume or non-finite results.
+    """
     if not trades:
         return 0.0
 
@@ -244,12 +269,13 @@ def calculate_orderflow_imbalance(trades: List[Trade], window: int = 100) -> flo
 def orderflow_imbalance_multi_horizon(
     trades: List[Trade], horizons: Optional[List[int]] = None, decay: float = 0.3
 ) -> Dict[str, Any]:
-    """Orderflow imbalance at multiple horizons with decay weighting.
+    """Orderflow imbalance at multiple horizons with exponential decay weighting.
 
-    Production-grade hardening: validates and sanitizes all inputs, filters
-    non-finite trade sizes, clamps every numeric output to [-1, 1], and
-    guards against division-by-zero and exp overflow/underflow. Per-horizon
-    values are cross-consistent with ``calculate_orderflow_imbalance``.
+    Production-grade hardening: validates/sanitizes inputs, filters non-finite
+    sizes and unknown sides, clamps all outputs to [-1,1], guards against
+    division by zero/exp overflow. Per-horizon values are consistent with
+    ``calculate_orderflow_imbalance``; returns keys including per-horizon
+    imbalances, counts, decay-weighted composite, and metadata.
     """
     result: dict = {}
 
@@ -510,7 +536,12 @@ def delta_divergence_vs_price(trades: List[Trade], price_series: Optional[List[f
 
 
 def absorption_detection(trades: List[Trade], threshold: float = 2.0) -> float:
-    """Absorption detection metric."""
+    """Detect absorption: fraction of trades with size > threshold × average size.
+
+    Computes mean trade size over finite valid sizes, counts trades larger than
+    ``threshold * mean_size``, and returns the fraction in [0,1]. Requires >=3
+    trades with valid sizes; guards against zero mean/non-finite values.
+    """
     if trades is None:
         return 0.0
     try:
@@ -621,7 +652,12 @@ def vpin_style_toxicity(trades: List[Trade], bucket_size: int = 50) -> float:
 
 
 def detect_aggressive_flow(trades: List[Trade], window: int = 50) -> float:
-    """Detect aggressive orderflow: fraction of trades that are large and in the same direction."""
+    """Detect aggressive flow: fraction of large trades in the dominant direction.
+
+    Over the trailing window, measures average size vs last-trade context and
+    counts trades larger than average that align with the prevailing side;
+    returns fraction in [0,1] with numerical guards.
+    """
     if trades is None:
         return 0.0
     try:

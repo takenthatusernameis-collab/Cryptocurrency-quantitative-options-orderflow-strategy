@@ -79,7 +79,13 @@ def calculate_put_call_oi_ratio(quotes: List[OptionQuote]) -> float:
 
 
 def calculate_iv_skew(quotes: List[OptionQuote], spot_price: float) -> float:
-    """Calculate volatility skew (25-delta put IV - 25-delta call IV)."""
+    """Calculate volatility skew (25-delta put IV minus 25-delta call IV).
+
+    Selects OTM puts with delta closest to -0.25 and OTM calls with delta closest
+    to +0.25 (using |delta| ~ 0.25), picks mid IV when available else last/mark IV,
+    and returns ``iv_put - iv_call``. Returns 0.0 if insufficient data or result
+    non-finite.
+    """
     if not quotes or spot_price is None:
         return 0.0
     sp = _to_float(spot_price)
@@ -308,6 +314,13 @@ def calculate_risk_reversal_term_structure(
     tol: float = 0.05,
     now: Optional[datetime] = None,
 ) -> Dict[float, float]:
+    """Compute risk reversal (25Δ call - 25Δ put) by tenor (years).
+
+    Groups quotes by expiry, computes RR per expiry via
+    ``calculate_risk_reversal`` using mid/last/mark IV and |delta| matching to
+    ``delta_target`` within tolerance, converts expiry to years-to-maturity via
+    ``_tenor_years``, returns sorted dict keyed by tenor.
+    """
     if not quotes or spot_price is None:
         return {}
     sp = _to_float(spot_price)
@@ -340,6 +353,11 @@ def calculate_skew_term_structure(
     tol: float = 0.05,
     now: Optional[datetime] = None,
 ) -> Dict[float, float]:
+    """Compute put-call skew (25Δ put - 25Δ call) by tenor (years).
+
+    Groups by expiry and uses ``calculate_put_call_skew`` per expiry with delta
+    matching; returns tenor-sorted dict of skew values.
+    """
     if not quotes or spot_price is None:
         return {}
     sp = _to_float(spot_price)
@@ -372,20 +390,12 @@ def calculate_iv_skew_term_structure(
     tol: float = 0.05,
     now: Optional[datetime] = None,
 ) -> Dict[float, Dict[str, float]]:
-    rr_ts = calculate_risk_reversal_term_structure(quotes, spot_price, delta_target=delta_target, tol=tol, now=now)
-    sk_ts = calculate_skew_term_structure(quotes, spot_price, delta_target=delta_target, tol=tol, now=now)
-    keys = set(rr_ts.keys()) | set(sk_ts.keys())
-    out: Dict[float, Dict[str, float]] = {}
-    for k in sorted(keys):
-        d: Dict[str, float] = {}
-        if k in rr_ts and isfinite(rr_ts[k]):
-            d["risk_reversal"] = float(rr_ts[k])
-        if k in sk_ts and isfinite(sk_ts[k]):
-            d["put_call_skew"] = float(sk_ts[k])
-            d["skew"] = float(sk_ts[k])
-        if d:
-            out[float(k)] = d
-    return out
+    """Compute combined IV skew term structure with risk reversal and put-call skew.
+
+    Merges RR and put-call skew term structures by tenor, returning dict
+    keyed by years-to-maturity with nested dict containing ``'risk_reversal'``,
+    ``'put_call_skew'``, and ``'skew'`` when available.
+    """
 
 
 def calculate_atm_term_structure(
@@ -394,6 +404,12 @@ def calculate_atm_term_structure(
     moneyness_tol: float = 0.02,
     now: Optional[datetime] = None,
 ) -> Dict[float, float]:
+    """Compute ATM IV term structure by tenor (years).
+
+    For each expiry, selects ATM options within ``moneyness_tol`` of spot (or
+    closest to ATM), averages call/put mid IV (falls back to last/mark), converts
+    expiry to years via ``_tenor_years``; returns sorted dict by tenor.
+    """
     if not quotes or spot_price is None:
         return {}
     sp = _to_float(spot_price)

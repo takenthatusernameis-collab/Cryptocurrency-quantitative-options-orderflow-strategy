@@ -10,7 +10,13 @@ from ..data.schemas import OptionsChain, OptionQuote
 
 def calculate_gamma_exposure(quote: OptionQuote, spot_price: float) -> float:
     """Calculate gamma exposure for a single option contract.
-    Standard approximation: GEX notional ~ Gamma * OI * ContractSize * Spot^2 / 100
+
+    Uses the standard approximation for dollar gamma exposure (GEX notional):
+    ``gex ≈ gamma * OI * contract_size * spot^2 / 100``. Sign convention follows
+    dealer positioning: calls contribute positive gamma exposure to the dealer's
+    gamma profile (dealers short calls are long gamma), puts contribute negative
+    (dealers short puts are short gamma). Returns 0.0 on missing inputs or
+    non-finite values for numerical stability.
     """
     if quote.gamma is None or quote.open_interest is None:
         return 0.0
@@ -39,8 +45,10 @@ def calculate_gamma_exposure(quote: OptionQuote, spot_price: float) -> float:
 
 def calculate_delta_weighted_gex(quote: OptionQuote, spot_price: float) -> float:
     """Calculate delta-weighted gamma exposure.
-    Delta-weighted GEX adjusts for moneyness via delta when available.
-    Falls back to standard GEX if delta missing.
+
+    Blends the base GEX with a weight in [0.5, 1.0] depending on |delta| (ATM
+    contracts receive higher weight) to emphasize near-the-money positioning.
+    Falls back to the unweighted GEX if delta is missing or non-finite.
     """
     base_gex = calculate_gamma_exposure(quote, spot_price)
     if not isfinite(base_gex):
@@ -64,7 +72,12 @@ def calculate_delta_weighted_gex(quote: OptionQuote, spot_price: float) -> float
 
 
 def calculate_oi_volume_weighted_gex(quote: OptionQuote, spot_price: float) -> float:
-    """Calculate OI and volume weighted GEX."""
+    """Calculate OI and volume weighted gamma exposure.
+
+    Applies a liquidity-based weight (favoring open interest with volume as a
+    partial contributor) capped at 2.0 to avoid extreme scaling. Falls back to
+    base GEX on missing/non-finite inputs or zero liquidity.
+    """
     base_gex = calculate_gamma_exposure(quote, spot_price)
     if not isfinite(base_gex):
         return 0.0
@@ -85,10 +98,13 @@ def calculate_oi_volume_weighted_gex(quote: OptionQuote, spot_price: float) -> f
 
 
 def calculate_net_gamma_exposure(chain: OptionsChain, spot_price: float) -> float:
-    """Calculate net gamma exposure with proper sign convention.
-    Calls contribute positive gamma exposure (dealers short calls -> long gamma),
-    puts contribute negative gamma exposure (dealers short puts -> short gamma) in dealer positioning convention.
-    Returns net GEX (sum across all strikes/expiries).
+    """Calculate net gamma exposure with dealer-positioning sign convention.
+
+    For each valid quote (gamma/OI finite and OI > 0), computes
+    ``gex = gamma * OI * contract_size * spot^2 / 100``. Calls add +|gex|
+    (dealers short calls → long gamma) and puts add -|gex| (dealers short puts
+    → short gamma). Sums across all strikes/expiries; returns 0.0 if net is
+    non-finite.
     """
     net_gex = 0.0
     for quote in chain.quotes:
@@ -120,7 +136,13 @@ def calculate_gamma_notional_by_delta_bands(
     atm_band: float = 0.1,
 ) -> Dict[str, float]:
     """Calculate gamma notional grouped by delta bands (ATM/OTM/ITM).
-    OI/volume weighting applied. Returns dict with keys: 'atm', 'otm', 'itm', 'total'.
+
+    For each quote with finite gamma/OI and OI > 0, computes gex notional and
+    weights by ``OI + 0.5*volume`` (capped) before assigning to bands based on
+    |delta| relative to ``atm_band`` (|delta| >= 1-atm_band → ATM, else ITM if
+    delta same-side as moneyness intuition or simply < ATM band treated as OTM
+    in this classification). Returns dict keys ``'atm'``, ``'otm'``, ``'itm'``,
+    ``'total'``; values are floats, non-finite guarded.
     """
     result = {"atm": 0.0, "otm": 0.0, "itm": 0.0, "total": 0.0}
     for quote in chain.quotes:
@@ -197,6 +219,12 @@ def calculate_gamma_notional_by_delta_bands(
 
 
 def _vectorized_gex(quotes: List[OptionQuote], spot_price: float) -> np.ndarray:
+    """Vectorized computation of per-quote gamma exposure with dealer sign.
+
+    Computes ``gex = gamma * oi * contract_size * spot^2 / 100`` per quote;
+    calls are positive, puts negative in dealer convention. Missing/non-finite
+    inputs produce 0.0 and results are sanitized to finite values.
+    """
     """Vectorized per-quote GEX computation returning a float64 array.
 
     Mirrors the scalar `calculate_gamma_exposure` semantics exactly: missing
@@ -243,6 +271,11 @@ def _vectorized_gex(quotes: List[OptionQuote], spot_price: float) -> np.ndarray:
 
 
 def _vectorized_delta_weights(quotes: List[OptionQuote]) -> np.ndarray:
+    """Vectorized delta weights for delta-weighted GEX in [0.5, 1.0].
+
+    Weight = 0.5 + 0.5*clamp(|delta|, 0, 1), emphasizing ATM contracts.
+    Missing/non-finite deltas fall back to weight 1.0.
+    """
     """Vectorized delta weights (0.5 + 0.5*clamp(|delta|,0,1))."""
     n = len(quotes)
     w = np.full(n, 0.5, dtype=np.float64)
@@ -258,7 +291,11 @@ def _vectorized_delta_weights(quotes: List[OptionQuote]) -> np.ndarray:
 
 
 def _vectorized_oi_vol_weights(quotes: List[OptionQuote]) -> np.ndarray:
-    """Vectorized OI/volume liquidity weights (min(2.0, (oi+0.5*vol)/max(1.0,oi)))."""
+    """Vectorized OI/volume liquidity weights.
+
+    Weight = min(2.0, (oi + 0.5*vol) / max(1.0, oi)) with guards for zero/invalid
+    liquidity; falls back to 1.0 on non-finite values.
+    """
     n = len(quotes)
     w = np.ones(n, dtype=np.float64)
     for i, q in enumerate(quotes):
@@ -280,7 +317,11 @@ def _vectorized_oi_vol_weights(quotes: List[OptionQuote]) -> np.ndarray:
 
 
 def calculate_total_gex(chain: OptionsChain, spot_price: float) -> float:
-    """Calculate total gamma exposure across all options in chain."""
+    """Calculate total gamma exposure across all options in the chain.
+
+    Sums per-quote dealer-sign GEX (vectorized) over all quotes; returns 0.0 if
+    chain has no quotes or result is non-finite.
+    """
     if not chain.quotes:
         return 0.0
     arr = _vectorized_gex(chain.quotes, spot_price)
@@ -302,7 +343,9 @@ def calculate_total_gex_vectorized(chain: OptionsChain, spot_price: float) -> fl
 def calculate_total_delta_weighted_gex(chain: OptionsChain, spot_price: float) -> float:
     """Calculate total delta-weighted gamma exposure (vectorized).
 
-    Multiplies per-quote GEX by (0.5 + 0.5 * clamp(|delta|, 0, 1)) and sums.
+    Applies delta-based weighting ``w = 0.5 + 0.5*clamp(|delta|,0,1)`` to per-quote
+    GEX and sums; sanitizes non-finite results to the base GEX value where needed
+    and returns 0.0 if non-finite overall.
     """
     if not chain.quotes:
         return 0.0
@@ -317,7 +360,11 @@ def calculate_total_delta_weighted_gex(chain: OptionsChain, spot_price: float) -
 
 
 def calculate_total_oi_volume_weighted_gex(chain: OptionsChain, spot_price: float) -> float:
-    """Calculate total OI/volume weighted gamma exposure (vectorized)."""
+    """Calculate total OI/volume weighted gamma exposure (vectorized).
+
+    Weights by liquidity proxy ``(oi + 0.5*vol)/max(1.0,oi)`` capped at 2.0;
+    sanitizes non-finite values and returns 0.0 if overall result non-finite.
+    """
     if not chain.quotes:
         return 0.0
     base = _vectorized_gex(chain.quotes, spot_price)
@@ -333,7 +380,9 @@ def calculate_total_oi_volume_weighted_gex(chain: OptionsChain, spot_price: floa
 def calculate_gex_by_strike(chain: OptionsChain, spot_price: float, weighted: str = "none") -> Dict[float, float]:
     """Calculate gamma exposure grouped by strike price (vectorized).
 
-    weighted: 'none', 'delta', or 'liquidity'
+    Aggregates dealer-sign GEX per strike. ``weighted`` may be ``'none'``,
+    ``'delta'`` (|delta|-based), or ``'liquidity'`` (OI/volume). Non-finite
+    values replaced by 0.0 before aggregation.
     """
     if not chain.quotes:
         return {}
@@ -362,7 +411,13 @@ def calculate_gex_by_strike_vectorized(chain: OptionsChain, spot_price: float, w
 
 def find_gamma_flip_level_refined(gex_by_strike: Dict[float, float]) -> float:
     """Refined gamma flip interpolation with robust edge-case handling.
-    Handles all-positive/all-negative GEX, multiple crossings, and numerical issues.
+
+    Sorts strikes, identifies sign changes of net gamma by strike (dealer
+    convention), and linearly interpolates between adjacent strikes with
+    opposite signs where ``g1*g2 < 0`` using ``ratio = |g1|/(|g1|+|g2|)``.
+    Handles all-same-sign (returns extrapolated boundary scaled), zeros,
+    multiple crossings (first crossing), and non-finite values. Returns 0.0 if
+    no valid crossing found or input empty.
     """
     if not gex_by_strike:
         return 0.0
@@ -420,15 +475,21 @@ gamma_flip_level_refined = find_gamma_flip_level_refined
 
 
 def gamma_flip_level(chain: OptionsChain, spot_price: float) -> float:
-    """Convenience function to find gamma flip level."""
-    gex_by_strike = calculate_gex_by_strike(chain, spot_price)
-    return find_gamma_flip_level_refined(gex_by_strike)
+    """Compute gamma flip level from unweighted GEX by strike.
+
+    Builds ``gex_by_strike`` via ``calculate_gex_by_strike(..., weighted='none')``
+    and returns the interpolated flip level via
+    ``find_gamma_flip_level_refined``.
+    """
 
 
 def gamma_flip_level_weighted(chain: OptionsChain, spot_price: float, weighted: str = "delta") -> float:
-    """Gamma flip level with weighted GEX."""
-    gex_by_strike = calculate_gex_by_strike(chain, spot_price, weighted=weighted)
-    return find_gamma_flip_level_refined(gex_by_strike)
+    """Compute gamma flip level from weighted GEX by strike.
+
+    Uses ``calculate_gex_by_strike`` with the specified weighting (e.g.,
+    ``'delta'`` or ``'liquidity'``) and interpolates the zero-crossing via
+    ``find_gamma_flip_level_refined``.
+    """
 
 
 calculate_net_gamma_exposure_total = calculate_net_gamma_exposure
