@@ -481,6 +481,8 @@ def gamma_flip_level(chain: OptionsChain, spot_price: float) -> float:
     and returns the interpolated flip level via
     ``find_gamma_flip_level_refined``.
     """
+    gex_by_strike = calculate_gex_by_strike(chain, spot_price, weighted="none")
+    return find_gamma_flip_level_refined(gex_by_strike)
 
 
 def gamma_flip_level_weighted(chain: OptionsChain, spot_price: float, weighted: str = "delta") -> float:
@@ -490,6 +492,8 @@ def gamma_flip_level_weighted(chain: OptionsChain, spot_price: float, weighted: 
     ``'delta'`` or ``'liquidity'``) and interpolates the zero-crossing via
     ``find_gamma_flip_level_refined``.
     """
+    gex_by_strike = calculate_gex_by_strike(chain, spot_price, weighted=weighted)
+    return find_gamma_flip_level_refined(gex_by_strike)
 
 
 calculate_net_gamma_exposure_total = calculate_net_gamma_exposure

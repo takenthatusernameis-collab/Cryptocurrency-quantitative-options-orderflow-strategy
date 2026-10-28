@@ -396,6 +396,36 @@ def calculate_iv_skew_term_structure(
     keyed by years-to-maturity with nested dict containing ``'risk_reversal'``,
     ``'put_call_skew'``, and ``'skew'`` when available.
     """
+    if not quotes or spot_price is None:
+        return {}
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return {}
+    rr_ts = calculate_risk_reversal_term_structure(
+        quotes, sp, delta_target=delta_target, tol=tol, now=now
+    )
+    sk_ts = calculate_skew_term_structure(
+        quotes, sp, delta_target=delta_target, tol=tol, now=now
+    )
+    out: Dict[float, Dict[str, float]] = {}
+    # Merge by tenor
+    all_tenors = set(rr_ts.keys()) | set(sk_ts.keys())
+    for t in all_tenors:
+        d: Dict[str, float] = {}
+        if t in rr_ts and isfinite(rr_ts[t]):
+            d["risk_reversal"] = float(rr_ts[t])
+        if t in sk_ts and isfinite(sk_ts[t]):
+            d["put_call_skew"] = float(sk_ts[t])
+        # Provide combined 'skew' alias if both present, else the one present
+        if "put_call_skew" in d and "risk_reversal" in d:
+            d["skew"] = d["put_call_skew"]
+        elif "put_call_skew" in d:
+            d["skew"] = d["put_call_skew"]
+        elif "risk_reversal" in d:
+            d["skew"] = d["risk_reversal"]
+        if d:
+            out[float(t)] = d
+    return dict(sorted(out.items()))
 
 
 def calculate_atm_term_structure(
