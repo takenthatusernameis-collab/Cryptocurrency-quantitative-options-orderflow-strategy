@@ -153,19 +153,22 @@ def calculate_gamma_notional_by_delta_bands(
         gex_weighted = gex * liq_weight
         if not isfinite(gex_weighted):
             continue
-        # Classify by delta bands
+        # Classify by delta bands.
+        # ATM is defined as |delta| near 0.5 (at-the-money), NOT near 0.
+        # Calls: delta in (0, 1], OTM < 0.5, ATM ~ 0.5, ITM > 0.5
+        # Puts:  delta in [-1, 0), OTM > -0.5, ATM ~ -0.5, ITM < -0.5
         if delta is not None and isfinite(delta):
-            abs_delta = abs(delta)
-            if abs_delta <= atm_band + 1e-12:
-                result["atm"] += gex_weighted
-            elif quote.contract.option_type.lower() == "call":
-                # For calls, delta > 0; ITM if delta high, OTM if delta low
-                if delta >= (0.5 - atm_band):
+            if quote.contract.option_type.lower() == "call":
+                if delta >= (0.5 - atm_band) and delta <= (0.5 + atm_band):
+                    result["atm"] += gex_weighted
+                elif delta > (0.5 + atm_band):
                     result["itm"] += gex_weighted
                 else:
                     result["otm"] += gex_weighted
             else:  # put
-                if delta <= -(0.5 - atm_band):
+                if delta >= -(0.5 + atm_band) and delta <= -(0.5 - atm_band):
+                    result["atm"] += gex_weighted
+                elif delta < -(0.5 + atm_band):
                     result["itm"] += gex_weighted
                 else:
                     result["otm"] += gex_weighted
