@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-28T20-39-09Z
+Timestamp (UTC): 2026-10-28T21-39-45Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 115 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
@@ -16,25 +16,22 @@ Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 Everything must serve (1)-(5). Numerical correctness > elegance. No shortcuts.
 
 ## Initial Task Message (FOR NEXT AGENTIC WORK SESSION — MANDATORY, NON-OPTIONAL)
-EXECUTE NOW. START AT PHASE 7 CONTINUATION. Pick ONE highest-impact uncompleted item and COMPLETE IT END-TO-END (code + tests). Do not split scope. Leave heavy work for the next agent.
+EXECUTE NOW. START AT PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE). Pick ONE highest-impact uncompleted item and COMPLETE IT END-TO-END (code + tests). Do not split scope. Leave heavy work for the next agent.
 
-**HIGHEST-IMPACT ITEM: Complete Phase 7 final hardening pass comprehensively**
+**HIGHEST-IMPACT ITEM: Expand stress coverage / OOS / walk-forward robustness comprehensively**
 Scope (COMPLETE FULLY):
-1. **Edge cases in dealer positioning/gamma**: Harden gamma calculations against empty/NaN/Inf, division by zero, missing greeks; ensure all feature functions enforce finiteness and raise NonFiniteResultError/FeatureError with context where appropriate. Focus on gamma_exposure (gamma_exposure, bands, flip levels), vectorized paths.
-2. **Orderflow microstructure hardening**: Strengthen VPIN, absorption, delta divergence, multi-horizon orderflow against empty windows, all-sell/all-buy scenarios, extreme sizes; ensure proper clamping and finiteness. Validate with edge case tests.
-3. **Determinism**: Audit RNG usage (backtest slippage/partial fills, walk-forward). Ensure seeded determinism everywhere; add DeterminismError guards if non-deterministic paths detected; tests for reproducibility across runs.
-4. **Serialization safety**: Ensure all pipeline outputs JSON-serializable with allow_nan=False; harden main.py sanitization and add serialization guards using SerializationError where needed. Propagate sanitization to all metrics. Verify end-to-end JSON validity.
-5. **Config validation**: Extend validation coverage (venues, risk limits, numeric ranges, backtest params) with precise field errors; ensure defaults safe. Validate both dict and object forms.
-6. **Numerical guards in backtest**: Add guards (insufficient cash, short-notional breach, risk limits) raising RiskLimitError/OrderError with context; log violations via structured logger. Ensure walk-forward doesn't propagate NaN/Inf; sanitize metrics.
-7. **Quant-precise docstrings** for all guards. Full implementation + tests. Keep pytest green (115+). Keep mypy clean (--disallow-untyped-defs --warn-return-any).
-8. After completion, verify end-to-end pipeline still produces valid JSON and metrics stable.
+1. **Stress scenarios**: Add adversarial inputs (empty frames, NaN/Inf cascades, extreme sizes, all-same-side flow) across gamma/orderflow/surface/backtest; assert no NaN/Inf propagation and proper error context.
+2. **OOS & walk-forward**: Harden walk-forward splits, ensure no lookahead, sanitize metrics with allow_nan=False; determinism seeds propagated; tests for reproducibility.
+3. **Telemetry/guardrails**: Structured logging of violations, metrics sanitization, serialization guards (SerializationError) end-to-end; verify JSON validity.
+4. **Config validation**: Further harden edge cases for venues/risk/backtest params; defaults safe; dict & object forms.
+5. **Numerical guards**: Insufficient cash, short-notional breach, risk limits raising RiskLimitError/OrderError; log via structured logger.
+6. **Quant-precise docstrings** for all new guards. Full implementation + tests. Keep pytest green (115+). Keep mypy clean.
 
 ## Immediate Objectives
-- Finish Phase 7 final hardening pass comprehensively.
+- Finish Phase 8 stress/OOS/walk-forward hardening comprehensively.
 - Maintain green tests and clean mypy.
 - Keep working tree clean.
-- Never stop at scaffolding. Every change production-grade and fully implemented.
-- Remove any bottlenecks before proceeding.
+- Never stop at scaffolding.
 
 ## Next Focus Campaign (MANDATORY — NEVER AVOID HEAVY WORK)
 ### Phase 1: COMPLETE - Data ingestion/resilience
@@ -43,15 +40,15 @@ Scope (COMPLETE FULLY):
 ### Phase 4: COMPLETE - Regime-aware signal engineering
 ### Phase 5: COMPLETE - Rigorous backtesting
 ### Phase 6: COMPLETE - Integration/resilience/tests
-### Phase 7: PRODUCTION READINESS — IN PROGRESS (HEAVY WORK MANDATORY)
-- [x] Performance benchmarks for hot paths
-- [x] Type-hint coverage across src/
-- [x] Docstrings for complex calculations — COMPLETE
-- [x] More specific exception types + structured logging — COMPLETE
-- [ ] Final hardening pass (edge cases, determinism, serialization, config validation, numerical guards) — NEXT (HEAVY WORK MANDATORY)
+### Phase 7: COMPLETE - Production readiness (final hardening pass)
+### Phase 8: PRODUCTION TELEMETRY & STRESS COVERAGE — IN PROGRESS (HEAVY WORK MANDATORY)
+- [ ] Stress scenarios across all modules
+- [ ] OOS & walk-forward robustness
+- [ ] Telemetry/guardrails & serialization end-to-end
+- [ ] Numerical guards & config validation edge cases
 
 ## MANDATE (UNCOMPROMISING)
-Heavy engineering only. Mathematical correctness mandatory. Numerical stability required. Vectorize where sensible. No placeholders/TODOs/FIXMEs. Full implementation with code AND tests. Complete ONE major item fully; leave heavy work for the next agent. Never stop at scaffolding. Prioritize strictly by project name: crypto options orderflow + dealer positioning + surface dynamics + rigorous backtesting.
+Heavy engineering only. Mathematical correctness mandatory. Numerical stability required. Vectorize where sensible. No placeholders/TODOs/FIXMEs. Full implementation with code AND tests. Complete ONE major item fully; leave heavy work for the next agent. Never stop at scaffolding. Prioritize strictly by project name.
 
 ## EXECUTION RULES
 - Working tree clean; do not create untracked junk.
@@ -59,13 +56,4 @@ Heavy engineering only. Mathematical correctness mandatory. Numerical stability 
 - Run static checks: python -m mypy src/ --disallow-untyped-defs --warn-return-any (keep clean).
 - Fix inefficiencies/blockers immediately.
 - Leave clear timestamped handoff if work remains.
-- If sessions blocked/inefficient, remove bottlenecks first.
 - DO NOT avoid heavy work. Execute in order without skipping.
-
-## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T20-39-09Z.md (AUTHORITATIVE — THIS FILE)
-2. research_state/durable_handoff.md (MIRROR)
-3. research_state/INITIAL_TASK_HANDOFF.md (MIRROR — referenced by tests/test_campaign_resume.py)
-4. All other INITIAL_TASK_HANDOFF_LATEST_* files are SUPERSEDED.
-
-EXECUTE NOW. START AT PHASE 7 (FINAL HARDENING PASS). NO DELAY. DO HEAVY WORK.
