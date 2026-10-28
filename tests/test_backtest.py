@@ -30,17 +30,20 @@ def test_calculate_metrics():
     assert results.total_return > 0
 
 
-def test_short_selling():
+def test_short_selling_within_position_limit():
     config = BacktestConfig(initial_capital=100000.0, fee_rate=0.001, slippage_bps=0)
     engine = BacktestEngine(config)
-    # Open short
-    trade = engine.execute_trade("BTC", 1.0, 50000.0, "sell", datetime.now(timezone.utc))
+    # Open short within max_position_pct (0.1): 0.2 BTC @ 50000 = 10000 notional == cap
+    trade = engine.execute_trade("BTC", 0.2, 50000.0, "sell", datetime.now(timezone.utc))
     assert trade.side == "sell"
     assert "BTC" in engine.positions
     assert engine.positions["BTC"].side == "short"
+    # Short proceeds credited to cash
+    assert engine.cash > 100000.0
     # Cover short at lower price for profit
-    trade2 = engine.execute_trade("BTC", 1.0, 49000.0, "buy", datetime.now(timezone.utc))
+    trade2 = engine.execute_trade("BTC", 0.2, 49000.0, "buy", datetime.now(timezone.utc))
     assert trade2.pnl > 0
+    assert "BTC" not in engine.positions
 
 
 def test_position_sizing_and_metrics():
