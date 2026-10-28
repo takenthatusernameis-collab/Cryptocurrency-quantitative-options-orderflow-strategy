@@ -17,6 +17,10 @@ from ..data.schemas import (
     Trade,
 )
 from .base import BaseOptionsIngestion, BaseOrderflowIngestion
+from ..errors import IngestionError, NetworkError, get_logger
+
+
+_logger = get_logger(__name__)
 
 
 INSTRUMENT_RE = re.compile(r"^([A-Z]+)-(\d{6}|\d{8})-(\d+(?:\.\d+)?)-([CP])$")
@@ -89,10 +93,12 @@ class BinanceClient:
                 return data
             except Exception as exc:
                 last_exc = exc
+                _logger.debug("binance_request_retry", endpoint=endpoint, attempt=attempt + 1, exc_type=type(exc).__name__)
                 time.sleep(0.2 * (attempt + 1))
         if last_exc:
-            raise last_exc
-        raise RuntimeError("Unknown Binance API error")
+            _logger.error("binance_request_failed", exc_type=type(last_exc).__name__, endpoint=endpoint)
+            raise NetworkError("Binance request failed after retries", context={"endpoint": endpoint}, cause=last_exc)
+        raise IngestionError("Unknown Binance API error", context={"endpoint": endpoint})
 
     def exchange_info(self) -> Dict[str, Any]:
         data = self._get("/eapi/v1/exchangeInfo")
@@ -128,7 +134,8 @@ class BinanceOptionsIngestion(BaseOptionsIngestion):
     def fetch_available_expiries(self, underlying: str) -> List[datetime]:
         try:
             info = self.client.exchange_info()
-        except Exception:
+        except Exception as e:
+            _logger.exception("binance_exchange_info_failed", e, venue=self.venue, underlying=underlying)
             return []
         expiries = set()
         option_symbols = info.get("optionSymbols") if isinstance(info, dict) else None
@@ -146,7 +153,8 @@ class BinanceOptionsIngestion(BaseOptionsIngestion):
         quotes: List[OptionQuote] = []
         try:
             info = self.client.exchange_info()
-        except Exception:
+        except Exception as e:
+            _logger.exception("binance_exchange_info_failed", e, venue=self.venue, underlying=underlying)
             return OptionsChain(underlying=underlying, venue=self.venue, quotes=[], timestamp=datetime.now(timezone.utc))
 
         try:
@@ -163,7 +171,8 @@ class BinanceOptionsIngestion(BaseOptionsIngestion):
                     sym = t.get("symbol")
                     if sym:
                         ticker_map[sym] = t
-        except Exception:
+        except Exception as e:
+            _logger.exception("binance_tickers_failed", e, venue=self.venue)
             ticker_map = {}
 
         option_symbols = info.get("optionSymbols") if isinstance(info, dict) else []
@@ -171,56 +180,61 @@ class BinanceOptionsIngestion(BaseOptionsIngestion):
             return OptionsChain(underlying=underlying, venue=self.venue, quotes=[], timestamp=datetime.now(timezone.utc))
 
         for s in option_symbols:
-            if not isinstance(s, dict):
-                continue
-            sym = s.get("symbol") or ""
-            parsed = _parse_binance_symbol(sym)
-            if not parsed or parsed["underlying"] != underlying.upper():
-                continue
-            contract = OptionContract(
-                symbol=sym,
-                underlying=underlying.upper(),
-                strike=float(parsed["strike"]),
-                expiry=parsed["expiry"],
-                option_type=parsed["option_type"],
-                venue=self.venue,
-                contract_size=float(s.get("contractSize", 1.0) or 1.0),
-            )
-            ticker = ticker_map.get(sym, {}) or {}
-            bid = ticker.get("bidPrice") or ticker.get("bid")
-            ask = ticker.get("askPrice") or ticker.get("ask")
-            last = ticker.get("lastPrice") or ticker.get("last")
-            mark = ticker.get("markPrice")
-            bid_iv = ticker.get("bidIV")
-            ask_iv = ticker.get("askIV")
-            mark_iv = ticker.get("markIV")
-            delta = ticker.get("delta")
-            gamma = ticker.get("gamma")
-            theta = ticker.get("theta")
-            vega = ticker.get("vega")
-            open_interest = ticker.get("openInterest") or ticker.get("oi")
-            volume = ticker.get("volume") or ticker.get("sumVolume")
-
             try:
-                quote = OptionQuote(
-                    contract=contract,
-                    bid=float(bid) if bid is not None else 0.0,
-                    ask=float(ask) if ask is not None else 0.0,
-                    last=float(last) if last is not None else None,
-                    mark=float(mark) if mark is not None else None,
-                    bid_iv=float(bid_iv) if bid_iv is not None else None,
-                    ask_iv=float(ask_iv) if ask_iv is not None else None,
-                    mark_iv=float(mark_iv) if mark_iv is not None else None,
-                    delta=float(delta) if delta is not None else None,
-                    gamma=float(gamma) if gamma is not None else None,
-                    theta=float(theta) if theta is not None else None,
-                    vega=float(vega) if vega is not None else None,
-                    open_interest=float(open_interest) if open_interest is not None else 0.0,
-                    volume=float(volume) if volume is not None else 0.0,
-                    timestamp=datetime.now(timezone.utc),
+                if not isinstance(s, dict):
+                    continue
+                sym = s.get("symbol") or ""
+                parsed = _parse_binance_symbol(sym)
+                if not parsed or parsed["underlying"] != underlying.upper():
+                    continue
+                contract = OptionContract(
+                    symbol=sym,
+                    underlying=underlying.upper(),
+                    strike=float(parsed["strike"]),
+                    expiry=parsed["expiry"],
+                    option_type=parsed["option_type"],
+                    venue=self.venue,
+                    contract_size=float(s.get("contractSize", 1.0) or 1.0),
                 )
-                quotes.append(quote)
-            except Exception:
+                ticker = ticker_map.get(sym, {}) or {}
+                bid = ticker.get("bidPrice") or ticker.get("bid")
+                ask = ticker.get("askPrice") or ticker.get("ask")
+                last = ticker.get("lastPrice") or ticker.get("last")
+                mark = ticker.get("markPrice")
+                bid_iv = ticker.get("bidIV")
+                ask_iv = ticker.get("askIV")
+                mark_iv = ticker.get("markIV")
+                delta = ticker.get("delta")
+                gamma = ticker.get("gamma")
+                theta = ticker.get("theta")
+                vega = ticker.get("vega")
+                open_interest = ticker.get("openInterest") or ticker.get("oi")
+                volume = ticker.get("volume") or ticker.get("sumVolume")
+
+                try:
+                    quote = OptionQuote(
+                        contract=contract,
+                        bid=float(bid) if bid is not None else 0.0,
+                        ask=float(ask) if ask is not None else 0.0,
+                        last=float(last) if last is not None else None,
+                        mark=float(mark) if mark is not None else None,
+                        bid_iv=float(bid_iv) if bid_iv is not None else None,
+                        ask_iv=float(ask_iv) if ask_iv is not None else None,
+                        mark_iv=float(mark_iv) if mark_iv is not None else None,
+                        delta=float(delta) if delta is not None else None,
+                        gamma=float(gamma) if gamma is not None else None,
+                        theta=float(theta) if theta is not None else None,
+                        vega=float(vega) if vega is not None else None,
+                        open_interest=float(open_interest) if open_interest is not None else 0.0,
+                        volume=float(volume) if volume is not None else 0.0,
+                        timestamp=datetime.now(timezone.utc),
+                    )
+                    quotes.append(quote)
+                except Exception as e:
+                    _logger.debug("binance_quote_build_failed", exc_type=type(e).__name__, symbol=sym)
+                    continue
+            except Exception as e:
+                _logger.debug("binance_instrument_process_failed", exc_type=type(e).__name__)
                 continue
 
         return OptionsChain(underlying=underlying.upper(), venue=self.venue, quotes=quotes, timestamp=datetime.now(timezone.utc))

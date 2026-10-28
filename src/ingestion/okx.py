@@ -17,6 +17,10 @@ from ..data.schemas import (
     Trade,
 )
 from .base import BaseOptionsIngestion, BaseOrderflowIngestion
+from ..errors import IngestionError, NetworkError, get_logger
+
+
+_logger = get_logger(__name__)
 
 
 INSTRUMENT_RE = re.compile(r"^([A-Z0-9]+)-([A-Z0-9]+)-(\d{6}|\d{8})-(\d+(?:\.\d+)?)-([CP])$")
@@ -80,14 +84,20 @@ class OKXClient:
                 resp.raise_for_status()
                 data = resp.json()
                 if isinstance(data, dict) and str(data.get("code")) not in ("0", "00000"):
-                    raise RuntimeError(f"OKX API error: {data.get('code')} {data.get('msg')}")
+                    code = data.get('code')
+                    msg = data.get('msg')
+                    raise IngestionError(f"OKX API error: {code} {msg}", context={"endpoint": endpoint, "code": code, "msg": msg})
                 return cast(Dict[str, Any], data)
+            except IngestionError:
+                raise
             except Exception as exc:
                 last_exc = exc
+                _logger.debug("okx_request_retry", endpoint=endpoint, attempt=attempt + 1, exc_type=type(exc).__name__)
                 time.sleep(0.2 * (attempt + 1))
         if last_exc:
-            raise last_exc
-        raise RuntimeError("Unknown OKX API error")
+            _logger.error("okx_request_failed", exc_type=type(last_exc).__name__, endpoint=endpoint)
+            raise NetworkError("OKX request failed after retries", context={"endpoint": endpoint}, cause=last_exc)
+        raise IngestionError("Unknown OKX API error", context={"endpoint": endpoint})
 
     def get_instruments(self, uly: str, inst_type: str = "OPTION") -> List[Dict[str, Any]]:
         data = self._get("/api/v5/public/instruments", {"instType": inst_type, "uly": uly})
@@ -128,7 +138,8 @@ class OKXOptionsIngestion(BaseOptionsIngestion):
         uly = f"{underlying}-USD"
         try:
             instruments = self.client.get_instruments(uly, inst_type="OPTION")
-        except Exception:
+        except Exception as e:
+            _logger.exception("okx_get_instruments_failed", e, venue=self.venue, underlying=underlying)
             return []
         expiries = set()
         for inst in instruments:
@@ -143,68 +154,71 @@ class OKXOptionsIngestion(BaseOptionsIngestion):
         uly = f"{underlying}-USD"
         try:
             instruments = self.client.get_instruments(uly, inst_type="OPTION")
-        except Exception:
+        except Exception as e:
+            _logger.exception("okx_get_instruments_failed", e, venue=self.venue, underlying=underlying)
             return OptionsChain(underlying=underlying, venue=self.venue, quotes=[], timestamp=datetime.now(timezone.utc))
 
         try:
             tickers = self.client.get_tickers(uly, inst_type="OPTION")
             ticker_map = {t.get("instId"): t for t in tickers if isinstance(t, dict)}
-        except Exception:
+        except Exception as e:
+            _logger.exception("okx_get_tickers_failed", e, venue=self.venue)
             ticker_map = {}
 
         for inst in instruments:
-            inst_id = inst.get("instId") or ""
-            parsed = _parse_okx_instrument(inst_id)
-            if not parsed:
-                continue
-            parsed_under = parsed["underlying"].upper()
-            if parsed_under != underlying.upper() and parsed_under not in (underlying.upper(), f"{underlying.upper()}"):
-                # try to be flexible
-                pass
-            contract = OptionContract(
-                symbol=inst_id,
-                underlying=underlying.upper(),
-                strike=float(parsed["strike"]),
-                expiry=parsed["expiry"],
-                option_type=parsed["option_type"],
-                venue=self.venue,
-                contract_size=float(inst.get("ctVal", 1.0) or inst.get("contractVal", 1.0) or 1.0),
-            )
-            ticker = ticker_map.get(inst_id, {}) or {}
-            bid = ticker.get("bidPx") or ticker.get("bid")
-            ask = ticker.get("askPx") or ticker.get("ask")
-            last = ticker.get("last") or ticker.get("lastPx")
-            mark = ticker.get("markPx") or ticker.get("idxPx")
-            bid_iv = ticker.get("bidVol") or ticker.get("bidIv")
-            ask_iv = ticker.get("askVol") or ticker.get("askIv")
-            mark_iv = ticker.get("markVol") or ticker.get("markIv")
-            delta = ticker.get("delta")
-            gamma = ticker.get("gamma")
-            theta = ticker.get("theta")
-            vega = ticker.get("vega")
-            open_interest = ticker.get("oi") or ticker.get("openInterest")
-            volume = ticker.get("vol24h") or ticker.get("volCcy24h") or ticker.get("volume")
-
             try:
-                quote = OptionQuote(
-                    contract=contract,
-                    bid=float(bid) if bid is not None else 0.0,
-                    ask=float(ask) if ask is not None else 0.0,
-                    last=float(last) if last is not None else None,
-                    mark=float(mark) if mark is not None else None,
-                    bid_iv=float(bid_iv) if bid_iv is not None else None,
-                    ask_iv=float(ask_iv) if ask_iv is not None else None,
-                    mark_iv=float(mark_iv) if mark_iv is not None else None,
-                    delta=float(delta) if delta is not None else None,
-                    gamma=float(gamma) if gamma is not None else None,
-                    theta=float(theta) if theta is not None else None,
-                    vega=float(vega) if vega is not None else None,
-                    open_interest=float(open_interest) if open_interest is not None else 0.0,
-                    volume=float(volume) if volume is not None else 0.0,
-                    timestamp=datetime.now(timezone.utc),
+                inst_id = inst.get("instId") or ""
+                parsed = _parse_okx_instrument(inst_id)
+                if not parsed:
+                    continue
+                contract = OptionContract(
+                    symbol=inst_id,
+                    underlying=underlying.upper(),
+                    strike=float(parsed["strike"]),
+                    expiry=parsed["expiry"],
+                    option_type=parsed["option_type"],
+                    venue=self.venue,
+                    contract_size=float(inst.get("ctVal", 1.0) or inst.get("contractVal", 1.0) or 1.0),
                 )
-                quotes.append(quote)
-            except Exception:
+                ticker = ticker_map.get(inst_id, {}) or {}
+                bid = ticker.get("bidPx") or ticker.get("bid")
+                ask = ticker.get("askPx") or ticker.get("ask")
+                last = ticker.get("last") or ticker.get("lastPx")
+                mark = ticker.get("markPx") or ticker.get("idxPx")
+                bid_iv = ticker.get("bidVol") or ticker.get("bidIv")
+                ask_iv = ticker.get("askVol") or ticker.get("askIv")
+                mark_iv = ticker.get("markVol") or ticker.get("markIv")
+                delta = ticker.get("delta")
+                gamma = ticker.get("gamma")
+                theta = ticker.get("theta")
+                vega = ticker.get("vega")
+                open_interest = ticker.get("oi") or ticker.get("openInterest")
+                volume = ticker.get("vol24h") or ticker.get("volCcy24h") or ticker.get("volume")
+
+                try:
+                    quote = OptionQuote(
+                        contract=contract,
+                        bid=float(bid) if bid is not None else 0.0,
+                        ask=float(ask) if ask is not None else 0.0,
+                        last=float(last) if last is not None else None,
+                        mark=float(mark) if mark is not None else None,
+                        bid_iv=float(bid_iv) if bid_iv is not None else None,
+                        ask_iv=float(ask_iv) if ask_iv is not None else None,
+                        mark_iv=float(mark_iv) if mark_iv is not None else None,
+                        delta=float(delta) if delta is not None else None,
+                        gamma=float(gamma) if gamma is not None else None,
+                        theta=float(theta) if theta is not None else None,
+                        vega=float(vega) if vega is not None else None,
+                        open_interest=float(open_interest) if open_interest is not None else 0.0,
+                        volume=float(volume) if volume is not None else 0.0,
+                        timestamp=datetime.now(timezone.utc),
+                    )
+                    quotes.append(quote)
+                except Exception as e:
+                    _logger.debug("okx_quote_build_failed", exc_type=type(e).__name__, instrument=inst_id)
+                    continue
+            except Exception as e:
+                _logger.debug("okx_instrument_process_failed", exc_type=type(e).__name__)
                 continue
 
         return OptionsChain(underlying=underlying.upper(), venue=self.venue, quotes=quotes, timestamp=datetime.now(timezone.utc))
@@ -227,10 +241,10 @@ class OKXOrderflowIngestion(BaseOrderflowIngestion):
     def fetch_trades(self, symbol: str, limit: int = 1000) -> OrderflowSnapshot:
         trades: List[Trade] = []
         inst_id = symbol if "-" in symbol and len(symbol) > 10 else f"{symbol}-USDT-SWAP" if "SWAP" not in symbol else symbol
-        # For options, inst_id is full contract; try as-is
         try:
             raw_trades = self.client.get_trades(inst_id, limit=min(limit, 100))
-        except Exception:
+        except Exception as e:
+            _logger.exception("okx_trades_failed", e, venue=self.venue, symbol=symbol)
             return OrderflowSnapshot(symbol=symbol, venue=self.venue, trades=[], timestamp=datetime.now(timezone.utc))
         for idx, t in enumerate(raw_trades):
             try:
@@ -242,14 +256,15 @@ class OKXOrderflowIngestion(BaseOrderflowIngestion):
                 if ts:
                     try:
                         ts_dt = datetime.fromtimestamp(int(ts) / 1000.0, tz=timezone.utc)
-                    except Exception:
+                    except Exception as e:
+                        _logger.debug("okx_trade_ts_parse_failed", exc_type=type(e).__name__)
                         ts_dt = datetime.now(timezone.utc)
                 else:
                     ts_dt = datetime.now(timezone.utc)
                 trades.append(
                     Trade(
                         trade_id=str(trade_id),
-                        symbol=inst_id,
+                        symbol=symbol,
                         venue=self.venue,
                         price=float(px) if px is not None else 0.0,
                         size=float(sz) if sz is not None else 0.0,
@@ -257,7 +272,8 @@ class OKXOrderflowIngestion(BaseOrderflowIngestion):
                         timestamp=ts_dt,
                     )
                 )
-            except Exception:
+            except Exception as e:
+                _logger.debug("okx_trade_parse_failed", exc_type=type(e).__name__)
                 continue
         return OrderflowSnapshot(symbol=symbol, venue=self.venue, trades=trades, timestamp=datetime.now(timezone.utc))
 

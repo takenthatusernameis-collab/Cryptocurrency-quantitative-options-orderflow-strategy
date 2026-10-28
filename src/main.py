@@ -30,6 +30,9 @@ from .signals.composite import CompositeSignalGenerator
 from .errors import get_logger, StrategyError, IngestionError, DataError, FeatureError, BacktestError, ConfigError
 
 
+_logger = get_logger(__name__)
+
+
 def load_config(config_path: str = "config/settings.yaml") -> Dict[str, Any]:
     path = Path(config_path)
     with path.open() as f:
@@ -37,7 +40,7 @@ def load_config(config_path: str = "config/settings.yaml") -> Dict[str, Any]:
 
 
 def validate_config_dict(config: Dict[str, Any]) -> None:
-    """Validate required config fields; raise ValueError with field names if missing/invalid."""
+    """Validate required config fields; raise ConfigError with field names if missing/invalid."""
     from .config import validate_config, StrategyConfig
     # Build StrategyConfig from dict
     venues_raw = config.get("venues", [])
@@ -68,7 +71,8 @@ def validate_config_dict(config: Dict[str, Any]) -> None:
 def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Dict[str, Any]:
     try:
         validate_config_dict(config)
-    except ValueError as e:
+    except (ValueError, ConfigError) as e:
+        _logger.exception("config_validation_failed", e, operation="run_pipeline")
         return {
             "venues": config.get("venues", []),
             "symbols": symbols or config.get("data", {}).get("symbols", ["BTC", "ETH"]),
@@ -110,6 +114,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                         ingested_orderflows[f"{v_lower}:{sym}"] = of_snapshot
                         results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(of_snapshot.trades)}
                     except Exception as e:
+                        _logger.exception("deribit_trades_fetch_failed", e, venue="deribit", symbol=sym, operation="fetch_trades")
                         results.setdefault("errors", []).append(f"deribit_trades_{sym}: {e}")
                 elif v_lower == "okx":
                     opt_ing = OKXOptionsIngestion()
@@ -124,6 +129,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                         ingested_orderflows[f"{v_lower}:{sym}"] = of_snapshot
                         results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(of_snapshot.trades)}
                     except Exception as e:
+                        _logger.exception("okx_trades_fetch_failed", e, venue="okx", symbol=sym, operation="fetch_trades")
                         results.setdefault("errors", []).append(f"okx_trades_{sym}: {e}")
                 elif v_lower == "binance":
                     opt_ing = BinanceOptionsIngestion()
@@ -138,10 +144,13 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                         ingested_orderflows[f"{v_lower}:{sym}"] = of_snapshot
                         results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(of_snapshot.trades)}
                     except Exception as e:
+                        _logger.exception("binance_trades_fetch_failed", e, venue="binance", symbol=sym, operation="fetch_trades")
                         results.setdefault("errors", []).append(f"binance_trades_{sym}: {e}")
                 else:
+                    _logger.warning("unknown_venue", venue=v)
                     results.setdefault("errors", []).append(f"unknown_venue_{v}")
             except Exception as e:
+                _logger.exception("options_ingestion_failed", e, venue=v_lower, symbol=sym, operation="fetch_options_chain")
                 results.setdefault("errors", []).append(f"{v_lower}_options_{sym}: {e}")
 
     signal_gen = CompositeSignalGenerator()
@@ -171,19 +180,23 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
             )
             try:
                 total_gex_dw = calculate_total_delta_weighted_gex(chain, spot_price)
-            except Exception:
+            except Exception as e:
+                _logger.exception("gex_delta_weighted_failed", e, operation="calculate_total_delta_weighted_gex", symbol=sym, venue=v)
                 total_gex_dw = total_gex
             try:
                 total_gex_liq = calculate_total_oi_volume_weighted_gex(chain, spot_price)
-            except Exception:
+            except Exception as e:
+                _logger.exception("gex_oi_vol_weighted_failed", e, operation="calculate_total_oi_volume_weighted_gex", symbol=sym, venue=v)
                 total_gex_liq = total_gex
             try:
                 gamma_flip_dw = gamma_flip_level_weighted(chain, spot_price, weighted="delta")
-            except Exception:
+            except Exception as e:
+                _logger.exception("gamma_flip_weighted_failed", e, operation="gamma_flip_level_weighted", symbol=sym, venue=v)
                 gamma_flip_dw = signals.get(key, {}).get("gamma_flip") if False else gamma_flip_level(chain, spot_price)
             try:
                 liquidity_metrics = calculate_chain_liquidity_metrics(chain)
             except Exception as e:
+                _logger.exception("liquidity_metrics_failed", e, operation="calculate_chain_liquidity_metrics", symbol=sym, venue=v)
                 liquidity_metrics = {}
                 results.setdefault("errors", []).append(f"liquidity_metrics_{key}: {e}")
             signals[key] = {
@@ -207,6 +220,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 "liquidity": liquidity_metrics,
             }
         except Exception as e:
+            _logger.exception("signal_generation_failed", e, operation="signal_generation", key=key)
             results.setdefault("errors", []).append(f"signal_generation_{key}: {e}")
     results["signals"] = signals
 
@@ -233,6 +247,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                         try:
                             engine.execute_trade(key, qty, spot, "buy", datetime.now(timezone.utc))
                         except Exception as e:
+                            _logger.exception("execute_trade_long_failed", e, symbol=key, side="buy")
                             results.setdefault("errors", []).append(f"execute_trade_long_{key}: {e}")
                 elif sig["direction"] == "short" and sig["confidence"] > 0.1:
                     qty = engine.calculate_position_size(spot) * sig["confidence"]
@@ -240,6 +255,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                         try:
                             engine.execute_trade(key, qty, spot, "sell", datetime.now(timezone.utc))
                         except Exception as e:
+                            _logger.exception("execute_trade_short_failed", e, symbol=key, side="sell")
                             results.setdefault("errors", []).append(f"execute_trade_short_{key}: {e}")
             prices = {k: s["spot_price"] for k, s in signals.items()}
             engine.update_equity_curve(prices)
@@ -259,6 +275,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
         }
         results["backtest_engine"] = engine.__class__.__name__
     except Exception as e:
+        _logger.exception("backtest_failed", e, operation="backtest")
         results.setdefault("errors", []).append(f"backtest: {e}")
         from .config import BacktestConfig, RiskConfig
 

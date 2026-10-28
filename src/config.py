@@ -6,6 +6,8 @@ from typing import Any, Dict, List, Optional
 
 import yaml
 
+from .errors import ConfigError, get_logger
+
 
 @dataclass
 class VenueConfig:
@@ -93,7 +95,7 @@ class StrategyConfig:
 
 
 def validate_config(cfg: "StrategyConfig") -> None:
-    """Validate required config fields; raise ValueError with field names if missing/invalid."""
+    """Validate required config fields; raise ConfigError with field names if missing/invalid."""
     errors = []
     # Symbols non-empty
     if not cfg.data.symbols:
@@ -136,11 +138,9 @@ def validate_config(cfg: "StrategyConfig") -> None:
     if not isinstance(cfg.risk.allow_shorting, bool):
         errors.append("risk.allow_shorting must be bool")
     if errors:
-        from .errors import ConfigError, get_logger
-
         log = get_logger(__name__)
-        log.error("config_validation_failed", fields=errors)
-        raise ConfigError("Invalid config: " + "; ".join(errors), context={"fields": errors})
+        log.error("config_validation_failed", errors=errors)
+        raise ConfigError("Invalid config: " + "; ".join(errors), context={"errors": errors})
 
 
 def load_config(config_path: Optional[Path] = None) -> StrategyConfig:

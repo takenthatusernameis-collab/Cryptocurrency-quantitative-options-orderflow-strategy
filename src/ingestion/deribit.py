@@ -17,6 +17,16 @@ from ..data.schemas import (
     Trade,
 )
 from .base import BaseOptionsIngestion, BaseOrderflowIngestion
+from ..errors import (
+    AuthError,
+    IngestionError,
+    NetworkError,
+    ParseError,
+    get_logger,
+)
+
+
+_logger = get_logger(__name__)
 
 
 INSTRUMENT_RE = re.compile(r"^([A-Z]+)-(\d{1,2}[A-Z]{3}\d{2}|\d{8})-(\d+(?:\.\d+)?)-([CP])$")
@@ -77,14 +87,19 @@ class DeribitClient:
                 resp.raise_for_status()
                 data = resp.json()
                 if isinstance(data, dict) and data.get("error"):
-                    raise RuntimeError(f"Deribit API error: {data['error']}")
+                    err = data['error']
+                    raise IngestionError(f"Deribit API error: {err}", context={"endpoint": endpoint, "error": err})
                 return cast(Dict[str, Any], data)
+            except IngestionError:
+                raise
             except Exception as exc:
                 last_exc = exc
+                _logger.debug("deribit_request_retry", endpoint=endpoint, attempt=attempt + 1, exc_type=type(exc).__name__)
                 time.sleep(0.2 * (attempt + 1))
         if last_exc:
-            raise last_exc
-        raise RuntimeError("Unknown Deribit API error")
+            _logger.error("deribit_request_failed", exc_type=type(last_exc).__name__, endpoint=endpoint)
+            raise NetworkError("Deribit request failed after retries", context={"endpoint": endpoint}, cause=last_exc)
+        raise IngestionError("Unknown Deribit API error", context={"endpoint": endpoint})
 
     def get_instruments(self, currency: str, kind: str = "option", expired: bool = False) -> List[Dict[str, Any]]:
         data = self._get("/public/get_instruments", {"currency": currency, "kind": kind, "expired": str(expired).lower()})
@@ -137,7 +152,8 @@ class DeribitOptionsIngestion(BaseOptionsIngestion):
     def fetch_available_expiries(self, underlying: str) -> List[datetime]:
         try:
             instruments = self.client.get_instruments(underlying, kind="option", expired=False)
-        except Exception:
+        except Exception as e:
+            _logger.exception("deribit_get_instruments_failed", e, venue=self.venue, underlying=underlying)
             return []
         expiries = set()
         for inst in instruments:
@@ -151,63 +167,70 @@ class DeribitOptionsIngestion(BaseOptionsIngestion):
         quotes: List[OptionQuote] = []
         try:
             instruments = self.client.get_instruments(underlying, kind="option", expired=False)
-        except Exception:
+        except Exception as e:
+            _logger.exception("deribit_get_instruments_failed", e, venue=self.venue, underlying=underlying)
             return OptionsChain(underlying=underlying, venue=self.venue, quotes=[], timestamp=datetime.now(timezone.utc))
 
         for inst in instruments:
-            name = inst.get("instrument_name") or inst.get("instrument") or ""
-            parsed = _parse_deribit_instrument(name)
-            if not parsed or parsed["underlying"] != underlying:
-                continue
-            contract = OptionContract(
-                symbol=name,
-                underlying=underlying,
-                strike=float(parsed["strike"]),
-                expiry=parsed["expiry"],
-                option_type=parsed["option_type"],
-                venue=self.venue,
-                contract_size=float(inst.get("contract_size", 1.0) or 1.0),
-            )
-            ticker = {}
             try:
-                ticker = self.client.get_ticker(name)
-            except Exception:
-                ticker = {}
-            bid = ticker.get("best_bid_price") if isinstance(ticker, dict) else None
-            ask = ticker.get("best_ask_price") if isinstance(ticker, dict) else None
-            last = ticker.get("last_price") if isinstance(ticker, dict) else None
-            mark = ticker.get("mark_price") if isinstance(ticker, dict) else None
-            bid_iv = ticker.get("bid_iv") if isinstance(ticker, dict) else None
-            ask_iv = ticker.get("ask_iv") if isinstance(ticker, dict) else None
-            mark_iv = ticker.get("mark_iv") if isinstance(ticker, dict) else None
-            greeks = ticker.get("greeks") if isinstance(ticker, dict) else {}
-            delta = greeks.get("delta") if isinstance(greeks, dict) else ticker.get("delta")
-            gamma = greeks.get("gamma") if isinstance(greeks, dict) else ticker.get("gamma")
-            theta = greeks.get("theta") if isinstance(greeks, dict) else ticker.get("theta")
-            vega = greeks.get("vega") if isinstance(greeks, dict) else ticker.get("vega")
-            open_interest = ticker.get("open_interest") if isinstance(ticker, dict) else None
-            volume = ticker.get("stats", {}).get("volume") if isinstance(ticker.get("stats"), dict) else ticker.get("volume")
-
-            try:
-                quote = OptionQuote(
-                    contract=contract,
-                    bid=float(bid) if bid is not None else 0.0,
-                    ask=float(ask) if ask is not None else 0.0,
-                    last=float(last) if last is not None else None,
-                    mark=float(mark) if mark is not None else None,
-                    bid_iv=float(bid_iv) if bid_iv is not None else None,
-                    ask_iv=float(ask_iv) if ask_iv is not None else None,
-                    mark_iv=float(mark_iv) if mark_iv is not None else None,
-                    delta=float(delta) if delta is not None else None,
-                    gamma=float(gamma) if gamma is not None else None,
-                    theta=float(theta) if theta is not None else None,
-                    vega=float(vega) if vega is not None else None,
-                    open_interest=float(open_interest) if open_interest is not None else 0.0,
-                    volume=float(volume) if volume is not None else 0.0,
-                    timestamp=datetime.now(timezone.utc),
+                name = inst.get("instrument_name") or inst.get("instrument") or ""
+                parsed = _parse_deribit_instrument(name)
+                if not parsed or parsed["underlying"] != underlying:
+                    continue
+                contract = OptionContract(
+                    symbol=name,
+                    underlying=underlying,
+                    strike=float(parsed["strike"]),
+                    expiry=parsed["expiry"],
+                    option_type=parsed["option_type"],
+                    venue=self.venue,
+                    contract_size=float(inst.get("contract_size", 1.0) or 1.0),
                 )
-                quotes.append(quote)
-            except Exception:
+                ticker = {}
+                try:
+                    ticker = self.client.get_ticker(name)
+                except Exception as e:
+                    _logger.debug("deribit_ticker_failed", exc_type=type(e).__name__, instrument=name)
+                    ticker = {}
+                bid = ticker.get("best_bid_price") if isinstance(ticker, dict) else None
+                ask = ticker.get("best_ask_price") if isinstance(ticker, dict) else None
+                last = ticker.get("last_price") if isinstance(ticker, dict) else None
+                mark = ticker.get("mark_price") if isinstance(ticker, dict) else None
+                bid_iv = ticker.get("bid_iv") if isinstance(ticker, dict) else None
+                ask_iv = ticker.get("ask_iv") if isinstance(ticker, dict) else None
+                mark_iv = ticker.get("mark_iv") if isinstance(ticker, dict) else None
+                greeks = ticker.get("greeks") if isinstance(ticker, dict) else {}
+                delta = greeks.get("delta") if isinstance(greeks, dict) else ticker.get("delta")
+                gamma = greeks.get("gamma") if isinstance(greeks, dict) else ticker.get("gamma")
+                theta = greeks.get("theta") if isinstance(greeks, dict) else ticker.get("theta")
+                vega = greeks.get("vega") if isinstance(greeks, dict) else ticker.get("vega")
+                open_interest = ticker.get("open_interest") if isinstance(ticker, dict) else None
+                volume = ticker.get("stats", {}).get("volume") if isinstance(ticker.get("stats"), dict) else ticker.get("volume")
+
+                try:
+                    quote = OptionQuote(
+                        contract=contract,
+                        bid=float(bid) if bid is not None else 0.0,
+                        ask=float(ask) if ask is not None else 0.0,
+                        last=float(last) if last is not None else None,
+                        mark=float(mark) if mark is not None else None,
+                        bid_iv=float(bid_iv) if bid_iv is not None else None,
+                        ask_iv=float(ask_iv) if ask_iv is not None else None,
+                        mark_iv=float(mark_iv) if mark_iv is not None else None,
+                        delta=float(delta) if delta is not None else None,
+                        gamma=float(gamma) if gamma is not None else None,
+                        theta=float(theta) if theta is not None else None,
+                        vega=float(vega) if vega is not None else None,
+                        open_interest=float(open_interest) if open_interest is not None else 0.0,
+                        volume=float(volume) if volume is not None else 0.0,
+                        timestamp=datetime.now(timezone.utc),
+                    )
+                    quotes.append(quote)
+                except Exception as e:
+                    _logger.debug("deribit_quote_build_failed", exc_type=type(e).__name__, instrument=name)
+                    continue
+            except Exception as e:
+                _logger.debug("deribit_instrument_parse_failed", exc_type=type(e).__name__)
                 continue
 
         return OptionsChain(underlying=underlying, venue=self.venue, quotes=quotes, timestamp=datetime.now(timezone.utc))
@@ -231,7 +254,8 @@ class DeribitOrderflowIngestion(BaseOrderflowIngestion):
         trades: List[Trade] = []
         try:
             raw_trades = self.client.get_last_trades_by_instrument(symbol, count=min(limit, 1000))
-        except Exception:
+        except Exception as e:
+            _logger.exception("deribit_trades_failed", e, venue=self.venue, symbol=symbol)
             raw_trades = []
         for t in raw_trades:
             try:
@@ -250,7 +274,8 @@ class DeribitOrderflowIngestion(BaseOrderflowIngestion):
                 elif isinstance(ts, str):
                     try:
                         dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
-                    except Exception:
+                    except Exception as e:
+                        _logger.debug("deribit_trade_ts_parse_failed", exc_type=type(e).__name__)
                         dt = datetime.now(timezone.utc)
                 else:
                     dt = datetime.now(timezone.utc)
@@ -265,7 +290,8 @@ class DeribitOrderflowIngestion(BaseOrderflowIngestion):
                         timestamp=dt,
                     )
                 )
-            except Exception:
+            except Exception as e:
+                _logger.debug("deribit_trade_parse_failed", exc_type=type(e).__name__)
                 continue
         return OrderflowSnapshot(symbol=symbol, venue=self.venue, trades=trades, timestamp=datetime.now(timezone.utc))
 
