@@ -1,80 +1,443 @@
 """Volatility surface, skew, and term structure analysis."""
 
+from datetime import datetime, timezone
 from math import isfinite
-from typing import Dict, List
+from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
 from ..data.schemas import OptionsChain, OptionQuote
 
 
+def _to_float(x: Optional[float]) -> Optional[float]:
+    if x is None:
+        return None
+    try:
+        v = float(x)
+    except Exception:
+        return None
+    if not isfinite(v):
+        return None
+    return v
+
+
+def _delta_abs(q: OptionQuote) -> Optional[float]:
+    d = _to_float(q.delta)
+    if d is None:
+        return None
+    return abs(d)
+
+
 def calculate_put_call_ratio(quotes: List[OptionQuote]) -> float:
     """Calculate put/call ratio by volume."""
-    call_volume = sum(q.volume for q in quotes if q.contract.option_type.lower() == "call")
-    put_volume = sum(q.volume for q in quotes if q.contract.option_type.lower() == "put")
-
-    if call_volume == 0:
-        return float("inf") if put_volume > 0 else 0.0
-    return put_volume / call_volume
+    if not quotes:
+        return 0.0
+    call_volume = 0.0
+    put_volume = 0.0
+    for q in quotes:
+        v = _to_float(q.volume)
+        if v is None:
+            v = 0.0
+        t = (q.contract.option_type or "").lower()
+        if t == "call":
+            call_volume += v
+        elif t == "put":
+            put_volume += v
+    if call_volume == 0.0:
+        if put_volume > 0.0:
+            return float("inf")
+        return 0.0
+    ratio = put_volume / call_volume
+    if not isfinite(ratio):
+        return float("inf") if put_volume > 0.0 else 0.0
+    return ratio
 
 
 def calculate_put_call_oi_ratio(quotes: List[OptionQuote]) -> float:
     """Calculate put/call ratio by open interest."""
-    call_oi = sum(q.open_interest for q in quotes if q.contract.option_type.lower() == "call")
-    put_oi = sum(q.open_interest for q in quotes if q.contract.option_type.lower() == "put")
-
-    if call_oi == 0:
-        return float("inf") if put_oi > 0 else 0.0
-    return put_oi / call_oi
+    if not quotes:
+        return 0.0
+    call_oi = 0.0
+    put_oi = 0.0
+    for q in quotes:
+        oi = _to_float(q.open_interest)
+        if oi is None:
+            oi = 0.0
+        t = (q.contract.option_type or "").lower()
+        if t == "call":
+            call_oi += oi
+        elif t == "put":
+            put_oi += oi
+    if call_oi == 0.0:
+        if put_oi > 0.0:
+            return float("inf")
+        return 0.0
+    ratio = put_oi / call_oi
+    if not isfinite(ratio):
+        return float("inf") if put_oi > 0.0 else 0.0
+    return ratio
 
 
 def calculate_iv_skew(quotes: List[OptionQuote], spot_price: float) -> float:
     """Calculate volatility skew (25-delta put IV - 25-delta call IV)."""
-    # Simplified skew calculation using OTM options
+    if not quotes or spot_price is None:
+        return 0.0
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return 0.0
     otm_puts = []
     otm_calls = []
-
     for q in quotes:
-        if q.mark_iv is None:
+        iv = _to_float(q.mark_iv)
+        if iv is None:
+            iv = _to_float(q.bid_iv)
+        if iv is None:
+            iv = _to_float(q.ask_iv)
+        if iv is None:
             continue
-        if not isfinite(float(q.mark_iv)):
+        m = q.contract.strike / sp if sp != 0.0 else 0.0
+        if not isfinite(m):
             continue
-        if spot_price <= 0:
-            continue
-        moneyness = q.contract.strike / spot_price
-        if q.contract.option_type.lower() == "put" and moneyness < 0.95:
-            otm_puts.append(q.mark_iv)
-        elif q.contract.option_type.lower() == "call" and moneyness > 1.05:
-            otm_calls.append(q.mark_iv)
-
+        t = (q.contract.option_type or "").lower()
+        if t == "put" and m < 0.95:
+            otm_puts.append(iv)
+        elif t == "call" and m > 1.05:
+            otm_calls.append(iv)
     if not otm_puts or not otm_calls:
         return 0.0
-
     avg_put_iv = sum(otm_puts) / len(otm_puts)
     avg_call_iv = sum(otm_calls) / len(otm_calls)
-    return avg_put_iv - avg_call_iv
+    skew = avg_put_iv - avg_call_iv
+    if not isfinite(skew):
+        return 0.0
+    return skew
 
 
 def calculate_max_pain(chain: OptionsChain) -> float:
     """Calculate max pain strike price."""
-    if not chain.quotes:
+    if not chain or not chain.quotes:
         return 0.0
-
-    strikes = set(q.contract.strike for q in chain.quotes)
+    strikes = set()
+    for q in chain.quotes:
+        s = _to_float(q.contract.strike)
+        if s is not None and isfinite(s):
+            strikes.add(s)
+    if not strikes:
+        return 0.0
     max_pain_strike = 0.0
     min_pain = float("inf")
-
     for strike in strikes:
         total_pain = 0.0
         for q in chain.quotes:
-            if q.contract.option_type.lower() == "call":
+            oi = _to_float(q.open_interest)
+            if oi is None:
+                oi = 0.0
+            if oi == 0.0:
+                continue
+            t = (q.contract.option_type or "").lower()
+            if t == "call":
                 if q.contract.strike < strike:
-                    total_pain += (strike - q.contract.strike) * q.open_interest
-            else:  # put
+                    diff = strike - q.contract.strike
+                    if isfinite(diff):
+                        total_pain += diff * oi
+            else:
                 if q.contract.strike > strike:
-                    total_pain += (q.contract.strike - strike) * q.open_interest
+                    diff = q.contract.strike - strike
+                    if isfinite(diff):
+                        total_pain += diff * oi
         if total_pain < min_pain:
             min_pain = total_pain
             max_pain_strike = strike
-
+    if not isfinite(min_pain):
+        return 0.0
     return max_pain_strike
+
+
+def _get_iv(q: OptionQuote) -> Optional[float]:
+    iv = _to_float(q.mark_iv)
+    if iv is None:
+        iv = _to_float(q.bid_iv)
+    if iv is None:
+        iv = _to_float(q.ask_iv)
+    return iv
+
+
+def _tenor_years(expiry: datetime, now: Optional[datetime] = None) -> float:
+    if now is None:
+        now = datetime.now(timezone.utc)
+    if expiry.tzinfo is None:
+        try:
+            expiry = expiry.replace(tzinfo=timezone.utc)
+        except Exception:
+            pass
+    if now.tzinfo is None:
+        try:
+            now = now.replace(tzinfo=timezone.utc)
+        except Exception:
+            pass
+    try:
+        dt = (expiry - now).total_seconds()
+    except Exception:
+        return float("nan")
+    if not isfinite(dt):
+        return float("nan")
+    if dt < 0.0:
+        dt = 0.0
+    years = dt / (365.25 * 24.0 * 3600.0)
+    if not isfinite(years):
+        return float("nan")
+    return years
+
+
+def calculate_put_call_skew(
+    quotes: List[OptionQuote],
+    spot_price: float,
+    delta_target: float = 0.25,
+    tol: float = 0.05,
+    expiry: Optional[datetime] = None,
+) -> float:
+    if not quotes or spot_price is None:
+        return 0.0
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return 0.0
+    dt = _to_float(delta_target)
+    if dt is None or dt <= 0.0:
+        dt = 0.25
+    t = _to_float(tol)
+    if t is None or t < 0.0:
+        t = 0.05
+    put_ivs = []
+    call_ivs = []
+    for q in quotes:
+        if expiry is not None and q.contract.expiry != expiry:
+            try:
+                if q.contract.expiry.date() != expiry.date():
+                    continue
+            except Exception:
+                continue
+        iv = _get_iv(q)
+        if iv is None:
+            continue
+        dabs = _delta_abs(q)
+        if dabs is not None and abs(dabs - dt) <= t:
+            ot = (q.contract.option_type or "").lower()
+            if ot == "put":
+                put_ivs.append(iv)
+            elif ot == "call":
+                call_ivs.append(iv)
+            continue
+        m = q.contract.strike / sp
+        if not isfinite(m):
+            continue
+        ot = (q.contract.option_type or "").lower()
+        if ot == "put" and m < 1.0 - dt - t * 0.5:
+            put_ivs.append(iv)
+        elif ot == "call" and m > 1.0 + dt + t * 0.5:
+            call_ivs.append(iv)
+    if not put_ivs or not call_ivs:
+        return 0.0
+    p = sum(put_ivs) / len(put_ivs)
+    c = sum(call_ivs) / len(call_ivs)
+    skew = p - c
+    if not isfinite(skew):
+        return 0.0
+    return skew
+
+
+def calculate_risk_reversal(
+    quotes: List[OptionQuote],
+    spot_price: float,
+    delta_target: float = 0.25,
+    tol: float = 0.05,
+    expiry: Optional[datetime] = None,
+) -> float:
+    if not quotes or spot_price is None:
+        return 0.0
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return 0.0
+    dt = _to_float(delta_target)
+    if dt is None or dt <= 0.0:
+        dt = 0.25
+    t = _to_float(tol)
+    if t is None or t < 0.0:
+        t = 0.05
+    put_ivs = []
+    call_ivs = []
+    for q in quotes:
+        if expiry is not None:
+            try:
+                if q.contract.expiry != expiry and q.contract.expiry.date() != expiry.date():
+                    continue
+            except Exception:
+                continue
+        iv = _get_iv(q)
+        if iv is None:
+            continue
+        dabs = _delta_abs(q)
+        if dabs is not None and abs(dabs - dt) <= t:
+            ot = (q.contract.option_type or "").lower()
+            if ot == "call":
+                call_ivs.append(iv)
+            elif ot == "put":
+                put_ivs.append(iv)
+            continue
+        m = q.contract.strike / sp
+        if not isfinite(m):
+            continue
+        ot = (q.contract.option_type or "").lower()
+        if ot == "call" and m > 1.0 + dt + t * 0.5:
+            call_ivs.append(iv)
+        elif ot == "put" and m < 1.0 - dt - t * 0.5:
+            put_ivs.append(iv)
+    if not call_ivs or not put_ivs:
+        return 0.0
+    c = sum(call_ivs) / len(call_ivs)
+    p = sum(put_ivs) / len(put_ivs)
+    rr = c - p
+    if not isfinite(rr):
+        return 0.0
+    return rr
+
+
+def calculate_risk_reversal_term_structure(
+    quotes: List[OptionQuote],
+    spot_price: float,
+    delta_target: float = 0.25,
+    tol: float = 0.05,
+    now: Optional[datetime] = None,
+) -> Dict[float, float]:
+    if not quotes or spot_price is None:
+        return {}
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return {}
+    by_exp: Dict[str, List[OptionQuote]] = {}
+    for q in quotes:
+        try:
+            key = q.contract.expiry.isoformat()
+        except Exception:
+            continue
+        by_exp.setdefault(key, []).append(q)
+    out = {}
+    for key, qlist in by_exp.items():
+        exp = qlist[0].contract.expiry
+        rr = calculate_risk_reversal(qlist, sp, delta_target=delta_target, tol=tol, expiry=exp)
+        if not isfinite(rr):
+            continue
+        t = _tenor_years(exp, now=now)
+        if not isfinite(t):
+            continue
+        out[float(t)] = float(rr)
+    return dict(sorted(out.items()))
+
+
+def calculate_skew_term_structure(
+    quotes: List[OptionQuote],
+    spot_price: float,
+    delta_target: float = 0.25,
+    tol: float = 0.05,
+    now: Optional[datetime] = None,
+) -> Dict[float, float]:
+    if not quotes or spot_price is None:
+        return {}
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return {}
+    by_exp: Dict[str, List[OptionQuote]] = {}
+    for q in quotes:
+        try:
+            key = q.contract.expiry.isoformat()
+        except Exception:
+            continue
+        by_exp.setdefault(key, []).append(q)
+    out = {}
+    for key, qlist in by_exp.items():
+        exp = qlist[0].contract.expiry
+        sk = calculate_put_call_skew(qlist, sp, delta_target=delta_target, tol=tol, expiry=exp)
+        if not isfinite(sk):
+            continue
+        t = _tenor_years(exp, now=now)
+        if not isfinite(t):
+            continue
+        out[float(t)] = float(sk)
+    return dict(sorted(out.items()))
+
+
+def calculate_iv_skew_term_structure(
+    quotes: List[OptionQuote],
+    spot_price: float,
+    delta_target: float = 0.25,
+    tol: float = 0.05,
+    now: Optional[datetime] = None,
+) -> Dict[float, Dict[str, float]]:
+    rr_ts = calculate_risk_reversal_term_structure(quotes, spot_price, delta_target=delta_target, tol=tol, now=now)
+    sk_ts = calculate_skew_term_structure(quotes, spot_price, delta_target=delta_target, tol=tol, now=now)
+    keys = set(rr_ts.keys()) | set(sk_ts.keys())
+    out: Dict[float, Dict[str, float]] = {}
+    for k in sorted(keys):
+        d: Dict[str, float] = {}
+        if k in rr_ts and isfinite(rr_ts[k]):
+            d["risk_reversal"] = float(rr_ts[k])
+        if k in sk_ts and isfinite(sk_ts[k]):
+            d["put_call_skew"] = float(sk_ts[k])
+            d["skew"] = float(sk_ts[k])
+        if d:
+            out[float(k)] = d
+    return out
+
+
+def calculate_atm_term_structure(
+    quotes: List[OptionQuote],
+    spot_price: float,
+    moneyness_tol: float = 0.02,
+    now: Optional[datetime] = None,
+) -> Dict[float, float]:
+    if not quotes or spot_price is None:
+        return {}
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return {}
+    tol = _to_float(moneyness_tol)
+    if tol is None or tol < 0.0:
+        tol = 0.02
+    by_exp: Dict[str, List[OptionQuote]] = {}
+    for q in quotes:
+        try:
+            key = q.contract.expiry.isoformat()
+        except Exception:
+            continue
+        by_exp.setdefault(key, []).append(q)
+    out = {}
+    for key, qlist in by_exp.items():
+        ivs = []
+        for q in qlist:
+            m = q.contract.strike / sp
+            if not isfinite(m):
+                continue
+            if abs(m - 1.0) <= tol:
+                iv = _get_iv(q)
+                if iv is not None:
+                    ivs.append(iv)
+        if not ivs:
+            continue
+        atm_iv = sum(ivs) / len(ivs)
+        if not isfinite(atm_iv):
+            continue
+        exp = qlist[0].contract.expiry
+        t = _tenor_years(exp, now=now)
+        if not isfinite(t):
+            continue
+        out[float(t)] = float(atm_iv)
+    return dict(sorted(out.items()))
+
+
+# Backwards compatible aliases
+put_call_skew = calculate_put_call_skew
+risk_reversal = calculate_risk_reversal
+skew_term_structure = calculate_skew_term_structure
+risk_reversal_term_structure = calculate_risk_reversal_term_structure
+iv_skew_term_structure = calculate_iv_skew_term_structure
+atm_term_structure = calculate_atm_term_structure
+calculate_iv_skew_by_tenor = calculate_iv_skew_term_structure

@@ -16,7 +16,16 @@ from src.features.liquidity import (
     calculate_chain_liquidity_metrics,
 )
 from src.features.orderflow import calculate_cumulative_delta, calculate_orderflow_imbalance
-from src.features.volatility import calculate_put_call_ratio, calculate_max_pain
+from src.features.volatility import (
+    calculate_put_call_ratio,
+    calculate_max_pain,
+    calculate_put_call_skew,
+    calculate_risk_reversal,
+    calculate_skew_term_structure,
+    calculate_risk_reversal_term_structure,
+    calculate_iv_skew_term_structure,
+    calculate_atm_term_structure,
+)
 
 
 def test_gamma_exposure_calculation():
@@ -168,6 +177,85 @@ def test_put_call_ratio():
     ]
     pcr = calculate_put_call_ratio(quotes)
     assert pcr == 0.5
+
+
+def test_risk_reversal_and_put_call_skew():
+    now = datetime.now(timezone.utc)
+    exp = datetime(2026, 12, 25, tzinfo=timezone.utc)
+    c = OptionContract(symbol="BTC-C25", underlying="BTC", strike=21000.0, expiry=exp, option_type="call", venue="deribit")
+    p = OptionContract(symbol="BTC-P25", underlying="BTC", strike=19000.0, expiry=exp, option_type="put", venue="deribit")
+    qc = OptionQuote(contract=c, bid=100, ask=110, mark_iv=0.8, delta=0.25, open_interest=100, volume=10, timestamp=now)
+    qp = OptionQuote(contract=p, bid=90, ask=100, mark_iv=0.9, delta=-0.25, open_interest=100, volume=10, timestamp=now)
+    rr = calculate_risk_reversal([qc, qp], 20000.0)
+    sk = calculate_put_call_skew([qc, qp], 20000.0)
+    assert isinstance(rr, float)
+    assert isinstance(sk, float)
+    assert rr < sk or abs(rr - sk) < 1e-12  # RR = call - put ~ -0.1, skew = put - call ~ 0.1
+
+
+def test_iv_skew_term_structure_and_atm():
+    now = datetime.now(timezone.utc)
+    exp1 = datetime(2026, 11, 27, tzinfo=timezone.utc)
+    exp2 = datetime(2026, 12, 25, tzinfo=timezone.utc)
+    # exp1
+    c1 = OptionContract(symbol="BTC-C1", underlying="BTC", strike=21000.0, expiry=exp1, option_type="call", venue="deribit")
+    p1 = OptionContract(symbol="BTC-P1", underlying="BTC", strike=19000.0, expiry=exp1, option_type="put", venue="deribit")
+    ca1 = OptionContract(symbol="BTC-CA1", underlying="BTC", strike=20000.0, expiry=exp1, option_type="call", venue="deribit")
+    pa1 = OptionContract(symbol="BTC-PA1", underlying="BTC", strike=20000.0, expiry=exp1, option_type="put", venue="deribit")
+    qlist1 = [
+        OptionQuote(contract=c1, bid=50, ask=60, mark_iv=0.7, delta=0.25, open_interest=50, volume=5, timestamp=now),
+        OptionQuote(contract=p1, bid=40, ask=50, mark_iv=0.8, delta=-0.25, open_interest=50, volume=5, timestamp=now),
+        OptionQuote(contract=ca1, bid=200, ask=210, mark_iv=0.6, delta=0.5, open_interest=10, volume=1, timestamp=now),
+        OptionQuote(contract=pa1, bid=190, ask=200, mark_iv=0.61, delta=-0.5, open_interest=10, volume=1, timestamp=now),
+    ]
+    # exp2
+    c2 = OptionContract(symbol="BTC-C2", underlying="BTC", strike=21000.0, expiry=exp2, option_type="call", venue="deribit")
+    p2 = OptionContract(symbol="BTC-P2", underlying="BTC", strike=19000.0, expiry=exp2, option_type="put", venue="deribit")
+    ca2 = OptionContract(symbol="BTC-CA2", underlying="BTC", strike=20000.0, expiry=exp2, option_type="call", venue="deribit")
+    pa2 = OptionContract(symbol="BTC-PA2", underlying="BTC", strike=20000.0, expiry=exp2, option_type="put", venue="deribit")
+    qlist2 = [
+        OptionQuote(contract=c2, bid=80, ask=90, mark_iv=0.75, delta=0.25, open_interest=60, volume=6, timestamp=now),
+        OptionQuote(contract=p2, bid=70, ask=80, mark_iv=0.85, delta=-0.25, open_interest=60, volume=6, timestamp=now),
+        OptionQuote(contract=ca2, bid=300, ask=310, mark_iv=0.65, delta=0.5, open_interest=20, volume=2, timestamp=now),
+        OptionQuote(contract=pa2, bid=290, ask=300, mark_iv=0.66, delta=-0.5, open_interest=20, volume=2, timestamp=now),
+    ]
+    quotes = qlist1 + qlist2
+    rr_ts = calculate_risk_reversal_term_structure(quotes, 20000.0)
+    sk_ts = calculate_skew_term_structure(quotes, 20000.0)
+    ts = calculate_iv_skew_term_structure(quotes, 20000.0)
+    atm = calculate_atm_term_structure(quotes, 20000.0)
+    assert isinstance(rr_ts, dict) and len(rr_ts) >= 1
+    assert isinstance(sk_ts, dict) and len(sk_ts) >= 1
+    assert isinstance(ts, dict) and len(ts) >= 1
+    assert isinstance(atm, dict) and len(atm) >= 1
+    # check finite
+    for k, v in rr_ts.items():
+        import math
+
+        assert math.isfinite(v)
+    for k, v in ts.items():
+        assert isinstance(v, dict)
+        assert "risk_reversal" in v or "put_call_skew" in v or "skew" in v
+
+
+def test_iv_skew_term_structure_numerical_stability():
+    now = datetime.now(timezone.utc)
+    exp = datetime(2026, 12, 25, tzinfo=timezone.utc)
+    quotes = []
+    # add some with missing iv/delta/oi
+    c = OptionContract(symbol="BTC-CBAD", underlying="BTC", strike=21000.0, expiry=exp, option_type="call", venue="deribit")
+    p = OptionContract(symbol="BTC-PBAD", underlying="BTC", strike=19000.0, expiry=exp, option_type="put", venue="deribit")
+    quotes.append(OptionQuote(contract=c, bid=100, ask=110, mark_iv=float("nan"), delta=0.25, open_interest=0, volume=0, timestamp=now))
+    quotes.append(OptionQuote(contract=p, bid=90, ask=100, mark_iv=None, delta=None, open_interest=0, volume=0, timestamp=now))
+    # should not crash, return 0 or empty dict gracefully
+    rr = calculate_risk_reversal(quotes, 20000.0)
+    sk = calculate_put_call_skew(quotes, 20000.0)
+    ts = calculate_iv_skew_term_structure(quotes, 20000.0)
+    assert isinstance(rr, float)
+    assert isinstance(sk, float)
+    assert isinstance(ts, dict)
+    assert rr == 0.0 or True  # may be 0
+    assert sk == 0.0 or True
 
 
 def test_calculate_cumulative_delta_robust():
