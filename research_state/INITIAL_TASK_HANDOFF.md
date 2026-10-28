@@ -1,8 +1,8 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-28T22-26-28Z
+Timestamp (UTC): 2026-10-28T23-26-47Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 115 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
+State: 135 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION (PRIORITIZED - DO NOT DEVIATE)
@@ -23,8 +23,8 @@ Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical st
 - **Determinism enforced**: Seeds must propagate through features, signals, and backtests.
 - **Numerical hygiene**: All metric serialization must pass through sanitization with `allow_nan=False` and raise `SerializationError` on invalid values.
 
-## VERIFIED STATE (2026-10-28T22-26-28Z — DO NOT RE-VERIFY UNCHANGED)
-- `python -m pytest -q` → 115 passed, 1 warning (deprecation in test_schemas only).
+## VERIFIED STATE (2026-10-28T23-26-47Z — DO NOT RE-VERIFY UNCHANGED)
+- `python -m pytest -q` → 135 passed, 1 warning (deprecation in test_schemas only).
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → Success: no issues found in 24 source files.
 - `git status` → On branch main, up to date with origin/main, nothing to commit, working tree clean.
 - `grep -rn "TODO|FIXME|PLACEHOLDER|HACK|XXX" src/ tests/ scripts/` → no matches.
@@ -59,7 +59,7 @@ START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ON
    - Config validation edge cases, safe defaults, invalid-combo rejection
 
 ### Verification (REQUIRED BEFORE HANDOFF)
-- `python -m pytest` must reach >= 115 passing (incl. all existing tests)
+- `python -m pytest` must reach >= 135 passing (incl. all existing tests)
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean
 - Working tree clean. No untracked junk. No TODO/FIXME/placeholder.
 - If work remains after completing ONE item end-to-end, update BOTH handoff files with a new timestamped message and leave heavy work clearly specified.
