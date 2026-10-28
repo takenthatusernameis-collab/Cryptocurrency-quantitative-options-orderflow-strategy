@@ -10,8 +10,9 @@ from typing import Any, Dict
 import yaml
 
 from .backtest.engine import BacktestEngine
-from .data.schemas import OptionsChain, OrderflowSnapshot
+from .ingestion.binance import BinanceOptionsIngestion, BinanceOrderflowIngestion
 from .ingestion.deribit import DeribitOptionsIngestion, DeribitOrderflowIngestion
+from .ingestion.okx import OKXOptionsIngestion, OKXOrderflowIngestion
 from .signals.composite import CompositeSignalGenerator
 
 
@@ -29,19 +30,44 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
     # Ingestion
     for sym in symbols:
         for v in venues:
-            if v == "deribit":
-                opt_ing = DeribitOptionsIngestion()
-                of_ing = DeribitOrderflowIngestion()
-                try:
+            v_lower = str(v).lower()
+            try:
+                if v_lower == "deribit":
+                    opt_ing = DeribitOptionsIngestion()
+                    of_ing = DeribitOrderflowIngestion()
                     chain = opt_ing.fetch_options_chain(sym)
-                    results.setdefault("options_chains", {})[f"{v}:{sym}"] = {"quotes": len(chain.quotes)}
-                except Exception as e:
-                    results.setdefault("errors", []).append(f"deribit_options_{sym}: {e}")
-                try:
-                    trades = of_ing.fetch_trades(f"{sym}-PERPETUAL" if v == "deribit" else sym)
-                    results.setdefault("orderflow", {})[f"{v}:{sym}"] = {"trades": len(trades.trades)}
-                except Exception as e:
-                    results.setdefault("errors", []).append(f"deribit_trades_{sym}: {e}")
+                    results.setdefault("options_chains", {})[f"{v_lower}:{sym}"] = {"quotes": len(chain.quotes)}
+                    # Try perpetual style for orderflow
+                    try:
+                        trades = of_ing.fetch_trades(f"{sym}-PERPETUAL")
+                        results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(trades.trades)}
+                    except Exception as e:
+                        results.setdefault("errors", []).append(f"deribit_trades_{sym}: {e}")
+                elif v_lower == "okx":
+                    opt_ing = OKXOptionsIngestion()
+                    of_ing = OKXOrderflowIngestion()
+                    chain = opt_ing.fetch_options_chain(sym)
+                    results.setdefault("options_chains", {})[f"{v_lower}:{sym}"] = {"quotes": len(chain.quotes)}
+                    try:
+                        trades = of_ing.fetch_trades(f"{sym}-USDT-SWAP")
+                        results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(trades.trades)}
+                    except Exception as e:
+                        results.setdefault("errors", []).append(f"okx_trades_{sym}: {e}")
+                elif v_lower == "binance":
+                    opt_ing = BinanceOptionsIngestion()
+                    of_ing = BinanceOrderflowIngestion()
+                    chain = opt_ing.fetch_options_chain(sym)
+                    results.setdefault("options_chains", {})[f"{v_lower}:{sym}"] = {"quotes": len(chain.quotes)}
+                    try:
+                        # Try common perpetual symbol
+                        trades = of_ing.fetch_trades(f"{sym}USDT")
+                        results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(trades.trades)}
+                    except Exception as e:
+                        results.setdefault("errors", []).append(f"binance_trades_{sym}: {e}")
+                else:
+                    results.setdefault("errors", []).append(f"unknown_venue_{v}")
+            except Exception as e:
+                results.setdefault("errors", []).append(f"{v_lower}_options_{sym}: {e}")
 
     # Signals + backtest (basic wiring)
     signal_gen = CompositeSignalGenerator()
