@@ -437,3 +437,335 @@ class BacktestEngine:
             winning_trades=winning_trades,
             losing_trades=losing_trades,
         )
+
+
+@dataclass
+class WalkForwardWindowResult:
+    train_start: int = 0
+    train_end: int = 0
+    test_start: int = 0
+    test_end: int = 0
+    in_sample_return: float = 0.0
+    out_of_sample_return: float = 0.0
+    in_sample_sharpe: float = 0.0
+    out_of_sample_sharpe: float = 0.0
+    in_sample_max_drawdown: float = 0.0
+    out_of_sample_max_drawdown: float = 0.0
+    oos_metrics: Optional[BacktestResults] = None
+    is_metrics: Optional[BacktestResults] = None
+
+
+@dataclass
+class WalkForwardResults:
+    windows: List[WalkForwardWindowResult] = field(default_factory=list)
+    overall_out_of_sample_return: float = 0.0
+    overall_out_of_sample_sharpe: float = 0.0
+    overall_out_of_sample_max_drawdown: float = 0.0
+    stability_ratio: float = 0.0
+    degradation: float = 0.0
+    oos_equity_curve: List[float] = field(default_factory=list)
+    oos_trades: List[Trade] = field(default_factory=list)
+
+
+class WalkForwardBacktest:
+    def __init__(self, engine: BacktestEngine = None, config: BacktestConfig = None, risk_config: RiskConfig = None, **kwargs):
+        # Be flexible about positional args
+        # If first arg is not a BacktestEngine instance
+        if engine is not None and not isinstance(engine, BacktestEngine):
+            # Could be config
+            if isinstance(engine, BacktestConfig):
+                if config is None or isinstance(config, RiskConfig):
+                    risk_config = config
+                config = engine
+                engine = None
+            elif hasattr(engine, 'initial_capital') and not isinstance(engine, BacktestEngine):  # likely config
+                if config is None and isinstance(risk_config, RiskConfig):
+                    pass  # keep as is
+                # try to detect
+                if config is None or isinstance(config, RiskConfig):
+                    risk_config = config
+                config = engine
+                engine = None
+        if engine is not None and isinstance(engine, BacktestEngine):
+            self.engine_template = engine
+            self.config = getattr(engine, "config", config or BacktestConfig())
+            self.risk_config = getattr(engine, "risk_config", risk_config or RiskConfig())
+        else:
+            if config is None and kwargs:
+                # maybe passed as config-like
+                cfg_kwargs = {k: v for k, v in kwargs.items() if k in BacktestConfig.__dataclass_fields__}
+                if cfg_kwargs:
+                    config = BacktestConfig(**cfg_kwargs)
+            if risk_config is None and kwargs:
+                risk_kwargs = {k: v for k, v in kwargs.items() if k in RiskConfig.__dataclass_fields__}
+                if risk_kwargs:
+                    risk_config = RiskConfig(**risk_kwargs)
+            self.config = config if isinstance(config, BacktestConfig) else BacktestConfig()
+            self.risk_config = risk_config if isinstance(risk_config, RiskConfig) else RiskConfig()
+            self.engine_template = BacktestEngine(self.config, self.risk_config)
+
+    def run_walk_forward(self,
+                         price_series: Dict[str, List[float]] = None,
+                         signals: Dict[str, List[int]] = None,
+                         timestamps: List[datetime] = None,
+                         train_window: int = 252,
+                         test_window: int = 63,
+                         step_size: int = None,
+                         rolling: bool = True,
+                         anchored: bool = False,
+                         min_train_size: int = 50) -> WalkForwardResults:
+        """Run walk-forward analysis with rolling or anchored windows."""
+        if price_series is None and signals is None:
+            raise ValueError("Either price_series or signals must be provided")
+
+        # Determine length
+        if price_series is not None:
+            # get length from first symbol
+            first_key = next(iter(price_series.keys()))
+            n = len(price_series[first_key])
+        elif signals is not None:
+            first_key = next(iter(signals.keys()))
+            n = len(signals[first_key])
+        else:
+            n = 0
+
+        if n == 0:
+            return WalkForwardResults()
+
+        if step_size is None:
+            step_size = test_window
+        if step_size < 1:
+            step_size = 1
+        if train_window < min_train_size:
+            train_window = min_train_size
+
+        results = WalkForwardResults()
+        all_oos_equity = []
+        all_oos_trades = []
+        combined_equity = [self.config.initial_capital]
+
+        if anchored:
+            # Anchored walk-forward: train start fixed at 0
+            start_train = 0
+        else:
+            start_train = 0
+
+        i = 0
+        window_idx = 0
+        # Walk forward
+        if anchored:
+            train_start = 0
+            while train_start + train_window + test_window <= n or train_start + train_window < n:
+                train_end = train_start + train_window
+                if train_end >= n:
+                    break
+                test_start = train_end
+                test_end = min(test_start + test_window, n)
+                if test_start >= test_end:
+                    break
+                wf_res = self._run_window(price_series, signals, timestamps, train_start, train_end, test_start, test_end)
+                results.windows.append(wf_res)
+                if wf_res.oos_metrics and wf_res.oos_metrics.equity_curve:
+                    # append OOS equity (skip first if concatenating)
+                    for eq in wf_res.oos_metrics.equity_curve[1:]:
+                        all_oos_equity.append(eq)
+                if wf_res.oos_metrics and wf_res.oos_metrics.trades:
+                    all_oos_trades.extend(wf_res.oos_metrics.trades)
+                train_window += step_size  # expand
+                if train_start + train_window >= n:
+                    break
+                window_idx += 1
+                if window_idx > 1000:  # safety
+                    break
+        else:
+            # Rolling walk-forward
+            train_start = 0
+            while True:
+                train_end = train_start + train_window
+                if train_end >= n:
+                    break
+                test_start = train_end
+                test_end = min(test_start + test_window, n)
+                if test_start >= test_end:
+                    break
+                wf_res = self._run_window(price_series, signals, timestamps, train_start, train_end, test_start, test_end)
+                results.windows.append(wf_res)
+                if wf_res.oos_metrics and wf_res.oos_metrics.equity_curve:
+                    for eq in wf_res.oos_metrics.equity_curve[1:]:
+                        all_oos_equity.append(eq)
+                if wf_res.oos_metrics and wf_res.oos_metrics.trades:
+                    all_oos_trades.extend(wf_res.oos_metrics.trades)
+                train_start += step_size
+                if train_start + train_window > n:
+                    break
+                window_idx += 1
+                if window_idx > 10000:
+                    break
+
+        results.oos_equity_curve = all_oos_equity
+        results.oos_trades = all_oos_trades
+
+        # Compute aggregate OOS metrics
+        if all_oos_equity:
+            # Create temporary engine for metrics calculation
+            eng = BacktestEngine(self.config, self.risk_config)
+            eng.equity_curve = [self.config.initial_capital] + all_oos_equity if all_oos_equity else [self.config.initial_capital]
+            eng.trades = all_oos_trades
+            agg = eng.calculate_metrics()
+            results.overall_out_of_sample_return = agg.total_return
+            results.overall_out_of_sample_sharpe = agg.sharpe_ratio
+            results.overall_out_of_sample_max_drawdown = agg.max_drawdown
+        else:
+            results.overall_out_of_sample_return = 0.0
+            results.overall_out_of_sample_sharpe = 0.0
+            results.overall_out_of_sample_max_drawdown = 0.0
+
+        # Stability metrics
+        if results.windows:
+            oos_returns = []
+            for w in results.windows:
+                if isfinite(w.out_of_sample_return):
+                    oos_returns.append(w.out_of_sample_return)
+            if oos_returns:
+                avg_oos = sum(oos_returns) / len(oos_returns)
+                var_oos = sum((r - avg_oos) ** 2 for r in oos_returns) / len(oos_returns)
+                std_oos = var_oos ** 0.5 if var_oos >= 0 else 0.0
+                if std_oos > 0 and isfinite(std_oos):
+                    results.stability_ratio = abs(avg_oos) / std_oos
+                else:
+                    results.stability_ratio = float('inf') if avg_oos != 0 else 0.0
+            # Degradation: in-sample vs out-of-sample
+            is_rets = [w.in_sample_return for w in results.windows if isfinite(w.in_sample_return)]
+            if is_rets and oos_returns:
+                avg_is = sum(is_rets) / len(is_rets)
+                if avg_is != 0:
+                    results.degradation = (avg_is - sum(oos_returns) / len(oos_returns)) / abs(avg_is)
+                else:
+                    results.degradation = 0.0
+            else:
+                results.degradation = 0.0
+        else:
+            results.stability_ratio = 0.0
+            results.degradation = 0.0
+
+        if not isfinite(results.stability_ratio):
+            results.stability_ratio = 0.0
+        if not isfinite(results.degradation):
+            results.degradation = 0.0
+
+        return results
+
+    def _run_window(self, price_series, signals, timestamps, train_start, train_end, test_start, test_end):
+        wres = WalkForwardWindowResult(train_start=train_start, train_end=train_end,
+                                       test_start=test_start, test_end=test_end)
+        # Run in-sample (for metrics)
+        is_engine = BacktestEngine(self.config, self.risk_config)
+        self._simulate_period(is_engine, price_series, signals, timestamps, train_start, train_end)
+        if is_engine.equity_curve:
+            is_metrics = is_engine.calculate_metrics()
+            wres.is_metrics = is_metrics
+            wres.in_sample_return = is_metrics.total_return
+            wres.in_sample_sharpe = is_metrics.sharpe_ratio
+            wres.in_sample_max_drawdown = is_metrics.max_drawdown
+        # Run out-of-sample
+        oos_engine = BacktestEngine(self.config, self.risk_config)
+        self._simulate_period(oos_engine, price_series, signals, timestamps, test_start, test_end)
+        if oos_engine.equity_curve:
+            oos_metrics = oos_engine.calculate_metrics()
+            wres.oos_metrics = oos_metrics
+            wres.out_of_sample_return = oos_metrics.total_return
+            wres.out_of_sample_sharpe = oos_metrics.sharpe_ratio
+            wres.out_of_sample_max_drawdown = oos_metrics.max_drawdown
+        return wres
+
+    def _simulate_period(self, engine, price_series, signals, timestamps, start, end):
+        if start >= end or end < 0:
+            return
+        end = min(end, 10**12)  # safety
+        # Find actual length
+        if price_series is not None:
+            first_key = next(iter(price_series.keys()))
+            n = len(price_series[first_key])
+            end = min(end, n)
+        elif signals is not None:
+            first_key = next(iter(signals.keys()))
+            n = len(signals[first_key])
+            end = min(end, n)
+        else:
+            return
+
+        start = max(0, start)
+        if start >= end:
+            return
+
+        for i in range(start, end):
+            # Get prices
+            current_prices = {}
+            if price_series is not None:
+                for sym, prices in price_series.items():
+                    if i < len(prices) and isfinite(prices[i]):
+                        current_prices[sym] = float(prices[i])
+            # Get timestamp
+            ts = timestamps[i] if timestamps is not None and i < len(timestamps) else datetime.now(timezone.utc)
+            # Process signals
+            if signals is not None:
+                for sym, sig_list in signals.items():
+                    if i >= len(sig_list):
+                        continue
+                    sig = sig_list[i]
+                    if not isfinite(sig):
+                        continue
+                    if sig == 1 and sym not in engine.positions:  # buy
+                        price = current_prices.get(sym)
+                        if price is not None and price > 0:
+                            try:
+                                qty = engine.calculate_position_size(price, side="long")
+                                if qty > 0:
+                                    engine.execute_trade(sym, qty, price, "buy", ts)
+                            except Exception:
+                                pass
+                    elif sig == -1:  # sell/short
+                        price = current_prices.get(sym)
+                        if price is not None and price > 0:
+                            if sym in engine.positions and engine.positions[sym].side == "long":
+                                try:
+                                    pos = engine.positions[sym]
+                                    engine.execute_trade(sym, pos.quantity, price, "sell", ts)
+                                except Exception:
+                                    pass
+                            elif sym not in engine.positions:
+                                try:
+                                    qty = engine.calculate_position_size(price, side="short")
+                                    if qty > 0:
+                                        engine.execute_trade(sym, qty, price, "sell", ts)
+                                except Exception:
+                                    pass
+                    elif sig == 0:
+                        pass
+            # Update equity
+            engine.update_equity_curve(current_prices)
+        return
+
+
+# Convenience functions
+def run_walk_forward(*args, **kwargs) -> WalkForwardResults:
+    # Extract walkforward-specific params
+    wf_params = {}
+    for k in ['price_series', 'signals', 'timestamps', 'train_window', 'test_window',
+              'step_size', 'rolling', 'anchored', 'min_train_size']:
+        if k in kwargs:
+            wf_params[k] = kwargs.pop(k)
+    wfb = WalkForwardBacktest(*args, **kwargs)
+    return wfb.run_walk_forward(**wf_params)
+
+
+def run_rolling_window_backtest(*args, **kwargs) -> WalkForwardResults:
+    wf_params = {}
+    for k in ['price_series', 'signals', 'timestamps', 'train_window', 'test_window',
+              'step_size', 'rolling', 'anchored', 'min_train_size']:
+        if k in kwargs:
+            wf_params[k] = kwargs.pop(k)
+    wf_params.setdefault('rolling', True)
+    wf_params.setdefault('anchored', False)
+    wfb = WalkForwardBacktest(*args, **kwargs)
+    return wfb.run_walk_forward(**wf_params)
