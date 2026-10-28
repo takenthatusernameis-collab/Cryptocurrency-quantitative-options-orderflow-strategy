@@ -60,6 +60,21 @@ def validate_config(cfg: "StrategyConfig") -> None:
     # Symbols non-empty
     if not cfg.data.symbols:
         errors.append("data.symbols must be non-empty")
+    for i, sym in enumerate(cfg.data.symbols):
+        if not isinstance(sym, str) or not sym.strip():
+            errors.append(f"data.symbols[{i}] must be non-empty string")
+            continue
+        if len(sym.strip()) > 10:
+            errors.append(f"data.symbols[{i}] invalid symbol format")
+    # Venue validation
+    allowed_venues = {"deribit", "okx", "binance"}
+    for i, v in enumerate(cfg.venues):
+        name = getattr(v, "name", None)
+        if not isinstance(name, str) or not name.strip():
+            errors.append(f"venues[{i}].name must be non-empty")
+            continue
+        if name.lower() not in allowed_venues:
+            errors.append(f"venues[{i}].name must be one of {sorted(list(allowed_venues))}")
     # Backtest fields
     if not (0.0 <= cfg.backtest.fee_rate <= 1.0):
         errors.append("backtest.fee_rate must be in [0, 1]")

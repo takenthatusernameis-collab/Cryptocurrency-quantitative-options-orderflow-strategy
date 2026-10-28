@@ -60,6 +60,11 @@ class CompositeSignalGenerator:
             return "skew_bearish"
         if iv_skew < -0.05:
             return "skew_bullish"
+        # Vol regime by term structure magnitude proxy
+        if iv_skew > 0.02 and put_call_ratio > 1.2:
+            return "high_vol_negative_gex"
+        if iv_skew < -0.02 and put_call_ratio < 0.8:
+            return "low_vol_positive_gex"
         return "neutral"
 
     def _get_weights(self, regime: str) -> Dict[str, float]:
@@ -125,6 +130,28 @@ class CompositeSignalGenerator:
         if not isfinite(composite):
             composite = 0.0
         composite = max(-1.0, min(1.0, composite))
+
+        # Conflict resolution when components strongly disagree
+        comp_values = list(components.values())
+        comp_signs = [_sign(v) for v in comp_values if abs(v) > 1e-12]
+        if len(comp_signs) >= 2:
+            # Check for strong disagreement
+            has_pos = any(s > 0 for s in comp_signs)
+            has_neg = any(s < 0 for s in comp_signs)
+            if has_pos and has_neg:
+                # Strong disagreement - reduce strength and be more cautious
+                pos_count = sum(1 for s in comp_signs if s > 0)
+                neg_count = sum(1 for s in comp_signs if s < 0)
+                majority_ratio = max(pos_count, neg_count) / len(comp_signs)
+                if majority_ratio >= 0.75:
+                    # Strong majority - follow majority with mild dampening
+                    composite = composite * 0.85
+                elif majority_ratio >= 0.67:
+                    composite = composite * 0.75
+                else:
+                    # Strong conflict - lean toward neutral
+                    composite = composite * 0.4
+                composite = max(-1.0, min(1.0, composite))
 
         # Determine direction
         if composite > 0.3:

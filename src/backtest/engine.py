@@ -72,10 +72,25 @@ class BacktestEngine:
         self.equity_curve: List[float] = [self.initial_capital]
         self.max_equity = self.initial_capital
         self.peak_equity = self.initial_capital
+        # Deterministic RNG for partial fills if needed
+        try:
+            import random
+
+            seed = getattr(config, "slippage_seed", 42)
+            self._rng = random.Random(int(seed) if seed is not None else 42)
+        except Exception:
+            import random
+
+            self._rng = random.Random(42)
 
     def _apply_slippage(self, price: float, side: str) -> float:
         slippage_bps = getattr(self.config, "slippage_bps", 0)
         slippage = float(slippage_bps) / 10000.0
+        max_slip_bps = getattr(self.config, "max_slippage_bps", 0)
+        if max_slip_bps and max_slip_bps > 0:
+            max_slip = float(max_slip_bps) / 10000.0
+            if slippage > max_slip:
+                slippage = max_slip
         if side == "buy":
             return price * (1.0 + slippage)
         else:  # sell
@@ -109,13 +124,40 @@ class BacktestEngine:
         if quantity <= 0:
             raise ValueError("Quantity must be positive")
 
+        qty = float(quantity)
+        # Apply lot rounding if configured
+        lot_size = getattr(self.config, "round_lot_size", 0.0)
+        if lot_size and lot_size > 0 and isfinite(lot_size):
+            # round down to nearest lot
+            qty = (qty // lot_size) * lot_size
+            if qty <= 0:
+                raise ValueError("Quantity must be positive after lot rounding")
+
+        # Apply partial fills if configured
+        pfr = getattr(self.config, "partial_fill_rate", 0.0)
+        if pfr and pfr > 0 and pfr < 1.0 and isfinite(pfr):
+            try:
+                fill_frac = max(0.0, min(1.0, float(self._rng.uniform(pfr * 0.5, min(1.0, pfr * 1.5)))))
+            except Exception:
+                fill_frac = float(pfr)
+            if fill_frac > 0:
+                qty = qty * fill_frac
+            if qty <= 0:
+                raise ValueError("Quantity must be positive after partial fill")
+
+        # Enforce max position qty from risk config
+        max_pos_qty = getattr(self.risk_config, "max_position_qty", 0.0)
+        if max_pos_qty and max_pos_qty > 0 and isfinite(max_pos_qty):
+            if qty > max_pos_qty:
+                qty = max_pos_qty
+
         execution_price = self._apply_slippage(price, side)
-        notional = float(quantity) * float(execution_price)
+        notional = float(qty) * float(execution_price)
         commission = self._get_commission(notional)
 
         trade = Trade(
             symbol=symbol,
-            quantity=float(quantity),
+            quantity=float(qty),
             price=float(execution_price),
             side=str(side).lower(),
             timestamp=timestamp,
@@ -148,7 +190,7 @@ class BacktestEngine:
                 tp = take_profit if take_profit is not None else (execution_price * (1 + getattr(self.risk_config, "take_profit_pct", 0.04)))
                 self.positions[symbol] = Position(
                     symbol=symbol,
-                    quantity=float(quantity),
+                    quantity=float(qty),
                     entry_price=float(execution_price),
                     entry_time=timestamp,
                     side="long",
@@ -156,6 +198,7 @@ class BacktestEngine:
                     take_profit=tp,
                 )
         elif side_lower == "sell":
+            allow_short = getattr(self.risk_config, "allow_shorting", True)
             # Selling to close long, or to open short
             if symbol in self.positions and self.positions[symbol].side == "long":
                 pos = self.positions[symbol]
@@ -166,7 +209,9 @@ class BacktestEngine:
                 trade.is_win = pnl > 0
                 del self.positions[symbol]
             else:
-                # Open short: credit proceeds to cash, hold liability
+                # Open short
+                if not allow_short:
+                    raise ValueError("Short selling not allowed")
                 max_position_pct = getattr(self.risk_config, "max_position_pct", 0.1)
                 max_notional = self.cash * max_position_pct
                 if notional > max_notional + 1e-10:
@@ -177,7 +222,7 @@ class BacktestEngine:
                 tp = take_profit if take_profit is not None else (execution_price * (1 - getattr(self.risk_config, "take_profit_pct", 0.04)))
                 self.positions[symbol] = Position(
                     symbol=symbol,
-                    quantity=float(quantity),
+                    quantity=float(qty),
                     entry_price=float(execution_price),
                     entry_time=timestamp,
                     side="short",

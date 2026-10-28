@@ -164,6 +164,23 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 iv_skew=iv_skew,
                 put_call_ratio=pcr,
             )
+            try:
+                total_gex_dw = calculate_total_delta_weighted_gex(chain, spot_price)
+            except Exception:
+                total_gex_dw = total_gex
+            try:
+                total_gex_liq = calculate_total_oi_volume_weighted_gex(chain, spot_price)
+            except Exception:
+                total_gex_liq = total_gex
+            try:
+                gamma_flip_dw = gamma_flip_level_weighted(chain, spot_price, weighted="delta")
+            except Exception:
+                gamma_flip_dw = signals.get(key, {}).get("gamma_flip") if False else gamma_flip_level(chain, spot_price)
+            try:
+                liquidity_metrics = calculate_chain_liquidity_metrics(chain)
+            except Exception as e:
+                liquidity_metrics = {}
+                results.setdefault("errors", []).append(f"liquidity_metrics_{key}: {e}")
             signals[key] = {
                 "symbol": signal.symbol,
                 "direction": signal.direction,
@@ -173,12 +190,16 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 "regime": getattr(signal, "regime", "unknown"),
                 "spot_price": spot_price,
                 "total_gex": total_gex,
+                "total_gex_delta_weighted": total_gex_dw,
+                "total_gex_oi_volume_weighted": total_gex_liq,
                 "cumulative_delta": cum_delta,
                 "orderflow_imbalance": of_imbalance,
                 "iv_skew": iv_skew,
                 "put_call_ratio": pcr,
                 "max_pain": max_pain,
                 "gamma_flip": gamma_flip_level(chain, spot_price),
+                "gamma_flip_delta_weighted": gamma_flip_dw,
+                "liquidity": liquidity_metrics,
             }
         except Exception as e:
             results.setdefault("errors", []).append(f"signal_generation_{key}: {e}")
