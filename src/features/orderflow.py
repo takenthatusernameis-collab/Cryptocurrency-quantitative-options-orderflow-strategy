@@ -143,103 +143,152 @@ def calculate_orderflow_imbalance(trades: List[Trade], window: int = 100) -> flo
 def orderflow_imbalance_multi_horizon(
     trades: List[Trade], horizons: List[int] = None, decay: float = 0.3
 ) -> dict:
-    """Orderflow imbalance at multiple horizons with decay weighting."""
-    if trades is None:
-        trades = []
-    if horizons is None:
-        horizons = [1, 10, 50, 100]
-    # Normalize horizons - ensure list of positive ints
-    try:
-        norm_horizons = []
-        for h in horizons:
+    """Orderflow imbalance at multiple horizons with decay weighting.
+
+    Production-grade hardening: validates and sanitizes all inputs, filters
+    non-finite trade sizes, clamps every numeric output to [-1, 1], and
+    guards against division-by-zero and exp overflow/underflow. Per-horizon
+    values are cross-consistent with ``calculate_orderflow_imbalance``.
+    """
+    result: dict = {}
+
+    # --- normalize trades: filter non-trade / non-finite / misclassified ---
+    clean_trades: List[Trade] = []
+    if trades is not None:
+        try:
+            iterator = iter(trades)
+        except TypeError:
+            iterator = []
+        for t in iterator:
             try:
-                hh = int(h)
+                side = str(getattr(t, "side", "")).lower()
             except Exception:
                 continue
-            if hh > 0:
-                norm_horizons.append(hh)
-        horizons = norm_horizons
-    except Exception:
-        horizons = [1, 10, 50, 100]
+            if side not in ("buy", "sell"):
+                continue
+            try:
+                size = float(getattr(t, "size", float("nan")))
+            except Exception:
+                continue
+            if not isfinite(size):
+                continue
+            clean_trades.append(t)
 
-    result = {}
-    for h in horizons:
+    # --- normalize horizons: positive ints only, deduplicated ---
+    norm_horizons: List[int] = []
+    if horizons is not None:
         try:
-            imb = calculate_orderflow_imbalance(trades, window=h)
+            for h in horizons:
+                try:
+                    hh = int(h)
+                except Exception:
+                    continue
+                if hh > 0 and hh not in norm_horizons:
+                    norm_horizons.append(hh)
+        except Exception:
+            norm_horizons = []
+    if not norm_horizons:
+        norm_horizons = [1, 10, 50, 100]
+
+    # --- per-horizon imbalance (cross-consistent with single-window calc) --
+    imb_values: dict = {}
+    for h in norm_horizons:
+        try:
+            imb = calculate_orderflow_imbalance(clean_trades, window=h)
         except Exception:
             imb = 0.0
         if not isfinite(imb):
             imb = 0.0
-        # clamp for safety
         if imb < -1.0:
             imb = -1.0
-        if imb > 1.0:
+        elif imb > 1.0:
             imb = 1.0
-        result[f"imb_{h}"] = float(imb)
-        # aliases for flexibility
-        result[f"orderflow_imbalance_{h}"] = float(imb)
+        imb = float(imb)
+        imb_values[h] = imb
+        result[f"imb_{h}"] = imb
+        result[f"orderflow_imbalance_{h}"] = imb
 
-    # Decay-weighted aggregate
-    if result and horizons:
-        agg = 0.0
-        total_w = 0.0
-        try:
-            d = float(decay)
-        except Exception:
-            d = 0.3
-        if d < 0.0:
-            d = 0.0
-        if not isfinite(d):
-            d = 0.3
-        for i, h in enumerate(horizons):
-            w = float(np.exp(-i * d))  # decay
-            if not isfinite(w) or w < 0:
-                w = 0.0
-            agg += result.get(f"imb_{h}", 0.0) * w
-            total_w += w
-        if total_w > 0 and isfinite(agg):
-            out = agg / total_w
-            if not isfinite(out):
-                out = 0.0
-            if out < -1.0:
-                out = -1.0
-            if out > 1.0:
-                out = 1.0
-            result["imb_decay_weighted"] = float(out)
-            result["orderflow_imbalance_decay_weighted"] = float(out)
-            result["imbalance_decay_weighted"] = float(out)
-        else:
-            result["imb_decay_weighted"] = 0.0
-            result["orderflow_imbalance_decay_weighted"] = 0.0
-            result["imbalance_decay_weighted"] = 0.0
-    else:
-        result["imb_decay_weighted"] = 0.0
-        result["orderflow_imbalance_decay_weighted"] = 0.0
-        result["imbalance_decay_weighted"] = 0.0
-
-    # Cross-consistency helper: also provide mean/simple aggregate
+    # --- decay weighting (vectorized; guards against exp overflow/underflow) --
     try:
-        vals = []
-        for h in horizons:
-            v = result.get(f"imb_{h}")
-            if v is not None and isfinite(v):
-                vals.append(float(v))
-        if vals:
-            m = sum(vals) / len(vals)
-            if not isfinite(m):
-                m = 0.0
-            if m < -1.0:
-                m = -1.0
-            if m > 1.0:
-                m = 1.0
-            result["imb_mean"] = float(m)
-            result["orderflow_imbalance_mean"] = float(m)
-        else:
-            result["imb_mean"] = 0.0
-            result["orderflow_imbalance_mean"] = 0.0
+        d = float(decay)
     except Exception:
-        result["imb_mean"] = 0.0
-        result["orderflow_imbalance_mean"] = 0.0
+        d = 0.3
+    if not isfinite(d) or d < 0.0:
+        d = 0.3
+    if d > 50.0:
+        d = 50.0
+
+    keys = [f"imb_{h}" for h in norm_horizons]
+    try:
+        idx = np.arange(len(keys), dtype=np.float64)
+        w = np.exp(-idx * d)
+        w = np.where(np.isfinite(w) & (w >= 0.0), w, 0.0).astype(np.float64)
+    except Exception:
+        w = np.array([float(np.exp(-i * d)) for i in range(len(keys))], dtype=np.float64)
+    total_w = float(w.sum()) if len(w) else 0.0
+
+    if keys and total_w > 0.0 and isfinite(total_w):
+        vals = np.array([imb_values.get(h, 0.0) for h in norm_horizons], dtype=np.float64)
+        vals = np.where(np.isfinite(vals), vals, 0.0)
+        agg = float(np.dot(vals, w))
+        out = agg / total_w if total_w > 0 else 0.0
+        if not isfinite(out):
+            out = 0.0
+        if out < -1.0:
+            out = -1.0
+        elif out > 1.0:
+            out = 1.0
+        out = float(out)
+    else:
+        out = 0.0
+
+    decay_keys = (
+        "imb_decay_weighted",
+        "orderflow_imbalance_decay_weighted",
+        "imbalance_decay_weighted",
+    )
+    for k in decay_keys:
+        result[k] = out
+
+    # decay-weight normalization (weights sum to 1)
+    if total_w > 0.0 and isfinite(total_w):
+        norm_w = (w / total_w).tolist()
+    elif keys:
+        norm_w = [1.0 / len(keys)] * len(keys)
+    else:
+        norm_w = []
+    result["decay_weights"] = norm_w
+    result["orderflow_imbalance_decay_weights"] = norm_w
+
+    # --- mean aggregate ---------------------------------------------------
+    if imb_values:
+        vals = [v for v in imb_values.values() if isfinite(v)]
+        m = float(sum(vals) / len(vals)) if vals else 0.0
+        if not isfinite(m):
+            m = 0.0
+        if m < -1.0:
+            m = -1.0
+        elif m > 1.0:
+            m = 1.0
+    else:
+        m = 0.0
+    result["imb_mean"] = m
+    result["orderflow_imbalance_mean"] = m
+
+    # --- final finite/clamp guarantee on every numeric value --------------
+    for k, v in list(result.items()):
+        if isinstance(v, float):
+            if not isfinite(v):
+                result[k] = 0.0
+            elif v < -1.0:
+                result[k] = -1.0
+            elif v > 1.0:
+                result[k] = 1.0
+        elif isinstance(v, list):
+            result[k] = [
+                0.0 if not isfinite(x) else max(-1.0, min(1.0, float(x)))
+                for x in v
+            ]
 
     return result
 

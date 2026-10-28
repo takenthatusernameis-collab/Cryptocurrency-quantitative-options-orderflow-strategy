@@ -397,3 +397,91 @@ def test_orderflow_edge_cases_non_finite():
         assert res == res  # not nan
     res = calculate_orderflow_imbalance(trades)
     assert isinstance(res, float)
+
+
+def test_orderflow_imbalance_multi_horizon_production_hardening():
+    from math import inf, nan, isfinite
+
+    from src.features.orderflow import (
+        orderflow_imbalance_multi_horizon,
+        calculate_orderflow_imbalance,
+    )
+
+    def mk_trades(sides_sizes):
+        return [
+            Trade(
+                trade_id=str(i),
+                symbol="BTC",
+                venue="deribit",
+                price=20000.0,
+                size=sz,
+                side=sd,
+                timestamp=datetime.now(timezone.utc),
+            )
+            for i, (sd, sz) in enumerate(sides_sizes)
+        ]
+
+    # --- normalization invariants: all numeric outputs finite and in [-1, 1] ---
+    trades = mk_trades([("buy", 1.0), ("sell", 0.5), ("buy", 1.0), ("sell", 1.5)] * 5)
+    res = orderflow_imbalance_multi_horizon(trades, horizons=[1, 5, 10, 50, 100], decay=0.3)
+    for k, v in res.items():
+        if isinstance(v, float):
+            assert isfinite(v), f"{k} non-finite: {v}"
+            assert -1.0 <= v <= 1.0, f"{k} out of range: {v}"
+        elif isinstance(v, list):
+            for x in v:
+                assert isfinite(x) and -1.0 <= x <= 1.0, f"{k} weight out of range: {x}"
+
+    # --- decay weights sum to 1 ---
+    w = res["decay_weights"]
+    assert abs(sum(w) - 1.0) < 1e-12
+    assert all(0.0 <= x <= 1.0 for x in w)
+
+    # --- cross-consistency: imb_h == calculate_orderflow_imbalance(window=h) ---
+    for h in [1, 5, 10, 50, 100]:
+        assert abs(res[f"imb_{h}"] - calculate_orderflow_imbalance(trades, window=h)) < 1e-12
+        assert res[f"imb_{h}"] == res[f"orderflow_imbalance_{h}"]
+
+    # --- all buys / all sells near +/-1 ---
+    all_buy = mk_trades([("buy", 1.0)] * 10)
+    res_buy = orderflow_imbalance_multi_horizon(all_buy, horizons=[1, 5, 10])
+    assert res_buy["imb_decay_weighted"] >= 0.99
+    all_sell = mk_trades([("sell", 1.0)] * 10)
+    res_sell = orderflow_imbalance_multi_horizon(all_sell, horizons=[1, 5, 10])
+    assert res_sell["imb_decay_weighted"] <= -0.99
+
+    # --- decay behavior: higher decay shifts weight toward shorter horizons ---
+    res_d_low = orderflow_imbalance_multi_horizon(trades, horizons=[1, 10, 100], decay=0.1)
+    res_d_high = orderflow_imbalance_multi_horizon(trades, horizons=[1, 10, 100], decay=1.0)
+    assert isfinite(res_d_low["imb_decay_weighted"])
+    assert isfinite(res_d_high["imb_decay_weighted"])
+    assert res_d_high["decay_weights"][0] > res_d_low["decay_weights"][0]
+
+    # --- empty / None / invalid inputs ---
+    assert orderflow_imbalance_multi_horizon(None)["imb_decay_weighted"] == 0.0
+    assert orderflow_imbalance_multi_horizon([], horizons=[1, 2, 3])["imb_decay_weighted"] == 0.0
+    res_inv = orderflow_imbalance_multi_horizon(trades, horizons=[0, -1, "x", 2.5, None])
+    assert "imb_2" in res_inv  # only valid positive int (2.5 -> 2) survives sanitization
+
+    # --- mixed NaN/inf sizes filtered; outputs finite ---
+    trades_bad = mk_trades([("buy", inf), ("sell", nan), ("buy", 1.0), ("sell", 1.0)])
+    res_bad = orderflow_imbalance_multi_horizon(trades_bad, horizons=[1, 2])
+    for v in res_bad.values():
+        if isinstance(v, float):
+            assert isfinite(v) and -1.0 <= v <= 1.0
+
+    # --- horizon larger than number of trades ---
+    res_big = orderflow_imbalance_multi_horizon(trades[:3], horizons=[1000])
+    assert isfinite(res_big["imb_1000"]) and -1.0 <= res_big["imb_1000"] <= 1.0
+
+    # --- single horizon ---
+    res_one = orderflow_imbalance_multi_horizon(trades, horizons=[7])
+    assert "imb_7" in res_one and isfinite(res_one["imb_decay_weighted"])
+
+    # --- invalid decay clamped (nan / negative / huge) ---
+    res_nd = orderflow_imbalance_multi_horizon(trades, horizons=[1, 2], decay=nan)
+    assert isfinite(res_nd["imb_decay_weighted"])
+    res_neg = orderflow_imbalance_multi_horizon(trades, horizons=[1, 2], decay=-5.0)
+    assert isfinite(res_neg["imb_decay_weighted"])
+    res_huge = orderflow_imbalance_multi_horizon(trades, horizons=[1, 2], decay=1e6)
+    assert isfinite(res_huge["imb_decay_weighted"])
