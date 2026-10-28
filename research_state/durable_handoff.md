@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-28T17-35-09Z
+Timestamp (UTC): 2026-10-28T17-35-39Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 115 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
@@ -64,7 +64,7 @@ Scope (COMPLETE FULLY):
 - [ ] Final hardening pass (edge cases, determinism, serialization, config validation, numerical guards) — AFTER ABOVE
 
 ## MANDATE (UNCOMPROMISING)
-Heavy engineering only. Mathematical correctness mandatory. Numerical stability required. Vectorize where sensible. No placeholders/TODOs/FIXMEs. Full implementation with code AND tests. Complete ONE major item fully; leave heavy work for next agent. Never stop at scaffolding. Prioritize strictly by project name: crypto options orderflow + dealer positioning + surface dynamics + rigorous backtesting.
+Heavy engineering only. Mathematical correctness mandatory. Numerical stability required. Vectorize where sensible. No placeholders/TODOs/FIXMEs. Full implementation with code AND tests. Complete ONE major item fully; leave heavy work for the next agent. Never stop at scaffolding. Prioritize strictly by project name: crypto options orderflow + dealer positioning + surface dynamics + rigorous backtesting.
 
 ## EXECUTION RULES
 - Working tree clean; do not create untracked junk.
@@ -76,7 +76,7 @@ Heavy engineering only. Mathematical correctness mandatory. Numerical stability 
 - DO NOT avoid heavy work. Execute in order without skipping.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T17-35-09Z.md (AUTHORITATIVE — THIS FILE)
+1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T17-35-39Z.md (AUTHORITATIVE — THIS FILE)
 2. research_state/durable_handoff.md (MIRROR)
 3. research_state/INITIAL_TASK_HANDOFF.md (MIRROR — referenced by tests/test_campaign_resume.py)
 4. All other INITIAL_TASK_HANDOFF_LATEST_* files are SUPERSEDED.
