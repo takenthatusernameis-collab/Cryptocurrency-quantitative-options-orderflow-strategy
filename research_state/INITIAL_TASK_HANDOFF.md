@@ -1,9 +1,9 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
 
-Timestamp (UTC): 2026-10-28T13:29:28Z
+Timestamp (UTC): 2026-10-28T13:32:59Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 97 TESTS PASSING | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
+State: 110 TESTS PASSING | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION
@@ -11,21 +11,26 @@ Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## BOTTLENECKS REMOVED THIS SESSION
 - No blocked/inefficient sessions detected. Working tree clean (git status: nothing to commit, branch up-to-date with origin/main).
-- 97/97 tests passing (pytest, 0.56s). No TODO/FIXME/HACK/PLACEHOLDER markers in src/ or tests/.
-- Phases 1-5 complete. Phase 6 substantially complete: e2e pipeline tests, campaign resume/handoff integrity, non-finite serialization guards, JSON allow_nan=False sanitization (src/main.py:282), config validation (src/config.py:validate_config).
-- Walk-forward/rolling-window backtest already implemented in src/backtest/engine.py — do NOT re-implement.
+- Removed handoff-format bottleneck: research_state/INITIAL_TASK_HANDOFF.md now carries the required "Initial Task Message", "Immediate Objectives", "Next Focus Campaign", and "MANDATE" sections (tests/test_campaign_resume.py green).
+- Phases 1-5 complete. Phase 6 CLOSED: vectorization audit fully implemented with equivalence tests (tests/test_vectorization_audit.py) asserting numerical parity between vectorized and scalar paths for gamma exposure, orderflow, volatility surface, and liquidity hot paths; all public vectorized entry points exported via src/features/__init__.py; backtest per-tick loop documented as intrinsic/event-driven (not a gap) — walk-forward/rolling-window backtest already implemented in src/backtest/engine.py, do NOT re-implement.
+- No TODO/FIXME/HACK/PLACEHOLDER markers in src/ or tests/.
 
 ## IMMEDIATE TASK MESSAGE (FOR NEXT AGENTIC WORK SESSION — MANDATORY)
 
-START IMMEDIATELY AT PHASE 6 FINAL ITEM. Pick ONE highest-impact uncompleted item and implement it FULLY with tests. Do NOT split; complete end-to-end. Leave heavy work for the next agent.
+START IMMEDIATELY AT PHASE 7. Pick ONE highest-impact uncompleted item and implement it FULLY with tests. Do NOT split; complete end-to-end. Leave heavy work for the next agent.
 
-HIGHEST-IMPACT ITEM: Vectorization audit + Phase 6 closure (features/signals/backtest)
+HIGHEST-IMPACT ITEM: Performance benchmarks for hot paths (GEX, orderflow, backtest equity curve) — Phase 7 opener
 - Scope (COMPLETE FULLY):
-  1. Vectorization audit: survey src/features/*.py, src/signals/composite.py, src/backtest/engine.py for remaining Python loops; vectorize with numpy where semantics unchanged and the win is meaningful (features are already vectorized; backtest is event-driven by design — document that the per-tick loop is intrinsic, not a gap).
-  2. Add tests for any behavior change from vectorization; assert numerical equivalence vs scalar path where both exist.
-  3. Confirm all public vectorized entry points are exported via relevant __init__.py files; follow existing style.
-  4. No placeholders/TODOs/FIXMEs. All new code tested. Keep 97+ tests passing.
-  5. Once the vectorization audit is green, Phase 6 is CLOSED; the next agent begins Phase 7 (production readiness: performance benchmarks, type-hint coverage, docstrings for complex calculations, error-handling specificity).
+  1. Add a benchmark suite measuring throughput/latency of calculate_total_gex, calculate_total_delta_weighted_gex, calculate_orderflow_imbalance_multi_horizon, calculate_iv_skew_term_structure, and BacktestEngine equity-curve walk-forward over realistic chain/trade sizes.
+  2. Assert benchmarks complete within defined SLOs (e.g., GEX over 10k quotes < 50ms; orderflow over 100k trades < 100ms; walk-forward 252/63 windows < 5s) and record baseline timings.
+  3. No regressions: keep 97+ tests passing; run pytest after changes.
+  4. No placeholders/TODOs/FIXMEs. All new code tested.
+  5. Once benchmarks are green, Phase 7 continues: type-hint coverage across src/, docstrings for complex calculations, more specific exception types + structured logging.
+
+## IMMEDIATE OBJECTIVES
+- Close Phase 6 (DONE — vectorization audit green).
+- Open Phase 7 production readiness starting with performance benchmarks for hot paths.
+- Keep working tree clean; run pytest after every change; maintain 97+ passing tests.
 
 ## NEXT FOCUS CAMPAIGN (MANDATORY — NEVER AVOID HEAVY WORK)
 ### Phase 1: ADVANCED GAMMA EXPOSURE & DEALER POSITIONING — COMPLETE
@@ -38,13 +43,13 @@ HIGHEST-IMPACT ITEM: Vectorization audit + Phase 6 closure (features/signals/bac
 - [x] Cross-feature interactions, confidence calibration, regime detection, normalization
 ### Phase 5: BACKTEST RIGOR & RISK — COMPLETE
 - [x] Realistic fill/slippage, walk-forward/rolling/OOS stability, drawdown controls, SL/TP, stress, tx costs, partial fills, round lots
-### Phase 6: INTEGRATION, RESILIENCE & TESTS — IN PROGRESS (FINAL ITEM)
+### Phase 6: INTEGRATION, RESILIENCE & TESTS — CLOSED
 - [x] End-to-end pipeline tests (ingestion->features->signals->backtest)
 - [x] Property-based/numeric invariant tests + explicit finite checks across features
 - [x] Campaign resume + non-finite serialization guards
-- [ ] Vectorization audit (FINAL ITEM — START NOW)
-### Phase 7: PRODUCTION READINESS (NEXT AFTER PHASE 6 CLOSES)
-- [ ] Performance benchmarks for hot paths (GEX, orderflow, backtest equity curve)
+- [x] Vectorization audit (FINAL ITEM — COMPLETE; equivalence tests in tests/test_vectorization_audit.py)
+### Phase 7: PRODUCTION READINESS (NEXT FOCUS CAMPAIGN — START NOW)
+- [ ] Performance benchmarks for hot paths (GEX, orderflow, backtest equity curve) — START NOW
 - [ ] Type-hint coverage across src/
 - [ ] Docstrings for complex calculations
 - [ ] More specific exception types + structured logging
@@ -54,15 +59,14 @@ Heavy engineering only. Mathematical correctness mandatory. Numerical stability 
 
 ## EXECUTION RULES
 - Working tree clean; do not create untracked junk.
-- Run tests after changes (python -m pytest). Maintain passing state (currently 97 passing).
+- Run tests after changes (python -m pytest). Maintain passing state (currently 110 passing).
 - Fix inefficiencies/blockers immediately before moving on.
 - Prioritize by project name: crypto options orderflow + dealer positioning + surface dynamics + rigorous backtesting.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T13-29-28Z.md (AUTHORITATIVE - THIS FILE)
-2. research_state/durable_handoff.md (MIRROR - UPDATE TO SAME CONTENT)
-3. research_state/INITIAL_TASK_HANDOFF.md (MIRROR - UPDATE TO SAME CONTENT; referenced by tests/test_campaign_resume.py)
+1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T13-29-28Z.md (AUTHORITATIVE — mirror content here)
+2. research_state/durable_handoff.md (MIRROR — UPDATE TO SAME CONTENT)
+3. research_state/INITIAL_TASK_HANDOFF.md (MIRROR — UPDATE TO SAME CONTENT; referenced by tests/test_campaign_resume.py)
 4. Prior LATEST files superseded.
 
-EXECUTE NOW. START AT PHASE 6 FINAL ITEM (VECTORIZATION AUDIT). NO DELAY. DO HEAVY WORK.
-" filePath="/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T13-29-28Z.md
+EXECUTE NOW. START AT PHASE 7 (PERFORMANCE BENCHMARKS). NO DELAY. DO HEAVY WORK.
