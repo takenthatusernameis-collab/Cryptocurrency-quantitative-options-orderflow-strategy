@@ -1,7 +1,7 @@
 """Orderflow imbalance and delta-adjusted flow calculations."""
 
-from math import isfinite
-from typing import List, Optional
+from math import exp, isfinite
+from typing import Any, Dict, Iterable, List, Optional
 
 import numpy as np
 
@@ -185,7 +185,7 @@ def calculate_vwap_adjusted_delta(trades: List[Trade]) -> float:
     return float(vwap_adj)
 
 
-def calculate_delta_adjusted_flow(trades: List[Trade], spot_price: float = None) -> float:
+def calculate_delta_adjusted_flow(trades: List[Trade], spot_price: Optional[float] = None) -> float:
     """Calculate delta-adjusted orderflow."""
     cum_delta = calculate_cumulative_delta(trades)
     if spot_price and spot_price > 0:
@@ -242,8 +242,8 @@ def calculate_orderflow_imbalance(trades: List[Trade], window: int = 100) -> flo
 
 
 def orderflow_imbalance_multi_horizon(
-    trades: List[Trade], horizons: List[int] = None, decay: float = 0.3
-) -> dict:
+    trades: List[Trade], horizons: Optional[List[int]] = None, decay: float = 0.3
+) -> Dict[str, Any]:
     """Orderflow imbalance at multiple horizons with decay weighting.
 
     Production-grade hardening: validates and sanitizes all inputs, filters
@@ -255,6 +255,7 @@ def orderflow_imbalance_multi_horizon(
 
     # --- normalize trades: filter non-trade / non-finite / misclassified ---
     clean_trades: List[Trade] = []
+    iterator: Iterable[Trade]
     if trades is not None:
         try:
             iterator = iter(trades)
@@ -309,7 +310,7 @@ def orderflow_imbalance_multi_horizon(
         result[f"imb_{h}"] = imb
         result[f"orderflow_imbalance_{h}"] = imb
 
-    # --- decay weighting (vectorized; guards against exp overflow/underflow) --
+    # --- decay weighting (guards against exp overflow/underflow) ---
     try:
         d = float(decay)
     except Exception:
@@ -320,18 +321,14 @@ def orderflow_imbalance_multi_horizon(
         d = 50.0
 
     keys = [f"imb_{h}" for h in norm_horizons]
-    try:
-        idx = np.arange(len(keys), dtype=np.float64)
-        w = np.exp(-idx * d)
-        w = np.where(np.isfinite(w) & (w >= 0.0), w, 0.0).astype(np.float64)
-    except Exception:
-        w = np.array([float(np.exp(-i * d)) for i in range(len(keys))], dtype=np.float64)
-    total_w = float(w.sum()) if len(w) else 0.0
+    weights: List[float] = [exp(-i * d) for i in range(len(keys))]
+    weights = [w_i if isfinite(w_i) and w_i >= 0.0 else 0.0 for w_i in weights]
+    total_w = float(sum(weights)) if weights else 0.0
 
     if keys and total_w > 0.0 and isfinite(total_w):
-        vals = np.array([imb_values.get(h, 0.0) for h in norm_horizons], dtype=np.float64)
-        vals = np.where(np.isfinite(vals), vals, 0.0)
-        agg = float(np.dot(vals, w))
+        vals = [imb_values.get(h, 0.0) for h in norm_horizons]
+        vals = [v if isfinite(v) else 0.0 for v in vals]
+        agg = float(sum(v * w_i for v, w_i in zip(vals, weights)))
         out = agg / total_w if total_w > 0 else 0.0
         if not isfinite(out):
             out = 0.0
@@ -353,7 +350,7 @@ def orderflow_imbalance_multi_horizon(
 
     # decay-weight normalization (weights sum to 1)
     if total_w > 0.0 and isfinite(total_w):
-        norm_w = (w / total_w).tolist()
+        norm_w = [w_i / total_w for w_i in weights]
     elif keys:
         norm_w = [1.0 / len(keys)] * len(keys)
     else:
@@ -425,10 +422,11 @@ def calculate_signed_volume(trades: List[Trade], window: Optional[int] = None) -
     return float(signed_vol)
 
 
-def delta_divergence_vs_price(trades: List[Trade], price_series: List[float] = None) -> float:
+def delta_divergence_vs_price(trades: List[Trade], price_series: Optional[List[float]] = None) -> float:
     """Footprint/orderflow divergence metric (delta divergence vs price)."""
     # Normalize trades: filter non-finite sizes and valid sides
     clean_trades: List[Trade] = []
+    iterator: Iterable[Trade]
     if trades is not None:
         try:
             iterator = iter(trades)

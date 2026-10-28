@@ -119,6 +119,8 @@ class BinanceOptionsIngestion(BaseOptionsIngestion):
         if isinstance(option_symbols, list):
             for s in option_symbols:
                 sym = s.get("symbol") if isinstance(s, dict) else str(s)
+                if not isinstance(sym, str):
+                    continue
                 parsed = _parse_binance_symbol(sym)
                 if parsed and parsed["underlying"] == underlying.upper():
                     expiries.add(parsed["expiry"])

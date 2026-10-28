@@ -22,6 +22,7 @@ from .features.gamma_exposure import (
 from .features.liquidity import calculate_chain_liquidity_metrics
 from .features.orderflow import calculate_cumulative_delta, calculate_orderflow_imbalance
 from .features.volatility import calculate_iv_skew, calculate_max_pain, calculate_put_call_ratio
+from .ingestion.base import BaseOptionsIngestion, BaseOrderflowIngestion
 from .ingestion.binance import BinanceOptionsIngestion, BinanceOrderflowIngestion
 from .ingestion.deribit import DeribitOptionsIngestion, DeribitOrderflowIngestion
 from .ingestion.okx import OKXOptionsIngestion, OKXOrderflowIngestion
@@ -88,6 +89,9 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
     ingested_chains = {}
     ingested_orderflows = {}
 
+    opt_ing: BaseOptionsIngestion
+    of_ing: BaseOrderflowIngestion
+
     for sym in symbols:
         for v in venues:
             v_lower = str(v).lower()
@@ -140,7 +144,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 results.setdefault("errors", []).append(f"{v_lower}_options_{sym}: {e}")
 
     signal_gen = CompositeSignalGenerator()
-    signals = {}
+    signals: Dict[str, Dict[str, Any]] = {}
     for key, chain in ingested_chains.items():
         try:
             v, sym = key.split(":", 1)
@@ -149,9 +153,9 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
             cum_delta = 0.0
             of_imbalance = 0.0
             if key in ingested_orderflows:
-                trades = ingested_orderflows[key].trades
-                cum_delta = calculate_cumulative_delta(trades)
-                of_imbalance = calculate_orderflow_imbalance(trades)
+                of_trades = ingested_orderflows[key].trades
+                cum_delta = calculate_cumulative_delta(of_trades)
+                of_imbalance = calculate_orderflow_imbalance(of_trades)
             pcr = calculate_put_call_ratio(chain.quotes)
             iv_skew = calculate_iv_skew(chain.quotes, spot_price)
             max_pain = calculate_max_pain(chain)

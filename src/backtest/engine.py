@@ -48,7 +48,7 @@ class BacktestResults:
 
 
 class BacktestEngine:
-    def __init__(self, config: BacktestConfig = None, risk_config: RiskConfig = None, **kwargs) -> None:
+    def __init__(self, config: Optional[BacktestConfig] = None, risk_config: Optional[RiskConfig] = None, **kwargs) -> None:
         if config is None and kwargs:
             # Extract config fields
             cfg_kwargs = {k: v for k, v in kwargs.items() if k in BacktestConfig.__dataclass_fields__}
@@ -100,7 +100,7 @@ class BacktestEngine:
         fee_rate = getattr(self.config, "fee_rate", 0.0)
         return float(notional) * float(fee_rate)
 
-    def calculate_position_size(self, price: float, side: str = "long", risk_pct: float = None) -> float:
+    def calculate_position_size(self, price: float, side: str = "long", risk_pct: Optional[float] = None) -> float:
         """Calculate position size based on risk limits."""
         risk_pct = risk_pct if risk_pct is not None else getattr(self.risk_config, "stop_loss_pct", 0.02)
         max_position_pct = getattr(self.risk_config, "max_position_pct", 0.1)
@@ -119,7 +119,7 @@ class BacktestEngine:
         return qty
 
     def execute_trade(self, symbol: str, quantity: float, price: float, side: str, timestamp: datetime,
-                      stop_loss: float = None, take_profit: float = None) -> Trade:
+                      stop_loss: Optional[float] = None, take_profit: Optional[float] = None) -> Trade:
         """Execute a trade with fees, slippage, short selling support."""
         if quantity <= 0:
             raise ValueError("Quantity must be positive")
@@ -276,7 +276,7 @@ class BacktestEngine:
                             triggered_trades.append(trade)
         return triggered_trades
 
-    def update_equity_curve(self, current_prices: Dict[str, float] = None) -> float:
+    def update_equity_curve(self, current_prices: Optional[Dict[str, float]] = None) -> float:
         prices = current_prices or {}
         # Enforce SL/TP and risk controls on every tick
         if prices:
@@ -468,7 +468,7 @@ class WalkForwardResults:
 
 
 class WalkForwardBacktest:
-    def __init__(self, engine: BacktestEngine = None, config: BacktestConfig = None, risk_config: RiskConfig = None, **kwargs):
+    def __init__(self, engine: Optional[BacktestEngine] = None, config: Optional[BacktestConfig] = None, risk_config: Optional[RiskConfig] = None, **kwargs):
         # Be flexible about positional args
         # If first arg is not a BacktestEngine instance
         if engine is not None and not isinstance(engine, BacktestEngine):
@@ -505,12 +505,12 @@ class WalkForwardBacktest:
             self.engine_template = BacktestEngine(self.config, self.risk_config)
 
     def run_walk_forward(self,
-                         price_series: Dict[str, List[float]] = None,
-                         signals: Dict[str, List[int]] = None,
-                         timestamps: List[datetime] = None,
+                         price_series: Optional[Dict[str, List[float]]] = None,
+                         signals: Optional[Dict[str, List[int]]] = None,
+                         timestamps: Optional[List[datetime]] = None,
                          train_window: int = 252,
                          test_window: int = 63,
-                         step_size: int = None,
+                         step_size: Optional[int] = None,
                          rolling: bool = True,
                          anchored: bool = False,
                          min_train_size: int = 50) -> WalkForwardResults:
@@ -655,7 +655,7 @@ class WalkForwardBacktest:
 
         return results
 
-    def _run_window(self, price_series, signals, timestamps, train_start, train_end, test_start, test_end) -> Dict[str, float]:
+    def _run_window(self, price_series: Optional[Dict[str, List[float]]], signals: Optional[Dict[str, List[int]]], timestamps: Optional[List[datetime]], train_start: int, train_end: int, test_start: int, test_end: int) -> WalkForwardWindowResult:
         wres = WalkForwardWindowResult(train_start=train_start, train_end=train_end,
                                        test_start=test_start, test_end=test_end)
         # Run in-sample (for metrics)
@@ -678,7 +678,7 @@ class WalkForwardBacktest:
             wres.out_of_sample_max_drawdown = oos_metrics.max_drawdown
         return wres
 
-    def _simulate_period(self, engine, price_series, signals, timestamps, start, end) -> Dict[str, float]:
+    def _simulate_period(self, engine: BacktestEngine, price_series: Optional[Dict[str, List[float]]], signals: Optional[Dict[str, List[int]]], timestamps: Optional[List[datetime]], start: int, end: int) -> None:
         if start >= end or end < 0:
             return
         end = min(end, 10**12)  # safety
