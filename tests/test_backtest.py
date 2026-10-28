@@ -102,7 +102,8 @@ def test_backtest_short_not_allowed():
         config=BacktestConfig(initial_capital=100000.0),
         risk_config=RiskConfig(allow_shorting=False),
     )
-    with pytest.raises(ValueError):
+    from src.errors import RiskLimitError
+    with pytest.raises((ValueError, RiskLimitError)):
         engine.execute_trade("BTC", 1.0, 50000.0, "sell", datetime.now(timezone.utc))
 
 

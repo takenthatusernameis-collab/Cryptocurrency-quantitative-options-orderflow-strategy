@@ -27,7 +27,16 @@ from .ingestion.binance import BinanceOptionsIngestion, BinanceOrderflowIngestio
 from .ingestion.deribit import DeribitOptionsIngestion, DeribitOrderflowIngestion
 from .ingestion.okx import OKXOptionsIngestion, OKXOrderflowIngestion
 from .signals.composite import CompositeSignalGenerator
-from .errors import get_logger, StrategyError, IngestionError, DataError, FeatureError, BacktestError, ConfigError
+from .errors import (
+    get_logger,
+    StrategyError,
+    IngestionError,
+    DataError,
+    FeatureError,
+    BacktestError,
+    ConfigError,
+    SerializationError,
+)
 
 
 _logger = get_logger(__name__)
@@ -302,19 +311,28 @@ def main() -> None:
         # Ensure JSON output is valid with allow_nan=False (no inf/nan)
     try:
         json_str = json.dumps(res, indent=2, default=str, allow_nan=False)
-    except ValueError:
+    except Exception as e:
         # Fallback: sanitize non-finite values
+        _logger.exception("json_serialization_failed_initial", e, operation="main_output")
         def sanitize(obj: Any) -> Any:
             if isinstance(obj, dict):
                 return {k: sanitize(v) for k, v in obj.items()}
             elif isinstance(obj, list):
                 return [sanitize(v) for v in obj]
-            elif isinstance(obj, float) and not math.isfinite(obj):
-                return None
+            elif isinstance(obj, float):
+                if not math.isfinite(obj):
+                    return None
+                return obj
             return obj
 
         res = sanitize(res)
-        json_str = json.dumps(res, indent=2, default=str, allow_nan=False)
+        try:
+            json_str = json.dumps(res, indent=2, default=str, allow_nan=False)
+        except Exception as e2:
+            _logger.exception("json_serialization_failed_sanitized", e2, operation="main_output")
+            from .errors import SerializationError
+
+            raise SerializationError("Failed to serialize pipeline result", context={"operation": "main_output"}) from e2
     print(json_str)
 
 

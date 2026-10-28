@@ -6,6 +6,10 @@ from math import isfinite
 from typing import Any, Dict, List, Optional
 
 from ..config import BacktestConfig, RiskConfig
+from ..errors import RiskLimitError, OrderError, DeterminismError, get_logger
+
+
+_logger = get_logger(__name__)
 
 
 @dataclass
@@ -129,6 +133,10 @@ class BacktestEngine:
             import random
 
             self._rng = random.Random(42)
+        if not hasattr(self, "_rng") or self._rng is None:
+            from ..errors import DeterminismError
+
+            raise DeterminismError("Backtest RNG not initialized; determinism required", context={"operation": "__init__"})
 
     def _apply_slippage(self, price: float, side: str) -> float:
         """Apply configured slippage to a raw price.
@@ -195,23 +203,23 @@ class BacktestEngine:
         side, and records a :class:`Trade` with realized ``pnl`` (for closes)
         and ``is_win`` flag. Raises ``ValueError`` for invalid quantity or
         insufficient cash.
-
-        Side semantics:
-          - ``'buy'``: opens a long (if no short exists) or covers a short.
-          - ``'sell'``: closes a long (if it exists) or opens a short
-            (subject to ``risk_config.allow_shorting``).
         """
-        if quantity <= 0:
-            raise ValueError("Quantity must be positive")
+        from math import isfinite as _isfinite
+        if quantity <= 0 or not _isfinite(quantity):
+            raise OrderError("Quantity must be positive and finite", context={"symbol": symbol, "quantity": quantity})
+        if price <= 0 or not _isfinite(price):
+            raise OrderError("Price must be positive and finite", context={"symbol": symbol, "price": price})
 
         qty = float(quantity)
+        if not _isfinite(qty):
+            raise OrderError("Quantity must be finite", context={"symbol": symbol})
         # Apply lot rounding if configured
         lot_size = getattr(self.config, "round_lot_size", 0.0)
-        if lot_size and lot_size > 0 and isfinite(lot_size):
+        if lot_size and lot_size > 0 and _isfinite(lot_size):
             # round down to nearest lot
             qty = (qty // lot_size) * lot_size
             if qty <= 0:
-                raise ValueError("Quantity must be positive after lot rounding")
+                raise OrderError("Quantity must be positive after lot rounding", context={"symbol": symbol, "lot_size": lot_size})
 
         # Apply partial fills if configured
         pfr = getattr(self.config, "partial_fill_rate", 0.0)
@@ -223,7 +231,7 @@ class BacktestEngine:
             if fill_frac > 0:
                 qty = qty * fill_frac
             if qty <= 0:
-                raise ValueError("Quantity must be positive after partial fill")
+                raise OrderError("Quantity must be positive after partial fill", context={"symbol": symbol})
 
         # Enforce max position qty from risk config
         max_pos_qty = getattr(self.risk_config, "max_position_qty", 0.0)
@@ -264,7 +272,16 @@ class BacktestEngine:
                 # Open long
                 cost = notional + commission
                 if cost > self.cash + 1e-10:  # small epsilon for float
-                    raise ValueError("Insufficient cash")
+                    raise RiskLimitError(
+                        "Insufficient cash for long position",
+                        context={
+                            "symbol": symbol,
+                            "cost": cost,
+                            "cash": self.cash,
+                            "quantity": qty,
+                            "price": execution_price,
+                        },
+                    )
                 self.cash -= cost
                 sl = stop_loss if stop_loss is not None else (execution_price * (1 - getattr(self.risk_config, "stop_loss_pct", 0.02)))
                 tp = take_profit if take_profit is not None else (execution_price * (1 + getattr(self.risk_config, "take_profit_pct", 0.04)))
@@ -291,11 +308,21 @@ class BacktestEngine:
             else:
                 # Open short
                 if not allow_short:
-                    raise ValueError("Short selling not allowed")
+                    raise RiskLimitError("Short selling not allowed", context={"symbol": symbol})
                 max_position_pct = getattr(self.risk_config, "max_position_pct", 0.1)
                 max_notional = self.cash * max_position_pct
                 if notional > max_notional + 1e-10:
-                    raise ValueError(f"Short notional {notional} exceeds max_position_pct limit {max_notional}")
+                    _logger.warning(
+                        "short_notional_breach",
+                        symbol=symbol,
+                        notional=notional,
+                        max_notional=max_notional,
+                        operation="open_short",
+                    )
+                    raise RiskLimitError(
+                        "Short notional exceeds max_position_pct limit",
+                        context={"symbol": symbol, "notional": notional, "max_notional": max_notional},
+                    )
                 self.cash += notional  # credit proceeds
                 self.cash -= commission  # pay fees on opening short
                 sl = stop_loss if stop_loss is not None else (execution_price * (1 + getattr(self.risk_config, "stop_loss_pct", 0.02)))
@@ -310,7 +337,7 @@ class BacktestEngine:
                     take_profit=tp,
                 )
         else:
-            raise ValueError(f"Invalid side: {side}")
+            raise OrderError(f"Invalid side: {side}", context={"symbol": symbol, "side": side})
 
         self.trades.append(trade)
         return trade

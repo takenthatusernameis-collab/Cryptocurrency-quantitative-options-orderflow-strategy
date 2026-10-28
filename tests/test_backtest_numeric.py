@@ -57,6 +57,7 @@ def test_profit_factor_inf_when_no_losses():
 
 
 def test_max_position_pct_enforced_on_short():
+    from src.errors import RiskLimitError
     config = BacktestConfig(initial_capital=100000.0)
     risk = RiskConfig(max_position_pct=0.1)
     engine = BacktestEngine(config, risk)
@@ -64,7 +65,7 @@ def test_max_position_pct_enforced_on_short():
     try:
         engine.execute_trade("BTC", 0.3, 50000.0, "sell", datetime.now(timezone.utc))
         assert False, "Should have raised ValueError"
-    except ValueError:
+    except (ValueError, RiskLimitError):
         pass
 
 
