@@ -458,7 +458,14 @@ def absorption_detection(trades: List[Trade], threshold: float = 2.0) -> float:
 
 
 def vpin_style_toxicity(trades: List[Trade], bucket_size: int = 50) -> float:
-    """VPIN-style toxicity proxy with finite-sample guards."""
+    """VPIN-style toxicity proxy with finite-sample guards.
+
+    Computes the average across buckets of |buy_volume - sell_volume| /
+    total_volume, a normalized [0, 1] measure of orderflow imbalance /
+    toxicity. All inputs are sanitized: non-finite sizes and invalid sides
+    are filtered, bucket_size is validated, and every intermediate value is
+    guarded against overflow / division-by-zero.
+    """
     if trades is None:
         return 0.0
     try:
@@ -473,32 +480,12 @@ def vpin_style_toxicity(trades: List[Trade], bucket_size: int = 50) -> float:
         return 0.0
     if len(trades_list) < bs:
         return 0.0
-    # Simplified VPIN
-    vpin = 0.0
+
+    # Number of full buckets (capped to avoid runaway on huge inputs)
     num_buckets = min(10, len(trades_list) // bs)
     if num_buckets == 0:
         return 0.0
-    for i in range(num_buckets):
-        bucket = trades_list[i * bs : (i + 1) * bs]
-        buy_vol = 0.0
-        sell_vol = 0.0
-        for t in bucket:
-            try:
-                vol = float(getattr(t, "size", float("nan")))
-            except Exception:
-                continue
-            if not isfinite(vol):
-                continue
-            try:
-                side = str(getattr(t, "side", "")).lower()
-            except Exception:
-                continue
-            if side == "buy":
-                buy_vol += vol
-            elif side == "sell":
-                sell_vol -= vol  # signed not needed; abs diff uses magnitudes separately
-        # better compute magnitudes
-    # recompute cleanly
+
     vpin = 0.0
     for i in range(num_buckets):
         bucket = trades_list[i * bs : (i + 1) * bs]
@@ -520,8 +507,10 @@ def vpin_style_toxicity(trades: List[Trade], bucket_size: int = 50) -> float:
             elif side == "sell":
                 sell_vol += vol
         total = buy_vol + sell_vol
-        if total > 0 and isfinite(buy_vol) and isfinite(sell_vol):
+        if total > 0.0 and isfinite(buy_vol) and isfinite(sell_vol):
             vpin += abs(buy_vol - sell_vol) / total
+        # If total == 0 (all sizes filtered), this bucket contributes 0 — safe.
+
     vpin_result = vpin / num_buckets if num_buckets > 0 else 0.0
     if not isfinite(vpin_result):
         return 0.0

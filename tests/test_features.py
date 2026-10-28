@@ -362,6 +362,90 @@ def test_vpin_style_toxicity():
     assert vpin_style_toxicity(small, bucket_size=50) == 0.0
 
 
+def test_vpin_style_toxicity_production_hardening():
+    from math import inf, nan, isfinite
+
+    from src.features.orderflow import vpin_style_toxicity
+
+    def mk_trades(sides_sizes, price=20000.0):
+        return [
+            Trade(
+                trade_id=str(i),
+                symbol="BTC",
+                venue="deribit",
+                price=price,
+                size=sz,
+                side=sd,
+                timestamp=datetime.now(timezone.utc),
+            )
+            for i, (sd, sz) in enumerate(sides_sizes)
+        ]
+
+    # --- bounded [0,1] and finite for all valid inputs ---
+    trades = mk_trades([("buy", 1.0), ("sell", 1.0)] * 100)
+    for bs in [1, 2, 5, 10, 20, 50, 100]:
+        res = vpin_style_toxicity(trades, bucket_size=bs)
+        assert isfinite(res), f"non-finite at bs={bs}: {res}"
+        assert 0.0 <= res <= 1.0, f"out of range at bs={bs}: {res}"
+
+    # --- empty / None / invalid inputs return 0.0 ---
+    assert vpin_style_toxicity(None) == 0.0
+    assert vpin_style_toxicity([]) == 0.0
+    assert vpin_style_toxicity([("buy", 1.0)], bucket_size=50) == 0.0  # not a list-of-Trade
+    assert vpin_style_toxicity(mk_trades([("buy", 1.0)]), bucket_size=50) == 0.0  # < bs
+    assert vpin_style_toxicity(mk_trades([("buy", 1.0)] * 10), bucket_size=0) == 0.0
+    assert vpin_style_toxicity(mk_trades([("buy", 1.0)] * 10), bucket_size=-5) == 0.0
+    assert vpin_style_toxicity(mk_trades([("buy", 1.0)] * 10), bucket_size="x") == 0.0
+    assert vpin_style_toxicity(mk_trades([("buy", 1.0)] * 10), bucket_size=nan) == 0.0
+    assert vpin_style_toxicity(mk_trades([("buy", 1.0)] * 10), bucket_size=inf) == 0.0
+
+    # --- all buys or all sells in buckets -> behavior validated ---
+    all_buy = mk_trades([("buy", 1.0)] * 200)
+    res_buy = vpin_style_toxicity(all_buy, bucket_size=10)
+    assert isfinite(res_buy) and 0.0 <= res_buy <= 1.0
+    assert res_buy >= 0.99  # all buys -> |buy-sell|/total == 1 per bucket
+    all_sell = mk_trades([("sell", 1.0)] * 200)
+    res_sell = vpin_style_toxicity(all_sell, bucket_size=10)
+    assert isfinite(res_sell) and 0.0 <= res_sell <= 1.0
+    assert res_sell >= 0.99  # magnitude symmetric
+
+    # --- mixed NaN/inf sizes filtered; outputs finite ---
+    trades_bad = mk_trades([("buy", inf), ("sell", nan), ("buy", 1.0), ("sell", 1.0)] * 50)
+    res_bad = vpin_style_toxicity(trades_bad, bucket_size=10)
+    assert isfinite(res_bad) and 0.0 <= res_bad <= 1.0
+
+    # --- bucket_size<=0 or invalid -> 0.0 or safe default ---
+    assert vpin_style_toxicity(trades, bucket_size=0) == 0.0
+    assert vpin_style_toxicity(trades, bucket_size=-1) == 0.0
+
+    # --- multiple bucket configurations, num_buckets edge cases ---
+    # Exactly 10 buckets (10 * bs == len)
+    exact = mk_trades([("buy", 1.0), ("sell", 1.0)] * 100)  # 200 trades
+    res_exact = vpin_style_toxicity(exact, bucket_size=20)  # 10 buckets
+    assert isfinite(res_exact) and 0.0 <= res_exact <= 1.0
+    # Fewer than bs trades -> 0.0
+    assert vpin_style_toxicity(exact[:15], bucket_size=20) == 0.0
+    # Many trades -> capped at 10 buckets (2000 trades, bs=20 -> 100 full buckets but capped)
+    big = mk_trades([("buy", 1.0), ("sell", 1.0)] * 1000)
+    res_big = vpin_style_toxicity(big, bucket_size=20)
+    assert isfinite(res_big) and 0.0 <= res_big <= 1.0
+
+    # --- all sizes filtered (non-finite) -> 0.0 ---
+    trades_nan = mk_trades([("buy", nan), ("sell", inf)] * 100)
+    res_nan = vpin_style_toxicity(trades_nan, bucket_size=10)
+    assert res_nan == 0.0
+
+    # --- invalid sides filtered; only buy/sell counted ---
+    trades_mixed = mk_trades([("hold", 1.0), ("buy", 1.0), ("sell", 1.0)] * 100)
+    res_mixed = vpin_style_toxicity(trades_mixed, bucket_size=10)
+    assert isfinite(res_mixed) and 0.0 <= res_mixed <= 1.0
+
+    # --- cross-check: balanced buy/sell gives low toxicity ---
+    balanced = mk_trades([("buy", 1.0), ("sell", 1.0)] * 100)
+    res_bal = vpin_style_toxicity(balanced, bucket_size=10)
+    assert res_bal < 0.1  # near zero imbalance per bucket
+
+
 def test_detect_aggressive_flow():
     from src.features.orderflow import detect_aggressive_flow, trade_intensity
     trades = []
