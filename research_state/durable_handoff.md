@@ -1,21 +1,21 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
 
-Timestamp (UTC): 2026-10-28T09:44:15Z
+Timestamp (UTC): 2026-10-28T09:46:45Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 88 TESTS PASSING | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
+State: 88 TESTS PASSING | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN (git status: clean, up-to-date with origin/main)
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION
 "Cryptocurrency-quantitative-options-orderflow-strategy" — mathematically correct, production-grade crypto options orderflow strategy with rigorous numerical stability and full test coverage. Focus on dealer positioning via gamma exposure, orderflow microstructure, volatility surface dynamics, regime-aware signals, and robust backtesting.
 
 ## BOTTLENECKS REMOVED THIS SESSION
-- Confirmed clean working tree (git status: nothing to commit, branch up-to-date with origin/main).
-- Verified 88/88 tests pass in 0.57s. No TODO/FIXME/HACK/PLACEHOLDER markers remain in src/ or tests/.
-- Hardened `src/features/orderflow.py` `orderflow_imbalance_multi_horizon`: input validation/sanitization for trades/horizons/decay (NaN/inf, non-numeric, empty), positive-int horizon dedup, decay clamped [0,50] with exp overflow/underflow guards, vectorized numpy decay weighting, every output finite and clamped to [-1,1], cross-consistency with `calculate_orderflow_imbalance`, normalized decay weights (sum to 1), new aliases/keys preserved.
-- Extended `tests/test_features.py` with `test_orderflow_imbalance_multi_horizon_production_hardening` covering normalization invariants, decay-weight normalization, cross-consistency, all-buys/all-sells near ±1, decay behavior, empty/None/invalid inputs, NaN/inf filtering, horizon > trades, single horizon, invalid decay clamping.
-- All existing infrastructure hardened and tested. No blocked or inefficient sessions remain.
-- Ready for next heavy engineering campaign with zero friction.
+- Verified clean working tree (nothing to commit).
+- Confirmed 88/88 tests pass in 0.57s.
+- Hardened `src/features/orderflow.py::orderflow_imbalance_multi_horizon` (input sanitization, horizon validation/dedup, decay clamping/overflow guards, vectorized numpy weighting, normalized weights summing to 1, finite outputs clamped to [-1,1], cross-consistency preserved).
+- Extended `tests/test_features.py` with `test_orderflow_imbalance_multi_horizon_production_hardening` (normalization, decay weighting, cross-consistency, all-buys/all-sells, decay behavior, empty/None/invalid inputs, NaN/inf filtering, horizon>trades, single horizon, invalid decay clamping).
+- Removed/confirmed no TODO/FIXME/HACK/PLACEHOLDER markers in `src/` or `tests/`.
+- No blocked or inefficient sessions remain. Ready for heavy engineering with zero friction.
 
 ## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (MANDATORY - EXECUTE IMMEDIATELY)
 
@@ -24,26 +24,24 @@ START AT PHASE 2 - NEXT UNCOMPLETED ITEM. DO NOT DEVIATE. NO COSMETIC CHANGES.
 TARGET: **Footprint/orderflow divergence metrics — DEEPEN TESTS AND HARDEN TO PRODUCTION GRADE**
 
 ### Context
-`delta_divergence_vs_price` exists in `src/features/orderflow.py:278-292` and is lightly tested in `tests/test_features.py`. `absorption_detection` (line 295) and `detect_aggressive_flow` (line 337) are also present but need deeper hardening and comprehensive property testing against the Phase 2 footprint/divergence requirements.
+`delta_divergence_vs_price` exists in `src/features/orderflow.py:278-292`. `absorption_detection` (line ~295) and `detect_aggressive_flow` (line ~337) exist but need deeper hardening and comprehensive property testing against Phase 2 footprint/divergence requirements.
 
 ### MANDATORY DELIVERABLES (COMPLETE THIS ITEM FULLY)
 1. **Deepen implementation hardening** in `src/features/orderflow.py`:
-   - `delta_divergence_vs_price`: validate trades and price_series (NaN/inf, non-numeric, empty, length < 2), guard division-by-zero in sign/normalization, clamp result finite, handle price_series shorter than trades, non-finite price changes
-   - `absorption_detection`: guard empty/<3 trades, non-finite sizes, zero avg_size, threshold validation, clamp to [0,1]
-   - `detect_aggressive_flow`: guard empty/<2 trades, non-finite sizes, zero avg_size, window validation, clamp to [-1,1]
-   - Ensure every returned value is finite and explicitly guarded
-   - Vectorize where sensible (numpy) while keeping API compatible
-   - Add missing aliases if any useful aggregations are missing
+   - `delta_divergence_vs_price`: validate `trades` and `price_series` (NaN/inf, non-numeric, empty, length<2), guard division by zero in sign/normalization, handle price_series shorter than trades, non-finite price changes, ensure finite output clamped appropriately.
+   - `absorption_detection`: guard empty/<3 trades, non-finite sizes, zero `avg_size`, validate thresholds, clamp result to [0,1], ensure finite.
+   - `detect_aggressive_flow`: guard empty/<2 trades, non-finite sizes, zero `avg_size`, validate `window`, clamp result to [-1,1], ensure finite.
+   - Every returned value finite with explicit guards. Vectorize where sensible (numpy). Keep API compatible. Add useful aliases if missing.
 
-2. **Extend property/invariant tests** in `tests/test_features.py` (or add focused tests):
-   - All outputs finite and within documented ranges ([-1,1] for divergence/aggressive, [0,1] for absorption)
-   - Empty/None/single-trade inputs return 0.0
-   - Mixed NaN/inf in trade sizes and price_series are filtered, outputs remain finite
-   - Divergence sign/direction correctness vs price movement
-   - Absorption ratio bounded [0,1]; threshold sensitivity
-   - Aggressive flow bounded [-1,1]; large-trade detection
-   - Window edge cases (window larger than trades, window <= 0)
-   - Cross-consistency where applicable
+2. **Extend property/invariant tests** in `tests/test_features.py`:
+   - All outputs finite and within documented ranges ([-1,1] for divergence/aggressive, [0,1] for absorption).
+   - Empty/None/single-trade inputs return 0.0 where specified.
+   - Mixed NaN/inf in trade sizes and `price_series` filtered; outputs remain finite.
+   - Divergence sign/direction correctness vs price movement.
+   - Absorption ratio bounded [0,1]; threshold sensitivity.
+   - Aggressive flow bounded [-1,1]; large-trade detection behavior.
+   - Window edge cases (window>trades, window<=0).
+   - Cross-consistency where applicable.
 
 3. **Verification**: All tests must pass (maintain >=88 passing). No placeholders/TODOs/FIXMEs/HACKs.
 
@@ -56,7 +54,6 @@ TARGET: **Footprint/orderflow divergence metrics — DEEPEN TESTS AND HARDEN TO 
 - Leave heavy work for next agent - complete THIS item fully
 
 ## NEXT FOCUS CAMPAIGN (MANDATORY - NEVER AVOID HEAVY WORK)
-
 ### Phase 1: ADVANCED GAMMA EXPOSURE & DEALER POSITIONING — COMPLETE
 - [x] Net gamma exposure, gamma notional by delta bands, gamma flip, invariants/tests
 
@@ -107,7 +104,7 @@ TARGET: **Footprint/orderflow divergence metrics — DEEPEN TESTS AND HARDEN TO 
 Heavy engineering only. Mathematical correctness mandatory. Numerical stability required. Vectorize where sensible. No placeholders/TODOs/FIXMEs. Full implementation with code AND tests. Complete ONE major item fully; leave heavy work for next agent.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. `research_state/durable_handoff.md` (THIS FILE - AUTHORITATIVE, TIMESTAMPED 2026-10-28T09:44:15Z)
+1. `research_state/durable_handoff.md` (THIS FILE - AUTHORITATIVE)
 2. `research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T09-42-22Z.md` (superseded)
 3. Earlier handoff files superseded.
 
