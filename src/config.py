@@ -9,6 +9,13 @@ import yaml
 
 @dataclass
 class VenueConfig:
+    """Connection and authentication parameters for a single trading venue.
+
+    Used to enable/disable venues and (when credentials are supplied) to
+    authenticate private endpoints. Public market-data endpoints typically
+    require no credentials.
+    """
+
     name: str
     api_key: Optional[str] = None
     api_secret: Optional[str] = None
@@ -18,6 +25,14 @@ class VenueConfig:
 
 @dataclass
 class DataConfig:
+    """Data-collection controls: which symbols to track and what to ingest.
+
+    ``symbols`` are underlying identifiers (e.g. ``BTC``, ``ETH``). The
+    ``include_*`` flags gate which orderflow components are requested from
+    venues. ``options_interval`` is the polling cadence in seconds for
+    refreshing the options chain snapshot.
+    """
+
     symbols: List[str] = field(default_factory=lambda: ["BTC", "ETH"])
     include_liquidations: bool = True
     include_trades: bool = True
@@ -26,6 +41,17 @@ class DataConfig:
 
 @dataclass
 class BacktestConfig:
+    """Backtesting engine parameters.
+
+    ``initial_capital`` is the starting portfolio equity. ``fee_rate`` is the
+    per-trade commission as a fraction of notional. ``slippage_bps`` is the
+    base slippage in basis points (1 bp = 0.0001). ``max_slippage_bps`` caps
+    the effective slippage (0 = no cap). ``partial_fill_rate`` models
+    incomplete fills: 0 = full fill; (0, 1] = random fill fraction drawn from
+    a deterministic RNG seeded by ``slippage_seed``. ``round_lot_size``
+    floors traded quantities to the nearest lot (0 = disabled).
+    """
+
     initial_capital: float = 100000.0
     fee_rate: float = 0.0005
     slippage_bps: float = 1.0
@@ -38,6 +64,16 @@ class BacktestConfig:
 
 @dataclass
 class RiskConfig:
+    """Risk-management limits enforced by the backtesting engine.
+
+    ``max_position_pct`` caps a single position's notional as a fraction of
+    equity. ``max_drawdown_limit`` triggers full liquidation of all positions
+    when drawdown from peak equity reaches this fraction. ``stop_loss_pct``
+    and ``take_profit_pct`` set default per-position stop/take levels as a
+    fraction of entry price. ``max_position_qty`` is a hard quantity cap
+    (0 = disabled). ``allow_shorting`` gates short-selling.
+    """
+
     max_position_pct: float = 0.1
     max_drawdown_limit: float = 0.2
     stop_loss_pct: float = 0.02
@@ -48,6 +84,8 @@ class RiskConfig:
 
 @dataclass
 class StrategyConfig:
+    """Top-level strategy configuration bundling venues, data, backtest, and risk settings."""
+
     venues: List[VenueConfig] = field(default_factory=list)
     data: DataConfig = field(default_factory=DataConfig)
     backtest: BacktestConfig = field(default_factory=BacktestConfig)
@@ -102,6 +140,21 @@ def validate_config(cfg: "StrategyConfig") -> None:
 
 
 def load_config(config_path: Optional[Path] = None) -> StrategyConfig:
+    """Load strategy configuration from a YAML file, validating on parse.
+
+    Reads ``config/settings.yaml`` by default. Missing files or empty YAML
+    produce a default :class:`StrategyConfig`. Numeric fields are coerced via
+    the dataclass constructors; any invalid value that survives coercion
+    triggers :func:`validate_config`, which raises ``ValueError`` listing the
+    offending fields. Returns a fully populated, validated config object.
+
+    Args:
+        config_path: Optional path to a YAML config file; defaults to
+            ``<package_root>/config/settings.yaml``.
+
+    Returns:
+        A validated :class:`StrategyConfig` instance.
+    """
     if config_path is None:
         config_path = Path(__file__).parent.parent / "config" / "settings.yaml"
 

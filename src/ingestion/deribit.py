@@ -53,6 +53,14 @@ def _parse_deribit_instrument(instrument_name: str) -> Optional[Dict[str, Any]]:
 
 
 class DeribitClient:
+    """Thin REST client for the Deribit public API (v2).
+
+    Wraps a :class:`requests.Session` with retry/backoff on transient errors.
+    Raises a :class:`RuntimeError` carrying the API ``error`` field when the
+    response contains one, or the last observed exception after
+    ``max_retries`` attempts. All methods are public (no authentication).
+    """
+
     BASE_URL = "https://www.deribit.com/api/v2"
 
     def __init__(self, session: Optional[requests.Session] = None, timeout: float = 10.0, max_retries: int = 3) -> None:
@@ -113,6 +121,15 @@ class DeribitClient:
 
 
 class DeribitOptionsIngestion(BaseOptionsIngestion):
+    """Deribit options-chain ingestion via the public ``get_instruments``/``ticker`` endpoints.
+
+    Builds :class:`OptionQuote` objects from instrument metadata and per-instrument
+    tickers (including nested ``greeks``). Instrument names are parsed via
+    :func:`_parse_deribit_instrument`, supporting both ``YYYYMMDD`` and
+    ``DDMonYY`` expiry formats. On any top-level API failure, returns an empty
+    chain with the current timestamp.
+    """
+
     def __init__(self, client: Optional[DeribitClient] = None) -> None:
         super().__init__("deribit")
         self.client = client or DeribitClient()
@@ -197,6 +214,15 @@ class DeribitOptionsIngestion(BaseOptionsIngestion):
 
 
 class DeribitOrderflowIngestion(BaseOrderflowIngestion):
+    """Deribit orderflow ingestion via the public ``get_last_trades_by_instrument`` endpoint.
+
+    Fetches recent trades and normalizes them into an
+    :class:`OrderflowSnapshot`. Side classification maps ``direction``
+    (``'buy'``/``'long'``) to ``'buy'`` and everything else to ``'sell'``.
+    Liquidations are not exposed by this public client and return an empty
+    list. On API failure, returns an empty snapshot with the current timestamp.
+    """
+
     def __init__(self, client: Optional[DeribitClient] = None) -> None:
         super().__init__("deribit")
         self.client = client or DeribitClient()

@@ -202,6 +202,30 @@ def calculate_put_call_skew(
     tol: float = 0.05,
     expiry: Optional[datetime] = None,
 ) -> float:
+    """Calculate put-call volatility skew (25-delta put IV minus 25-delta call IV).
+
+    Selects OTM puts and OTM calls whose |delta| is closest to ``delta_target``
+    within tolerance ``tol``. When delta is unavailable, falls back to a
+    moneyness-based selection: puts with strike/spot < 1 - delta_target - tol*0.5
+    and calls with strike/spot > 1 + delta_target + tol*0.5. Averages the
+    selected put IVs and call IVs (using mark IV, falling back to bid/ask IV),
+    and returns ``avg_put_iv - avg_call_iv``.
+
+    Sign convention: a positive skew indicates OTM puts are more expensive than
+    OTM calls (typical in equity/crypto markets — "volatility risk premium" on
+    the downside). Returns 0.0 if insufficient valid quotes, non-finite inputs,
+    or a non-finite result.
+
+    Args:
+        quotes: List of option quotes to analyze.
+        spot_price: Current underlying spot price; must be positive and finite.
+        delta_target: Target |delta| for skew selection (default 0.25).
+        tol: Absolute tolerance on |delta| matching (default 0.05).
+        expiry: Optional expiry date filter; quotes not matching (by date) are skipped.
+
+    Returns:
+        The put-call skew as a float, or 0.0 on any failure/edge case.
+    """
     if not quotes or spot_price is None:
         return 0.0
     sp = _to_float(spot_price)
@@ -258,6 +282,31 @@ def calculate_risk_reversal(
     tol: float = 0.05,
     expiry: Optional[datetime] = None,
 ) -> float:
+    """Calculate the 25-delta risk reversal (call IV minus put IV).
+
+    Selects OTM calls and OTM puts whose |delta| is closest to ``delta_target``
+    within tolerance ``tol``. When delta is unavailable, falls back to a
+    moneyness-based selection: calls with strike/spot > 1 + delta_target + tol*0.5
+    and puts with strike/spot < 1 - delta_target - tol*0.5. Averages the selected
+    call IVs and put IVs (using mark IV, falling back to bid/ask IV), and returns
+    ``avg_call_iv - avg_put_iv``.
+
+    Sign convention: a positive risk reversal indicates OTM calls are more
+    expensive than OTM puts (bullish skew expectation); a negative value
+    indicates the opposite (bearish skew). This is the inverse sign of
+    ``calculate_put_call_skew``. Returns 0.0 if insufficient valid quotes,
+    non-finite inputs, or a non-finite result.
+
+    Args:
+        quotes: List of option quotes to analyze.
+        spot_price: Current underlying spot price; must be positive and finite.
+        delta_target: Target |delta| for risk reversal selection (default 0.25).
+        tol: Absolute tolerance on |delta| matching (default 0.05).
+        expiry: Optional expiry date filter; quotes not matching (by date) are skipped.
+
+    Returns:
+        The risk reversal as a float (call IV - put IV), or 0.0 on any failure/edge case.
+    """
     if not quotes or spot_price is None:
         return 0.0
     sp = _to_float(spot_price)

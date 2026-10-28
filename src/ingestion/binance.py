@@ -63,6 +63,14 @@ def _parse_binance_symbol(symbol: str) -> Optional[Dict[str, Any]]:
 
 
 class BinanceClient:
+    """Thin REST client for Binance options (EAPI) public endpoints.
+
+    Wraps a :class:`requests.Session` with retry/backoff on transient errors
+    and JSON parsing. All endpoints are public; no authentication is required
+    for market data. Raises the last observed exception after ``max_retries``
+    attempts, or a :class:`RuntimeError` if no exception was captured.
+    """
+
     BASE_URL = "https://eapi.binance.com"
 
     def __init__(self, session: Optional[requests.Session] = None, timeout: float = 10.0, max_retries: int = 3) -> None:
@@ -105,6 +113,14 @@ class BinanceClient:
 
 
 class BinanceOptionsIngestion(BaseOptionsIngestion):
+    """Binance options-chain ingestion via the EAPI public endpoints.
+
+    Builds :class:`OptionQuote` objects from ``exchangeInfo`` (instrument
+    metadata) and ``ticker`` (market data + Greeks). Quotes whose response
+    fields fail to coerce to float are silently skipped. On any top-level
+    API failure, returns an empty chain with the current timestamp.
+    """
+
     def __init__(self, client: Optional[BinanceClient] = None) -> None:
         super().__init__("binance")
         self.client = client or BinanceClient()
@@ -211,6 +227,15 @@ class BinanceOptionsIngestion(BaseOptionsIngestion):
 
 
 class BinanceOrderflowIngestion(BaseOrderflowIngestion):
+    """Binance orderflow ingestion via the EAPI public trades endpoint.
+
+    Fetches recent trades and normalizes them into an
+    :class:`OrderflowSnapshot`. Side classification prefers the explicit
+    ``side`` field, falling back to ``buyerMaker`` (buyer-maker semantics:
+    buyer was the maker, so the aggressive side is the opposite). On API
+    failure, returns an empty snapshot with the current timestamp.
+    """
+
     def __init__(self, client: Optional[BinanceClient] = None) -> None:
         super().__init__("binance")
         self.client = client or BinanceClient()

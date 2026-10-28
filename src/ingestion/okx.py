@@ -55,6 +55,15 @@ def _parse_okx_instrument(inst_id: str) -> Optional[Dict[str, Any]]:
 
 
 class OKXClient:
+    """Thin REST client for the OKX public API (v5).
+
+    Wraps a :class:`requests.Session` with retry/backoff on transient errors.
+    Validates the top-level ``code`` field (``"0"`` or ``"00000"`` indicates
+    success) and raises a :class:`RuntimeError` carrying the API message on
+    failure, or the last observed exception after ``max_retries`` attempts.
+    All methods are public (no authentication).
+    """
+
     BASE_URL = "https://www.okx.com"
 
     def __init__(self, session: Optional[requests.Session] = None, timeout: float = 10.0, max_retries: int = 3) -> None:
@@ -103,6 +112,14 @@ class OKXClient:
 
 
 class OKXOptionsIngestion(BaseOptionsIngestion):
+    """OKX options-chain ingestion via the public ``instruments``/``tickers`` endpoints.
+
+    Builds :class:`OptionQuote` objects from instrument metadata and per-instrument
+    tickers. Instrument IDs are parsed via :func:`_parse_okx_instrument`,
+    supporting the ``BTC-USD-241227-50000-C`` style format. On any top-level
+    API failure, returns an empty chain with the current timestamp.
+    """
+
     def __init__(self, client: Optional[OKXClient] = None) -> None:
         super().__init__("okx")
         self.client = client or OKXClient()
@@ -194,6 +211,15 @@ class OKXOptionsIngestion(BaseOptionsIngestion):
 
 
 class OKXOrderflowIngestion(BaseOrderflowIngestion):
+    """OKX orderflow ingestion via the public ``trades`` endpoint.
+
+    Fetches recent trades and normalizes them into an
+    :class:`OrderflowSnapshot`. Side classification maps the OKX ``side``
+    field (``'buy'``/``'sell'``) directly. Liquidations are not exposed by
+    this public client and return an empty list. On API failure, returns an
+    empty snapshot with the current timestamp.
+    """
+
     def __init__(self, client: Optional[OKXClient] = None) -> None:
         super().__init__("okx")
         self.client = client or OKXClient()

@@ -10,6 +10,15 @@ from ..config import BacktestConfig, RiskConfig
 
 @dataclass
 class Position:
+    """An open (or partially open) position held by the backtesting engine.
+
+    Encodes the entry terms and current side. ``stop_loss`` and
+    ``take_profit`` are absolute price levels (not percentages) used by
+    :meth:`BacktestEngine.check_risk_controls` to trigger exits. For longs,
+    stop_loss is below entry and take_profit is above; for shorts the levels
+    are inverted.
+    """
+
     symbol: str
     quantity: float
     entry_price: float
@@ -21,6 +30,12 @@ class Position:
 
 @dataclass
 class Trade:
+    """A completed (closed) trade record produced by :meth:`BacktestEngine.execute_trade`.
+
+    ``pnl`` is the realized profit/loss including commission. ``is_win`` is
+    ``True`` when ``pnl > 0``. ``commission`` is the fee charged at fill.
+    """
+
     symbol: str
     quantity: float
     price: float
@@ -33,6 +48,15 @@ class Trade:
 
 @dataclass
 class BacktestResults:
+    """Aggregate performance metrics and full trade/equity history from a backtest.
+
+    All monetary/return fields are unitless fractions (e.g. 0.15 = 15%)
+    except where noted. ``profit_factor`` may be ``inf`` when there are wins
+    but zero losses. ``total_trades`` counts all executed trades, while
+    ``winning_trades``/``losing_trades`` count only closed trades with
+    non-zero PnL.
+    """
+
     total_return: float = 0.0
     sharpe_ratio: float = 0.0
     sortino_ratio: float = 0.0
@@ -48,6 +72,24 @@ class BacktestResults:
 
 
 class BacktestEngine:
+    """Event-driven, single-asset-per-symbol backtesting engine with realistic fills.
+
+    Manages cash, positions, trades, and an equity curve. Supports long and
+    short positions, stop-loss/take-profit exits, drawdown-based liquidation,
+    deterministic partial fills, round-lot sizing, and slippage/fee modeling.
+    The engine is stateful: each call to :meth:`execute_trade` mutates internal
+    state, so a fresh instance should be created per simulation run.
+
+    Conventions:
+      - Cash accounting: opening a long debits cash (cost + commission);
+        opening a short credits cash (notional - commission). Unrealized
+        PnL is not tracked separately; equity is recomputed from cash plus
+        position market value on each tick.
+      - ``side`` in :meth:`execute_trade` is from the perspective of the
+        order: ``'buy'`` opens a long or covers a short; ``'sell'`` closes a
+        long or opens a short.
+    """
+
     def __init__(
         self,
         config: Optional[BacktestConfig] = None,
@@ -89,6 +131,12 @@ class BacktestEngine:
             self._rng = random.Random(42)
 
     def _apply_slippage(self, price: float, side: str) -> float:
+        """Apply configured slippage to a raw price.
+
+        Buys are slurred upward (worse fill) and sells downward by
+        ``slippage_bps`` (capped at ``max_slippage_bps`` if set). Returns the
+        adjusted execution price.
+        """
         slippage_bps = getattr(self.config, "slippage_bps", 0)
         slippage = float(slippage_bps) / 10000.0
         max_slip_bps = getattr(self.config, "max_slippage_bps", 0)
@@ -102,30 +150,57 @@ class BacktestEngine:
             return price * (1.0 - slippage)
 
     def _get_commission(self, notional: float) -> float:
+        """Compute commission for a notional trade value.
+
+        Returns ``notional * fee_rate`` where ``fee_rate`` comes from
+        :class:`BacktestConfig`. Non-finite notional yields 0.0.
+        """
         fee_rate = getattr(self.config, "fee_rate", 0.0)
         return float(notional) * float(fee_rate)
 
     def calculate_position_size(self, price: float, side: str = "long", risk_pct: Optional[float] = None) -> float:
-        """Calculate position size based on risk limits."""
+        """Calculate position size (quantity) based on risk limits.
+
+        Sizing is the minimum of two constraints:
+          1. Risk-based: ``initial_capital * risk_pct / price`` where
+             ``risk_pct`` defaults to ``risk_config.stop_loss_pct``.
+          2. Capital-based: ``cash * risk_config.max_position_pct / price``.
+
+        Returns 0.0 for non-positive prices. The ``side`` argument is accepted
+        for API symmetry but does not affect sizing in this implementation.
+        """
         risk_pct = risk_pct if risk_pct is not None else getattr(self.risk_config, "stop_loss_pct", 0.02)
         max_position_pct = getattr(self.risk_config, "max_position_pct", 0.1)
         max_capital = self.cash * max_position_pct
 
         # Risk-based sizing
         risk_amount = self.initial_capital * risk_pct
-        qty_by_risk = risk_amount / price if price > 0 else 0
+        qty_by_risk = risk_amount / price if price > 0 else 0.0
 
         # Limit by max position size
-        qty_by_capital = max_capital / price if price > 0 else 0
+        qty_by_capital = max_capital / price if price > 0 else 0.0
 
         qty = min(qty_by_risk, qty_by_capital)
         if qty < 0:
-            qty = 0
+            qty = 0.0
         return qty
 
     def execute_trade(self, symbol: str, quantity: float, price: float, side: str, timestamp: datetime,
                       stop_loss: Optional[float] = None, take_profit: Optional[float] = None) -> Trade:
-        """Execute a trade with fees, slippage, short selling support."""
+        """Execute a trade with fees, slippage, short selling support.
+
+        Applies, in order: round-lot rounding (down), partial-fill scaling
+        (deterministic via RNG), and max-quantity cap. Then computes
+        slippage and commission. Updates cash and positions per the trade
+        side, and records a :class:`Trade` with realized ``pnl`` (for closes)
+        and ``is_win`` flag. Raises ``ValueError`` for invalid quantity or
+        insufficient cash.
+
+        Side semantics:
+          - ``'buy'``: opens a long (if no short exists) or covers a short.
+          - ``'sell'``: closes a long (if it exists) or opens a short
+            (subject to ``risk_config.allow_shorting``).
+        """
         if quantity <= 0:
             raise ValueError("Quantity must be positive")
 
@@ -241,7 +316,15 @@ class BacktestEngine:
         return trade
 
     def check_risk_controls(self, current_prices: Dict[str, float], timestamp: datetime) -> List[Trade]:
-        """Check stop-loss and take-profit conditions."""
+        """Check stop-loss, take-profit, and drawdown conditions; execute triggered exits.
+
+        Iterates open positions and closes any whose stop-loss or take-profit
+        level is breached by the current price. Longs exit on ``sell``; shorts
+        exit on ``buy``. After per-position checks, enforces
+        ``risk_config.max_drawdown_limit``: if current drawdown from peak
+        equity reaches the threshold, all remaining positions are liquidated.
+        Returns the list of executed exit :class:`Trade` objects.
+        """
         triggered_trades = []
         for symbol in list(self.positions.keys()):
             if symbol not in current_prices:
@@ -282,6 +365,13 @@ class BacktestEngine:
         return triggered_trades
 
     def update_equity_curve(self, current_prices: Optional[Dict[str, float]] = None) -> float:
+        """Append current equity to the equity curve and update running peaks.
+
+        Runs :meth:`check_risk_controls` first so SL/TP/drawdown exits are
+        reflected in the equity value being recorded. Returns the newly
+        recorded equity. Idempotent when called with empty prices (appends
+        current cash equity).
+        """
         prices = current_prices or {}
         # Enforce SL/TP and risk controls on every tick
         if prices:
@@ -295,13 +385,13 @@ class BacktestEngine:
         return equity
 
     def get_equity(self, current_prices: Dict[str, float]) -> float:
-        """Calculate current equity.
+        """Calculate current equity from cash plus open position market value.
 
-        For longs: equity = cash + qty * current_price (cash was debited at open).
-        For shorts: cash was *credited* with proceeds (qty * entry_price) at open,
-        so the only remaining liability is qty * current_price. We subtract it
-        rather than adding an unrealized PnL term, which would double-count the
-        proceeds already sitting in cash.
+        For longs: ``equity = cash + qty * current_price`` (cash was debited at
+        open). For shorts: cash was *credited* with proceeds (qty * entry_price)
+        at open, so the only remaining liability is qty * current_price. We
+        subtract it rather than adding an unrealized PnL term, which would
+        double-count the proceeds already sitting in cash.
         """
         equity = float(self.cash)
         for symbol, pos in self.positions.items():
@@ -316,7 +406,15 @@ class BacktestEngine:
         return equity
 
     def calculate_metrics(self) -> BacktestResults:
-        """Calculate performance metrics."""
+        """Calculate performance metrics from the equity curve and trade log.
+
+        Computes total return, Sharpe (annualized, 252 trading days), Sortino
+        (downside-deviation based), max drawdown, win rate, profit factor, and
+        Calmar ratio. All returns are unitless per-period fractions. Sharpe and
+        Sortino use a risk-free rate from ``config.risk_free_rate``. Non-finite
+        intermediates are guarded and replaced with 0.0. Returns an empty
+        :class:`BacktestResults` if the equity curve is empty.
+        """
         if not self.equity_curve:
             return BacktestResults()
 
