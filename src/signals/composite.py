@@ -1,9 +1,8 @@
 """Composite signal generation combining multiple features."""
 
 from dataclasses import dataclass
+from math import isfinite
 from typing import Dict, Optional
-
-import math
 
 
 @dataclass
@@ -39,15 +38,17 @@ class CompositeSignalGenerator:
         components = {}
 
         # Gamma exposure signal (negative GEX can lead to volatility expansion)
-        if total_gex != 0 and math.isfinite(total_gex):
+        if total_gex != 0 and isfinite(total_gex):
             gamma_signal = -np_sign(total_gex) * min(abs(total_gex) / 1e9, 1.0)
         else:
+            gamma_signal = 0.0
+        if not isfinite(gamma_signal):
             gamma_signal = 0.0
         components["gamma"] = gamma_signal
 
         # Orderflow signal
         of_signal = (cum_delta / 10000.0 + float(of_imbalance)) / 2.0
-        if math.isfinite(of_signal):
+        if isfinite(of_signal):
             of_signal = max(-1.0, min(1.0, of_signal))
         else:
             of_signal = 0.0
@@ -55,13 +56,13 @@ class CompositeSignalGenerator:
 
         # Volatility skew signal (steep put skew often bearish)
         skew_signal = -max(-1.0, min(1.0, float(iv_skew) * 10))
-        if not math.isfinite(skew_signal):
+        if not isfinite(skew_signal):
             skew_signal = 0.0
         components["vol_skew"] = skew_signal
 
         # Put/call ratio signal
         pcr = float(put_call_ratio)
-        if not math.isfinite(pcr) or pcr <= 0:
+        if not isfinite(pcr) or pcr <= 0:
             pc_signal = 0.0
         elif pcr > 1.0:
             pc_signal = -min((pcr - 1.0) / 2.0, 1.0)
@@ -69,13 +70,13 @@ class CompositeSignalGenerator:
             pc_signal = min((1.0 - pcr) / 0.5, 1.0) * 0.5
         else:
             pc_signal = 0.0
-        if not math.isfinite(pc_signal):
+        if not isfinite(pc_signal):
             pc_signal = 0.0
         components["put_call"] = pc_signal
 
         # Weighted composite
         composite = sum(self.weights[k] * components.get(k, 0.0) for k in components)
-        if not math.isfinite(composite):
+        if not isfinite(composite):
             composite = 0.0
         composite = max(-1.0, min(1.0, composite))
 
@@ -88,7 +89,7 @@ class CompositeSignalGenerator:
             direction = "neutral"
 
         confidence = abs(composite)
-        if not math.isfinite(confidence):
+        if not isfinite(confidence):
             confidence = 0.0
 
         return Signal(

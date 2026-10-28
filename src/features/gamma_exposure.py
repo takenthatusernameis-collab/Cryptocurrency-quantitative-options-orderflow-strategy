@@ -1,5 +1,6 @@
 """Gamma Exposure (GEX) calculations."""
 
+from math import isfinite
 from typing import Dict, List
 
 import numpy as np
@@ -29,6 +30,8 @@ def calculate_gamma_exposure(quote: OptionQuote, spot_price: float) -> float:
     else:
         gex = abs(gex)
 
+    if not isfinite(gex):
+        return 0.0
     return gex
 
 
@@ -36,7 +39,9 @@ def calculate_total_gex(chain: OptionsChain, spot_price: float) -> float:
     """Calculate total gamma exposure across all options in chain."""
     total_gex = 0.0
     for quote in chain.quotes:
-        total_gex += calculate_gamma_exposure(quote, spot_price)
+        gex = calculate_gamma_exposure(quote, spot_price)
+        if isfinite(gex):
+            total_gex += gex
     return total_gex
 
 
@@ -46,6 +51,8 @@ def calculate_gex_by_strike(chain: OptionsChain, spot_price: float) -> Dict[floa
     for quote in chain.quotes:
         strike = float(quote.contract.strike)
         gex = calculate_gamma_exposure(quote, spot_price)
+        if not isfinite(gex):
+            continue
         if strike in gex_by_strike:
             gex_by_strike[strike] += gex
         else:

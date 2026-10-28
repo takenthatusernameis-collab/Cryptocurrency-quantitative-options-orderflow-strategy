@@ -1,7 +1,7 @@
 """Event-driven backtesting engine."""
 
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from math import isfinite
 from typing import Dict, List, Optional
 
@@ -124,7 +124,8 @@ class BacktestEngine:
                 # Cover short: profit = (entry - exit) * qty
                 pnl = (pos.entry_price - execution_price) * pos.quantity - commission
                 proceeds_impact = execution_price * pos.quantity  # cost to cover
-                self.cash -= (proceeds_impact + commission)
+                self.cash -= proceeds_impact
+                self.cash -= commission
                 trade.pnl = pnl
                 trade.is_win = pnl > 0
                 del self.positions[symbol]
@@ -156,10 +157,12 @@ class BacktestEngine:
                 trade.is_win = pnl > 0
                 del self.positions[symbol]
             else:
-                # Open short (allow short selling)
-                margin_requirement = notional * 0.5  # Simple margin assumption
-                if margin_requirement > self.cash + 1e-10:
-                    raise ValueError("Insufficient margin for short")
+                # Open short: credit proceeds to cash, hold liability
+                max_position_pct = getattr(self.risk_config, "max_position_pct", 0.1)
+                max_notional = self.cash * max_position_pct
+                if notional > max_notional + 1e-10:
+                    raise ValueError(f"Short notional {notional} exceeds max_position_pct limit {max_notional}")
+                self.cash += notional  # credit proceeds
                 self.cash -= commission  # pay fees on opening short
                 sl = stop_loss if stop_loss is not None else (execution_price * (1 + getattr(self.risk_config, "stop_loss_pct", 0.02)))
                 tp = take_profit if take_profit is not None else (execution_price * (1 - getattr(self.risk_config, "take_profit_pct", 0.04)))
@@ -186,28 +189,45 @@ class BacktestEngine:
                 continue
             pos = self.positions[symbol]
             price = current_prices[symbol]
+            if not isfinite(price):
+                continue
 
             if pos.side == "long":
-                if pos.stop_loss and price <= pos.stop_loss:
-                    # Trigger stop loss - sell
+                if pos.stop_loss is not None and price <= pos.stop_loss:
                     trade = self.execute_trade(symbol, pos.quantity, price, "sell", timestamp)
                     triggered_trades.append(trade)
-                elif pos.take_profit and price >= pos.take_profit:
+                elif pos.take_profit is not None and price >= pos.take_profit:
                     trade = self.execute_trade(symbol, pos.quantity, price, "sell", timestamp)
                     triggered_trades.append(trade)
             elif pos.side == "short":
-                if pos.stop_loss and price >= pos.stop_loss:
-                    # Trigger stop loss - buy to cover
+                if pos.stop_loss is not None and price >= pos.stop_loss:
                     trade = self.execute_trade(symbol, pos.quantity, price, "buy", timestamp)
                     triggered_trades.append(trade)
-                elif pos.take_profit and price <= pos.take_profit:
+                elif pos.take_profit is not None and price <= pos.take_profit:
                     trade = self.execute_trade(symbol, pos.quantity, price, "buy", timestamp)
                     triggered_trades.append(trade)
 
+        # Enforce max_drawdown_limit: if equity drops below threshold, close all positions
+        if current_prices:
+            equity = self.get_equity(current_prices)
+            if self.initial_capital > 0:
+                drawdown = (self.max_equity - equity) / self.max_equity
+                max_dd_limit = getattr(self.risk_config, "max_drawdown_limit", 0.2)
+                if drawdown >= max_dd_limit:
+                    for symbol in list(self.positions.keys()):
+                        if symbol in current_prices and isfinite(current_prices[symbol]):
+                            pos = self.positions[symbol]
+                            side = "sell" if pos.side == "long" else "buy"
+                            trade = self.execute_trade(symbol, pos.quantity, current_prices[symbol], side, timestamp)
+                            triggered_trades.append(trade)
         return triggered_trades
 
     def update_equity_curve(self, current_prices: Dict[str, float] = None):
-        equity = self.get_equity(current_prices or {})
+        prices = current_prices or {}
+        # Enforce SL/TP and risk controls on every tick
+        if prices:
+            self.check_risk_controls(prices, datetime.now(timezone.utc))
+        equity = self.get_equity(prices)
         self.equity_curve.append(equity)
         if equity > self.max_equity:
             self.max_equity = equity
@@ -216,7 +236,11 @@ class BacktestEngine:
         return equity
 
     def get_equity(self, current_prices: Dict[str, float]) -> float:
-        """Calculate current equity."""
+        """Calculate current equity.
+        For shorts: equity = cash + qty * (entry_price - current_price)
+        The short proceeds (qty * entry_price) were credited to cash at open,
+        and the current liability (qty * current_price) is subtracted.
+        """
         equity = float(self.cash)
         for symbol, pos in self.positions.items():
             if symbol in current_prices and isfinite(current_prices[symbol]):
@@ -224,7 +248,8 @@ class BacktestEngine:
                 if pos.side == "long":
                     equity += pos.quantity * price
                 elif pos.side == "short":
-                    equity -= pos.quantity * price  # Short position reduces equity in this convention
+                    # Short PnL = qty * (entry_price - current_price)
+                    equity += pos.quantity * (pos.entry_price - price)
         return equity
 
     def calculate_metrics(self) -> BacktestResults:
@@ -329,9 +354,10 @@ class BacktestEngine:
 
         if not isfinite(win_rate):
             win_rate = 0.0
+        # profit_factor: keep inf when wins exist with zero losses; never collapse to 0
         if not isfinite(profit_factor):
             if profit_factor > 0:
-                profit_factor = 0.0  # cap inf if any
+                pass  # keep inf
             else:
                 profit_factor = 0.0
 

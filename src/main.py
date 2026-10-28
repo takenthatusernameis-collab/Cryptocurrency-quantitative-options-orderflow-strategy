@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict
@@ -33,6 +34,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
         "venues": venues,
         "symbols": symbols,
         "timestamp": datetime.now(timezone.utc).isoformat(),
+        "errors": [],
     }
 
     ingested_chains = {}
@@ -141,15 +143,15 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                     if qty > 0 and engine.cash > spot * qty * 1.05:
                         try:
                             engine.execute_trade(key, qty, spot, "buy", datetime.now(timezone.utc))
-                        except Exception:
-                            pass
+                        except Exception as e:
+                            results.setdefault("errors", []).append(f"execute_trade_long_{key}: {e}")
                 elif sig["direction"] == "short" and sig["confidence"] > 0.1:
                     qty = engine.calculate_position_size(spot) * sig["confidence"]
                     if qty > 0:
                         try:
                             engine.execute_trade(key, qty, spot, "sell", datetime.now(timezone.utc))
-                        except Exception:
-                            pass
+                        except Exception as e:
+                            results.setdefault("errors", []).append(f"execute_trade_short_{key}: {e}")
             prices = {k: s["spot_price"] for k, s in signals.items()}
             engine.update_equity_curve(prices)
         bt_results = engine.calculate_metrics()
@@ -184,10 +186,22 @@ def main() -> None:
     args = parser.parse_args()
     config = load_config(args.config)
     res = run_pipeline(config, args.symbols)
-    if args.json:
-        print(json.dumps(res, indent=2, default=str))
-    else:
-        print(json.dumps(res, indent=2, default=str))
+    # Ensure JSON output is valid with allow_nan=False (no inf/nan)
+    try:
+        json_str = json.dumps(res, indent=2, default=str, allow_nan=False)
+    except ValueError:
+        # Fallback: sanitize non-finite values
+        def sanitize(obj):
+            if isinstance(obj, dict):
+                return {k: sanitize(v) for k, v in obj.items()}
+            elif isinstance(obj, list):
+                return [sanitize(v) for v in obj]
+            elif isinstance(obj, float) and not math.isfinite(obj):
+                return None
+            return obj
+        res = sanitize(res)
+        json_str = json.dumps(res, indent=2, default=str, allow_nan=False)
+    print(json_str)
 
 
 if __name__ == "__main__":
