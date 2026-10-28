@@ -1,61 +1,59 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-28T01:42:31Z
+Timestamp (UTC): 2026-10-28T01:48:29Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. Working tree clean (pycache untracked). Do NOT end the GitHub Actions workflow.
+Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. Working tree clean. 28 tests passing. Do NOT end the GitHub Actions workflow.
 
 ## INITIAL TASK MESSAGE (For Next Agentic Session — MANDATORY, NO DEFERRAL)
 
 **PRIORITY 1: BUILD A WORKING CRYPTO OPTIONS ORDERFLOW STRATEGY — HEAVY ENGINEERING, ZERO PLACEHOLDERS**
 
-You are continuing in the SAME active run. Scaffolding exists (28 tests pass). Deribit public connector + CLI are implemented. **OKX and Binance public REST connectors are now fully implemented** with typed HTTP clients, parsing/normalization, retries/timeouts. Cross-venue normalization hardened.
+You are continuing in the SAME active run. Cross-venue ingestion scaffolding and connectors exist (Deribit/OKX/Binance implemented). CLI already wires all three venues. The heavy quantitative work is incomplete — make it correct, realistic, and end-to-end functional.
 
-**START HERE (GATE):**
-1. Wire OKX/Binance into `src/main.py` end-to-end (ingest options+orderflow for configured venues/symbols). Do not leave TODOs.
-2. Harden backtest engine: add short selling, position sizing, stop-loss/take-profit, realistic fees/slippage, comprehensive metrics (Sharpe/Sortino/Calmar/profit factor/maxDD), safe non-finite handling.
-3. Harden alpha features (GEX, orderflow, volatility/skew/PCR/max pain) and signals composite for quantitative correctness.
+**IMMEDIATE GATE (MUST EXECUTE IN ORDER):**
+1. **Harden Backtest Engine** (`src/backtest/engine.py`): Add proper short selling (initiate shorts, cover), position sizing (risk-based via config), stop-loss/take-profit enforcement, realistic fees/slippage, position limits. Compute full metrics: total_return, sharpe/ sortino/calmar, max_drawdown, win_rate, profit_factor with non-finite safety. Make it production-realistic.
+2. **Wire Pipeline Fully** (`src/main.py`): Currently wires ingestion/signals/backtest class names only. Actually call feature extraction (GEX/orderflow/vol), run composite signals on real data, execute backtest with signals/positions, persist results. Use normalization throughout. No stubs.
+3. **Harden Alpha Features** (`src/features/*.py`): Make GEX calculations quantitatively correct (gamma exposure by strike/expiry, gamma flip), orderflow (CVD, aggressive flow), volatility/skew/PCR/max pain with proper math. Add tests/validation as you harden.
 
-**MANDATORY FOCUS CAMPAIGN (EXECUTE IN STRICT ORDER):**
+**MANDATORY FOCUS CAMPAIGN (STRICT EXECUTION):**
 
-### Phase 1: Cross-Venue Ingestion (CRITICAL PATH) — NEARLY DONE
-1. [x] OKX: `src/ingestion/okx.py` full public REST implementation.
-2. [x] Binance: `src/ingestion/binance.py` full public REST implementation.
-3. [x] Normalization hardening: `src/data/normalization.py`.
-4. [ ] Wire into pipeline (CLI) and verify.
+### Phase 1: Backtest Engine Hardening (CRITICAL) — UNBLOCKS REAL EVALUATION
+- [ ] Shorts: allow short initiation (`sell` to open short when no long), short PnL = (entry - exit)*qty, track side properly. Update Position/Trade semantics.
+- [ ] Sizing: integrate risk limits from config (`risk.*`), position sizing methods (e.g. % capital, ATR-based). Enforce `max_position_pct`.
+- [ ] Risk controls: stop-loss/take-profit checks per position (on price updates), max drawdown monitoring.
+- [ ] Metrics: fix win_rate/profit_factor (need winning/losing trade classification), add calmar correctly, guard all divisions/non-finite (inf/nan).
+- [ ] Slippage/fees: ensure applied correctly on entry/exit; track realized PnL.
 
-### Phase 2: Pipeline + Config (UNBLOCK END-TO-END)
-5. [ ] CLI `src/main.py`: wire ingestion -> features -> signals -> backtest end-to-end from config (OKX+Binance).
-6. [ ] Config-driven venues/symbols/timeframes/risk params.
-7. [ ] Checkpoint/persistence for same-run resume.
+### Phase 2: End-to-End Pipeline Wiring (CRITICAL)
+- [ ] `src/main.py`: build full flow - ingest all configured venues/symbols, normalize chains/orderflow, extract features per venue/symbol, generate signals (CompositeSignalGenerator) with context, run backtest with signal-driven trades or realistic simulation, output comprehensive results.
+- [ ] Use `normalize_options_chain`/`normalize_orderflow` from `src/data/normalization.py` on ingested objects.
+- [ ] Add proper error handling, structured results with metrics.
+- [ ] Support `--symbols` override, JSON output with full details.
 
-### Phase 3: Alpha Features (QUANTITATIVELY CORRECT)
-8. [ ] GEX hardening: dealer gamma by strike/expiry, gamma flip, OI handling.
-9. [ ] Orderflow/Vol: skew/term structure/PCR/max pain.
-10. [ ] Signals composite: regime detection + calibrated weights.
+### Phase 3: Alpha Features Quantitative Hardening
+- [ ] `src/features/gamma_exposure.py`: correct GEX formula (gamma * OI * contract multiplier * spot^2 / 100 for notional gamma in $ terms), gamma flip detection, net GEX by strike/expiry.
+- [ ] `src/features/orderflow.py`: CVD, trade imbalance, large/sweep detection, funding/oi context.
+- [ ] `src/features/volatility.py`: skew, term structure, IV percentile/rank, PCR (put-call ratio), max pain calculation.
+- [ ] `src/signals/composite.py`: regime-aware weighted signals, calibration, conflict resolution.
 
-### Phase 4: Backtest + Risk (PRODUCTION-REALISTIC)
-11. [ ] Engine: shorts, sizing, SL/TP, position limits, realistic fees/slippage.
-12. [ ] Metrics: Sharpe/Sortino/Calmar/winrate/profit factor/maxDD, non-finite safe.
-13. [ ] Validation: walk-forward + integration test with realistic synthetic data.
+### Phase 4: Validation & Real Tests
+- [ ] Add numeric tests for shorts/sizing/SLTP/metrics in backtest.
+- [ ] Integration test exercising full pipeline with mocked data or real public endpoints where safe.
+- [ ] All tests pass: `python -m pytest -q`. No `assert True`, no placeholders.
 
-### Phase 5: Tests + Hygiene
-14. [ ] Real tests, no assert True; numeric assertions. All pass (`python -m pytest -q`).
-15. [ ] Meaningful commits per logical unit; clean tree.
+**RULES:** Heavy engineering only. No scaffolding-only "done". Mathematical correctness is mandatory. Vectorize where sensible. Every change must be concrete and functional. Future agents must do substantial implementation work.
 
-**RULES:** Heavy engineering only. No scaffolding-only "done". Mathematical correctness matters. Vectorize where sensible. Never avoid core work. Future agents must perform substantial implementation work.
+## BOTTLENECKS IDENTIFIED & REMOVAL PLAN
+- **Bottleneck 1:** Backtest engine incomplete (no shorts/sizing/SLTP/metrics depth) → Phase 1 above.
+- **Bottleneck 2:** Pipeline wiring superficial (only prints class names) → Phase 2 above, must produce actionable results.
+- **Bottleneck 3:** Alpha features may be simplistic → Phase 3 harden to quantitative correctness.
+- **Bottleneck 4:** Tests don't cover new critical paths → Phase 4 add real tests.
 
-## BOTTLENECKS REMOVED
-- Bytecode removed from index; `.gitignore` added.
-- CI tests restored (28 passing).
-- Deribit public connector implemented (src/ingestion/deribit.py).
-- CLI entrypoint implemented (src/main.py).
-- OKX + Binance public REST connectors implemented.
-- Normalization hardened.
-- HEAD pushed to origin/main.
+## CURRENT STATE
+- 28 tests passing
+- All three venues (deribit/okx/binance) connectors implemented
+- CLI exists and wires all venues for ingestion
+- Normalization utilities present
+- Config in place
 
-## BLOCKERS / NOTES
-- **CLI wiring missing for OKX/Binance** — must add immediately.
-- Backtest engine lacks shorts/sizing/SLTP/metrics.
-- Need deeper alpha features and end-to-end integration.
-
-**NEXT ACTION:** Edit `src/main.py` to wire OKX and Binance ingestion for all configured venues/symbols. Make heavy, concrete changes.
+**NEXT ACTION:** Start with Phase 1 - harden `src/backtest/engine.py` for shorts, sizing, SL/TP, and full metrics. Make heavy concrete changes.
