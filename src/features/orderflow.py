@@ -326,16 +326,85 @@ def calculate_signed_volume(trades: List[Trade], window: Optional[int] = None) -
 
 def delta_divergence_vs_price(trades: List[Trade], price_series: List[float] = None) -> float:
     """Footprint/orderflow divergence metric (delta divergence vs price)."""
-    if not trades:
+    # Normalize trades: filter non-finite sizes and valid sides
+    clean_trades: List[Trade] = []
+    if trades is not None:
+        try:
+            iterator = iter(trades)
+        except TypeError:
+            iterator = []
+        for t in iterator:
+            try:
+                vol = float(getattr(t, "size", float("nan")))
+            except Exception:
+                continue
+            if not isfinite(vol):
+                continue
+            try:
+                side = str(getattr(t, "side", "")).lower()
+            except Exception:
+                continue
+            if side not in ("buy", "sell"):
+                continue
+            clean_trades.append(t)
+    if not clean_trades:
         return 0.0
-    cum_delta = calculate_cumulative_delta(trades)
-    if price_series and len(price_series) >= 2:
-        price_change = price_series[-1] - price_series[0]
-        if isfinite(price_change) and isfinite(cum_delta):
-            # Simple divergence measure
-            div = cum_delta * np.sign(price_change) if abs(price_change) > 1e-18 else cum_delta
-            if isfinite(div):
-                return float(div)
+
+    # Compute cum delta on clean trades
+    cum_delta = 0.0
+    for t in clean_trades:
+        try:
+            vol = float(t.size)
+        except Exception:
+            continue
+        if not isfinite(vol):
+            continue
+        side = str(t.side).lower()
+        if side == "buy":
+            cum_delta += vol
+        elif side == "sell":
+            cum_delta -= vol
+    if not isfinite(cum_delta):
+        return 0.0
+
+    # Normalize price series
+    price_change = float("nan")
+    if price_series is not None:
+        try:
+            ps = list(price_series)
+        except Exception:
+            ps = []
+        if len(ps) >= 2:
+            # Use first and last; filter non-finite
+            p0 = ps[0]
+            p1 = ps[-1]
+            try:
+                p0f = float(p0)
+                p1f = float(p1)
+            except Exception:
+                p0f = float("nan")
+                p1f = float("nan")
+            if isfinite(p0f) and isfinite(p1f) and p0f != 0:
+                price_change = p1f - p0f
+            elif isfinite(p0f) and isfinite(p1f):
+                price_change = p1f - p0f
+
+    if isfinite(price_change):
+        if abs(price_change) > 1e-18:
+            # Divergence sign: if delta and price move opposite directions, divergence high
+            sign_pc = 1.0 if price_change > 0 else -1.0
+            div = cum_delta * sign_pc
+        else:
+            div = cum_delta
+        if not isfinite(div):
+            return 0.0
+        # Clamp to reasonable range for robustness
+        if div < -1e18:
+            div = -1e18
+        if div > 1e18:
+            div = 1e18
+        return float(div)
+
     if isfinite(cum_delta):
         return float(cum_delta)
     return 0.0
@@ -343,59 +412,185 @@ def delta_divergence_vs_price(trades: List[Trade], price_series: List[float] = N
 
 def absorption_detection(trades: List[Trade], threshold: float = 2.0) -> float:
     """Absorption detection metric."""
-    if not trades or len(trades) < 3:
+    if trades is None:
         return 0.0
-    sizes = [t.size for t in trades]
+    try:
+        trades_list = list(trades)
+    except Exception:
+        return 0.0
+    if len(trades_list) < 3:
+        return 0.0
+
+    try:
+        th = float(threshold)
+    except Exception:
+        th = 2.0
+    if not isfinite(th) or th < 0:
+        th = 2.0
+
+    # Filter non-finite sizes
+    sizes = []
+    for t in trades_list:
+        try:
+            vol = float(getattr(t, "size", float("nan")))
+        except Exception:
+            continue
+        if not isfinite(vol):
+            continue
+        sizes.append(vol)
+    if len(sizes) < 3:
+        return 0.0
     avg_size = sum(sizes) / len(sizes)
     if avg_size == 0 or not isfinite(avg_size):
         return 0.0
-    large_trades = sum(1 for s in sizes if s > threshold * avg_size)
+    large_trades = 0
+    for s in sizes:
+        if s > th * avg_size:
+            large_trades += 1
     result = large_trades / len(sizes)
     if not isfinite(result):
         return 0.0
+    if result < 0.0:
+        result = 0.0
+    if result > 1.0:
+        result = 1.0
     return float(result)
 
 
 def vpin_style_toxicity(trades: List[Trade], bucket_size: int = 50) -> float:
     """VPIN-style toxicity proxy with finite-sample guards."""
-    if not trades or len(trades) < bucket_size:
+    if trades is None:
+        return 0.0
+    try:
+        trades_list = list(trades)
+    except Exception:
+        return 0.0
+    try:
+        bs = int(bucket_size)
+    except Exception:
+        bs = 50
+    if bs <= 0:
+        return 0.0
+    if len(trades_list) < bs:
         return 0.0
     # Simplified VPIN
     vpin = 0.0
-    num_buckets = min(10, len(trades) // bucket_size)
+    num_buckets = min(10, len(trades_list) // bs)
     if num_buckets == 0:
         return 0.0
     for i in range(num_buckets):
-        bucket = trades[i * bucket_size : (i + 1) * bucket_size]
-        buy_vol = sum(t.size for t in bucket if t.side.lower() == "buy")
-        sell_vol = sum(t.size for t in bucket if t.side.lower() == "sell")
+        bucket = trades_list[i * bs : (i + 1) * bs]
+        buy_vol = 0.0
+        sell_vol = 0.0
+        for t in bucket:
+            try:
+                vol = float(getattr(t, "size", float("nan")))
+            except Exception:
+                continue
+            if not isfinite(vol):
+                continue
+            try:
+                side = str(getattr(t, "side", "")).lower()
+            except Exception:
+                continue
+            if side == "buy":
+                buy_vol += vol
+            elif side == "sell":
+                sell_vol -= vol  # signed not needed; abs diff uses magnitudes separately
+        # better compute magnitudes
+    # recompute cleanly
+    vpin = 0.0
+    for i in range(num_buckets):
+        bucket = trades_list[i * bs : (i + 1) * bs]
+        buy_vol = 0.0
+        sell_vol = 0.0
+        for t in bucket:
+            try:
+                vol = float(getattr(t, "size", float("nan")))
+            except Exception:
+                continue
+            if not isfinite(vol):
+                continue
+            try:
+                side = str(getattr(t, "side", "")).lower()
+            except Exception:
+                continue
+            if side == "buy":
+                buy_vol += vol
+            elif side == "sell":
+                sell_vol += vol
         total = buy_vol + sell_vol
         if total > 0 and isfinite(buy_vol) and isfinite(sell_vol):
             vpin += abs(buy_vol - sell_vol) / total
     vpin_result = vpin / num_buckets if num_buckets > 0 else 0.0
     if not isfinite(vpin_result):
         return 0.0
-    # Clamp
-    if vpin_result < 0:
+    if vpin_result < 0.0:
         vpin_result = 0.0
-    if vpin_result > 1:
+    if vpin_result > 1.0:
         vpin_result = 1.0
     return float(vpin_result)
 
 
 def detect_aggressive_flow(trades: List[Trade], window: int = 50) -> float:
     """Detect aggressive orderflow: fraction of trades that are large and in the same direction."""
-    if not trades or len(trades) < 2:
+    if trades is None:
         return 0.0
-    trades_list = trades[-window:] if window is not None and window > 0 else trades
-    sizes = [t.size for t in trades_list]
+    try:
+        trades_list_all = list(trades)
+    except Exception:
+        return 0.0
+    if len(trades_list_all) < 2:
+        return 0.0
+
+    try:
+        w = int(window)
+    except Exception:
+        w = 50
+    if w <= 0:
+        trades_list = trades_list_all
+    else:
+        trades_list = trades_list_all[-w:] if len(trades_list_all) > w else trades_list_all
+
+    if len(trades_list) < 2:
+        return 0.0
+
+    # Filter valid trades
+    valid = []
+    for t in trades_list:
+        try:
+            vol = float(getattr(t, "size", float("nan")))
+        except Exception:
+            continue
+        if not isfinite(vol):
+            continue
+        try:
+            side = str(getattr(t, "side", "")).lower()
+        except Exception:
+            continue
+        if side not in ("buy", "sell"):
+            continue
+        valid.append((side, vol))
+    if len(valid) < 2:
+        return 0.0
+
+    sizes = [v for _, v in valid]
     avg_size = sum(sizes) / len(sizes)
     if avg_size == 0 or not isfinite(avg_size):
         return 0.0
-    buy_aggressive = sum(1 for t in trades_list if t.side.lower() == "buy" and t.size > 2.0 * avg_size)
-    sell_aggressive = sum(1 for t in trades_list if t.side.lower() == "sell" and t.size > 2.0 * avg_size)
-    total = len(trades_list)
-    aggressive_ratio = (buy_aggressive - sell_aggressive) / total if total > 0 else 0.0
+
+    buy_aggressive = 0
+    sell_aggressive = 0
+    for side, vol in valid:
+        if vol > 2.0 * avg_size:
+            if side == "buy":
+                buy_aggressive += 1
+            elif side == "sell":
+                sell_aggressive += 1
+    total = len(valid)
+    if total == 0 or not isfinite(total):
+        return 0.0
+    aggressive_ratio = (buy_aggressive - sell_aggressive) / total
     if not isfinite(aggressive_ratio):
         return 0.0
     if aggressive_ratio < -1.0:
