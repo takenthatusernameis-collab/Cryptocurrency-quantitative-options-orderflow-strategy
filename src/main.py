@@ -12,9 +12,9 @@ import yaml
 
 from .backtest.engine import BacktestEngine
 from .data.normalization import normalize_options_chain, normalize_orderflow
-from .features.gamma_exposure import calculate_total_gex
-from .features.orderflow import calculate_cumulative_delta
-from .features.volatility import calculate_put_call_ratio
+from .features.gamma_exposure import calculate_total_gex, gamma_flip_level
+from .features.orderflow import calculate_cumulative_delta, calculate_orderflow_imbalance
+from .features.volatility import calculate_put_call_ratio, calculate_iv_skew, calculate_max_pain
 from .ingestion.binance import BinanceOptionsIngestion, BinanceOrderflowIngestion
 from .ingestion.deribit import DeribitOptionsIngestion, DeribitOrderflowIngestion
 from .ingestion.okx import OKXOptionsIngestion, OKXOrderflowIngestion
@@ -27,7 +27,45 @@ def load_config(config_path: str = "config/settings.yaml") -> Dict[str, Any]:
         return yaml.safe_load(f) or {}
 
 
+def validate_config_dict(config: Dict[str, Any]) -> None:
+    """Validate required config fields; raise ValueError with field names if missing/invalid."""
+    from .config import validate_config, StrategyConfig
+    # Build StrategyConfig from dict
+    venues_raw = config.get("venues", [])
+    venues = []
+    for v in venues_raw:
+        if isinstance(v, str):
+            from .config import VenueConfig
+            venues.append(VenueConfig(name=v))
+        elif isinstance(v, dict):
+            from .config import VenueConfig
+            venues.append(VenueConfig(**v))
+    data_raw = config.get("data", {})
+    from .config import DataConfig, BacktestConfig, RiskConfig
+    data_cfg = DataConfig(
+        symbols=data_raw.get("symbols", ["BTC", "ETH"]),
+        include_liquidations=data_raw.get("orderflow", {}).get("include_liquidations", True),
+        include_trades=data_raw.get("orderflow", {}).get("include_trades", True),
+        options_interval=data_raw.get("options", {}).get("interval", 60),
+    )
+    bt_raw = config.get("backtest", {})
+    bt_cfg = BacktestConfig(**bt_raw)
+    risk_raw = config.get("risk", {})
+    risk_cfg = RiskConfig(**risk_raw)
+    cfg = StrategyConfig(venues=venues, data=data_cfg, backtest=bt_cfg, risk=risk_cfg)
+    validate_config(cfg)
+
+
 def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Dict[str, Any]:
+    try:
+        validate_config_dict(config)
+    except ValueError as e:
+        return {
+            "venues": config.get("venues", []),
+            "symbols": symbols or config.get("data", {}).get("symbols", ["BTC", "ETH"]),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "errors": [f"config_validation: {e}"],
+        }
     venues = config.get("venues", ["deribit", "okx", "binance"])
     symbols = symbols or config.get("data", {}).get("symbols", ["BTC", "ETH"])
     results: Dict[str, Any] = {
@@ -93,8 +131,8 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
 
     signal_gen = CompositeSignalGenerator()
     signals = {}
-    try:
-        for key, chain in ingested_chains.items():
+    for key, chain in ingested_chains.items():
+        try:
             v, sym = key.split(":", 1)
             spot_price = 50000.0
             if chain.quotes:
@@ -103,16 +141,21 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                     spot_price = sum(mids) / len(mids)
             total_gex = calculate_total_gex(chain, spot_price)
             cum_delta = 0.0
+            of_imbalance = 0.0
             if key in ingested_orderflows:
-                cum_delta = calculate_cumulative_delta(ingested_orderflows[key].trades)
+                trades = ingested_orderflows[key].trades
+                cum_delta = calculate_cumulative_delta(trades)
+                of_imbalance = calculate_orderflow_imbalance(trades)
             pcr = calculate_put_call_ratio(chain)
+            iv_skew = calculate_iv_skew(chain.quotes, spot_price)
+            max_pain = calculate_max_pain(chain)
             signal = signal_gen.generate_signal(
                 symbol=sym,
                 spot_price=spot_price,
                 total_gex=total_gex,
                 cum_delta=cum_delta,
-                of_imbalance=0.0,
-                iv_skew=0.0,
+                of_imbalance=of_imbalance,
+                iv_skew=iv_skew,
                 put_call_ratio=pcr,
             )
             signals[key] = {
@@ -121,12 +164,19 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 "strength": signal.strength,
                 "confidence": signal.confidence,
                 "components": signal.components,
+                "regime": getattr(signal, "regime", "unknown"),
                 "spot_price": spot_price,
                 "total_gex": total_gex,
+                "cumulative_delta": cum_delta,
+                "orderflow_imbalance": of_imbalance,
+                "iv_skew": iv_skew,
+                "put_call_ratio": pcr,
+                "max_pain": max_pain,
+                "gamma_flip": gamma_flip_level(chain, spot_price),
             }
-        results["signals"] = signals
-    except Exception as e:
-        results.setdefault("errors", []).append(f"signal_generation: {e}")
+        except Exception as e:
+            results.setdefault("errors", []).append(f"signal_generation_{key}: {e}")
+    results["signals"] = signals
 
     try:
         from .config import BacktestConfig, RiskConfig
