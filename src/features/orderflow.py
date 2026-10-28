@@ -209,5 +209,27 @@ def vpin_style_toxicity(trades: List[Trade], bucket_size: int = 50) -> float:
     return float(vpin_result)
 
 
+def detect_aggressive_flow(trades: List[Trade], window: int = 50) -> float:
+    """Detect aggressive orderflow: fraction of trades that are large and in the same direction."""
+    if not trades or len(trades) < 2:
+        return 0.0
+    trades_list = trades[-window:] if window is not None and window > 0 else trades
+    sizes = [t.size for t in trades_list]
+    avg_size = sum(sizes) / len(sizes)
+    if avg_size == 0 or not isfinite(avg_size):
+        return 0.0
+    buy_aggressive = sum(1 for t in trades_list if t.side.lower() == "buy" and t.size > 2.0 * avg_size)
+    sell_aggressive = sum(1 for t in trades_list if t.side.lower() == "sell" and t.size > 2.0 * avg_size)
+    total = len(trades_list)
+    aggressive_ratio = (buy_aggressive - sell_aggressive) / total if total > 0 else 0.0
+    if not isfinite(aggressive_ratio):
+        return 0.0
+    if aggressive_ratio < -1.0:
+        aggressive_ratio = -1.0
+    if aggressive_ratio > 1.0:
+        aggressive_ratio = 1.0
+    return float(aggressive_ratio)
+
+
 vpin_toxicity = vpin_style_toxicity
 trade_intensity = detect_aggressive_flow
