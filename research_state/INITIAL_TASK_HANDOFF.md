@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-28T19-32-38Z
+Timestamp (UTC): 2026-10-28T19-44-07Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 115 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
@@ -18,15 +18,16 @@ Everything must serve (1)-(5). Numerical correctness > elegance. No shortcuts.
 ## Initial Task Message (FOR NEXT AGENTIC WORK SESSION — MANDATORY, NON-OPTIONAL)
 EXECUTE NOW. START AT PHASE 7 CONTINUATION. Pick ONE highest-impact uncompleted item and COMPLETE IT END-TO-END (code + tests). Do not split scope. Leave heavy work for the next agent.
 
-**HIGHEST-IMPACT ITEM: Final hardening pass (edge cases, determinism, serialization, config validation, numerical guards) (Phase 7)**
+**HIGHEST-IMPACT ITEM: Comprehensive hardening pass for production robustness (Phase 7)**
 Scope (COMPLETE FULLY):
-1. **Edge cases**: Harden gamma/VPIN/cumulative delta against empty/NaN/Inf, division by zero, missing greeks; ensure all feature functions enforce finiteness and raise NonFiniteResultError/FeatureError with context where appropriate.
-2. **Determinism**: Audit RNG usage (backtest slippage/partial fills) — ensure seeded determinism; add DeterminismError guards if non-deterministic paths detected; tests for reproducibility.
-3. **Serialization**: Ensure all pipeline outputs JSON-serializable with allow_nan=False; harden main.py sanitization and add serialization guards using SerializationError where needed.
-4. **Config validation**: Extend validation coverage (venues, risk limits, numeric ranges) with precise field errors; ensure defaults safe.
-5. **Numerical guards**: Add guards in backtest engine (insufficient cash, short-notional breach, risk limits) raising RiskLimitError/OrderError with context; log violations.
-6. Quant-precise docstrings for all guards. Full implementation + tests. Keep pytest green (115+). Keep mypy clean.
-7. After completion, verify end-to-end pipeline still produces valid JSON and metrics stable.
+1. **Edge cases in dealer positioning/gamma**: Harden gamma calculations against empty/NaN/Inf, division by zero, missing greeks; ensure all feature functions enforce finiteness and raise NonFiniteResultError/FeatureError with context where appropriate. Focus on gamma_exposure, gamma bands, gamma flip.
+2. **Orderflow microstructure hardening**: Strengthen VPIN, absorption, delta divergence, multi-horizon orderflow against empty windows, all-sell/all-buy scenarios, extreme sizes; ensure proper clamping and finiteness.
+3. **Determinism**: Audit RNG usage (backtest slippage/partial fills, walk-forward) — ensure seeded determinism everywhere; add DeterminismError guards if non-deterministic paths detected; tests for reproducibility.
+4. **Serialization safety**: Ensure all pipeline outputs JSON-serializable with allow_nan=False; harden main.py sanitization and add serialization guards using SerializationError where needed. Propagate sanitization to all metrics.
+5. **Config validation**: Extend validation coverage (venues, risk limits, numeric ranges, backtest params) with precise field errors; ensure defaults safe.
+6. **Numerical guards in backtest**: Add guards (insufficient cash, short-notional breach, risk limits) raising RiskLimitError/OrderError with context; log violations. Ensure walk-forward doesn't propagate NaN.
+7. Quant-precise docstrings for all guards. Full implementation + tests. Keep pytest green (115+). Keep mypy clean.
+8. After completion, verify end-to-end pipeline still produces valid JSON and metrics stable.
 
 ## Immediate Objectives
 - Finish Phase 7 final hardening pass comprehensively.
@@ -62,7 +63,7 @@ Heavy engineering only. Mathematical correctness mandatory. Numerical stability 
 - DO NOT avoid heavy work. Execute in order without skipping.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T19-32-38Z.md (AUTHORITATIVE — THIS FILE)
+1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T19-44-07Z.md (AUTHORITATIVE — THIS FILE)
 2. research_state/durable_handoff.md (MIRROR)
 3. research_state/INITIAL_TASK_HANDOFF.md (MIRROR — referenced by tests/test_campaign_resume.py)
 4. All other INITIAL_TASK_HANDOFF_LATEST_* files are SUPERSEDED.
