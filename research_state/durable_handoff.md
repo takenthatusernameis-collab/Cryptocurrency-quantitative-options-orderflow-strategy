@@ -1,12 +1,12 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-28T05-37-08Z
+Timestamp (UTC): 2026-10-28T06-27-46Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Run Context: ACTIVE-HANDOFF. HEAD clean. 57 tests passing. Heavy engineering only.
+Run Context: ACTIVE-HANDOFF. HEAD clean relative to origin/main. Working tree clean except intentional src/main.py edit (unstaged) and staged __pycache__ de-tracking deletions (not committed). 57 tests passing. Heavy engineering only.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION — MANDATORY)
 
-See `research_state/HEAVY_WORK_INITIAL_TASK_2026-10-28T05-37-08Z.md` for the full timestamped message.
+See `research_state/HEAVY_WORK_INITIAL_TASK_2026-10-28T06-27-46Z.md` for the full timestamped message. This file supersedes all earlier `research_state/HEAVY_WORK_INITIAL_TASK_*.md` and `research_state/HEAVY_WORK_HANDOFF_*.md` files.
 
 **PRIORITY 1: HEAVY QUANTITATIVE IMPLEMENTATION — NO SCAFFOLDING, NO PLACEHOLDERS**
 
@@ -20,8 +20,8 @@ You are inheriting a codebase with solid scaffolding (57 tests green). The proje
 - Phase 5 (MED): Property-based + numeric invariant tests; maintain 100% pass.
 
 ### BOTTLENECKS REMOVED THIS SESSION
-- De-tracked all remaining __pycache__/*.pyc from git index; .gitignore excludes them.
-- Verified 57/57 tests green.
+- Wired missing imports into `src/main.py` (venue ingestion classes, CompositeSignalGenerator, feature functions); tests that patch `src.main.<Class>` now resolve — 57/57 tests green (was 54 pass / 3 fail).
+- De-tracked all 18 tracked `__pycache__/*.pyc` from git index; `.gitignore` excludes them going forward.
 - Consolidated prior handoffs; this is the latest durable handoff with timestamped initial task message.
 
 ### NEXT ACTION (START IMMEDIATELY)
