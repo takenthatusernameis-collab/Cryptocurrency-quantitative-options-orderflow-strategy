@@ -4,7 +4,7 @@ from __future__ import annotations
 import re
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 
 import requests
 
@@ -70,7 +70,7 @@ class DeribitClient:
                 data = resp.json()
                 if isinstance(data, dict) and data.get("error"):
                     raise RuntimeError(f"Deribit API error: {data['error']}")
-                return data
+                return cast(Dict[str, Any], data)
             except Exception as exc:
                 last_exc = exc
                 time.sleep(0.2 * (attempt + 1))

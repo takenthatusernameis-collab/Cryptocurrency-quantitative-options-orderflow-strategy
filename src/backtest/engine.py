@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from math import isfinite
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 from ..config import BacktestConfig, RiskConfig
 
@@ -48,7 +48,12 @@ class BacktestResults:
 
 
 class BacktestEngine:
-    def __init__(self, config: Optional[BacktestConfig] = None, risk_config: Optional[RiskConfig] = None, **kwargs) -> None:
+    def __init__(
+        self,
+        config: Optional[BacktestConfig] = None,
+        risk_config: Optional[RiskConfig] = None,
+        **kwargs: Any,
+    ) -> None:
         if config is None and kwargs:
             # Extract config fields
             cfg_kwargs = {k: v for k, v in kwargs.items() if k in BacktestConfig.__dataclass_fields__}
@@ -468,7 +473,13 @@ class WalkForwardResults:
 
 
 class WalkForwardBacktest:
-    def __init__(self, engine: Optional[BacktestEngine] = None, config: Optional[BacktestConfig] = None, risk_config: Optional[RiskConfig] = None, **kwargs):
+    def __init__(
+        self,
+        engine: Optional[BacktestEngine] = None,
+        config: Optional[BacktestConfig] = None,
+        risk_config: Optional[RiskConfig] = None,
+        **kwargs: Any,
+    ) -> None:
         # Be flexible about positional args
         # If first arg is not a BacktestEngine instance
         if engine is not None and not isinstance(engine, BacktestEngine):
@@ -748,7 +759,7 @@ class WalkForwardBacktest:
 
 
 # Convenience functions
-def run_walk_forward(*args, **kwargs) -> WalkForwardResults:
+def run_walk_forward(*args: Any, **kwargs: Any) -> WalkForwardResults:
     # Extract walkforward-specific params
     wf_params = {}
     for k in ['price_series', 'signals', 'timestamps', 'train_window', 'test_window',
@@ -759,7 +770,7 @@ def run_walk_forward(*args, **kwargs) -> WalkForwardResults:
     return wfb.run_walk_forward(**wf_params)
 
 
-def run_rolling_window_backtest(*args, **kwargs) -> WalkForwardResults:
+def run_rolling_window_backtest(*args: Any, **kwargs: Any) -> WalkForwardResults:
     wf_params = {}
     for k in ['price_series', 'signals', 'timestamps', 'train_window', 'test_window',
               'step_size', 'rolling', 'anchored', 'min_train_size']:

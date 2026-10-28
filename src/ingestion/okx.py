@@ -4,7 +4,7 @@ from __future__ import annotations
 import re
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, cast
 
 import requests
 
@@ -72,7 +72,7 @@ class OKXClient:
                 data = resp.json()
                 if isinstance(data, dict) and str(data.get("code")) not in ("0", "00000"):
                     raise RuntimeError(f"OKX API error: {data.get('code')} {data.get('msg')}")
-                return data
+                return cast(Dict[str, Any], data)
             except Exception as exc:
                 last_exc = exc
                 time.sleep(0.2 * (attempt + 1))

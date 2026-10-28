@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from math import isfinite
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 
 @dataclass
@@ -31,15 +31,15 @@ class CompositeSignalGenerator:
     (dispersion), not just |composite|.
     """
 
-    def __init__(self):
-        self.base_weights = {
+    def __init__(self) -> None:
+        self.base_weights: Dict[str, float] = {
             "gamma": 0.25,
             "orderflow": 0.30,
             "vol_skew": 0.25,
             "put_call": 0.20,
         }
         # Regime-specific weight overrides
-        self.regime_weights = {
+        self.regime_weights: Dict[str, Dict[str, float]] = {
             "high_vol_negative_gex": {"gamma": 0.45, "orderflow": 0.30, "vol_skew": 0.15, "put_call": 0.10},
             "low_vol_positive_gex": {"gamma": 0.15, "orderflow": 0.25, "vol_skew": 0.30, "put_call": 0.30},
             "skew_bearish": {"gamma": 0.25, "orderflow": 0.30, "vol_skew": 0.35, "put_call": 0.10},
@@ -79,7 +79,7 @@ class CompositeSignalGenerator:
         of_imbalance: float = 0.0,
         iv_skew: float = 0.0,
         put_call_ratio: float = 1.0,
-        **kwargs,
+        **kwargs: Any,
     ) -> Signal:
         """Generate regime-aware composite trading signal."""
         components = {}

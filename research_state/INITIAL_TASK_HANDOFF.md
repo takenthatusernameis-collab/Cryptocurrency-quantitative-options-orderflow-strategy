@@ -1,9 +1,9 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
 
-Timestamp (UTC): 2026-10-28T14:21:43Z
+Timestamp (UTC): 2026-10-28T15:23:13Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 115 TESTS PASSING | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
+State: 115 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION
@@ -12,21 +12,22 @@ Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 ## BOTTLENECKS REMOVED THIS SESSION
 - No blocked/inefficient sessions detected. Working tree clean. 115 tests passing. No TODO/FIXME/HACK/PLACEHOLDER markers in src/ or tests/.
 - Phase 7 first item (performance benchmarks for hot paths) COMPLETE: tests/test_performance_benchmarks.py green with SLO assertions and baseline timings.
+- Phase 7 second item (type-hint coverage across src/) COMPLETE: mypy --disallow-untyped-defs --warn-return-any clean on all 23 source files; every public function/class annotated (Optional, Sequence, Mapping, Dict, List, cast where needed); no untyped defs remain.
 
 ## Initial Task Message (FOR NEXT AGENTIC WORK SESSION — MANDATORY)
 
 START IMMEDIATELY AT PHASE 7 (NEXT ITEM). Pick ONE highest-impact uncompleted item and implement it FULLY with tests. Do NOT split; complete end-to-end. Leave heavy work for the next agent.
 
-HIGHEST-IMPACT ITEM: Type-hint coverage across src/ (Phase 7)
+HIGHEST-IMPACT ITEM: Docstrings for complex calculations (Phase 7)
 - Scope (COMPLETE FULLY):
-  1. Add comprehensive type hints to all public functions/classes in src/ where missing; use typing (Optional, Sequence, Mapping, etc.) consistent with existing style.
-  2. Run static type checks if available; keep pytest green (115+ passing).
+  1. Add clear, correct docstrings to all public functions/classes in src/ lacking them, emphasizing the math (GEX, gamma flip, VPIN, skew term structure, max pain, walk-forward metrics) and numerical-stability guards.
+  2. Keep pytest green (115+ passing) and mypy clean.
   3. No placeholders/TODOs/FIXMEs. All changes tested where behavior affected.
-  4. Once type-hint coverage is complete, continue Phase 7: docstrings for complex calculations, then more specific exception types + structured logging.
+  4. Once docstrings are complete, continue Phase 7: more specific exception types + structured logging.
 
 ## Immediate Objectives
-- Close Phase 7 type-hint coverage with tests/static checks green.
-- Maintain 115+ tests passing; working tree clean.
+- Close Phase 7 docstrings with tests/static checks green.
+- Maintain 115+ tests passing; mypy clean; working tree clean.
 
 ## Next Focus Campaign (MANDATORY — NEVER AVOID HEAVY WORK)
 ### Phase 1: ADVANCED GAMMA EXPOSURE & DEALER POSITIONING — COMPLETE
@@ -43,8 +44,8 @@ HIGHEST-IMPACT ITEM: Type-hint coverage across src/ (Phase 7)
 - [x] End-to-end pipeline tests; property-based/numeric invariant tests; campaign resume + non-finite serialization guards; vectorization audit
 ### Phase 7: PRODUCTION READINESS — IN PROGRESS
 - [x] Performance benchmarks for hot paths (GEX, orderflow, backtest equity curve) — COMPLETE
-- [ ] Type-hint coverage across src/ — START NOW
-- [ ] Docstrings for complex calculations
+- [x] Type-hint coverage across src/ — COMPLETE
+- [ ] Docstrings for complex calculations — START NOW
 - [ ] More specific exception types + structured logging
 
 ## MANDATE (UNCOMPROMISING)
@@ -53,13 +54,14 @@ Heavy engineering only. Mathematical correctness mandatory. Numerical stability 
 ## EXECUTION RULES
 - Working tree clean; do not create untracked junk.
 - Run tests after changes (python -m pytest). Maintain passing state (currently 115 passing).
+- Run static type checks (python -m mypy src/ --disallow-untyped-defs --warn-return-any). Keep clean.
 - Fix inefficiencies/blockers immediately before moving on.
 - Prioritize by project name: crypto options orderflow + dealer positioning + surface dynamics + rigorous backtesting.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T14-21-43Z.md (AUTHORITATIVE — THIS FILE)
+1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T15-23-13Z.md (AUTHORITATIVE)
 2. research_state/durable_handoff.md (MIRROR — UPDATE TO SAME CONTENT)
 3. research_state/INITIAL_TASK_HANDOFF.md (MIRROR — UPDATE TO SAME CONTENT; referenced by tests/test_campaign_resume.py)
-4. Prior LATEST files superseded.
+4. Prior LATEST files superseded (incl. 2026-10-28T14-21-43Z).
 
-EXECUTE NOW. START AT PHASE 7 (TYPE-HINT COVERAGE). NO DELAY. DO HEAVY WORK.
+EXECUTE NOW. START AT PHASE 7 (DOCSTRINGS FOR COMPLEX CALCULATIONS). NO DELAY. DO HEAVY WORK.
