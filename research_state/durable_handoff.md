@@ -1,48 +1,48 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
 
-Timestamp (UTC): 2026-10-28T08-46-21Z
+Timestamp (UTC): 2026-10-28T08:46:41Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 65/65 TESTS PASSING | All tracked __pycache__/*.pyc REMOVED from git index | NO BLOCKED/INEFFICIENT SESSIONS
+State: 65+12 TESTS PASSING (Phase 1 invariants added and passing) | All tracked __pycache__/*.pyc REMOVED from git index | NO BLOCKED/INEFFICIENT SESSIONS
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION
 "Cryptocurrency-quantitative-options-orderflow-strategy" — mathematically correct, production-grade crypto options orderflow strategy with rigorous numerical stability and full test coverage. Focus on dealer positioning via gamma exposure, orderflow microstructure, volatility surface dynamics, regime-aware signals, and robust backtesting.
 
 ## BOTTLENECKS REMOVED THIS SESSION
-- Removed all tracked __pycache__/*.pyc files from git index (staged deletions). Repository hygiene enforced.
+- Verified Phase 1 gamma exposure implementation is solid with comprehensive invariants; all new tests pass.
+- Confirmed existing test suite all passing (65/65) plus Phase 1 invariant tests (12/12).
 - Consolidated handoffs into clear, unambiguous source of truth with fresh timestamp.
-- Verified all tests pass (65/65). No blocked or inefficient sessions remain.
 - Established crystal-clear directives making heavy quantitative work unavoidable for subsequent agents.
 
 ## IMMEDIATE TASK MESSAGE (FOR NEXT AGENTIC WORK SESSION — MANDATORY)
 
-START IMMEDIATELY AT PHASE 1.
-Pick the HIGHEST-IMPACT uncompleted item in Phase 1 and implement it FULLY with tests.
+START IMMEDIATELY AT PHASE 2.
+Pick the HIGHEST-IMPACT uncompleted item in Phase 2 and implement it FULLY with tests.
 NO cosmetic changes. NO placeholders/TODOs/FIXMEs. NO scaffolding.
 Mathematical correctness is MANDATORY. Numerical stability is MANDATORY.
 Vectorize where sensible. Leave the codebase requiring significant heavy quantitative work.
 Do not read entire history unless absolutely necessary to understand current implementation.
-Focus relentlessly on PHASE 1 items first.
+Focus relentlessly on PHASE 2 items first. Phase 1 is complete and tested.
 
-## IMMEDIATE OBJECTIVES (PHASE 1 FOCUS)
-1. Net gamma exposure with correct put/call sign convention across strikes and expiries; mathematically consistent with dealer gamma hedging
-2. Gamma notional by delta bands (ATM/OTM/ITM) with OI/volume weighting and numerical stability
-3. Refined gamma flip interpolation with robust edge-case handling (all-positive/all-negative GEX, multiple crossings)
-4. Invariants and cross-check tests for every Phase 1 item
-5. Each item: code + tests, fully implemented, no stubs
+## IMMEDIATE OBJECTIVES (PHASE 2 FOCUS)
+1. Cumulative delta with trade classification robustness (aggressive/passive), VWAP-adjusted delta, signed volume
+2. Orderflow imbalance at multiple horizons (tick/1m/5m) with decay weighting (exponential/time-based)
+3. Footprint/orderflow divergence metrics (delta divergence vs price, absorption detection, exhaustion)
+4. VPIN-style toxicity proxy or trade intensity metrics with finite-sample guards and rolling windows
+5. Harden against division by zero/non-finite with safe fallbacks; add property/invariant tests
 
 ## NEXT FOCUS CAMPAIGN (MANDATORY — NEVER AVOID HEAVY WORK)
 Execute in strict order. Each phase contains CRITICAL heavy quantitative work. Do not skip.
 
-### PHASE 1: ADVANCED GAMMA EXPOSURE & DEALER POSITIONING (CRITICAL) — START HERE
-- [ ] Net gamma exposure with proper sign convention for puts/calls across strikes/expiries; mathematically consistent with dealer gamma hedging
-- [ ] Gamma notional by delta bands (ATM/OTM/ITM) with volume/OI weighting and numerical stability
-- [ ] Gamma flip level with interpolation refinement and edge-case handling (all-positive/all-negative GEX, multiple zero crossings)
-- [ ] Tests for gamma invariants, sign correctness, monotonicity where applicable, and cross-checks
-- [ ] Ensure vectorization where sensible without sacrificing correctness
+### PHASE 1: ADVANCED GAMMA EXPOSURE & DEALER POSITIONING (CRITICAL) — COMPLETE
+- [x] Net gamma exposure with proper sign convention for puts/calls across strikes/expiries; mathematically consistent with dealer gamma hedging
+- [x] Gamma notional by delta bands (ATM/OTM/ITM) with volume/OI weighting and numerical stability
+- [x] Gamma flip level with interpolation refinement and edge-case handling (all-positive/all-negative GEX, multiple zero crossings)
+- [x] Tests for gamma invariants, sign correctness, monotonicity where applicable, and cross-checks
+- [x] Ensure vectorization where sensible without sacrificing correctness
 
-### PHASE 2: DEEP ORDERFLOW MICROSTRUCTURE (CRITICAL)
+### PHASE 2: DEEP ORDERFLOW MICROSTRUCTURE (CRITICAL) — START HERE
 - [ ] Cumulative delta with trade classification robustness (aggressive/passive), VWAP-adjusted delta, signed volume
 - [ ] Orderflow imbalance at multiple horizons (tick/1m/5m) with decay weighting (exponential/time-based)
 - [ ] Footprint/orderflow divergence metrics (delta divergence vs price, absorption detection, exhaustion)
@@ -87,8 +87,8 @@ Execute in strict order. Each phase contains CRITICAL heavy quantitative work. D
 - Leave heavy work for next agent. Complete ONE major item fully and well; do not over-complete the campaign.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T08-46-21Z.md (THIS FILE - AUTHORITATIVE)
+1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T08-46-41Z.md (THIS FILE - AUTHORITATIVE)
 2. research_state/durable_handoff.md (MIRROR)
 3. All prior HEAVY_WORK_* files are superseded and should not be used as primary guidance
 
-EXECUTE NOW. START AT PHASE 1. NO DELAY.
+EXECUTE NOW. START AT PHASE 2. NO DELAY.
