@@ -6,6 +6,24 @@ from typing import Dict, List, Optional, Tuple
 import numpy as np
 
 from ..data.schemas import OptionsChain, OptionQuote
+from ..errors import FeatureError, NonFiniteResultError
+
+
+def _ensure_finite(value: float, name: str, context: Optional[Dict[str, object]] = None) -> float:
+    try:
+        v = float(value)
+    except Exception as e:
+        raise NonFiniteResultError(
+            f"{name} must be finite",
+            context={"field": name, **(context or {})},
+            cause=e,
+        )
+    if not isfinite(v):
+        raise NonFiniteResultError(
+            f"{name} must be finite",
+            context={"field": name, **(context or {})},
+        )
+    return v
 
 
 def calculate_gamma_exposure(quote: OptionQuote, spot_price: float) -> float:
@@ -18,29 +36,45 @@ def calculate_gamma_exposure(quote: OptionQuote, spot_price: float) -> float:
     (dealers short puts are short gamma). Returns 0.0 on missing inputs or
     non-finite values for numerical stability.
     """
-    if quote.gamma is None or quote.open_interest is None:
-        return 0.0
-    if quote.open_interest == 0:
-        return 0.0
+    ctx = {"function": "calculate_gamma_exposure"}
+    try:
+        if quote is None:
+            return 0.0
+        if quote.gamma is None or quote.open_interest is None:
+            return 0.0
+        if quote.open_interest == 0:
+            return 0.0
 
-    gamma = float(quote.gamma)
-    oi = float(quote.open_interest)
-    contract_size = float(getattr(quote.contract, "contract_size", 1.0))
-    spot = float(spot_price) if spot_price > 0 else 0.0
-    if not isfinite(gamma) or not isfinite(oi) or not isfinite(spot):
-        return 0.0
+        gamma = float(quote.gamma)
+        oi = float(quote.open_interest)
+        contract_size = float(getattr(getattr(quote, "contract", None), "contract_size", 1.0))
+        spot = float(spot_price) if spot_price > 0 else 0.0
+        if not isfinite(gamma) or not isfinite(oi) or not isfinite(spot):
+            return 0.0
+        if spot <= 0:
+            raise NonFiniteResultError(
+                "spot_price must be positive and finite",
+                context={**ctx, "spot_price": spot_price},
+            )
 
-    # GEX in terms of dollar gamma exposure (common convention)
-    gex = gamma * oi * contract_size * (spot ** 2) / 100.0
+        # GEX in terms of dollar gamma exposure (common convention)
+        gex = gamma * oi * contract_size * (spot ** 2) / 100.0
 
-    if quote.contract.option_type.lower() == "put":
-        gex = -abs(gex)
-    else:
-        gex = abs(gex)
+        if getattr(getattr(quote, "contract", None), "option_type", "call").lower() == "put":
+            gex = -abs(gex)
+        else:
+            gex = abs(gex)
 
-    if not isfinite(gex):
-        return 0.0
-    return gex
+        if not isfinite(gex):
+            raise NonFiniteResultError(
+                "gamma exposure result not finite",
+                context={**ctx, "gamma": gamma, "oi": oi, "spot": spot},
+            )
+        return gex
+    except (NonFiniteResultError, FeatureError):
+        raise
+    except Exception as e:
+        raise FeatureError("Failed to calculate gamma exposure", context=ctx, cause=e)
 
 
 def calculate_delta_weighted_gex(quote: OptionQuote, spot_price: float) -> float:
@@ -50,25 +84,36 @@ def calculate_delta_weighted_gex(quote: OptionQuote, spot_price: float) -> float
     contracts receive higher weight) to emphasize near-the-money positioning.
     Falls back to the unweighted GEX if delta is missing or non-finite.
     """
-    base_gex = calculate_gamma_exposure(quote, spot_price)
-    if not isfinite(base_gex):
-        return 0.0
-    if quote.delta is None:
-        return base_gex
-    delta = float(quote.delta)
-    if not isfinite(delta):
-        return base_gex
-    # Weight by absolute delta scaled to [0,1] to emphasize ATM
-    weight = abs(delta)
-    if weight < 0.0:
-        weight = 0.0
-    if weight > 1.0:
-        weight = 1.0
-    # Blend: emphasize contracts with higher |delta| (closer to ATM)
-    dw_gex = base_gex * (0.5 + 0.5 * weight)
-    if not isfinite(dw_gex):
-        return base_gex
-    return dw_gex
+    ctx = {"function": "calculate_delta_weighted_gex"}
+    try:
+        base_gex = calculate_gamma_exposure(quote, spot_price)
+        if not isfinite(base_gex):
+            raise NonFiniteResultError(
+                "base gamma exposure not finite", context={**ctx}
+            )
+        if quote is None or quote.delta is None:
+            return base_gex
+        delta = float(quote.delta)
+        if not isfinite(delta):
+            return base_gex
+        # Weight by absolute delta scaled to [0,1] to emphasize ATM
+        weight = abs(delta)
+        if weight < 0.0:
+            weight = 0.0
+        if weight > 1.0:
+            weight = 1.0
+        # Blend: emphasize contracts with higher |delta| (closer to ATM)
+        dw_gex = base_gex * (0.5 + 0.5 * weight)
+        if not isfinite(dw_gex):
+            raise NonFiniteResultError(
+                "delta-weighted gex not finite",
+                context={**ctx, "delta": delta},
+            )
+        return dw_gex
+    except (NonFiniteResultError, FeatureError):
+        raise
+    except Exception as e:
+        raise FeatureError("Failed to calculate delta-weighted gex", context=ctx, cause=e)
 
 
 def calculate_oi_volume_weighted_gex(quote: OptionQuote, spot_price: float) -> float:
@@ -78,23 +123,35 @@ def calculate_oi_volume_weighted_gex(quote: OptionQuote, spot_price: float) -> f
     partial contributor) capped at 2.0 to avoid extreme scaling. Falls back to
     base GEX on missing/non-finite inputs or zero liquidity.
     """
-    base_gex = calculate_gamma_exposure(quote, spot_price)
-    if not isfinite(base_gex):
-        return 0.0
-    oi = float(quote.open_interest) if quote.open_interest is not None else 0.0
-    vol = float(quote.volume) if quote.volume is not None else 0.0
-    if not isfinite(oi) or not isfinite(vol):
-        return base_gex
-    # Weight by liquidity proxy
-    total_liq = oi + vol
-    if total_liq <= 0:
-        return base_gex
-    # Normalized weight, cap to avoid extreme scaling
-    w = min(2.0, (oi + 0.5 * vol) / (max(1.0, oi) if oi > 0 else (vol + 1.0)))
-    w_gex = base_gex * w
-    if not isfinite(w_gex):
-        return base_gex
-    return w_gex
+    ctx = {"function": "calculate_oi_volume_weighted_gex"}
+    try:
+        base_gex = calculate_gamma_exposure(quote, spot_price)
+        if not isfinite(base_gex):
+            raise NonFiniteResultError("base gamma exposure not finite", context={**ctx})
+        if quote is None:
+            return base_gex
+        oi = float(quote.open_interest) if quote.open_interest is not None else 0.0
+        vol = float(quote.volume) if quote.volume is not None else 0.0
+        if not isfinite(oi) or not isfinite(vol):
+            return base_gex
+        # Weight by liquidity proxy
+        total_liq = oi + vol
+        if total_liq <= 0:
+            return base_gex
+        # Normalized weight, cap to avoid extreme scaling
+        w = min(2.0, (oi + 0.5 * vol) / (max(1.0, oi) if oi > 0 else (vol + 1.0)))
+        if not isfinite(w) or w < 0:
+            return base_gex
+        w_gex = base_gex * w
+        if not isfinite(w_gex):
+            raise NonFiniteResultError(
+                "oi/volume weighted gex not finite", context={**ctx}
+            )
+        return w_gex
+    except (NonFiniteResultError, FeatureError):
+        raise
+    except Exception as e:
+        raise FeatureError("Failed to calculate oi/volume weighted gex", context=ctx, cause=e)
 
 
 def calculate_net_gamma_exposure(chain: OptionsChain, spot_price: float) -> float:

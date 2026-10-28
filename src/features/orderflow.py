@@ -6,6 +6,7 @@ from typing import Any, Dict, Iterable, List, Optional
 import numpy as np
 
 from ..data.schemas import OrderflowSnapshot, Trade
+from ..errors import FeatureError, NonFiniteResultError
 
 
 def calculate_cumulative_delta(trades: List[Trade]) -> float:
@@ -15,25 +16,35 @@ def calculate_cumulative_delta(trades: List[Trade]) -> float:
     ``'sell'`` (case-insensitive). Skips invalid sizes/non-finite values.
     Returns 0.0 if the result is non-finite.
     """
-    delta = 0.0
-    for trade in trades:
-        try:
-            vol = float(trade.size)
-        except Exception:
-            continue
-        if not isfinite(vol):
-            continue
-        try:
-            side = str(trade.side).lower()
-        except Exception:
-            continue
-        if side == "buy":
-            delta += vol
-        elif side == "sell":
-            delta -= vol
-    if not isfinite(delta):
-        return 0.0
-    return float(delta)
+    ctx = {"function": "calculate_cumulative_delta"}
+    try:
+        if trades is None:
+            return 0.0
+        delta = 0.0
+        for trade in trades:
+            try:
+                vol = float(trade.size)
+            except Exception:
+                continue
+            if not isfinite(vol):
+                continue
+            try:
+                side = str(trade.side).lower()
+            except Exception:
+                continue
+            if side == "buy":
+                delta += vol
+            elif side == "sell":
+                delta -= vol
+        if not isfinite(delta):
+            raise NonFiniteResultError(
+                "cumulative delta not finite", context={**ctx}
+            )
+        return float(delta)
+    except (NonFiniteResultError, FeatureError):
+        raise
+    except Exception as e:
+        raise FeatureError("Failed to calculate cumulative delta", context=ctx, cause=e)
 
 
 def calculate_cumulative_delta_robust(trades: List[Trade], window: Optional[int] = None) -> float:
@@ -43,28 +54,38 @@ def calculate_cumulative_delta_robust(trades: List[Trade], window: Optional[int]
     provided and > 0, only the last ``window`` trades are considered. Guards
     against invalid volumes and returns 0.0 on non-finite results.
     """
-    if not trades:
-        return 0.0
-    trades_list = trades[-window:] if window is not None and window > 0 else trades
-    delta = 0.0
-    for trade in trades_list:
-        try:
-            vol = float(trade.size)
-        except Exception:
-            continue
-        if not isfinite(vol):
-            continue
-        try:
-            side = str(trade.side).lower()
-        except Exception:
-            continue
-        if side == "buy":
-            delta += vol
-        elif side == "sell":
-            delta -= vol
-    if not isfinite(delta):
-        return 0.0
-    return float(delta)
+    ctx = {"function": "calculate_cumulative_delta_robust", "window": window}
+    try:
+        if trades is None:
+            return 0.0
+        if not trades:
+            return 0.0
+        trades_list = trades[-window:] if window is not None and window > 0 else trades
+        delta = 0.0
+        for trade in trades_list:
+            try:
+                vol = float(trade.size)
+            except Exception:
+                continue
+            if not isfinite(vol):
+                continue
+            try:
+                side = str(trade.side).lower()
+            except Exception:
+                continue
+            if side == "buy":
+                delta += vol
+            elif side == "sell":
+                delta -= vol
+        if not isfinite(delta):
+            raise NonFiniteResultError(
+                "cumulative delta not finite", context={**ctx}
+            )
+        return float(delta)
+    except (NonFiniteResultError, FeatureError):
+        raise
+    except Exception as e:
+        raise FeatureError("Failed to calculate robust cumulative delta", context=ctx, cause=e)
 
 
 def calculate_cumulative_delta_vectorized(trades: List[Trade]) -> float:
@@ -596,59 +617,67 @@ def vpin_style_toxicity(trades: List[Trade], bucket_size: int = 50) -> float:
     are filtered, bucket_size is validated, and every intermediate value is
     guarded against overflow / division-by-zero.
     """
-    if trades is None:
-        return 0.0
+    ctx = {"function": "vpin_style_toxicity", "bucket_size": bucket_size}
     try:
-        trades_list = list(trades)
-    except Exception:
-        return 0.0
-    try:
-        bs = int(bucket_size)
-    except Exception:
-        bs = 50
-    if bs <= 0:
-        return 0.0
-    if len(trades_list) < bs:
-        return 0.0
+        if trades is None:
+            return 0.0
+        try:
+            trades_list = list(trades)
+        except Exception:
+            return 0.0
+        try:
+            bs = int(bucket_size)
+        except Exception:
+            return 0.0
+        if bs <= 0:
+            return 0.0
+        if len(trades_list) < bs:
+            return 0.0
 
-    # Number of full buckets (capped to avoid runaway on huge inputs)
-    num_buckets = min(10, len(trades_list) // bs)
-    if num_buckets == 0:
-        return 0.0
+        # Number of full buckets (capped to avoid runaway on huge inputs)
+        num_buckets = min(10, len(trades_list) // bs)
+        if num_buckets == 0:
+            return 0.0
 
-    vpin = 0.0
-    for i in range(num_buckets):
-        bucket = trades_list[i * bs : (i + 1) * bs]
-        buy_vol = 0.0
-        sell_vol = 0.0
-        for t in bucket:
-            try:
-                vol = float(getattr(t, "size", float("nan")))
-            except Exception:
-                continue
-            if not isfinite(vol):
-                continue
-            try:
-                side = str(getattr(t, "side", "")).lower()
-            except Exception:
-                continue
-            if side == "buy":
-                buy_vol += vol
-            elif side == "sell":
-                sell_vol += vol
-        total = buy_vol + sell_vol
-        if total > 0.0 and isfinite(buy_vol) and isfinite(sell_vol):
-            vpin += abs(buy_vol - sell_vol) / total
-        # If total == 0 (all sizes filtered), this bucket contributes 0 — safe.
+        vpin = 0.0
+        for i in range(num_buckets):
+            bucket = trades_list[i * bs : (i + 1) * bs]
+            buy_vol = 0.0
+            sell_vol = 0.0
+            for t in bucket:
+                try:
+                    vol = float(getattr(t, "size", float("nan")))
+                except Exception:
+                    continue
+                if not isfinite(vol):
+                    continue
+                try:
+                    side = str(getattr(t, "side", "")).lower()
+                except Exception:
+                    continue
+                if side == "buy":
+                    buy_vol += vol
+                elif side == "sell":
+                    sell_vol += vol
+            total = buy_vol + sell_vol
+            if total > 0.0 and isfinite(buy_vol) and isfinite(sell_vol):
+                vpin += abs(buy_vol - sell_vol) / total
+            # If total == 0 (all sizes filtered), this bucket contributes 0 — safe.
 
-    vpin_result = vpin / num_buckets if num_buckets > 0 else 0.0
-    if not isfinite(vpin_result):
-        return 0.0
-    if vpin_result < 0.0:
-        vpin_result = 0.0
-    if vpin_result > 1.0:
-        vpin_result = 1.0
-    return float(vpin_result)
+        vpin_result = vpin / num_buckets if num_buckets > 0 else 0.0
+        if not isfinite(vpin_result):
+            raise NonFiniteResultError(
+                "vpin result not finite", context={**ctx}
+            )
+        if vpin_result < 0.0:
+            vpin_result = 0.0
+        if vpin_result > 1.0:
+            vpin_result = 1.0
+        return float(vpin_result)
+    except (NonFiniteResultError, FeatureError):
+        raise
+    except Exception as e:
+        raise FeatureError("Failed to calculate vpin style toxicity", context={**ctx}, cause=e)
 
 
 def detect_aggressive_flow(trades: List[Trade], window: int = 50) -> float:

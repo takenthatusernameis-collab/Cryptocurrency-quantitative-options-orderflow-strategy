@@ -60,19 +60,37 @@ def validate_config_dict(config: Dict[str, Any]) -> None:
             venues.append(VenueConfig(name=v))
         elif isinstance(v, dict):
             from .config import VenueConfig
-            venues.append(VenueConfig(**v))
-    data_raw = config.get("data", {})
+            try:
+                venues.append(VenueConfig(**v))
+            except Exception as e:
+                from .errors import ConfigError
+
+                raise ConfigError(
+                    f"Invalid venue config: {e}",
+                    context={"venue": v},
+                    cause=e,
+                )
+    data_raw = config.get("data", {}) or {}
     from .config import DataConfig, BacktestConfig, RiskConfig
-    data_cfg = DataConfig(
-        symbols=data_raw.get("symbols", ["BTC", "ETH"]),
-        include_liquidations=data_raw.get("orderflow", {}).get("include_liquidations", True),
-        include_trades=data_raw.get("orderflow", {}).get("include_trades", True),
-        options_interval=data_raw.get("options", {}).get("interval", 60),
-    )
-    bt_raw = config.get("backtest", {})
-    bt_cfg = BacktestConfig(**bt_raw)
-    risk_raw = config.get("risk", {})
-    risk_cfg = RiskConfig(**risk_raw)
+    try:
+        data_cfg = DataConfig(
+            symbols=data_raw.get("symbols", ["BTC", "ETH"]),
+            include_liquidations=(data_raw.get("orderflow") or {}).get("include_liquidations", True),
+            include_trades=(data_raw.get("orderflow") or {}).get("include_trades", True),
+            options_interval=(data_raw.get("options") or {}).get("interval", 60),
+        )
+        bt_raw = config.get("backtest", {}) or {}
+        bt_cfg = BacktestConfig(**bt_raw)
+        risk_raw = config.get("risk", {}) or {}
+        risk_cfg = RiskConfig(**risk_raw)
+    except Exception as e:
+        from .errors import ConfigError
+
+        raise ConfigError(
+            f"Invalid config structure: {e}",
+            context={"operation": "validate_config_dict"},
+            cause=e,
+        )
     cfg = StrategyConfig(venues=venues, data=data_cfg, backtest=bt_cfg, risk=risk_cfg)
     validate_config(cfg)
 

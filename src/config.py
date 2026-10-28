@@ -116,24 +116,28 @@ def validate_config(cfg: "StrategyConfig") -> None:
         if name.lower() not in allowed_venues:
             errors.append(f"venues[{i}].name must be one of {sorted(list(allowed_venues))}")
     # Backtest fields
-    if not (0.0 <= cfg.backtest.fee_rate <= 1.0):
+    from math import isfinite
+
+    if not isinstance(cfg.backtest.fee_rate, (int, float)) or not isfinite(float(cfg.backtest.fee_rate)) or not (0.0 <= float(cfg.backtest.fee_rate) <= 1.0):
         errors.append("backtest.fee_rate must be in [0, 1]")
-    if cfg.backtest.initial_capital <= 0:
+    if not isinstance(cfg.backtest.initial_capital, (int, float)) or not isfinite(float(cfg.backtest.initial_capital)) or float(cfg.backtest.initial_capital) <= 0:
         errors.append("backtest.initial_capital must be > 0")
-    if cfg.backtest.slippage_bps < 0:
+    if not isinstance(cfg.backtest.slippage_bps, (int, float)) or not isfinite(float(cfg.backtest.slippage_bps)) or float(cfg.backtest.slippage_bps) < 0:
         errors.append("backtest.slippage_bps must be >= 0")
-    if cfg.backtest.max_slippage_bps < 0:
+    if not isinstance(cfg.backtest.max_slippage_bps, (int, float)) or not isfinite(float(cfg.backtest.max_slippage_bps)) or float(cfg.backtest.max_slippage_bps) < 0:
         errors.append("backtest.max_slippage_bps must be >= 0")
-    if not (0.0 <= cfg.backtest.partial_fill_rate <= 1.0):
+    if not isinstance(cfg.backtest.partial_fill_rate, (int, float)) or not isfinite(float(cfg.backtest.partial_fill_rate)) or not (0.0 <= float(cfg.backtest.partial_fill_rate) <= 1.0):
         errors.append("backtest.partial_fill_rate must be in [0, 1]")
-    if cfg.backtest.round_lot_size < 0:
+    if not isinstance(cfg.backtest.round_lot_size, (int, float)) or not isfinite(float(cfg.backtest.round_lot_size)) or float(cfg.backtest.round_lot_size) < 0:
         errors.append("backtest.round_lot_size must be >= 0")
+    if not isinstance(getattr(cfg.backtest, "slippage_seed", None), int) or isinstance(getattr(cfg.backtest, "slippage_seed"), bool):
+        errors.append("backtest.slippage_seed must be an integer")
     # Risk limits in (0, 1]
     for field_name in ("max_position_pct", "max_drawdown_limit", "stop_loss_pct", "take_profit_pct"):
         val = getattr(cfg.risk, field_name)
-        if not (0.0 < val <= 1.0):
-            errors.append(f"risk.{field_name} must be in (0, 1], got {val}")
-    if cfg.risk.max_position_qty < 0:
+        if not isinstance(val, (int, float)) or not isfinite(float(val)) or not (0.0 < float(val) <= 1.0):
+            errors.append(f"risk.{field_name} must be in (0, 1]")
+    if not isinstance(cfg.risk.max_position_qty, (int, float)) or not isfinite(float(cfg.risk.max_position_qty)) or float(cfg.risk.max_position_qty) < 0:
         errors.append("risk.max_position_qty must be >= 0")
     if not isinstance(cfg.risk.allow_shorting, bool):
         errors.append("risk.allow_shorting must be bool")

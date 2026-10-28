@@ -117,6 +117,11 @@ class BacktestEngine:
         self.config = config
         self.risk_config = risk_config or RiskConfig()
         self.initial_capital = float(getattr(config, "initial_capital", 100000.0))
+        if not isfinite(self.initial_capital) or self.initial_capital <= 0:
+            raise RiskLimitError(
+                "initial_capital must be positive and finite",
+                context={"initial_capital": getattr(config, "initial_capital", None)},
+            )
         self.cash = self.initial_capital
         self.positions: Dict[str, Position] = {}
         self.trades: List[Trade] = []
@@ -128,14 +133,25 @@ class BacktestEngine:
             import random
 
             seed = getattr(config, "slippage_seed", 42)
-            self._rng = random.Random(int(seed) if seed is not None else 42)
-        except Exception:
-            import random
-
-            self._rng = random.Random(42)
+            if seed is None:
+                raise DeterminismError(
+                    "slippage_seed required for determinism",
+                    context={"operation": "__init__"},
+                )
+            try:
+                seed_int = int(seed)
+            except Exception as e:
+                raise DeterminismError(
+                    "slippage_seed must be integer",
+                    context={"slippage_seed": seed},
+                    cause=e,
+                )
+            self._rng = random.Random(seed_int)
+        except (DeterminismError, RiskLimitError):
+            raise
+        except Exception as e:
+            raise DeterminismError("Backtest RNG not initialized; determinism required", context={"operation": "__init__"}, cause=e)
         if not hasattr(self, "_rng") or self._rng is None:
-            from ..errors import DeterminismError
-
             raise DeterminismError("Backtest RNG not initialized; determinism required", context={"operation": "__init__"})
 
     def _apply_slippage(self, price: float, side: str) -> float:
