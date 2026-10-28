@@ -1,8 +1,8 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-28T02:42:01Z
+Timestamp (UTC): 2026-10-28T02:45:56Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. Working tree clean (pycache de-tracked from index). Do NOT end the GitHub Actions workflow.
+Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. `__pycache__/*.pyc` (17 files) untracked from git index now; `.gitignore` excludes them going forward. Working tree otherwise clean. Do NOT end the GitHub Actions workflow.
 
 ## Initial Task Message
 
@@ -11,9 +11,9 @@ Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. Working tree cle
 You are continuing in the SAME active run. Scaffolding exists (30 tests pass). Deribit + OKX + Binance connectors implemented. CLI wires all three venues end-to-end. Bottlenecks removed; remaining heavy work is backtest correctness, alpha depth, pipeline robustness.
 
 **START HERE (GATE):**
-- Harden `src/backtest/engine.py`: short equity math, SL/TP enforcement, risk limits, non-finite-safe metrics.
-- Wire `src/main.py` pipeline fully: no silent exception swallowing, normalization on every ingested object, `--symbols` override, valid JSON output.
-- Harden `src/features/*.py`: GEX formula, PCR, IV skew, max pain, CVD, orderflow imbalance — quantitatively correct.
+- Harden `src/backtest/engine.py`: short equity math (`cash + qty × (entry_price − current_price)` for shorts), SL/TP enforcement on price ticks, enforce `max_position_pct` and `max_drawdown_limit` from config, `profit_factor` must not collapse `inf` to `0`, non-finite-safe metrics.
+- Wire `src/main.py` pipeline fully: no silent exception swallowing, normalization on every ingested object, `--symbols` override, valid JSON output (`allow_nan=False`).
+- Harden `src/features/*.py`: GEX formula (gamma × OI × contract_size × spot² / 100), PCR, IV skew, max pain, CVD, orderflow imbalance — quantitatively correct with edge-case guards (zero division, non-finite).
 
 ## Immediate Objectives
 - [CRITICAL] Fix backtest short-position equity; enforce stop-loss/take-profit on price ticks; enforce max_position_pct and max_drawdown_limit from config; profit_factor must not collapse inf to 0.
@@ -33,14 +33,14 @@ You are continuing in the SAME active run. Scaffolding exists (30 tests pass). D
 Heavy engineering only. No scaffolding-only "done". Mathematical correctness matters. Vectorize where sensible. Never deflect from implementation. Future agents must do substantial work. Leave the codebase in a state where the next agent cannot avoid heavy implementation.
 
 ## BOTTLENECKS REMOVED
-- Bytecode de-tracked from index; .gitignore excludes __pycache__/*.pyc.
+- Bytecode (`__pycache__/*.pyc`, 17 files) de-tracked from index; `.gitignore` excludes `__pycache__/*.pyc` going forward.
 - CI tests restored (30 passing).
 - Deribit/OKX/Binance connectors implemented.
 - CLI entrypoint wiring all three venues implemented.
 - Normalization hardened (`src/data/normalization.py`).
 
 ## BLOCKERS / NOTES
-- Backtest short equity math incorrect (get_equity subtracts qty*price without crediting short proceeds). **FIX IMMEDIATELY (Phase 1).**
+- Backtest short equity math incorrect (`get_equity` subtracts qty*price without crediting short proceeds). **FIX IMMEDIATELY (Phase 1).**
 - Pipeline swallows exceptions silently. **FIX IMMEDIATELY (Phase 2).**
 - Alpha features need quantitative hardening. **Phase 3.**
 
