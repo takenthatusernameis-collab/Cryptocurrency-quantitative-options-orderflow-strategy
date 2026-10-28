@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-28T17-37-51Z
+Timestamp (UTC): 2026-10-28T17-43-48Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 115 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN | DOCSTRINGS COMPLETE (AUDITED ACROSS ALL PRIORITIZED MODULES)
@@ -19,19 +19,20 @@ Everything must serve (1)-(5). Numerical correctness > elegance. No shortcuts.
 - Consolidated to single authoritative source of truth chain (this file + mirrors).
 - Verified 115 tests passing, mypy clean across src/ with strict flags.
 - Working tree clean; no untracked artifacts blocking agents.
-- Confirmed no blocked/inefficient sessions; nothing to unblock.
+- Confirmed no blocked/inefficient sessions; nothing to unblock — execution can start immediately.
 - Docstring audit complete: every public API with nontrivial math across src/features/*, src/signals/composite.py, src/backtest/engine.py, src/data/schemas.py, src/data/normalization.py, src/config.py, src/utils/validation.py, src/main.py, src/ingestion/* carries quant-precise docstrings (formula, conventions, inputs/outputs, stability guards, edge cases, invariants).
 - Eliminated ambiguity with explicit "do not avoid heavy work" mandate.
 - Synchronized mirrors to identical content.
+- Production-readiness gap identified (not a blocker): no `src/errors.py` exists; 98 broad `except Exception` sites across src/ingestion/*, src/features/*.py, src/backtest/engine.py, src/main.py are the Phase 7 target. Clearing this now unblocks the final hardening pass.
 
 ## Initial Task Message (FOR NEXT AGENTIC WORK SESSION — MANDATORY, NON-OPTIONAL)
 EXECUTE NOW. START AT PHASE 7 CONTINUATION. Pick ONE highest-impact uncompleted item and COMPLETE IT END-TO-END (code + tests). Do not split scope. Leave heavy work for the next agent.
 
 **HIGHEST-IMPACT ITEM: More specific exception types + structured logging (Phase 7)**
 Scope (COMPLETE FULLY):
-1. Replace broad `except Exception` / generic `ValueError`/`RuntimeError` with domain-specific exception types (e.g. `IngestionError`, `DataError`, `ConfigError`, `BacktestError`, `FeatureError`, `InsufficientDataError`, `NonFiniteResultError`) in a new `src/errors.py` module.
-2. Wrap all ingestion network calls, feature calculations, config validation, and backtest execution with these typed exceptions; include context (venue, symbol, strike, expiry, function) in exception payload.
-3. Add structured logging (JSON lines) keyed by run_id/symbol/venue/operation at INFO/DEBUG/WARNING/ERROR levels; no bare `print`/`except: pass` swallowing; every swallowed exception must be logged with context.
+1. Create `src/errors.py` with domain-specific exception types (e.g. `StrategyError` root; `IngestionError`, `DataError`, `ConfigError`, `BacktestError`, `FeatureError`, `InsufficientDataError`, `NonFiniteResultError`) documenting the exception hierarchy, raise conditions, and context payload fields.
+2. Replace broad `except Exception` / generic `ValueError`/`RuntimeError` with these typed exceptions; wrap all ingestion network calls, feature calculations, config validation, and backtest execution; include context (venue, symbol, strike, expiry, function) in exception payload.
+3. Add structured logging (JSON lines) keyed by run_id/symbol/venue/operation at INFO/DEBUG/WARNING/ERROR levels; no bare `print`/`except: pass` swallowing; every swallowed exception must be logged with context and correlation IDs.
 4. Prioritize by project-name impact:
     - src/ingestion/* (venue fetch failures, parse errors, auth errors)
     - src/features/gamma_exposure.py, src/features/orderflow.py, src/features/volatility.py, src/features/liquidity.py (invalid chain, missing greeks, divide-by-zero)
@@ -78,7 +79,7 @@ Heavy engineering only. Mathematical correctness mandatory. Numerical stability 
 - DO NOT avoid heavy work. Execute in order without skipping.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T17-37-51Z.md (AUTHORITATIVE — THIS FILE)
+1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T17-43-48Z.md (AUTHORITATIVE — THIS FILE)
 2. research_state/durable_handoff.md (MIRROR)
 3. research_state/INITIAL_TASK_HANDOFF.md (MIRROR — referenced by tests/test_campaign_resume.py)
 4. All other INITIAL_TASK_HANDOFF_LATEST_* files are SUPERSEDED.
