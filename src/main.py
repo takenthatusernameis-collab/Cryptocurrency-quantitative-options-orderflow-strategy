@@ -10,6 +10,10 @@ from typing import Any, Dict
 import yaml
 
 from .backtest.engine import BacktestEngine
+from .data.normalization import normalize_options_chain, normalize_orderflow
+from .features.gamma_exposure import calculate_total_gex
+from .features.orderflow import calculate_cumulative_delta
+from .features.volatility import calculate_put_call_ratio
 from .ingestion.binance import BinanceOptionsIngestion, BinanceOrderflowIngestion
 from .ingestion.deribit import DeribitOptionsIngestion, DeribitOrderflowIngestion
 from .ingestion.okx import OKXOptionsIngestion, OKXOrderflowIngestion
@@ -23,11 +27,17 @@ def load_config(config_path: str = "config/settings.yaml") -> Dict[str, Any]:
 
 
 def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Dict[str, Any]:
-    venues = config.get("venues", ["deribit"])
-    symbols = symbols or config.get("data", {}).get("symbols", ["BTC"])
-    results: Dict[str, Any] = {"venues": venues, "symbols": symbols, "timestamp": datetime.now(timezone.utc).isoformat()}
+    venues = config.get("venues", ["deribit", "okx", "binance"])
+    symbols = symbols or config.get("data", {}).get("symbols", ["BTC", "ETH"])
+    results: Dict[str, Any] = {
+        "venues": venues,
+        "symbols": symbols,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    }
 
-    # Ingestion
+    ingested_chains = {}
+    ingested_orderflows = {}
+
     for sym in symbols:
         for v in venues:
             v_lower = str(v).lower()
@@ -36,32 +46,42 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                     opt_ing = DeribitOptionsIngestion()
                     of_ing = DeribitOrderflowIngestion()
                     chain = opt_ing.fetch_options_chain(sym)
+                    chain = normalize_options_chain(chain)
+                    ingested_chains[f"{v_lower}:{sym}"] = chain
                     results.setdefault("options_chains", {})[f"{v_lower}:{sym}"] = {"quotes": len(chain.quotes)}
-                    # Try perpetual style for orderflow
                     try:
                         trades = of_ing.fetch_trades(f"{sym}-PERPETUAL")
-                        results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(trades.trades)}
+                        of_snapshot = normalize_orderflow(trades)
+                        ingested_orderflows[f"{v_lower}:{sym}"] = of_snapshot
+                        results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(of_snapshot.trades)}
                     except Exception as e:
                         results.setdefault("errors", []).append(f"deribit_trades_{sym}: {e}")
                 elif v_lower == "okx":
                     opt_ing = OKXOptionsIngestion()
                     of_ing = OKXOrderflowIngestion()
                     chain = opt_ing.fetch_options_chain(sym)
+                    chain = normalize_options_chain(chain)
+                    ingested_chains[f"{v_lower}:{sym}"] = chain
                     results.setdefault("options_chains", {})[f"{v_lower}:{sym}"] = {"quotes": len(chain.quotes)}
                     try:
                         trades = of_ing.fetch_trades(f"{sym}-USDT-SWAP")
-                        results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(trades.trades)}
+                        of_snapshot = normalize_orderflow(trades)
+                        ingested_orderflows[f"{v_lower}:{sym}"] = of_snapshot
+                        results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(of_snapshot.trades)}
                     except Exception as e:
                         results.setdefault("errors", []).append(f"okx_trades_{sym}: {e}")
                 elif v_lower == "binance":
                     opt_ing = BinanceOptionsIngestion()
                     of_ing = BinanceOrderflowIngestion()
                     chain = opt_ing.fetch_options_chain(sym)
+                    chain = normalize_options_chain(chain)
+                    ingested_chains[f"{v_lower}:{sym}"] = chain
                     results.setdefault("options_chains", {})[f"{v_lower}:{sym}"] = {"quotes": len(chain.quotes)}
                     try:
-                        # Try common perpetual symbol
                         trades = of_ing.fetch_trades(f"{sym}USDT")
-                        results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(trades.trades)}
+                        of_snapshot = normalize_orderflow(trades)
+                        ingested_orderflows[f"{v_lower}:{sym}"] = of_snapshot
+                        results.setdefault("orderflow", {})[f"{v_lower}:{sym}"] = {"trades": len(of_snapshot.trades)}
                     except Exception as e:
                         results.setdefault("errors", []).append(f"binance_trades_{sym}: {e}")
                 else:
@@ -69,11 +89,90 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
             except Exception as e:
                 results.setdefault("errors", []).append(f"{v_lower}_options_{sym}: {e}")
 
-    # Signals + backtest (basic wiring)
     signal_gen = CompositeSignalGenerator()
-    engine = BacktestEngine(initial_capital=float(config.get("backtest", {}).get("initial_capital", 100000.0)))
+    signals = {}
+    try:
+        for key, chain in ingested_chains.items():
+            v, sym = key.split(":", 1)
+            spot_price = 50000.0
+            if chain.quotes:
+                mids = [(q.bid + q.ask) / 2 for q in chain.quotes if q.bid and q.ask]
+                if mids:
+                    spot_price = sum(mids) / len(mids)
+            total_gex = calculate_total_gex(chain, spot_price)
+            cum_delta = 0.0
+            if key in ingested_orderflows:
+                cum_delta = calculate_cumulative_delta(ingested_orderflows[key].trades)
+            pcr = calculate_put_call_ratio(chain)
+            signal = signal_gen.generate_signal(
+                symbol=sym,
+                spot_price=spot_price,
+                total_gex=total_gex,
+                cum_delta=cum_delta,
+                of_imbalance=0.0,
+                iv_skew=0.0,
+                put_call_ratio=pcr,
+            )
+            signals[key] = {
+                "symbol": signal.symbol,
+                "direction": signal.direction,
+                "strength": signal.strength,
+                "confidence": signal.confidence,
+                "components": signal.components,
+                "spot_price": spot_price,
+                "total_gex": total_gex,
+            }
+        results["signals"] = signals
+    except Exception as e:
+        results.setdefault("errors", []).append(f"signal_generation: {e}")
+
+    try:
+        bt_config = config.get("backtest", {})
+        engine = BacktestEngine(
+            initial_capital=float(bt_config.get("initial_capital", 100000.0)),
+            fee_rate=float(bt_config.get("fee_rate", 0.0005)),
+            slippage_bps=float(bt_config.get("slippage_bps", 1.0)),
+        )
+        if signals:
+            for key, sig in signals.items():
+                spot = sig.get("spot_price", 50000.0)
+                if sig["direction"] == "long" and sig["confidence"] > 0.1:
+                    qty = engine.calculate_position_size(spot) * sig["confidence"]
+                    if qty > 0 and engine.cash > spot * qty * 1.05:
+                        try:
+                            engine.execute_trade(key, qty, spot, "buy", datetime.now(timezone.utc))
+                        except Exception:
+                            pass
+                elif sig["direction"] == "short" and sig["confidence"] > 0.1:
+                    qty = engine.calculate_position_size(spot) * sig["confidence"]
+                    if qty > 0:
+                        try:
+                            engine.execute_trade(key, qty, spot, "sell", datetime.now(timezone.utc))
+                        except Exception:
+                            pass
+            prices = {k: s["spot_price"] for k, s in signals.items()}
+            engine.update_equity_curve(prices)
+        bt_results = engine.calculate_metrics()
+        results["backtest"] = {
+            "total_return": bt_results.total_return,
+            "sharpe_ratio": bt_results.sharpe_ratio,
+            "sortino_ratio": bt_results.sortino_ratio,
+            "max_drawdown": bt_results.max_drawdown,
+            "win_rate": bt_results.win_rate,
+            "profit_factor": bt_results.profit_factor,
+            "calmar_ratio": bt_results.calmar_ratio,
+            "total_trades": bt_results.total_trades,
+            "winning_trades": bt_results.winning_trades,
+            "losing_trades": bt_results.losing_trades,
+            "equity_final": bt_results.equity_curve[-1] if bt_results.equity_curve else engine.initial_capital,
+        }
+        results["backtest_engine"] = engine.__class__.__name__
+    except Exception as e:
+        results.setdefault("errors", []).append(f"backtest: {e}")
+        engine = BacktestEngine(initial_capital=float(config.get("backtest", {}).get("initial_capital", 100000.0)))
+        results["backtest_engine"] = engine.__class__.__name__
+
     results["signal_generator"] = signal_gen.__class__.__name__
-    results["backtest_engine"] = engine.__class__.__name__
     return results
 
 

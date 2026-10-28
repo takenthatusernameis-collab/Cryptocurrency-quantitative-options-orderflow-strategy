@@ -3,9 +3,7 @@
 from dataclasses import dataclass
 from typing import Dict, Optional
 
-from ..features.gamma_exposure import calculate_total_gex
-from ..features.orderflow import calculate_cumulative_delta, calculate_orderflow_imbalance
-from ..features.volatility import calculate_put_call_ratio, calculate_iv_skew
+import math
 
 
 @dataclass
@@ -29,42 +27,58 @@ class CompositeSignalGenerator:
     def generate_signal(
         self,
         symbol: str,
-        spot_price: float,
+        spot_price: float = 0.0,
         total_gex: float = 0.0,
         cum_delta: float = 0.0,
         of_imbalance: float = 0.0,
         iv_skew: float = 0.0,
         put_call_ratio: float = 1.0,
+        **kwargs,
     ) -> Signal:
         """Generate composite trading signal."""
         components = {}
-        
+
         # Gamma exposure signal (negative GEX can lead to volatility expansion)
-        gamma_signal = -np_sign(total_gex) * min(abs(total_gex) / 1e9, 1.0) if total_gex != 0 else 0.0
+        if total_gex != 0 and math.isfinite(total_gex):
+            gamma_signal = -np_sign(total_gex) * min(abs(total_gex) / 1e9, 1.0)
+        else:
+            gamma_signal = 0.0
         components["gamma"] = gamma_signal
-        
+
         # Orderflow signal
-        of_signal = (cum_delta / 1000.0 + of_imbalance) / 2.0
-        of_signal = max(-1.0, min(1.0, of_signal))
+        of_signal = (cum_delta / 10000.0 + float(of_imbalance)) / 2.0
+        if math.isfinite(of_signal):
+            of_signal = max(-1.0, min(1.0, of_signal))
+        else:
+            of_signal = 0.0
         components["orderflow"] = of_signal
-        
+
         # Volatility skew signal (steep put skew often bearish)
-        skew_signal = -max(-1.0, min(1.0, iv_skew * 10))
+        skew_signal = -max(-1.0, min(1.0, float(iv_skew) * 10))
+        if not math.isfinite(skew_signal):
+            skew_signal = 0.0
         components["vol_skew"] = skew_signal
-        
+
         # Put/call ratio signal
-        if put_call_ratio > 1.0:
-            pc_signal = -min((put_call_ratio - 1.0) / 2.0, 1.0)
-        elif put_call_ratio < 1.0:
-            pc_signal = min((1.0 - put_call_ratio) / 0.5, 1.0) * 0.5
+        pcr = float(put_call_ratio)
+        if not math.isfinite(pcr) or pcr <= 0:
+            pc_signal = 0.0
+        elif pcr > 1.0:
+            pc_signal = -min((pcr - 1.0) / 2.0, 1.0)
+        elif pcr < 1.0:
+            pc_signal = min((1.0 - pcr) / 0.5, 1.0) * 0.5
         else:
             pc_signal = 0.0
+        if not math.isfinite(pc_signal):
+            pc_signal = 0.0
         components["put_call"] = pc_signal
-        
+
         # Weighted composite
-        composite = sum(self.weights[k] * components[k] for k in components)
+        composite = sum(self.weights[k] * components.get(k, 0.0) for k in components)
+        if not math.isfinite(composite):
+            composite = 0.0
         composite = max(-1.0, min(1.0, composite))
-        
+
         # Determine direction
         if composite > 0.3:
             direction = "long"
@@ -72,14 +86,16 @@ class CompositeSignalGenerator:
             direction = "short"
         else:
             direction = "neutral"
-        
+
         confidence = abs(composite)
-        
+        if not math.isfinite(confidence):
+            confidence = 0.0
+
         return Signal(
             symbol=symbol,
             direction=direction,
-            strength=composite,
-            confidence=confidence,
+            strength=float(composite),
+            confidence=float(confidence),
             components=components,
         )
 
