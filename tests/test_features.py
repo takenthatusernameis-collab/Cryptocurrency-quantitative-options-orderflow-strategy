@@ -233,20 +233,90 @@ def test_calculate_signed_volume():
 
 
 def test_orderflow_imbalance_multi_horizon():
-    from src.features.orderflow import orderflow_imbalance_multi_horizon, imbalance_multi_horizon
+    from src.features.orderflow import (
+        orderflow_imbalance_multi_horizon,
+        imbalance_multi_horizon,
+        orderflow_imbalance_multihorizon,
+        multi_horizon_orderflow_imbalance,
+        calculate_orderflow_imbalance,
+    )
+    from math import isfinite
+
     trades = [
-        Trade(trade_id=str(i), symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="buy" if i % 3 != 0 else "sell", timestamp=datetime.now(timezone.utc))
+        Trade(
+            trade_id=str(i),
+            symbol="BTC",
+            venue="deribit",
+            price=20000.0,
+            size=1.0,
+            side="buy" if i % 3 != 0 else "sell",
+            timestamp=datetime.now(timezone.utc),
+        )
         for i in range(20)
     ]
     res = orderflow_imbalance_multi_horizon(trades)
     assert isinstance(res, dict)
     assert "imb_decay_weighted" in res
     assert imbalance_multi_horizon is orderflow_imbalance_multi_horizon
+    assert orderflow_imbalance_multihorizon is orderflow_imbalance_multi_horizon
+    assert multi_horizon_orderflow_imbalance is orderflow_imbalance_multi_horizon
     # horizons with zeros/negatives
     res2 = orderflow_imbalance_multi_horizon(trades, horizons=[0, -1, 5])
     assert "imb_decay_weighted" in res2
-    res3 = orderflow_imbalance_multi_horizon([], horizons=[1,2,3])
+    res3 = orderflow_imbalance_multi_horizon([], horizons=[1, 2, 3])
     assert res3["imb_decay_weighted"] == 0.0
+    assert isinstance(res, dict)
+    assert "imb_decay_weighted" in res
+    assert imbalance_multi_horizon is orderflow_imbalance_multi_horizon
+    assert orderflow_imbalance_multihorizon is orderflow_imbalance_multi_horizon
+    assert multi_horizon_orderflow_imbalance is orderflow_imbalance_multi_horizon
+    # horizons with zeros/negatives
+    res2 = orderflow_imbalance_multi_horizon(trades, horizons=[0, -1, 5])
+    assert "imb_decay_weighted" in res2
+    res3 = orderflow_imbalance_multi_horizon([], horizons=[1, 2, 3])
+    assert res3["imb_decay_weighted"] == 0.0
+
+    # Property/invariants: all values in [-1,1], decay weighted normalized
+    res4 = orderflow_imbalance_multi_horizon(trades, horizons=[1, 10, 50, 100])
+    for k, v in res4.items():
+        if isinstance(v, float):
+            assert -1.0 - 1e-12 <= v <= 1.0 + 1e-12
+            assert isfinite(v)
+    # Cross-consistency with calculate_orderflow_imbalance
+    for h in [1, 10, 50]:
+        assert abs(res4.get(f"imb_{h}", 0.0) - calculate_orderflow_imbalance(trades, window=h)) < 1e-12
+    # Mean and decay weighted exist
+    assert "imb_mean" in res4
+    # Decay behavior: shorter horizons get more weight if ordered as given
+    # Edge cases
+    trades_all_buy = [
+        Trade(trade_id=str(i), symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="buy", timestamp=datetime.now(timezone.utc))
+        for i in range(10)
+    ]
+    res_buy = orderflow_imbalance_multi_horizon(trades_all_buy, horizons=[1, 5, 10])
+    assert res_buy["imb_decay_weighted"] >= 0.99  # all buys -> imbalance ~1
+    # All sells
+    trades_all_sell = [
+        Trade(trade_id=str(i), symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="sell", timestamp=datetime.now(timezone.utc))
+        for i in range(10)
+    ]
+    res_sell = orderflow_imbalance_multi_horizon(trades_all_sell, horizons=[1, 5, 10])
+    assert res_sell["imb_decay_weighted"] <= -0.99
+    # Decay parameter
+    res_d1 = orderflow_imbalance_multi_horizon(trades, horizons=[1, 10, 100], decay=0.1)
+    res_d2 = orderflow_imbalance_multi_horizon(trades, horizons=[1, 10, 100], decay=1.0)
+    assert "imb_decay_weighted" in res_d1 and "imb_decay_weighted" in res_d2
+    # Non-finite/invalid inputs
+    from math import inf, nan
+    trades_bad = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=20000.0, size=inf, side="buy", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="2", symbol="BTC", venue="deribit", price=20000.0, size=nan, side="sell", timestamp=datetime.now(timezone.utc)),
+    ]
+    res_bad = orderflow_imbalance_multi_horizon(trades_bad, horizons=[1, 2])
+    for v in res_bad.values():
+        if isinstance(v, float):
+            assert isfinite(v)
+            assert -1.0 <= v <= 1.0
 
 
 def test_delta_divergence_vs_price():

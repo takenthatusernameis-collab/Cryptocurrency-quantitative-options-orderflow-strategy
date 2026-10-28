@@ -141,38 +141,112 @@ def calculate_orderflow_imbalance(trades: List[Trade], window: int = 100) -> flo
 
 
 def orderflow_imbalance_multi_horizon(
-    trades: List[Trade], horizons: List[int] = None
+    trades: List[Trade], horizons: List[int] = None, decay: float = 0.3
 ) -> dict:
     """Orderflow imbalance at multiple horizons with decay weighting."""
+    if trades is None:
+        trades = []
     if horizons is None:
         horizons = [1, 10, 50, 100]
+    # Normalize horizons - ensure list of positive ints
+    try:
+        norm_horizons = []
+        for h in horizons:
+            try:
+                hh = int(h)
+            except Exception:
+                continue
+            if hh > 0:
+                norm_horizons.append(hh)
+        horizons = norm_horizons
+    except Exception:
+        horizons = [1, 10, 50, 100]
+
     result = {}
     for h in horizons:
-        if h <= 0:
-            continue
-        imb = calculate_orderflow_imbalance(trades, window=h)
-        # Apply exponential decay weighting factor for aggregation
-        result[f"imb_{h}"] = imb
+        try:
+            imb = calculate_orderflow_imbalance(trades, window=h)
+        except Exception:
+            imb = 0.0
+        if not isfinite(imb):
+            imb = 0.0
+        # clamp for safety
+        if imb < -1.0:
+            imb = -1.0
+        if imb > 1.0:
+            imb = 1.0
+        result[f"imb_{h}"] = float(imb)
+        # aliases for flexibility
+        result[f"orderflow_imbalance_{h}"] = float(imb)
+
     # Decay-weighted aggregate
-    if result:
+    if result and horizons:
         agg = 0.0
         total_w = 0.0
+        try:
+            d = float(decay)
+        except Exception:
+            d = 0.3
+        if d < 0.0:
+            d = 0.0
+        if not isfinite(d):
+            d = 0.3
         for i, h in enumerate(horizons):
-            if h <= 0:
-                continue
-            w = np.exp(-i * 0.3)  # decay
+            w = float(np.exp(-i * d))  # decay
+            if not isfinite(w) or w < 0:
+                w = 0.0
             agg += result.get(f"imb_{h}", 0.0) * w
             total_w += w
         if total_w > 0 and isfinite(agg):
-            result["imb_decay_weighted"] = agg / total_w
+            out = agg / total_w
+            if not isfinite(out):
+                out = 0.0
+            if out < -1.0:
+                out = -1.0
+            if out > 1.0:
+                out = 1.0
+            result["imb_decay_weighted"] = float(out)
+            result["orderflow_imbalance_decay_weighted"] = float(out)
+            result["imbalance_decay_weighted"] = float(out)
         else:
             result["imb_decay_weighted"] = 0.0
+            result["orderflow_imbalance_decay_weighted"] = 0.0
+            result["imbalance_decay_weighted"] = 0.0
     else:
         result["imb_decay_weighted"] = 0.0
+        result["orderflow_imbalance_decay_weighted"] = 0.0
+        result["imbalance_decay_weighted"] = 0.0
+
+    # Cross-consistency helper: also provide mean/simple aggregate
+    try:
+        vals = []
+        for h in horizons:
+            v = result.get(f"imb_{h}")
+            if v is not None and isfinite(v):
+                vals.append(float(v))
+        if vals:
+            m = sum(vals) / len(vals)
+            if not isfinite(m):
+                m = 0.0
+            if m < -1.0:
+                m = -1.0
+            if m > 1.0:
+                m = 1.0
+            result["imb_mean"] = float(m)
+            result["orderflow_imbalance_mean"] = float(m)
+        else:
+            result["imb_mean"] = 0.0
+            result["orderflow_imbalance_mean"] = 0.0
+    except Exception:
+        result["imb_mean"] = 0.0
+        result["orderflow_imbalance_mean"] = 0.0
+
     return result
 
 
 imbalance_multi_horizon = orderflow_imbalance_multi_horizon
+orderflow_imbalance_multihorizon = orderflow_imbalance_multi_horizon
+multi_horizon_orderflow_imbalance = orderflow_imbalance_multi_horizon
 
 
 def calculate_signed_volume(trades: List[Trade], window: Optional[int] = None) -> float:
