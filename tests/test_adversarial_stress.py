@@ -65,7 +65,7 @@ def _make_contract(symbol="BTC-50000-C", underlying="BTC", strike=50000.0, opt_t
 def test_normalization_empty_degenerate():
     ts = normalize_timestamp(None)
     assert ts.tzinfo is not None
-    assert normalize_symbol(" btc-usdt ") == "BTCUSDT"
+    assert normalize_symbol(" btc-usdt ", "deribit") == "BTCUSDT"
     assert calculate_moneyness(0, 100) == 0.0
     assert calculate_cumulative_delta([]) == 0.0
     assert compute_vwap([]) == 0.0
@@ -246,8 +246,8 @@ def test_config_validation_adversarial():
 
 def test_validate_config_dict_adversarial():
     bad = {"venues": ["deribit"], "data": {"symbols": []}, "backtest": {}, "risk": {}}
-    res = validate_config_dict(bad)
-    assert "errors" in res
+    with pytest.raises((ConfigError, ValueError)):
+        validate_config_dict(bad)
 
 
 def test_validation_utils():
