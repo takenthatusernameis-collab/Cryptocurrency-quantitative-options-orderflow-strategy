@@ -1,9 +1,9 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
 
-Timestamp (UTC): 2026-10-28T09:31:28Z
+Timestamp (UTC): 2026-10-28T09:33:52Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 95 TESTS PASSING | tracked __pycache__/*.pyc UNTRACKED + committed so checkout stays clean (session startup unblocked) | NO BLOCKED/INEFFICIENT SESSIONS
+State: 95 TESTS PASSING | NO BLOCKED/INEFFICIENT SESSIONS
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION
@@ -14,42 +14,42 @@ Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 - Added comprehensive tests for cumulative delta robust, VWAP-adjusted delta, signed volume, multi-horizon imbalance with decay, footprint/divergence, VPIN toxicity, absorption detection, aggressive flow; hardened against non-finite/invalid inputs with clamping.
 - All tests pass (95/95). No blocked or inefficient sessions remain.
 
-## IMMEDIATE TASK MESSAGE (FOR NEXT AGENTIC WORK SESSION — MANDATORY)
-
+## Initial Task Message
 START IMMEDIATELY AT PHASE 2 - NEXT ITEM.
 Pick the HIGHEST-IMPACT uncompleted item in Phase 2 and implement it FULLY with tests.
 HIGHEST-IMPACT ITEM: Orderflow imbalance at multiple horizons with decay weighting — EXTEND AND HARDEN. Functions exist (orderflow_imbalance_multi_horizon/imbalance_multi_horizon) but need deeper property/invariant tests (normalization, decay behavior, empty/edge cases), ensure numerical stability, and add any missing aggregations/aliases. Also consider cross-consistency with calculate_orderflow_imbalance. YOUR JOB: extend tests + harden implementation (guards, finite checks, clamping) as needed. NO cosmetic changes. NO placeholders/TODOs/FIXMEs. NO scaffolding.
 Mathematical correctness is MANDATORY. Numerical stability is MANDATORY. Vectorize where sensible. Complete ONE major item fully; leave heavy work for next agent.
 
-## NEXT FOCUS CAMPAIGN (MANDATORY — NEVER AVOID HEAVY WORK)
-### PHASE 1: ADVANCED GAMMA EXPOSURE & DEALER POSITIONING — COMPLETE
+## Immediate Objectives
+- Extend and harden orderflow imbalance at multiple horizons with decay weighting.
+- Add property/invariant tests for normalization, decay behavior, empty/edge cases.
+- Ensure numerical stability, finite checks, clamping; add missing aggregations/aliases.
+- Maintain 95+ tests passing; no placeholders/TODOs/FIXMEs.
+
+## Next Focus Campaign
+### Phase 1: ADVANCED GAMMA EXPOSURE & DEALER POSITIONING — COMPLETE
 - [x] Net gamma exposure, gamma notional by delta bands, gamma flip, invariants/tests
 
-### PHASE 2: DEEP ORDERFLOW MICROSTRUCTURE (CRITICAL) — IN PROGRESS
+### Phase 2: DEEP ORDERFLOW MICROSTRUCTURE (CRITICAL) — IN PROGRESS
 - [x] Cumulative delta with trade classification robustness, VWAP-adjusted delta, signed volume (FULL TEST COVERAGE + HARDENING)
 - [ ] Orderflow imbalance at multiple horizons with decay weighting (EXTEND TESTS + HARDEN)
 - [ ] Footprint/orderflow divergence metrics (deepen tests)
 - [ ] VPIN-style toxicity proxy with finite-sample guards (deepen property tests)
 - [ ] Harden against division by zero/non-finite; property/invariant tests
 
-### PHASE 3: VOLATILITY SURFACE & SKEW QUANTIFICATION (CRITICAL)
+### Phase 3: VOLATILITY SURFACE & SKEW QUANTIFICATION (CRITICAL)
 - [ ] IV skew term structure, put-call skew, risk reversal, max pain, term structure
 
-### PHASE 4: REGIME-AWARE SIGNAL ENGINEERING (CRITICAL)
+### Phase 4: REGIME-AWARE SIGNAL ENGINEERING (CRITICAL)
 - [ ] Cross-feature interactions, confidence calibration, regime detection, normalization
 
-### PHASE 5: BACKTEST RIGOR & RISK (HIGH)
+### Phase 5: BACKTEST RIGOR & RISK (HIGH)
 - [ ] Realistic fills, drawdown controls, walk-forward, stress tests, transaction costs
 
-### PHASE 6: INTEGRATION, RESILIENCE & TESTS (HIGH)
+### Phase 6: INTEGRATION, RESILIENCE & TESTS (HIGH)
 - [ ] Wire features, property tests, explicit finite checks, vectorization, e2e tests
 
-## MANDATE (UNCOMPROMISING)
+## MANDATE
 Heavy engineering only. Mathematical correctness mandatory. Numerical stability required. Vectorize where sensible. No placeholders/TODOs/FIXMEs. Full implementation with code AND tests. Complete ONE major item fully; leave heavy work for next agent.
-
-## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T09-31-28Z.md (AUTHORITATIVE)
-2. research_state/durable_handoff.md (THIS MIRROR)
-3. Prior LATEST files superseded.
 
 EXECUTE NOW. START AT PHASE 2 NEXT ITEM. NO DELAY.
