@@ -1,17 +1,17 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-28T20-32-45Z
+Timestamp (UTC): 2026-10-28T20-36-26Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 115 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION (PRIORITIZED)
-"Cryptocurrency-quantitative-options-orderflow-strategy" — prioritize in this order:
+"Cryptocurrency-quantitative-options-orderflow-strategy" — prioritize in this strict order:
 1. **Dealer positioning / gamma exposure** (gamma, gamma flip, net GEX, notional by bands) — core edge
-2. **Orderflow microstructure** (signed volume, cumulative delta, VWAP-adjusted delta, VPIN, absorption) — confirms flow
+2. **Orderflow microstructure** (signed volume, cumulative delta, VPIN/toxicity, absorption, aggressive flow) — flow confirmation
 3. **Volatility surface dynamics** (skew/term structure/RR, ATM term structure, max pain) — regime/context
-4. **Regime-aware signal engineering** (cross-features, calibration, normalization) — actionable
-5. **Rigorous backtesting** (fills/slippage/costs/partial/round lots/walk-forward/OOS/stress) — truth
+4. **Regime-aware signal engineering** (cross-features, calibration, normalization) — actionable signals
+5. **Rigorous backtesting** (fills/slippage/costs/partial/round lots/walk-forward/OOS/stress) — ground truth
 
 Everything must serve (1)-(5). Numerical correctness > elegance. No shortcuts.
 
@@ -20,13 +20,13 @@ EXECUTE NOW. START AT PHASE 7 CONTINUATION. Pick ONE highest-impact uncompleted 
 
 **HIGHEST-IMPACT ITEM: Comprehensive hardening pass for production robustness (Phase 7)**
 Scope (COMPLETE FULLY):
-1. **Edge cases in dealer positioning/gamma**: Harden gamma calculations against empty/NaN/Inf, division by zero, missing greeks; ensure all feature functions enforce finiteness and raise NonFiniteResultError/FeatureError with context where appropriate. Focus on gamma_exposure, gamma bands, gamma flip.
-2. **Orderflow microstructure hardening**: Strengthen VPIN, absorption, delta divergence, multi-horizon orderflow against empty windows, all-sell/all-buy scenarios, extreme sizes; ensure proper clamping and finiteness.
-3. **Determinism**: Audit RNG usage (backtest slippage/partial fills, walk-forward) — ensure seeded determinism everywhere; add DeterminismError guards if non-deterministic paths detected; tests for reproducibility.
-4. **Serialization safety**: Ensure all pipeline outputs JSON-serializable with allow_nan=False; harden main.py sanitization and add serialization guards using SerializationError where needed. Propagate sanitization to all metrics.
-5. **Config validation**: Extend validation coverage (venues, risk limits, numeric ranges, backtest params) with precise field errors; ensure defaults safe.
-6. **Numerical guards in backtest**: Add guards (insufficient cash, short-notional breach, risk limits) raising RiskLimitError/OrderError with context; log violations. Ensure walk-forward doesn't propagate NaN.
-7. Quant-precise docstrings for all guards. Full implementation + tests. Keep pytest green (115+). Keep mypy clean.
+1. **Edge cases in dealer positioning/gamma**: Harden gamma calculations against empty/NaN/Inf, division by zero, missing greeks; ensure all feature functions enforce finiteness and raise NonFiniteResultError/FeatureError with context where appropriate. Focus on gamma_exposure (gamma_exposure, bands, flip levels), vectorized paths.
+2. **Orderflow microstructure hardening**: Strengthen VPIN, absorption, delta divergence, multi-horizon orderflow against empty windows, all-sell/all-buy scenarios, extreme sizes; ensure proper clamping and finiteness. Validate with edge case tests.
+3. **Determinism**: Audit RNG usage (backtest slippage/partial fills, walk-forward). Ensure seeded determinism everywhere; add DeterminismError guards if non-deterministic paths detected; tests for reproducibility across runs.
+4. **Serialization safety**: Ensure all pipeline outputs JSON-serializable with allow_nan=False; harden main.py sanitization and add serialization guards using SerializationError where needed. Propagate sanitization to all metrics. Verify end-to-end JSON validity.
+5. **Config validation**: Extend validation coverage (venues, risk limits, numeric ranges, backtest params) with precise field errors; ensure defaults safe. Validate both dict and object forms.
+6. **Numerical guards in backtest**: Add guards (insufficient cash, short-notional breach, risk limits) raising RiskLimitError/OrderError with context; log violations via structured logger. Ensure walk-forward doesn't propagate NaN/Inf; sanitize metrics.
+7. **Quant-precise docstrings** for all guards. Full implementation + tests. Keep pytest green (115+). Keep mypy clean (--disallow-untyped-defs --warn-return-any).
 8. After completion, verify end-to-end pipeline still produces valid JSON and metrics stable.
 
 ## Immediate Objectives
@@ -63,7 +63,7 @@ Heavy engineering only. Mathematical correctness mandatory. Numerical stability 
 - DO NOT avoid heavy work. Execute in order without skipping.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T19-44-07Z.md (AUTHORITATIVE — THIS FILE)
+1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T20-36-26Z.md (AUTHORITATIVE — THIS FILE)
 2. research_state/durable_handoff.md (MIRROR)
 3. research_state/INITIAL_TASK_HANDOFF.md (MIRROR — referenced by tests/test_campaign_resume.py)
 4. All other INITIAL_TASK_HANDOFF_LATEST_* files are SUPERSEDED.
