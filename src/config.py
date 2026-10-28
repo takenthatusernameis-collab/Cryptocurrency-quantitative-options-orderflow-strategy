@@ -30,6 +30,10 @@ class BacktestConfig:
     fee_rate: float = 0.0005
     slippage_bps: float = 1.0
     risk_free_rate: float = 0.0
+    partial_fill_rate: float = 0.0  # 0 = fills fully; 0 < r <= 1 = random fill fraction (deterministic seed)
+    round_lot_size: float = 0.0  # 0 = no rounding; > 0 = round quantity down to lot
+    max_slippage_bps: float = 0.0  # 0 = no cap; > 0 = cap slippage to this many bps
+    slippage_seed: int = 42  # seed for deterministic partial fills
 
 
 @dataclass
@@ -38,6 +42,8 @@ class RiskConfig:
     max_drawdown_limit: float = 0.2
     stop_loss_pct: float = 0.02
     take_profit_pct: float = 0.04
+    max_position_qty: float = 0.0  # 0 = no cap; > 0 = hard quantity cap
+    allow_shorting: bool = True
 
 
 @dataclass
@@ -61,11 +67,21 @@ def validate_config(cfg: "StrategyConfig") -> None:
         errors.append("backtest.initial_capital must be > 0")
     if cfg.backtest.slippage_bps < 0:
         errors.append("backtest.slippage_bps must be >= 0")
+    if cfg.backtest.max_slippage_bps < 0:
+        errors.append("backtest.max_slippage_bps must be >= 0")
+    if not (0.0 <= cfg.backtest.partial_fill_rate <= 1.0):
+        errors.append("backtest.partial_fill_rate must be in [0, 1]")
+    if cfg.backtest.round_lot_size < 0:
+        errors.append("backtest.round_lot_size must be >= 0")
     # Risk limits in (0, 1]
     for field_name in ("max_position_pct", "max_drawdown_limit", "stop_loss_pct", "take_profit_pct"):
         val = getattr(cfg.risk, field_name)
         if not (0.0 < val <= 1.0):
             errors.append(f"risk.{field_name} must be in (0, 1], got {val}")
+    if cfg.risk.max_position_qty < 0:
+        errors.append("risk.max_position_qty must be >= 0")
+    if not isinstance(cfg.risk.allow_shorting, bool):
+        errors.append("risk.allow_shorting must be bool")
     if errors:
         raise ValueError("Invalid config: " + "; ".join(errors))
 

@@ -14,7 +14,7 @@ from src.main import run_pipeline
 
 
 def _make_chain(venue="deribit", underlying="BTC"):
-    contract_call = OptionContract(
+    contract_call_atm = OptionContract(
         symbol="BTC-28OCT22-50000-C",
         underlying=underlying,
         strike=50000.0,
@@ -22,7 +22,7 @@ def _make_chain(venue="deribit", underlying="BTC"):
         option_type="call",
         venue=venue,
     )
-    contract_put = OptionContract(
+    contract_put_atm = OptionContract(
         symbol="BTC-28OCT22-50000-P",
         underlying=underlying,
         strike=50000.0,
@@ -30,9 +30,25 @@ def _make_chain(venue="deribit", underlying="BTC"):
         option_type="put",
         venue=venue,
     )
+    contract_call_otm = OptionContract(
+        symbol="BTC-28OCT22-54000-C",
+        underlying=underlying,
+        strike=54000.0,
+        expiry=datetime(2022, 10, 28, tzinfo=timezone.utc),
+        option_type="call",
+        venue=venue,
+    )
+    contract_put_otm = OptionContract(
+        symbol="BTC-28OCT22-46000-P",
+        underlying=underlying,
+        strike=46000.0,
+        expiry=datetime(2022, 10, 28, tzinfo=timezone.utc),
+        option_type="put",
+        venue=venue,
+    )
     quotes = [
         OptionQuote(
-            contract=contract_call,
+            contract=contract_call_atm,
             bid=100.0,
             ask=110.0,
             gamma=0.0001,
@@ -42,13 +58,33 @@ def _make_chain(venue="deribit", underlying="BTC"):
             timestamp=datetime.now(timezone.utc),
         ),
         OptionQuote(
-            contract=contract_put,
+            contract=contract_put_atm,
             bid=90.0,
             ask=100.0,
             gamma=0.0001,
             open_interest=500.0,
             volume=50.0,
             mark_iv=0.65,
+            timestamp=datetime.now(timezone.utc),
+        ),
+        OptionQuote(
+            contract=contract_call_otm,
+            bid=50.0,
+            ask=55.0,
+            gamma=0.0001,
+            open_interest=200.0,
+            volume=20.0,
+            mark_iv=0.62,
+            timestamp=datetime.now(timezone.utc),
+        ),
+        OptionQuote(
+            contract=contract_put_otm,
+            bid=45.0,
+            ask=50.0,
+            gamma=0.0001,
+            open_interest=300.0,
+            volume=30.0,
+            mark_iv=0.68,
             timestamp=datetime.now(timezone.utc),
         ),
     ]
@@ -69,7 +105,7 @@ def test_pipeline_wires_alpha_features():
     of = _make_orderflow()
     config = {
         "venues": ["deribit"],
-        "data": {"symbols": ["BTC"]},
+        "data": {"symbols": ["BTC"], "spot_price": 50000.0},
         "backtest": {"initial_capital": 100000.0, "fee_rate": 0.0, "slippage_bps": 0},
         "risk": {"max_position_pct": 0.1, "max_drawdown_limit": 0.2, "stop_loss_pct": 0.02, "take_profit_pct": 0.04},
     }
@@ -99,7 +135,7 @@ def test_pipeline_json_serializable():
     of = _make_orderflow()
     config = {
         "venues": ["deribit"],
-        "data": {"symbols": ["BTC"]},
+        "data": {"symbols": ["BTC"], "spot_price": 50000.0},
         "backtest": {"initial_capital": 100000.0, "fee_rate": 0.0, "slippage_bps": 0},
         "risk": {"max_position_pct": 0.1, "max_drawdown_limit": 0.2, "stop_loss_pct": 0.02, "take_profit_pct": 0.04},
     }
@@ -117,7 +153,7 @@ def test_pipeline_collects_feature_errors():
     chain = _make_chain()
     config = {
         "venues": ["deribit"],
-        "data": {"symbols": ["BTC"]},
+        "data": {"symbols": ["BTC"], "spot_price": 50000.0},
         "backtest": {"initial_capital": 100000.0, "fee_rate": 0.0, "slippage_bps": 0},
         "risk": {"max_position_pct": 0.1, "max_drawdown_limit": 0.2, "stop_loss_pct": 0.02, "take_profit_pct": 0.04},
     }

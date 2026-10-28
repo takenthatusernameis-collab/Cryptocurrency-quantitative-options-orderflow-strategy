@@ -68,6 +68,9 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
         }
     venues = config.get("venues", ["deribit", "okx", "binance"])
     symbols = symbols or config.get("data", {}).get("symbols", ["BTC", "ETH"])
+    spot_price_default = float(config.get("data", {}).get("spot_price", 50000.0))
+    if not math.isfinite(spot_price_default) or spot_price_default <= 0:
+        spot_price_default = 50000.0
     results: Dict[str, Any] = {
         "venues": venues,
         "symbols": symbols,
@@ -134,11 +137,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
     for key, chain in ingested_chains.items():
         try:
             v, sym = key.split(":", 1)
-            spot_price = 50000.0
-            if chain.quotes:
-                mids = [(q.bid + q.ask) / 2 for q in chain.quotes if q.bid and q.ask]
-                if mids:
-                    spot_price = sum(mids) / len(mids)
+            spot_price = spot_price_default
             total_gex = calculate_total_gex(chain, spot_price)
             cum_delta = 0.0
             of_imbalance = 0.0
@@ -146,7 +145,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 trades = ingested_orderflows[key].trades
                 cum_delta = calculate_cumulative_delta(trades)
                 of_imbalance = calculate_orderflow_imbalance(trades)
-            pcr = calculate_put_call_ratio(chain)
+            pcr = calculate_put_call_ratio(chain.quotes)
             iv_skew = calculate_iv_skew(chain.quotes, spot_price)
             max_pain = calculate_max_pain(chain)
             signal = signal_gen.generate_signal(
