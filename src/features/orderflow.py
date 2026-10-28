@@ -57,8 +57,109 @@ def calculate_cumulative_delta_robust(trades: List[Trade], window: Optional[int]
     return float(delta)
 
 
-cumulative_delta = calculate_cumulative_delta
-robust_cumulative_delta = calculate_cumulative_delta_robust
+def calculate_cumulative_delta_vectorized(trades: List[Trade]) -> float:
+    """Vectorized cumulative delta (buy volume - sell volume).
+
+    Semantically identical to `calculate_cumulative_delta` but uses numpy
+    accumulation for large trade lists.
+    """
+    if not trades:
+        return 0.0
+    sides = np.empty(len(trades), dtype=object)
+    sizes = np.zeros(len(trades), dtype=np.float64)
+    for i, trade in enumerate(trades):
+        try:
+            sides[i] = str(trade.side).lower()
+        except Exception:
+            sides[i] = ""
+        try:
+            sizes[i] = float(trade.size)
+        except Exception:
+            sizes[i] = float("nan")
+    valid = np.isfinite(sizes)
+    buy_mask = (sides == "buy") & valid
+    sell_mask = (sides == "sell") & valid
+    delta = float(sizes[buy_mask].sum() - sizes[sell_mask].sum())
+    if not isfinite(delta):
+        return 0.0
+    return delta
+
+
+def calculate_signed_volume_vectorized(trades: List[Trade], window: Optional[int] = None) -> float:
+    """Vectorized signed volume with optional windowing."""
+    if not trades:
+        return 0.0
+    trades_list = trades[-window:] if window is not None and window > 0 else trades
+    if not trades_list:
+        return 0.0
+    sides = np.empty(len(trades_list), dtype=object)
+    sizes = np.zeros(len(trades_list), dtype=np.float64)
+    for i, trade in enumerate(trades_list):
+        try:
+            sides[i] = str(trade.side).lower()
+        except Exception:
+            sides[i] = ""
+        try:
+            sizes[i] = float(trade.size)
+        except Exception:
+            sizes[i] = float("nan")
+    valid = np.isfinite(sizes)
+    buy_mask = (sides == "buy") & valid
+    sell_mask = (sides == "sell") & valid
+    signed_vol = float(sizes[buy_mask].sum() - sizes[sell_mask].sum())
+    if not isfinite(signed_vol):
+        return 0.0
+    return signed_vol
+
+
+def calculate_orderflow_imbalance_vectorized(trades: List[Trade], window: int = 100) -> float:
+    """Vectorized orderflow imbalance ratio.
+
+    Semantically identical to `calculate_orderflow_imbalance` but uses numpy
+    for volume aggregation.
+    """
+    if not trades:
+        return 0.0
+    try:
+        w = int(window)
+    except Exception:
+        w = 100
+    if w <= 0:
+        recent_trades = trades
+    else:
+        recent_trades = trades[-w:] if len(trades) > w else trades
+    if not recent_trades:
+        return 0.0
+    sides = np.empty(len(recent_trades), dtype=object)
+    sizes = np.zeros(len(recent_trades), dtype=np.float64)
+    for i, t in enumerate(recent_trades):
+        try:
+            sides[i] = str(t.side).lower()
+        except Exception:
+            sides[i] = ""
+        try:
+            sizes[i] = float(t.size)
+        except Exception:
+            sizes[i] = float("nan")
+    valid = np.isfinite(sizes)
+    buy_volume = float(sizes[(sides == "buy") & valid].sum())
+    sell_volume = float(sizes[(sides == "sell") & valid].sum())
+    total = buy_volume + sell_volume
+    if total == 0 or not isfinite(total):
+        return 0.0
+    result = (buy_volume - sell_volume) / total
+    if not isfinite(result):
+        return 0.0
+    if result < -1.0:
+        result = -1.0
+    if result > 1.0:
+        result = 1.0
+    return float(result)
+
+
+cumulative_delta_vectorized = calculate_cumulative_delta_vectorized
+signed_volume_vectorized = calculate_signed_volume_vectorized
+orderflow_imbalance_vectorized = calculate_orderflow_imbalance_vectorized
 
 
 def calculate_vwap_adjusted_delta(trades: List[Trade]) -> float:
@@ -591,3 +692,7 @@ def detect_aggressive_flow(trades: List[Trade], window: int = 50) -> float:
 
 vpin_toxicity = vpin_style_toxicity
 trade_intensity = detect_aggressive_flow
+
+# Backwards-compatible aliases
+cumulative_delta = calculate_cumulative_delta
+robust_cumulative_delta = calculate_cumulative_delta_robust

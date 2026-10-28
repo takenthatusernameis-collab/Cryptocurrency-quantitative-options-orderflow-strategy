@@ -3,6 +3,8 @@
 from math import isfinite
 from typing import Dict, List
 
+import numpy as np
+
 from ..data.schemas import OptionsChain, OptionQuote
 
 
@@ -90,8 +92,8 @@ def calculate_liquidity_score(quote: OptionQuote) -> float:
     return score
 
 
-def calculate_chain_liquidity_metrics(chain: OptionsChain) -> Dict[str, float]:
-    """Calculate aggregate liquidity metrics for options chain."""
+def calculate_chain_liquidity_metrics_vectorized(chain: OptionsChain) -> Dict[str, float]:
+    """Vectorized aggregate liquidity metrics (identical to `calculate_chain_liquidity_metrics`)."""
     if not chain.quotes:
         return {
             "avg_bid_ask_spread": 0.0,
@@ -101,27 +103,32 @@ def calculate_chain_liquidity_metrics(chain: OptionsChain) -> Dict[str, float]:
             "total_oi": 0.0,
             "total_volume": 0.0,
         }
-    spreads = []
-    rel_spreads = []
-    eff_spreads = []
-    scores = []
+    n = len(chain.quotes)
+    spreads = np.zeros(n, dtype=np.float64)
+    rel_spreads = np.zeros(n, dtype=np.float64)
+    eff_spreads = np.zeros(n, dtype=np.float64)
+    scores = np.zeros(n, dtype=np.float64)
     total_oi = 0.0
     total_volume = 0.0
-    for q in chain.quotes:
-        spreads.append(calculate_bid_ask_spread(q))
-        rel_spreads.append(calculate_relative_spread(q))
-        eff_spreads.append(calculate_effective_spread_proxy(q))
-        scores.append(calculate_liquidity_score(q))
+    for i, q in enumerate(chain.quotes):
+        spreads[i] = calculate_bid_ask_spread(q)
+        rel_spreads[i] = calculate_relative_spread(q)
+        eff_spreads[i] = calculate_effective_spread_proxy(q)
+        scores[i] = calculate_liquidity_score(q)
         if q.open_interest is not None and isfinite(q.open_interest):
             total_oi += float(q.open_interest)
         if q.volume is not None and isfinite(q.volume):
             total_volume += float(q.volume)
-    n = len(spreads)
     return {
-        "avg_bid_ask_spread": sum(spreads) / n if n else 0.0,
-        "avg_relative_spread": sum(rel_spreads) / n if n else 0.0,
-        "avg_effective_spread": sum(eff_spreads) / n if n else 0.0,
-        "avg_liquidity_score": sum(scores) / n if n else 0.0,
+        "avg_bid_ask_spread": float(spreads.mean()) if n else 0.0,
+        "avg_relative_spread": float(rel_spreads.mean()) if n else 0.0,
+        "avg_effective_spread": float(eff_spreads.mean()) if n else 0.0,
+        "avg_liquidity_score": float(scores.mean()) if n else 0.0,
         "total_oi": total_oi,
         "total_volume": total_volume,
     }
+
+
+def calculate_chain_liquidity_metrics(chain: OptionsChain) -> Dict[str, float]:
+    """Calculate aggregate liquidity metrics for options chain (vectorized)."""
+    return calculate_chain_liquidity_metrics_vectorized(chain)

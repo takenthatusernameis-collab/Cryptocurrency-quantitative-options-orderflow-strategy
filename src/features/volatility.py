@@ -433,6 +433,115 @@ def calculate_atm_term_structure(
     return dict(sorted(out.items()))
 
 
+def calculate_put_call_ratio_vectorized(quotes: List[OptionQuote]) -> float:
+    """Vectorized put/call ratio by volume (identical to `calculate_put_call_ratio`)."""
+    if not quotes:
+        return 0.0
+    types = np.empty(len(quotes), dtype=object)
+    volumes = np.zeros(len(quotes), dtype=np.float64)
+    for i, q in enumerate(quotes):
+        try:
+            types[i] = (q.contract.option_type or "").lower()
+        except Exception:
+            types[i] = ""
+        v = _to_float(q.volume)
+        volumes[i] = v if v is not None else 0.0
+    call_volume = float(volumes[types == "call"].sum())
+    put_volume = float(volumes[types == "put"].sum())
+    if call_volume == 0.0:
+        if put_volume > 0.0:
+            return float("inf")
+        return 0.0
+    ratio = put_volume / call_volume
+    if not isfinite(ratio):
+        return float("inf") if put_volume > 0.0 else 0.0
+    return ratio
+
+
+def calculate_iv_skew_vectorized(quotes: List[OptionQuote], spot_price: float) -> float:
+    """Vectorized IV skew (25-delta put IV - 25-delta call IV).
+
+    Semantically identical to `calculate_iv_skew`.
+    """
+    if not quotes or spot_price is None:
+        return 0.0
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return 0.0
+    types = np.empty(len(quotes), dtype=object)
+    strikes = np.zeros(len(quotes), dtype=np.float64)
+    ivs = np.zeros(len(quotes), dtype=np.float64)
+    has_iv = np.zeros(len(quotes), dtype=bool)
+    for i, q in enumerate(quotes):
+        try:
+            types[i] = (q.contract.option_type or "").lower()
+        except Exception:
+            types[i] = ""
+        try:
+            strikes[i] = float(q.contract.strike)
+        except Exception:
+            strikes[i] = float("nan")
+        iv = _get_iv(q)
+        if iv is None:
+            continue
+        ivs[i] = float(iv)
+        has_iv[i] = True
+    moneyness = strikes / sp if sp != 0.0 else 0.0
+    valid = has_iv & np.isfinite(moneyness)
+    otm_puts = ivs[(types == "put") & (moneyness < 0.95) & valid]
+    otm_calls = ivs[(types == "call") & (moneyness > 1.05) & valid]
+    if otm_puts.size == 0 or otm_calls.size == 0:
+        return 0.0
+    avg_put_iv = float(otm_puts.mean())
+    avg_call_iv = float(otm_calls.mean())
+    skew = avg_put_iv - avg_call_iv
+    if not isfinite(skew):
+        return 0.0
+    return skew
+
+
+def calculate_max_pain_vectorized(chain: OptionsChain) -> float:
+    """Vectorized max pain strike (identical to `calculate_max_pain`)."""
+    if not chain or not chain.quotes:
+        return 0.0
+    strikes_set = set()
+    for q in chain.quotes:
+        s = _to_float(q.contract.strike)
+        if s is not None and isfinite(s):
+            strikes_set.add(s)
+    if not strikes_set:
+        return 0.0
+    strikes_arr = np.array(sorted(strikes_set), dtype=np.float64)
+    types = np.empty(len(chain.quotes), dtype=object)
+    quote_strikes = np.zeros(len(chain.quotes), dtype=np.float64)
+    ois = np.zeros(len(chain.quotes), dtype=np.float64)
+    for i, q in enumerate(chain.quotes):
+        try:
+            types[i] = (q.contract.option_type or "").lower()
+        except Exception:
+            types[i] = ""
+        try:
+            quote_strikes[i] = float(q.contract.strike)
+        except Exception:
+            quote_strikes[i] = float("nan")
+        oi = _to_float(q.open_interest)
+        ois[i] = oi if oi is not None else 0.0
+    calls = types == "call"
+    puts = types == "put"
+    min_pain = float("inf")
+    max_pain_strike = 0.0
+    for strike in strikes_arr:
+        call_diff = np.where(quote_strikes < strike, strike - quote_strikes, 0.0)
+        put_diff = np.where(quote_strikes > strike, quote_strikes - strike, 0.0)
+        total_pain = float((call_diff * ois * calls).sum() + (put_diff * ois * puts).sum())
+        if total_pain < min_pain:
+            min_pain = total_pain
+            max_pain_strike = float(strike)
+    if not isfinite(min_pain):
+        return 0.0
+    return max_pain_strike
+
+
 # Backwards compatible aliases
 put_call_skew = calculate_put_call_skew
 risk_reversal = calculate_risk_reversal

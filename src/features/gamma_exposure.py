@@ -196,58 +196,168 @@ def calculate_gamma_notional_by_delta_bands(
     return result
 
 
+def _vectorized_gex(quotes: List[OptionQuote], spot_price: float) -> np.ndarray:
+    """Vectorized per-quote GEX computation returning a float64 array.
+
+    Mirrors the scalar `calculate_gamma_exposure` semantics exactly: missing
+    gamma/OI, zero OI, non-finite inputs, and non-finite results all yield 0.0
+    for that quote. Calls contribute positive GEX, puts negative.
+    """
+    n = len(quotes)
+    out = np.zeros(n, dtype=np.float64)
+    if n == 0:
+        return out
+
+    gamma = np.zeros(n, dtype=np.float64)
+    oi = np.zeros(n, dtype=np.float64)
+    contract_size = np.ones(n, dtype=np.float64)
+    spot = float(spot_price) if spot_price is not None and spot_price > 0 else 0.0
+    is_put = np.zeros(n, dtype=bool)
+
+    for i, q in enumerate(quotes):
+        g = q.gamma
+        o = q.open_interest
+        if g is None or o is None:
+            continue
+        gf = float(g)
+        of = float(o)
+        if not (isfinite(gf) and isfinite(of)):
+            continue
+        if of == 0:
+            continue
+        gamma[i] = gf
+        oi[i] = of
+        contract_size[i] = float(getattr(q.contract, "contract_size", 1.0))
+        try:
+            is_put[i] = str(q.contract.option_type).lower() == "put"
+        except Exception:
+            is_put[i] = False
+
+    if not isfinite(spot) or spot <= 0.0:
+        return out
+
+    gex = gamma * oi * contract_size * (spot ** 2) / 100.0
+    gex = np.where(np.isfinite(gex), gex, 0.0)
+    gex = np.where(is_put, -np.abs(gex), np.abs(gex))
+    return gex
+
+
+def _vectorized_delta_weights(quotes: List[OptionQuote]) -> np.ndarray:
+    """Vectorized delta weights (0.5 + 0.5*clamp(|delta|,0,1))."""
+    n = len(quotes)
+    w = np.full(n, 0.5, dtype=np.float64)
+    for i, q in enumerate(quotes):
+        d = q.delta
+        if d is None:
+            continue
+        df = float(d)
+        if not isfinite(df):
+            continue
+        w[i] = 0.5 + 0.5 * min(1.0, max(0.0, abs(df)))
+    return w
+
+
+def _vectorized_oi_vol_weights(quotes: List[OptionQuote]) -> np.ndarray:
+    """Vectorized OI/volume liquidity weights (min(2.0, (oi+0.5*vol)/max(1.0,oi)))."""
+    n = len(quotes)
+    w = np.ones(n, dtype=np.float64)
+    for i, q in enumerate(quotes):
+        oi = float(q.open_interest) if q.open_interest is not None else 0.0
+        vol = float(q.volume) if q.volume is not None else 0.0
+        if not (isfinite(oi) and isfinite(vol)):
+            continue
+        total_liq = oi + vol
+        if total_liq <= 0:
+            continue
+        denom = max(1.0, oi) if oi > 0 else (vol + 1.0)
+        if denom <= 0:
+            continue
+        ww = (oi + 0.5 * vol) / denom
+        if not isfinite(ww) or ww < 0:
+            ww = 1.0
+        w[i] = min(2.0, ww)
+    return w
+
+
 def calculate_total_gex(chain: OptionsChain, spot_price: float) -> float:
     """Calculate total gamma exposure across all options in chain."""
-    total_gex = 0.0
-    for quote in chain.quotes:
-        gex = calculate_gamma_exposure(quote, spot_price)
-        if isfinite(gex):
-            total_gex += gex
-    if not isfinite(total_gex):
+    if not chain.quotes:
         return 0.0
-    return total_gex
+    arr = _vectorized_gex(chain.quotes, spot_price)
+    total = float(arr.sum())
+    if not isfinite(total):
+        return 0.0
+    return total
+
+
+def calculate_total_gex_vectorized(chain: OptionsChain, spot_price: float) -> float:
+    """Vectorized total gamma exposure (alias for `calculate_total_gex`).
+
+    Provided for callers that want an explicit vectorized entry point; the
+    result is identical to `calculate_total_gex`.
+    """
+    return calculate_total_gex(chain, spot_price)
 
 
 def calculate_total_delta_weighted_gex(chain: OptionsChain, spot_price: float) -> float:
-    """Calculate total delta-weighted gamma exposure."""
-    total_gex = 0.0
-    for quote in chain.quotes:
-        gex = calculate_delta_weighted_gex(quote, spot_price)
-        if isfinite(gex):
-            total_gex += gex
-    return total_gex
+    """Calculate total delta-weighted gamma exposure (vectorized).
+
+    Multiplies per-quote GEX by (0.5 + 0.5 * clamp(|delta|, 0, 1)) and sums.
+    """
+    if not chain.quotes:
+        return 0.0
+    base = _vectorized_gex(chain.quotes, spot_price)
+    w = _vectorized_delta_weights(chain.quotes)
+    out = base * w
+    out = np.where(np.isfinite(out), out, base)
+    total = float(out.sum())
+    if not isfinite(total):
+        return 0.0
+    return total
 
 
 def calculate_total_oi_volume_weighted_gex(chain: OptionsChain, spot_price: float) -> float:
-    """Calculate total OI/volume weighted gamma exposure."""
-    total_gex = 0.0
-    for quote in chain.quotes:
-        gex = calculate_oi_volume_weighted_gex(quote, spot_price)
-        if isfinite(gex):
-            total_gex += gex
-    return total_gex
+    """Calculate total OI/volume weighted gamma exposure (vectorized)."""
+    if not chain.quotes:
+        return 0.0
+    base = _vectorized_gex(chain.quotes, spot_price)
+    w = _vectorized_oi_vol_weights(chain.quotes)
+    out = base * w
+    out = np.where(np.isfinite(out), out, base)
+    total = float(out.sum())
+    if not isfinite(total):
+        return 0.0
+    return total
 
 
 def calculate_gex_by_strike(chain: OptionsChain, spot_price: float, weighted: str = "none") -> Dict[float, float]:
-    """Calculate gamma exposure grouped by strike price.
+    """Calculate gamma exposure grouped by strike price (vectorized).
+
     weighted: 'none', 'delta', or 'liquidity'
     """
-    gex_by_strike: Dict[float, float] = {}
-    for quote in chain.quotes:
-        strike = float(quote.contract.strike)
-        if weighted == "delta":
-            gex = calculate_delta_weighted_gex(quote, spot_price)
-        elif weighted == "liquidity":
-            gex = calculate_oi_volume_weighted_gex(quote, spot_price)
+    if not chain.quotes:
+        return {}
+    strikes = np.array([float(q.contract.strike) for q in chain.quotes], dtype=np.float64)
+    base = _vectorized_gex(chain.quotes, spot_price)
+    if weighted == "delta":
+        w = _vectorized_delta_weights(chain.quotes)
+        base = base * w
+    elif weighted == "liquidity":
+        w = _vectorized_oi_vol_weights(chain.quotes)
+        base = base * w
+    base = np.where(np.isfinite(base), base, 0.0)
+    out: Dict[float, float] = {}
+    for strike, gex in zip(strikes.tolist(), base.tolist()):
+        if strike in out:
+            out[strike] += gex
         else:
-            gex = calculate_gamma_exposure(quote, spot_price)
-        if not isfinite(gex):
-            continue
-        if strike in gex_by_strike:
-            gex_by_strike[strike] += gex
-        else:
-            gex_by_strike[strike] = gex
-    return gex_by_strike
+            out[strike] = gex
+    return out
+
+
+def calculate_gex_by_strike_vectorized(chain: OptionsChain, spot_price: float, weighted: str = "none") -> Dict[float, float]:
+    """Vectorized alias for `calculate_gex_by_strike`."""
+    return calculate_gex_by_strike(chain, spot_price, weighted=weighted)
 
 
 def find_gamma_flip_level_refined(gex_by_strike: Dict[float, float]) -> float:
