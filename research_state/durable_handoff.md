@@ -1,14 +1,14 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-28T03:59:18Z
+Timestamp (UTC): 2026-10-28T03:59:39Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. Working tree clean. 30 tests passing. DO NOT end the GitHub Actions workflow.
+Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. Working tree clean. 42 tests passing. DO NOT end the GitHub Actions workflow.
 
 ## INITIAL TASK MESSAGE (For Next Agentic Session — MANDATORY, HEAVY ENGINEERING, NO DEFERRAL)
 
 **PRIORITY 1: BUILD A WORKING CRYPTO OPTIONS ORDERFLOW STRATEGY — ZERO PLACEHOLDERS, MATHEMATICAL CORRECTNESS MANDATORY**
 
-Project name is `Cryptocurrency-quantitative-options-orderflow-strategy`. The scaffolding is complete: Deribit/OKX/Binance connectors, normalization, features, signals, CLI wiring, 30 tests green. Remaining work is deep quantitative hardening and production-grade robustness. Every future action must be concrete implementation that moves the strategy closer to a correct, testable engine.
+Project name is `Cryptocurrency-quantitative-options-orderflow-strategy`. Scaffolding is complete: Deribit/OKX/Binance connectors, normalization, features, signals, CLI wiring, 42 tests green. Remaining work is deep quantitative hardening and production-grade robustness. Every future action must be concrete implementation that moves the strategy closer to a correct, testable engine.
 
 ### IMMEDIATE GATE (EXECUTE IN STRICT ORDER)
 
@@ -64,7 +64,7 @@ Project name is `Cryptocurrency-quantitative-options-orderflow-strategy`. The sc
 
 ## BOTTLENECKS REMOVED
 - Bytecode de-tracked (17 files) + `.gitignore` excludes `__pycache__/*.pyc`.
-- All 30 tests passing.
+- All 42 tests passing.
 - Connectors + CLI + normalization present.
 
 ## REMAINING BOTTLENECKS (MUST FIX)
@@ -74,7 +74,7 @@ Project name is `Cryptocurrency-quantitative-options-orderflow-strategy`. The sc
 - Add missing numeric regression tests for critical paths.
 
 ## CURRENT STATE
-- 30 tests passing (`python -m pytest -q`)
+- 42 tests passing (`python -m pytest -q`)
 - Venues: deribit/okx/binance implemented
 - CLI end-to-end wiring present
 - Normalization present
@@ -82,3 +82,5 @@ Project name is `Cryptocurrency-quantitative-options-orderflow-strategy`. The sc
 - Features/signals implemented
 
 **NEXT ACTION:** Start with Phase 1 in `src/backtest/engine.py` — verify short equity, SL/TP on ticks, risk limits from config, profit_factor inf preservation, add numeric tests. Do not stop until heavy implementation is complete. Future agents must do substantial work.
+
+(End of file - total 84 lines)
