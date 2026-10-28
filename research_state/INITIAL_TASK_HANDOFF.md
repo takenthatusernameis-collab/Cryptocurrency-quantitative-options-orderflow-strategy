@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-28T21-41-33Z
+Timestamp (UTC): 2026-10-28T21-41-47Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 115 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
@@ -17,47 +17,25 @@ Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical stability required. Vectorize where sensible. No shortcuts.
 
 ## BOTTLENECK REMOVAL (APPLIED)
-- **Single source of truth enforced**: All handoffs consolidated to this file. Previous `INITIAL_TASK_HANDOFF_LATEST_*` are superseded.
-- **Ambiguity eliminated**: `research_state/durable_handoff.md` and `research_state/INITIAL_TASK_HANDOFF.md` will be overwritten to point to this document.
+- **Single source of truth enforced**: All handoffs consolidated to `research_state/durable_handoff.md` and `research_state/INITIAL_TASK_HANDOFF.md`. Duplicate timestamped `INITIAL_TASK_HANDOFF_LATEST_*`, `HEAVY_WORK_HANDOFF_*`, and `HEAVY_WORK_INITIAL_TASK_*` files are superseded and removed to eliminate ambiguity and clutter.
+- **Ambiguity eliminated**: exactly two canonical handoff files exist; both mirror this content and are updated together.
 - **No idle scaffolding**: Next session MUST complete ONE major item end-to-end (implementation + tests). No TODO/FIXME/placeholder.
 - **Determinism enforced**: Seeds must propagate through features, signals, and backtests.
 - **Numerical hygiene**: All metric serialization must pass through sanitization with `allow_nan=False` and raise `SerializationError` on invalid values.
 
-## INITIAL TASK MESSAGE (FOR NEXT AGENTIC WORK SESSION — MANDATORY, NON-OPTIONAL)
-EXECUTE NOW. START AT PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE). Pick **ONE** highest-impact uncompleted item below and **COMPLETE IT END-TO-END** (code + tests + mypy clean). Do not split scope. Leave heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
+## Initial Task Message — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
+EXECUTE NOW. START AT PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE). Pick **ONE** highest-impact uncompleted item and **COMPLETE IT END-TO-END** (code + tests + mypy clean). Do not split scope. Leave heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
 
-### HIGHEST-IMPACT ITEM (COMPLETE FULLY)
-**Expand stress coverage / OOS / walk-forward robustness comprehensively**
+### Immediate Objectives (do in this order)
+1. **Adversarial stress scenarios** across gamma/orderflow/surface/backtest: empty/degenerate frames, NaN/Inf cascades, extreme sizes, all-same-side flow, zero liquidity, duplicate timestamps. Assert no NaN/Inf propagation; quant-precise error context on all exceptions.
+2. **Telemetry/guardrails & serialization end-to-end**: structured logging for RiskLimitError/OrderError/SerializationError (module, symbol, timestamp); `SerializationError` raised on non-finite values; JSON validity verified in tests; end-to-end path ingestion -> features -> signals -> backtest -> serialization tested.
+3. **OOS & walk-forward robustness**: strict time ordering/no lookahead, purge/embargo, RNG seed determinism with reproducibility tests, `allow_nan=False` metric sanitization.
+4. **Numerical guards & config validation edge cases**: insufficient cash/short-notional/position limits -> RiskLimitError/OrderError; division-by-zero, log(<=0), sqrt of negative, pct-change-on-zero guarded; safe defaults and invalid-combo rejection.
 
-#### Scope (MANDATORY - NO PARTIALS)
-1. **Adversarial stress scenarios** (across gamma/orderflow/surface/backtest)
-   - Empty/degenerate frames, NaN/Inf cascades, extreme sizes, all-same-side flow, zero liquidity, duplicate timestamps
-   - Assert no NaN/Inf propagation. All exceptions must have quant-precise error context.
+### Verification (REQUIRED)
+`python -m pytest` must reach >= 115 passing (incl. handoff-integrity tests). `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean. Working tree clean. No untracked junk.
 
-2. **OOS & walk-forward robustness**
-   - Harden walk-forward splits with strict time ordering (no lookahead). Purge/embargo if applicable.
-   - Determinism: propagate RNG seeds through all stochastic paths. Add reproducibility tests.
-   - Sanitize all reported metrics with `allow_nan=False`. Block serialization of non-finite values.
-
-3. **Telemetry/guardrails & serialization end-to-end**
-   - Structured logging for violations (RiskLimitError/OrderError/SerializationError). Include module, symbol, timestamp context.
-   - `SerializationError` must be raised on non-finite values; JSON validity verified in tests.
-   - End-to-end telemetry path tested (ingestion -> features -> signals -> backtest -> serialization).
-
-4. **Config validation edge cases**
-   - Harden venue/risk/backtest params for dict and object forms. Defaults must be safe.
-   - Reject invalid combos with actionable errors. Cover boundary values.
-
-5. **Numerical guards**
-   - Insufficient cash, short-notional breach, position limits -> `RiskLimitError`/`OrderError` with structured logging.
-   - Division-by-zero, log(<=0), sqrt of negative, pct changes on zeros guarded explicitly.
-
-6. **Quant-precise documentation**
-   - Docstrings for all new guards explaining numerical rationale (units, invariants, failure modes).
-
-**Verification (REQUIRED):** `python -m pytest` must stay >= 115 passing. `python -m mypy src/ --disallow-untyped-defs --warn-return-any` must remain clean. Working tree clean.
-
-## PHASE CAMPAIGN (NEVER AVOID HEAVY WORK)
+## Next Focus Campaign (Never Avoid Heavy Work)
 - Phase 1: COMPLETE - Data ingestion/resilience
 - Phase 2: COMPLETE - Normalization & canonical schemas
 - Phase 3: COMPLETE - Features (gamma, orderflow, volatility, max pain)
@@ -67,19 +45,20 @@ EXECUTE NOW. START AT PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE). Pick **O
 - Phase 7: COMPLETE - Production readiness (final hardening pass)
 - **Phase 8: PRODUCTION TELEMETRY & STRESS COVERAGE — IN PROGRESS (HEAVY WORK MANDATORY)**
 
-Remaining Phase 8 tasks:
-- [ ] Stress scenarios across all modules (highest priority)
+Remaining Phase 8 deliverables (complete ONE fully before moving on):
+- [ ] Stress scenarios across all modules (highest priority — start here)
 - [ ] OOS & walk-forward robustness
 - [ ] Telemetry/guardrails & serialization end-to-end
 - [ ] Numerical guards & config validation edge cases
 
-## UNCOMPROMISING MANDATE
+## MANDATE
 - Heavy engineering only. Mathematical correctness mandatory.
 - Numerical stability required. Vectorize where sensible.
 - No placeholders/TODOs/FIXMEs. Full implementation with code AND tests.
 - Complete ONE major item fully; leave heavy work for the next agent.
 - Never stop at scaffolding. Prioritize strictly by project name order above.
 - Working tree clean. Do not create untracked junk.
+- DO NOT avoid heavy work. Execute in order without skipping.
 
 ## EXECUTION RULES
 - Working tree clean; do not create untracked junk.
