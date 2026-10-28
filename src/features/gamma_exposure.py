@@ -10,7 +10,7 @@ from ..data.schemas import OptionsChain, OptionQuote
 
 def calculate_gamma_exposure(quote: OptionQuote, spot_price: float) -> float:
     """Calculate gamma exposure for a single option contract.
-    Standard approximation: GEX notional ~ Gamma * OI * ContractSize * Spot^2 (scaled)
+    Standard approximation: GEX notional ~ Gamma * OI * ContractSize * Spot^2 / 100
     """
     if quote.gamma is None or quote.open_interest is None:
         return 0.0
@@ -23,7 +23,7 @@ def calculate_gamma_exposure(quote: OptionQuote, spot_price: float) -> float:
     spot = float(spot_price) if spot_price > 0 else 0.0
 
     # GEX in terms of dollar gamma exposure (common convention)
-    gex = gamma * oi * contract_size * (spot ** 2)
+    gex = gamma * oi * contract_size * (spot ** 2) / 100.0
 
     if quote.contract.option_type.lower() == "put":
         gex = -abs(gex)

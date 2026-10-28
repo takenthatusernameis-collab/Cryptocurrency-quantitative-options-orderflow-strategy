@@ -50,10 +50,19 @@ class BacktestResults:
 class BacktestEngine:
     def __init__(self, config: BacktestConfig = None, risk_config: RiskConfig = None, **kwargs):
         if config is None and kwargs:
-            config = BacktestConfig(**{k: v for k, v in kwargs.items() if k in BacktestConfig.__dataclass_fields__})
+            # Extract config fields
+            cfg_kwargs = {k: v for k, v in kwargs.items() if k in BacktestConfig.__dataclass_fields__}
+            config = BacktestConfig(**cfg_kwargs) if cfg_kwargs else BacktestConfig()
         elif config is None:
             config = BacktestConfig()
 
+        # Extract risk config if passed as dict
+        if risk_config is None and kwargs:
+            risk_kwargs = {k: v for k, v in kwargs.items() if k in RiskConfig.__dataclass_fields__}
+            if risk_kwargs:
+                risk_config = RiskConfig(**risk_kwargs)
+            elif isinstance(kwargs.get("risk_config"), dict):
+                risk_config = RiskConfig(**kwargs["risk_config"])
         self.config = config
         self.risk_config = risk_config or RiskConfig()
         self.initial_capital = float(getattr(config, "initial_capital", 100000.0))

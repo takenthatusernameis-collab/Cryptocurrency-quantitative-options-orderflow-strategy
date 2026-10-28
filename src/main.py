@@ -129,11 +129,18 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
         results.setdefault("errors", []).append(f"signal_generation: {e}")
 
     try:
+        from .config import BacktestConfig, RiskConfig
+
         bt_config = config.get("backtest", {})
+        risk_config = config.get("risk", {}) or {}
         engine = BacktestEngine(
-            initial_capital=float(bt_config.get("initial_capital", 100000.0)),
-            fee_rate=float(bt_config.get("fee_rate", 0.0005)),
-            slippage_bps=float(bt_config.get("slippage_bps", 1.0)),
+            config=BacktestConfig(
+                initial_capital=float(bt_config.get("initial_capital", 100000.0)),
+                fee_rate=float(bt_config.get("fee_rate", 0.0005)),
+                slippage_bps=float(bt_config.get("slippage_bps", 1.0)),
+                risk_free_rate=float(bt_config.get("risk_free_rate", 0.0)),
+            ),
+            risk_config=RiskConfig(**risk_config) if risk_config else RiskConfig(),
         )
         if signals:
             for key, sig in signals.items():
@@ -171,7 +178,14 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
         results["backtest_engine"] = engine.__class__.__name__
     except Exception as e:
         results.setdefault("errors", []).append(f"backtest: {e}")
-        engine = BacktestEngine(initial_capital=float(config.get("backtest", {}).get("initial_capital", 100000.0)))
+        from .config import BacktestConfig, RiskConfig
+
+        bt_config = config.get("backtest", {})
+        risk_config = config.get("risk", {}) or {}
+        engine = BacktestEngine(
+            config=BacktestConfig(initial_capital=float(bt_config.get("initial_capital", 100000.0))),
+            risk_config=RiskConfig(**risk_config) if risk_config else RiskConfig(),
+        )
         results["backtest_engine"] = engine.__class__.__name__
 
     results["signal_generator"] = signal_gen.__class__.__name__
