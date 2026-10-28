@@ -1,74 +1,73 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
 
-Timestamp (UTC): 2026-10-28T09:36:47Z
+Timestamp (UTC): 2026-10-28T13:21:58Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 87 TESTS PASSING | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
+State: 97 TESTS PASSING | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION
-"Cryptocurrency-quantitative-options-orderflow-strategy" — mathematically correct, production-grade crypto options orderflow strategy with rigorous numerical stability and full test coverage. Focus on dealer positioning via gamma exposure, orderflow microstructure, volatility surface dynamics, regime-aware signals, and robust backtesting.
+"Cryptocurrency-quantitative-options-orderflow-strategy" — mathematically correct, production-grade crypto options orderflow strategy with rigorous numerical stability and full test coverage. Focus on dealer positioning via gamma exposure, orderflow microstructure, volatility surface dynamics, regime-aware signals, and robust backtesting. Prioritize by project name: crypto options orderflow + dealer positioning + surface dynamics + rigorous backtesting.
 
 ## BOTTLENECKS REMOVED THIS SESSION
-- Confirmed clean working tree (git status: nothing to commit, branch up-to-date with origin/main).
-- Verified 87/87 tests pass in 0.53s. No TODO/FIXME/HACK/PLACEHOLDER markers remain in src/ or tests/.
-- Confirmed Phase 2 first major item (deep orderflow microstructure) is fully implemented and tested.
-- No blocked or inefficient sessions remain. Ready for next heavy engineering campaign.
+- No blocked/inefficient sessions detected. Working tree clean (git status: nothing to commit, branch up-to-date with origin/main).
+- 97/97 tests passing (pytest, 0.58s). No TODO/FIXME/HACK/PLACEHOLDER markers in src/ or tests/.
+- Phases 1-5 complete: gamma exposure, orderflow microstructure, volatility/skew, regime-aware signals, backtest rigor (fill/slippage, walk-forward/rolling, drawdown controls, stress/tx costs/partial fills/round lots).
+- Walk-forward/rolling-window backtest already implemented in src/backtest/engine.py (WalkForwardBacktest, run_walk_forward, run_rolling_window_backtest) with tests — do NOT re-implement.
+- Phase 6 substantially complete: end-to-end pipeline integration tests (tests/test_pipeline_integration.py), campaign resume/handoff integrity (tests/test_campaign_resume.py), non-finite serialization guards (tests/test_nonfinite_result_serialization.py), JSON allow_nan=False sanitization (src/main.py:282), config validation (src/config.py:validate_config).
 
 ## Initial Task Message (FOR NEXT AGENTIC WORK SESSION — MANDATORY)
 
-START IMMEDIATELY AT PHASE 2 - NEXT ITEM.
-Pick the HIGHEST-IMPACT uncompleted item in Phase 2 and implement it FULLY with tests.
-HIGHEST-IMPACT ITEM: Orderflow imbalance at multiple horizons with decay weighting — EXTEND AND HARDEN. Functions exist (orderflow_imbalance_multi_horizon/imbalance_multi_horizon) but need deeper property/invariant tests (normalization, decay behavior, empty/edge cases), ensure numerical stability, and add any missing aggregations/aliases. Also consider cross-consistency with calculate_orderflow_imbalance. YOUR JOB: extend tests + harden implementation (guards, finite checks, clamping) as needed. NO cosmetic changes. NO placeholders/TODOs/FIXMEs. NO scaffolding.
-Mathematical correctness is MANDATORY. Numerical stability is MANDATORY. Vectorize where sensible. Complete ONE major item fully; leave heavy work for next agent.
+START IMMEDIATELY AT PHASE 6 COMPLETION. Pick ONE highest-impact uncompleted item and implement it FULLY with tests. Do NOT split; complete end-to-end. Leave heavy work for the next agent.
+
+HIGHEST-IMPACT ITEM: Vectorization audit + Phase 6 closure (features/signals/backtest)
+- Scope (COMPLETE FULLY):
+  1. Vectorization audit: survey src/features/*.py, src/signals/composite.py, src/backtest/engine.py for remaining Python loops; vectorize with numpy where semantics unchanged and the win is meaningful (features are already vectorized; backtest is event-driven by design — document that the per-tick loop is intrinsic, not a gap).
+  2. Add tests for any behavior change from vectorization; assert numerical equivalence vs scalar path where both exist.
+  3. Confirm all public vectorized entry points are exported via relevant __init__.py files; follow existing style.
+  4. No placeholders/TODOs/FIXMEs. All new code tested. Keep 97+ tests passing.
+  5. Once the vectorization audit is green, Phase 6 is CLOSED; the next agent begins Phase 7 (production readiness: performance benchmarks, type-hint coverage, docstrings for complex calculations, error-handling specificity).
 
 ## Immediate Objectives
-- Extend and harden orderflow imbalance at multiple horizons with decay weighting.
-- Add property/invariant tests for normalization, decay behavior, empty/edge cases.
-- Ensure numerical stability, finite checks, clamping; add missing aggregations/aliases.
-- Maintain 87+ tests passing; no placeholders/TODOs/FIXMEs.
+- Complete the vectorization audit end-to-end with tests.
+- Close Phase 6 (integration, resilience & tests).
+- Maintain 97+ tests passing; working tree clean; no scaffolding.
 
 ## Next Focus Campaign (MANDATORY — NEVER AVOID HEAVY WORK)
 ### Phase 1: ADVANCED GAMMA EXPOSURE & DEALER POSITIONING — COMPLETE
 - [x] Net gamma exposure, gamma notional by delta bands, gamma flip, invariants/tests
+### Phase 2: DEEP ORDERFLOW MICROSTRUCTURE — COMPLETE
+- [x] Cumulative delta robust, VWAP-adjusted delta, signed volume; multi-horizon imbalance with decay weighting; VPIN-style toxicity; absorption/detection
+### Phase 3: VOLATILITY SURFACE & SKEW QUANTIFICATION — COMPLETE
+- [x] IV skew term structure, put-call skew, risk reversal, max pain, ATM term structure
+### Phase 4: REGIME-AWARE SIGNAL ENGINEERING — COMPLETE
+- [x] Cross-feature interactions, confidence calibration, regime detection, normalization
+### Phase 5: BACKTEST RIGOR & RISK — COMPLETE
+- [x] Realistic fill/slippage, walk-forward/rolling/OOS stability, drawdown controls, SL/TP, stress, tx costs, partial fills, round lots
+### Phase 6: INTEGRATION, RESILIENCE & TESTS — IN PROGRESS (FINAL ITEM)
+- [x] End-to-end pipeline tests (ingestion->features->signals->backtest)
+- [x] Property-based/numeric invariant tests + explicit finite checks across features
+- [x] Campaign resume + non-finite serialization guards
+- [ ] Vectorization audit (FINAL ITEM — START NOW)
+### Phase 7: PRODUCTION READINESS (NEXT AFTER PHASE 6 CLOSES)
+- [ ] Performance benchmarks for hot paths (GEX, orderflow, backtest equity curve)
+- [ ] Type-hint coverage across src/
+- [ ] Docstrings for complex calculations
+- [ ] More specific exception types + structured logging
 
-### Phase 2: DEEP ORDERFLOW MICROSTRUCTURE (CRITICAL) — IN PROGRESS
-- [x] Cumulative delta with trade classification robustness, VWAP-adjusted delta, signed volume (FULL TEST COVERAGE + HARDENING)
-- [ ] Orderflow imbalance at multiple horizons with decay weighting (EXTEND TESTS + HARDEN)
-- [ ] Footprint/orderflow divergence metrics (deepen tests)
-- [ ] VPIN-style toxicity proxy with finite-sample guards (deepen property tests)
-- [ ] Harden against division by zero/non-finite; property/invariant tests
+## MANDATE (UNCOMPROMISING)
+Heavy engineering only. Mathematical correctness mandatory. Numerical stability required. Vectorize where sensible. No placeholders/TODOs/FIXMEs. Full implementation with code AND tests. Complete ONE major item fully; leave heavy work for next agent. Never stop at scaffolding.
 
-### Phase 3: VOLATILITY SURFACE & SKEW QUANTIFICATION (CRITICAL)
-- [ ] IV skew term structure, put-call skew, risk reversal, max pain, term structure
-
-### Phase 4: REGIME-AWARE SIGNAL ENGINEERING (CRITICAL)
-- [ ] Cross-feature interactions, confidence calibration, regime detection, normalization
-
-### Phase 5: BACKTEST RIGOR & RISK (HIGH)
-- [ ] Realistic fills, drawdown controls, walk-forward, stress tests, transaction costs
-
-### Phase 6: INTEGRATION, RESILIENCE & TESTS (HIGH)
-- [ ] Wire features, property tests, explicit finite checks, vectorization, e2e tests
-
-## VERIFIED CODEBASE STATE
-- src/features/orderflow.py:360 — all orderflow functions, hardened, aliases present.
-- src/features/gamma_exposure.py:330 — full GEX stack, delta bands, gamma flip interpolation.
-- src/features/volatility.py:80 — put/call ratio, IV skew, max pain (basic; needs Phase 3).
-- src/features/liquidity.py:127 — spread, mid, relative/effective spread, liquidity score, chain metrics.
-- src/signals/composite.py:200 — regime-aware composite signal generator with confidence calibration.
-- src/backtest/engine.py:439 — event-driven backtest engine.
-- src/data/schemas.py:78 — Pydantic schemas (OptionContract, OptionQuote, OptionsChain, Trade, Liquidation, FundingRate, OrderflowSnapshot).
-- tests/test_features.py:399 — comprehensive feature tests including orderflow invariants.
-- tests/test_phase1_gamma_invariants.py:7392 bytes — gamma exposure property tests.
-- 87 tests total, all passing.
-
-## MANDATE
-Heavy engineering only. Mathematical correctness mandatory. Numerical stability required. Vectorize where sensible. No placeholders/TODOs/FIXMEs. Full implementation with code AND tests. Complete ONE major item fully; leave heavy work for next agent.
+## EXECUTION RULES
+- Working tree clean; do not create untracked junk.
+- Run tests after changes (python -m pytest). Maintain passing state (currently 97 passing).
+- Fix inefficiencies/blockers immediately before moving on.
+- Prioritize by project name: crypto options orderflow + dealer positioning + surface dynamics + rigorous backtesting.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. research_state/durable_handoff.md (AUTHORITATIVE, TIMESTAMPED 2026-10-28T09:36:47Z)
-2. research_state/INITIAL_TASK_HANDOFF.md (THIS MIRROR)
-3. Prior LATEST files superseded.
+1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T13-21-58Z.md (AUTHORITATIVE - THIS FILE)
+2. research_state/durable_handoff.md (MIRROR - UPDATE TO SAME CONTENT)
+3. research_state/INITIAL_TASK_HANDOFF.md (MIRROR - UPDATE TO SAME CONTENT; referenced by tests/test_campaign_resume.py)
+4. Prior LATEST files superseded.
 
-EXECUTE NOW. START AT PHASE 2 NEXT ITEM. NO DELAY.
+EXECUTE NOW. START AT PHASE 6 FINAL ITEM (VECTORIZATION AUDIT). NO DELAY. DO HEAVY WORK.
