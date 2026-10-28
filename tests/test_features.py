@@ -168,3 +168,162 @@ def test_put_call_ratio():
     ]
     pcr = calculate_put_call_ratio(quotes)
     assert pcr == 0.5
+
+
+def test_calculate_cumulative_delta_robust():
+    from src.features.orderflow import calculate_cumulative_delta_robust, cumulative_delta, robust_cumulative_delta
+    trades = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=20000.0, size=2.0, side="buy", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="2", symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="sell", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="3", symbol="BTC", venue="deribit", price=20000.0, size=0.5, side="Buy", timestamp=datetime.now(timezone.utc)),
+    ]
+    delta = calculate_cumulative_delta_robust(trades)
+    assert delta == 1.5  # 2 - 1 + 0.5
+    # window
+    delta_w = calculate_cumulative_delta_robust(trades, window=2)
+    assert delta_w == -0.5  # last 2: -1 + 0.5
+    assert calculate_cumulative_delta_robust([]) == 0.0
+    assert cumulative_delta is calculate_cumulative_delta
+    assert robust_cumulative_delta is calculate_cumulative_delta_robust
+
+
+def test_calculate_vwap_adjusted_delta():
+    from src.features.orderflow import calculate_vwap_adjusted_delta
+    trades = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="buy", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="2", symbol="BTC", venue="deribit", price=21000.0, size=1.0, side="sell", timestamp=datetime.now(timezone.utc)),
+    ]
+    vwap_adj = calculate_vwap_adjusted_delta(trades)
+    assert isinstance(vwap_adj, float)
+    assert calculate_vwap_adjusted_delta([]) == 0.0
+    # with non-finite values
+    trades_bad = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=float('inf'), size=float('nan'), side="buy", timestamp=datetime.now(timezone.utc)),
+    ]
+    res = calculate_vwap_adjusted_delta(trades_bad)
+    assert isinstance(res, float)
+
+
+def test_calculate_delta_adjusted_flow():
+    from src.features.orderflow import calculate_delta_adjusted_flow
+    trades = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="buy", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="2", symbol="BTC", venue="deribit", price=20000.0, size=0.5, side="sell", timestamp=datetime.now(timezone.utc)),
+    ]
+    res = calculate_delta_adjusted_flow(trades, spot_price=20000.0)
+    assert abs(res - 0.5/20000.0) < 1e-18
+    res2 = calculate_delta_adjusted_flow(trades, spot_price=None)
+    assert res2 == 0.5
+    res3 = calculate_delta_adjusted_flow(trades, spot_price=0)
+    assert res3 == 0.5
+
+
+def test_calculate_signed_volume():
+    from src.features.orderflow import calculate_signed_volume
+    trades = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="buy", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="2", symbol="BTC", venue="deribit", price=20000.0, size=0.3, side="sell", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="3", symbol="BTC", venue="deribit", price=20000.0, size=0.2, side="BUY", timestamp=datetime.now(timezone.utc)),
+    ]
+    sv = calculate_signed_volume(trades)
+    assert abs(sv - 0.9) < 1e-12
+    assert calculate_signed_volume([]) == 0.0
+    sv_w = calculate_signed_volume(trades, window=2)
+    assert abs(sv_w - (-0.1)) < 1e-12
+
+
+def test_orderflow_imbalance_multi_horizon():
+    from src.features.orderflow import orderflow_imbalance_multi_horizon, imbalance_multi_horizon
+    trades = [
+        Trade(trade_id=str(i), symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="buy" if i % 3 != 0 else "sell", timestamp=datetime.now(timezone.utc))
+        for i in range(20)
+    ]
+    res = orderflow_imbalance_multi_horizon(trades)
+    assert isinstance(res, dict)
+    assert "imb_decay_weighted" in res
+    assert imbalance_multi_horizon is orderflow_imbalance_multi_horizon
+    # horizons with zeros/negatives
+    res2 = orderflow_imbalance_multi_horizon(trades, horizons=[0, -1, 5])
+    assert "imb_decay_weighted" in res2
+    res3 = orderflow_imbalance_multi_horizon([], horizons=[1,2,3])
+    assert res3["imb_decay_weighted"] == 0.0
+
+
+def test_delta_divergence_vs_price():
+    from src.features.orderflow import delta_divergence_vs_price
+    trades = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="buy", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="2", symbol="BTC", venue="deribit", price=20100.0, size=0.5, side="buy", timestamp=datetime.now(timezone.utc)),
+    ]
+    div = delta_divergence_vs_price(trades, price_series=[20000.0, 20100.0])
+    assert isinstance(div, float)
+    div2 = delta_divergence_vs_price([], price_series=[1,2])
+    assert div2 == 0.0
+    div3 = delta_divergence_vs_price(trades, price_series=[20000.0])
+    assert isinstance(div3, float)
+
+
+def test_absorption_detection():
+    from src.features.orderflow import absorption_detection
+    trades = [
+        Trade(trade_id=str(i), symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="buy", timestamp=datetime.now(timezone.utc))
+        for i in range(10)
+    ]
+    trades[0] = Trade(trade_id="0", symbol="BTC", venue="deribit", price=20000.0, size=5.0, side="buy", timestamp=datetime.now(timezone.utc))
+    res = absorption_detection(trades, threshold=2.0)
+    assert isinstance(res, float)
+    assert absorption_detection([]) == 0.0
+    assert absorption_detection([trades[0]], threshold=2.0) == 0.0  # < 3
+
+
+def test_vpin_style_toxicity():
+    from src.features.orderflow import vpin_style_toxicity, vpin_toxicity
+    trades = []
+    for i in range(200):
+        side = "buy" if i % 2 == 0 else "sell"
+        trades.append(Trade(trade_id=str(i), symbol="BTC", venue="deribit", price=20000.0 + i*0.1, size=1.0, side=side, timestamp=datetime.now(timezone.utc)))
+    res = vpin_style_toxicity(trades, bucket_size=50)
+    assert isinstance(res, float)
+    assert 0.0 <= res <= 1.0
+    assert vpin_toxicity is vpin_style_toxicity
+    assert vpin_style_toxicity([], bucket_size=50) == 0.0
+    # small number of trades
+    small = trades[:10]
+    assert vpin_style_toxicity(small, bucket_size=50) == 0.0
+
+
+def test_detect_aggressive_flow():
+    from src.features.orderflow import detect_aggressive_flow, trade_intensity
+    trades = []
+    for i in range(50):
+        trades.append(Trade(trade_id=str(i), symbol="BTC", venue="deribit", price=20000.0, size=1.0, side="buy" if i < 40 else "sell", timestamp=datetime.now(timezone.utc)))
+    # make some aggressive
+    trades[0] = Trade(trade_id="0", symbol="BTC", venue="deribit", price=20000.0, size=10.0, side="buy", timestamp=datetime.now(timezone.utc))
+    res = detect_aggressive_flow(trades, window=50)
+    assert isinstance(res, float)
+    assert -1.0 <= res <= 1.0
+    assert trade_intensity is detect_aggressive_flow
+    assert detect_aggressive_flow([]) == 0.0
+    assert detect_aggressive_flow([trades[0]]) == 0.0
+
+
+def test_orderflow_edge_cases_non_finite():
+    from src.features.orderflow import (
+        calculate_cumulative_delta,
+        calculate_cumulative_delta_robust,
+        calculate_vwap_adjusted_delta,
+        calculate_signed_volume,
+        calculate_orderflow_imbalance,
+    )
+    # non-finite sizes
+    trades = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=20000.0, size=float('nan'), side="buy", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="2", symbol="BTC", venue="deribit", price=20000.0, size=float('inf'), side="sell", timestamp=datetime.now(timezone.utc)),
+    ]
+    # Our functions may not filter all these; ensure they return finite values
+    for fn in [calculate_cumulative_delta, calculate_cumulative_delta_robust, calculate_vwap_adjusted_delta, calculate_signed_volume]:
+        res = fn(trades)
+        assert isinstance(res, float)
+        assert res == res  # not nan
+    res = calculate_orderflow_imbalance(trades)
+    assert isinstance(res, float)

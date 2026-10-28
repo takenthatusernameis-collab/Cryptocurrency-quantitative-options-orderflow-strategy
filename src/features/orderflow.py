@@ -12,13 +12,23 @@ def calculate_cumulative_delta(trades: List[Trade]) -> float:
     """Calculate cumulative delta (buy volume - sell volume)."""
     delta = 0.0
     for trade in trades:
-        if trade.side.lower() == "buy":
-            delta += trade.size
-        elif trade.side.lower() == "sell":
-            delta -= trade.size
+        try:
+            vol = float(trade.size)
+        except Exception:
+            continue
+        if not isfinite(vol):
+            continue
+        try:
+            side = str(trade.side).lower()
+        except Exception:
+            continue
+        if side == "buy":
+            delta += vol
+        elif side == "sell":
+            delta -= vol
     if not isfinite(delta):
         return 0.0
-    return delta
+    return float(delta)
 
 
 def calculate_cumulative_delta_robust(trades: List[Trade], window: Optional[int] = None) -> float:
@@ -28,14 +38,20 @@ def calculate_cumulative_delta_robust(trades: List[Trade], window: Optional[int]
     trades_list = trades[-window:] if window is not None and window > 0 else trades
     delta = 0.0
     for trade in trades_list:
-        side = trade.side.lower()
+        try:
+            vol = float(trade.size)
+        except Exception:
+            continue
+        if not isfinite(vol):
+            continue
+        try:
+            side = str(trade.side).lower()
+        except Exception:
+            continue
         if side == "buy":
-            delta += trade.size
+            delta += vol
         elif side == "sell":
-            delta -= trade.size
-        else:
-            # Try to infer
-            pass
+            delta -= vol
     if not isfinite(delta):
         return 0.0
     return float(delta)
@@ -84,18 +100,44 @@ def calculate_orderflow_imbalance(trades: List[Trade], window: int = 100) -> flo
     if not trades:
         return 0.0
 
-    recent_trades = trades[-window:] if len(trades) > window else trades
-    buy_volume = sum(t.size for t in recent_trades if t.side.lower() == "buy")
-    sell_volume = sum(t.size for t in recent_trades if t.side.lower() == "sell")
-
+    try:
+        w = int(window)
+    except Exception:
+        w = 100
+    if w <= 0:
+        recent_trades = trades
+    else:
+        recent_trades = trades[-w:] if len(trades) > w else trades
+    buy_volume = 0.0
+    sell_volume = 0.0
+    for t in recent_trades:
+        try:
+            vol = float(t.size)
+        except Exception:
+            continue
+        if not isfinite(vol):
+            continue
+        try:
+            side = str(t.side).lower()
+        except Exception:
+            continue
+        if side == "buy":
+            buy_volume += vol
+        elif side == "sell":
+            sell_volume += vol
     total = buy_volume + sell_volume
-    if total == 0:
+    if total == 0 or not isfinite(total):
         return 0.0
 
     result = (buy_volume - sell_volume) / total
     if not isfinite(result):
         return 0.0
-    return result
+    # clamp to [-1,1] for numerical safety
+    if result < -1.0:
+        result = -1.0
+    if result > 1.0:
+        result = 1.0
+    return float(result)
 
 
 def orderflow_imbalance_multi_horizon(
@@ -140,11 +182,20 @@ def calculate_signed_volume(trades: List[Trade], window: Optional[int] = None) -
     trades_list = trades[-window:] if window is not None and window > 0 else trades
     signed_vol = 0.0
     for trade in trades_list:
-        side = trade.side.lower()
+        try:
+            vol = float(trade.size)
+        except Exception:
+            continue
+        if not isfinite(vol):
+            continue
+        try:
+            side = str(trade.side).lower()
+        except Exception:
+            continue
         if side == "buy":
-            signed_vol += trade.size
+            signed_vol += vol
         elif side == "sell":
-            signed_vol -= trade.size
+            signed_vol -= vol
     if not isfinite(signed_vol):
         return 0.0
     return float(signed_vol)
