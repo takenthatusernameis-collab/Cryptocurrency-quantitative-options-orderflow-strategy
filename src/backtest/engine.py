@@ -246,19 +246,23 @@ class BacktestEngine:
 
     def get_equity(self, current_prices: Dict[str, float]) -> float:
         """Calculate current equity.
-        For shorts: equity = cash + qty * (entry_price - current_price)
-        The short proceeds (qty * entry_price) were credited to cash at open,
-        and the current liability (qty * current_price) is subtracted.
+
+        For longs: equity = cash + qty * current_price (cash was debited at open).
+        For shorts: cash was *credited* with proceeds (qty * entry_price) at open,
+        so the only remaining liability is qty * current_price. We subtract it
+        rather than adding an unrealized PnL term, which would double-count the
+        proceeds already sitting in cash.
         """
         equity = float(self.cash)
         for symbol, pos in self.positions.items():
-            if symbol in current_prices and isfinite(current_prices[symbol]):
-                price = float(current_prices[symbol])
-                if pos.side == "long":
-                    equity += pos.quantity * price
-                elif pos.side == "short":
-                    # Short PnL = qty * (entry_price - current_price)
-                    equity += pos.quantity * (pos.entry_price - price)
+            if symbol not in current_prices or not isfinite(current_prices[symbol]):
+                continue
+            price = float(current_prices[symbol])
+            if pos.side == "long":
+                equity += pos.quantity * price
+            elif pos.side == "short":
+                # Subtract current liability; proceeds already in cash.
+                equity -= pos.quantity * price
         return equity
 
     def calculate_metrics(self) -> BacktestResults:
