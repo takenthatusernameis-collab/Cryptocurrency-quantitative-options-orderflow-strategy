@@ -57,7 +57,7 @@ def _parse_okx_instrument(inst_id: str) -> Optional[Dict[str, Any]]:
 class OKXClient:
     BASE_URL = "https://www.okx.com"
 
-    def __init__(self, session: Optional[requests.Session] = None, timeout: float = 10.0, max_retries: int = 3):
+    def __init__(self, session: Optional[requests.Session] = None, timeout: float = 10.0, max_retries: int = 3) -> None:
         self.session = session or requests.Session()
         self.timeout = timeout
         self.max_retries = max_retries
@@ -103,7 +103,7 @@ class OKXClient:
 
 
 class OKXOptionsIngestion(BaseOptionsIngestion):
-    def __init__(self, client: Optional[OKXClient] = None):
+    def __init__(self, client: Optional[OKXClient] = None) -> None:
         super().__init__("okx")
         self.client = client or OKXClient()
 
@@ -194,7 +194,7 @@ class OKXOptionsIngestion(BaseOptionsIngestion):
 
 
 class OKXOrderflowIngestion(BaseOrderflowIngestion):
-    def __init__(self, client: Optional[OKXClient] = None):
+    def __init__(self, client: Optional[OKXClient] = None) -> None:
         super().__init__("okx")
         self.client = client or OKXClient()
 

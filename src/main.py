@@ -277,12 +277,12 @@ def main() -> None:
     args = parser.parse_args()
     config = load_config(args.config)
     res = run_pipeline(config, args.symbols)
-    # Ensure JSON output is valid with allow_nan=False (no inf/nan)
+        # Ensure JSON output is valid with allow_nan=False (no inf/nan)
     try:
         json_str = json.dumps(res, indent=2, default=str, allow_nan=False)
     except ValueError:
         # Fallback: sanitize non-finite values
-        def sanitize(obj):
+        def sanitize(obj: Any) -> Any:
             if isinstance(obj, dict):
                 return {k: sanitize(v) for k, v in obj.items()}
             elif isinstance(obj, list):
@@ -290,6 +290,7 @@ def main() -> None:
             elif isinstance(obj, float) and not math.isfinite(obj):
                 return None
             return obj
+
         res = sanitize(res)
         json_str = json.dumps(res, indent=2, default=str, allow_nan=False)
     print(json_str)

@@ -55,7 +55,7 @@ def _parse_deribit_instrument(instrument_name: str) -> Optional[Dict[str, Any]]:
 class DeribitClient:
     BASE_URL = "https://www.deribit.com/api/v2"
 
-    def __init__(self, session: Optional[requests.Session] = None, timeout: float = 10.0, max_retries: int = 3):
+    def __init__(self, session: Optional[requests.Session] = None, timeout: float = 10.0, max_retries: int = 3) -> None:
         self.session = session or requests.Session()
         self.timeout = timeout
         self.max_retries = max_retries
@@ -113,7 +113,7 @@ class DeribitClient:
 
 
 class DeribitOptionsIngestion(BaseOptionsIngestion):
-    def __init__(self, client: Optional[DeribitClient] = None):
+    def __init__(self, client: Optional[DeribitClient] = None) -> None:
         super().__init__("deribit")
         self.client = client or DeribitClient()
 
@@ -197,7 +197,7 @@ class DeribitOptionsIngestion(BaseOptionsIngestion):
 
 
 class DeribitOrderflowIngestion(BaseOrderflowIngestion):
-    def __init__(self, client: Optional[DeribitClient] = None):
+    def __init__(self, client: Optional[DeribitClient] = None) -> None:
         super().__init__("deribit")
         self.client = client or DeribitClient()
 

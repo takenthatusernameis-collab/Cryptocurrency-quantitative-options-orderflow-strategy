@@ -65,7 +65,7 @@ def _make_quote(strike: float, spot: float, option_type: str, i: int, venue: str
 class MockOptionsIngestion(BaseOptionsIngestion):
     """Deterministic options chain generator for offline use."""
 
-    def __init__(self, venue: str = "mock", spot_price: float = 50000.0, num_strikes: int = 6):
+    def __init__(self, venue: str = "mock", spot_price: float = 50000.0, num_strikes: int = 6) -> None:
         super().__init__(venue)
         self.spot_price = float(spot_price)
         self.num_strikes = int(num_strikes)
@@ -89,7 +89,7 @@ class MockOptionsIngestion(BaseOptionsIngestion):
 class MockOrderflowIngestion(BaseOrderflowIngestion):
     """Deterministic orderflow generator for offline use."""
 
-    def __init__(self, venue: str = "mock", num_trades: int = 20, spot_price: float = 50000.0):
+    def __init__(self, venue: str = "mock", num_trades: int = 20, spot_price: float = 50000.0) -> None:
         super().__init__(venue)
         self.num_trades = int(num_trades)
         self.spot_price = float(spot_price)
@@ -119,6 +119,6 @@ class MockOrderflowIngestion(BaseOrderflowIngestion):
         return OrderflowSnapshot(symbol=symbol, venue=self.venue, liquidations=[], timestamp=_dt())
 
 
-def make_mock_venue(name: str = "mock"):
+def make_mock_venue(name: str = "mock") -> tuple[MockOptionsIngestion, MockOrderflowIngestion]:
     """Return a tuple of (options_ingestion, orderflow_ingestion) for a venue."""
     return MockOptionsIngestion(venue=name), MockOrderflowIngestion(venue=name)

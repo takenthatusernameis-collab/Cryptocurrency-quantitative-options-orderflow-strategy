@@ -65,7 +65,7 @@ def _parse_binance_symbol(symbol: str) -> Optional[Dict[str, Any]]:
 class BinanceClient:
     BASE_URL = "https://eapi.binance.com"
 
-    def __init__(self, session: Optional[requests.Session] = None, timeout: float = 10.0, max_retries: int = 3):
+    def __init__(self, session: Optional[requests.Session] = None, timeout: float = 10.0, max_retries: int = 3) -> None:
         self.session = session or requests.Session()
         self.timeout = timeout
         self.max_retries = max_retries
@@ -105,7 +105,7 @@ class BinanceClient:
 
 
 class BinanceOptionsIngestion(BaseOptionsIngestion):
-    def __init__(self, client: Optional[BinanceClient] = None):
+    def __init__(self, client: Optional[BinanceClient] = None) -> None:
         super().__init__("binance")
         self.client = client or BinanceClient()
 
@@ -209,7 +209,7 @@ class BinanceOptionsIngestion(BaseOptionsIngestion):
 
 
 class BinanceOrderflowIngestion(BaseOrderflowIngestion):
-    def __init__(self, client: Optional[BinanceClient] = None):
+    def __init__(self, client: Optional[BinanceClient] = None) -> None:
         super().__init__("binance")
         self.client = client or BinanceClient()
 

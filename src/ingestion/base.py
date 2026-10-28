@@ -8,7 +8,7 @@ from ..data.schemas import OptionsChain, OrderflowSnapshot
 
 
 class BaseOptionsIngestion(ABC):
-    def __init__(self, venue: str):
+    def __init__(self, venue: str) -> None:
         self.venue = venue
 
     @abstractmethod
@@ -21,7 +21,7 @@ class BaseOptionsIngestion(ABC):
 
 
 class BaseOrderflowIngestion(ABC):
-    def __init__(self, venue: str):
+    def __init__(self, venue: str) -> None:
         self.venue = venue
 
     @abstractmethod

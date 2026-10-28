@@ -48,7 +48,7 @@ class BacktestResults:
 
 
 class BacktestEngine:
-    def __init__(self, config: BacktestConfig = None, risk_config: RiskConfig = None, **kwargs):
+    def __init__(self, config: BacktestConfig = None, risk_config: RiskConfig = None, **kwargs) -> None:
         if config is None and kwargs:
             # Extract config fields
             cfg_kwargs = {k: v for k, v in kwargs.items() if k in BacktestConfig.__dataclass_fields__}
@@ -276,7 +276,7 @@ class BacktestEngine:
                             triggered_trades.append(trade)
         return triggered_trades
 
-    def update_equity_curve(self, current_prices: Dict[str, float] = None):
+    def update_equity_curve(self, current_prices: Dict[str, float] = None) -> float:
         prices = current_prices or {}
         # Enforce SL/TP and risk controls on every tick
         if prices:
@@ -655,7 +655,7 @@ class WalkForwardBacktest:
 
         return results
 
-    def _run_window(self, price_series, signals, timestamps, train_start, train_end, test_start, test_end):
+    def _run_window(self, price_series, signals, timestamps, train_start, train_end, test_start, test_end) -> Dict[str, float]:
         wres = WalkForwardWindowResult(train_start=train_start, train_end=train_end,
                                        test_start=test_start, test_end=test_end)
         # Run in-sample (for metrics)
@@ -678,7 +678,7 @@ class WalkForwardBacktest:
             wres.out_of_sample_max_drawdown = oos_metrics.max_drawdown
         return wres
 
-    def _simulate_period(self, engine, price_series, signals, timestamps, start, end):
+    def _simulate_period(self, engine, price_series, signals, timestamps, start, end) -> Dict[str, float]:
         if start >= end or end < 0:
             return
         end = min(end, 10**12)  # safety
