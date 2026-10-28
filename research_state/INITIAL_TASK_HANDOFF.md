@@ -1,6 +1,6 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-28T02:45:56Z
+Timestamp (UTC): 2026-10-28T03:42:16Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. `__pycache__/*.pyc` (17 files) untracked from git index now; `.gitignore` excludes them going forward. Working tree otherwise clean. Do NOT end the GitHub Actions workflow.
 

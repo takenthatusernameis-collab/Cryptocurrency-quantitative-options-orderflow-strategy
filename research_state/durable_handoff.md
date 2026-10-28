@@ -1,6 +1,6 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-28T02:45:56Z
+Timestamp (UTC): 2026-10-28T03:42:16Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main. `__pycache__/*.pyc` (17 files) untracked from git index now; `.gitignore` excludes them going forward. Working tree otherwise clean. Do NOT end the GitHub Actions workflow.
 
@@ -51,7 +51,7 @@ Project name = `Cryptocurrency-quantitative-options-orderflow-strategy`, so the 
 **RULES:** Heavy engineering only. No scaffolding-only "done". Mathematical correctness is mandatory. Vectorize where sensible. Every change must be concrete and functional. Future agents must do substantial implementation work — leave the codebase so the next agent cannot avoid heavy implementation.
 
 ## BOTTLENECKS REMOVED (this session)
-- **Bottleneck:** 17 `__pycache__/*.pyc` files tracked in git index, polluting `git status`/checkpoints → **REMOVED** via `git rm --cached` on 2026-10-28T02:45:56Z (`.gitignore` already excludes them going forward).
+- **Bottleneck:** 17 `__pycache__/*.pyc` files tracked in git index, polluting `git status`/checkpoints → **REMOVED** via `git rm --cached` on 2026-10-28T03:42:16Z (`.gitignore` already excludes them going forward).
 - **Bottleneck:** Prior CI run failed because `tests/test_controller_progress_accounting.py` was missing → **RESOLVED** (file exists, 30 tests pass).
 - **Bottleneck:** Deribit/OKX/Binance connectors not implemented → **DONE** (all three present).
 - **Bottleneck:** CLI not wiring all venues → **DONE** (`src/main.py` wires deribit, okx, binance).
