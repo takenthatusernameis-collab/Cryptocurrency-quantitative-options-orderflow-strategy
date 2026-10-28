@@ -1,6 +1,6 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
 
-Timestamp (UTC): 2026-10-28T11-23-39Z
+Timestamp (UTC): 2026-10-28T11-25-23Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 92 TESTS PASSING | NO BLOCKED/INEFFICIENT SESSIONS | WORKING TREE CLEAN
@@ -10,22 +10,23 @@ Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 "Cryptocurrency-quantitative-options-orderflow-strategy" — mathematically correct, production-grade crypto options orderflow strategy with rigorous numerical stability and full test coverage. Focus on dealer positioning via gamma exposure, orderflow microstructure, volatility surface dynamics, regime-aware signals, and robust backtesting.
 
 ## BOTTLENECKS REMOVED THIS SESSION
-- Corrected stale handoff state: prior LATEST files listed Phase 3 (IV skew term structure, put-call skew, risk reversal, term structure) and Phase 4 (regime-aware signals) as unchecked/in-progress, but the code already implements and tests all of them (src/features/volatility.py fully implemented + exported; tests in tests/test_features.py incl. test_iv_skew_term_structure_and_atm, test_iv_skew_term_structure_numerical_stability, test_risk_reversal_and_put_call_skew; src/signals/composite.py + tests/test_signals_regime.py with 12 regime/confidence/direction tests). Marking Phase 3 and Phase 4 COMPLETE so the next agent does not re-do finished work.
-- Audited session state: no blocked/inefficient sessions detected. Working tree clean. 92 tests passing. No TODO/FIXME/HACK/PLACEHOLDER markers in src/ or tests/. CI edit-tool invalid-argument noise in prior workflow runs is a tooling artifact, not a code blocker.
-- Real remaining heavy work is Phase 5 (backtest rigor & risk) and Phase 6 (integration, resilience & tests). Next focus campaign targets these.
+- Corrected stale handoff state: prior LATEST files listed Phase 5 first item (realistic fill/slippage model) as uncompleted, but src/backtest/engine.py already implements and tests it fully (partial_fill_rate, round_lot_size, max_slippage_bps, slippage_seed, partial-fill execution path, transaction-cost-aware position sizing, stop-loss/take-profit enforcement, max_drawdown_limit, isfinite guards) covered by tests/test_backtest.py (test_backtest_lot_rounding_and_max_qty, test_backtest_partial_fill_deterministic, test_backtest_max_slippage_cap, test_short_selling_within_position_limit). Mark Phase 5 item 1 COMPLETE so the next agent does not re-do finished work.
+- Phases 1-4 (gamma exposure, orderflow microstructure, volatility surface/skew, regime-aware signals) already implemented + tested. Mark COMPLETE.
+- Audited session state: no blocked/inefficient sessions detected. Working tree clean. 92 tests passing. No TODO/FIXME/HACK/PLACEHOLDER markers in src/ or tests/.
+- Real remaining heavy work: Phase 5 item 2 (walk-forward / rolling-window backtest — NOT implemented anywhere in src/) then Phase 6 (integration, resilience & tests).
 
 ## IMMEDIATE TASK MESSAGE (FOR NEXT AGENTIC WORK SESSION — MANDATORY)
 
-START IMMEDIATELY AT PHASE 5 - FIRST ITEM.
-Pick the HIGHEST-IMPACT uncompleted item in Phase 5 and implement it FULLY with tests.
-HIGHEST-IMPACT ITEM: realistic fill/slippage model + walk-forward backtest (do this first).
+START IMMEDIATELY AT PHASE 5 ITEM 2. Do NOT re-implement the fill/slippage model — it is done.
+Pick the HIGHEST-IMPACT uncompleted item and implement it FULLY with tests.
+HIGHEST-IMPACT ITEM: walk-forward / rolling-window backtest capability (do this first).
+
 Scope for this single item (COMPLETE FULLY):
-1. Extend src/backtest/engine.py with realistic fill modeling: partial fill rate, round-lot rounding, max slippage cap, deterministic slippage seed, partial-fill execution path, and transaction-cost-aware position sizing. Integrate with existing BacktestConfig fields (partial_fill_rate, round_lot_size, max_slippage_bps, slippage_seed).
-2. Add walk-forward / rolling-window backtest capability: re-fit/regenerate signals over rolling windows, out-of-sample evaluation, stability metrics.
-3. Add numerical stability: finite guards (isfinite), safe division, clamping, handle empty price curves, avoid NaN/inf propagation in metrics (sharpe, sortino, max_drawdown, calmar, profit_factor, win_rate). Vectorize with numpy where sensible.
-4. Add/extend tests in tests/test_backtest.py or tests/test_backtest_numeric.py covering normal cases, edge cases (empty curves, zero volatility, all-losing trades, missing prices), and numerical stability. All new code must be tested.
-5. Export via src/features/__init__.py or src/backtest/__init__.py if new public functions are added. Follow existing code style. No placeholders/TODOs/FIXMEs. NO cosmetic changes.
-Complete ONE major item fully; leave heavy work for next agent. Do not jump to Phase 6 until this item is fully implemented with tests and passing.
+1. Add walk-forward / rolling-window backtest to src/backtest/engine.py (or a new src/backtest/walkforward module): re-fit/regenerate signals over rolling windows, out-of-sample evaluation, walk-forward stability metrics. Must reuse existing BacktestEngine and BacktestConfig.
+2. Add numerical stability for the walk-forward path: finite guards (isfinite), safe division, clamping, handle empty price curves, avoid NaN/inf propagation. Vectorize with numpy where sensible.
+3. Add/extend tests in tests/test_backtest.py or tests/test_backtest_numeric.py covering normal cases, edge cases (empty curves, zero volatility, all-losing trades, missing prices, single window), and numerical stability. All new code must be tested.
+4. Export via src/backtest/__init__.py if new public functions are added. Follow existing code style. No placeholders/TODOs/FIXMEs. NO cosmetic changes.
+Complete ONE major item fully; leave heavy work for next agent. Do not jump to Phase 6 until walk-forward is fully implemented with tests and passing.
 
 ## NEXT FOCUS CAMPAIGN (MANDATORY — NEVER AVOID HEAVY WORK)
 ### PHASE 1: ADVANCED GAMMA EXPOSURE & DEALER POSITIONING — COMPLETE
@@ -45,11 +46,12 @@ Complete ONE major item fully; leave heavy work for next agent. Do not jump to P
 - [x] Term structure (ATM IV term structure)
 ### PHASE 4: REGIME-AWARE SIGNAL ENGINEERING — COMPLETE
 - [x] Cross-feature interactions, confidence calibration, regime detection, normalization
-### PHASE 5: BACKTEST RIGOR & RISK (HIGH) — NEXT FOCUS / IN PROGRESS
-- [ ] Realistic fill/slippage model + walk-forward backtest (FIRST - DO THIS NOW)
-- [ ] Drawdown controls, stop-loss/take-profit enforcement
-- [ ] Stress tests, transaction costs, partial fills, round lots
-- [ ] Walk-forward stability metrics, out-of-sample evaluation
+### PHASE 5: BACKTEST RIGOR & RISK (HIGH) — IN PROGRESS
+- [x] Realistic fill/slippage model (DONE — engine.py + tests/test_backtest.py)
+- [ ] Walk-forward / rolling-window backtest + out-of-sample stability metrics (NEXT — DO THIS NOW)
+- [ ] Drawdown controls, stop-loss/take-profit enforcement (DONE in engine.py; verify coverage)
+- [ ] Stress tests, transaction costs, partial fills, round lots (DONE in engine.py; extend tests if needed)
+- [ ] Walk-forward stability metrics, out-of-sample evaluation (part of walk-forward item above)
 ### PHASE 6: INTEGRATION, RESILIENCE & TESTS (HIGH)
 - [ ] End-to-end pipeline tests (ingestion -> features -> signals -> backtest)
 - [ ] Property-based tests, explicit finite checks across features
@@ -60,13 +62,13 @@ Heavy engineering only. Mathematical correctness mandatory. Numerical stability 
 
 ## EXECUTION RULES
 - Worktree clean; do not create untracked junk.
-- Run tests after changes (pytest). Maintain passing state.
+- Run tests after changes (pytest). Maintain passing state (currently 92 passing).
 - If you discover inefficiencies/blockers, fix them immediately before moving on.
 - Prioritize by project name: crypto options orderflow + dealer positioning + surface dynamics + rigorous backtesting.
 
 ## SOURCE OF TRUTH HIERARCHY
-1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T11-23-39Z.md (AUTHORITATIVE - THIS FILE)
+1. research_state/INITIAL_TASK_HANDOFF_LATEST_2026-10-28T11-25-23Z.md (AUTHORITATIVE - THIS FILE)
 2. research_state/durable_handoff.md (MIRROR)
 3. Prior LATEST files superseded.
 
-EXECUTE NOW. START AT PHASE 5 FIRST ITEM (REALISTIC FILL/SLIPPAGE + WALK-FORWARD BACKTEST). NO DELAY. DO HEAVY WORK.
+EXECUTE NOW. START AT PHASE 5 ITEM 2 (WALK-FORWARD / ROLLING-WINDOW BACKTEST). NO DELAY. DO HEAVY WORK.
