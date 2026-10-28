@@ -1,95 +1,58 @@
 # Durable Handoff — Cryptocurrency Quantitative Options Orderflow Strategy
 
-Timestamp (UTC): 2026-10-28T00:40:38Z
+Timestamp (UTC): 2026-10-28T00:43:07Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main (b605eeb). All local commits pushed; no unmerged local-ahead work. Working tree clean (__pycache__ bytecode removed from index; no tracked bytecode noise remains). Do NOT end the GitHub Actions workflow. Controller will retry persistence/checkpoint after this session.
+Run Context: SAME-ACTIVE-RUN continuation. HEAD == origin/main (b605eeb). Working tree clean (__pycache__ removed from index). Do NOT end the GitHub Actions workflow.
 
-## Initial Task Message (for next agentic session)
+## INITIAL TASK MESSAGE (For Next Agentic Session — MANDATORY, NO DEFERRAL)
 
-**PRIORITY: BUILD THE CRYPTOCURRENCY QUANTITATIVE OPTIONS ORDERFLOW STRATEGY — HEAVY ENGINEERING, NO PLACEHOLDERS — START NOW**
+**PRIORITY 1: BUILD A WORKING CRYPTO OPTIONS ORDERFLOW STRATEGY — HEAVY ENGINEERING, ZERO PLACEHOLDERS**
 
-You are the next agentic worker in the SAME active GitHub Actions run. The core foundation is complete and all 28 tests pass. Your sole priority (inferred from the project name): build the cryptocurrency quantitative options orderflow strategy into a working, testable, end-to-end system. The strategy must ingest real crypto options chain data and orderflow (trades, liquidations, funding), compute quantitative features (gamma exposure, delta-adjusted flow, IV skew, put/call ratio, max pain, orderflow imbalance), generate tradable signals, and backtest them with realistic execution, fees, slippage, and risk metrics.
+You are continuing in the SAME active run. The scaffolding exists (28 tests pass). The bottleneck is **LIVE DATA INGESTION**. Deribit public API must be implemented first — everything downstream depends on real normalized options/orderflow.
 
-**IMMEDIATE FIRST STEP (CRITICAL PATH — DO NOT DEFER): Implement the live Deribit public-API connector in `src/ingestion/deribit.py` to fetch real options chains, trades, and liquidations, replacing the empty stub. Deribit ingestion is the gating dependency for every downstream phase (features, signals, backtest). No other phase is considered started until Phase 1 Deribit connector returns live, normalized data.**
+**START HERE (GATE):**
+- Replace `src/ingestion/deribit.py` stubs with a real Deribit public REST connector. Fetch actual options instrument book/chain (or use public endpoints: `/public/get_instruments`, `/public/get_order_book`/ticker/last trades as appropriate). Must return populated `OptionsChain`/quotes with strikes/expiries/option types, IV/greeks if available or computable. Also implement `fetch_trades`/`fetch_liquidations` against public Deribit endpoints. Normalize to schemas.
+- Do NOT mock to empty lists and call it done. If public endpoints require pagination/rate limits, handle them. Add error handling/timeouts.
+- Verify with a quick smoke test against public API (or offline fixture only if network blocked, but must still produce realistic structures). If network is restricted in this env, implement the full HTTP client + parsing + normalization logic correctly (typed, tested) so it's ready for live keys/endpoints.
 
-Focus on heavy engineering work with no placeholders — implement production-quality, tested Python code that can process real options/orderflow data. Do not stop at scaffolding. Make meaningful commits as you progress. All tests must pass.
+**MANDATORY FOCUS CAMPAIGN (EXECUTE IN STRICT ORDER):**
 
-### Immediate Objectives:
-1. **Data Layer (live, not placeholder)**: Replace empty Deribit/OKX/Binance ingestion stubs with real public-API connectors for options chains, trades, liquidations, and funding rates; add cross-venue normalization.
-2. **Feature Engineering**: Keep and harden gamma exposure (GEX), delta-adjusted flow, volatility skew analysis, put/call ratios, max pain, and orderflow imbalance metrics; add unit tests with real numeric assertions.
-3. **Signal Generation**: Harden the composite signal generator (regime detection, weighted components, calibrated thresholds).
-4. **Backtesting**: Extend the event-driven engine to support short positions, position sizing, stop-loss/take-profit, risk limits, walk-forward/out-of-sample validation, and full metrics (Sharpe, Sortino, Calmar, win rate, profit factor, max DD).
-5. **Infrastructure**: Add a CLI entry point to run ingestion → features → signals → backtest end-to-end; add integration tests; add persistence/checkpoint for same-run recovery.
+### Phase 1: Live Ingestion (CRITICAL PATH) — BLOCKING
+1. [ ] **Deribit**: `src/ingestion/deribit.py` — full public REST implementation (requests/websocket-client available). Populate `OptionsChain.quotes` with real instrument data structure. Handle BTC/ETH first.
+2. [ ] **Normalization hardening**: `src/data/normalization.py` — ensure cross-venue timestamps/symbols/moneyness consistent.
+3. [ ] **OKX**: `src/ingestion/okx.py` implementing base classes.
+4. [ ] **Binance**: `src/ingestion/binance.py` implementing base classes.
 
-### Requirements:
-- Write clean, tested Python code (follow existing patterns in src/)
-- Add unit tests for core logic — no placeholder tests, no `assert True`
-- Ensure all tests pass (`python -m pytest -q`)
-- Make meaningful commits as you progress
-- Focus on end-to-end functionality over perfection
-- No toy implementations — build something extendable to production
+### Phase 2: Pipeline + CLI (UNBLOCK END-TO-END)
+5. [ ] **CLI**: Add `src/main.py` (or `scripts/run_strategy.py`) wiring `ingestion -> features -> signals -> backtest` from `config/settings.yaml`.
+6. [ ] **Config-driven**: All venues/symbols/timeframes/risk params read from config.
+7. [ ] **Checkpoint/persistence**: Enable same-run resume if interrupted.
 
-**Do not stop at scaffolding. Implement working, testable code that can process real options/orderflow data.**
+### Phase 3: Alpha Features (QUANTITATIVELY CORRECT)
+8. [ ] **GEX**: Harden `src/features/gamma_exposure.py` — dealer gamma by strike/expiry, gamma flip, proper OI/strike handling.
+9. [ ] **Orderflow/Vol**: Harden `src/features/orderflow.py`, `src/features/volatility.py` (skew/term structure/PCR/max pain).
+10. [ ] **Signals**: Harden `src/signals/composite.py` with regime detection + calibrated weights.
 
-## Bottlenecks Removed
+### Phase 4: Backtest + Risk (PRODUCTION-REALISTIC)
+11. [ ] **Engine**: Extend `src/backtest/engine.py` for shorts, sizing, SL/TP, position limits, realistic fees/slippage.
+12. [ ] **Metrics**: Sharpe/Sortino/Calmar/winrate/profit factor/maxDD, non-finite safe.
+13. [ ] **Validation**: Walk-forward + integration test with realistic synthetic data.
 
-- Removed tracked `__pycache__/*.pyc` bytecode from the git index so regenerated bytecode no longer pollutes the working tree and obscures real progress; controller change-detection now reflects only source progress.
-- Created `.gitignore` (`__pycache__/`, `*.pyc`, `.pytest_cache/`, notebook checkpoints, data artifacts) so regenerated bytecode no longer pollutes the working tree and obscures real progress.
-- Restored the 4 missing CI test files (`tests/test_controller_progress_accounting.py`, `tests/test_workflow_diagnostics_scanner.py`, `tests/test_nonfinite_result_serialization.py`, `tests/test_campaign_resume.py`) — diagnostics-only activation now has tests to run; CI is not blocked.
-- Same-run persistence failure resolved: HEAD == origin/main, all commits remotely verified; controller will retry checkpoint persistence after this session.
-- `scripts/controller_progress.py` present for workflow checkpoint validation (change-detection gating).
-- All 28 tests passing (`python -m pytest -q`): 28 passed, 0 failed.
+### Phase 5: Tests + Hygiene
+14. [ ] **Real tests**: No `assert True`. Add numeric assertions. All tests must pass (`python -m pytest -q`).
+15. [ ] **Commits**: Meaningful commits per logical unit. Keep working tree clean (no pyc/index noise).
 
-## Session Progress (Completed)
+**RULES:** Heavy engineering only. No scaffolding-only "done". Mathematical correctness matters. Vectorize where sensible. If blocked by network in test env, implement complete, correct client logic + unit tests with fixtures — do not leave stubs. Never avoid Phase 1.
 
-- [x] Full project structure (`src/`, `data/`, `config/`, `notebooks/`) with `__init__.py` files
-- [x] Configuration system (`src/config.py`, `config/settings.yaml`) — pydantic/dataclass-based
-- [x] Pydantic data schemas for options, trades, liquidations, funding, orderflow (`src/data/schemas.py`)
-- [x] Ingestion framework — base classes + Deribit structure (`src/ingestion/`) — **STUBS RETURN EMPTY; REPLACE WITH LIVE API CONNECTORS**
-- [x] Feature engineering: Gamma Exposure (GEX), orderflow imbalance/delta, volatility skew/IV/PCR/max pain (`src/features/`)
-- [x] Event-driven backtesting engine with fees/slippage/metrics (`src/backtest/engine.py`)
-- [x] Composite signal generator (`src/signals/composite.py`)
-- [x] Data validation utilities (`src/utils/validation.py`)
-- [x] 28 tests passing; all CI test files restored
+## BOTTLENECKS REMOVED (CURRENT STATE)
+- Bytecode removed from index; `.gitignore` added.
+- CI test files restored (28 tests passing).
+- HEAD pushed to origin/main (b605eeb). Same-run persistence will be retried by controller.
 
-## Next Focus Campaign (Execute in Order — MANDATORY)
+## BLOCKERS / NOTES
+- `src/ingestion/deribit.py` is EMPTY STUBS — MUST REPLACE FIRST.
+- No CLI entrypoint exists yet.
+- OKX/Binance connectors missing.
+- All dependencies in requirements.txt available.
 
-Future agents must not avoid this campaign. Every phase below is required before the strategy is considered functional. Phases are ordered; do not skip.
-
-### Phase 1: Live Data Ingestion (Critical Path) — MUST COMPLETE FIRST
-- [ ] **Deribit live connector**: Implement real public REST/WebSocket ingestion for options chains and orderflow (trades, liquidations); replace the empty stub in `src/ingestion/deribit.py`
-- [ ] **OKX connector**: Add `src/ingestion/okx.py` implementing `BaseOptionsIngestion` and `BaseOrderflowIngestion`
-- [ ] **Binance connector**: Add `src/ingestion/binance.py` implementing `BaseOptionsIngestion` and `BaseOrderflowIngestion`
-- [ ] **Normalization**: Unified cross-venue models with timestamps, symbols, moneyness calculations (`src/data/normalization.py`)
-
-### Phase 2: End-to-End Pipeline & CLI
-- [ ] **CLI entry point**: Add a runnable module (`src/main.py` or `scripts/run_strategy.py`) wiring ingestion → features → signals → backtest
-- [ ] **Config-driven execution**: CLI reads `config/settings.yaml` for venues, symbols, backtest/risk parameters
-- [ ] **Persistence/checkpoint**: Same-run checkpoint save/resume so an interrupted session can continue without reprocessing
-
-### Phase 3: Quantitative Signals (Core Alpha) — Harden
-- [ ] **Gamma Exposure (GEX)**: Dealer gamma by strike/expiry; gamma flip level
-- [ ] **Volatility Surface**: IV skew, term structure, smile analysis
-- [ ] **Orderflow Imbalance**: Cumulative delta, signed volume, aggressive flow detection
-- [ ] **Composite Signals**: Weighted combination with regime detection and calibrated thresholds
-- [ ] **Unit tests**: Real numeric assertions for every feature calculation
-
-### Phase 4: Backtesting & Validation
-- [ ] **Backtest engine**: Short positions, position sizing, stop-loss/take-profit, position limits (`src/backtest/engine.py`)
-- [ ] **Risk management**: Max drawdown limit, stop loss, take profit per config
-- [ ] **Metrics**: Sharpe, Sortino, Calmar, win rate, profit factor, max drawdown — with non-finite-safe serialization
-- [ ] **Walk-forward**: Out-of-sample validation framework
-- [ ] **Integration tests**: End-to-end data pipeline test using synthetic but realistic options/orderflow data
-
-### Phase 5: Testing, Diagnostics & Hygiene
-- [ ] **Unit tests**: Replace/extend tests with real calculations (no `assert True` placeholders)
-- [ ] **Integration tests**: End-to-end pipeline test
-- [ ] **Diagnostics**: Performance tracking and strategy analytics; keep `research_state/workflow_run_diagnostics.jsonl` current
-- [ ] **Clean working tree**: Commit only source, not `__pycache__`/bytecode
-
-**MANDATE**: This is a quantitative trading strategy project. Prioritize mathematical correctness, vectorized operations where appropriate, and realistic assumptions. No toy implementations — build something that could be extended to production. All phases above are mandatory; skipping phases is not permitted. Every phase must end with passing tests and a meaningful commit.
-
-## Recovery Notes (Same-Run)
-- Previous persistence failure resolved: HEAD == origin/main at b605eeb; no local-ahead commits remain.
-- Do not rewrite history. If persistence fails again, diagnose and apply a materially different safe remedy before ending session.
-- Controller will retry persistence of commits after this session.
+**NEXT ACTION:** Start with Phase 1 Deribit live connector implementation immediately. Do not explore tangentially. Make progress on the strategy.
