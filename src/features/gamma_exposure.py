@@ -553,6 +553,90 @@ def gamma_flip_level_weighted(chain: OptionsChain, spot_price: float, weighted: 
     return find_gamma_flip_level_refined(gex_by_strike)
 
 
+def calculate_pin_zone(
+    chain: OptionsChain,
+    spot_price: float,
+    width_pct: float = 0.02,
+    weighted: str = "liquidity",
+) -> Dict[str, float]:
+    """Identify pin zone around gamma flip / high gamma concentration.
+
+    Uses gamma flip level as the center and defines a band of ``width_pct``
+    around it. Also factors in total GEX magnitude for robustness. Returns
+    dict with ``'center'``, ``'lower'``, ``'upper'``, ``'width_pct'``,
+    ``'total_gex'``. All values are numerically guarded (non-finite -> 0.0).
+    """
+    try:
+        if not chain or not getattr(chain, "quotes", None):
+            return {"center": 0.0, "lower": 0.0, "upper": 0.0, "width_pct": float(width_pct), "total_gex": 0.0}
+        center = gamma_flip_level_weighted(chain, float(spot_price), weighted=weighted)
+        if not isfinite(center) or center <= 0.0:
+            # Fallback to spot or refined unweighted
+            center = gamma_flip_level(chain, float(spot_price))
+        if not isfinite(center) or center <= 0.0:
+            center = float(spot_price) if spot_price and float(spot_price) > 0 else 0.0
+        wp = float(width_pct)
+        if not isfinite(wp) or wp < 0.0:
+            wp = 0.02
+        if wp > 0.1:  # cap extreme widths for safety
+            wp = 0.1
+        lower = center * (1.0 - wp)
+        upper = center * (1.0 + wp)
+        if not (isfinite(lower) and isfinite(upper)):
+            lower, upper = center, center
+        total_gex = calculate_total_gex(chain, float(spot_price))
+        if not isfinite(total_gex):
+            total_gex = 0.0
+        return {
+            "center": float(center),
+            "lower": float(lower),
+            "upper": float(upper),
+            "width_pct": float(wp),
+            "total_gex": float(total_gex),
+        }
+    except Exception:
+        return {"center": 0.0, "lower": 0.0, "upper": 0.0, "width_pct": float(width_pct) if isfinite(width_pct) else 0.02, "total_gex": 0.0}
+
+
+def calculate_flip_zones(
+    chain: OptionsChain,
+    spot_price: float,
+    band_pct: float = 0.03,
+) -> Dict[str, float]:
+    """Calculate gamma flip zones with robust numerical guards.
+
+    Identifies the primary flip level and provides upper/lower zone boundaries
+    with magnitude-based guards. Returns dict with flip level and zones; all
+    finite-guarded.
+    """
+    try:
+        if not chain or not getattr(chain, "quotes", None):
+            return {"flip_level": 0.0, "zone_low": 0.0, "zone_high": 0.0, "band_pct": float(band_pct)}
+        flip = gamma_flip_level(chain, float(spot_price))
+        if not isfinite(flip) or flip <= 0.0:
+            flip = gamma_flip_level_weighted(chain, float(spot_price), weighted="delta")
+        if not isfinite(flip) or flip <= 0.0:
+            flip = float(spot_price) if spot_price and float(spot_price) > 0 else 0.0
+        bp = float(band_pct)
+        if not isfinite(bp) or bp < 0.0:
+            bp = 0.03
+        if bp > 0.15:
+            bp = 0.15
+        zone_low = flip * (1.0 - bp)
+        zone_high = flip * (1.0 + bp)
+        if not (isfinite(zone_low) and isfinite(zone_high)):
+            zone_low, zone_high = flip, flip
+        return {
+            "flip_level": float(flip),
+            "zone_low": float(zone_low),
+            "zone_high": float(zone_high),
+            "band_pct": float(bp),
+        }
+    except Exception:
+        return {"flip_level": 0.0, "zone_low": 0.0, "zone_high": 0.0, "band_pct": float(band_pct) if isfinite(band_pct) else 0.03}
+
+
+# Backwards-compatible aliases
 calculate_net_gamma_exposure_total = calculate_net_gamma_exposure
 calculate_gamma_exposure_by_strike = calculate_gex_by_strike
 calculate_gex_notional_by_strike = calculate_gex_by_strike
@@ -560,3 +644,7 @@ calculate_gamma_notional_by_strike = calculate_gex_by_strike
 find_gamma_flip_level = find_gamma_flip_level_refined
 gamma_flip_level_refined = find_gamma_flip_level_refined
 gamma_flip_interpolated = find_gamma_flip_level_refined
+find_pin_zone = calculate_pin_zone
+calculate_gamma_pin_zone = calculate_pin_zone
+find_gamma_flip_zones = calculate_flip_zones
+calculate_gamma_flip_zones = calculate_flip_zones

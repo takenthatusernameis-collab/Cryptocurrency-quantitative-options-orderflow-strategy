@@ -1,5 +1,5 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH MIRROR) — LATEST
-Timestamp (UTC): 2026-10-29T05:12:09Z
+Timestamp (UTC): 2026-10-29T05:19:27Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 216 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
@@ -27,7 +27,7 @@ Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical st
 - **No untracked junk, clean working tree**: Ready for immediate heavy engineering.
 - **Historical workflow failures (Oct 27) are stale**: do not re-open cancelled/failed Kilo runs; proceed from verified state above.
 
-## VERIFIED STATE (2026-10-29T05:12:09Z — FROZEN SNAPSHOT)
+## VERIFIED STATE (2026-10-29T05:19:27Z — FROZEN SNAPSHOT)
 
 - `python -m pytest -q` → 216 passed, 1 warning (deprecation in test_schemas only)
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → Success: no issues found in 28 source files
@@ -36,24 +36,25 @@ Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical st
 - No untracked junk. No placeholder scaffolding.
 
 ## Initial Task Message — For Next Agentic Work Session (Mandatory, Non-Optional)
-Session start: 2026-10-29T05:12:09Z
+Session start: 2026-10-29T05:19:27Z
 
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP.**
 
 ### ABSOLUTE FIRST ACTION
-**SCAN telemetry/serialization for uncovered error paths across src/ (gamma, orderflow, volatility, signals, backtest). If a concrete gap exists, implement ONE heavy end-to-end fix (guards + tests + mypy clean). If none obvious, move immediately to Phase 1: harden gamma exposure (net GEX, gamma flip, pin/flip zones) with vectorized numerical guards + adversarial stress tests — NO SKIPPING.** Complete exactly ONE item end-to-end (implementation + tests + mypy clean). Do NOT parallelize across multiple items. Leave remaining heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
+**HARDEN PHASE 1 (DEALER POSITIONING/GAMMA EXPOSURE) END-TO-END.** Focus on pin/flip zones with vectorized numerical guards, adversarial stress coverage, and full integration into signals/backtest paths. Complete exactly ONE coherent heavy item end-to-end (implementation + tests + mypy clean). Do NOT parallelize across multiple items. Leave remaining heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
 
 ### JUST COMPLETED (END-TO-END)
+- **[HIGH] Gamma exposure: added pin/flip zones (calculate_pin_zone/calculate_flip_zones) with vectorized guards and aliases exported** — DONE (2026-10-29T05:19:27Z).
 - **[CRITICAL] Adversarial stress scenarios across ALL modules** — DONE.
-- **[CRITICAL] Production telemetry/serialization guardrails** — PRESENT.
+- **[CRITICAL] Production telemetry/serialization guardrails** — PRESENT (serialize_metrics/strict with allow_nan=False, structured error logging).
 - **[HIGH] OOS & walk-forward robustness** — DONE.
 - **[HIGH] Numerical guards & config validation edge cases** — DONE.
 - **[HIGH] Wire numerical guards into data/normalization.py + end-to-end pipeline serialization test** — DONE.
 - **[HIGH] Strengthen numerical guards in features/orderflow.py** — DONE.
 
 ### Immediate Objectives (Strict Priority Order)
-1. **[HIGH] Telemetry/serialization gap scan + ONE heavy end-to-end fix if a concrete gap exists** — scan gamma, orderflow, volatility, signals, backtest for uncovered error paths; implement guards + tests + mypy clean if found.
-2. **[HIGH] Phase 1: harden gamma exposure** (only if step 1 finds no gap) — net GEX, gamma flip, pin/flip zones with vectorized numerical guards + adversarial stress tests; end-to-end with mypy clean and tests passing.
+1. **[CRITICAL] Phase 1: Harden gamma exposure/pin-flip zones** — Expand adversarial coverage (all-same-sign, NaN/Inf, zero-OI, extreme strikes/expiries), ensure vectorized paths robust, add/strengthen tests in `tests/test_phase1_gamma_invariants.py` or new adversarial tests; verify signals/composite.py gamma handling remains safe; mypy clean + tests passing.
+2. **[HIGH] Telemetry/serialization gap scan** — Only if time remains after (1) or if concrete gap discovered; implement ONE fix end-to-end.
 
 ### VERIFICATION (REQUIRED BEFORE HANDOFF)
 - `python -m pytest` must be >= 216 passing.
@@ -62,21 +63,11 @@ Session start: 2026-10-29T05:12:09Z
 - If work remains after completing ONE item end-to-end, update **BOTH** handoff files with a new timestamped message and leave heavy work clearly specified with concrete next steps.
 
 ## Next Focus Campaign
-Project-name priority order (gamma/orderflow/vol/signal/backtest). Phase 8 complete; Phase 1 in progress.
+Project-name priority order (gamma/orderflow/vol/signal/backtest). Phase 8 telemetry hardening substantially complete.
 
-**Remaining Phase 8 deliverables (COMPLETE ONE FULLY BEFORE MOVING ON):**
-- [x] Stress scenarios across all modules
-- [x] Telemetry/guardrails & serialization end-to-end
-- [x] OOS & walk-forward robustness
-- [x] Numerical guards & config validation edge cases
-- [x] Wire numerical guards into data/normalization.py + end-to-end pipeline serialization test
-- [x] Strengthen numerical guards in features/orderflow.py + related tests
-- [ ] Telemetry/serialization gap scan + ONE heavy fix (if gap found) *(candidate next)*
-- [ ] Any remaining telemetry/serialization edge cases discovered
-
-**Next Focus Campaign (strict by project name; heavy work mandatory):**
-1. Phase 1 — Dealer positioning/gamma exposure (core edge): vectorized, numerically correct, adversarial-tested.
-2. Phase 2 — Orderflow microstructure: already hardened; residual telemetry only.
+**Remaining heavy work (strict priority):**
+1. **Phase 1 — Dealer positioning/gamma exposure (CORE EDGE)**: pin zones, flip zones, net GEX by bands, vectorized + adversarial-tested. Strengthen invariants and cross-checks.
+2. Phase 2 — Orderflow microstructure: residual telemetry only.
 3. Phase 3 — Volatility surface dynamics: degenerate surface guards.
 4. Phase 4 — Regime-aware signal engineering: determinism + leakage prevention.
 5. Phase 5 — Rigorous backtesting: no lookahead, sanitized metrics.
@@ -100,19 +91,14 @@ Project-name priority order (gamma/orderflow/vol/signal/backtest). Phase 8 compl
 
 ---
 
-## HANDOFF UPDATE (2026-10-29T04:21:07Z) — ORDERFLOW GUARDS HARDENED
-State: 216 TESTS PASSING | MYPY CLEAN | CHANGES NOT COMMITTED (working tree modified)
-
----
-
-## HANDOFF UPDATE (2026-10-29T05:11:39Z) — DURABLE HANDOFF REFRESHED; NEXT HEAVY CAMPAIGN SET
+## HANDOFF UPDATE (2026-10-29T05:19:27Z) — GAMMA PIN/FLIP ZONES ADDED; PHASE 1 HARDENING NEXT
 State: 216 TESTS PASSING | MYPY CLEAN | WORKING TREE CLEAN
 
----
+### Completed (end-to-end)
+- **[HIGH] Gamma exposure extensions**: Added `calculate_pin_zone`/`calculate_flip_zones` with aliases, exported from `src.features`, numerical guards and fallbacks; mypy clean, all tests passing.
 
-## HANDOFF UPDATE (2026-10-29T05:12:09Z) — STATE VERIFIED; NEXT HEAVY CAMPAIGN RE-AFFIRMED
-State: 216 TESTS PASSING | MYPY CLEAN | WORKING TREE CLEAN
+### Absolute First Action (Next Session)
+**HARDEN PHASE 1 (GAMMA EXPOSURE/PIN-FLIP ZONES) END-TO-END.** Add/strengthen adversarial tests for pin/flip zones (all-same-sign GEX, NaN/Inf, zero-OI, missing delta, extreme strikes), ensure vectorized paths are robust, verify integration with signals; run tests+mypy. Complete ONE coherent heavy item fully; update both handoffs if more remains.
 
-- Verified pytest >= 216 passing and mypy clean; no working-tree changes.
-- All Phase 8 items complete; orderflow guards hardened; telemetry/serialization guardrails present.
-- Next session: scan telemetry/serialization for uncovered error paths; if none, harden Phase 1 gamma exposure (net GEX, gamma flip, pin/flip zones) with adversarial stress tests — NO SKIPPING.
+### Verification
+- pytest >= 216 passing; mypy clean; working tree clean; no TODO/FIXME/placeholder/HACK/XXX.
