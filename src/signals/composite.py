@@ -17,6 +17,8 @@ class Signal:
 
 
 def _sign(x: float) -> float:
+    if not isfinite(x):
+        return 0.0
     if x > 0:
         return 1.0
     elif x < 0:
@@ -24,12 +26,33 @@ def _sign(x: float) -> float:
     return 0.0
 
 
+def _safe_float(x: Any, default: float = 0.0) -> float:
+    try:
+        v = float(x)
+    except Exception:
+        return default
+    if not isfinite(v):
+        return default
+    return v
+
+
+def _clamp(x: float, lo: float = -1.0, hi: float = 1.0) -> float:
+    if not isfinite(x):
+        return 0.0 if lo <= 0.0 <= hi else lo
+    if x < lo:
+        return lo
+    if x > hi:
+        return hi
+    return x
+
+
 class CompositeSignalGenerator:
     """Regime-aware composite signal generator.
 
     Detects market regime from GEX sign/magnitude and skew, then adjusts
     component weights accordingly. Confidence reflects component agreement
-    (dispersion), not just |composite|.
+    (dispersion), not just |composite|. Hardened against degenerate/non-finite
+    inputs with feature-leakage safe, deterministic behavior.
     """
 
     def __init__(self) -> None:
@@ -39,7 +62,6 @@ class CompositeSignalGenerator:
             "vol_skew": 0.25,
             "put_call": 0.20,
         }
-        # Regime-specific weight overrides
         self.regime_weights: Dict[str, Dict[str, float]] = {
             "high_vol_negative_gex": {"gamma": 0.45, "orderflow": 0.30, "vol_skew": 0.15, "put_call": 0.10},
             "low_vol_positive_gex": {"gamma": 0.15, "orderflow": 0.25, "vol_skew": 0.30, "put_call": 0.30},
@@ -49,27 +71,35 @@ class CompositeSignalGenerator:
         }
 
     def _detect_regime(self, total_gex: float, iv_skew: float, put_call_ratio: float) -> str:
-        """Detect market regime from GEX, skew, and PCR."""
-        # Negative GEX => high vol regime (dealers short gamma, vol expansion)
-        if total_gex < -1e8:
+        gex = _safe_float(total_gex, 0.0)
+        skew = _safe_float(iv_skew, 0.0)
+        pcr = _safe_float(put_call_ratio, 1.0)
+        if pcr <= 0.0:
+            pcr = 1.0
+        if gex < -1e8:
             return "high_vol_negative_gex"
-        # Positive GEX => low vol regime (dealers long gamma, vol compression)
-        if total_gex > 1e8:
+        if gex > 1e8:
             return "low_vol_positive_gex"
-        # Skew-driven regimes
-        if iv_skew > 0.05:
+        if skew > 0.05:
             return "skew_bearish"
-        if iv_skew < -0.05:
+        if skew < -0.05:
             return "skew_bullish"
-        # Vol regime by term structure magnitude proxy
-        if iv_skew > 0.02 and put_call_ratio > 1.2:
+        if skew > 0.02 and pcr > 1.2:
             return "high_vol_negative_gex"
-        if iv_skew < -0.02 and put_call_ratio < 0.8:
+        if skew < -0.02 and pcr < 0.8:
             return "low_vol_positive_gex"
         return "neutral"
 
     def _get_weights(self, regime: str) -> Dict[str, float]:
-        return self.regime_weights.get(regime, self.regime_weights["neutral"])
+        w = self.regime_weights.get(regime, self.regime_weights["neutral"]).copy()
+        s = sum(w.values())
+        if not isfinite(s) or s <= 0.0:
+            w = self.regime_weights["neutral"].copy()
+            s = sum(w.values())
+        if s > 0.0:
+            for k in list(w.keys()):
+                w[k] = w[k] / s
+        return w
 
     def generate_signal(
         self,
@@ -83,10 +113,15 @@ class CompositeSignalGenerator:
         chain: Any = None,
         **kwargs: Any,
     ) -> Signal:
-        """Generate regime-aware composite trading signal."""
-        components = {}
+        spot_price_s = _safe_float(spot_price, 0.0)
+        total_gex_s = _safe_float(total_gex, 0.0)
+        cum_delta_s = _safe_float(cum_delta, 0.0)
+        of_imbalance_s = _safe_float(of_imbalance, 0.0)
+        iv_skew_s = _safe_float(iv_skew, 0.0)
+        put_call_ratio_s = _safe_float(put_call_ratio, 1.0)
+        if put_call_ratio_s <= 0.0:
+            put_call_ratio_s = 1.0
 
-        # Try to safely integrate pin/flip zone data if chain provided
         pin_zone_info: Dict[str, Any] = {}
         flip_zone_info: Dict[str, Any] = {}
         if chain is not None:
@@ -94,91 +129,71 @@ class CompositeSignalGenerator:
                 from ..features.gamma_exposure import calculate_pin_zone, calculate_flip_zones
 
                 try:
-                    pz = calculate_pin_zone(chain, spot_price)
+                    pz = calculate_pin_zone(chain, spot_price_s)
                     if isinstance(pz, dict):
-                        pin_zone_info = {k: float(v) if isfinite(float(v)) else 0.0 for k, v in pz.items()}
+                        pin_zone_info = {k: _safe_float(v, 0.0) for k, v in pz.items()}
                 except Exception:
                     pin_zone_info = {}
                 try:
-                    fz = calculate_flip_zones(chain, spot_price)
+                    fz = calculate_flip_zones(chain, spot_price_s)
                     if isinstance(fz, dict):
-                        flip_zone_info = {k: float(v) if isfinite(float(v)) else 0.0 for k, v in fz.items()}
+                        flip_zone_info = {k: _safe_float(v, 0.0) for k, v in fz.items()}
                 except Exception:
                     flip_zone_info = {}
             except Exception:
                 pin_zone_info = {}
                 flip_zone_info = {}
 
-        # Gamma exposure signal (negative GEX can lead to volatility expansion)
-        if total_gex != 0 and isfinite(total_gex):
-            gamma_signal = -_sign(total_gex) * min(abs(total_gex) / 1e9, 1.0)
+        components: Dict[str, float] = {}
+
+        if total_gex_s != 0.0 and isfinite(total_gex_s):
+            gamma_signal = -_sign(total_gex_s) * min(abs(total_gex_s) / 1e9, 1.0)
         else:
             gamma_signal = 0.0
-        if not isfinite(gamma_signal):
-            gamma_signal = 0.0
-        components["gamma"] = gamma_signal
+        components["gamma"] = _clamp(gamma_signal, -1.0, 1.0)
 
-        # Orderflow signal
-        of_signal = (cum_delta / 10000.0 + float(of_imbalance)) / 2.0
-        if isfinite(of_signal):
-            of_signal = max(-1.0, min(1.0, of_signal))
-        else:
-            of_signal = 0.0
-        components["orderflow"] = of_signal
+        of_signal = (cum_delta_s / 10000.0 + of_imbalance_s) / 2.0
+        components["orderflow"] = _clamp(of_signal, -1.0, 1.0)
 
-        # Volatility skew signal (steep put skew often bearish)
-        skew_signal = -max(-1.0, min(1.0, float(iv_skew) * 10))
-        if not isfinite(skew_signal):
-            skew_signal = 0.0
-        components["vol_skew"] = skew_signal
+        skew_signal = -_clamp(iv_skew_s * 10.0, -1.0, 1.0)
+        components["vol_skew"] = _clamp(skew_signal, -1.0, 1.0)
 
-        # Put/call ratio signal
-        pcr = float(put_call_ratio)
-        if not isfinite(pcr) or pcr <= 0:
-            pc_signal = 0.0
-        elif pcr > 1.0:
-            pc_signal = -min((pcr - 1.0) / 2.0, 1.0)
+        pcr = put_call_ratio_s
+        if pcr > 1.0:
+            pc_signal = -_clamp((pcr - 1.0) / 2.0, 0.0, 1.0)
         elif pcr < 1.0:
-            pc_signal = min((1.0 - pcr) / 0.5, 1.0) * 0.5
+            pc_signal = _clamp((1.0 - pcr) / 0.5, 0.0, 1.0) * 0.5
         else:
             pc_signal = 0.0
-        if not isfinite(pc_signal):
-            pc_signal = 0.0
-        components["put_call"] = pc_signal
+        components["put_call"] = _clamp(pc_signal, -1.0, 1.0)
 
-        # Detect regime and get adjusted weights
-        regime = self._detect_regime(total_gex, iv_skew, put_call_ratio)
+        regime = self._detect_regime(total_gex_s, iv_skew_s, put_call_ratio_s)
         weights = self._get_weights(regime)
 
-        # Weighted composite
-        composite = sum(weights[k] * components.get(k, 0.0) for k in components)
-        if not isfinite(composite):
-            composite = 0.0
-        composite = max(-1.0, min(1.0, composite))
+        composite = 0.0
+        for k in sorted(weights.keys()):
+            composite += weights[k] * components.get(k, 0.0)
+        composite = _clamp(composite, -1.0, 1.0)
 
-        # Conflict resolution when components strongly disagree
         comp_values = list(components.values())
         comp_signs = [_sign(v) for v in comp_values if abs(v) > 1e-12]
         if len(comp_signs) >= 2:
-            # Check for strong disagreement
             has_pos = any(s > 0 for s in comp_signs)
             has_neg = any(s < 0 for s in comp_signs)
             if has_pos and has_neg:
-                # Strong disagreement - reduce strength and be more cautious
                 pos_count = sum(1 for s in comp_signs if s > 0)
                 neg_count = sum(1 for s in comp_signs if s < 0)
                 majority_ratio = max(pos_count, neg_count) / len(comp_signs)
+                if not isfinite(majority_ratio):
+                    majority_ratio = 0.5
                 if majority_ratio >= 0.75:
-                    # Strong majority - follow majority with mild dampening
                     composite = composite * 0.85
                 elif majority_ratio >= 0.67:
                     composite = composite * 0.75
                 else:
-                    # Strong conflict - lean toward neutral
                     composite = composite * 0.4
-                composite = max(-1.0, min(1.0, composite))
+                composite = _clamp(composite, -1.0, 1.0)
 
-        # Determine direction
         if composite > 0.3:
             direction = "long"
         elif composite < -0.3:
@@ -186,34 +201,32 @@ class CompositeSignalGenerator:
         else:
             direction = "neutral"
 
-        # Confidence calibration: reflect component agreement (low dispersion => high confidence)
-        # Also scale by magnitude of composite
         comp_values = list(components.values())
         if comp_values:
-            # Mean absolute deviation as dispersion measure
             mean_abs = sum(abs(v) for v in comp_values) / len(comp_values)
-            # Agreement: how many components agree in sign with composite
-            if composite != 0:
+            if not isfinite(mean_abs):
+                mean_abs = 0.0
+            if composite != 0.0 and isfinite(composite):
                 comp_sign = _sign(composite)
                 agreements = sum(1 for v in comp_values if _sign(v) == comp_sign)
                 agreement_ratio = agreements / len(comp_values)
             else:
                 agreement_ratio = 0.0
-            # Dispersion-based confidence (lower dispersion => higher confidence)
             dispersion = sum((abs(v) - mean_abs) ** 2 for v in comp_values) / len(comp_values)
-            dispersion = max(0.0, dispersion) ** 0.5
+            if not isfinite(dispersion) or dispersion < 0.0:
+                dispersion = 0.0
+            dispersion = dispersion ** 0.5
             max_dispersion = 1.0
-            agreement_confidence = agreement_ratio
-            dispersion_confidence = max(0.0, 1.0 - dispersion / max_dispersion)
-            magnitude_confidence = abs(composite)
-            # Blend: 40% agreement, 30% dispersion, 30% magnitude
+            agreement_confidence = _clamp(agreement_ratio, 0.0, 1.0)
+            if max_dispersion > 0.0:
+                dispersion_confidence = _clamp(1.0 - dispersion / max_dispersion, 0.0, 1.0)
+            else:
+                dispersion_confidence = 0.0
+            magnitude_confidence = _clamp(abs(composite), 0.0, 1.0)
             confidence = 0.4 * agreement_confidence + 0.3 * dispersion_confidence + 0.3 * magnitude_confidence
         else:
             confidence = 0.0
-
-        confidence = max(0.0, min(1.0, confidence))
-        if not isfinite(confidence):
-            confidence = 0.0
+        confidence = _clamp(confidence, 0.0, 1.0)
 
         return Signal(
             symbol=symbol,
