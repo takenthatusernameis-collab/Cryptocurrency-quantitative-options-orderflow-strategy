@@ -1,9 +1,10 @@
-"""Pydantic schemas for options chains, trades, and orderflow data."""
+"""Pydantic schemas for options chains, trades, orderflow, and pricing data."""
 
+import math
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class OptionContract(BaseModel):
@@ -132,3 +133,94 @@ class OrderflowSnapshot(BaseModel):
     liquidations: List[Liquidation] = Field(default_factory=list)
     funding_rates: List[FundingRate] = Field(default_factory=list)
     timestamp: datetime
+
+
+class PricingInputs(BaseModel):
+    """Inputs to Black-Scholes-Merton pricing.
+
+    Serialization invariants: all monetary/rate/vol/time fields are validated as
+    finite at construction; spot/strike must be positive; volatility and
+    time_to_expiry must be non-negative; option_type must be ``'call'``/``'put'``.
+    ``seed`` drives deterministic IV-solver fallbacks.
+    """
+
+    spot: float
+    strike: float
+    rate: float  # continuously compounded risk-free rate, annualized (decimal)
+    volatility: float  # annualized vol, decimal (e.g. 0.65 = 65%)
+    time_to_expiry: float  # years
+    option_type: str  # 'call' or 'put'
+    seed: int = 42  # deterministic seed for solver fallbacks
+
+    @field_validator("spot", "strike", "rate", "volatility", "time_to_expiry")
+    @classmethod
+    def _finite_numeric(cls, v: float, info: Any) -> float:
+        field_name = info.field_name
+        if not isinstance(v, (int, float)) or isinstance(v, bool) or not math.isfinite(float(v)):
+            raise ValueError(f"{field_name} must be a finite number")
+        return float(v)
+
+    @field_validator("spot", "strike")
+    @classmethod
+    def _positive(cls, v: float, info: Any) -> float:
+        field_name = info.field_name
+        if v <= 0.0:
+            raise ValueError(f"{field_name} must be positive")
+        return float(v)
+
+    @field_validator("volatility", "time_to_expiry")
+    @classmethod
+    def _non_negative(cls, v: float, info: Any) -> float:
+        field_name = info.field_name
+        if v < 0.0:
+            raise ValueError(f"{field_name} must be non-negative")
+        return float(v)
+
+    @field_validator("option_type")
+    @classmethod
+    def _valid_option_type(cls, v: str) -> str:
+        ot = str(v).strip().lower()
+        if ot not in ("call", "put"):
+            raise ValueError("option_type must be 'call' or 'put'")
+        return ot
+
+
+class PricingOutputs(BaseModel):
+    """Pricing outputs; every field is finite-guarded for strict serialization.
+
+    ``implied_vol`` is optional (populated only when an IV solve was performed).
+    ``solver_iterations`` / ``converged`` capture IV solver diagnostics.
+    """
+
+    price: float
+    delta: float
+    gamma: float
+    vega: float
+    theta: float  # per year
+    rho: float  # per 1.0 rate change
+    d1: float
+    d2: float
+    implied_vol: Optional[float] = None
+    solver_iterations: int = 0
+    converged: bool = True
+    seed: int = 42
+
+    @field_validator(
+        "price", "delta", "gamma", "vega", "theta", "rho", "d1", "d2", "implied_vol"
+    )
+    @classmethod
+    def _finite_or_none(cls, v: Optional[float], info: Any) -> Optional[float]:
+        field_name = info.field_name
+        if v is None:
+            return None
+        if not isinstance(v, (int, float)) or isinstance(v, bool) or not math.isfinite(float(v)):
+            raise ValueError(f"{field_name} must be finite or None")
+        return float(v)
+
+    @field_validator("solver_iterations", "seed")
+    @classmethod
+    def _non_negative_int(cls, v: int, info: Any) -> int:
+        field_name = info.field_name
+        if not isinstance(v, int) or isinstance(v, bool) or v < 0:
+            raise ValueError(f"{field_name} must be a non-negative integer")
+        return int(v)
