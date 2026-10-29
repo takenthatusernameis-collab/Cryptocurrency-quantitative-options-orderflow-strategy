@@ -37,6 +37,7 @@ from .errors import (
     ConfigError,
     SerializationError,
 )
+from .telemetry import serialize_metrics, log_strategy_error
 
 
 _logger = get_logger(__name__)
@@ -99,7 +100,12 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
     try:
         validate_config_dict(config)
     except (ValueError, ConfigError) as e:
-        _logger.exception("config_validation_failed", e, operation="run_pipeline")
+        log_strategy_error(
+            e,
+            operation="run_pipeline",
+            module="src.main",
+            extra={"phase": "config_validation"},
+        )
         return {
             "venues": config.get("venues", []),
             "symbols": symbols or config.get("data", {}).get("symbols", ["BTC", "ETH"]),
@@ -326,31 +332,18 @@ def main() -> None:
     args = parser.parse_args()
     config = load_config(args.config)
     res = run_pipeline(config, args.symbols)
-        # Ensure JSON output is valid with allow_nan=False (no inf/nan)
+    # Ensure JSON output is valid with allow_nan=False (no inf/nan).
+    # serialize_metrics raises SerializationError on non-finite values.
     try:
+        res = serialize_metrics(res)
         json_str = json.dumps(res, indent=2, default=str, allow_nan=False)
-    except Exception as e:
-        # Fallback: sanitize non-finite values
-        _logger.exception("json_serialization_failed_initial", e, operation="main_output")
-        def sanitize(obj: Any) -> Any:
-            if isinstance(obj, dict):
-                return {k: sanitize(v) for k, v in obj.items()}
-            elif isinstance(obj, list):
-                return [sanitize(v) for v in obj]
-            elif isinstance(obj, float):
-                if not math.isfinite(obj):
-                    return None
-                return obj
-            return obj
-
-        res = sanitize(res)
-        try:
-            json_str = json.dumps(res, indent=2, default=str, allow_nan=False)
-        except Exception as e2:
-            _logger.exception("json_serialization_failed_sanitized", e2, operation="main_output")
-            from .errors import SerializationError
-
-            raise SerializationError("Failed to serialize pipeline result", context={"operation": "main_output"}) from e2
+    except SerializationError as e:
+        log_strategy_error(
+            e,
+            operation="main_output",
+            module="src.main",
+        )
+        raise
     print(json_str)
 
 

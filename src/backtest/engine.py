@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Optional
 
 from ..config import BacktestConfig, RiskConfig
 from ..errors import RiskLimitError, OrderError, DeterminismError, get_logger
+from ..telemetry import log_strategy_error
 
 
 _logger = get_logger(__name__)
