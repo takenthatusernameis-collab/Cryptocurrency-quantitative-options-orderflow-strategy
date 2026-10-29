@@ -217,3 +217,57 @@ def test_different_paths_yield_different_results():
     _assert_finite_result(r_a)
     _assert_finite_result(r_b)
     assert r_a["total_pnl"] != r_b["total_pnl"]
+
+
+def test_attribution_sum_matches_total_within_tolerance():
+    spot_path = _ramp_path(100.0, 20, 0.4)
+    times = _times(20, 10 / 365.25)
+    result = delta_hedged_option_pnl(spot_path, times, **_base_kwargs())
+    attr = result["attribution"]
+    s = attr["delta_pnl"] + attr["gamma_pnl"] + attr["theta_pnl"] + attr["vega_pnl"] + attr["residual"]
+    assert abs(s - attr["total_pnl"]) < 1e-9
+
+
+def test_attribution_sum_matches_total_via_sum_attribution_field():
+    spot_path = _ramp_path(95.0, 15, -0.3)
+    times = _times(15, 7 / 365.25)
+    kwargs = dict(_base_kwargs(), strike=100.0, option_type="put")
+    result = delta_hedged_option_pnl(spot_path, times, **kwargs)
+    attr = result["attribution"]
+    assert abs(attr["sum_attribution"] - attr["total_pnl"]) < 1e-9
+
+
+def test_hedge_with_transaction_costs_finite():
+    spot_path = _ramp_path(100.0, 12, 0.25)
+    times = _times(12, 8 / 365.25)
+    kwargs = dict(_base_kwargs(), transaction_cost_bps=5.0)
+    result = delta_hedged_option_pnl(spot_path, times, **kwargs)
+    _assert_finite_result(result)
+    assert abs(result["attribution"]["sum_attribution"] - result["total_pnl"]) < 1e-9
+
+
+def test_hedge_no_rebalance_is_finite():
+    spot_path = _ramp_path(100.0, 10, 0.2)
+    times = _times(10, 6 / 365.25)
+    kwargs = dict(_base_kwargs(), rebalance_every_step=False)
+    result = delta_hedged_option_pnl(spot_path, times, **kwargs)
+    _assert_finite_result(result)
+    assert abs(result["attribution"]["sum_attribution"] - result["total_pnl"]) < 1e-9
+
+
+def test_determinism_twice_byte_identical():
+    spot_path = _ramp_path(100.0, 16, 0.35)
+    times = _times(16, 9 / 365.25)
+    r1 = delta_hedged_option_pnl(spot_path, times, **_base_kwargs())
+    r2 = delta_hedged_option_pnl(spot_path, times, **_base_kwargs())
+    assert json.dumps(r1, sort_keys=True) == json.dumps(r2, sort_keys=True)
+
+
+def test_attribution_components_finite_all_paths():
+    spot_path = _ramp_path(110.0, 18, -0.15)
+    times = _times(18, 12 / 365.25)
+    kwargs = dict(_base_kwargs(), strike=105.0, volatility=0.45)
+    result = delta_hedged_option_pnl(spot_path, times, **kwargs)
+    attr = result["attribution"]
+    for k in ["delta_pnl", "gamma_pnl", "theta_pnl", "vega_pnl", "residual", "total_pnl", "sum_attribution"]:
+        assert math.isfinite(float(attr[k]))
