@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from math import isfinite
-from typing import Any, Dict
+from typing import Any, Dict, Iterable, List, Mapping, Sequence
 
 
 @dataclass
@@ -283,3 +283,81 @@ class CompositeSignalGenerator:
             regime=regime,
             metadata={"pin_zone": pin_zone_info, "flip_zones": flip_zone_info} if (pin_zone_info or flip_zone_info) else None,
         )
+
+    def generate_signals_batch(
+        self,
+        items: Iterable[Mapping[str, Any]] | Sequence[Mapping[str, Any]],
+        reset_regime: bool = False,
+    ) -> List[Signal]:
+        """Generate signals for a batch of inputs with deterministic ordering.
+
+        Preserves regime hysteresis state across the batch (sequential processing)
+        for parity with time-ordered streams. Set reset_regime=True to start
+        from neutral state for this batch (useful for independent evaluation).
+        """
+        if reset_regime:
+            self.reset_regime_state()
+        results: List[Signal] = []
+        # Iterate in deterministic order
+        try:
+            seq = list(items)
+        except Exception:
+            return results
+        for it in seq:
+            if not isinstance(it, Mapping):
+                continue
+            try:
+                symbol = it.get("symbol") or it.get("ticker") or ""
+                if not isinstance(symbol, str):
+                    symbol = str(symbol)
+                spot_price = it.get("spot_price", it.get("spot", 0.0))
+                total_gex = it.get("total_gex", it.get("gex", 0.0))
+                cum_delta = it.get("cum_delta", it.get("delta", 0.0))
+                of_imbalance = it.get("of_imbalance", it.get("orderflow_imbalance", 0.0))
+                iv_skew = it.get("iv_skew", it.get("skew", 0.0))
+                put_call_ratio = it.get("put_call_ratio", it.get("pcr", 1.0))
+                chain = it.get("chain")
+                sig = self.generate_signal(
+                    symbol=symbol,
+                    spot_price=spot_price,
+                    total_gex=total_gex,
+                    cum_delta=cum_delta,
+                    of_imbalance=of_imbalance,
+                    iv_skew=iv_skew,
+                    put_call_ratio=put_call_ratio,
+                    chain=chain,
+                )
+                results.append(sig)
+            except Exception:
+                # On any error, produce a safe neutral signal to maintain determinism
+                try:
+                    symbol_e = ""
+                    it_e = it
+                    if isinstance(it_e, Mapping):
+                        sym = it_e.get("symbol") or it_e.get("ticker") or ""
+                        if isinstance(sym, str):
+                            symbol_e = sym
+                        else:
+                            symbol_e = str(sym)
+                    results.append(
+                        Signal(
+                            symbol=symbol_e,
+                            direction="neutral",
+                            strength=0.0,
+                            confidence=0.0,
+                            components={"gamma": 0.0, "orderflow": 0.0, "vol_skew": 0.0, "put_call": 0.0},
+                            regime=self._prev_regime if hasattr(self, "_prev_regime") else "neutral",
+                            metadata=None,
+                        )
+                    )
+                except Exception:
+                    continue
+        return results
+
+    def generate_signals_vectorized(
+        self,
+        items: Iterable[Mapping[str, Any]] | Sequence[Mapping[str, Any]],
+        reset_regime: bool = False,
+    ) -> List[Signal]:
+        """Vectorized-style batch API with identical behavior to generate_signals_batch."""
+        return self.generate_signals_batch(items, reset_regime=reset_regime)
