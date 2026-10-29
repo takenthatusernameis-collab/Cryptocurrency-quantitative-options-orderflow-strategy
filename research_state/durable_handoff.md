@@ -1,8 +1,8 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T00-31-26Z
+Timestamp (UTC): 2026-10-29T02:28:10Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 140 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
+State: 143 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION (PRIORITIZED - DO NOT DEVIATE)
@@ -21,22 +21,21 @@ Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical st
 
 - **Single source of truth enforced**: Both canonical handoff files mirror this content and are updated together.
 - **Ambiguity eliminated**: exactly two canonical handoff files exist.
-- **Completed ONE major item end-to-end**: Adversarial stress scenarios added across ALL modules (ingestion/normalization/config/gamma/orderflow/volatility/liquidity/backtest/pipeline). All tests passing.
-- **Determinism enforced**: Seeds must propagate through features, signals, and backtests.
-- **Numerical hygiene**: All metric serialization must pass through sanitization with `allow_nan=False` and raise `SerializationError` on invalid values.
-- **Verified-state accuracy fixed**: Stale test count corrected from 145 -> 140 (actual collected/passing). Next agent must not be misled by an inflated number.
-- **Prior workflow bottleneck cleared**: `tests/test_controller_progress_accounting.py` missing in run 40559805990 caused a workflow failure; file is now present and collected (140 tests, 140 passing). Workflow re-runs since then all succeeded. No missing-test blocker remains.
+- **Mypy/type issues cleared**: Fixed typing in backtest engine to pass strict mypy with --disallow-untyped-defs.
+- **Test suite current**: 143 passing, 1 warning (pre-existing). Full telemetry serialization paths validated.
+- **Verified-state accuracy**: Actual test count is 143 (not stale 145/140). Do not rely on older numbers.
+- **Workflow/test coverage**: All tests present and passing; no missing-test blockers remain.
 
-## VERIFIED STATE (2026-10-29T00-31-26Z — DO NOT RE-VERIFY UNCHANGED)
+## VERIFIED STATE (2026-10-29T02:28:10Z — DO NOT RE-VERIFY UNCHANGED)
 
-- `python -m pytest -q` → 140 passed, 1 warning (deprecation in test_schemas only). Count corrected from stale 145.
-- `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → Success: no issues found in 24 source files.
-- `git status` → On branch main, working tree clean.
-- `grep -rn "TODO|FIXME|PLACEHOLDER|HACK|XXX" src/ tests/ scripts/` → no matches.
+- `python -m pytest -q` → 143 passed, 1 warning (deprecation in test_schemas only)
+- `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → Success: no issues found in 27 source files
+- `git status` → On branch main, working tree clean
+- `grep -rn "TODO|FIXME|PLACEHOLDER|HACK|XXX" src/ tests/ scripts/` → no matches
 - No untracked junk. No placeholder scaffolding.
 
 ## Initial Task Message — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
-Session start: 2026-10-29T00:31:26Z
+Session start: 2026-10-29T02:28:10Z
 
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES.**
 
@@ -44,30 +43,30 @@ START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ON
 
 ### Just Completed (END-TO-END)
 
-- **[CRITICAL] Adversarial stress scenarios across ALL modules** — DONE. Added comprehensive adversarial tests (empty/degenerate DataFrames/objects, NaN/Inf cascades, extreme sizes, all-same-side flow, zero liquidity, duplicate timestamps, division-by-zero paths, log/sqrt of invalid values). All modules hardened for numerical stability with no NaN/Inf propagation. 25 tests in test_adversarial_stress.py, all passing. Full suite: 140 passing.
+- **[CRITICAL] Adversarial stress scenarios across ALL modules** — DONE.
+- **[CRITICAL] Production telemetry/serialization guardrails** — PRESENT (serialize_metrics/strict with allow_nan=False, structured error logging). Telemetry end-to-end test exists and passing.
 
 ### Immediate Objectives (in strict priority order)
 
-1. **[HIGH] Telemetry/guardrails & serialization end-to-end — START HERE (NEXT SESSION)**
-   - Structured logging for RiskLimitError/OrderError/SerializationError with context (module, symbol, timestamp, operation)
-   - Enforce `SerializationError` on non-finite values in serialization paths; JSON validity with `allow_nan=False`
-   - End-to-end test: ingestion -> features -> signals -> backtest -> serialization
-   - Ensure all metric serialization passes sanitization with `allow_nan=False` and raises `SerializationError` on invalid values
-
-2. **[HIGH] OOS & walk-forward robustness**
+1. **[HIGH] OOS & walk-forward robustness — START HERE (NEXT SESSION)**
    - Strict time ordering/no lookahead, purge/embargo correctness
-   - RNG seed determinism with reproducibility tests
-   - `allow_nan=False` metric sanitization in all aggregate results
-   - Stability metrics numerically stable (guard inf/NaN)
+   - Walk-forward splits (expanding/rolling) with proper purge/embargo windows
+   - RNG seed determinism propagated through features/signals/backtests with reproducibility tests
+   - `allow_nan=False` metric sanitization in all aggregate/OOS results (use serialize_metrics)
+   - Stability metrics numerically stable (guard inf/NaN) with SerializationError on violations
 
-3. **[HIGH] Numerical guards & config validation edge cases**
-   - Risk limits: insufficient cash/short-notional/position limits -> RiskLimitError/OrderError with context
-   - Guards for division-by-zero, log(<=0), sqrt of negative, pct-change-on-zero
+2. **[HIGH] Numerical guards & config validation edge cases**
+   - Risk limits: insufficient cash/short-notional/position limits -> RiskLimitError/OrderError with context + structured logging
+   - Guards for division-by-zero, log(<=0), sqrt of negative, pct-change-on-zero across features/signals/backtest
    - Config validation edge cases, safe defaults, invalid-combo rejection
+
+3. **[HIGH] Telemetry coverage gaps (if discovered)**
+   - Ensure all new error paths log via log_strategy_error with module/symbol/timestamp/operation
+   - Extend end-to-end serialization to cover any new aggregates
 
 ### Verification (REQUIRED BEFORE HANDOFF)
 
-- `python -m pytest` must reach >= 140 passing (maintain/improve; corrected baseline from stale 145)
+- `python -m pytest` must reach >= 143 passing (maintain/improve)
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean
 - Working tree clean. No untracked junk. No TODO/FIXME/placeholder.
 - If work remains after completing ONE item end-to-end, update BOTH handoff files with a new timestamped message and leave heavy work clearly specified.
@@ -85,9 +84,9 @@ START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ON
 
 **Remaining Phase 8 deliverables (COMPLETE ONE FULLY BEFORE MOVING ON):**
 
-- [x] **Stress scenarios across all modules** *(COMPLETED)*
-- [ ] Telemetry/guardrails & serialization end-to-end *(START HERE - HIGHEST IMPACT)*
-- [ ] OOS & walk-forward robustness
+- [x] Stress scenarios across all modules *(COMPLETED)*
+- [x] Telemetry/guardrails & serialization end-to-end *(COMPLETED/PRESENT)*
+- [ ] OOS & walk-forward robustness *(START HERE - HIGHEST IMPACT)*
 - [ ] Numerical guards & config validation edge cases
 
 ## MANDATE (NON-NEGOTIABLE)
@@ -104,10 +103,8 @@ START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ON
 ## EXECUTION RULES
 
 - Working tree clean; do not create untracked junk.
-- Run tests after changes: `python -m pytest` (maintain >= 140 passing).
+- Run tests after changes: `python -m pytest` (maintain >= 143 passing).
 - Run static checks: `python -m mypy src/ --disallow-untyped-defs --warn-return-any` (keep clean).
 - Fix inefficiencies/blockers immediately.
 - Leave clear timestamped handoff if work remains (update BOTH files).
 - DO NOT avoid heavy work. Execute in order without skipping.
-
-(End of file)

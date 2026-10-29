@@ -310,7 +310,7 @@ class BacktestEngine:
                 # Open long
                 cost = notional + commission
                 if cost > self.cash + 1e-10:  # small epsilon for float
-                    e = RiskLimitError(
+                    e_risk: RiskLimitError = RiskLimitError(
                         "Insufficient cash for long position",
                         context={
                             "symbol": symbol,
@@ -323,10 +323,10 @@ class BacktestEngine:
                         },
                     )
                     try:
-                        log_strategy_error(e, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
+                        log_strategy_error(e_risk, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
                     except Exception:
                         pass
-                    raise e
+                    raise e_risk
                 self.cash -= cost
                 sl = stop_loss if stop_loss is not None else (execution_price * (1 - getattr(self.risk_config, "stop_loss_pct", 0.02)))
                 tp = take_profit if take_profit is not None else (execution_price * (1 + getattr(self.risk_config, "take_profit_pct", 0.04)))
@@ -392,12 +392,12 @@ class BacktestEngine:
                     take_profit=tp,
                 )
         else:
-            err = OrderError(f"Invalid side: {side}", context={"symbol": symbol, "side": side, "module": "src.backtest.engine", "operation": "execute_trade"})
+            err_order: OrderError = OrderError(f"Invalid side: {side}", context={"symbol": symbol, "side": side, "module": "src.backtest.engine", "operation": "execute_trade"})
             try:
-                log_strategy_error(err, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
+                log_strategy_error(err_order, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
             except Exception:
                 pass
-            raise err
+            raise err_order
 
         self.trades.append(trade)
         return trade
