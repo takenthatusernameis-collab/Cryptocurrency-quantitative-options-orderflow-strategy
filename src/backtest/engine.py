@@ -1,7 +1,7 @@
 """Event-driven backtesting engine."""
 
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from math import isfinite
 from typing import Any, Dict, List, Optional
 
@@ -1122,3 +1122,311 @@ def run_rolling_window_backtest(*args: Any, **kwargs: Any) -> WalkForwardResults
     wf_params.setdefault('anchored', False)
     wfb = WalkForwardBacktest(*args, **kwargs)
     return wfb.run_walk_forward(**wf_params)
+
+
+# ---------------------------------------------------------------------------
+# Phase 5 — deterministic stress testing (rigorous backtesting)
+# ---------------------------------------------------------------------------
+
+
+@dataclass
+class StressScenario:
+    """A deterministic backtest stress scenario.
+
+    Fully specifies a price shock path, the signal sequence that drives
+    entries/exits, and the engine configuration used to replay it. Each
+    scenario is replayed through a fresh :class:`BacktestEngine` so results
+    are isolated and deterministic (seeded RNG for partial fills).
+    """
+
+    name: str
+    symbol: str = "BTC"
+    prices: List[float] = field(default_factory=list)
+    signals: List[int] = field(default_factory=list)
+    timestamps: Optional[List[datetime]] = None
+    initial_capital: float = 100000.0
+    fee_rate: float = 0.0005
+    slippage_bps: float = 1.0
+    max_slippage_bps: float = 0.0
+    risk_free_rate: float = 0.0
+    partial_fill_rate: float = 0.0
+    round_lot_size: float = 0.0
+    slippage_seed: int = 42
+    max_position_pct: float = 0.1
+    max_drawdown_limit: float = 0.2
+    stop_loss_pct: float = 0.02
+    take_profit_pct: float = 0.04
+    max_position_qty: float = 0.0
+    allow_shorting: bool = True
+
+
+@dataclass
+class StressTestResult:
+    """Outcome of replaying one :class:`StressScenario`."""
+
+    name: str
+    passed: bool
+    violations: List[str] = field(default_factory=list)
+    total_return: float = 0.0
+    max_drawdown: float = 0.0
+    sharpe_ratio: float = 0.0
+    sortino_ratio: float = 0.0
+    total_trades: int = 0
+    equity_final: float = 0.0
+    finite: bool = False
+    serializable: bool = False
+    positions_flat: bool = True
+
+
+def run_stress_scenario(scenario: StressScenario) -> StressTestResult:
+    """Replay a deterministic stress scenario through a fresh engine.
+
+    Prices are applied strictly in order (no-lookahead by construction).
+    ``signals`` drive entries/exits: ``1`` buys/opens a long, ``-1`` sells or
+    opens a short, ``0`` holds. Stop-loss/take-profit/drawdown risk controls
+    are enforced on every tick via :meth:`BacktestEngine.update_equity_curve`.
+
+    Validates numerical stability (finite equity/metrics), serialization
+    safety (``serialize_metrics_strict`` does not raise), round-lot and
+    partial-fill invariants, and that realized drawdown stays within the
+    scenario limit.
+    """
+    violations: List[str] = []
+    config = BacktestConfig(
+        initial_capital=scenario.initial_capital,
+        fee_rate=scenario.fee_rate,
+        slippage_bps=scenario.slippage_bps,
+        max_slippage_bps=scenario.max_slippage_bps,
+        risk_free_rate=scenario.risk_free_rate,
+        partial_fill_rate=scenario.partial_fill_rate,
+        round_lot_size=scenario.round_lot_size,
+        slippage_seed=scenario.slippage_seed,
+    )
+    risk_config = RiskConfig(
+        max_position_pct=scenario.max_position_pct,
+        max_drawdown_limit=scenario.max_drawdown_limit,
+        stop_loss_pct=scenario.stop_loss_pct,
+        take_profit_pct=scenario.take_profit_pct,
+        max_position_qty=scenario.max_position_qty,
+        allow_shorting=scenario.allow_shorting,
+    )
+    engine = BacktestEngine(config=config, risk_config=risk_config)
+
+    symbol = scenario.symbol
+    prices = scenario.prices
+    signals = scenario.signals
+    n = len(prices)
+    if n == 0:
+        return StressTestResult(
+            name=scenario.name,
+            passed=False,
+            violations=["stress scenario has no price path"],
+        )
+
+    if scenario.timestamps is not None and len(scenario.timestamps) == n:
+        timestamps = scenario.timestamps
+    else:
+        base = datetime(2026, 1, 1, tzinfo=timezone.utc)
+        timestamps = [base + timedelta(minutes=i) for i in range(n)]
+
+    # Intended entry quantities recorded per entry trade so partial-fill and
+    # round-lot invariants can be verified against the fill actually returned.
+    intended_qty: List[float] = []
+
+    try:
+        for i in range(n):
+            price = float(prices[i])
+            if not isfinite(price) or price <= 0:
+                violations.append(f"non-finite or non-positive price at index {i}: {price!r}")
+                price = 50000.0
+            sig = int(signals[i]) if i < len(signals) else 0
+            ts = timestamps[i]
+            current_prices = {symbol: price}
+
+            if sig == 1 and symbol not in engine.positions:
+                qty = engine.calculate_position_size(price, side="long")
+                intended_qty.append(qty)
+                if qty > 0:
+                    engine.execute_trade(symbol, qty, price, "buy", ts)
+            elif sig == -1:
+                if symbol in engine.positions and engine.positions[symbol].side == "long":
+                    pos = engine.positions[symbol]
+                    engine.execute_trade(symbol, pos.quantity, price, "sell", ts)
+                elif symbol not in engine.positions and scenario.allow_shorting:
+                    qty = engine.calculate_position_size(price, side="short")
+                    intended_qty.append(qty)
+                    if qty > 0:
+                        engine.execute_trade(symbol, qty, price, "sell", ts)
+
+            # Enforce SL/TP and drawdown controls on every tick; may execute
+            # exit trades which append to engine.trades.
+            engine.update_equity_curve(current_prices)
+    except Exception as e:  # keep the suite reporting violations instead of crashing
+        violations.append(f"engine raised {type(e).__name__} during replay: {e}")
+
+    # --- Invariant: numerical stability ---
+    equity_curve = [float(v) for v in engine.equity_curve]
+    finite_equity = all(isfinite(v) for v in equity_curve)
+    if not finite_equity:
+        violations.append("equity curve contains a non-finite value")
+
+    metrics = engine.calculate_metrics()
+    scalar_fields = {
+        "total_return": metrics.total_return,
+        "sharpe_ratio": metrics.sharpe_ratio,
+        "sortino_ratio": metrics.sortino_ratio,
+        "max_drawdown": metrics.max_drawdown,
+        "calmar_ratio": metrics.calmar_ratio,
+        "win_rate": metrics.win_rate,
+    }
+    scalar_finite = all(isfinite(float(v)) for v in scalar_fields.values())
+    pf_finite = isfinite(float(metrics.profit_factor))
+    finite = finite_equity and scalar_finite and pf_finite
+    if not finite:
+        violations.append("one or more backtest metrics are non-finite")
+
+    # Drawdown must stay within the scenario limit (risk controls enforced).
+    dd_limit = float(scenario.max_drawdown_limit)
+    if metrics.max_drawdown > dd_limit + 1e-9:
+        violations.append(
+            f"max drawdown {metrics.max_drawdown:.6f} exceeds limit {dd_limit:.6f}"
+        )
+
+    # Round-lot invariant: every intended entry fill is a multiple of the lot.
+    lot_size = float(getattr(config, "round_lot_size", 0.0))
+    if lot_size > 0:
+        for q in intended_qty:
+            if q <= 0:
+                continue
+            remainder = q % lot_size
+            if not (isfinite(remainder) and abs(remainder) < 1e-9):
+                violations.append(f"entry quantity {q} not a multiple of lot size {lot_size}")
+
+    # Partial-fill invariant: filled quantity never exceeds intended quantity
+    # and stays positive when a partial-fill rate is configured.
+    pfr = float(getattr(config, "partial_fill_rate", 0.0))
+    if pfr > 0:
+        for intended, trade in zip(intended_qty, engine.trades[: len(intended_qty)]):
+            if not (0.0 < trade.quantity <= intended + 1e-9):
+                violations.append(
+                    f"partial fill {trade.quantity} out of range for intended {intended}"
+                )
+
+    # --- Invariant: serialization safety (allow_nan=False) ---
+    serializable = True
+    payload: Dict[str, Any] = {
+        "total_return": metrics.total_return,
+        "sharpe_ratio": metrics.sharpe_ratio,
+        "sortino_ratio": metrics.sortino_ratio,
+        "max_drawdown": metrics.max_drawdown,
+        "calmar_ratio": metrics.calmar_ratio,
+        "win_rate": metrics.win_rate,
+        "profit_factor": metrics.profit_factor if pf_finite else 0.0,
+        "total_trades": metrics.total_trades,
+        "equity_final": float(engine.equity_curve[-1]) if engine.equity_curve else float(config.initial_capital),
+    }
+    try:
+        serialize_metrics_strict(payload)
+    except SerializationError:
+        serializable = False
+        violations.append("metrics payload failed strict serialization (allow_nan=False)")
+
+    positions_flat = len(engine.positions) == 0
+    passed = len(violations) == 0
+
+    return StressTestResult(
+        name=scenario.name,
+        passed=passed,
+        violations=violations,
+        total_return=float(metrics.total_return),
+        max_drawdown=float(metrics.max_drawdown),
+        sharpe_ratio=float(metrics.sharpe_ratio),
+        sortino_ratio=float(metrics.sortino_ratio),
+        total_trades=metrics.total_trades,
+        equity_final=float(engine.equity_curve[-1]) if engine.equity_curve else float(config.initial_capital),
+        finite=finite,
+        serializable=serializable,
+        positions_flat=positions_flat,
+    )
+
+
+def crash_scenario() -> StressScenario:
+    """Sustained price crash: long opened then price falls ~40%; stop-loss and
+    drawdown controls must bound the loss and keep metrics finite/serializable."""
+    prices = [50000.0] * 3 + [49900.0, 49500.0, 49000.0, 48000.0, 46000.0, 44000.0, 40000.0, 35000.0, 30000.0] + [30000.0] * 5
+    signals = [1] + [0] * (len(prices) - 1)
+    return StressScenario(
+        name="crash",
+        prices=prices,
+        signals=signals,
+        max_drawdown_limit=0.2,
+        stop_loss_pct=0.02,
+    )
+
+
+def gap_down_scenario() -> StressScenario:
+    """Overnight gap down: long gapped through its stop loss; execution fills
+    at the gap price, position closed, metrics finite and serializable."""
+    prices = [50000.0] * 4 + [44000.0, 44500.0, 45000.0, 46000.0]
+    signals = [1] + [0] * (len(prices) - 1)
+    return StressScenario(
+        name="gap_down",
+        prices=prices,
+        signals=signals,
+        max_drawdown_limit=0.2,
+        stop_loss_pct=0.02,
+    )
+
+
+def vol_spike_scenario() -> StressScenario:
+    """Volatility spike / whipsaw: rapid price oscillations with alternating
+    signals generate turnover; slippage and fees applied, metrics stable."""
+    n = 40
+    prices = [50000.0, 48000.0] + [50000.0 * (1.0 + (0.015 if i % 4 == 0 else -0.015 if i % 4 == 2 else 0.0)) for i in range(2, n)]
+    signals = [0] * n
+    signals[0] = 1   # buy at 50000
+    signals[1] = -1  # sell at 48000 -> guaranteed loss
+    for i in range(5, n, 4):
+        signals[i] = 1
+        if i + 1 < n:
+            signals[i + 1] = -1
+    return StressScenario(
+        name="vol_spike",
+        prices=prices,
+        signals=signals,
+        max_drawdown_limit=0.2,
+        slippage_bps=5.0,
+    )
+
+
+def liquidity_crunch_scenario() -> StressScenario:
+    """Liquidity crunch: partial fills, round lots, and elevated slippage with
+    a cap; uptrend then reversal forces a stop-loss loss so metrics stay finite."""
+    n = 40
+    up = [50000.0 + i * 125.0 for i in range(20)]          # 50000 -> 52375
+    down = [52375.0 - (i - 19) * 418.75 for i in range(20, 40)]  # 52375 -> ~44000
+    prices = up + down
+    signals = [1] + [0] * (n - 1)  # buy once at start, hold; stop triggers on crash
+    return StressScenario(
+        name="liquidity_crunch",
+        prices=prices,
+        signals=signals,
+        max_drawdown_limit=0.2,
+        stop_loss_pct=0.02,
+        take_profit_pct=1.0,  # never hit; stop-loss on the crash drives the close
+        partial_fill_rate=0.5,
+        round_lot_size=0.01,
+        slippage_bps=50.0,
+        max_slippage_bps=100.0,
+        slippage_seed=7,
+    )
+
+
+def all_stress_scenarios() -> List[StressScenario]:
+    """All deterministic stress scenarios (gap, crash, vol spike, liquidity crunch)."""
+    return [crash_scenario(), gap_down_scenario(), vol_spike_scenario(), liquidity_crunch_scenario()]
+
+
+def run_deterministic_stress_suite() -> List[StressTestResult]:
+    """Run every stress scenario and return per-scenario results."""
+    return [run_stress_scenario(s) for s in all_stress_scenarios()]
