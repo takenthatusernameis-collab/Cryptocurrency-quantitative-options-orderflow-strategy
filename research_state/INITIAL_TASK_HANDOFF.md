@@ -35,7 +35,12 @@ Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical st
 - `grep -rn "TODO|FIXME|PLACEHOLDER|HACK|XXX" src/ tests/ scripts/` → no matches
 - No untracked junk. No placeholder scaffolding.
 
-## INITIAL TASK MESSAGE — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
+## Immediate Objectives
+1. Harden Phase 1 (dealer positioning/gamma exposure) — pin/flip zones to production-grade with adversarial tests.
+2. Maintain mypy clean and all tests passing; leave heavy work for next agent after completing ONE end-to-end item.
+
+## Initial Task Message — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
+
 Session start: 2026-10-29T05:30:44Z
 
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP.**
@@ -60,7 +65,8 @@ Focus strictly on `src/features/gamma_exposure.py`, its exports in `src/features
 - Working tree clean. No untracked junk. No TODO/FIXME/placeholder/HACK/XXX.
 - If work remains after completing **ONE** item end-to-end, update **BOTH** handoff files with a new timestamped message and leave heavy work clearly specified with concrete next steps and file paths.
 
-## NEXT FOCUS CAMPAIGN (STRICT PRIORITY)
+## Next Focus Campaign (STRICT PRIORITY)
+
 Project-name priority order (gamma/orderflow/vol/signal/backtest). Phase 1 is the core edge — harden first.
 
 **Remaining heavy work (strict priority):**

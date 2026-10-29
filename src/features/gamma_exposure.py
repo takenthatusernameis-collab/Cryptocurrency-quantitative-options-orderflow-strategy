@@ -282,12 +282,6 @@ def _vectorized_gex(quotes: List[OptionQuote], spot_price: float) -> np.ndarray:
     calls are positive, puts negative in dealer convention. Missing/non-finite
     inputs produce 0.0 and results are sanitized to finite values.
     """
-    """Vectorized per-quote GEX computation returning a float64 array.
-
-    Mirrors the scalar `calculate_gamma_exposure` semantics exactly: missing
-    gamma/OI, zero OI, non-finite inputs, and non-finite results all yield 0.0
-    for that quote. Calls contribute positive GEX, puts negative.
-    """
     n = len(quotes)
     out = np.zeros(n, dtype=np.float64)
     if n == 0:
@@ -296,25 +290,39 @@ def _vectorized_gex(quotes: List[OptionQuote], spot_price: float) -> np.ndarray:
     gamma = np.zeros(n, dtype=np.float64)
     oi = np.zeros(n, dtype=np.float64)
     contract_size = np.ones(n, dtype=np.float64)
-    spot = float(spot_price) if spot_price is not None and spot_price > 0 else 0.0
+    try:
+        spot = float(spot_price) if spot_price is not None and spot_price > 0 else 0.0
+    except Exception:
+        spot = 0.0
     is_put = np.zeros(n, dtype=bool)
 
     for i, q in enumerate(quotes):
-        g = q.gamma
-        o = q.open_interest
+        if q is None:
+            continue
+        g = getattr(q, "gamma", None)
+        o = getattr(q, "open_interest", None)
         if g is None or o is None:
             continue
-        gf = float(g)
-        of = float(o)
+        try:
+            gf = float(g)
+            of = float(o)
+        except Exception:
+            continue
         if not (isfinite(gf) and isfinite(of)):
             continue
         if of == 0:
             continue
         gamma[i] = gf
         oi[i] = of
-        contract_size[i] = float(getattr(q.contract, "contract_size", 1.0))
         try:
-            is_put[i] = str(q.contract.option_type).lower() == "put"
+            contract = getattr(q, "contract", None)
+            contract_size[i] = float(getattr(contract, "contract_size", 1.0))
+        except Exception:
+            contract_size[i] = 1.0
+        try:
+            contract = getattr(q, "contract", None)
+            opt_type = str(getattr(contract, "option_type", "")).lower()
+            is_put[i] = opt_type == "put"
         except Exception:
             is_put[i] = False
 
@@ -324,6 +332,7 @@ def _vectorized_gex(quotes: List[OptionQuote], spot_price: float) -> np.ndarray:
     gex = gamma * oi * contract_size * (spot ** 2) / 100.0
     gex = np.where(np.isfinite(gex), gex, 0.0)
     gex = np.where(is_put, -np.abs(gex), np.abs(gex))
+    gex = np.where(np.isfinite(gex), gex, 0.0)
     return gex
 
 
@@ -333,17 +342,26 @@ def _vectorized_delta_weights(quotes: List[OptionQuote]) -> np.ndarray:
     Weight = 0.5 + 0.5*clamp(|delta|, 0, 1), emphasizing ATM contracts.
     Missing/non-finite deltas fall back to weight 1.0.
     """
-    """Vectorized delta weights (0.5 + 0.5*clamp(|delta|,0,1))."""
     n = len(quotes)
-    w = np.full(n, 0.5, dtype=np.float64)
+    w = np.full(n, 1.0, dtype=np.float64)
     for i, q in enumerate(quotes):
-        d = q.delta
+        if q is None:
+            continue
+        d = getattr(q, "delta", None)
         if d is None:
             continue
-        df = float(d)
+        try:
+            df = float(d)
+        except Exception:
+            continue
         if not isfinite(df):
             continue
-        w[i] = 0.5 + 0.5 * min(1.0, max(0.0, abs(df)))
+        ad = abs(df)
+        if ad < 0.0:
+            ad = 0.0
+        if ad > 1.0:
+            ad = 1.0
+        w[i] = 0.5 + 0.5 * ad
     return w
 
 
@@ -356,20 +374,27 @@ def _vectorized_oi_vol_weights(quotes: List[OptionQuote]) -> np.ndarray:
     n = len(quotes)
     w = np.ones(n, dtype=np.float64)
     for i, q in enumerate(quotes):
-        oi = float(q.open_interest) if q.open_interest is not None else 0.0
-        vol = float(q.volume) if q.volume is not None else 0.0
+        if q is None:
+            continue
+        try:
+            oi = float(q.open_interest) if q.open_interest is not None else 0.0
+            vol = float(q.volume) if q.volume is not None else 0.0
+        except Exception:
+            continue
         if not (isfinite(oi) and isfinite(vol)):
             continue
         total_liq = oi + vol
         if total_liq <= 0:
             continue
         denom = max(1.0, oi) if oi > 0 else (vol + 1.0)
-        if denom <= 0:
+        if denom <= 0 or not isfinite(denom):
             continue
         ww = (oi + 0.5 * vol) / denom
         if not isfinite(ww) or ww < 0:
             ww = 1.0
-        w[i] = min(2.0, ww)
+        if ww > 2.0:
+            ww = 2.0
+        w[i] = ww
     return w
 
 
@@ -479,37 +504,62 @@ def find_gamma_flip_level_refined(gex_by_strike: Dict[float, float]) -> float:
     if not gex_by_strike:
         return 0.0
 
-    sorted_strikes = sorted(gex_by_strike.keys())
+    # Filter and work with finite values
+    cleaned: Dict[float, float] = {}
+    for k, v in gex_by_strike.items():
+        try:
+            kf = float(k)
+            vf = float(v)
+        except Exception:
+            continue
+        if not isfinite(kf) or not isfinite(vf):
+            continue
+        cleaned[kf] = vf
+    if not cleaned:
+        return 0.0
+
+    sorted_strikes = sorted(cleaned.keys())
     # Check all same sign
     signs = []
     for s in sorted_strikes:
-        g = gex_by_strike[s]
-        if not isfinite(g) or abs(g) < 1e-18:
+        g = cleaned[s]
+        if abs(g) < 1e-18:
             signs.append(0)
         elif g > 0:
             signs.append(1)
         else:
             signs.append(-1)
     # If all non-negative or all non-positive, find where it would cross zero
-    # For all negative GEX, flip might be below lowest strike? Or return interpolated
-    # For all positive, flip above highest strike? But return sensible value
     non_zero_signs = [s for s in signs if s != 0]
     if len(non_zero_signs) == 0:
-        return float(sorted_strikes[len(sorted_strikes) // 2]) if sorted_strikes else 0.0
+        mid = len(sorted_strikes) // 2
+        return float(sorted_strikes[mid]) if sorted_strikes else 0.0
     # Check if all same sign
     all_same = all(x == non_zero_signs[0] for x in non_zero_signs)
     if all_same:
         # All positive: gamma flip is below the lowest strike with positive GEX? Unusual
-        # All negative: gamma flip above highest strike? Try to find boundary
+        # All negative: gamma flip above highest strike?
         if non_zero_signs[0] > 0:  # all positive
             # Return slightly below lowest strike for consistency
-            return float(sorted_strikes[0] * 0.995)
+            try:
+                res = float(sorted_strikes[0] * 0.995)
+                if not isfinite(res):
+                    return 0.0
+                return res
+            except Exception:
+                return 0.0
         else:  # all negative
-            return float(sorted_strikes[-1] * 1.005)
+            try:
+                res = float(sorted_strikes[-1] * 1.005)
+                if not isfinite(res):
+                    return 0.0
+                return res
+            except Exception:
+                return 0.0
 
     for i in range(len(sorted_strikes) - 1):
         s1, s2 = sorted_strikes[i], sorted_strikes[i + 1]
-        g1, g2 = gex_by_strike[s1], gex_by_strike[s2]
+        g1, g2 = cleaned[s1], cleaned[s2]
         if not isfinite(g1) or not isfinite(g2):
             continue
         if abs(g1) < 1e-18:
@@ -567,35 +617,61 @@ def calculate_pin_zone(
     ``'total_gex'``. All values are numerically guarded (non-finite -> 0.0).
     """
     try:
-        if not chain or not getattr(chain, "quotes", None):
-            return {"center": 0.0, "lower": 0.0, "upper": 0.0, "width_pct": float(width_pct), "total_gex": 0.0}
-        center = gamma_flip_level_weighted(chain, float(spot_price), weighted=weighted)
-        if not isfinite(center) or center <= 0.0:
+        if chain is None or not getattr(chain, "quotes", None):
+            wp_fallback = float(width_pct)
+            if not isfinite(wp_fallback) or wp_fallback < 0.0:
+                wp_fallback = 0.02
+            if wp_fallback > 0.1:
+                wp_fallback = 0.1
+            return {"center": 0.0, "lower": 0.0, "upper": 0.0, "width_pct": wp_fallback, "total_gex": 0.0}
+        spot_f = float(spot_price)
+        if not isfinite(spot_f):
+            spot_f = 0.0
+        center = gamma_flip_level_weighted(chain, spot_f, weighted=weighted)
+        if not isfinite(center) or center <= 0.0 or center != center:  # check NaN
             # Fallback to spot or refined unweighted
-            center = gamma_flip_level(chain, float(spot_price))
-        if not isfinite(center) or center <= 0.0:
-            center = float(spot_price) if spot_price and float(spot_price) > 0 else 0.0
+            try:
+                center = gamma_flip_level(chain, spot_f)
+            except Exception:
+                center = float("nan")
+        if not isfinite(center) or center <= 0.0 or center != center:
+            if spot_f > 0.0:
+                center = spot_f
+            else:
+                center = 0.0
         wp = float(width_pct)
         if not isfinite(wp) or wp < 0.0:
             wp = 0.02
         if wp > 0.1:  # cap extreme widths for safety
             wp = 0.1
-        lower = center * (1.0 - wp)
-        upper = center * (1.0 + wp)
+        if center <= 0.0:
+            lower = 0.0
+            upper = 0.0
+        else:
+            lower = center * (1.0 - wp)
+            upper = center * (1.0 + wp)
         if not (isfinite(lower) and isfinite(upper)):
             lower, upper = center, center
-        total_gex = calculate_total_gex(chain, float(spot_price))
+        try:
+            total_gex = calculate_total_gex(chain, spot_f)
+        except Exception:
+            total_gex = 0.0
         if not isfinite(total_gex):
             total_gex = 0.0
         return {
-            "center": float(center),
-            "lower": float(lower),
-            "upper": float(upper),
+            "center": float(center) if isfinite(center) else 0.0,
+            "lower": float(lower) if isfinite(lower) else 0.0,
+            "upper": float(upper) if isfinite(upper) else 0.0,
             "width_pct": float(wp),
             "total_gex": float(total_gex),
         }
     except Exception:
-        return {"center": 0.0, "lower": 0.0, "upper": 0.0, "width_pct": float(width_pct) if isfinite(width_pct) else 0.02, "total_gex": 0.0}
+        wp_fallback = float(width_pct)
+        if not isfinite(wp_fallback) or wp_fallback < 0.0:
+            wp_fallback = 0.02
+        if wp_fallback > 0.1:
+            wp_fallback = 0.1
+        return {"center": 0.0, "lower": 0.0, "upper": 0.0, "width_pct": wp_fallback, "total_gex": 0.0}
 
 
 def calculate_flip_zones(
@@ -610,30 +686,53 @@ def calculate_flip_zones(
     finite-guarded.
     """
     try:
-        if not chain or not getattr(chain, "quotes", None):
-            return {"flip_level": 0.0, "zone_low": 0.0, "zone_high": 0.0, "band_pct": float(band_pct)}
-        flip = gamma_flip_level(chain, float(spot_price))
-        if not isfinite(flip) or flip <= 0.0:
-            flip = gamma_flip_level_weighted(chain, float(spot_price), weighted="delta")
-        if not isfinite(flip) or flip <= 0.0:
-            flip = float(spot_price) if spot_price and float(spot_price) > 0 else 0.0
+        if chain is None or not getattr(chain, "quotes", None):
+            bp_fallback = float(band_pct)
+            if not isfinite(bp_fallback) or bp_fallback < 0.0:
+                bp_fallback = 0.03
+            if bp_fallback > 0.15:
+                bp_fallback = 0.15
+            return {"flip_level": 0.0, "zone_low": 0.0, "zone_high": 0.0, "band_pct": bp_fallback}
+        spot_f = float(spot_price)
+        if not isfinite(spot_f):
+            spot_f = 0.0
+        flip = gamma_flip_level(chain, spot_f)
+        if not isfinite(flip) or flip <= 0.0 or flip != flip:
+            try:
+                flip = gamma_flip_level_weighted(chain, spot_f, weighted="delta")
+            except Exception:
+                flip = float("nan")
+        if not isfinite(flip) or flip <= 0.0 or flip != flip:
+            if spot_f > 0.0:
+                flip = spot_f
+            else:
+                flip = 0.0
         bp = float(band_pct)
         if not isfinite(bp) or bp < 0.0:
             bp = 0.03
         if bp > 0.15:
             bp = 0.15
-        zone_low = flip * (1.0 - bp)
-        zone_high = flip * (1.0 + bp)
+        if flip <= 0.0:
+            zone_low = 0.0
+            zone_high = 0.0
+        else:
+            zone_low = flip * (1.0 - bp)
+            zone_high = flip * (1.0 + bp)
         if not (isfinite(zone_low) and isfinite(zone_high)):
             zone_low, zone_high = flip, flip
         return {
-            "flip_level": float(flip),
-            "zone_low": float(zone_low),
-            "zone_high": float(zone_high),
+            "flip_level": float(flip) if isfinite(flip) else 0.0,
+            "zone_low": float(zone_low) if isfinite(zone_low) else 0.0,
+            "zone_high": float(zone_high) if isfinite(zone_high) else 0.0,
             "band_pct": float(bp),
         }
     except Exception:
-        return {"flip_level": 0.0, "zone_low": 0.0, "zone_high": 0.0, "band_pct": float(band_pct) if isfinite(band_pct) else 0.03}
+        bp_fallback = float(band_pct)
+        if not isfinite(bp_fallback) or bp_fallback < 0.0:
+            bp_fallback = 0.03
+        if bp_fallback > 0.15:
+            bp_fallback = 0.15
+        return {"flip_level": 0.0, "zone_low": 0.0, "zone_high": 0.0, "band_pct": bp_fallback}
 
 
 # Backwards-compatible aliases
