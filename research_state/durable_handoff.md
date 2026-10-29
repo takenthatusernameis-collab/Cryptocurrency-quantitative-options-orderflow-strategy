@@ -1,10 +1,10 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T13:14:06Z
+Timestamp (UTC): 2026-10-29T14:04:08Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 239 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T13:14:06Z
+State: 253 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T13:14:06Z
 
-Session start: 2026-10-29T13:14:06Z
+Session start: 2026-10-29T14:04:08Z
 
 ## Initial Task Message
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP. NO SCORCHED-EARTH REWRITES.**
@@ -14,7 +14,7 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 **BASELINE (VERIFIED):** 239 tests passing, mypy clean, working tree clean, zero TODO/FIXME/PLACEHOLDER/HACK/XXX. Bottlenecks: none detected; imports, types, and deps all resolve cleanly.
 
 ## Immediate Objectives (FIRST ACTIONS)
-1. **Verify green baseline**: `PYTHONPATH=/home/runner/work/_temp/kilo-home/.local/lib/python3.12/site-packages:/home/runner/work/_temp/kilo-home/.local/bin python -m pytest -q` >=239 passing. `PYTHONPATH=/home/runner/work/_temp/kilo-home/.local/lib/python3.12/site-packages:/home/runner/work/_temp/kilo-home/.local/bin python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean. `git status` clean. Grep for TODO/FIXME/PLACEHOLDER/HACK/XXX in src/tests/scripts returns zero.
+1. **Verify green baseline**: `PYTHONPATH=/home/runner/work/_temp/kilo-home/.local/lib/python3.12/site-packages:/home/runner/work/_temp/kilo-home/.local/bin python -m pytest -q` >=253 passing. `PYTHONPATH=/home/runner/work/_temp/kilo-home/.local/lib/python3.12/site-packages:/home/runner/work/_temp/kilo-home/.local/bin python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean. `git status` clean. Grep for TODO/FIXME/PLACEHOLDER/HACK/XXX in src/tests/scripts returns zero.
 2. **Execute the next heavy campaign below end-to-end.** Do not stop at scaffolding. Complete fully with tests + mypy + serialization invariants.
 3. **Handoff if stopping**: Update BOTH handoff files with fresh UTC timestamp, concrete summary, exact remaining targets with file paths, and next steps. Keep byte-for-byte identical.
 
@@ -44,7 +44,7 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 ### Phase 5: Adversarial Testing & Hardening
 - Create `tests/test_portfolio_walkforward_correlation_adversarial.py` with adversarial cases (correlation spike, diversification breakdown, constraint breaches, tz-aware ordering, determinism).
 - Verify serialization with `allow_nan=False`, finite metrics, edge cases.
-- Full verification pass (>=239+N tests, mypy clean, clean tree).
+- Full verification pass (>=253+N tests, mypy clean, clean tree).
 
 ### Concrete Targets (exact files)
 - `src/backtest/engine.py` - Add portfolio walk-forward/orchestrator: cross-symbol correlation estimation (rolling/expanding, time-aligned, no lookahead), correlation-constrained sizing/allocation, regime-dependent costs/slippage mapping, portfolio-level OOS aggregation with equity/trades across symbols, strict finite/serialization invariants (extend `WalkForwardResults`/add `PortfolioWalkForwardResults` with `serialize_oos`/`assert_oos_finite` parity), purge/embargo respected, tz-normalized time ordering, determinism.
