@@ -1,22 +1,27 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T07:26:00Z
+Timestamp (UTC): 2026-10-29T07:26:23Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 216 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T07:26:00Z
+State: 216 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T07:26:23Z
 
-Session start: 2026-10-29T07:26:00Z
+Session start: 2026-10-29T07:26:23Z
+
+## Initial Task Message
+**EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP. NO SCORCHED-EARTH REWRITES.**
+
+You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. The codebase has Phases 1-2 hardened and verified green (216 tests passing, mypy clean). **CURRENT MANDATE: PHASE 3 — VOLATILITY SURFACE DYNAMICS.** Pick EXACTLY ONE coherent heavy deliverable in `src/features/volatility.py` (skew/term structure/RR, ATM term structure, calendar spreads, max pain), harden it end-to-end against degenerate surfaces (sparse strikes/expiries, NaN/Inf, all-equal values, zero totals), vectorize where sensible with parity to scalar paths, enforce finite outputs/clamps, add/strengthen adversarial tests if needed, verify exports in `src/features/__init__.py`, run full suite + mypy, keep working tree clean. Do NOT regress Phases 1-2. Complete that ONE item fully before handing off with concrete remaining targets.
 
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP. NO SCORCHED-EARTH REWRITES.**
 
-### IMMEDIATE OBJECTIVES (FIRST ACTIONS)
+### Immediate Objectives (FIRST ACTIONS)
 
-1. **Remove the handoff format bottleneck**: Update `research_state/INITIAL_TASK_HANDOFF.md` and `research_state/durable_handoff.md` to include the exact required section headers (`Initial Task Message`, `Immediate Objectives`, `Next Focus Campaign`, `MANDATE`) so `tests/test_campaign_resume.py::test_handoff_has_required_sections` passes. Keep both files byte-for-byte identical with a fresh UTC timestamp.
-2. **Verify green suite**: After the handoff fix, run `python -m pytest -q` → must be 216 passing (back to the verified green state). Run `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → clean.
-3. **Confirm clean tree**: `git status` clean, zero `TODO/FIXME/PLACEHOLDER/HACK/XXX` matches.
+1. **Verify green baseline**: Run `python -m pytest -q` → must be 216 passing. Run `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → clean. Confirm `git status` clean and zero TODO/FIXME/PLACEHOLDER/HACK/XXX.
+2. **Attack Phase 3 with precision**: Focus on `src/features/volatility.py`. Strengthen ATM term structure / skew term structure / calendar spread coherence / max pain against adversarial cases (few points, NaN/Inf, inverted curves, division by zero). Ensure numerical guards, safe_divide, finite checks throughout.
+3. **Harden & test**: Add focused adversarial tests if coverage gaps exist for degenerate surfaces; maintain parity between scalar/vectorized paths. Update both handoff files with fresh timestamp if leaving heavy work unfinished.
 
 ### ABSOLUTE FIRST ACTION (HEAVY, END-TO-END)
 
-**PHASE 2 — ORDERFLOW MICROSTRUCTURE: COMPLETED (HARDENED).** All orderflow paths (signed volume/cumulative delta/vectorized parity, VPIN/toxicity, absorption, aggressive/passive flow) are adversarially hardened with finite guards, clamping, and parity checks. 216 tests passing, mypy clean. Move to **PHASE 3 — VOLATILITY SURFACE DYNAMICS** as next heavy deliverable. Do **NOT** regress Phase 2; keep defenses intact. Pick **EXACTLY ONE** coherent heavy deliverable for Phase 3 and take it **ALL THE WAY TO DONE**.**
+**PHASE 2 — ORDERFLOW MICROSTRUCTURE: COMPLETED (HARDENED).** All orderflow paths are adversarially hardened. 216 tests passing, mypy clean. Move to **PHASE 3 — VOLATILITY SURFACE DYNAMICS** as next heavy deliverable. Do **NOT** regress Phase 2; keep defenses intact. Pick **EXACTLY ONE** coherent heavy deliverable for Phase 3 and take it **ALL THE WAY TO DONE**.
 
 ### CONCRETE TARGETS (COMPLETED) — FOCUS: `src/features/orderflow.py`
 Phase 2 completed and verified. Adversarial hardening in place for signed volume/cumulative delta (scalar+vectorized parity), VPIN/toxicity (bucket guards, capping, clamping), absorption/aggressive flow (degenerate/NaN/Inf), multi-horizon orderflow with decay weighting (finite/clamp guarantees). Exports/integration verified; tests passing.
@@ -46,7 +51,7 @@ Project-name priority is law. Do not reorder.
 4. **Phase 4 — Regime-aware signal engineering**: cross-features, calibration, normalization, feature leakage prevention, determinism.
 5. **Phase 5 — Rigorous backtesting**: fills/slippage/costs/partial fills, round lots, walk-forward/OOS, stress, transaction costs, sanitized metrics, strict no-lookahead.
 
-## Mandate (Non-Negotiable)
+## MANDATE (Non-Negotiable)
 - **Heavy engineering only.** Mathematical correctness is mandatory.
 - **Numerical stability required.** Vectorize where sensible. Defend all public paths.
 - **No placeholders/TODOs/FIXMEs/HACKs/XXX.** If you add code, it must be production-grade.
