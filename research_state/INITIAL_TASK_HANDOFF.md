@@ -51,6 +51,8 @@ Session start: 2026-10-29T06:22:12Z
 
 Do **ONE** coherent heavy item completely end-to-end (implementation + adversarial tests + mypy clean + full suite passing). Leave remaining heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
 
+### Immediate Objectives
+
 ### CONCRETE TARGETS (MUST HIT)
 Focus strictly on `src/features/orderflow.py`, its exports in `src/features/__init__.py`, and harden/add adversarial tests (e.g. `tests/test_pipeline_integration.py`, `tests/test_signals_regime.py`, or new focused module). Specifically:
 

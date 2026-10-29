@@ -107,9 +107,11 @@ def calculate_cumulative_delta_robust(trades: List[Trade], window: Optional[int]
 def calculate_cumulative_delta_vectorized(trades: List[Trade]) -> float:
     """Vectorized cumulative delta (buy volume - sell volume).
 
-    Semantically identical to `calculate_cumulative_delta` but uses numpy
+    Semantically identical to `calculate_cumulative_delta` (raises
+    ``NonFiniteResultError`` on non-finite accumulation) but uses numpy
     accumulation for large trade lists.
     """
+    ctx = {"function": "calculate_cumulative_delta_vectorized"}
     try:
         if not trades:
             return 0.0
@@ -134,39 +136,58 @@ def calculate_cumulative_delta_vectorized(trades: List[Trade]) -> float:
                 operation="calculate_cumulative_delta_vectorized",
                 module="src.features.orderflow",
                 symbol=getattr(trades[0], "symbol", None) if trades else None,
-                extra={"trade_count": len(trades)},
+                extra={"trade_count": len(trades), **ctx},
             )
-            return 0.0
+            raise NonFiniteResultError(
+                "cumulative delta not finite (vectorized)", context={**ctx}
+            )
         return delta
+    except (NonFiniteResultError, FeatureError):
+        raise
     except Exception as e:
-        raise FeatureError("Failed to calculate vectorized cumulative delta", context={"function": "calculate_cumulative_delta_vectorized"}, cause=e)
+        raise FeatureError("Failed to calculate vectorized cumulative delta", context={**ctx}, cause=e)
 
 
 def calculate_signed_volume_vectorized(trades: List[Trade], window: Optional[int] = None) -> float:
-    """Vectorized signed volume with optional windowing."""
-    if not trades:
-        return 0.0
-    trades_list = trades[-window:] if window is not None and window > 0 else trades
-    if not trades_list:
-        return 0.0
-    sides = np.empty(len(trades_list), dtype=object)
-    sizes = np.zeros(len(trades_list), dtype=np.float64)
-    for i, trade in enumerate(trades_list):
-        try:
-            sides[i] = str(trade.side).lower()
-        except Exception:
-            sides[i] = ""
-        try:
-            sizes[i] = float(trade.size)
-        except Exception:
-            sizes[i] = float("nan")
-    valid = np.isfinite(sizes)
-    buy_mask = (sides == "buy") & valid
-    sell_mask = (sides == "sell") & valid
-    signed_vol = float(sizes[buy_mask].sum() - sizes[sell_mask].sum())
-    if not isfinite(signed_vol):
-        return 0.0
-    return signed_vol
+    """Vectorized signed volume with optional windowing.
+
+    Semantically identical to `calculate_signed_volume` but uses numpy
+    accumulation. Returns 0.0 on empty input; never leaks NaN/Inf.
+    """
+    ctx = {"function": "calculate_signed_volume_vectorized", "window": window}
+    try:
+        if not trades:
+            return 0.0
+        trades_list = trades[-window:] if window is not None and window > 0 else trades
+        if not trades_list:
+            return 0.0
+        sides = np.empty(len(trades_list), dtype=object)
+        sizes = np.zeros(len(trades_list), dtype=np.float64)
+        for i, trade in enumerate(trades_list):
+            try:
+                sides[i] = str(trade.side).lower()
+            except Exception:
+                sides[i] = ""
+            try:
+                sizes[i] = float(trade.size)
+            except Exception:
+                sizes[i] = float("nan")
+        valid = np.isfinite(sizes)
+        buy_mask = (sides == "buy") & valid
+        sell_mask = (sides == "sell") & valid
+        signed_vol = float(sizes[buy_mask].sum() - sizes[sell_mask].sum())
+        if not isfinite(signed_vol):
+            log_error_with_context(
+                "signed volume not finite (vectorized)",
+                operation="calculate_signed_volume_vectorized",
+                module="src.features.orderflow",
+                symbol=getattr(trades_list[0], "symbol", None) if trades_list else None,
+                extra={**ctx},
+            )
+            return 0.0
+        return signed_vol
+    except Exception as e:
+        raise FeatureError("Failed to calculate vectorized signed volume", context={**ctx}, cause=e)
 
 
 def calculate_orderflow_imbalance_vectorized(trades: List[Trade], window: int = 100) -> float:
