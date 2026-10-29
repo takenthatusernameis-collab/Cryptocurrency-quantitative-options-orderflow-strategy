@@ -443,11 +443,39 @@ class CompositeSignalGenerator:
             confidence = 0.0
         confidence = _clamp(confidence, 0.0, 1.0)
 
-        # Additional penalty during uncertain regime transitions
-        raw_regime_check_final = self._detect_regime_raw(total_gex_s, iv_skew_s, put_call_ratio_s)
-        if raw_regime_check_final != self._prev_regime and self._regime_stability_count < self._hysteresis_threshold:
-            confidence = confidence * self._regime_flip_penalty
+        confidence = confidence * self._regime_flip_penalty
             confidence = _clamp(confidence, 0.0, 1.0)
+
+        # Build metadata with IV surface and Greeks info (store them as accepted)
+        meta: Dict[str, Any] = {}
+        try:
+            if iv_surface is not None:
+                meta["iv_surface"] = iv_surface
+        except Exception:
+            pass
+        try:
+            if greeks_summary is not None:
+                meta["greeks_summary"] = greeks_summary
+        except Exception:
+            pass
+        try:
+            if pin_zone_info:
+                meta["pin_zone"] = pin_zone_info
+            if flip_zone_info:
+                meta["flip_zones"] = flip_zone_info
+        except Exception:
+            pass
+
+        signal = Signal(
+            symbol=symbol,
+            direction=direction,
+            strength=composite,
+            confidence=confidence,
+            components=components,
+            regime=regime,
+            metadata=meta if meta else None,
+        )
+        return signal
 
         trans_calibration_final = self._calibrate_regime_transition(raw_regime_check_final, self._prev_regime, total_gex_s, iv_skew_s, put_call_ratio_s)
         if trans_calibration_final < 1.0:
@@ -529,6 +557,8 @@ class CompositeSignalGenerator:
                 iv_skew = it.get("iv_skew", it.get("skew", 0.0))
                 put_call_ratio = it.get("put_call_ratio", it.get("pcr", 1.0))
                 chain = it.get("chain")
+                iv_surface = it.get("iv_surface") or it.get("iv_surfaces")
+                greeks_summary = it.get("greeks_summary") or it.get("greeks")
                 sig = self.generate_signal(
                     symbol=symbol,
                     spot_price=spot_price,
@@ -538,6 +568,8 @@ class CompositeSignalGenerator:
                     iv_skew=iv_skew,
                     put_call_ratio=put_call_ratio,
                     chain=chain,
+                    iv_surface=iv_surface,
+                    greeks_summary=greeks_summary,
                 )
                 results.append(sig)
             except Exception:
