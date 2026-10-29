@@ -1634,9 +1634,12 @@ class PortfolioWalkForwardBacktest:
                     d_arr = _np.sqrt(_np.diag(C_psd))  # type: ignore
                     d_arr = _np.where(d_arr < 1e-18, 1e-18, d_arr)  # type: ignore
                     C_psd = C_psd / (d_arr[:, None] * d_arr[None, :])  # type: ignore
-                    C_out_list = C_psd.tolist()  # type: ignore
+                    C_out_list: List[List[float]] = [[0.0] * n_syms for _ in range(n_syms)]
+                    for _i in range(n_syms):
+                        for _j in range(n_syms):
+                            C_out_list[_i][_j] = float(C_psd[_i, _j])  # type: ignore[index]
                 except Exception:
-                    C_out_list = C_arr.tolist()  # type: ignore
+                    C_out_list = [[float(C_arr[_i, _j]) for _j in range(n_syms)] for _i in range(n_syms)]  # type: ignore[index]
                 for i in range(n_syms):
                     C_out_list[i][i] = 1.0
                     for j in range(n_syms):
