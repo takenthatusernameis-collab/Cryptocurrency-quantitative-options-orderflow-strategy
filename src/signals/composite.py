@@ -74,6 +74,11 @@ class CompositeSignalGenerator:
         self._regime_stability_count: int = 0
         self._hysteresis_threshold: int = 2  # Require N confirmations to flip
         self._regime_flip_penalty: float = 0.7  # Confidence penalty during regime transition
+        # Regime transition calibration and adversarial disagreement tracking
+        self._regime_transition_history: List[Dict[str, Any]] = []
+        self._disagreement_history: List[Dict[str, Any]] = []
+        self._transition_calibration_factor: float = 0.85
+        self._max_history: int = 1000
 
     def _detect_regime_raw(self, total_gex: float, iv_skew: float, put_call_ratio: float) -> str:
         gex = _safe_float(total_gex, 0.0)
@@ -123,17 +128,67 @@ class CompositeSignalGenerator:
         """Reset regime hysteresis state (useful for backtesting independence)."""
         self._prev_regime = "neutral"
         self._regime_stability_count = 0
+        self._regime_transition_history.clear()
+        self._disagreement_history.clear()
 
-    def _get_weights(self, regime: str) -> Dict[str, float]:
-        w = self.regime_weights.get(regime, self.regime_weights["neutral"]).copy()
-        s = sum(w.values())
-        if not isfinite(s) or s <= 0.0:
-            w = self.regime_weights["neutral"].copy()
-            s = sum(w.values())
-        if s > 0.0:
-            for k in list(w.keys()):
-                w[k] = w[k] / s
-        return w
+    def _calibrate_regime_transition(
+        self,
+        raw_regime: str,
+        current_regime: str,
+        total_gex: float,
+        iv_skew: float,
+        put_call_ratio: float,
+    ) -> float:
+        """Calibrate regime transitions based on historical patterns and adversarial conditions."""
+        calibration_penalty = 1.0
+        # Track transition
+        if raw_regime != current_regime:
+            transition_info = {
+                "from": current_regime,
+                "to": raw_regime,
+                "gex": total_gex,
+                "skew": iv_skew,
+                "pcr": put_call_ratio,
+                "stability_count": self._regime_stability_count,
+            }
+            self._regime_transition_history.append(transition_info)
+            if len(self._regime_transition_history) > self._max_history:
+                self._regime_transition_history = self._regime_transition_history[-self._max_history :]
+            # More aggressive penalty for rapid/unconfirmed transitions
+            if self._regime_stability_count < self._hysteresis_threshold:
+                calibration_penalty = self._transition_calibration_factor * self._regime_flip_penalty
+            elif self._regime_stability_count < self._hysteresis_threshold + 1:
+                calibration_penalty = max(0.75, self._transition_calibration_factor)
+            # Extra calibration for adversarial disagreement patterns
+            if len(self._disagreement_history) > 0:
+                recent_disagreements = [d for d in self._disagreement_history[-10:] if d.get("severe", False)]
+                if len(recent_disagreements) >= 3:
+                    calibration_penalty *= 0.8
+        return calibration_penalty
+
+    def _analyze_disagreement_patterns(self, components: Dict[str, float]) -> Dict[str, Any]:
+        """Analyze adversarial disagreement patterns among components for calibration."""
+        comp_values = list(components.values())
+        if not comp_values:
+            return {"severe": False, "ratio": 0.0}
+        comp_signs = [_sign(v) for v in comp_values if abs(v) > 1e-12]
+        if len(comp_signs) < 2:
+            return {"severe": False, "ratio": 1.0}
+        has_pos = any(s > 0 for s in comp_signs)
+        has_neg = any(s < 0 for s in comp_signs)
+        if has_pos and has_neg:
+            pos_count = sum(1 for s in comp_signs if s > 0)
+            neg_count = sum(1 for s in comp_signs if s < 0)
+            majority_ratio = max(pos_count, neg_count) / len(comp_signs)
+            if not isfinite(majority_ratio):
+                majority_ratio = 0.5
+            severe = majority_ratio < 0.67  # High disagreement
+            analysis = {"severe": severe, "ratio": majority_ratio, "pos_count": pos_count, "neg_count": neg_count}
+            self._disagreement_history.append(analysis)
+            if len(self._disagreement_history) > self._max_history:
+                self._disagreement_history = self._disagreement_history[-self._max_history :]
+            return analysis
+        return {"severe": False, "ratio": 1.0}
 
     def generate_signal(
         self,
@@ -220,6 +275,8 @@ class CompositeSignalGenerator:
                 majority_ratio = max(pos_count, neg_count) / len(comp_signs)
                 if not isfinite(majority_ratio):
                     majority_ratio = 0.5
+                # Track disagreement patterns
+                self._analyze_disagreement_patterns(components)
                 if majority_ratio >= 0.75:
                     composite = composite * 0.85
                 elif majority_ratio >= 0.67:
@@ -227,11 +284,20 @@ class CompositeSignalGenerator:
                 else:
                     composite = composite * 0.4
                 composite = _clamp(composite, -1.0, 1.0)
+        else:
+            # Still track for consistency
+            self._analyze_disagreement_patterns(components)
 
         # Apply regime transition penalty for stability
         raw_regime_check = self._detect_regime_raw(total_gex_s, iv_skew_s, put_call_ratio_s)
         if raw_regime_check != self._prev_regime and self._regime_stability_count < self._hysteresis_threshold:
             composite = composite * self._regime_flip_penalty
+            composite = _clamp(composite, -1.0, 1.0)
+
+        # Enhanced regime transition calibration
+        trans_calibration = self._calibrate_regime_transition(raw_regime_check, self._prev_regime, total_gex_s, iv_skew_s, put_call_ratio_s)
+        if trans_calibration < 1.0:
+            composite = composite * trans_calibration
             composite = _clamp(composite, -1.0, 1.0)
 
         if composite > 0.3:
@@ -274,6 +340,11 @@ class CompositeSignalGenerator:
             confidence = confidence * self._regime_flip_penalty
             confidence = _clamp(confidence, 0.0, 1.0)
 
+        trans_calibration_final = self._calibrate_regime_transition(raw_regime_check_final, self._prev_regime, total_gex_s, iv_skew_s, put_call_ratio_s)
+        if trans_calibration_final < 1.0:
+            confidence = confidence * (0.9 + 0.1 * trans_calibration_final)
+            confidence = _clamp(confidence, 0.0, 1.0)
+
         return Signal(
             symbol=symbol,
             direction=direction,
@@ -283,6 +354,29 @@ class CompositeSignalGenerator:
             regime=regime,
             metadata={"pin_zone": pin_zone_info, "flip_zones": flip_zone_info} if (pin_zone_info or flip_zone_info) else None,
         )
+
+    def _get_weights(self, regime: str) -> Dict[str, float]:
+        w = self.regime_weights.get(regime, self.regime_weights["neutral"]).copy()
+        s = sum(w.values())
+        if not isfinite(s) or s <= 0.0:
+            w = self.regime_weights["neutral"].copy()
+            s = sum(w.values())
+        if s > 0.0:
+            for k in list(w.keys()):
+                w[k] = w[k] / s
+        return w
+
+    def get_regime_stability_metrics(self) -> Dict[str, Any]:
+        """Get regime transition calibration and stability metrics."""
+        return {
+            "current_regime": self._prev_regime,
+            "stability_count": self._regime_stability_count,
+            "hysteresis_threshold": self._hysteresis_threshold,
+            "transition_count": len(self._regime_transition_history),
+            "disagreement_count": len(self._disagreement_history),
+            "recent_transitions": self._regime_transition_history[-5:] if self._regime_transition_history else [],
+            "recent_disagreements": self._disagreement_history[-5:] if self._disagreement_history else [],
+        }
 
     def generate_signals_batch(
         self,
