@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (POINTER TO SINGLE DURABLE HANDOFF)
-Timestamp (UTC): 2026-10-29T21:01:52Z
+Timestamp (UTC): 2026-10-29T21:04:25Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 
 **SINGLE SOURCE OF TRUTH:** `research_state/durable_handoff.md`
@@ -30,4 +30,4 @@ Phases:
 
 **MANDATORY GATE:** All acceptance criteria in `durable_handoff.md` must pass simultaneously. Session must not end mid-Phase-6 without updating handoff.
 
-**M mandate:** Heavy quant only. Correctness mandatory. Numerical stability required. No placeholders/TODOs/FIXMEs/HACKs/XXX. Production-grade. Complete end-to-end. Bottlenecks removed immediately. Determinism preserved. Minimal backward-compatible changes. Verify after every change. Read `durable_handoff.md` first.
+**MANDATE:** Heavy quant only. Correctness mandatory. Numerical stability required. No placeholders/TODOs/FIXMEs/HACKs/XXX. Production-grade. Complete end-to-end. Bottlenecks removed immediately. Determinism preserved. Minimal backward-compatible changes. Verify after every change. Read `durable_handoff.md` first.
