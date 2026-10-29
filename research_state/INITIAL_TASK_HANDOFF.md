@@ -1,49 +1,24 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T07:19:57Z
+Timestamp (UTC): 2026-10-29T07:21:01Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 216 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T07:19:57Z (NO DRIFT)
+State: 215 TESTS PASSING | 1 FAILING (test_campaign_resume.py::test_handoff_has_required_sections — handoff section format bottleneck) | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T07:21:01Z
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
-## PROJECT-NAME-DERIVED SPECIFICATION (PRIORITIZED - DO NOT DEVIATE)
+## Initial Task Message — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
 
-"Cryptocurrency-quantitative-options-orderflow-strategy" — enforce this strict order of priority for every change:
-
-1. **Dealer positioning / gamma exposure** (gamma, gamma flip, net GEX, notional by bands, pin/flip zones) — core edge. Numerically correct and vectorized.
-2. **Orderflow microstructure** (signed volume, cumulative delta, VPIN/toxicity, absorption, aggressive/passive flow) — flow confirmation. Adversarially robust.
-3. **Volatility surface dynamics** (skew/term structure/RR, ATM term structure, calendar spreads, max pain) — regime/context. Guard degenerate surfaces.
-4. **Regime-aware signal engineering** (cross-features, calibration, normalization, leakage prevention) — actionable signals. Determinism required.
-5. **Rigorous backtesting** (fills/slippage/costs/partial fills, round lots, walk-forward/OOS, stress, transaction costs) — ground truth. No lookahead. Metrics sanitized.
-
-Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical stability required. Vectorize where sensible. No shortcuts.
-
-## BOTTLENECK REMOVAL (APPLIED)
-
-- **Single source of truth**: Both canonical handoff files (`research_state/INITIAL_TASK_HANDOFF.md`, `research_state/durable_handoff.md`) are byte-for-byte mirrors of this document.
-- **Ambiguity eliminated**: Exactly two canonical handoff files exist. All future agents must read both or treat either as canonical.
-- **Types enforced**: `python -m mypy src/ --disallow-untyped-defs --warn-return-any` is clean.
-- **Tests current**: `216 passed, 1 warning (deprecation in test_schemas only)`. Do not trust older numbers.
-- **Clean tree**: Working tree clean, no untracked junk, no TODO/FIXME/PLACEHOLDER/HACK/XXX.
-- **Stale history ignored**: Historical Kilo run failures (Oct 27) are irrelevant. Proceed strictly from the verified state below.
-
-## VERIFIED STATE (RE-VERIFIED 2026-10-29T07:19:57Z)
-
-- `python -m pytest -q` → 216 passed, 1 warning (deprecation in test_schemas only)
-- `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → Success: no issues found in 28 source files
-- `git status` → On branch main, working tree clean
-- `grep -rn "TODO\|FIXME\|PLACEHOLDER\|HACK\|XXX" src/ tests/ scripts/` → no matches
-- No untracked files. No placeholder scaffolding.
-
-## COMPLETED (PREVIOUS SESSION)
-- **Phase 1 hardened end-to-end**: `src/features/gamma_exposure.py` — `calculate_pin_zone`, `calculate_flip_zones` made adversarial-safe (NaN/Inf/spot<=0/degenerate/all-same-sign GEX), caps enforced (width_pct<=0.1, band_pct<=0.15), finite-guarded fallbacks. Safe chain-aware integration into `src/signals/composite.py` with try/except and metadata. Mypy clean + full suite passing.
-
-## INITIAL TASK MESSAGE — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
-
-Session start: 2026-10-29T07:19:57Z
+Session start: 2026-10-29T07:21:01Z
 
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP. NO SCORCHED-EARTH REWRITES.**
 
+### IMMEDIATE OBJECTIVES (FIRST ACTIONS)
+
+1. **Remove the handoff format bottleneck**: Update `research_state/INITIAL_TASK_HANDOFF.md` and `research_state/durable_handoff.md` to include the exact required section headers (`Initial Task Message`, `Immediate Objectives`, `Next Focus Campaign`, `MANDATE`) so `tests/test_campaign_resume.py::test_handoff_has_required_sections` passes. Keep both files byte-for-byte identical with a fresh UTC timestamp.
+2. **Verify green suite**: After the handoff fix, run `python -m pytest -q` → must be 216 passing (back to the verified green state). Run `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → clean.
+3. **Confirm clean tree**: `git status` clean, zero `TODO/FIXME/PLACEHOLDER/HACK/XXX` matches.
+
 ### ABSOLUTE FIRST ACTION (HEAVY, END-TO-END)
+
 **START PHASE 2 — ORDERFLOW MICROSTRUCTURE. HARDEN TO PRODUCTION-GRADE.**
 
 Pick **EXACTLY ONE** coherent heavy deliverable from the concrete targets below, take it **ALL THE WAY TO DONE** (implementation + adversarial tests + mypy clean + full test suite passing). Do **NOT** scaffold multiple subsystems at once. Leave the rest explicitly specified for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
@@ -64,7 +39,7 @@ Harden and verify the following with adversarial safety, numerical stability, an
 - `grep -rn "TODO\|FIXME\|PLACEHOLDER\|HACK\|XXX" src/ tests/ scripts/` → zero matches.
 - If **ANY** heavy work remains after completing exactly one item end-to-end, **UPDATE BOTH** `research_state/INITIAL_TASK_HANDOFF.md` and `research_state/durable_handoff.md` with a fresh UTC timestamp, a concise summary of what was done, exact remaining targets with file paths, and concrete next steps. Keep them byte-for-byte identical.
 
-## NEXT FOCUS CAMPAIGN (STRICT PRIORITY - EXECUTE IN ORDER)
+## Next Focus Campaign (Strict Priority - Execute In Order)
 Project-name priority is law. Do not reorder.
 
 1. **Phase 1 — Dealer positioning/gamma exposure**: ✅ COMPLETED (hardened pin/flip zones, adversarial-safe, safely integrated).
@@ -73,7 +48,7 @@ Project-name priority is law. Do not reorder.
 4. **Phase 4 — Regime-aware signal engineering**: cross-features, calibration, normalization, feature leakage prevention, determinism.
 5. **Phase 5 — Rigorous backtesting**: fills/slippage/costs/partial fills, round lots, walk-forward/OOS, stress, transaction costs, sanitized metrics, strict no-lookahead.
 
-## MANDATE (NON-NEGOTIABLE)
+## Mandate (Non-Negotiable)
 - **Heavy engineering only.** Mathematical correctness is mandatory.
 - **Numerical stability required.** Vectorize where sensible. Defend all public paths.
 - **No placeholders/TODOs/FIXMEs/HACKs/XXX.** If you add code, it must be production-grade.
@@ -83,7 +58,7 @@ Project-name priority is law. Do not reorder.
 - **Determinism where relevant.** No hidden global state that breaks reproducibility.
 - **Working tree must remain clean.** No untracked junk.
 
-## EXECUTION RULES
+## Execution Rules
 - Read this handoff first. Treat both canonical files as identical.
 - Work only in service of the project priority order.
 - After any change: run `python -m pytest` and `python -m mypy src/ --disallow-untyped-defs --warn-return-any`.
