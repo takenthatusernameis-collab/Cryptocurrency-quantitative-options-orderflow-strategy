@@ -113,6 +113,8 @@ class BacktestEngine:
         self,
         config: Optional[BacktestConfig] = None,
         risk_config: Optional[RiskConfig] = None,
+        iv_surfaces: Optional[Dict[str, Any]] = None,
+        options_data: Optional[Dict[str, Any]] = None,
         **kwargs: Any,
     ) -> None:
         if config is None and kwargs:
@@ -131,6 +133,9 @@ class BacktestEngine:
                 risk_config = RiskConfig(**kwargs["risk_config"])
         self.config = config
         self.risk_config = risk_config or RiskConfig()
+        # Options/IV inputs (backward compatible)
+        self.iv_surfaces = iv_surfaces if iv_surfaces is not None else kwargs.get("iv_surfaces")
+        self.options_data = options_data if options_data is not None else kwargs.get("options_data")
         self.initial_capital = float(getattr(config, "initial_capital", 100000.0))
         if not isfinite(self.initial_capital) or self.initial_capital <= 0:
             e = RiskLimitError(
@@ -517,7 +522,32 @@ class BacktestEngine:
         :class:`BacktestResults` if the equity curve is empty.
         """
         if not self.equity_curve:
-            return BacktestResults()
+            res_empty = BacktestResults()
+            # Attach options info if available
+            try:
+                if self.iv_surfaces:
+                    res_empty.iv_surfaces = self.iv_surfaces
+            except Exception:
+                pass
+            try:
+                # Attempt delta-hedged attribution if options data provided
+                if self.options_data:
+                    opt_res = delta_hedged_option_pnl(
+                        spot_path=self.options_data.get("spot_path", self.equity_curve),
+                        times=self.options_data.get("times", list(range(len(self.equity_curve)))) if self.equity_curve else [],
+                        strike=float(self.options_data.get("strike", getattr(self.config, "initial_capital", 100000.0) and 50000.0)),
+                        rate=float(getattr(self.config, "risk_free_rate", 0.0)),
+                        volatility=float(self.options_data.get("volatility", 0.5)),
+                        option_type=str(self.options_data.get("option_type", "call")),
+                        option_price_entry=self.options_data.get("option_price_entry"),
+                        transaction_cost_bps=float(self.options_data.get("transaction_cost_bps", 0.0)),
+                        rebalance_every_step=bool(self.options_data.get("rebalance_every_step", True)),
+                        seed=getattr(self.config, "slippage_seed", 42) if hasattr(self.config, "slippage_seed") else 42,
+                    )
+                    res_empty.options_hedging = opt_res
+            except Exception:
+                pass
+            return res_empty
 
         # Total return
         if self.initial_capital == 0 or not isfinite(self.initial_capital):
@@ -627,7 +657,7 @@ class BacktestEngine:
         if not isfinite(calmar_ratio):
             calmar_ratio = 0.0
 
-        return BacktestResults(
+        result = BacktestResults(
             total_return=total_return,
             sharpe_ratio=sharpe_ratio,
             sortino_ratio=sortino_ratio,
@@ -641,6 +671,29 @@ class BacktestEngine:
             winning_trades=winning_trades,
             losing_trades=losing_trades,
         )
+        try:
+            if self.iv_surfaces:
+                result.iv_surfaces = self.iv_surfaces
+        except Exception:
+            pass
+        try:
+            if self.options_data:
+                opt_res = delta_hedged_option_pnl(
+                    spot_path=self.options_data.get("spot_path", self.equity_curve),
+                    times=self.options_data.get("times", list(range(len(self.equity_curve)))) if self.equity_curve else [],
+                    strike=float(self.options_data.get("strike", 50000.0)),
+                    rate=float(getattr(self.config, "risk_free_rate", 0.0)),
+                    volatility=float(self.options_data.get("volatility", 0.5)),
+                    option_type=str(self.options_data.get("option_type", "call")),
+                    option_price_entry=self.options_data.get("option_price_entry"),
+                    transaction_cost_bps=float(self.options_data.get("transaction_cost_bps", 0.0)),
+                    rebalance_every_step=bool(self.options_data.get("rebalance_every_step", True)),
+                    seed=getattr(self.config, "slippage_seed", 42) if hasattr(self.config, "slippage_seed") else 42,
+                )
+                result.options_hedging = opt_res
+        except Exception:
+            pass
+        return result
 
 
 @dataclass

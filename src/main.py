@@ -360,6 +360,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 risk_free_rate=float(bt_config.get("risk_free_rate", 0.0)),
             ),
             risk_config=RiskConfig(**risk_config) if risk_config else RiskConfig(),
+            iv_surfaces=iv_surfaces if iv_surfaces else None,
         )
         if signals:
             for key, sig in signals.items():
@@ -396,6 +397,10 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
             "losing_trades": bt_results.losing_trades,
             "equity_final": bt_results.equity_curve[-1] if bt_results.equity_curve else engine.initial_capital,
         }
+        if getattr(bt_results, "iv_surfaces", None):
+            results["backtest"]["iv_surfaces"] = bt_results.iv_surfaces
+        if getattr(bt_results, "options_hedging", None):
+            results["backtest"]["options_hedging"] = bt_results.options_hedging
         results["backtest_engine"] = engine.__class__.__name__
     except Exception as e:
         _logger.exception("backtest_failed", e, operation="backtest")

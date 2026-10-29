@@ -241,12 +241,119 @@ class CompositeSignalGenerator:
             gamma_signal = -_sign(total_gex_s) * min(abs(total_gex_s) / 1e9, 1.0)
         else:
             gamma_signal = 0.0
+
+        # IV surface / Greeks feature consumption (backward compatible)
+        iv_surf_factor = 0.0
+        if iv_surface is not None:
+            try:
+                # Extract features from IV surface if it's a dict/object
+                iv_dict: Dict[str, Any] = {}
+                if isinstance(iv_surface, dict):
+                    iv_dict = iv_surface
+                elif hasattr(iv_surface, "to_dict"):
+                    try:
+                        d = iv_surface.to_dict()
+                        if isinstance(d, dict):
+                            iv_dict = d
+                    except Exception:
+                        iv_dict = {}
+                elif hasattr(iv_surface, "__dict__"):
+                    iv_dict = dict(getattr(iv_surface, "__dict__", {}))
+                # Look for skew/term structure signals
+                points = iv_dict.get("points", []) if isinstance(iv_dict.get("points"), list) else []
+                if points:
+                    # Compute ATM skew proxy and term slope
+                    try:
+                        # Find points near spot/ATM
+                        atm_pts = []
+                        for p in points:
+                            if isinstance(p, dict):
+                                strike = _safe_float(p.get("strike"), 0.0)
+                                if spot_price_s > 0 and strike > 0:
+                                    moneyness = strike / spot_price_s
+                                    if 0.8 <= moneyness <= 1.2:
+                                        atm_pts.append(p)
+                        if atm_pts:
+                            # Simple skew: OTM puts vs calls if available
+                            puts = [p for p in atm_pts if str(p.get("option_type", "")).lower().startswith("p")]
+                            calls = [p for p in atm_pts if str(p.get("option_type", "")).lower().startswith("c")]
+                            if puts and calls:
+                                iv_p = _safe_float(puts[0].get("iv"), 0.5)
+                                iv_c = _safe_float(calls[0].get("iv"), 0.5)
+                                skew_diff = iv_p - iv_c
+                                iv_surf_factor += _clamp(skew_diff * 2.0, -0.3, 0.3)
+                    except Exception:
+                        pass
+                # Also use passed iv_skew if present
+                if iv_skew_s != 0.0:
+                    iv_surf_factor += _clamp(-iv_skew_s * 0.15, -0.15, 0.15)
+            except Exception:
+                iv_surf_factor = 0.0
+
+        greeks_factor = 0.0
+        if greeks_summary is not None and isinstance(greeks_summary, dict):
+            try:
+                delta_g = _safe_float(greeks_summary.get("delta"), 0.0)
+                gamma_g = _safe_float(greeks_summary.get("gamma"), 0.0)
+                vega_g = _safe_float(greeks_summary.get("vega"), 0.0)
+                # Gamma exposure: high gamma can amplify moves; incorporate
+                if gamma_g != 0.0:
+                    greeks_factor += _clamp(gamma_g * 10.0, -0.2, 0.2)
+                # Delta positioning signal
+                if delta_g != 0.0:
+                    greeks_factor += _clamp(delta_g * 0.1, -0.1, 0.1)
+                # Vega: volatility sensitivity
+                if vega_g != 0.0:
+                    greeks_factor += _clamp(vega_g * 0.01, -0.05, 0.05)
+            except Exception:
+                greeks_factor = 0.0
+
+        # Blend IV/Greeks into gamma component (backward compatible, additive small adjustment)
+        gamma_signal = _clamp(gamma_signal + iv_surf_factor + greeks_factor * 0.5, -1.0, 1.0)
         components["gamma"] = _clamp(gamma_signal, -1.0, 1.0)
 
         of_signal = (cum_delta_s / 10000.0 + of_imbalance_s) / 2.0
+        # Incorporate Greeks delta into orderflow component
+        if greeks_summary is not None and isinstance(greeks_summary, dict):
+            try:
+                delta_g = _safe_float(greeks_summary.get("delta"), 0.0)
+                if delta_g != 0.0:
+                    of_signal = _clamp(of_signal + delta_g * 0.05, -1.0, 1.0)
+            except Exception:
+                pass
         components["orderflow"] = _clamp(of_signal, -1.0, 1.0)
 
         skew_signal = -_clamp(iv_skew_s * 10.0, -1.0, 1.0)
+        # Enhance vol_skew with IV surface term structure
+        if iv_surface is not None:
+            try:
+                iv_dict2: Dict[str, Any] = {}
+                if isinstance(iv_surface, dict):
+                    iv_dict2 = iv_surface
+                elif hasattr(iv_surface, "to_dict"):
+                    try:
+                        d = iv_surface.to_dict()
+                        if isinstance(d, dict):
+                            iv_dict2 = d
+                    except Exception:
+                        iv_dict2 = {}
+                points2 = iv_dict2.get("points", []) if isinstance(iv_dict2.get("points"), list) else []
+                if points2:
+                    # Look for term structure slope (short vs long dated ATM)
+                    try:
+                        ttes = []
+                        for p in points2:
+                            if isinstance(p, dict):
+                                tte_p = _safe_float(p.get("time_to_expiry"), 0.0)
+                                if tte_p > 0:
+                                    ttes.append(tte_p)
+                        if len(set(round(t, 6) for t in ttes)) >= 2:
+                            # simple: if we have variation, adjust skew component slightly
+                            skew_signal = _clamp(skew_signal + iv_surf_factor * 0.5, -1.0, 1.0)
+                    except Exception:
+                        pass
+            except Exception:
+                pass
         components["vol_skew"] = _clamp(skew_signal, -1.0, 1.0)
 
         pcr = put_call_ratio_s
