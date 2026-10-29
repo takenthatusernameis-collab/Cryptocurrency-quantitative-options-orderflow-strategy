@@ -1,8 +1,8 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T17:53:11Z
+Timestamp (UTC): 2026-10-29T17:58:51Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 320 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN OF MODIFIED FILES (UNTRACKED ONLY) | ZERO PLACEHOLDERS | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
+State: 321 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN OF MODIFIED FILES (UNTRACKED ONLY) | ZERO PLACEHOLDERS | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
 
 Session start: 2026-10-29T17:04:27Z
 
@@ -19,11 +19,11 @@ Session start: 2026-10-29T17:04:27Z
 ## Initial Task Message (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY)
 **DO NOT EXPLORE AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE. HEAVY QUANT WORK ONLY.**
 
-You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. Phases 1-4 are complete and hardened (320 tests passing). Mypy clean. Baseline verified.
+You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. Phases 1-4 are complete and hardened (321 tests passing). Mypy clean. Baseline verified.
 
 **NEXT MANDATORY FOCUS: PHASE 5 - PIPELINE INTEGRATION & END-TO-END CAMPAIGN VERIFICATION (HEAVY QUANT REMAINING WORK).**
 
-**VERIFIED BASELINE:** 320 tests passing, mypy clean (--disallow-untyped-defs --warn-return-any), working tree clean (no modifications), zero placeholders/TODOs/FIXMEs. No blockers. Bottlenecks removed.
+**VERIFIED BASELINE:** 321 tests passing, mypy clean (--disallow-untyped-defs --warn-return-any), working tree clean (no modifications), zero placeholders/TODOs/FIXMEs. No blockers. Bottlenecks removed.
 
 Phase 5 wiring is partially in place but NOT complete:
 - `src/main.py`: IV surface build/calibration and Greeks summary already wired into pipeline and signal generator (done).
@@ -51,7 +51,7 @@ Phase 5 wiring is partially in place but NOT complete:
 - **Phase 1**: Options Pricing Core (Black-Scholes, Greeks) - COMPLETE
 - **Phase 2**: IV Surface Construction & Calibration - COMPLETE
 - **Phase 3**: Delta-Hedged P&L & Attribution - COMPLETE
-- **Phase 4**: Adversarial Hardening & Robustness - COMPLETE (320 tests passing)
+- **Phase 4**: Adversarial Hardening & Robustness - COMPLETE (321 tests passing)
 - **Phase 5**: Pipeline Integration & End-to-End Campaign Verification - IN PROGRESS (IMMEDIATE FOCUS - HEAVY WORK)
   - Done: `src/main.py` wiring (IV surface, Greeks, serialization)
   - Remaining: `src/signals/composite.py` feature consumption; `src/backtest/engine.py` options-aware inputs; end-to-end determinism test
