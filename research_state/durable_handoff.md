@@ -1,13 +1,13 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T19:06:06Z
+Timestamp (UTC): 2026-10-29T19:54:00Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW)
-State: 321 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | ZERO PLACEHOLDERS | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
+State: 321 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any, 31 source files) | WORKING TREE CLEAN | ZERO PLACEHOLDERS | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
 
-Session start: 2026-10-29T19:06:06Z
+Session start: 2026-10-29T19:54:00Z
 
 ## Bottleneck status
-- BOTTLECKS REMOVED. Baseline verified: `python -m pytest -q` = 321 passing; `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean (31 source files); `git status` clean. No active blockers. No blocked peer sessions.
+- BOTTLENECKS REMOVED. Prior session history (research_state/workflow_run_diagnostics.jsonl) shows historical edit-tool invalid-argument turn aborts and cancelled workflow runs; none affect the current tree. Baseline verified: `python -m pytest -q` = 321 passing; `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean (31 source files); `git status` clean on `main`. No active blockers. No blocked peer sessions.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY)
 **DO NOT EXPLORE AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE. HEAVY QUANT WORK ONLY.**
@@ -16,7 +16,7 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 
 **NEXT MANDATORY FOCUS: PHASE 5 - PIPELINE INTEGRATION & END-TO-END CAMPAIGN VERIFICATION.** Every subsequent action MUST directly advance Phase 5 to completion. Scaffolding, stubs, TODOs, FIXMEs, placeholders are FORBIDDEN.
 
-**VERIFIED BASELINE (MUST HOLD):** imports OK; mypy clean (--disallow-untyped-defs --warn-return-any); pytest = 321 passing; working tree clean; serialization invariants enforced (serialize_metrics, allow_nan=False); determinism preserved.
+**VERIFIED BASELINE (MUST HOLD):** imports OK; mypy clean (--disallow-untyped-defs --warn-return-any); pytest = 321 passing; working tree clean; serialization invariants enforced (serialize_metrics / serialize_metrics_strict, allow_nan=False); determinism preserved.
 
 ### CRITICAL INTEGRATION GAPS (MUST FIX - HEAVY QUANT)
 The pipeline wiring exists in `src/main.py`, but the IV surface/Greeks must **actually** drive signals and backtest attribution end-to-end. Focus on closing these gaps:
@@ -92,4 +92,4 @@ The pipeline wiring exists in `src/main.py`, but the IV surface/Greeks must **ac
 
 **Remaining heavy work:** Deepen IV/Greeks consumption in composite signals; harden backtest engine to fully consume options-aware inputs and populate all attribution fields; strengthen end-to-end determinism verification.
 
-**MANDATORY GATE:** All acceptance criteria must pass simultaneously before declaring Phase 5 complete. A session MUST NOT end mid-Phase-5 without updating this handoff with fresh timestamp and exact remaining work.
+**MANDATORY GATE:** All acceptance criteria must pass simultaneously before declaring Phase 5 complete. A session MUST NOT end mid-Phase-5 without updating this handoff with fresh timestamp and exact remaining work. Future agents are forbidden from treating Phase 5 as "mostly done" — the integration gaps above are concrete, required, heavy quantitative engineering tasks that must ship before this campaign is considered complete.
