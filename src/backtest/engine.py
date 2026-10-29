@@ -86,6 +86,7 @@ class BacktestResults:
     returns: List[float] = field(default_factory=list)
     drawdowns: List[float] = field(default_factory=list)
     metadata: Optional[Dict[str, Any]] = None
+    options_data_ref: Optional[Dict[str, Any]] = None
     options_hedging: Optional[Dict[str, Any]] = None
     iv_surfaces: Optional[Dict[str, Any]] = None
 
@@ -531,7 +532,7 @@ class BacktestEngine:
                 pass
             try:
                 if self.options_data:
-                    res_empty.options_data_ref = self.options_data  # type: ignore[attr-defined]
+                    res_empty.options_data_ref = self.options_data
             except Exception:
                 pass
             try:
@@ -683,7 +684,7 @@ class BacktestEngine:
             pass
         try:
             if getattr(self, "options_data", None):
-                result.options_data_ref = self.options_data  # type: ignore[attr-defined]
+                result.options_data_ref = self.options_data
         except Exception:
             pass
         try:

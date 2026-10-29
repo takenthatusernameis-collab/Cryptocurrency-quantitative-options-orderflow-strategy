@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (POINTER TO SINGLE DURABLE HANDOFF)
-Timestamp (UTC): 2026-10-29T19:56:04Z
+Timestamp (UTC): 2026-10-29T20:06:45Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 
 **SINGLE SOURCE OF TRUTH:** `research_state/durable_handoff.md`
@@ -12,11 +12,10 @@ This file is the initial task message / index. The authoritative, single durable
 You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. This is production-grade crypto options + orderflow quant. Phases 1-4 complete and hardened. **NEXT MANDATORY FOCUS: PHASE 5 - PIPELINE INTEGRATION & END-TO-END CAMPAIGN VERIFICATION.** See `research_state/durable_handoff.md` for exact baseline, integration gaps, heavy quant tasks, and acceptance criteria.
 
 ## Immediate Objectives
-1. Re-verify baseline: `python -m pytest -q` >=321 passing. `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean. `git status` clean.
-2. **HEAVY QUANT:** Deepen IV/Greeks consumption in `src/signals/composite.py` (components, not just metadata), backward compatible with guards.
-3. **HEAVY QUANT:** Harden/extend `src/backtest/engine.py` to fully consume options-aware inputs; populate `iv_surfaces`/`options_hedging` in all paths; integrate attribution.
-4. Strengthen/verify end-to-end determinism (`tests/test_pipeline_determinism.py`), full verification pass, harden numerically.
-5. Update handoff if stopping mid-campaign.
+1. Re-verify baseline: `python -m pytest -q` >=321 passing. `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean. `git status` shows only intentional Phase-5 edits.
+2. **HEAVY QUANT:** Phase 5 verification gate — confirm IV/Greeks drive signal components (`components["iv_greeks"]` non-zero when inputs present), `backtest.iv_surfaces`/`options_hedging` populated when inputs provided, end-to-end determinism (byte-identical JSON run-to-run), and `allow_nan=False` serialization with NO NaN/Inf.
+3. Full simultaneous verification pass: pytest + mypy + determinism + finite serialization + backward compatibility.
+4. Declare Phase 5 complete ONLY when all acceptance criteria in `research_state/durable_handoff.md` pass simultaneously. Update handoff if stopping mid-campaign.
 
 ## Next Focus Campaign
 **Campaign Goal:** Complete Phase 5 integration with full end-to-end verification. IV surface/Greeks MUST drive signals and backtest attribution. Pipeline MUST be deterministically verifiable run-to-run. Future agents MUST do heavy quantitative engineering - no scaffolding, no placeholders.
@@ -27,8 +26,8 @@ Phases:
 - Phase 3: Delta-Hedged P&L & Attribution - COMPLETE
 - Phase 4: Adversarial Hardening & Robustness - COMPLETE
 - Phase 5: Pipeline Integration & End-to-End Campaign Verification - **IN PROGRESS (MANDATORY HEAVY WORK)**
-  - Done: `src/main.py` wiring (IV surface, Greeks, serialization with allow_nan=False)
-  - Remaining (HEAVY): Deepen IV/Greeks component consumption in `src/signals/composite.py`; harden `src/backtest/engine.py` for options-aware inputs/attribution; strengthen end-to-end determinism verification
+  - Done: `src/main.py` wiring verified; `src/signals/composite.py` IV/Greeks deepened (iv_greeks component); `src/backtest/engine.py` options_data_ref declared field; iv_surfaces/options_hedging populated
+  - Remaining (VERIFICATION GATE): simultaneous pytest >=321 + mypy clean + determinism + finite serialization + backward compatibility
 
 **Mandatory gate before declaring Phase 5 complete:** All acceptance criteria in `research_state/durable_handoff.md` must pass simultaneously. A session may not end mid-Phase-5 without updating `durable_handoff.md` with exact remaining work and fresh UTC timestamp.
 

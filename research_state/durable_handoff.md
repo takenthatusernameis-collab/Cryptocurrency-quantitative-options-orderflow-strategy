@@ -1,13 +1,13 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T19:56:31Z
+Timestamp (UTC): 2026-10-29T20:06:45Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW)
-State: 321 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any, 31 source files) | WORKING TREE CLEAN | ZERO PLACEHOLDERS | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
+State: 321 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any, 31 source files) | WORKING TREE: 2 INTENTIONAL MODIFICATIONS (src/signals/composite.py, src/backtest/engine.py) | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
 
-Session start: 2026-10-29T19:56:31Z
+Session start: 2026-10-29T20:06:45Z
 
 ## Bottleneck status
-- BOTTLENECKS REMOVED. Historical edit-tool invalid-argument turn aborts in prior workflow runs are NOT present in current tree state. Baseline verified: `python -m pytest -q` = 321 passing; `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean (31 source files); `git status` clean on `main`. No active blockers.
+- BOTTLENECKS REMOVED. The baseline was broken (`test_signal_direction_short` failing, 320/321). Fixed in `src/signals/composite.py`: 75% majority consensus is now treated as directional consensus (no direction-flattening penalty), so clearly bearish/bullish inputs resolve to short/long instead of neutral. Baseline re-verified: `python -m pytest -q` = 321 passing; `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean (31 source files); `git status` shows only the two intentional Phase-5 edits; no active blockers.
 - TOOLING DISCIPLINE: Always pass all required parameters to tools with correct types. Use Read before Edit. Batch independent calls when possible. Do not guess file paths.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY)
@@ -17,57 +17,40 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 
 **NEXT MANDATORY FOCUS: PHASE 5 - PIPELINE INTEGRATION & END-TO-END CAMPAIGN VERIFICATION.** Every subsequent action MUST directly advance Phase 5 to completion. Scaffolding, stubs, TODOs, FIXMEs, placeholders are FORBIDDEN.
 
-**VERIFIED BASELINE (MUST HOLD):** imports OK; mypy clean (--disallow-untyped-defs --warn-return-any); pytest = 321 passing; working tree clean; serialization invariants enforced (serialize_metrics / serialize_metrics_strict, allow_nan=False); determinism preserved.
+**VERIFIED BASELINE (MUST HOLD):** imports OK; mypy clean (--disallow-untyped-defs --warn-return-any); pytest = 321 passing; serialization invariants enforced (serialize_metrics / serialize_metrics_strict, allow_nan=False); determinism preserved; ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in src/.
 
-### CRITICAL INTEGRATION GAPS (MUST FIX - HEAVY QUANT)
-The pipeline wiring exists in `src/main.py`, but the IV surface/Greeks must **actually** drive signals and backtest attribution end-to-end. Focus on closing these gaps:
+### PHASE 5 PROGRESS (THIS SESSION)
+1. **`src/signals/composite.py` - IV/Greeks Component Consumption (DONE)**
+   - `_extract_iv_surface_features` and `_extract_greeks_features` are now wired into `generate_signal` (were defined but unused = dead code).
+   - Added `components["iv_greeks"]`: net Greek exposure blended with IV surface skew, so the `iv_greeks` weight present in every regime actually drives the composite. Zero when IV/Greeks absent (backward compatible).
+   - IV surface skew/term structure and Greeks (delta/gamma/vega/theta) now drive gamma, orderflow, and vol_skew components meaningfully.
+   - All adjustments clamped/finiteness-guarded; backward compatible when IV/Greeks absent (all 321 existing tests pass unchanged).
 
-1. **`src/signals/composite.py` - IV/Greeks Component Consumption (HARDEN)**
-   IV surface and Greeks are accepted and partially blended, but must be consumed more deeply into signal components (not just metadata). Ensure:
-   - IV skew/term structure from `iv_surface` meaningfully affects `vol_skew` and related components with numerical stability
-   - Greeks (delta/gamma/vega/theta) from `greeks_summary` drive component adjustments (especially `gamma` and `orderflow`) beyond current light blending
-   - All adjustments are backward compatible when IV/Greeks absent
-   - No NaN/Inf leak into `components`; all values clamped safely
-   - Regime detection/weights remain coherent with enhanced signals
+2. **`src/backtest/engine.py` - Options-Aware Inputs & Attribution (DONE / CLEANUP)**
+   - `BacktestResults.options_data_ref` promoted from a dynamic `type: ignore[attr-defined]` attribute to a proper declared `Optional[Dict[str, Any]]` field (production-grade, no hidden attributes).
+   - `iv_surfaces` populated in all `calculate_metrics` paths (empty and non-empty); `options_hedging` computed via `delta_hedged_option_pnl` when `options_data` provided; backward compatible when absent.
 
-2. **`src/backtest/engine.py` - Options-Aware Inputs & Attribution (HARDEN/EXTEND)**
-   `iv_surfaces` and `options_data` are stored/passed through, but must be consumed in the simulation path where applicable:
-   - Properly populate `BacktestResults.iv_surfaces` in all paths (including empty/results paths)
-   - Integrate `delta_hedged_option_pnl` attribution where `options_data` provided; ensure it works with engine state
-   - If IV surfaces available, ensure they're threaded correctly through backtest lifecycle
-   - Maintain full backward compatibility if options/IV inputs absent
-   - Preserve determinism (uses slippage_seed)
+3. **`src/main.py` - End-to-End Wiring (VERIFIED, NO CHANGE)**
+   - Wired: IV surface build/calibration, Greeks summary, passed to signal gen and BacktestEngine (`iv_surfaces`), serialization with `allow_nan=False`. Verified E2E: mocked ingestion pipeline produces finite JSON; `backtest.iv_surfaces` present; `signals[*].iv_surface` present. Do NOT rewrite.
 
-3. **`src/main.py` - End-to-End Wiring Verification (VERIFY ONLY)**
-   Already wired (IV surface build/calibration, Greeks summary, passing to signal gen and BacktestEngine, serialization with allow_nan=False). Do NOT rewrite. Only fix if integration breaks.
+4. **End-to-End Determinism (VERIFIED)**
+   - `tests/test_pipeline_determinism.py` passes (run pipeline twice via mocked ingestion -> identical normalized JSON). E2E run confirmed all outputs finite with `allow_nan=False`.
 
-4. **End-to-End Determinism (STRENGTHEN/VERIFY)**
-   Ensure running pipeline twice (mocked ingestion) yields byte-identical JSON where applicable. `tests/test_pipeline_determinism.py` exists - verify it is robust and passes; strengthen if needed. Add integration test coverage if gaps found.
-
-### IMMEDIATE OBJECTIVES (IN STRICT ORDER)
-1. **Re-verify baseline**: `python -m pytest -q` >=321 passing. `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean. `git status` clean.
-2. **Harden `src/signals/composite.py`**: Deepen IV/Greeks consumption into components with guards, clamps, finiteness checks. Keep backward compatible. No dead code.
-3. **Harden/extend `src/backtest/engine.py`**: Ensure options-aware inputs consumed properly; `iv_surfaces`/`options_hedging` populated in all relevant result paths; attribution integrated correctly.
-4. **Verify end-to-end determinism**: Run pipeline twice via mocked ingestion -> byte-identical JSON. Strengthen `tests/test_pipeline_determinism.py` if any non-determinism found (timestamps/ordering/global state).
-5. **Full verification pass**: `pytest -q`, `mypy src/ --disallow-untyped-defs --warn-return-any`. Fix any numerical issues defensively.
-6. **Handoff update**: If stopping mid-campaign, update this file with fresh UTC timestamp, exact completed/in-progress/remaining, file paths, concrete next steps.
-
-### CONCRETE TARGET FILES (HEAVY QUANT FOCUS)
-- `src/signals/composite.py` - DEEPEN IV/Greeks component consumption (required)
-- `src/backtest/engine.py` - CONSUME options-aware inputs, populate iv_surfaces/options_hedging, integrate delta-hedged attribution (required)
-- `src/main.py` - verify only (reference)
-- `src/features/options_pricing.py`, `src/features/iv_surface.py`, `src/backtest/options_hedging.py` - reference only
-- `tests/test_pipeline_determinism.py` - verify/strengthen as needed
-- Any other files only if strictly necessary for integration correctness
+### REMAINING PHASE 5 WORK (MUST COMPLETE BEFORE DECLARING PHASE 5 DONE)
+1. Full verification pass: `python -m pytest -q` >=321 passing AND `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean, simultaneously.
+2. Confirm end-to-end determinism: pipeline run twice (mocked ingestion) -> byte-identical JSON (test_pipeline_determinism covers this; keep it green).
+3. Confirm `serialize_metrics` / `json.dumps(..., allow_nan=False)` on all outputs; NO NaN/Inf anywhere.
+4. Confirm backward compatibility: all existing tests continue to pass.
+5. **Handoff update**: Update this file with fresh UTC timestamp and exact remaining work before stopping.
 
 ### ACCEPTANCE CRITERIA (ALL MUST PASS SIMULTANEOUSLY)
 - All new/modified code compiles and typechecks with `--disallow-untyped-defs --warn-return-any`
 - `mypy src/ --disallow-untyped-defs --warn-return-any` clean
 - `pytest -q` >=321 passing (increase only if adding strictly necessary tests)
 - All outputs pass `serialize_metrics` / `json.dumps(..., allow_nan=False)`; NO NaN/Inf anywhere
-- End-to-end determinism: pipeline run twice with mocked ingestion produces byte-identical JSON (after normalizing only timestamps if they are legitimately non-deterministic by design - but prefer fixing root cause)
-- IV surface and Greeks actually influence signal components (verifiable in generated signals)
-- Backtest results include `iv_surfaces`/`options_hedging` when inputs provided
+- End-to-end determinism: pipeline run twice with mocked ingestion produces byte-identical JSON
+- IV surface and Greeks actually influence signal components (verifiable: `components["iv_greeks"]` non-zero when inputs present)
+- Backtest results include `iv_surfaces` when inputs provided; `options_hedging` when `options_data` provided
 - Working tree clean of modifications except intentional changes; ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX
 - Backward compatible - all existing tests continue to pass
 
@@ -90,9 +73,11 @@ The pipeline wiring exists in `src/main.py`, but the IV surface/Greeks must **ac
 - Phase 3: Delta-Hedged P&L & Attribution - COMPLETE
 - Phase 4: Adversarial Hardening & Robustness - COMPLETE
 - Phase 5: Pipeline Integration & End-to-End Campaign Verification - **IN PROGRESS (MANDATORY HEAVY WORK)**
+  - Done: `src/main.py` wiring verified (IV surface, Greeks, serialization with allow_nan=False)
+  - Done: `src/signals/composite.py` IV/Greeks deepened (iv_greeks component drives composite; extract methods wired; no dead code)
+  - Done: `src/backtest/engine.py` options_data_ref declared field; iv_surfaces populated all paths; options_hedging computed when options_data provided
+  - Remaining (VERIFICATION / GATE): Full simultaneous verification pass (pytest >=321 + mypy clean + determinism + finite serialization + backward compatibility). Declare Phase 5 complete ONLY when all acceptance criteria pass simultaneously.
 
-**Remaining heavy work:** Deepen IV/Greeks consumption in composite signals; harden backtest engine to fully consume options-aware inputs and populate all attribution fields; strengthen end-to-end determinism verification.
-
-**MANDATORY GATE:** All acceptance criteria must pass simultaneously before declaring Phase 5 complete. A session MUST NOT end mid-Phase-5 without updating this handoff with fresh timestamp and exact remaining work. Future agents are forbidden from treating Phase 5 as "mostly done" — the integration gaps above are concrete, required, heavy quantitative engineering tasks that must ship before this campaign is considered complete.
+**MANDATORY GATE:** All acceptance criteria must pass simultaneously before declaring Phase 5 complete. A session MUST NOT end mid-Phase-5 without updating this handoff with fresh timestamp and exact remaining work. Future agents are forbidden from treating Phase 5 as "mostly done" — the verification gate above is concrete and required before this campaign is considered complete.
 
 **SINGLE DURABLE HANDOFF:** This file (`research_state/durable_handoff.md`) is the ONLY source of truth. `research_state/INITIAL_TASK_HANDOFF.md` points here. Update this file if stopping mid-campaign.

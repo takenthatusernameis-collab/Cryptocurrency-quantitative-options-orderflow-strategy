@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from math import isfinite
-from typing import Any, Dict, Iterable, List, Mapping, Sequence
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 
 @dataclass
@@ -156,7 +156,7 @@ class CompositeSignalGenerator:
             feats[k] = _safe_float(feats[k], 0.0)
         return feats
 
-    def _extract_greeks_features(self, greeks_summary: Dict[str, Any]) -> Dict[str, float]:
+    def _extract_greeks_features(self, greeks_summary: Optional[Dict[str, Any]]) -> Dict[str, float]:
         """Extract normalized Greeks features for signal blending.
 
         Returns dict with delta_momentum, gamma_exposure, vega_sensitivity,
@@ -354,166 +354,75 @@ class CompositeSignalGenerator:
         else:
             gamma_signal = 0.0
 
-        # IV surface / Greeks feature consumption (backward compatible)
+        # IV surface / Greeks feature consumption (backward compatible).
+        # Features are extracted through the dedicated, numerically guarded
+        # helpers so IV surface and Greeks meaningfully drive signal
+        # components rather than living only in metadata. When IV/Greeks are
+        # absent all features are 0.0, preserving existing behavior exactly.
+        iv_feats = self._extract_iv_surface_features(iv_surface, spot_price_s)
+        greek_feats = self._extract_greeks_features(greeks_summary)
+
         iv_surf_factor = 0.0
         if iv_surface is not None:
-            try:
-                # Extract features from IV surface if it's a dict/object
-                iv_dict: Dict[str, Any] = {}
-                if isinstance(iv_surface, dict):
-                    iv_dict = iv_surface
-                elif hasattr(iv_surface, "to_dict"):
-                    try:
-                        d = iv_surface.to_dict()
-                        if isinstance(d, dict):
-                            iv_dict = d
-                    except Exception:
-                        iv_dict = {}
-                elif hasattr(iv_surface, "__dict__"):
-                    iv_dict = dict(getattr(iv_surface, "__dict__", {}))
-                # Look for skew/term structure signals
-                points = iv_dict.get("points", []) if isinstance(iv_dict.get("points"), list) else []
-                if points:
-                    # Compute ATM skew proxy and term slope
-                    try:
-                        # Find points near spot/ATM
-                        atm_pts = []
-                        for p in points:
-                            if isinstance(p, dict):
-                                strike = _safe_float(p.get("strike"), 0.0)
-                                if spot_price_s > 0 and strike > 0:
-                                    moneyness = strike / spot_price_s
-                                    if 0.8 <= moneyness <= 1.2:
-                                        atm_pts.append(p)
-                        if atm_pts:
-                            # Simple skew: OTM puts vs calls if available
-                            puts = [p for p in atm_pts if str(p.get("option_type", "")).lower().startswith("p")]
-                            calls = [p for p in atm_pts if str(p.get("option_type", "")).lower().startswith("c")]
-                            if puts and calls:
-                                iv_p = _safe_float(puts[0].get("iv"), 0.5)
-                                iv_c = _safe_float(calls[0].get("iv"), 0.5)
-                                skew_diff = iv_p - iv_c
-                                iv_surf_factor += _clamp(skew_diff * 2.0, -0.3, 0.3)
-                    except Exception:
-                        pass
-                # Also use passed iv_skew if present
-                if iv_skew_s != 0.0:
-                    iv_surf_factor += _clamp(-iv_skew_s * 0.15, -0.15, 0.15)
-            except Exception:
-                iv_surf_factor = 0.0
+            # Surface skew and term structure move the gamma/skew components.
+            iv_surf_factor += _clamp(iv_feats["skew"] * 2.0, -0.3, 0.3)
+            iv_surf_factor += _clamp(iv_feats["term_slope"] * 1.5, -0.15, 0.15)
+            # Explicit iv_skew input refines the surface read.
+            if iv_skew_s != 0.0:
+                iv_surf_factor += _clamp(-iv_skew_s * 0.15, -0.15, 0.15)
 
         greeks_factor = 0.0
         if greeks_summary is not None and isinstance(greeks_summary, dict):
-            try:
-                delta_g = _safe_float(greeks_summary.get("delta"), 0.0)
-                gamma_g = _safe_float(greeks_summary.get("gamma"), 0.0)
-                vega_g = _safe_float(greeks_summary.get("vega"), 0.0)
-                # Gamma exposure: high gamma can amplify moves; incorporate
-                if gamma_g != 0.0:
-                    greeks_factor += _clamp(gamma_g * 10.0, -0.2, 0.2)
-                # Delta positioning signal
-                if delta_g != 0.0:
-                    greeks_factor += _clamp(delta_g * 0.1, -0.1, 0.1)
-                # Vega: volatility sensitivity
-                if vega_g != 0.0:
-                    greeks_factor += _clamp(vega_g * 0.01, -0.05, 0.05)
-            except Exception:
-                greeks_factor = 0.0
+            # Gamma exposure amplifies flow, delta positions the bias, vega
+            # scales volatility sensitivity.
+            if greek_feats["gamma_exposure"] != 0.0:
+                greeks_factor += _clamp(greek_feats["gamma_exposure"], -0.2, 0.2)
+            if greek_feats["delta_momentum"] != 0.0:
+                greeks_factor += _clamp(greek_feats["delta_momentum"], -0.1, 0.1)
+            if greek_feats["vega_sensitivity"] != 0.0:
+                greeks_factor += _clamp(greek_feats["vega_sensitivity"], -0.05, 0.05)
 
-        # Blend IV/Greeks into gamma component (backward compatible, additive adjustment)
-        # Deepen consumption - stronger weighting of Greeks/IV surface
+        # Blend IV/Greeks into gamma component (backward compatible, additive)
         gamma_signal = _clamp(gamma_signal + iv_surf_factor * 1.2 + greeks_factor * 0.85, -1.0, 1.0)
         components["gamma"] = _clamp(gamma_signal, -1.0, 1.0)
 
         of_signal = (cum_delta_s / 10000.0 + of_imbalance_s) / 2.0
-        # Incorporate Greeks delta/gamma into orderflow component more deeply
+        # Incorporate Greeks delta/gamma/vega/theta into orderflow more deeply
         if greeks_summary is not None and isinstance(greeks_summary, dict):
-            try:
-                delta_g = _safe_float(greeks_summary.get("delta"), 0.0)
-                gamma_g = _safe_float(greeks_summary.get("gamma"), 0.0)
-                vega_g = _safe_float(greeks_summary.get("vega"), 0.0)
-                theta_g = _safe_float(greeks_summary.get("theta"), 0.0)
-                if delta_g != 0.0:
-                    of_signal = _clamp(of_signal + delta_g * 0.12, -1.0, 1.0)
-                if gamma_g != 0.0:
-                    # High gamma regimes can amplify flow impact
-                    of_signal = _clamp(of_signal + _clamp(gamma_g * 75.0, -0.15, 0.15), -1.0, 1.0)
-                if vega_g != 0.0:
-                    of_signal = _clamp(of_signal + _clamp(vega_g * 0.02, -0.08, 0.08), -1.0, 1.0)
-                if theta_g != 0.0:
-                    # Time decay sensitivity affects flow interpretation
-                    of_signal = _clamp(of_signal - _clamp(theta_g * 0.01, -0.05, 0.05), -1.0, 1.0)
-            except Exception:
-                pass
-        # Also blend IV surface directly into orderflow
+            if greek_feats["delta_momentum"] != 0.0:
+                of_signal = _clamp(of_signal + greek_feats["delta_momentum"] * 0.5, -1.0, 1.0)
+            if greek_feats["gamma_exposure"] != 0.0:
+                of_signal = _clamp(of_signal + _clamp(greek_feats["gamma_exposure"] * 0.5, -0.15, 0.15), -1.0, 1.0)
+            if greek_feats["vega_sensitivity"] != 0.0:
+                of_signal = _clamp(of_signal + _clamp(greek_feats["vega_sensitivity"] * 0.4, -0.08, 0.08), -1.0, 1.0)
+            if greek_feats["theta_decay"] != 0.0:
+                of_signal = _clamp(of_signal - _clamp(greek_feats["theta_decay"] * 0.5, -0.05, 0.05), -1.0, 1.0)
+        # Blend IV surface directly into orderflow
         if iv_surface is not None and iv_surf_factor != 0.0:
-            try:
-                of_signal = _clamp(of_signal + iv_surf_factor * 0.4, -1.0, 1.0)
-            except Exception:
-                pass
+            of_signal = _clamp(of_signal + iv_surf_factor * 0.4, -1.0, 1.0)
         components["orderflow"] = _clamp(of_signal, -1.0, 1.0)
 
         skew_signal = -_clamp(iv_skew_s * 10.0, -1.0, 1.0)
-        # Enhance vol_skew with IV surface term structure (deeper consumption)
+        # Enhance vol_skew with IV surface term structure and skew
         if iv_surface is not None:
-            try:
-                iv_dict2: Dict[str, Any] = {}
-                if isinstance(iv_surface, dict):
-                    iv_dict2 = iv_surface
-                elif hasattr(iv_surface, "to_dict"):
-                    try:
-                        d = iv_surface.to_dict()
-                        if isinstance(d, dict):
-                            iv_dict2 = d
-                    except Exception:
-                        iv_dict2 = {}
-                points2 = iv_dict2.get("points", []) if isinstance(iv_dict2.get("points"), list) else []
-                if points2:
-                    # Look for term structure slope (short vs long dated ATM)
-                    try:
-                        ttes = []
-                        atm_ivs_short = []
-                        atm_ivs_long = []
-                        atm_ivs_mid = []
-                        for p in points2:
-                            if isinstance(p, dict):
-                                tte_p = _safe_float(p.get("time_to_expiry"), 0.0)
-                                if tte_p > 0:
-                                    ttes.append(tte_p)
-                                    strike_p = _safe_float(p.get("strike"), 0.0)
-                                    iv_p = _safe_float(p.get("iv"), float("nan"))
-                                    if spot_price_s > 0 and strike_p > 0 and isfinite(iv_p):
-                                        mny = strike_p / spot_price_s
-                                        if 0.9 <= mny <= 1.1:
-                                            if tte_p < 30.0 / 365.0:
-                                                atm_ivs_short.append(iv_p)
-                                            elif tte_p > 60.0 / 365.0:
-                                                atm_ivs_long.append(iv_p)
-                                            else:
-                                                atm_ivs_mid.append(iv_p)
-                        if len(set(round(t, 6) for t in ttes)) >= 2:
-                            skew_signal = _clamp(skew_signal + iv_surf_factor * 0.8, -1.0, 1.0)
-                        # Term structure slope contribution
-                        if atm_ivs_short and atm_ivs_long:
-                            ts_slope = (sum(atm_ivs_long) / len(atm_ivs_long)) - (sum(atm_ivs_short) / len(atm_ivs_short))
-                            skew_signal = _clamp(skew_signal + _clamp(ts_slope * 0.4, -0.15, 0.15), -1.0, 1.0)
-                        # Mid term
-                        if atm_ivs_mid and atm_ivs_short:
-                            mid_short = (sum(atm_ivs_mid) / len(atm_ivs_mid)) - (sum(atm_ivs_short) / len(atm_ivs_short))
-                            skew_signal = _clamp(skew_signal + _clamp(mid_short * 0.2, -0.1, 0.1), -1.0, 1.0)
-                    except Exception:
-                        pass
-            except Exception:
-                pass
-        # Also incorporate greeks vega/vega-tilt
+            skew_signal = _clamp(skew_signal + iv_feats["skew"] * 1.0, -1.0, 1.0)
+            skew_signal = _clamp(skew_signal + iv_feats["term_slope"] * 2.0, -1.0, 1.0)
+            if iv_surf_factor != 0.0:
+                skew_signal = _clamp(skew_signal + iv_surf_factor * 0.8, -1.0, 1.0)
+        # Greeks vega tilt
         if greeks_summary is not None and isinstance(greeks_summary, dict):
-            try:
-                vega_g = _safe_float(greeks_summary.get("vega"), 0.0)
-                if vega_g != 0.0:
-                    skew_signal = _clamp(skew_signal + _clamp(vega_g * 0.015, -0.08, 0.08), -1.0, 1.0)
-            except Exception:
-                pass
+            if greek_feats["vega_sensitivity"] != 0.0:
+                skew_signal = _clamp(skew_signal + _clamp(greek_feats["vega_sensitivity"] * 0.4, -0.08, 0.08), -1.0, 1.0)
         components["vol_skew"] = _clamp(skew_signal, -1.0, 1.0)
+
+        # iv_greeks component: net Greek exposure blended with IV surface skew,
+        # so the iv_greeks weight present in every regime actually drives the
+        # composite. Zero when IV/Greeks are absent (backward compatible).
+        iv_greeks_signal = _clamp(
+            greek_feats["net_greek"] * 0.7 + iv_feats["skew"] * 0.3,
+            -1.0, 1.0,
+        )
+        components["iv_greeks"] = _clamp(iv_greeks_signal, -1.0, 1.0)
 
         pcr = put_call_ratio_s
         if pcr > 1.0:
@@ -545,16 +454,18 @@ class CompositeSignalGenerator:
                     majority_ratio = 0.5
                 # Track disagreement patterns
                 self._analyze_disagreement_patterns(components)
-                if majority_ratio >= 0.75:
-                    composite = composite * 0.85
-                elif majority_ratio >= 0.67:
-                    composite = composite * 0.75
-                else:
+                # A clear majority consensus (>= 0.75) is directional consensus, not
+                # disagreement: preserve the composite sign/magnitude so a strong
+                # majority is not flattened into neutrality. Apply direction-flattening
+                # penalties only when there is genuine component disagreement.
+                if majority_ratio < 0.67:
                     composite = composite * 0.4
+                elif majority_ratio < 0.75:
+                    composite = composite * 0.75
                 composite = _clamp(composite, -1.0, 1.0)
-        else:
-            # Still track for consistency
-            self._analyze_disagreement_patterns(components)
+            else:
+                # Still track for consistency
+                self._analyze_disagreement_patterns(components)
 
         # Apply regime transition penalty for stability
         raw_regime_check = self._detect_regime_raw(total_gex_s, iv_skew_s, put_call_ratio_s)
