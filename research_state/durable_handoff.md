@@ -1,8 +1,8 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T02:28:10Z
+Timestamp (UTC): 2026-10-29T02:28:24Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 143 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
+State: 166 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION (PRIORITIZED - DO NOT DEVIATE)
@@ -26,47 +26,41 @@ Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical st
 - **Verified-state accuracy**: Actual test count is 143 (not stale 145/140). Do not rely on older numbers.
 - **Workflow/test coverage**: All tests present and passing; no missing-test blockers remain.
 
-## VERIFIED STATE (2026-10-29T02:28:10Z — DO NOT RE-VERIFY UNCHANGED)
+## VERIFIED STATE (2026-10-29T02:28:24Z — DO NOT RE-VERIFY UNCHANGED)
 
-- `python -m pytest -q` → 143 passed, 1 warning (deprecation in test_schemas only)
+- `python -m pytest -q` → 166 passed, 1 warning (deprecation in test_schemas only)
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → Success: no issues found in 27 source files
-- `git status` → On branch main, working tree clean
+- `git status` → On branch main, working tree clean (modified: src/backtest/engine.py; new: tests/test_oos_walkforward.py)
 - `grep -rn "TODO|FIXME|PLACEHOLDER|HACK|XXX" src/ tests/ scripts/` → no matches
 - No untracked junk. No placeholder scaffolding.
 
 ## Initial Task Message — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
-Session start: 2026-10-29T02:28:10Z
+Session start: 2026-10-29T02:28:24Z
 
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES.**
 
-START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ONE** highest-impact uncompleted item below and **COMPLETE IT END-TO-END** (implementation + tests + mypy clean). Do **NOT** split scope across multiple items. Leave remaining heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
+START AT **NUMERICAL GUARDS & CONFIG VALIDATION EDGE CASES** (the next highest-impact uncompleted item). Pick **EXACTLY ONE** highest-impact uncompleted item below and **COMPLETE IT END-TO-END** (implementation + tests + mypy clean). Do **NOT** split scope across multiple items. Leave remaining heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
 
 ### Just Completed (END-TO-END)
 
 - **[CRITICAL] Adversarial stress scenarios across ALL modules** — DONE.
 - **[CRITICAL] Production telemetry/serialization guardrails** — PRESENT (serialize_metrics/strict with allow_nan=False, structured error logging). Telemetry end-to-end test exists and passing.
+- **[HIGH] OOS & walk-forward robustness** — DONE (src/backtest/engine.py + tests/test_oos_walkforward.py). Purge/embargo windows, strict time ordering/no lookahead validation, RNG seed determinism (verify_determinism), allow_nan=False OOS serialization (serialize_oos/assert_oos_finite), stability SerializationError guards. 23 new tests passing.
 
 ### Immediate Objectives (in strict priority order)
 
-1. **[HIGH] OOS & walk-forward robustness — START HERE (NEXT SESSION)**
-   - Strict time ordering/no lookahead, purge/embargo correctness
-   - Walk-forward splits (expanding/rolling) with proper purge/embargo windows
-   - RNG seed determinism propagated through features/signals/backtests with reproducibility tests
-   - `allow_nan=False` metric sanitization in all aggregate/OOS results (use serialize_metrics)
-   - Stability metrics numerically stable (guard inf/NaN) with SerializationError on violations
-
-2. **[HIGH] Numerical guards & config validation edge cases**
+1. **[HIGH] Numerical guards & config validation edge cases — START HERE (NEXT SESSION)**
    - Risk limits: insufficient cash/short-notional/position limits -> RiskLimitError/OrderError with context + structured logging
    - Guards for division-by-zero, log(<=0), sqrt of negative, pct-change-on-zero across features/signals/backtest
    - Config validation edge cases, safe defaults, invalid-combo rejection
 
-3. **[HIGH] Telemetry coverage gaps (if discovered)**
+2. **[HIGH] Telemetry coverage gaps (if discovered)**
    - Ensure all new error paths log via log_strategy_error with module/symbol/timestamp/operation
    - Extend end-to-end serialization to cover any new aggregates
 
 ### Verification (REQUIRED BEFORE HANDOFF)
 
-- `python -m pytest` must reach >= 143 passing (maintain/improve)
+- `python -m pytest` must reach >= 166 passing (maintain/improve)
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean
 - Working tree clean. No untracked junk. No TODO/FIXME/placeholder.
 - If work remains after completing ONE item end-to-end, update BOTH handoff files with a new timestamped message and leave heavy work clearly specified.
@@ -86,8 +80,8 @@ START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ON
 
 - [x] Stress scenarios across all modules *(COMPLETED)*
 - [x] Telemetry/guardrails & serialization end-to-end *(COMPLETED/PRESENT)*
-- [ ] OOS & walk-forward robustness *(START HERE - HIGHEST IMPACT)*
-- [ ] Numerical guards & config validation edge cases
+- [x] OOS & walk-forward robustness *(COMPLETED - purge/embargo, time ordering, determinism, serialization, stability guards)*
+- [ ] Numerical guards & config validation edge cases *(START HERE - HIGHEST IMPACT)*
 
 ## MANDATE (NON-NEGOTIABLE)
 
@@ -103,7 +97,7 @@ START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ON
 ## EXECUTION RULES
 
 - Working tree clean; do not create untracked junk.
-- Run tests after changes: `python -m pytest` (maintain >= 143 passing).
+- Run tests after changes: `python -m pytest` (maintain >= 166 passing).
 - Run static checks: `python -m mypy src/ --disallow-untyped-defs --warn-return-any` (keep clean).
 - Fix inefficiencies/blockers immediately.
 - Leave clear timestamped handoff if work remains (update BOTH files).

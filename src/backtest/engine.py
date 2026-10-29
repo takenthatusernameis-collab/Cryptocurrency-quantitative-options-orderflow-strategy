@@ -6,8 +6,8 @@ from math import isfinite
 from typing import Any, Dict, List, Optional
 
 from ..config import BacktestConfig, RiskConfig
-from ..errors import RiskLimitError, OrderError, DeterminismError, get_logger
-from ..telemetry import log_strategy_error
+from ..errors import RiskLimitError, OrderError, DeterminismError, SerializationError, get_logger
+from ..telemetry import log_strategy_error, serialize_metrics_strict
 
 
 _logger = get_logger(__name__)
@@ -656,6 +656,62 @@ class WalkForwardResults:
     oos_equity_curve: List[float] = field(default_factory=list)
     oos_trades: List[Trade] = field(default_factory=list)
 
+    def assert_oos_finite(self) -> None:
+        """Raise :class:`SerializationError` if any aggregate OOS metric is non-finite.
+
+        Enforces numerical stability on stability_ratio and degradation plus all
+        aggregate OOS return/sharpe/drawdown metrics. Called before serialization
+        to guarantee no NaN/Inf leaks into emitted results.
+        """
+        ctx = {
+            "operation": "assert_oos_finite",
+            "module": "src.backtest.engine",
+        }
+        fields = {
+            "overall_out_of_sample_return": self.overall_out_of_sample_return,
+            "overall_out_of_sample_sharpe": self.overall_out_of_sample_sharpe,
+            "overall_out_of_sample_max_drawdown": self.overall_out_of_sample_max_drawdown,
+            "stability_ratio": self.stability_ratio,
+            "degradation": self.degradation,
+        }
+        bad = [k for k, v in fields.items() if not isfinite(float(v))]
+        if bad:
+            raise SerializationError(
+                "Non-finite OOS/walk-forward metric detected; refusing to serialize",
+                context={**ctx, "nonfinite_fields": bad},
+            )
+        for w in self.windows:
+            for fname, fval in (("in_sample_return", w.in_sample_return), ("in_sample_sharpe", w.in_sample_sharpe),
+                                ("in_sample_max_drawdown", w.in_sample_max_drawdown),
+                                ("out_of_sample_return", w.out_of_sample_return),
+                                ("out_of_sample_sharpe", w.out_of_sample_sharpe),
+                                ("out_of_sample_max_drawdown", w.out_of_sample_max_drawdown)):
+                if not isfinite(float(fval)):
+                    raise SerializationError(
+                        f"Non-finite window metric {fname}",
+                        context={**ctx, "window_index": w.train_start, "field": fname, "value": fval},
+                    )
+
+    def serialize_oos(self) -> Dict[str, Any]:
+        """Serialize aggregate OOS walk-forward results with strict allow_nan=False semantics.
+
+        Runs :meth:`assert_oos_finite` first, then serializes through
+        :func:`serialize_metrics_strict`. Raises :class:`SerializationError` on
+        any non-finite value.
+        """
+        self.assert_oos_finite()
+        payload: Dict[str, Any] = {
+            "overall_out_of_sample_return": self.overall_out_of_sample_return,
+            "overall_out_of_sample_sharpe": self.overall_out_of_sample_sharpe,
+            "overall_out_of_sample_max_drawdown": self.overall_out_of_sample_max_drawdown,
+            "stability_ratio": self.stability_ratio,
+            "degradation": self.degradation,
+            "num_windows": len(self.windows),
+            "oos_equity_curve": self.oos_equity_curve,
+            "oos_trade_count": len(self.oos_trades),
+        }
+        return serialize_metrics_strict(payload)
+
 
 class WalkForwardBacktest:
     def __init__(
@@ -663,6 +719,8 @@ class WalkForwardBacktest:
         engine: Optional[BacktestEngine] = None,
         config: Optional[BacktestConfig] = None,
         risk_config: Optional[RiskConfig] = None,
+        purge: int = 0,
+        embargo: int = 0,
         **kwargs: Any,
     ) -> None:
         # Be flexible about positional args
@@ -699,6 +757,14 @@ class WalkForwardBacktest:
             self.config = config if isinstance(config, BacktestConfig) else BacktestConfig()
             self.risk_config = risk_config if isinstance(risk_config, RiskConfig) else RiskConfig()
             self.engine_template = BacktestEngine(self.config, self.risk_config)
+        # Purge/embargo: purge removes tail of train set adjacent to test; embargo removes head of test set adjacent to train.
+        # Both guard against lookahead/label-leakage between in-sample and out-of-sample windows.
+        if not isinstance(purge, int) or purge < 0:
+            purge = 0
+        if not isinstance(embargo, int) or embargo < 0:
+            embargo = 0
+        self.purge = purge
+        self.embargo = embargo
 
     def run_walk_forward(self,
                          price_series: Optional[Dict[str, List[float]]] = None,
@@ -709,10 +775,31 @@ class WalkForwardBacktest:
                          step_size: Optional[int] = None,
                          rolling: bool = True,
                          anchored: bool = False,
-                         min_train_size: int = 50) -> WalkForwardResults:
-        """Run walk-forward analysis with rolling or anchored windows."""
+                         min_train_size: int = 50,
+                         purge: Optional[int] = None,
+                         embargo: Optional[int] = None) -> WalkForwardResults:
+        """Run walk-forward analysis with rolling or anchored windows.
+
+        Purge removes the last ``purge`` observations of each training window
+        (closest to the test set) to prevent label leakage from overlapping
+        features. Embargo removes the first ``embargo`` observations of each
+        test window (closest to the training set) to prevent training-set
+        information from leaking into out-of-sample predictions. Per-call
+        values override the instance-level ``self.purge``/``self.embargo``.
+        """
         if price_series is None and signals is None:
             raise ValueError("Either price_series or signals must be provided")
+
+        purge_eff = self.purge if purge is None else purge
+        embargo_eff = self.embargo if embargo is None else embargo
+        if not isinstance(purge_eff, int) or purge_eff < 0:
+            purge_eff = 0
+        if not isinstance(embargo_eff, int) or embargo_eff < 0:
+            embargo_eff = 0
+
+        # Strict time ordering: timestamps must be monotonically increasing if provided.
+        if timestamps is not None:
+            self._validate_time_ordering(timestamps)
 
         # Determine length
         if price_series is not None:
@@ -759,7 +846,8 @@ class WalkForwardBacktest:
                 test_end = min(test_start + test_window, n)
                 if test_start >= test_end:
                     break
-                wf_res = self._run_window(price_series, signals, timestamps, train_start, train_end, test_start, test_end)
+                wf_res = self._run_window(price_series, signals, timestamps, train_start, train_end, test_start, test_end,
+                                          purge_eff, embargo_eff)
                 results.windows.append(wf_res)
                 if wf_res.oos_metrics and wf_res.oos_metrics.equity_curve:
                     # append OOS equity (skip first if concatenating)
@@ -784,7 +872,8 @@ class WalkForwardBacktest:
                 test_end = min(test_start + test_window, n)
                 if test_start >= test_end:
                     break
-                wf_res = self._run_window(price_series, signals, timestamps, train_start, train_end, test_start, test_end)
+                wf_res = self._run_window(price_series, signals, timestamps, train_start, train_end, test_start, test_end,
+                                          purge_eff, embargo_eff)
                 results.windows.append(wf_res)
                 if wf_res.oos_metrics and wf_res.oos_metrics.equity_curve:
                     for eq in wf_res.oos_metrics.equity_curve[1:]:
@@ -851,12 +940,80 @@ class WalkForwardBacktest:
 
         return results
 
-    def _run_window(self, price_series: Optional[Dict[str, List[float]]], signals: Optional[Dict[str, List[int]]], timestamps: Optional[List[datetime]], train_start: int, train_end: int, test_start: int, test_end: int) -> WalkForwardWindowResult:
+    def _validate_time_ordering(self, timestamps: List[datetime]) -> None:
+        """Validate strict time ordering (monotonically increasing timestamps).
+
+        Raises ``ValueError`` if any timestamp is not strictly after the
+        previous one, enforcing no lookahead across the walk-forward timeline.
+        Naive datetimes are treated as UTC.
+        """
+        prev: Optional[datetime] = None
+        for i, ts in enumerate(timestamps):
+            if ts.tzinfo is None:
+                ts = ts.replace(tzinfo=timezone.utc)
+            if prev is not None and ts <= prev:
+                raise ValueError(
+                    f"Timestamps not strictly increasing at index {i}: {prev.isoformat()} >= {ts.isoformat()}"
+                )
+            prev = ts
+
+    def verify_determinism(self,
+                           price_series: Optional[Dict[str, List[float]]] = None,
+                           signals: Optional[Dict[str, List[int]]] = None,
+                           timestamps: Optional[List[datetime]] = None,
+                           train_window: int = 252,
+                           test_window: int = 63,
+                           step_size: Optional[int] = None,
+                           rolling: bool = True,
+                           anchored: bool = False,
+                           min_train_size: int = 50,
+                           purge: Optional[int] = None,
+                           embargo: Optional[int] = None) -> bool:
+        """Run the same walk-forward twice and assert byte-identical results.
+
+        Confirms RNG seed determinism (via ``slippage_seed`` in config) is
+        propagated through all windows. Returns True if both runs match exactly;
+        raises ``AssertionError`` on any divergence.
+        """
+        r1 = self.run_walk_forward(
+            price_series=price_series, signals=signals, timestamps=timestamps,
+            train_window=train_window, test_window=test_window, step_size=step_size,
+            rolling=rolling, anchored=anchored, min_train_size=min_train_size,
+            purge=purge, embargo=embargo,
+        )
+        r2 = self.run_walk_forward(
+            price_series=price_series, signals=signals, timestamps=timestamps,
+            train_window=train_window, test_window=test_window, step_size=step_size,
+            rolling=rolling, anchored=anchored, min_train_size=min_train_size,
+            purge=purge, embargo=embargo,
+        )
+        s1 = r1.serialize_oos()
+        s2 = r2.serialize_oos()
+        assert s1 == s2, "Walk-forward results are not deterministic across runs"
+        assert len(r1.windows) == len(r2.windows)
+        for w1, w2 in zip(r1.windows, r2.windows):
+            assert w1.train_start == w2.train_start
+            assert w1.train_end == w2.train_end
+            assert w1.test_start == w2.test_start
+            assert w1.test_end == w2.test_end
+            assert w1.in_sample_return == w2.in_sample_return
+            assert w1.out_of_sample_return == w2.out_of_sample_return
+            assert w1.in_sample_sharpe == w2.in_sample_sharpe
+            assert w1.out_of_sample_sharpe == w2.out_of_sample_sharpe
+            assert w1.in_sample_max_drawdown == w2.in_sample_max_drawdown
+            assert w1.out_of_sample_max_drawdown == w2.out_of_sample_max_drawdown
+        return True
+
+    def _run_window(self, price_series: Optional[Dict[str, List[float]]], signals: Optional[Dict[str, List[int]]], timestamps: Optional[List[datetime]], train_start: int, train_end: int, test_start: int, test_end: int, purge: int = 0, embargo: int = 0) -> WalkForwardWindowResult:
         wres = WalkForwardWindowResult(train_start=train_start, train_end=train_end,
                                        test_start=test_start, test_end=test_end)
+        # Apply purge: shrink train window tail adjacent to test set
+        train_end_purged = max(train_start, train_end - purge)
+        # Apply embargo: shrink test window head adjacent to train set
+        test_start_embargoed = min(test_end, test_start + embargo)
         # Run in-sample (for metrics)
         is_engine = BacktestEngine(self.config, self.risk_config)
-        self._simulate_period(is_engine, price_series, signals, timestamps, train_start, train_end)
+        self._simulate_period(is_engine, price_series, signals, timestamps, train_start, train_end_purged)
         if is_engine.equity_curve:
             is_metrics = is_engine.calculate_metrics()
             wres.is_metrics = is_metrics
@@ -865,7 +1022,7 @@ class WalkForwardBacktest:
             wres.in_sample_max_drawdown = is_metrics.max_drawdown
         # Run out-of-sample
         oos_engine = BacktestEngine(self.config, self.risk_config)
-        self._simulate_period(oos_engine, price_series, signals, timestamps, test_start, test_end)
+        self._simulate_period(oos_engine, price_series, signals, timestamps, test_start_embargoed, test_end)
         if oos_engine.equity_curve:
             oos_metrics = oos_engine.calculate_metrics()
             wres.oos_metrics = oos_metrics
@@ -948,7 +1105,7 @@ def run_walk_forward(*args: Any, **kwargs: Any) -> WalkForwardResults:
     # Extract walkforward-specific params
     wf_params = {}
     for k in ['price_series', 'signals', 'timestamps', 'train_window', 'test_window',
-              'step_size', 'rolling', 'anchored', 'min_train_size']:
+              'step_size', 'rolling', 'anchored', 'min_train_size', 'purge', 'embargo']:
         if k in kwargs:
             wf_params[k] = kwargs.pop(k)
     wfb = WalkForwardBacktest(*args, **kwargs)
@@ -958,7 +1115,7 @@ def run_walk_forward(*args: Any, **kwargs: Any) -> WalkForwardResults:
 def run_rolling_window_backtest(*args: Any, **kwargs: Any) -> WalkForwardResults:
     wf_params = {}
     for k in ['price_series', 'signals', 'timestamps', 'train_window', 'test_window',
-              'step_size', 'rolling', 'anchored', 'min_train_size']:
+              'step_size', 'rolling', 'anchored', 'min_train_size', 'purge', 'embargo']:
         if k in kwargs:
             wf_params[k] = kwargs.pop(k)
     wf_params.setdefault('rolling', True)
