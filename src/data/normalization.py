@@ -1,10 +1,13 @@
 """Data normalization utilities across venues."""
 
+import math
 from datetime import datetime, timezone
 from typing import List, Optional
 
 import numpy as np
 
+from ..errors import DataError
+from ..utils.numerical_guards import safe_divide, validate_finite
 from .schemas import OptionsChain, OrderflowSnapshot, Trade
 
 
@@ -28,20 +31,42 @@ def normalize_timestamp(ts: Optional[datetime]) -> datetime:
 
 def calculate_moneyness(spot: float, strike: float) -> float:
     """Calculate moneyness as strike/spot."""
-    if spot <= 0:
+    try:
+        spot_f = validate_finite(spot, "spot", context={"function": "calculate_moneyness"})
+        strike_f = validate_finite(strike, "strike", context={"function": "calculate_moneyness"})
+    except Exception:
         return 0.0
-    return strike / spot
+    if spot_f <= 0:
+        return 0.0
+    moneyness = safe_divide(strike_f, spot_f, default=0.0, operation="calculate_moneyness")
+    if not math.isfinite(moneyness):
+        return 0.0
+    return moneyness
 
 
 def calculate_cumulative_delta(trades: List[Trade]) -> float:
     """Calculate cumulative delta from trade flow."""
     delta = 0.0
+    if not trades:
+        return 0.0
     for trade in trades:
-        side = str(trade.side).lower()
+        try:
+            side = str(getattr(trade, "side", "")).lower()
+            size = getattr(trade, "size", 0.0)
+            size_f = validate_finite(size, "trade.size", context={"function": "calculate_cumulative_delta"})
+        except Exception:
+            continue
+        if not math.isfinite(size_f) or size_f < 0:
+            # Treat negative/invalid sizes conservatively as zero contribution
+            continue
         if side == "buy":
-            delta += trade.size
+            delta += size_f
         elif side == "sell":
-            delta -= trade.size
+            delta -= size_f
+        else:
+            continue
+    if not math.isfinite(delta):
+        return 0.0
     return delta
 
 
@@ -49,10 +74,27 @@ def compute_vwap(trades: List[Trade]) -> float:
     """Compute volume-weighted average price."""
     if not trades:
         return 0.0
-    total_volume = sum(float(t.size) for t in trades)
+    total_volume = 0.0
+    weighted_sum = 0.0
+    for trade in trades:
+        try:
+            price = getattr(trade, "price", 0.0)
+            size = getattr(trade, "size", 0.0)
+            price_f = validate_finite(price, "trade.price", context={"function": "compute_vwap"})
+            size_f = validate_finite(size, "trade.size", context={"function": "compute_vwap"})
+        except Exception:
+            continue
+        if not math.isfinite(price_f) or not math.isfinite(size_f):
+            continue
+        if size_f <= 0:
+            continue
+        weighted_sum += price_f * size_f
+        total_volume += size_f
     if total_volume == 0:
         return 0.0
-    vwap = sum(float(t.price) * float(t.size) for t in trades) / total_volume
+    vwap = safe_divide(weighted_sum, total_volume, default=0.0, operation="compute_vwap")
+    if not math.isfinite(vwap) or vwap < 0:
+        return 0.0
     return vwap
 
 

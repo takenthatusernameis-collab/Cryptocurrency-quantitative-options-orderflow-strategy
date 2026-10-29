@@ -1,6 +1,8 @@
 """End-to-end telemetry and serialization test: ingestion -> features -> signals -> backtest -> serialization."""
 
 import json
+import math
+
 from datetime import datetime, timezone
 from unittest.mock import patch
 
@@ -138,6 +140,55 @@ def test_serialize_metrics_raises_on_nonfinite():
         assert False, "Expected SerializationError"
     except SerializationError:
         pass
+
+
+def test_pipeline_serialization_adversarial_edge_cases():
+    """Adversarial/edge cases through full pipeline -> serialization never emits NaN/Inf."""
+    config = {
+        "venues": ["deribit"],
+        "data": {"symbols": ["BTC"], "spot_price": 50000.0, "options": {"interval": 60}, "orderflow": {"include_trades": True}},
+        "backtest": {"initial_capital": 100000.0, "fee_rate": 0.0, "slippage_bps": 0},
+        "risk": {"max_position_pct": 0.1, "max_drawdown_limit": 0.2, "stop_loss_pct": 0.02, "take_profit_pct": 0.04},
+    }
+    # Empty chains / zero volume trades
+    empty_chain = OptionsChain(underlying="BTC", venue="deribit", quotes=[], timestamp=datetime.now(timezone.utc))
+    zero_trades = OrderflowSnapshot(symbol="BTC", venue="deribit", trades=[], timestamp=datetime.now(timezone.utc))
+    with patch("src.main.DeribitOptionsIngestion") as MockOpt, \
+         patch("src.main.DeribitOrderflowIngestion") as MockOf:
+        MockOpt.return_value.fetch_options_chain.return_value = empty_chain
+        MockOf.return_value.fetch_trades.return_value = zero_trades
+        res = run_pipeline(config, symbols=["BTC"])
+    serialized = serialize_metrics(res)
+    json.dumps(serialized, allow_nan=False)
+    strict = serialize_metrics_strict(res)
+    json.dumps(strict, allow_nan=False)
+
+    # NaN prices in trades
+    bad_trades = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=float("nan"), size=1.0, side="buy", timestamp=datetime.now(timezone.utc)),
+        Trade(trade_id="2", symbol="BTC", venue="deribit", price=50000.0, size=float("nan"), side="sell", timestamp=datetime.now(timezone.utc)),
+    ]
+    bad_of = OrderflowSnapshot(symbol="BTC", venue="deribit", trades=bad_trades, timestamp=datetime.now(timezone.utc))
+    with patch("src.main.DeribitOptionsIngestion") as MockOpt, \
+         patch("src.main.DeribitOrderflowIngestion") as MockOf:
+        MockOpt.return_value.fetch_options_chain.return_value = _make_chain()
+        MockOf.return_value.fetch_trades.return_value = bad_of
+        res = run_pipeline(config, symbols=["BTC"])
+    serialized = serialize_metrics(res)
+    json.dumps(serialized, allow_nan=False)
+    strict = serialize_metrics_strict(res)
+    json.dumps(strict, allow_nan=False)
+
+    # Inverted stops/take_profit in risk config - run_pipeline uses config validation; ensure it doesn't leak non-finite
+    bad_risk_cfg = {
+        "venues": ["deribit"],
+        "data": {"symbols": ["BTC"], "spot_price": 50000.0},
+        "backtest": {"initial_capital": 100000.0, "fee_rate": 0.0, "slippage_bps": 0},
+        "risk": {"max_position_pct": 0.1, "max_drawdown_limit": 0.2, "stop_loss_pct": 0.05, "take_profit_pct": 0.02},  # inverted
+    }
+    res = run_pipeline(bad_risk_cfg, symbols=["BTC"])
+    serialized = serialize_metrics(res)
+    json.dumps(serialized, allow_nan=False)
     try:
         serialize_metrics({"bad": float("inf")})
         assert False, "Expected SerializationError"
