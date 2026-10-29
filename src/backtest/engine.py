@@ -1999,5 +1999,10 @@ def run_portfolio_walk_forward(*args: Any, **kwargs: Any) -> PortfolioWalkForwar
     ]:
         if k in kwargs:
             wf_params[k] = kwargs.pop(k)
+    # Also allow positional price_series
+    if args and 'price_series' not in wf_params and isinstance(args[0], dict):
+        wf_params['price_series'] = args[0]
+        args = args[1:]
     pwfb = PortfolioWalkForwardBacktest(*args, **kwargs)
-    return pwfb.run_portfolio_walk_forward(**wf_params)
+    price_series = wf_params.pop('price_series')
+    return pwfb.run_portfolio_walk_forward(price_series=price_series, **wf_params)
