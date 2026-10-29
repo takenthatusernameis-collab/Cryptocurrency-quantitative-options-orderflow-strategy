@@ -1,16 +1,18 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T21:04:25Z
+Timestamp (UTC): 2026-10-29T21:06:00Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW)
 State: 321 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any, 31 source files) | WORKING TREE CLEAN | PHASES 1-5 COMPLETE | PHASE 6 IN PROGRESS - MANDATORY HEAVY WORK
 
 Session start: 2026-10-29T21:01:52Z
-Handoff updated: 2026-10-29T21:04:25Z (fresh handoff for next agent - prioritize bottlenecks and force heavy quant progress)
+Handoff updated: 2026-10-29T21:06:00Z (baseline re-verified; bottleneck removed; fresh tasking for next agent)
 
 ## Bottleneck status
-- BASELINE VERIFIED. `python -m pytest -q` = 321 passing, 1 warning (datetime.utcnow in test_schemas only). `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean (31 source files). Working tree clean.
+- BASELINE VERIFIED. `python -m pytest -q` = 321 passing, 1 warning (datetime.utcnow in test_schemas only). `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean (31 source files). Working tree clean. ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in src/.
+- BOTTLENECK REMOVED: stray `<` directory (garbage artifact mirroring research_state) deleted. Working tree clean after removal.
+- DIAGNOSTICS HISTORY: `research_state/workflow_run_diagnostics.jsonl` shows historical edit-tool failures and cancelled/successful runs; none block the current session. Baseline is clean; do not re-litigate past run failures.
 - INTEGRATION WIRED: IV surface build/calibration in `src/main.py`, Greeks summary computed, passed to `CompositeSignalGenerator.generate_signal` (iv_surface + greeks_summary). `src/signals/composite.py` has `iv_greeks` component with weights. `BacktestEngine` accepts `iv_surfaces`/`options_data` and populates `iv_surfaces`/`options_hedging` via `delta_hedged_option_pnl`. Determinism test exists and passes.
-- REMAINING BOTTLENECKS (HEAVY): Attribution precision in `src/backtest/options_hedging.py` (discrete decomposition is rough; gamma/theta/vega/delta terms need correctness review), numerical stability across pricing/IV/greeks/backtest (need systematic finiteness guards), serialization hardening audit (ensure all paths use `serialize_metrics`/`serialize_metrics_strict` with `allow_nan=False`, no raw `json.dumps` leaking NaN/Inf), regime robustness (stress paths for vol spikes/skew inversions/gamma squeezes), deeper integration tests for IV/Greeks influence and hedging attribution sums.
+- REMAINING BOTTLENECKS (HEAVY): Attribution precision in `src/backtest/options_hedging.py` (discrete decomposition is rough; gamma/theta/vega/delta terms need correctness review), numerical stability across pricing/IV/greeks/backtest (systematic finiteness guards), serialization hardening audit (all paths use `serialize_metrics`/`serialize_metrics_strict` with `allow_nan=False`, no raw `json.dumps` leaking NaN/Inf), regime robustness (stress paths for vol spikes/skew inversions/gamma squeezes), deeper integration tests for IV/Greeks influence and hedging attribution sums.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY)
 **DO NOT EXPLORE AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE. HEAVY QUANT WORK ONLY.**
@@ -39,7 +41,7 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 6. Backward compatibility: all existing tests pass unchanged.
 7. Clean state: ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in src/. Changes minimal and justified.
 
-**GATE:** Do NOT declare Phase 6 complete until ALL checks pass simultaneously. If blocked, remove bottlenecks with minimal production-grade fixes.
+**GATE:** Do NOT declare Phase 6 complete until ALL checks pass simultaneously. If blocked, remove bottlenecks with minimal production-grade fixes. Do NOT end mid-Phase-6 without updating this handoff with fresh UTC timestamp and exact remaining work.
 
 ## NEXT FOCUS CAMPAIGN (FUTURE AGENTS CANNOT AVOID HEAVY WORK)
 **Campaign Goal:** Complete Phase 6 - Advanced Integration & Production Hardening with FULL simultaneous verification. Strengthen attribution precision, numerical stability, serialization hardening, determinism, regime robustness, and add production-grade integration tests.
@@ -53,5 +55,11 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 - Phase 6: Advanced Integration & Production Hardening - **IN PROGRESS (MANDATORY HEAVY WORK)**
 
 **MANDATORY GATE:** All acceptance criteria must pass simultaneously before declaring Phase 6 complete. A session MUST NOT end mid-Phase-6 without updating this handoff with fresh UTC timestamp and exact remaining work.
+
+**CAMPAIGN ENFORCEMENT (agents cannot opt out):**
+- Every session must re-verify the baseline (pytest + mypy + git status clean) before starting Phase 6 work.
+- Every session must end only with this handoff updated (fresh UTC timestamp + exact remaining work) OR with Phase 6 gate fully passed.
+- No aimless exploration, no rewriting correct code, no scaffolding/stubs/placeholders. Heavy quantitative engineering only.
+- Bottlenecks must be removed immediately when they block progress.
 
 **SINGLE DURABLE HANDOFF:** This file (`research_state/durable_handoff.md`) is the ONLY source of truth. `research_state/INITIAL_TASK_HANDOFF.md` points here. Update this file if stopping mid-campaign.
