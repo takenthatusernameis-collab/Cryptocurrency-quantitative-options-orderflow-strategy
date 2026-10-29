@@ -61,13 +61,14 @@ class CompositeSignalGenerator:
             "orderflow": 0.30,
             "vol_skew": 0.25,
             "put_call": 0.20,
+            "iv_greeks": 0.10,
         }
         self.regime_weights: Dict[str, Dict[str, float]] = {
-            "high_vol_negative_gex": {"gamma": 0.45, "orderflow": 0.30, "vol_skew": 0.15, "put_call": 0.10},
-            "low_vol_positive_gex": {"gamma": 0.15, "orderflow": 0.25, "vol_skew": 0.30, "put_call": 0.30},
-            "skew_bearish": {"gamma": 0.25, "orderflow": 0.30, "vol_skew": 0.35, "put_call": 0.10},
-            "skew_bullish": {"gamma": 0.25, "orderflow": 0.30, "vol_skew": 0.10, "put_call": 0.35},
-            "neutral": {"gamma": 0.25, "orderflow": 0.30, "vol_skew": 0.25, "put_call": 0.20},
+            "high_vol_negative_gex": {"gamma": 0.45, "orderflow": 0.30, "vol_skew": 0.15, "put_call": 0.10, "iv_greeks": 0.15},
+            "low_vol_positive_gex": {"gamma": 0.15, "orderflow": 0.25, "vol_skew": 0.30, "put_call": 0.30, "iv_greeks": 0.10},
+            "skew_bearish": {"gamma": 0.25, "orderflow": 0.30, "vol_skew": 0.35, "put_call": 0.10, "iv_greeks": 0.20},
+            "skew_bullish": {"gamma": 0.25, "orderflow": 0.30, "vol_skew": 0.10, "put_call": 0.35, "iv_greeks": 0.20},
+            "neutral": {"gamma": 0.25, "orderflow": 0.30, "vol_skew": 0.25, "put_call": 0.20, "iv_greeks": 0.10},
         }
         # Regime hysteresis state for stability against noisy inputs
         self._prev_regime: str = "neutral"
@@ -79,6 +80,117 @@ class CompositeSignalGenerator:
         self._disagreement_history: List[Dict[str, Any]] = []
         self._transition_calibration_factor: float = 0.85
         self._max_history: int = 1000
+
+    def _extract_iv_surface_features(
+        self, iv_surface: Any, spot_price_s: float
+    ) -> Dict[str, float]:
+        """Extract rich, numerically stable features from an IV surface.
+
+        Returns a dict with skew, term_slope, level, and curvature proxies.
+        All values are finite-guarded; missing data yields 0.0.
+        """
+        feats: Dict[str, float] = {
+            "skew": 0.0,
+            "term_slope": 0.0,
+            "level": 0.0,
+            "curvature": 0.0,
+        }
+        if iv_surface is None:
+            return feats
+        iv_dict: Dict[str, Any] = {}
+        try:
+            if isinstance(iv_surface, dict):
+                iv_dict = iv_surface
+            elif hasattr(iv_surface, "to_dict"):
+                d = iv_surface.to_dict()
+                if isinstance(d, dict):
+                    iv_dict = d
+            elif hasattr(iv_surface, "__dict__"):
+                iv_dict = dict(getattr(iv_surface, "__dict__", {}))
+        except Exception:
+            return feats
+        points = iv_dict.get("points", []) if isinstance(iv_dict.get("points"), list) else []
+        if not points:
+            return feats
+        try:
+            atm_ivs: List[float] = []
+            short_ivs: List[float] = []
+            long_ivs: List[float] = []
+            call_ivs: List[float] = []
+            put_ivs: List[float] = []
+            for p in points:
+                if not isinstance(p, dict):
+                    continue
+                strike = _safe_float(p.get("strike"), 0.0)
+                iv_p = _safe_float(p.get("iv"), float("nan"))
+                if not isfinite(iv_p) or iv_p <= 0.0:
+                    continue
+                tte = _safe_float(p.get("time_to_expiry"), 0.0)
+                otype = str(p.get("option_type", "")).strip().lower()
+                if otype.startswith("c"):
+                    call_ivs.append(iv_p)
+                elif otype.startswith("p"):
+                    put_ivs.append(iv_p)
+                if spot_price_s > 0 and strike > 0:
+                    mny = strike / spot_price_s
+                    if 0.9 <= mny <= 1.1:
+                        atm_ivs.append(iv_p)
+                        if tte > 0:
+                            if tte < 30.0 / 365.0:
+                                short_ivs.append(iv_p)
+                            elif tte > 60.0 / 365.0:
+                                long_ivs.append(iv_p)
+            if atm_ivs:
+                feats["level"] = sum(atm_ivs) / len(atm_ivs)
+            if call_ivs and put_ivs:
+                feats["skew"] = (sum(put_ivs) / len(put_ivs)) - (sum(call_ivs) / len(call_ivs))
+            if short_ivs and long_ivs:
+                feats["term_slope"] = (sum(long_ivs) / len(long_ivs)) - (sum(short_ivs) / len(short_ivs))
+            # Curvature: ATM IV minus average of short and long ATM IVs
+            if feats["level"] != 0.0 and short_ivs and long_ivs:
+                avg_ends = (sum(short_ivs) / len(short_ivs) + sum(long_ivs) / len(long_ivs)) / 2.0
+                feats["curvature"] = feats["level"] - avg_ends
+        except Exception:
+            pass
+        for k in list(feats.keys()):
+            feats[k] = _safe_float(feats[k], 0.0)
+        return feats
+
+    def _extract_greeks_features(self, greeks_summary: Dict[str, Any]) -> Dict[str, float]:
+        """Extract normalized Greeks features for signal blending.
+
+        Returns dict with delta_momentum, gamma_exposure, vega_sensitivity,
+        theta_decay, and net_greek. All finite-guarded.
+        """
+        feats: Dict[str, float] = {
+            "delta_momentum": 0.0,
+            "gamma_exposure": 0.0,
+            "vega_sensitivity": 0.0,
+            "theta_decay": 0.0,
+            "net_greek": 0.0,
+        }
+        if greeks_summary is None or not isinstance(greeks_summary, dict):
+            return feats
+        try:
+            delta = _safe_float(greeks_summary.get("delta"), 0.0)
+            gamma = _safe_float(greeks_summary.get("gamma"), 0.0)
+            vega = _safe_float(greeks_summary.get("vega"), 0.0)
+            theta = _safe_float(greeks_summary.get("theta"), 0.0)
+            # Normalize to bounded ranges for blending stability
+            feats["delta_momentum"] = _clamp(delta * 0.15, -0.3, 0.3)
+            feats["gamma_exposure"] = _clamp(gamma * 50.0, -0.3, 0.3)
+            feats["vega_sensitivity"] = _clamp(vega * 0.02, -0.2, 0.2)
+            feats["theta_decay"] = _clamp(-theta * 0.01, -0.1, 0.1)
+            feats["net_greek"] = _clamp(
+                feats["delta_momentum"] * 0.4 + feats["gamma_exposure"] * 0.35
+                + feats["vega_sensitivity"] * 0.15 + feats["theta_decay"] * 0.1,
+                -1.0, 1.0,
+            )
+        except Exception:
+            pass
+        for k in list(feats.keys()):
+            feats[k] = _safe_float(feats[k], 0.0)
+        return feats
 
     def _detect_regime_raw(self, total_gex: float, iv_skew: float, put_call_ratio: float) -> str:
         gex = _safe_float(total_gex, 0.0)
