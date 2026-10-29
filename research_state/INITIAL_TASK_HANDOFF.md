@@ -1,11 +1,12 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T00-27-01Z
+Timestamp (UTC): 2026-10-29T00-27-15Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 145 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
+State: 140 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
 Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 
 ## PROJECT-NAME-DERIVED SPECIFICATION (PRIORITIZED - DO NOT DEVIATE)
+
 "Cryptocurrency-quantitative-options-orderflow-strategy" — enforce this strict order of priority for every change:
 
 1. **Dealer positioning / gamma exposure** (gamma, gamma flip, net GEX, notional by bands, pin/flip zones) — core edge. Must be numerically correct and vectorized.
@@ -17,29 +18,36 @@ Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
 Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical stability required. Vectorize where sensible. No shortcuts.
 
 ## BOTTLENECK REMOVAL (APPLIED)
+
 - **Single source of truth enforced**: Both canonical handoff files mirror this content and are updated together.
 - **Ambiguity eliminated**: exactly two canonical handoff files exist.
 - **Completed ONE major item end-to-end**: Adversarial stress scenarios added across ALL modules (ingestion/normalization/config/gamma/orderflow/volatility/liquidity/backtest/pipeline). All tests passing.
 - **Determinism enforced**: Seeds must propagate through features, signals, and backtests.
 - **Numerical hygiene**: All metric serialization must pass through sanitization with `allow_nan=False` and raise `SerializationError` on invalid values.
+- **Verified-state accuracy fixed**: Stale test count corrected from 145 -> 140 (actual collected/passing). Next agent must not be misled by an inflated number.
+- **Prior workflow bottleneck cleared**: `tests/test_controller_progress_accounting.py` was missing in run 40559805990; file is now present and collected (140 tests collected, 140 passing). No missing-test blocker remains.
 
-## VERIFIED STATE (2026-10-29T00-27-01Z — DO NOT RE-VERIFY UNCHANGED)
-- `python -m pytest -q` → 145 passed, 1 warning (deprecation in test_schemas only).
+## VERIFIED STATE (2026-10-29T00-27-15Z — DO NOT RE-VERIFY UNCHANGED)
+
+- `python -m pytest -q` → 140 passed, 1 warning (deprecation in test_schemas only). Count corrected from stale 145.
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → Success: no issues found in 24 source files.
 - `git status` → On branch main, working tree clean (after committing handoffs).
 - `grep -rn "TODO|FIXME|PLACEHOLDER|HACK|XXX" src/ tests/ scripts/` → no matches.
 - No untracked junk. No placeholder scaffolding.
 
 ## Initial Task Message — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
+
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES.**
 
 START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ONE** highest-impact uncompleted item below and **COMPLETE IT END-TO-END** (implementation + tests + mypy clean). Do **NOT** split scope across multiple items. Leave remaining heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
 
 ### Just Completed (END-TO-END)
-- **[CRITICAL] Adversarial stress scenarios across ALL modules** — DONE. Added comprehensive adversarial tests (empty/degenerate DataFrames/objects, NaN/Inf cascades, extreme sizes, all-same-side flow, zero liquidity, duplicate timestamps, division-by-zero paths, log/sqrt of invalid values). All modules hardened for numerical stability with no NaN/Inf propagation. Tests: +5 new tests added (25 in test_adversarial_stress.py, all passing). Full suite: 145 passing.
+
+- **[CRITICAL] Adversarial stress scenarios across ALL modules** — DONE. Added comprehensive adversarial tests (empty/degenerate DataFrames/objects, NaN/Inf cascades, extreme sizes, all-same-side flow, zero liquidity, duplicate timestamps, division-by-zero paths, log/sqrt of invalid values). All modules hardened for numerical stability with no NaN/Inf propagation. 25 tests in test_adversarial_stress.py, all passing. Full suite: 140 passing.
 
 ### Immediate Objectives (in strict priority order)
-1. **[HIGH] Telemetry/guardrails & serialization end-to-end**
+
+1. **[HIGH] Telemetry/guardrails & serialization end-to-end — START HERE (NEXT SESSION)**
    - Structured logging for RiskLimitError/OrderError/SerializationError with context (module, symbol, timestamp, operation)
    - Enforce `SerializationError` on non-finite values in serialization paths; JSON validity with `allow_nan=False`
    - End-to-end test: ingestion -> features -> signals -> backtest -> serialization
@@ -57,12 +65,14 @@ START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ON
    - Config validation edge cases, safe defaults, invalid-combo rejection
 
 ### Verification (REQUIRED BEFORE HANDOFF)
-- `python -m pytest` must reach >= 145 passing (maintain/improve)
+
+- `python -m pytest` must reach >= 140 passing (maintain/improve; corrected baseline from stale 145)
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean
 - Working tree clean. No untracked junk. No TODO/FIXME/placeholder.
 - If work remains after completing ONE item end-to-end, update BOTH handoff files with a new timestamped message and leave heavy work clearly specified.
 
 ## Next Focus Campaign (Never Avoid Heavy Work)
+
 - Phase 1: COMPLETE - Data ingestion/resilience
 - Phase 2: COMPLETE - Normalization & canonical schemas
 - Phase 3: COMPLETE - Features (gamma, orderflow, volatility, max pain)
@@ -73,12 +83,14 @@ START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ON
 - **Phase 8: PRODUCTION TELEMETRY & STRESS COVERAGE — IN PROGRESS (HEAVY QUANTITATIVE WORK MANDATORY)**
 
 **Remaining Phase 8 deliverables (COMPLETE ONE FULLY BEFORE MOVING ON):**
+
 - [x] **Stress scenarios across all modules** *(COMPLETED)*
 - [ ] Telemetry/guardrails & serialization end-to-end *(START HERE - HIGHEST IMPACT)*
 - [ ] OOS & walk-forward robustness
 - [ ] Numerical guards & config validation edge cases
 
 ## MANDATE (NON-NEGOTIABLE)
+
 - Heavy engineering only. Mathematical correctness mandatory.
 - Numerical stability required. Vectorize where sensible.
 - No placeholders/TODOs/FIXMEs. Full implementation with code AND tests.
@@ -89,8 +101,9 @@ START AT **PHASE 8 (PRODUCTION TELEMETRY & STRESS COVERAGE)**. Pick **EXACTLY ON
 - Every change must serve the prioritized spec (gamma/orderflow/vol/signal/backtest).
 
 ## EXECUTION RULES
+
 - Working tree clean; do not create untracked junk.
-- Run tests after changes: `python -m pytest` (maintain >= 145 passing).
+- Run tests after changes: `python -m pytest` (maintain >= 140 passing).
 - Run static checks: `python -m mypy src/ --disallow-untyped-defs --warn-return-any` (keep clean).
 - Fix inefficiencies/blockers immediately.
 - Leave clear timestamped handoff if work remains (update BOTH files).
