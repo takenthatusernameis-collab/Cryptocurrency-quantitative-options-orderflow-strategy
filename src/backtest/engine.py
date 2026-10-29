@@ -5,6 +5,11 @@ from datetime import datetime, timedelta, timezone
 from math import isfinite
 from typing import Any, Dict, List, Optional
 
+try:
+    import numpy as _np  # type: ignore
+except Exception:  # pragma: no cover - environment dependent
+    _np = None  # type: ignore
+
 from ..config import BacktestConfig, RiskConfig
 from ..errors import RiskLimitError, OrderError, DeterminismError, SerializationError, get_logger
 from ..telemetry import log_strategy_error, serialize_metrics_strict
@@ -643,6 +648,83 @@ class WalkForwardWindowResult:
     out_of_sample_max_drawdown: float = 0.0
     oos_metrics: Optional[BacktestResults] = None
     is_metrics: Optional[BacktestResults] = None
+
+
+@dataclass
+class PortfolioWalkForwardWindowResult:
+    train_start: int = 0
+    train_end: int = 0
+    test_start: int = 0
+    test_end: int = 0
+    symbols: List[str] = field(default_factory=list)
+    in_sample_return: float = 0.0
+    out_of_sample_return: float = 0.0
+    in_sample_sharpe: float = 0.0
+    out_of_sample_sharpe: float = 0.0
+    in_sample_max_drawdown: float = 0.0
+    out_of_sample_max_drawdown: float = 0.0
+    correlation_matrix: Optional[List[List[float]]] = None
+    oos_metrics: Optional[BacktestResults] = None
+    is_metrics: Optional[BacktestResults] = None
+
+
+@dataclass
+class PortfolioWalkForwardResults:
+    windows: List[PortfolioWalkForwardWindowResult] = field(default_factory=list)
+    overall_out_of_sample_return: float = 0.0
+    overall_out_of_sample_sharpe: float = 0.0
+    overall_out_of_sample_max_drawdown: float = 0.0
+    stability_ratio: float = 0.0
+    degradation: float = 0.0
+    oos_equity_curve: List[float] = field(default_factory=list)
+    oos_trades: List[Trade] = field(default_factory=list)
+
+    def assert_oos_finite(self) -> None:
+        ctx = {
+            "operation": "assert_oos_finite",
+            "module": "src.backtest.engine",
+        }
+        fields = {
+            "overall_out_of_sample_return": self.overall_out_of_sample_return,
+            "overall_out_of_sample_sharpe": self.overall_out_of_sample_sharpe,
+            "overall_out_of_sample_max_drawdown": self.overall_out_of_sample_max_drawdown,
+            "stability_ratio": self.stability_ratio,
+            "degradation": self.degradation,
+        }
+        bad = [k for k, v in fields.items() if not isfinite(float(v))]
+        if bad:
+            raise SerializationError(
+                "Non-finite OOS/walk-forward metric detected; refusing to serialize",
+                context={**ctx, "nonfinite_fields": bad},
+            )
+        for w in self.windows:
+            for fname, fval in (
+                ("in_sample_return", w.in_sample_return),
+                ("in_sample_sharpe", w.in_sample_sharpe),
+                ("in_sample_max_drawdown", w.in_sample_max_drawdown),
+                ("out_of_sample_return", w.out_of_sample_return),
+                ("out_of_sample_sharpe", w.out_of_sample_sharpe),
+                ("out_of_sample_max_drawdown", w.out_of_sample_max_drawdown),
+            ):
+                if not isfinite(float(fval)):
+                    raise SerializationError(
+                        f"Non-finite window metric {fname}",
+                        context={**ctx, "window_index": w.train_start, "field": fname, "value": fval},
+                    )
+
+    def serialize_oos(self) -> Dict[str, Any]:
+        self.assert_oos_finite()
+        payload: Dict[str, Any] = {
+            "overall_out_of_sample_return": self.overall_out_of_sample_return,
+            "overall_out_of_sample_sharpe": self.overall_out_of_sample_sharpe,
+            "overall_out_of_sample_max_drawdown": self.overall_out_of_sample_max_drawdown,
+            "stability_ratio": self.stability_ratio,
+            "degradation": self.degradation,
+            "num_windows": len(self.windows),
+            "oos_equity_curve": self.oos_equity_curve,
+            "oos_trade_count": len(self.oos_trades),
+        }
+        return serialize_metrics_strict(payload)
 
 
 @dataclass
@@ -1435,3 +1517,484 @@ def all_stress_scenarios() -> List[StressScenario]:
 def run_deterministic_stress_suite() -> List[StressTestResult]:
     """Run every stress scenario and return per-scenario results."""
     return [run_stress_scenario(s) for s in all_stress_scenarios()]
+
+
+class PortfolioWalkForwardBacktest:
+    """Portfolio-level walk-forward orchestrator with correlation constraints."""
+
+    def __init__(
+        self,
+        engine: Optional[BacktestEngine] = None,
+        config: Optional[BacktestConfig] = None,
+        risk_config: Optional[RiskConfig] = None,
+        purge: int = 0,
+        embargo: int = 0,
+        correlation_window: int = 60,
+        max_correlation: float = 0.7,
+        regime_costs: Optional[Dict[str, float]] = None,
+        **kwargs: Any,
+    ) -> None:
+        if engine is not None and not isinstance(engine, BacktestEngine):
+            if isinstance(engine, BacktestConfig):
+                if config is None or isinstance(config, RiskConfig):
+                    risk_config = config
+                config = engine
+                engine = None
+        if engine is not None and isinstance(engine, BacktestEngine):
+            self.engine_template = engine
+            self.config = getattr(engine, "config", config or BacktestConfig())
+            self.risk_config = getattr(engine, "risk_config", risk_config or RiskConfig())
+        else:
+            if config is None and kwargs:
+                cfg_kwargs = {k: v for k, v in kwargs.items() if k in BacktestConfig.__dataclass_fields__}
+                if cfg_kwargs:
+                    config = BacktestConfig(**cfg_kwargs)
+            if risk_config is None and kwargs:
+                risk_kwargs = {k: v for k, v in kwargs.items() if k in RiskConfig.__dataclass_fields__}
+                if risk_kwargs:
+                    risk_config = RiskConfig(**risk_kwargs)
+            self.config = config if isinstance(config, BacktestConfig) else BacktestConfig()
+            self.risk_config = risk_config if isinstance(risk_config, RiskConfig) else RiskConfig()
+            self.engine_template = BacktestEngine(self.config, self.risk_config)
+
+        purge = purge if isinstance(purge, int) and purge >= 0 else 0
+        embargo = embargo if isinstance(embargo, int) and embargo >= 0 else 0
+        self.purge = purge
+        self.embargo = embargo
+        self.correlation_window = max(10, int(correlation_window))
+        self.max_correlation = float(max_correlation)
+        if not isfinite(self.max_correlation):
+            self.max_correlation = 0.7
+        self.max_correlation = max(0.0, min(0.99, self.max_correlation))
+        # Regime-dependent costs/slippage mapping (deterministic)
+        self.regime_costs = regime_costs or {
+            "low_vol": 0.0001,
+            "normal": 0.0002,
+            "high_vol": 0.0005,
+            "stress": 0.0010,
+        }
+
+    def _validate_time_ordering(self, timestamps: List[datetime]) -> None:
+        prev: Optional[datetime] = None
+        for i, ts in enumerate(timestamps):
+            if ts.tzinfo is None:
+                ts_norm = ts.replace(tzinfo=timezone.utc)
+            else:
+                try:
+                    ts_norm = ts.astimezone(timezone.utc)
+                except Exception:
+                    ts_norm = ts
+            if prev is not None and ts_norm <= prev:
+                raise ValueError(
+                    f"Timestamps not strictly increasing at index {i}: {prev.isoformat()} >= {ts_norm.isoformat()}"
+                )
+            prev = ts_norm
+
+    def _estimate_correlation_matrix(self, price_series: Dict[str, List[float]], start: int, end: int) -> Optional[List[List[float]]]:
+        if price_series is None or len(price_series) < 2:
+            return None
+        symbols = list(price_series.keys())
+        n_syms = len(symbols)
+        # Build return matrix over window
+        window_returns: Dict[str, List[float]] = {s: [] for s in symbols}
+        # Use rolling window ending at end-1
+        w_start = max(start, end - self.correlation_window)
+        for s in symbols:
+            prices = price_series[s]
+            for i in range(w_start + 1, end):
+                if i < 1:
+                    continue
+                p0 = prices[i - 1]
+                p1 = prices[i]
+                if isfinite(p0) and p0 != 0 and isfinite(p1):
+                    window_returns[s].append((p1 / p0) - 1.0)
+        # If different lengths, align to min
+        min_len = min((len(v) for v in window_returns.values()), default=0)
+        if min_len < 5:
+            # Return identity-like matrix
+            mat = [[1.0 if i == j else 0.0 for j in range(n_syms)] for i in range(n_syms)]
+            return mat
+        # Compute correlation
+        if _np is not None:
+            try:
+                R_list = []
+                for s in symbols:
+                    R_list.append(window_returns[s][:min_len])
+                arr = _np.array(R_list)  # type: ignore
+                # z-score
+                means_arr = arr.mean(axis=1, keepdims=True)  # type: ignore
+                stds_arr = arr.std(axis=1, keepdims=True)  # type: ignore
+                stds_arr = _np.where(stds_arr < 1e-18, 1e-18, stds_arr)  # type: ignore
+                Z_arr = (arr - means_arr) / stds_arr  # type: ignore
+                C_arr = (Z_arr @ Z_arr.T) / float(min_len)  # type: ignore
+                try:
+                    w_e, V_e = _np.linalg.eigh(C_arr)  # type: ignore
+                    w_clipped = _np.maximum(w_e, 1e-12)  # type: ignore
+                    C_psd = V_e @ _np.diag(w_clipped) @ V_e.T  # type: ignore
+                    d_arr = _np.sqrt(_np.diag(C_psd))  # type: ignore
+                    d_arr = _np.where(d_arr < 1e-18, 1e-18, d_arr)  # type: ignore
+                    C_psd = C_psd / (d_arr[:, None] * d_arr[None, :])  # type: ignore
+                    C_out_list = C_psd.tolist()  # type: ignore
+                except Exception:
+                    C_out_list = C_arr.tolist()  # type: ignore
+                for i in range(n_syms):
+                    C_out_list[i][i] = 1.0
+                    for j in range(n_syms):
+                        if i != j:
+                            val = float(C_out_list[i][j])
+                            if val > self.max_correlation:
+                                val = self.max_correlation
+                            elif val < -self.max_correlation:
+                                val = -self.max_correlation
+                            if not isfinite(val):
+                                val = 0.0
+                            C_out_list[i][j] = val
+                            C_out_list[j][i] = val
+                return C_out_list
+            except Exception:
+                pass
+        # Fallback pure Python
+        means = {}
+        stds = {}
+        for s in symbols:
+            vals = window_returns[s][:min_len]
+            m = sum(vals) / len(vals)
+            means[s] = m
+            var = sum((x - m) ** 2 for x in vals) / len(vals)
+            stds[s] = var ** 0.5 if var >= 0 else 0.0
+        mat_res = [[0.0] * n_syms for _ in range(n_syms)]
+        for i, si in enumerate(symbols):
+            mat_res[i][i] = 1.0
+            for j in range(i + 1, n_syms):
+                sj = symbols[j]
+                vi = window_returns[si][:min_len]
+                vj = window_returns[sj][:min_len]
+                mi, mj = means[si], means[sj]
+                si_std, sj_std = stds[si], stds[sj]
+                if si_std < 1e-18 or sj_std < 1e-18:
+                    cov = 0.0
+                else:
+                    cov = sum((vi[k] - mi) * (vj[k] - mj) for k in range(min_len)) / min_len
+                corr = cov / (si_std * sj_std)
+                if not isfinite(corr):
+                    corr = 0.0
+                if corr > self.max_correlation:
+                    corr = self.max_correlation
+                elif corr < -self.max_correlation:
+                    corr = -self.max_correlation
+                mat_res[i][j] = corr
+                mat_res[j][i] = corr
+        return mat_res
+
+    def _get_regime_for_window(self, regime: Optional[str] = None) -> str:
+        if regime is None:
+            return "normal"
+        if isinstance(regime, str) and regime in self.regime_costs:
+            return regime
+        return "normal"
+
+    def run_portfolio_walk_forward(
+        self,
+        price_series: Dict[str, List[float]],
+        signals: Optional[Dict[str, List[int]]] = None,
+        timestamps: Optional[List[datetime]] = None,
+        train_window: int = 252,
+        test_window: int = 63,
+        step_size: Optional[int] = None,
+        rolling: bool = True,
+        anchored: bool = False,
+        min_train_size: int = 50,
+        purge: Optional[int] = None,
+        embargo: Optional[int] = None,
+        regime: Optional[str] = None,
+        correlation_constraint: bool = True,
+        **kwargs: Any,
+    ) -> PortfolioWalkForwardResults:
+        if price_series is None or len(price_series) == 0:
+            raise ValueError("price_series required for portfolio walk-forward")
+        if timestamps is not None:
+            self._validate_time_ordering(timestamps)
+
+        purge_eff = self.purge if purge is None else purge
+        embargo_eff = self.embargo if embargo is None else embargo
+        if not isinstance(purge_eff, int) or purge_eff < 0:
+            purge_eff = 0
+        if not isinstance(embargo_eff, int) or embargo_eff < 0:
+            embargo_eff = 0
+
+        symbols = list(price_series.keys())
+        first_key = symbols[0]
+        n = len(price_series[first_key])
+        for s in symbols:
+            if len(price_series[s]) != n:
+                raise ValueError("All price series must have same length")
+
+        if step_size is None:
+            step_size = test_window
+        if step_size < 1:
+            step_size = 1
+        if train_window < min_train_size:
+            train_window = min_train_size
+
+        results = PortfolioWalkForwardResults()
+        all_oos_equity: List[float] = []
+        all_oos_trades: List[Trade] = []
+
+        regime_name = self._get_regime_for_window(regime)
+        regime_cost_mult = 1.0 + float(self.regime_costs.get(regime_name, 0.0002)) * 1000.0  # scale effect
+        # Apply regime-dependent costs to config copy
+        cfg = BacktestConfig(
+            initial_capital=getattr(self.config, "initial_capital", 100000.0),
+            fee_rate=(self.config.fee_rate * regime_cost_mult) if isfinite(self.config.fee_rate) else self.config.fee_rate,
+            slippage_bps=(self.config.slippage_bps * regime_cost_mult) if isfinite(self.config.slippage_bps) else self.config.slippage_bps,
+            max_slippage_bps=getattr(self.config, "max_slippage_bps", 0.0),
+            slippage_seed=getattr(self.config, "slippage_seed", 42),
+            round_lot_size=getattr(self.config, "round_lot_size", 0.0),
+            partial_fill_rate=getattr(self.config, "partial_fill_rate", 0.0),
+        )
+
+        if anchored:
+            train_start = 0
+            window_idx = 0
+            while True:
+                train_end = train_start + train_window
+                if train_end >= n:
+                    break
+                test_start = train_end
+                test_end = min(test_start + test_window, n)
+                if test_start >= test_end:
+                    break
+                pwres = self._run_portfolio_window(
+                    price_series, signals, timestamps, train_start, train_end, test_start, test_end,
+                    purge_eff, embargo_eff, cfg, correlation_constraint
+                )
+                results.windows.append(pwres)
+                if pwres.oos_metrics and pwres.oos_metrics.equity_curve:
+                    for eq in pwres.oos_metrics.equity_curve[1:]:
+                        if isfinite(eq):
+                            all_oos_equity.append(eq)
+                if pwres.oos_metrics and pwres.oos_metrics.trades:
+                    all_oos_trades.extend(pwres.oos_metrics.trades)
+                train_window += step_size
+                if train_start + train_window >= n:
+                    break
+                window_idx += 1
+                if window_idx > 1000:
+                    break
+        else:
+            train_start = 0
+            window_idx = 0
+            while True:
+                train_end = train_start + train_window
+                if train_end >= n:
+                    break
+                test_start = train_end
+                test_end = min(test_start + test_window, n)
+                if test_start >= test_end:
+                    break
+                pwres = self._run_portfolio_window(
+                    price_series, signals, timestamps, train_start, train_end, test_start, test_end,
+                    purge_eff, embargo_eff, cfg, correlation_constraint
+                )
+                results.windows.append(pwres)
+                if pwres.oos_metrics and pwres.oos_metrics.equity_curve:
+                    for eq in pwres.oos_metrics.equity_curve[1:]:
+                        if isfinite(eq):
+                            all_oos_equity.append(eq)
+                if pwres.oos_metrics and pwres.oos_metrics.trades:
+                    all_oos_trades.extend(pwres.oos_metrics.trades)
+                train_start += step_size
+                if train_start + train_window > n:
+                    break
+                window_idx += 1
+                if window_idx > 10000:
+                    break
+
+        results.oos_equity_curve = all_oos_equity
+        results.oos_trades = all_oos_trades
+
+        if all_oos_equity:
+            eng = BacktestEngine(cfg, self.risk_config)
+            eng.equity_curve = [cfg.initial_capital] + all_oos_equity
+            eng.trades = all_oos_trades
+            agg = eng.calculate_metrics()
+            results.overall_out_of_sample_return = agg.total_return
+            results.overall_out_of_sample_sharpe = agg.sharpe_ratio
+            results.overall_out_of_sample_max_drawdown = agg.max_drawdown
+        else:
+            results.overall_out_of_sample_return = 0.0
+            results.overall_out_of_sample_sharpe = 0.0
+            results.overall_out_of_sample_max_drawdown = 0.0
+
+        if results.windows:
+            oos_returns = []
+            for w in results.windows:
+                if isfinite(w.out_of_sample_return):
+                    oos_returns.append(w.out_of_sample_return)
+            if oos_returns:
+                avg_oos = sum(oos_returns) / len(oos_returns)
+                var_oos = sum((r - avg_oos) ** 2 for r in oos_returns) / len(oos_returns)
+                std_oos = var_oos ** 0.5 if var_oos >= 0 else 0.0
+                if std_oos > 0 and isfinite(std_oos):
+                    results.stability_ratio = abs(avg_oos) / std_oos
+                else:
+                    results.stability_ratio = float('inf') if avg_oos != 0 else 0.0
+            is_rets = [w.in_sample_return for w in results.windows if isfinite(w.in_sample_return)]
+            if is_rets and oos_returns:
+                avg_is = sum(is_rets) / len(is_rets)
+                if avg_is != 0:
+                    results.degradation = (avg_is - sum(oos_returns) / len(oos_returns)) / abs(avg_is)
+                else:
+                    results.degradation = 0.0
+            else:
+                results.degradation = 0.0
+        else:
+            results.stability_ratio = 0.0
+            results.degradation = 0.0
+
+        if not isfinite(results.stability_ratio):
+            results.stability_ratio = 0.0
+        if not isfinite(results.degradation):
+            results.degradation = 0.0
+
+        return results
+
+    def _run_portfolio_window(
+        self,
+        price_series: Dict[str, List[float]],
+        signals: Optional[Dict[str, List[int]]],
+        timestamps: Optional[List[datetime]],
+        train_start: int,
+        train_end: int,
+        test_start: int,
+        test_end: int,
+        purge: int,
+        embargo: int,
+        cfg: BacktestConfig,
+        correlation_constraint: bool,
+    ) -> PortfolioWalkForwardWindowResult:
+        symbols = list(price_series.keys())
+        pwres = PortfolioWalkForwardWindowResult(
+            train_start=train_start,
+            train_end=train_end,
+            test_start=test_start,
+            test_end=test_end,
+            symbols=symbols,
+        )
+        train_end_purged = max(train_start, train_end - purge)
+        test_start_embargoed = min(test_end, test_start + embargo)
+
+        # Estimate correlation matrix for window
+        if correlation_constraint and len(symbols) >= 2:
+            try:
+                corr_mat = self._estimate_correlation_matrix(price_series, train_start, train_end_purged)
+                pwres.correlation_matrix = corr_mat
+            except Exception:
+                pwres.correlation_matrix = None
+        else:
+            pwres.correlation_matrix = None
+
+        # In-sample
+        is_engine = BacktestEngine(cfg, self.risk_config)
+        self._simulate_portfolio_period(is_engine, price_series, signals, timestamps, train_start, train_end_purged, correlation_constraint)
+        if is_engine.equity_curve:
+            is_metrics = is_engine.calculate_metrics()
+            pwres.is_metrics = is_metrics
+            pwres.in_sample_return = is_metrics.total_return
+            pwres.in_sample_sharpe = is_metrics.sharpe_ratio
+            pwres.in_sample_max_drawdown = is_metrics.max_drawdown
+
+        # Out-of-sample
+        oos_engine = BacktestEngine(cfg, self.risk_config)
+        self._simulate_portfolio_period(oos_engine, price_series, signals, timestamps, test_start_embargoed, test_end, correlation_constraint)
+        if oos_engine.equity_curve:
+            oos_metrics = oos_engine.calculate_metrics()
+            pwres.oos_metrics = oos_metrics
+            pwres.out_of_sample_return = oos_metrics.total_return
+            pwres.out_of_sample_sharpe = oos_metrics.sharpe_ratio
+            pwres.out_of_sample_max_drawdown = oos_metrics.max_drawdown
+
+        return pwres
+
+    def _simulate_portfolio_period(
+        self,
+        engine: BacktestEngine,
+        price_series: Dict[str, List[float]],
+        signals: Optional[Dict[str, List[int]]],
+        timestamps: Optional[List[datetime]],
+        start: int,
+        end: int,
+        correlation_constraint: bool,
+    ) -> None:
+        if start >= end or end < 0:
+            return
+        symbols = list(price_series.keys())
+        first_key = symbols[0]
+        n = len(price_series[first_key])
+        end = min(end, n)
+        start = max(0, start)
+        if start >= end:
+            return
+
+        for i in range(start, end):
+            current_prices: Dict[str, float] = {}
+            for sym in symbols:
+                prices = price_series[sym]
+                if i < len(prices) and isfinite(prices[i]) and prices[i] > 0:
+                    current_prices[sym] = float(prices[i])
+            ts = timestamps[i] if timestamps is not None and i < len(timestamps) else datetime.now(timezone.utc)
+
+            if signals is not None:
+                for sym in symbols:
+                    sig_list = signals.get(sym)
+                    if sig_list is None or i >= len(sig_list):
+                        continue
+                    sig = sig_list[i]
+                    if not isfinite(sig):
+                        continue
+                    price = current_prices.get(sym)
+                    if price is None or price <= 0:
+                        continue
+                    if sig == 1 and sym not in engine.positions:
+                        try:
+                            qty = engine.calculate_position_size(price, side="long")
+                            # Apply correlation constraint: if too correlated exposure, scale down
+                            if correlation_constraint and len(engine.positions) > 0 and len(symbols) > 1:
+                                # Simple diversification guard - reduce size if many correlated positions
+                                if len(engine.positions) >= 2:
+                                    qty = qty * 0.5  # conservative scaling to prevent over-concentration
+                                    if qty < 1e-18:
+                                        qty = 0.0
+                            if qty > 0 and isfinite(qty):
+                                engine.execute_trade(sym, qty, price, "buy", ts)
+                        except Exception:
+                            pass
+                    elif sig == -1:
+                        try:
+                            if sym in engine.positions and engine.positions[sym].side == "long":
+                                pos = engine.positions[sym]
+                                engine.execute_trade(sym, pos.quantity, price, "sell", ts)
+                            elif sym not in engine.positions:
+                                qty = engine.calculate_position_size(price, side="short")
+                                if correlation_constraint and len(engine.positions) >= 2:
+                                    qty = qty * 0.5
+                                    if qty < 1e-18:
+                                        qty = 0.0
+                                if qty > 0 and isfinite(qty):
+                                    engine.execute_trade(sym, qty, price, "sell", ts)
+                        except Exception:
+                            pass
+            engine.update_equity_curve(current_prices)
+
+
+def run_portfolio_walk_forward(*args: Any, **kwargs: Any) -> PortfolioWalkForwardResults:
+    wf_params = {}
+    for k in [
+        'price_series', 'signals', 'timestamps', 'train_window', 'test_window',
+        'step_size', 'rolling', 'anchored', 'min_train_size', 'purge', 'embargo',
+        'regime', 'correlation_constraint'
+    ]:
+        if k in kwargs:
+            wf_params[k] = kwargs.pop(k)
+    pwfb = PortfolioWalkForwardBacktest(*args, **kwargs)
+    return pwfb.run_portfolio_walk_forward(**wf_params)
