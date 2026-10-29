@@ -110,7 +110,7 @@ def _serialize_context_value(v: Any) -> Any:
         return [_serialize_context_value(x) for x in v]
     # Fallback
     try:
-        json.dumps(v)
+        json.dumps(v, allow_nan=False)
         return v
     except Exception:
         return str(v)
@@ -136,7 +136,10 @@ class StructuredLogger:
         }
         for k, v in ctx.items():
             payload[k] = _serialize_context_value(v)
-        line = json.dumps(payload)
+        try:
+            line = json.dumps(payload, allow_nan=False)
+        except (ValueError, TypeError):
+            line = json.dumps(payload, allow_nan=False, default=str)
         log_fn = getattr(self._logger, level.lower(), self._logger.info)
         log_fn(line)
 
