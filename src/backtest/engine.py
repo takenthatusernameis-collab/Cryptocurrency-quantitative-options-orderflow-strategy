@@ -530,6 +530,11 @@ class BacktestEngine:
             except Exception:
                 pass
             try:
+                if self.options_data:
+                    res_empty.options_data_ref = self.options_data  # type: ignore[attr-defined]
+            except Exception:
+                pass
+            try:
                 # Attempt delta-hedged attribution if options data provided
                 if self.options_data:
                     opt_res = delta_hedged_option_pnl(
@@ -674,6 +679,11 @@ class BacktestEngine:
         try:
             if self.iv_surfaces:
                 result.iv_surfaces = self.iv_surfaces
+        except Exception:
+            pass
+        try:
+            if getattr(self, "options_data", None):
+                result.options_data_ref = self.options_data  # type: ignore[attr-defined]
         except Exception:
             pass
         try:

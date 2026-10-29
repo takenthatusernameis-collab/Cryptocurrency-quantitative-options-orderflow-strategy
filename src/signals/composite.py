@@ -308,17 +308,21 @@ class CompositeSignalGenerator:
             except Exception:
                 greeks_factor = 0.0
 
-        # Blend IV/Greeks into gamma component (backward compatible, additive small adjustment)
-        gamma_signal = _clamp(gamma_signal + iv_surf_factor + greeks_factor * 0.5, -1.0, 1.0)
+        # Blend IV/Greeks into gamma component (backward compatible, additive adjustment)
+        gamma_signal = _clamp(gamma_signal + iv_surf_factor + greeks_factor * 0.6, -1.0, 1.0)
         components["gamma"] = _clamp(gamma_signal, -1.0, 1.0)
 
         of_signal = (cum_delta_s / 10000.0 + of_imbalance_s) / 2.0
-        # Incorporate Greeks delta into orderflow component
+        # Incorporate Greeks delta/gamma into orderflow component
         if greeks_summary is not None and isinstance(greeks_summary, dict):
             try:
                 delta_g = _safe_float(greeks_summary.get("delta"), 0.0)
+                gamma_g = _safe_float(greeks_summary.get("gamma"), 0.0)
                 if delta_g != 0.0:
-                    of_signal = _clamp(of_signal + delta_g * 0.05, -1.0, 1.0)
+                    of_signal = _clamp(of_signal + delta_g * 0.06, -1.0, 1.0)
+                if gamma_g != 0.0:
+                    # High gamma regimes can amplify flow impact
+                    of_signal = _clamp(of_signal + _clamp(gamma_g * 50.0, -0.08, 0.08), -1.0, 1.0)
             except Exception:
                 pass
         components["orderflow"] = _clamp(of_signal, -1.0, 1.0)
@@ -342,14 +346,28 @@ class CompositeSignalGenerator:
                     # Look for term structure slope (short vs long dated ATM)
                     try:
                         ttes = []
+                        atm_ivs_short = []
+                        atm_ivs_long = []
                         for p in points2:
                             if isinstance(p, dict):
                                 tte_p = _safe_float(p.get("time_to_expiry"), 0.0)
                                 if tte_p > 0:
                                     ttes.append(tte_p)
+                                    strike_p = _safe_float(p.get("strike"), 0.0)
+                                    iv_p = _safe_float(p.get("iv"), float("nan"))
+                                    if spot_price_s > 0 and strike_p > 0 and isfinite(iv_p):
+                                        mny = strike_p / spot_price_s
+                                        if 0.9 <= mny <= 1.1:
+                                            if tte_p < 30.0 / 365.0:
+                                                atm_ivs_short.append(iv_p)
+                                            elif tte_p > 60.0 / 365.0:
+                                                atm_ivs_long.append(iv_p)
                         if len(set(round(t, 6) for t in ttes)) >= 2:
-                            # simple: if we have variation, adjust skew component slightly
-                            skew_signal = _clamp(skew_signal + iv_surf_factor * 0.5, -1.0, 1.0)
+                            skew_signal = _clamp(skew_signal + iv_surf_factor * 0.6, -1.0, 1.0)
+                        # Term structure slope contribution
+                        if atm_ivs_short and atm_ivs_long:
+                            ts_slope = (sum(atm_ivs_long) / len(atm_ivs_long)) - (sum(atm_ivs_short) / len(atm_ivs_short))
+                            skew_signal = _clamp(skew_signal + _clamp(ts_slope * 0.3, -0.1, 0.1), -1.0, 1.0)
                     except Exception:
                         pass
             except Exception:
