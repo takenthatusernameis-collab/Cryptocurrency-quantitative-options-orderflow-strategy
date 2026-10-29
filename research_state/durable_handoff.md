@@ -1,16 +1,14 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T18:55:00Z
+Timestamp (UTC): 2026-10-29T18:57:00Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 319 TESTS PASSING | 0 FAILING (excluding 2 handoff-content tests that pass once INITIAL_TASK_HANDOFF.md sections are present) | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE HAS 1 INTENDED MODIFICATION (src/signals/composite.py bottleneck fix) | ZERO PLACEHOLDERS | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
+State: 321 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | ZERO PLACEHOLDERS | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
 
-Session start: 2026-10-29T18:55:00Z
+Session start: 2026-10-29T18:57:00Z
 
 ## Bottleneck status
-- BOTTLECKET REMOVED THIS SESSION: `src/signals/composite.py:447` had `IndentationError: unexpected indent` which broke the `src.signals`/`src.main` import chain, causing 8 pytest collection errors and blocking mypy. Fixed (dedented the stray clamp line).
-- BOTTLECKET REMOVED THIS SESSION: `src/signals/composite.py` contained dead unreachable code after `return signal` (references undefined `raw_regime_check_final`) blocking mypy. Removed.
-- Baseline re-verified: imports OK; `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean (31 source files); `python -m pytest -q` = 319 passing (2 failures are `test_campaign_resume.py` handoff-content checks, resolved by writing required sections into `research_state/INITIAL_TASK_HANDOFF.md`).
-- No blocked peer sessions. No active workflow failures blocking progress.
+- BOTTLECKET REMOVED (prior session): `src/signals/composite.py` IndentationError + dead code after `return signal` — import chain fixed, mypy unblocked. No longer active.
+- No active bottlenecks. Baseline re-verified this session: `python -m pytest -q` = 321 passing; `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean (31 source files); `git status` clean. No blocked peer sessions. No active workflow failures blocking progress.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY)
 **DO NOT EXPLORE AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE. HEAVY QUANT WORK ONLY.**
