@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from math import isfinite
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 
 @dataclass
@@ -13,6 +13,7 @@ class Signal:
     confidence: float  # 0 to 1
     components: Dict[str, float]
     regime: str = "unknown"
+    metadata: Dict[str, Any] | None = None
 
 
 def _sign(x: float) -> float:
@@ -79,10 +80,34 @@ class CompositeSignalGenerator:
         of_imbalance: float = 0.0,
         iv_skew: float = 0.0,
         put_call_ratio: float = 1.0,
+        chain: Any = None,
         **kwargs: Any,
     ) -> Signal:
         """Generate regime-aware composite trading signal."""
         components = {}
+
+        # Try to safely integrate pin/flip zone data if chain provided
+        pin_zone_info: Dict[str, Any] = {}
+        flip_zone_info: Dict[str, Any] = {}
+        if chain is not None:
+            try:
+                from ..features.gamma_exposure import calculate_pin_zone, calculate_flip_zones
+
+                try:
+                    pz = calculate_pin_zone(chain, spot_price)
+                    if isinstance(pz, dict):
+                        pin_zone_info = {k: float(v) if isfinite(float(v)) else 0.0 for k, v in pz.items()}
+                except Exception:
+                    pin_zone_info = {}
+                try:
+                    fz = calculate_flip_zones(chain, spot_price)
+                    if isinstance(fz, dict):
+                        flip_zone_info = {k: float(v) if isfinite(float(v)) else 0.0 for k, v in fz.items()}
+                except Exception:
+                    flip_zone_info = {}
+            except Exception:
+                pin_zone_info = {}
+                flip_zone_info = {}
 
         # Gamma exposure signal (negative GEX can lead to volatility expansion)
         if total_gex != 0 and isfinite(total_gex):
@@ -197,4 +222,5 @@ class CompositeSignalGenerator:
             confidence=float(confidence),
             components=components,
             regime=regime,
+            metadata={"pin_zone": pin_zone_info, "flip_zones": flip_zone_info} if (pin_zone_info or flip_zone_info) else None,
         )

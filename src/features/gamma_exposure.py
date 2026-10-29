@@ -617,53 +617,92 @@ def calculate_pin_zone(
     ``'total_gex'``. All values are numerically guarded (non-finite -> 0.0).
     """
     try:
+        wp_fallback = float(width_pct)
+        if not isfinite(wp_fallback) or wp_fallback < 0.0:
+            wp_fallback = 0.02
+        if wp_fallback > 0.1:
+            wp_fallback = 0.1
+
         if chain is None or not getattr(chain, "quotes", None):
-            wp_fallback = float(width_pct)
-            if not isfinite(wp_fallback) or wp_fallback < 0.0:
-                wp_fallback = 0.02
-            if wp_fallback > 0.1:
-                wp_fallback = 0.1
             return {"center": 0.0, "lower": 0.0, "upper": 0.0, "width_pct": wp_fallback, "total_gex": 0.0}
-        spot_f = float(spot_price)
+
+        try:
+            spot_f = float(spot_price)
+        except Exception:
+            spot_f = 0.0
         if not isfinite(spot_f):
             spot_f = 0.0
-        center = gamma_flip_level_weighted(chain, spot_f, weighted=weighted)
-        if not isfinite(center) or center <= 0.0 or center != center:  # check NaN
-            # Fallback to spot or refined unweighted
+
+        center = float("nan")
+        try:
+            center = gamma_flip_level_weighted(chain, spot_f, weighted=weighted)
+        except Exception:
+            center = float("nan")
+        if not isfinite(center) or center <= 0.0:
             try:
                 center = gamma_flip_level(chain, spot_f)
             except Exception:
                 center = float("nan")
-        if not isfinite(center) or center <= 0.0 or center != center:
-            if spot_f > 0.0:
+        if not isfinite(center) or center <= 0.0:
+            if isfinite(spot_f) and spot_f > 0.0:
                 center = spot_f
             else:
                 center = 0.0
+
         wp = float(width_pct)
         if not isfinite(wp) or wp < 0.0:
             wp = 0.02
         if wp > 0.1:  # cap extreme widths for safety
             wp = 0.1
-        if center <= 0.0:
+
+        if not isfinite(center) or center <= 0.0:
             lower = 0.0
             upper = 0.0
         else:
             lower = center * (1.0 - wp)
             upper = center * (1.0 + wp)
         if not (isfinite(lower) and isfinite(upper)):
-            lower, upper = center, center
+            if isfinite(center) and center > 0.0:
+                lower, upper = center, center
+            else:
+                lower, upper = 0.0, 0.0
+
         try:
             total_gex = calculate_total_gex(chain, spot_f)
         except Exception:
             total_gex = 0.0
         if not isfinite(total_gex):
             total_gex = 0.0
+
+        # Final sanitization
+        c_res = float(center) if isfinite(center) and center > 0.0 else (float(spot_f) if isfinite(spot_f) and spot_f > 0.0 else 0.0)
+        if not isfinite(c_res):
+            c_res = 0.0
+        l_res = float(lower) if isfinite(lower) else 0.0
+        u_res = float(upper) if isfinite(upper) else 0.0
+        if c_res > 0.0 and not (isfinite(l_res) and isfinite(u_res)):
+            l_res, u_res = c_res, c_res
+        elif c_res <= 0.0:
+            l_res, u_res = 0.0, 0.0
+        # If center came from bad path but we have spot, ensure finite and reasonable
+        if c_res <= 0.0 and isfinite(spot_f) and spot_f > 0.0:
+            c_res = spot_f
+            l_res = c_res * (1.0 - wp)
+            u_res = c_res * (1.0 + wp)
+            if not (isfinite(l_res) and isfinite(u_res)):
+                l_res, u_res = c_res, c_res
+        wp_res = float(wp)
+        if not isfinite(wp_res) or wp_res < 0.0:
+            wp_res = 0.02
+        if wp_res > 0.1:
+            wp_res = 0.1
+
         return {
-            "center": float(center) if isfinite(center) else 0.0,
-            "lower": float(lower) if isfinite(lower) else 0.0,
-            "upper": float(upper) if isfinite(upper) else 0.0,
-            "width_pct": float(wp),
-            "total_gex": float(total_gex),
+            "center": float(c_res) if isfinite(c_res) else 0.0,
+            "lower": float(l_res) if isfinite(l_res) else 0.0,
+            "upper": float(u_res) if isfinite(u_res) else 0.0,
+            "width_pct": float(wp_res),
+            "total_gex": float(total_gex) if isfinite(total_gex) else 0.0,
         }
     except Exception:
         wp_fallback = float(width_pct)
@@ -686,45 +725,80 @@ def calculate_flip_zones(
     finite-guarded.
     """
     try:
+        bp_fallback = float(band_pct)
+        if not isfinite(bp_fallback) or bp_fallback < 0.0:
+            bp_fallback = 0.03
+        if bp_fallback > 0.15:
+            bp_fallback = 0.15
+
         if chain is None or not getattr(chain, "quotes", None):
-            bp_fallback = float(band_pct)
-            if not isfinite(bp_fallback) or bp_fallback < 0.0:
-                bp_fallback = 0.03
-            if bp_fallback > 0.15:
-                bp_fallback = 0.15
             return {"flip_level": 0.0, "zone_low": 0.0, "zone_high": 0.0, "band_pct": bp_fallback}
-        spot_f = float(spot_price)
+
+        try:
+            spot_f = float(spot_price)
+        except Exception:
+            spot_f = 0.0
         if not isfinite(spot_f):
             spot_f = 0.0
-        flip = gamma_flip_level(chain, spot_f)
-        if not isfinite(flip) or flip <= 0.0 or flip != flip:
+
+        flip = float("nan")
+        try:
+            flip = gamma_flip_level(chain, spot_f)
+        except Exception:
+            flip = float("nan")
+        if not isfinite(flip) or flip <= 0.0:
             try:
                 flip = gamma_flip_level_weighted(chain, spot_f, weighted="delta")
             except Exception:
                 flip = float("nan")
-        if not isfinite(flip) or flip <= 0.0 or flip != flip:
-            if spot_f > 0.0:
+        if not isfinite(flip) or flip <= 0.0:
+            if isfinite(spot_f) and spot_f > 0.0:
                 flip = spot_f
             else:
                 flip = 0.0
+
         bp = float(band_pct)
         if not isfinite(bp) or bp < 0.0:
             bp = 0.03
         if bp > 0.15:
             bp = 0.15
-        if flip <= 0.0:
+
+        if not isfinite(flip) or flip <= 0.0:
             zone_low = 0.0
             zone_high = 0.0
         else:
             zone_low = flip * (1.0 - bp)
             zone_high = flip * (1.0 + bp)
         if not (isfinite(zone_low) and isfinite(zone_high)):
-            zone_low, zone_high = flip, flip
+            if isfinite(flip) and flip > 0.0:
+                zone_low, zone_high = flip, flip
+            else:
+                zone_low, zone_high = 0.0, 0.0
+
+        if not isfinite(flip) or flip <= 0.0:
+            if isfinite(spot_f) and spot_f > 0.0:
+                flip_res = spot_f
+                zone_low = flip_res * (1.0 - bp)
+                zone_high = flip_res * (1.0 + bp)
+                if not (isfinite(zone_low) and isfinite(zone_high)):
+                    zone_low, zone_high = flip_res, flip_res
+            else:
+                flip_res = 0.0
+                zone_low, zone_high = 0.0, 0.0
+        else:
+            flip_res = float(flip)
+
+        bp_res = float(bp)
+        if not isfinite(bp_res) or bp_res < 0.0:
+            bp_res = 0.03
+        if bp_res > 0.15:
+            bp_res = 0.15
+
         return {
-            "flip_level": float(flip) if isfinite(flip) else 0.0,
+            "flip_level": float(flip_res) if isfinite(flip_res) else 0.0,
             "zone_low": float(zone_low) if isfinite(zone_low) else 0.0,
             "zone_high": float(zone_high) if isfinite(zone_high) else 0.0,
-            "band_pct": float(bp),
+            "band_pct": float(bp_res),
         }
     except Exception:
         bp_fallback = float(band_pct)
