@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T04:14:12Z
+Timestamp (UTC): 2026-10-29T05:11:39Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 216 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
@@ -100,6 +100,27 @@ Project-name priority order:
 
 ## HANDOFF UPDATE (2026-10-29T04:21:07Z) — ORDERFLOW GUARDS HARDENED
 State: 216 TESTS PASSING | MYPY CLEAN | CHANGES NOT COMMITTED (working tree modified)
+
+---
+
+## HANDOFF UPDATE (2026-10-29T05:11:39Z) — DURABLE HANDOFF REFRESHED; NEXT HEAVY CAMPAIGN SET
+State: 216 TESTS PASSING | MYPY CLEAN | WORKING TREE CLEAN
+
+### Completed (end-to-end)
+- Phase 8 residual: orderflow guards hardened; telemetry/serialization guardrails present; working tree clean.
+
+### Absolute First Action (Next Session)
+**SCAN telemetry/serialization for uncovered error paths across src/ (gamma, orderflow, volatility, signals, backtest). If a concrete gap exists, implement ONE heavy end-to-end fix (guards + tests + mypy). If none obvious, move immediately to Phase 1: harden gamma exposure (net GEX, gamma flip, pin/flip zones) with vectorized numerical guards + adversarial stress tests — NO SKIPPING.**
+
+### Next Focus Campaign (strict by project name; heavy work mandatory)
+1. Phase 1 — Dealer positioning/gamma exposure (core edge): vectorized, numerically correct, adversarial-tested.
+2. Phase 2 — Orderflow microstructure: already hardened; residual telemetry only.
+3. Phase 3 — Volatility surface dynamics: degenerate surface guards.
+4. Phase 4 — Regime-aware signal engineering: determinism + leakage prevention.
+5. Phase 5 — Rigorous backtesting: no lookahead, sanitized metrics.
+
+### Verification (required before next handoff)
+- pytest >= 216 passing; mypy clean; working tree clean; no TODO/FIXME/placeholder/HACK/XXX.
 
 ### Completed (end-to-end)
 - **[HIGH] Strengthen numerical guards in features/orderflow.py** — DONE.
