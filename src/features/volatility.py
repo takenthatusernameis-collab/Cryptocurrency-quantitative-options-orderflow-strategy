@@ -470,6 +470,126 @@ def calculate_iv_skew_term_structure(
     return dict(sorted(out.items()))
 
 
+def _group_by_expiry(quotes: List[OptionQuote]) -> Dict[str, List[OptionQuote]]:
+    """Group quotes by expiry isoformat string; skips quotes with unusable expiry."""
+    by_exp: Dict[str, List[OptionQuote]] = {}
+    for q in quotes:
+        try:
+            key = q.contract.expiry.isoformat()
+        except Exception:
+            continue
+        by_exp.setdefault(key, []).append(q)
+    return by_exp
+
+
+def _atm_iv_for_quotes(
+    quotes: List[OptionQuote], spot_price: float, moneyness_tol: float
+) -> Optional[float]:
+    """ATM IV for a single expiry's quotes with closest-to-ATM fallback.
+
+    Selects quotes whose strike/spot is within ``moneyness_tol`` of 1.0 and
+    averages their IV (mark -> bid -> ask). When no quote sits inside the band
+    (sparse/degenerate surface), falls back to the quote(s) closest to ATM.
+    Returns None when no quote has a finite strike and a usable IV.
+    """
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return None
+    if not quotes:
+        return None
+    tol = moneyness_tol if moneyness_tol is not None and moneyness_tol >= 0.0 else 0.02
+    tight_ivs: List[float] = []
+    best_dist: Optional[float] = None
+    for q in quotes:
+        try:
+            strike = float(q.contract.strike)
+        except Exception:
+            continue
+        if not isfinite(strike):
+            continue
+        m = strike / sp
+        if not isfinite(m):
+            continue
+        iv = _get_iv(q)
+        if iv is None:
+            continue
+        dist = abs(m - 1.0)
+        if not isfinite(dist):
+            continue
+        if best_dist is None or dist < best_dist:
+            best_dist = dist
+        if dist <= tol:
+            tight_ivs.append(iv)
+    if tight_ivs:
+        return sum(tight_ivs) / len(tight_ivs)
+    if best_dist is None:
+        return None
+    close_ivs: List[float] = []
+    for q in quotes:
+        try:
+            strike = float(q.contract.strike)
+        except Exception:
+            continue
+        if not isfinite(strike):
+            continue
+        m = strike / sp
+        if not isfinite(m):
+            continue
+        iv = _get_iv(q)
+        if iv is None:
+            continue
+        if abs(m - 1.0) <= best_dist + 1e-12:
+            close_ivs.append(iv)
+    if not close_ivs:
+        return None
+    return sum(close_ivs) / len(close_ivs)
+
+
+def _atm_iv_vectorized(
+    quotes: List[OptionQuote], spot_price: float, moneyness_tol: float
+) -> Optional[float]:
+    """Vectorized parity of :func:`_atm_iv_for_quotes`.
+
+    Returns None when no quote has a finite strike and a usable IV, otherwise
+    the mean ATM IV (which may legitimately be 0.0).
+    """
+    sp = _to_float(spot_price)
+    if sp is None or sp <= 0.0:
+        return None
+    if not quotes:
+        return None
+    tol = moneyness_tol if moneyness_tol is not None and moneyness_tol >= 0.0 else 0.02
+    n = len(quotes)
+    strikes = np.zeros(n, dtype=np.float64)
+    ivs = np.zeros(n, dtype=np.float64)
+    has_iv = np.zeros(n, dtype=bool)
+    for i, q in enumerate(quotes):
+        try:
+            strikes[i] = float(q.contract.strike)
+        except Exception:
+            strikes[i] = float("nan")
+        iv = _get_iv(q)
+        if iv is None:
+            continue
+        ivs[i] = float(iv)
+        has_iv[i] = True
+    moneyness = strikes / sp
+    dist = np.abs(moneyness - 1.0)
+    valid = has_iv & np.isfinite(dist)
+    if not bool(np.any(valid)):
+        return None
+    best_dist = float(np.min(dist[valid]))
+    tight = valid & (dist <= tol)
+    if bool(np.any(tight)):
+        sel = ivs[tight]
+    else:
+        close = valid & (dist <= best_dist + 1e-12)
+        if not bool(np.any(close)):
+            return None
+        sel = ivs[close]
+    return float(np.mean(sel))
+
+
 def calculate_atm_term_structure(
     quotes: List[OptionQuote],
     spot_price: float,
@@ -478,9 +598,11 @@ def calculate_atm_term_structure(
 ) -> Dict[float, float]:
     """Compute ATM IV term structure by tenor (years).
 
-    For each expiry, selects ATM options within ``moneyness_tol`` of spot (or
-    closest to ATM), averages call/put mid IV (falls back to last/mark), converts
-    expiry to years via ``_tenor_years``; returns sorted dict by tenor.
+    For each expiry, selects ATM options within ``moneyness_tol`` of spot,
+    falling back to the quotes closest to ATM when no strike sits inside the
+    tolerance band (sparse/degenerate surfaces). Averages call/put mid IV
+    (falls back to last/mark), converts expiry to years via ``_tenor_years``;
+    returns sorted dict by tenor.
     """
     if not quotes or spot_price is None:
         return {}
@@ -490,27 +612,12 @@ def calculate_atm_term_structure(
     tol = _to_float(moneyness_tol)
     if tol is None or tol < 0.0:
         tol = 0.02
-    by_exp: Dict[str, List[OptionQuote]] = {}
-    for q in quotes:
-        try:
-            key = q.contract.expiry.isoformat()
-        except Exception:
-            continue
-        by_exp.setdefault(key, []).append(q)
-    out = {}
+    by_exp = _group_by_expiry(quotes)
+    out: Dict[float, float] = {}
     for key, qlist in by_exp.items():
-        ivs = []
-        for q in qlist:
-            m = q.contract.strike / sp
-            if not isfinite(m):
-                continue
-            if abs(m - 1.0) <= tol:
-                iv = _get_iv(q)
-                if iv is not None:
-                    ivs.append(iv)
-        if not ivs:
+        atm_iv = _atm_iv_for_quotes(qlist, sp, tol)
+        if atm_iv is None:
             continue
-        atm_iv = sum(ivs) / len(ivs)
         if not isfinite(atm_iv):
             continue
         exp = qlist[0].contract.expiry
