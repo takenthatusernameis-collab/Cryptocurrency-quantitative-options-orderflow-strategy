@@ -1,10 +1,10 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T20:06:45Z
+Timestamp (UTC): 2026-10-29T20:55:58Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW)
 State: 321 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any, 31 source files) | WORKING TREE: 2 INTENTIONAL MODIFICATIONS (src/signals/composite.py, src/backtest/engine.py) | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
 
-Session start: 2026-10-29T20:06:45Z
+Session start: 2026-10-29T20:55:58Z
 
 ## Bottleneck status
 - BOTTLENECKS REMOVED. The baseline was broken (`test_signal_direction_short` failing, 320/321). Fixed in `src/signals/composite.py`: 75% majority consensus is now treated as directional consensus (no direction-flattening penalty), so clearly bearish/bullish inputs resolve to short/long instead of neutral. Baseline re-verified: `python -m pytest -q` = 321 passing; `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean (31 source files); `git status` shows only the two intentional Phase-5 edits; no active blockers.
