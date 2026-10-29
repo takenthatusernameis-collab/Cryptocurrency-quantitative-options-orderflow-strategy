@@ -309,26 +309,40 @@ class CompositeSignalGenerator:
                 greeks_factor = 0.0
 
         # Blend IV/Greeks into gamma component (backward compatible, additive adjustment)
-        gamma_signal = _clamp(gamma_signal + iv_surf_factor + greeks_factor * 0.6, -1.0, 1.0)
+        # Deepen consumption - stronger weighting of Greeks/IV surface
+        gamma_signal = _clamp(gamma_signal + iv_surf_factor * 1.2 + greeks_factor * 0.85, -1.0, 1.0)
         components["gamma"] = _clamp(gamma_signal, -1.0, 1.0)
 
         of_signal = (cum_delta_s / 10000.0 + of_imbalance_s) / 2.0
-        # Incorporate Greeks delta/gamma into orderflow component
+        # Incorporate Greeks delta/gamma into orderflow component more deeply
         if greeks_summary is not None and isinstance(greeks_summary, dict):
             try:
                 delta_g = _safe_float(greeks_summary.get("delta"), 0.0)
                 gamma_g = _safe_float(greeks_summary.get("gamma"), 0.0)
+                vega_g = _safe_float(greeks_summary.get("vega"), 0.0)
+                theta_g = _safe_float(greeks_summary.get("theta"), 0.0)
                 if delta_g != 0.0:
-                    of_signal = _clamp(of_signal + delta_g * 0.06, -1.0, 1.0)
+                    of_signal = _clamp(of_signal + delta_g * 0.12, -1.0, 1.0)
                 if gamma_g != 0.0:
                     # High gamma regimes can amplify flow impact
-                    of_signal = _clamp(of_signal + _clamp(gamma_g * 50.0, -0.08, 0.08), -1.0, 1.0)
+                    of_signal = _clamp(of_signal + _clamp(gamma_g * 75.0, -0.15, 0.15), -1.0, 1.0)
+                if vega_g != 0.0:
+                    of_signal = _clamp(of_signal + _clamp(vega_g * 0.02, -0.08, 0.08), -1.0, 1.0)
+                if theta_g != 0.0:
+                    # Time decay sensitivity affects flow interpretation
+                    of_signal = _clamp(of_signal - _clamp(theta_g * 0.01, -0.05, 0.05), -1.0, 1.0)
+            except Exception:
+                pass
+        # Also blend IV surface directly into orderflow
+        if iv_surface is not None and iv_surf_factor != 0.0:
+            try:
+                of_signal = _clamp(of_signal + iv_surf_factor * 0.4, -1.0, 1.0)
             except Exception:
                 pass
         components["orderflow"] = _clamp(of_signal, -1.0, 1.0)
 
         skew_signal = -_clamp(iv_skew_s * 10.0, -1.0, 1.0)
-        # Enhance vol_skew with IV surface term structure
+        # Enhance vol_skew with IV surface term structure (deeper consumption)
         if iv_surface is not None:
             try:
                 iv_dict2: Dict[str, Any] = {}
@@ -348,6 +362,7 @@ class CompositeSignalGenerator:
                         ttes = []
                         atm_ivs_short = []
                         atm_ivs_long = []
+                        atm_ivs_mid = []
                         for p in points2:
                             if isinstance(p, dict):
                                 tte_p = _safe_float(p.get("time_to_expiry"), 0.0)
@@ -362,14 +377,28 @@ class CompositeSignalGenerator:
                                                 atm_ivs_short.append(iv_p)
                                             elif tte_p > 60.0 / 365.0:
                                                 atm_ivs_long.append(iv_p)
+                                            else:
+                                                atm_ivs_mid.append(iv_p)
                         if len(set(round(t, 6) for t in ttes)) >= 2:
-                            skew_signal = _clamp(skew_signal + iv_surf_factor * 0.6, -1.0, 1.0)
+                            skew_signal = _clamp(skew_signal + iv_surf_factor * 0.8, -1.0, 1.0)
                         # Term structure slope contribution
                         if atm_ivs_short and atm_ivs_long:
                             ts_slope = (sum(atm_ivs_long) / len(atm_ivs_long)) - (sum(atm_ivs_short) / len(atm_ivs_short))
-                            skew_signal = _clamp(skew_signal + _clamp(ts_slope * 0.3, -0.1, 0.1), -1.0, 1.0)
+                            skew_signal = _clamp(skew_signal + _clamp(ts_slope * 0.4, -0.15, 0.15), -1.0, 1.0)
+                        # Mid term
+                        if atm_ivs_mid and atm_ivs_short:
+                            mid_short = (sum(atm_ivs_mid) / len(atm_ivs_mid)) - (sum(atm_ivs_short) / len(atm_ivs_short))
+                            skew_signal = _clamp(skew_signal + _clamp(mid_short * 0.2, -0.1, 0.1), -1.0, 1.0)
                     except Exception:
                         pass
+            except Exception:
+                pass
+        # Also incorporate greeks vega/vega-tilt
+        if greeks_summary is not None and isinstance(greeks_summary, dict):
+            try:
+                vega_g = _safe_float(greeks_summary.get("vega"), 0.0)
+                if vega_g != 0.0:
+                    skew_signal = _clamp(skew_signal + _clamp(vega_g * 0.015, -0.08, 0.08), -1.0, 1.0)
             except Exception:
                 pass
         components["vol_skew"] = _clamp(skew_signal, -1.0, 1.0)
