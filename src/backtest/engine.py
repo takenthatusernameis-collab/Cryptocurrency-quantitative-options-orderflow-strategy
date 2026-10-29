@@ -119,10 +119,15 @@ class BacktestEngine:
         self.risk_config = risk_config or RiskConfig()
         self.initial_capital = float(getattr(config, "initial_capital", 100000.0))
         if not isfinite(self.initial_capital) or self.initial_capital <= 0:
-            raise RiskLimitError(
+            e = RiskLimitError(
                 "initial_capital must be positive and finite",
-                context={"initial_capital": getattr(config, "initial_capital", None)},
+                context={"initial_capital": getattr(config, "initial_capital", None), "module": "src.backtest.engine", "operation": "__init__"},
             )
+            try:
+                log_strategy_error(e, operation="__init__", module="src.backtest.engine")
+            except Exception:
+                pass
+            raise e
         self.cash = self.initial_capital
         self.positions: Dict[str, Position] = {}
         self.trades: List[Trade] = []
@@ -223,9 +228,25 @@ class BacktestEngine:
         """
         from math import isfinite as _isfinite
         if quantity <= 0 or not _isfinite(quantity):
-            raise OrderError("Quantity must be positive and finite", context={"symbol": symbol, "quantity": quantity})
+            e = OrderError(
+                "Quantity must be positive and finite",
+                context={"symbol": symbol, "quantity": quantity, "module": "src.backtest.engine", "operation": "execute_trade"},
+            )
+            try:
+                log_strategy_error(e, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
+            except Exception:
+                pass
+            raise e
         if price <= 0 or not _isfinite(price):
-            raise OrderError("Price must be positive and finite", context={"symbol": symbol, "price": price})
+            e = OrderError(
+                "Price must be positive and finite",
+                context={"symbol": symbol, "price": price, "module": "src.backtest.engine", "operation": "execute_trade"},
+            )
+            try:
+                log_strategy_error(e, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
+            except Exception:
+                pass
+            raise e
 
         qty = float(quantity)
         if not _isfinite(qty):
@@ -289,7 +310,7 @@ class BacktestEngine:
                 # Open long
                 cost = notional + commission
                 if cost > self.cash + 1e-10:  # small epsilon for float
-                    raise RiskLimitError(
+                    e = RiskLimitError(
                         "Insufficient cash for long position",
                         context={
                             "symbol": symbol,
@@ -297,8 +318,15 @@ class BacktestEngine:
                             "cash": self.cash,
                             "quantity": qty,
                             "price": execution_price,
+                            "module": "src.backtest.engine",
+                            "operation": "execute_trade",
                         },
                     )
+                    try:
+                        log_strategy_error(e, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
+                    except Exception:
+                        pass
+                    raise e
                 self.cash -= cost
                 sl = stop_loss if stop_loss is not None else (execution_price * (1 - getattr(self.risk_config, "stop_loss_pct", 0.02)))
                 tp = take_profit if take_profit is not None else (execution_price * (1 + getattr(self.risk_config, "take_profit_pct", 0.04)))
@@ -325,7 +353,12 @@ class BacktestEngine:
             else:
                 # Open short
                 if not allow_short:
-                    raise RiskLimitError("Short selling not allowed", context={"symbol": symbol})
+                    err = RiskLimitError("Short selling not allowed", context={"symbol": symbol, "module": "src.backtest.engine", "operation": "execute_trade"})
+                    try:
+                        log_strategy_error(err, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
+                    except Exception:
+                        pass
+                    raise err
                 max_position_pct = getattr(self.risk_config, "max_position_pct", 0.1)
                 max_notional = self.cash * max_position_pct
                 if notional > max_notional + 1e-10:
@@ -336,10 +369,15 @@ class BacktestEngine:
                         max_notional=max_notional,
                         operation="open_short",
                     )
-                    raise RiskLimitError(
-                        "Short notional exceeds max_position_pct limit",
-                        context={"symbol": symbol, "notional": notional, "max_notional": max_notional},
+                    e_short = RiskLimitError(
+                        "Position size exceeds limit",
+                        context={"symbol": symbol, "notional": notional, "max_notional": max_notional, "module": "src.backtest.engine", "operation": "execute_trade"},
                     )
+                    try:
+                        log_strategy_error(e_short, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
+                    except Exception:
+                        pass
+                    raise e_short
                 self.cash += notional  # credit proceeds
                 self.cash -= commission  # pay fees on opening short
                 sl = stop_loss if stop_loss is not None else (execution_price * (1 + getattr(self.risk_config, "stop_loss_pct", 0.02)))
@@ -354,7 +392,12 @@ class BacktestEngine:
                     take_profit=tp,
                 )
         else:
-            raise OrderError(f"Invalid side: {side}", context={"symbol": symbol, "side": side})
+            err = OrderError(f"Invalid side: {side}", context={"symbol": symbol, "side": side, "module": "src.backtest.engine", "operation": "execute_trade"})
+            try:
+                log_strategy_error(err, operation="execute_trade", module="src.backtest.engine", symbol=symbol)
+            except Exception:
+                pass
+            raise err
 
         self.trades.append(trade)
         return trade

@@ -125,7 +125,7 @@ def serialize_metrics(metrics: Mapping[str, Any]) -> Dict[str, Any]:
         )
     # Deep-copy through JSON round-trip to normalize numpy types and ensure a plain dict.
     try:
-        return json.loads(json.dumps(dict(metrics), default=str))
+        return dict(json.loads(json.dumps(dict(metrics), default=str)))  # type: ignore[no-any-return]
     except (TypeError, ValueError) as e:
         raise SerializationError(
             "Failed to JSON-round-trip metrics",
