@@ -69,8 +69,13 @@ class CompositeSignalGenerator:
             "skew_bullish": {"gamma": 0.25, "orderflow": 0.30, "vol_skew": 0.10, "put_call": 0.35},
             "neutral": {"gamma": 0.25, "orderflow": 0.30, "vol_skew": 0.25, "put_call": 0.20},
         }
+        # Regime hysteresis state for stability against noisy inputs
+        self._prev_regime: str = "neutral"
+        self._regime_stability_count: int = 0
+        self._hysteresis_threshold: int = 2  # Require N confirmations to flip
+        self._regime_flip_penalty: float = 0.7  # Confidence penalty during regime transition
 
-    def _detect_regime(self, total_gex: float, iv_skew: float, put_call_ratio: float) -> str:
+    def _detect_regime_raw(self, total_gex: float, iv_skew: float, put_call_ratio: float) -> str:
         gex = _safe_float(total_gex, 0.0)
         skew = _safe_float(iv_skew, 0.0)
         pcr = _safe_float(put_call_ratio, 1.0)
@@ -89,6 +94,35 @@ class CompositeSignalGenerator:
         if skew < -0.02 and pcr < 0.8:
             return "low_vol_positive_gex"
         return "neutral"
+
+    def _detect_regime(self, total_gex: float, iv_skew: float, put_call_ratio: float) -> str:
+        raw_regime = self._detect_regime_raw(total_gex, iv_skew, put_call_ratio)
+        # Apply hysteresis to prevent rapid regime flipping
+        # First regime detection or after reset - set immediately
+        if self._regime_stability_count == 0 and self._prev_regime == "neutral":
+            # Check if this is first detection - initialize
+            self._prev_regime = raw_regime
+            self._regime_stability_count = 1
+            return raw_regime
+        if raw_regime == self._prev_regime:
+            self._regime_stability_count += 1
+            return raw_regime
+        else:
+            # Different regime detected - require confirmation
+            if self._regime_stability_count >= self._hysteresis_threshold:
+                # Sufficient stability in previous regime, allow flip
+                self._prev_regime = raw_regime
+                self._regime_stability_count = 1
+                return raw_regime
+            else:
+                # Not enough confirmation yet, stick with previous regime
+                self._regime_stability_count += 1
+                return self._prev_regime
+
+    def reset_regime_state(self) -> None:
+        """Reset regime hysteresis state (useful for backtesting independence)."""
+        self._prev_regime = "neutral"
+        self._regime_stability_count = 0
 
     def _get_weights(self, regime: str) -> Dict[str, float]:
         w = self.regime_weights.get(regime, self.regime_weights["neutral"]).copy()
@@ -194,6 +228,12 @@ class CompositeSignalGenerator:
                     composite = composite * 0.4
                 composite = _clamp(composite, -1.0, 1.0)
 
+        # Apply regime transition penalty for stability
+        raw_regime_check = self._detect_regime_raw(total_gex_s, iv_skew_s, put_call_ratio_s)
+        if raw_regime_check != self._prev_regime and self._regime_stability_count < self._hysteresis_threshold:
+            composite = composite * self._regime_flip_penalty
+            composite = _clamp(composite, -1.0, 1.0)
+
         if composite > 0.3:
             direction = "long"
         elif composite < -0.3:
@@ -227,6 +267,12 @@ class CompositeSignalGenerator:
         else:
             confidence = 0.0
         confidence = _clamp(confidence, 0.0, 1.0)
+
+        # Additional penalty during uncertain regime transitions
+        raw_regime_check_final = self._detect_regime_raw(total_gex_s, iv_skew_s, put_call_ratio_s)
+        if raw_regime_check_final != self._prev_regime and self._regime_stability_count < self._hysteresis_threshold:
+            confidence = confidence * self._regime_flip_penalty
+            confidence = _clamp(confidence, 0.0, 1.0)
 
         return Signal(
             symbol=symbol,

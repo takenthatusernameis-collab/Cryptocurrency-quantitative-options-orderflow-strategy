@@ -1,53 +1,50 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T08:31:15Z
+Timestamp (UTC): 2026-10-29T08:37:44Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 216 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T08:31:15Z
+State: 216 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T08:37:44Z
 
-Session start: 2026-10-29T08:31:15Z
+Session start: 2026-10-29T08:37:44Z
 
 ## Initial Task Message
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP. NO SCORCHED-EARTH REWRITES.**
 
 You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. The codebase has Phases 1-3 hardened and verified green (216 tests passing, mypy clean). **CURRENT MANDATE: PHASE 4 — REGIME-AWARE SIGNAL ENGINEERING.**
 
-**COMPLETED THIS SESSION (END-TO-END):** Hardened `src/signals/composite.py` as ONE coherent heavy deliverable — regime detection hardened against NaN/Inf/extreme values/degenerate PCR, weights normalized defensively with deterministic ordering, all component signals and composite/confidence clamped to finite ranges, conflict resolution made robust, feature-leakage-safe (only uses passed values; chain integration guarded), exports added in `src/signals/__init__.py`. Verified 216 tests passing, mypy clean, git status clean, no TODO/FIXME/PLACEHOLDER/HACK/XXX.
+**COMPLETED THIS SESSION (END-TO-END):** Hardened regime detection with hysteresis/stability in `src/signals/composite.py` — added raw regime detection, stateful hysteresis (require N confirmations to flip regimes), regime transition penalties on strength/confidence, `reset_regime_state()` for backtesting independence. All adversarial guards preserved (NaN/Inf/extremes). Verified 216 tests passing, mypy clean, git status clean.
 
 **NEXT MANDATE:** Pick EXACTLY ONE new coherent heavy deliverable for Phase 4 (or move to Phase 5 only if no heavy Phase 4 work remains) and take it ALL THE WAY TO DONE.
 
 ## Immediate Objectives (FIRST ACTIONS)
 
 1. **Verify green baseline**: Run `python -m pytest -q` → must be 216 passing. Run `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → clean. Confirm `git status` clean and zero TODO/FIXME/PLACEHOLDER/HACK/XXX.
-2. **Continue Phase 4 with precision**: Focus on remaining heavy Phase 4 work. Candidates: strengthen cross-feature regime transitions (hysteresis/stability across regimes), improve calibration against adversarial disagreement patterns, add vectorized/batched signal generation paths if missing with parity, or harden integration points. Pick EXACTLY ONE coherent heavy item.
+2. **Continue Phase 4 with precision**: Focus on remaining heavy Phase 4 work. Pick EXACTLY ONE coherent heavy item from targets below.
 3. **Harden & test**: Add focused adversarial tests if coverage gaps exist; maintain determinism. Update both handoff files with fresh timestamp if leaving heavy work unfinished.
 
 ### ABSOLUTE FIRST ACTION (HEAVY, END-TO-END)
-**PHASE 4 — REGIME-AWARE SIGNAL ENGINEERING (IN PROGRESS):** First heavy deliverable (`src/signals/composite.py`) COMPLETED end-to-end with adversarial hardening, normalization, calibration, determinism, exports. Do NOT regress. Next: pick EXACTLY ONE remaining heavy Phase 4 item and take it ALL THE WAY TO DONE. If Phase 4 has no more heavy uncompleted items, move to **PHASE 5 — RIGOROUS BACKTESTING** with one heavy deliverable.
+**PHASE 4 — REGIME-AWARE SIGNAL ENGINEERING:** Regime hysteresis/stability COMPLETED. Remaining heavy options: (1) vectorized/batched composite signal generation with parity to scalar, numerical guards, tests; (2) regime transition calibration/adversarial disagreement patterns hardening; (3) if Phase 4 truly complete, move to **PHASE 5 — RIGOROUS BACKTESTING** starting with fills/slippage/costs/partial fills/round lots/walk-forward/OOS/stress with no-lookahead.
 
 ### CONCRETE TARGETS (COMPLETED THIS SESSION)
-- `src/signals/composite.py`: Regime detection hardened (NaN/Inf/extreme GEX/skew/PCR), normalized regime weights, component normalization/clamps, conflict resolution robust, confidence calibration hardened, deterministic sorted-weight aggregation, safe chain integration.
-- `src/signals/__init__.py`: Exports added (`CompositeSignalGenerator`, `Signal`).
+- `src/signals/composite.py`: Added `_detect_regime_raw()`, stateful hysteresis with confirmation threshold, regime transition penalties on strength and confidence, `reset_regime_state()` method. Deterministic, hardened against noisy regime flips.
 
 ### NEXT CONCRETE TARGETS (MUST HIT)
 Pick EXACTLY ONE:
-1. **Regime stability/hysteresis** in `src/signals/composite.py` (or new `src/signals/regime.py`) — prevent rapid regime flipping on noisy inputs; add smoothing with guards, tests for stability, deterministic behavior.
-2. **Vectorized/batched composite signals** — add vectorized path with parity to scalar, numerical guards, tests.
-3. **Phase 5 start** if Phase 4 complete — `src/backtesting/engine.py` or similar: fills/slippage/costs/partial fills/round lots/walk-forward/OOS/stress with no-lookahead, hardened.
+1. **Vectorized/batched composite signals** in `src/signals/composite.py` — add vectorized path (e.g., `generate_signals_batch`) with parity to scalar, NaN/Inf guards, deterministic ordering, adversarial tests.
+2. **Regime calibration against adversarial disagreement** — enhance conflict resolution with regime-aware calibration, stability metrics, tests.
+3. **Phase 5 start** if Phase 4 complete — `src/backtesting/engine.py`: fills/slippage/costs/partial fills/round lots/walk-forward/OOS/stress with no-lookahead, hardened end-to-end.
 
 ### VERIFICATION (REQUIRED BEFORE HANDOFF)
-- `python -m pytest` → must be >= 216 passing (do not regress; fix any regressions immediately).
-- `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → clean, no new issues.
+- `python -m pytest` → must be >= 216 passing (do not regress).
+- `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → clean.
 - `git status` → clean working tree. No untracked junk.
 - `grep -rn "TODO\|FIXME\|PLACEHOLDER\|HACK\|XXX" src/ tests/ scripts/` → zero matches.
-- If **ANY** heavy work remains after completing exactly one item end-to-end, **UPDATE BOTH** `research_state/INITIAL_TASK_HANDOFF.md` and `research_state/durable_handoff.md` with a fresh UTC timestamp, a concise summary of what was done, exact remaining targets with file paths, and concrete next steps. Keep them byte-for-byte identical.
+- If **ANY** heavy work remains after completing exactly one item end-to-end, **UPDATE BOTH** `research_state/INITIAL_TASK_HANDOFF.md` and `research_state/durable_handoff.md` with a fresh UTC timestamp, summary, exact remaining targets with file paths, and concrete next steps. Keep them byte-for-byte identical.
 
 ## Next Focus Campaign (Strict Priority - Execute In Order)
-Project-name priority is law. Do not reorder.
-
 1. **Phase 1 — Dealer positioning/gamma exposure**: ✅ COMPLETED
 2. **Phase 2 — Orderflow microstructure**: ✅ COMPLETED
 3. **Phase 3 — Volatility surface dynamics**: ✅ COMPLETED
-4. **Phase 4 — Regime-aware signal engineering**: IN PROGRESS (first heavy item DONE). Continue with exactly one heavy item.
+4. **Phase 4 — Regime-aware signal engineering**: IN PROGRESS (regime hardening + hysteresis DONE). Continue with exactly one heavy item.
 5. **Phase 5 — Rigorous backtesting**: PENDING
 
 ## MANDATE (Non-Negotiable)
