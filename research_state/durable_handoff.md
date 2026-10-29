@@ -1,5 +1,5 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH MIRROR) — LATEST
-Timestamp (UTC): 2026-10-29T05:19:27Z
+Timestamp (UTC): 2026-10-29T05:30:44Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
 State: 216 TESTS PASSING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN
@@ -27,7 +27,7 @@ Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical st
 - **No untracked junk, clean working tree**: Ready for immediate heavy engineering.
 - **Historical workflow failures (Oct 27) are stale**: do not re-open cancelled/failed Kilo runs; proceed from verified state above.
 
-## VERIFIED STATE (2026-10-29T05:19:27Z — FROZEN SNAPSHOT)
+## VERIFIED STATE (2026-10-29T05:30:44Z — FROZEN SNAPSHOT)
 
 - `python -m pytest -q` → 216 passed, 1 warning (deprecation in test_schemas only)
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → Success: no issues found in 28 source files
@@ -35,42 +35,40 @@ Everything must serve (1)-(5). Mathematical correctness > elegance. Numerical st
 - `grep -rn "TODO|FIXME|PLACEHOLDER|HACK|XXX" src/ tests/ scripts/` → no matches
 - No untracked junk. No placeholder scaffolding.
 
-## Initial Task Message — For Next Agentic Work Session (Mandatory, Non-Optional)
-Session start: 2026-10-29T05:19:27Z
+## INITIAL TASK MESSAGE — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
+Session start: 2026-10-29T05:30:44Z
 
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP.**
 
-### ABSOLUTE FIRST ACTION
-**HARDEN PHASE 1 (DEALER POSITIONING/GAMMA EXPOSURE) END-TO-END.** Focus on pin/flip zones with vectorized numerical guards, adversarial stress coverage, and full integration into signals/backtest paths. Complete exactly ONE coherent heavy item end-to-end (implementation + tests + mypy clean). Do NOT parallelize across multiple items. Leave remaining heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
+### ABSOLUTE FIRST ACTION (HEAVY, END-TO-END)
+**HARDEN PHASE 1 (DEALER POSITIONING/GAMMA EXPOSURE) — PIN/FLIP ZONES TO PRODUCTION-GRADE.**
 
-### JUST COMPLETED (END-TO-END)
-- **[HIGH] Gamma exposure: added pin/flip zones (calculate_pin_zone/calculate_flip_zones) with vectorized guards and aliases exported** — DONE (2026-10-29T05:19:27Z).
-- **[CRITICAL] Adversarial stress scenarios across ALL modules** — DONE.
-- **[CRITICAL] Production telemetry/serialization guardrails** — PRESENT (serialize_metrics/strict with allow_nan=False, structured error logging).
-- **[HIGH] OOS & walk-forward robustness** — DONE.
-- **[HIGH] Numerical guards & config validation edge cases** — DONE.
-- **[HIGH] Wire numerical guards into data/normalization.py + end-to-end pipeline serialization test** — DONE.
-- **[HIGH] Strengthen numerical guards in features/orderflow.py** — DONE.
+Do **ONE** coherent heavy item completely end-to-end (implementation + adversarial tests + mypy clean + full suite passing). Leave remaining heavy work for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
 
-### Immediate Objectives (Strict Priority Order)
-1. **[CRITICAL] Phase 1: Harden gamma exposure/pin-flip zones** — Expand adversarial coverage (all-same-sign, NaN/Inf, zero-OI, extreme strikes/expiries), ensure vectorized paths robust, add/strengthen tests in `tests/test_phase1_gamma_invariants.py` or new adversarial tests; verify signals/composite.py gamma handling remains safe; mypy clean + tests passing.
-2. **[HIGH] Telemetry/serialization gap scan** — Only if time remains after (1) or if concrete gap discovered; implement ONE fix end-to-end.
+### CONCRETE TARGETS (MUST HIT)
+Focus strictly on `src/features/gamma_exposure.py`, its exports in `src/features/__init__.py`, integration in `src/signals/composite.py`, and harden `tests/test_phase1_gamma_invariants.py` (or add a new focused adversarial test module). Specifically:
+
+1. **Pin zone robustness** (`calculate_pin_zone`): adversarial cases — all-same-sign GEX, NaN/Inf in strike/GEX, zero-OI across chain, missing delta/gamma, extreme strikes/expiries, spot<=0/NaN. Ensure `center/lower/upper/width_pct/total_gex` all finite-guarded; caps on width_pct enforced; sensible fallbacks (flip→spot) never produce NaN/Inf.
+2. **Flip zones robustness** (`calculate_flip_zones`): all-positive/all-negative GEX, multiple crossings, zeros, NaN/Inf, degenerate chains. Interpolation must be stable; band_pct capped; never return NaN.
+3. **Vectorized paths**: verify `_vectorized_gex`, `_vectorized_delta_weights`, `_vectorized_oi_vol_weights` sanitize non-finite and match scalar semantics exactly. No leakage of NaN/Inf into sums.
+4. **Integration safety**: ensure `src/signals/composite.py` consumes pin/flip zones safely (no crashes on adversarial inputs). Add guards if missing.
+5. **Cross-checks**: `calculate_net_gamma_exposure_total` alias consistency, `calculate_gex_by_strike` weighting modes, delta-band classification for calls/puts remain correct.
 
 ### VERIFICATION (REQUIRED BEFORE HANDOFF)
-- `python -m pytest` must be >= 216 passing.
+- `python -m pytest` must be >= 216 passing (do not regress).
 - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` must be clean.
 - Working tree clean. No untracked junk. No TODO/FIXME/placeholder/HACK/XXX.
-- If work remains after completing ONE item end-to-end, update **BOTH** handoff files with a new timestamped message and leave heavy work clearly specified with concrete next steps.
+- If work remains after completing **ONE** item end-to-end, update **BOTH** handoff files with a new timestamped message and leave heavy work clearly specified with concrete next steps and file paths.
 
-## Next Focus Campaign
-Project-name priority order (gamma/orderflow/vol/signal/backtest). Phase 8 telemetry hardening substantially complete.
+## NEXT FOCUS CAMPAIGN (STRICT PRIORITY)
+Project-name priority order (gamma/orderflow/vol/signal/backtest). Phase 1 is the core edge — harden first.
 
 **Remaining heavy work (strict priority):**
-1. **Phase 1 — Dealer positioning/gamma exposure (CORE EDGE)**: pin zones, flip zones, net GEX by bands, vectorized + adversarial-tested. Strengthen invariants and cross-checks.
-2. Phase 2 — Orderflow microstructure: residual telemetry only.
-3. Phase 3 — Volatility surface dynamics: degenerate surface guards.
-4. Phase 4 — Regime-aware signal engineering: determinism + leakage prevention.
-5. Phase 5 — Rigorous backtesting: no lookahead, sanitized metrics.
+1. **Phase 1 — Dealer positioning/gamma exposure (CORE EDGE)**: pin zones, flip zones, net GEX by bands, vectorized + adversarial-tested. Strengthen invariants and cross-checks. *(CURRENT TARGET)*
+2. Phase 2 — Orderflow microstructure: signed volume, cumulative delta, VPIN/toxicity, absorption, aggressive/passive flow with adversarial guards.
+3. Phase 3 — Volatility surface dynamics: skew/term structure/RR, ATM term structure, calendar spreads, max pain with degenerate-surface guards.
+4. Phase 4 — Regime-aware signal engineering: cross-features, calibration, normalization, feature leakage prevention, determinism.
+5. Phase 5 — Rigorous backtesting: fills/slippage/costs/partial fills, round lots, walk-forward/OOS, stress, transaction costs, sanitized metrics, no lookahead.
 
 ## MANDATE (NON-NEGOTIABLE)
 - Heavy engineering only. Mathematical correctness mandatory.
@@ -88,17 +86,3 @@ Project-name priority order (gamma/orderflow/vol/signal/backtest). Phase 8 telem
 - Fix inefficiencies/blockers immediately.
 - Leave clear timestamped handoff if work remains (update BOTH files).
 - DO NOT avoid heavy work. Execute in order without skipping.
-
----
-
-## HANDOFF UPDATE (2026-10-29T05:19:27Z) — GAMMA PIN/FLIP ZONES ADDED; PHASE 1 HARDENING NEXT
-State: 216 TESTS PASSING | MYPY CLEAN | WORKING TREE CLEAN
-
-### Completed (end-to-end)
-- **[HIGH] Gamma exposure extensions**: Added `calculate_pin_zone`/`calculate_flip_zones` with aliases, exported from `src.features`, numerical guards and fallbacks; mypy clean, all tests passing.
-
-### Absolute First Action (Next Session)
-**HARDEN PHASE 1 (GAMMA EXPOSURE/PIN-FLIP ZONES) END-TO-END.** Add/strengthen adversarial tests for pin/flip zones (all-same-sign GEX, NaN/Inf, zero-OI, missing delta, extreme strikes), ensure vectorized paths are robust, verify integration with signals; run tests+mypy. Complete ONE coherent heavy item fully; update both handoffs if more remains.
-
-### Verification
-- pytest >= 216 passing; mypy clean; working tree clean; no TODO/FIXME/placeholder/HACK/XXX.
