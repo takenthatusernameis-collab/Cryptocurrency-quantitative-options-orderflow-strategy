@@ -7,6 +7,7 @@ from typing import Dict, List, Optional, Tuple
 import numpy as np
 
 from ..data.schemas import OptionsChain, OptionQuote
+from ..utils.numerical_guards import safe_divide
 
 
 def _to_float(x: Optional[float]) -> Optional[float]:
@@ -43,13 +44,9 @@ def calculate_put_call_ratio(quotes: List[OptionQuote]) -> float:
             call_volume += v
         elif t == "put":
             put_volume += v
-    if call_volume == 0.0:
-        if put_volume > 0.0:
-            return float("inf")
-        return 0.0
-    ratio = put_volume / call_volume
+    ratio = safe_divide(put_volume, call_volume, default=0.0)
     if not isfinite(ratio):
-        return float("inf") if put_volume > 0.0 else 0.0
+        return 0.0
     return ratio
 
 
@@ -68,13 +65,9 @@ def calculate_put_call_oi_ratio(quotes: List[OptionQuote]) -> float:
             call_oi += oi
         elif t == "put":
             put_oi += oi
-    if call_oi == 0.0:
-        if put_oi > 0.0:
-            return float("inf")
-        return 0.0
-    ratio = put_oi / call_oi
+    ratio = safe_divide(put_oi, call_oi, default=0.0)
     if not isfinite(ratio):
-        return float("inf") if put_oi > 0.0 else 0.0
+        return 0.0
     return ratio
 
 
@@ -543,13 +536,9 @@ def calculate_put_call_ratio_vectorized(quotes: List[OptionQuote]) -> float:
         volumes[i] = v if v is not None else 0.0
     call_volume = float(volumes[types == "call"].sum())
     put_volume = float(volumes[types == "put"].sum())
-    if call_volume == 0.0:
-        if put_volume > 0.0:
-            return float("inf")
-        return 0.0
-    ratio = put_volume / call_volume
+    ratio = safe_divide(put_volume, call_volume, default=0.0)
     if not isfinite(ratio):
-        return float("inf") if put_volume > 0.0 else 0.0
+        return 0.0
     return ratio
 
 

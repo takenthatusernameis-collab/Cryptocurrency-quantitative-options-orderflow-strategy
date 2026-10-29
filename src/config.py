@@ -141,6 +141,35 @@ def validate_config(cfg: "StrategyConfig") -> None:
         errors.append("risk.max_position_qty must be >= 0")
     if not isinstance(cfg.risk.allow_shorting, bool):
         errors.append("risk.allow_shorting must be bool")
+    # --- Cross-field / invalid-combo validation ---
+    # Slippage must not exceed its cap when a cap is configured.
+    if (isinstance(cfg.backtest.slippage_bps, (int, float)) and isfinite(float(cfg.backtest.slippage_bps))
+            and isinstance(cfg.backtest.max_slippage_bps, (int, float)) and isfinite(float(cfg.backtest.max_slippage_bps))
+            and float(cfg.backtest.max_slippage_bps) > 0
+            and float(cfg.backtest.slippage_bps) > float(cfg.backtest.max_slippage_bps)):
+        errors.append("backtest.slippage_bps must not exceed backtest.max_slippage_bps when a cap is set")
+    # Fee rate sanity: reject unreasonably high fees (> 10%).
+    if (isinstance(cfg.backtest.fee_rate, (int, float)) and isfinite(float(cfg.backtest.fee_rate))
+            and float(cfg.backtest.fee_rate) > 0.1):
+        errors.append("backtest.fee_rate must be <= 0.1 (unreasonably high fee rate)")
+    # Stop-loss must be strictly below take-profit for a coherent risk pair.
+    stop_loss = getattr(cfg.risk, "stop_loss_pct", None)
+    take_profit = getattr(cfg.risk, "take_profit_pct", None)
+    if (isinstance(stop_loss, (int, float)) and isinstance(take_profit, (int, float))
+            and isfinite(float(stop_loss)) and isfinite(float(take_profit))
+            and float(stop_loss) >= float(take_profit)):
+        errors.append("risk.stop_loss_pct must be strictly below risk.take_profit_pct")
+    # Options polling interval must be positive when data collection is enabled.
+    options_interval = getattr(cfg.data, "options_interval", None)
+    if not isinstance(options_interval, int) or isinstance(options_interval, bool) or options_interval <= 0:
+        errors.append("data.options_interval must be a positive integer (seconds)")
+    # Max position qty cap must not imply a position smaller than one round lot when both are set.
+    round_lot = getattr(cfg.backtest, "round_lot_size", None)
+    max_pos_qty = getattr(cfg.risk, "max_position_qty", None)
+    if (isinstance(round_lot, (int, float)) and isfinite(float(round_lot)) and float(round_lot) > 0
+            and isinstance(max_pos_qty, (int, float)) and isfinite(float(max_pos_qty)) and float(max_pos_qty) > 0
+            and float(max_pos_qty) < float(round_lot)):
+        errors.append("risk.max_position_qty must be >= backtest.round_lot_size when both are set")
     if errors:
         log = get_logger(__name__)
         log.error("config_validation_failed", errors=errors)
