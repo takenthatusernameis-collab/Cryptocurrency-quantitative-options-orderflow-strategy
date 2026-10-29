@@ -29,6 +29,7 @@ from .ingestion.binance import BinanceOptionsIngestion, BinanceOrderflowIngestio
 from .ingestion.deribit import DeribitOptionsIngestion, DeribitOrderflowIngestion
 from .ingestion.okx import OKXOptionsIngestion, OKXOrderflowIngestion
 from .signals.composite import CompositeSignalGenerator
+from .telemetry import serialize_metrics, log_strategy_error
 from .errors import (
     get_logger,
     StrategyError,
@@ -39,10 +40,19 @@ from .errors import (
     ConfigError,
     SerializationError,
 )
-from .telemetry import serialize_metrics, log_strategy_error
-
+from math import isfinite as _isfinite
 
 _logger = get_logger(__name__)
+
+
+def _safe_float(x: Any, default: float = 0.0) -> float:  # type: ignore
+    try:
+        v = float(x)
+    except Exception:
+        return default
+    if not _isfinite(v):
+        return default
+    return v
 
 
 def load_config(config_path: str = "config/settings.yaml") -> Dict[str, Any]:
@@ -218,6 +228,63 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
             except Exception as e:
                 _logger.exception("iv_surface_build_failed", e, operation="build_iv_surface_from_chain", key=key)
                 results.setdefault("errors", []).append(f"iv_surface_{key}: {e}")
+            greeks_summary: Dict[str, Any] | None = None
+            try:
+                from .data.schemas import PricingInputs
+                from math import isfinite as _isfinite
+                if chain.quotes:
+                    # Aggregate ATM-like greeks from quotes with strikes closest to spot
+                    best = None
+                    best_dist = float("inf")
+                    for q in chain.quotes:
+                        try:
+                            dist = abs(float(q.contract.strike) - float(spot_price))
+                        except Exception:
+                            continue
+                        if dist < best_dist:
+                            best_dist = dist
+                            best = q
+                    if best is not None:
+                        c = best.contract
+                        tte = 0.0
+                        try:
+                            now = datetime.now(timezone.utc)
+                            exp = c.expiry
+                            if exp.tzinfo is None:
+                                exp = exp.replace(tzinfo=timezone.utc)
+                            tte = max((exp - now).total_seconds() / 86400.0 / 365.0, 1e-18)
+                        except Exception:
+                            tte = 1e-18
+                        vol = _safe_float(getattr(best, "mark_iv", 0.5), 0.5)
+                        if vol <= 0.0:
+                            vol = 0.5
+                        try:
+                            g = black_scholes_greeks(PricingInputs(spot=float(spot_price), strike=float(c.strike), rate=0.0, volatility=float(vol), time_to_expiry=float(tte), option_type=c.option_type))
+                            greeks_summary = {
+                                "delta": float(g.get("delta", 0.0)),
+                                "gamma": float(g.get("gamma", 0.0)),
+                                "vega": float(g.get("vega", 0.0)),
+                                "theta": float(g.get("theta", 0.0)),
+                                "rho": float(g.get("rho", 0.0)),
+                                "d1": float(g.get("d1", 0.0)),
+                                "d2": float(g.get("d2", 0.0)),
+                                "strike": float(c.strike),
+                                "tte": float(tte),
+                                "option_type": str(c.option_type),
+                            }
+                            for _k, _v in list(greeks_summary.items()):
+                                try:
+                                    if isinstance(_v, float) and not _isfinite(_v):
+                                        greeks_summary[_k] = 0.0
+                                except Exception:
+                                    pass
+                        except Exception:
+                            greeks_summary = None
+            except Exception:
+                greeks_summary = None
+            iv_surface_obj = None
+            if key in iv_surfaces:
+                iv_surface_obj = iv_surfaces[key]
             signal = signal_gen.generate_signal(
                 symbol=sym,
                 spot_price=spot_price,
@@ -227,6 +294,8 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 iv_skew=iv_skew,
                 put_call_ratio=pcr,
                 chain=chain,
+                iv_surface=iv_surface_obj,
+                greeks_summary=greeks_summary,
             )
             try:
                 total_gex_dw = calculate_total_delta_weighted_gex(chain, spot_price)
