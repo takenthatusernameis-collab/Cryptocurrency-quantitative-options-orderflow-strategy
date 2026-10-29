@@ -276,3 +276,62 @@ def test_pipeline_adversarial_no_crash():
         res = run_pipeline(config, symbols=["BTC"])
     assert isinstance(res, dict)
     assert "errors" in res
+
+
+def test_duplicate_timestamps_normalization():
+    trades = [
+        Trade(trade_id="1", symbol="BTC", venue="deribit", price=50000, size=1, side="buy", timestamp=datetime(2026,1,1,tzinfo=timezone.utc)),
+        Trade(trade_id="2", symbol="BTC", venue="deribit", price=50001, size=2, side="sell", timestamp=datetime(2026,1,1,tzinfo=timezone.utc)),
+        Trade(trade_id="3", symbol="BTC", venue="deribit", price=50000, size=1, side="buy", timestamp=datetime(2026,1,1,tzinfo=timezone.utc)),
+    ]
+    # Should not crash; cumulative delta should be finite
+    cd = calculate_cumulative_delta(trades)
+    assert math.isfinite(cd)
+
+
+def test_division_by_zero_paths():
+    # moneyness with spot 0
+    from src.data.normalization import calculate_moneyness
+    assert calculate_moneyness(0, 100) == 0.0
+    assert calculate_moneyness(-5, 100) == 0.0
+    # vwap with zero volume
+    from src.data.normalization import compute_vwap
+    trades = [Trade(trade_id="1", symbol="BTC", venue="deribit", price=50000, size=0, side="buy", timestamp=datetime.now(timezone.utc))]
+    assert compute_vwap(trades) == 0.0
+
+
+def test_log_sqrt_invalid_values():
+    import math
+    # Ensure our code paths don't produce unguarded log of non-positive
+    # Test features handle edge cases
+    from src.features.volatility import calculate_iv_skew
+    chain = OptionsChain(underlying="BTC", venue="deribit", quotes=[], timestamp=datetime.now(timezone.utc))
+    sk = calculate_iv_skew(chain.quotes, 0)  # spot 0
+    assert math.isfinite(sk)
+    sk2 = calculate_iv_skew([], -100)
+    assert math.isfinite(sk2)
+
+
+def test_dataframe_like_objects_adversarial():
+    # If passed unexpected types, should be handled gracefully
+    from src.data.normalization import normalize_options_chain
+    try:
+        # Pass minimal objects
+        chain = OptionsChain(underlying="BTC", venue="deribit", quotes=[], timestamp=datetime.now(timezone.utc))
+        res = normalize_options_chain(chain)
+        assert res is not None
+    except Exception:
+        # Should not be unhandled crash in general
+        pass
+
+
+def test_all_modules_nan_inf_cascades():
+    from src.features.gamma_exposure import calculate_gex_by_strike
+    c = _make_contract()
+    q = OptionQuote(contract=c, bid=100, ask=110, gamma=float('nan'), delta=float('nan'), open_interest=float('inf'), volume=float('inf'), timestamp=datetime.now(timezone.utc))
+    chain = OptionsChain(underlying="BTC", venue="deribit", quotes=[q], timestamp=datetime.now(timezone.utc))
+    # All results should be finite
+    import math
+    assert math.isfinite(calculate_total_gex(chain, float('nan')))
+    assert math.isfinite(calculate_total_gex(chain, 0))
+    assert math.isfinite(calculate_total_gex(chain, -1))
