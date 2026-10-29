@@ -950,12 +950,17 @@ class WalkForwardBacktest:
         prev: Optional[datetime] = None
         for i, ts in enumerate(timestamps):
             if ts.tzinfo is None:
-                ts = ts.replace(tzinfo=timezone.utc)
-            if prev is not None and ts <= prev:
+                ts_norm = ts.replace(tzinfo=timezone.utc)
+            else:
+                try:
+                    ts_norm = ts.astimezone(timezone.utc)
+                except Exception:
+                    ts_norm = ts
+            if prev is not None and ts_norm <= prev:
                 raise ValueError(
-                    f"Timestamps not strictly increasing at index {i}: {prev.isoformat()} >= {ts.isoformat()}"
+                    f"Timestamps not strictly increasing at index {i}: {prev.isoformat()} >= {ts_norm.isoformat()}"
                 )
-            prev = ts
+            prev = ts_norm
 
     def verify_determinism(self,
                            price_series: Optional[Dict[str, List[float]]] = None,
