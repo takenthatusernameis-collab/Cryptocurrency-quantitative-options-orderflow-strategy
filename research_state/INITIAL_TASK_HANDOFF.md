@@ -1,10 +1,10 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T12:01:24Z
+Timestamp (UTC): 2026-10-29T12:09:56Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 239 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T12:01:24Z
+State: 239 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T12:09:56Z
 
-Session start: 2026-10-29T12:01:24Z
+Session start: 2026-10-29T12:09:56Z
 
 ## Initial Task Message
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP. NO SCORCHED-EARTH REWRITES.**
@@ -21,8 +21,30 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 ## Next Focus Campaign (MANDATORY - EXECUTE IN ORDER, HEAVY QUANT ONLY)
 **CAMPAIGN: PORTFOLIO-LEVEL WALK-FORWARD/OOS WITH CROSS-SYMBOL CORRELATION CONSTRAINTS + REGIME-DEPENDENT COSTS/SLIPPAGE + STRICT SERIALIZATION/STABILITY INVARIANTS**
 
-### Goal
-Implement portfolio-level walk-forward/OOS (multi-symbol) with correlation-aware constraints, regime-dependent transaction costs/slippage, and enforce strict serialization/stability invariants end-to-end.
+### Phase 1: Correlation Estimation Infrastructure
+- Implement rolling/expanding cross-symbol correlation estimation with time alignment and lookahead guards.
+- Add numerical stability (eigenvalue clipping/PSD enforcement), tz-normalization, and deterministic seeding.
+- Extend types/schemas to carry correlation matrices with serialization invariants.
+
+### Phase 2: Correlation-Constrained Portfolio Sizing
+- Integrate correlation constraints into allocation/sizing with breach prevention and risk-parity style guards.
+- Enforce finite metrics, diversification breakdown handling, and constraint validation.
+- Add unit tests for constraint enforcement and numerical stability.
+
+### Phase 3: Regime-Dependent Costs/Slippage
+- Map regime states to transaction costs/slippage with deterministic regime detection integration.
+- Apply regime-dependent costs across all portfolio paths with no lookahead.
+- Add tests for cost shock scenarios and invariants.
+
+### Phase 4: Portfolio Walk-Forward/OOS Orchestration
+- Extend `src/backtest/engine.py` with portfolio walk-forward/orchestrator across symbols.
+- Respect purge/embargo, time ordering, positions-flatten invariants, and portfolio-level OOS aggregation.
+- Extend `WalkForwardResults`/add `PortfolioWalkForwardResults` with `serialize_oos`/`assert_oos_finite` parity.
+
+### Phase 5: Adversarial Testing & Hardening
+- Create `tests/test_portfolio_walkforward_correlation_adversarial.py` with adversarial cases (correlation spike, diversification breakdown, constraint breaches, tz-aware ordering, determinism).
+- Verify serialization with `allow_nan=False`, finite metrics, edge cases.
+- Full verification pass (>=239+N tests, mypy clean, clean tree).
 
 ### Concrete Targets (exact files)
 - `src/backtest/engine.py` - Add portfolio walk-forward/orchestrator: cross-symbol correlation estimation (rolling/expanding, time-aligned, no lookahead), correlation-constrained sizing/allocation, regime-dependent costs/slippage mapping, portfolio-level OOS aggregation with equity/trades across symbols, strict finite/serialization invariants (extend `WalkForwardResults`/add `PortfolioWalkForwardResults` with `serialize_oos`/`assert_oos_finite` parity), purge/embargo respected, tz-normalized time ordering, determinism.
