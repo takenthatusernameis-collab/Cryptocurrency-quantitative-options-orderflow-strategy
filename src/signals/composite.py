@@ -200,6 +200,8 @@ class CompositeSignalGenerator:
         iv_skew: float = 0.0,
         put_call_ratio: float = 1.0,
         chain: Any = None,
+        iv_surface: Any = None,
+        greeks_summary: Dict[str, Any] | None = None,
         **kwargs: Any,
     ) -> Signal:
         spot_price_s = _safe_float(spot_price, 0.0)
@@ -352,7 +354,16 @@ class CompositeSignalGenerator:
             confidence=float(confidence),
             components=components,
             regime=regime,
-            metadata={"pin_zone": pin_zone_info, "flip_zones": flip_zone_info} if (pin_zone_info or flip_zone_info) else None,
+            metadata=(
+                {
+                    **({"pin_zone": pin_zone_info} if pin_zone_info else {}),
+                    **({"flip_zones": flip_zone_info} if flip_zone_info else {}),
+                    **({"iv_surface": iv_surface} if iv_surface is not None else {}),
+                    **({"greeks_summary": greeks_summary} if greeks_summary is not None else {}),
+                }
+                if (pin_zone_info or flip_zone_info or iv_surface is not None or greeks_summary is not None)
+                else None
+            ),
         )
 
     def _get_weights(self, regime: str) -> Dict[str, float]:

@@ -11,7 +11,10 @@ except Exception:  # pragma: no cover - environment dependent
     _np = None  # type: ignore
 
 from ..config import BacktestConfig, RiskConfig
+from ..data.schemas import PricingInputs
 from ..errors import RiskLimitError, OrderError, DeterminismError, SerializationError, get_logger
+from ..features.options_pricing import black_scholes, black_scholes_greeks
+from ..features.iv_surface import build_iv_surface_from_chain
 from ..telemetry import log_strategy_error, serialize_metrics_strict
 from .options_hedging import delta_hedged_option_pnl
 
@@ -80,6 +83,11 @@ class BacktestResults:
     calmar_ratio: float = 0.0
     winning_trades: int = 0
     losing_trades: int = 0
+    returns: List[float] = field(default_factory=list)
+    drawdowns: List[float] = field(default_factory=list)
+    metadata: Optional[Dict[str, Any]] = None
+    options_hedging: Optional[Dict[str, Any]] = None
+    iv_surfaces: Optional[Dict[str, Any]] = None
 
 
 class BacktestEngine:

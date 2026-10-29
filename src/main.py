@@ -19,7 +19,9 @@ from .features.gamma_exposure import (
     gamma_flip_level,
     gamma_flip_level_weighted,
 )
+from .features.iv_surface import build_iv_surface_from_chain, calibrate_iv_surface
 from .features.liquidity import calculate_chain_liquidity_metrics
+from .features.options_pricing import black_scholes, black_scholes_greeks, implied_volatility
 from .features.orderflow import calculate_cumulative_delta, calculate_orderflow_imbalance
 from .features.volatility import calculate_iv_skew, calculate_max_pain, calculate_put_call_ratio
 from .ingestion.base import BaseOptionsIngestion, BaseOrderflowIngestion
@@ -188,6 +190,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
 
     signal_gen = CompositeSignalGenerator()
     signals: Dict[str, Dict[str, Any]] = {}
+    iv_surfaces: Dict[str, Any] = {}
     for key, chain in ingested_chains.items():
         try:
             v, sym = key.split(":", 1)
@@ -202,6 +205,19 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
             pcr = calculate_put_call_ratio(chain.quotes)
             iv_skew = calculate_iv_skew(chain.quotes, spot_price)
             max_pain = calculate_max_pain(chain)
+            # Build IV surface (deterministic) if possible
+            try:
+                iv_surf = build_iv_surface_from_chain(chain, spot=spot_price, rate=0.0, seed=42)
+                iv_surfaces[key] = iv_surf.to_dict()
+                try:
+                    # Optionally calibrate for reporting consistency
+                    _cal_surf, _cal_rep = calibrate_iv_surface(iv_surf.points, spot=spot_price, rate=0.0, seed=42,
+                                                              underlying=chain.underlying, venue=chain.venue)
+                except Exception:
+                    pass
+            except Exception as e:
+                _logger.exception("iv_surface_build_failed", e, operation="build_iv_surface_from_chain", key=key)
+                results.setdefault("errors", []).append(f"iv_surface_{key}: {e}")
             signal = signal_gen.generate_signal(
                 symbol=sym,
                 spot_price=spot_price,
@@ -210,6 +226,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 of_imbalance=of_imbalance,
                 iv_skew=iv_skew,
                 put_call_ratio=pcr,
+                chain=chain,
             )
             try:
                 total_gex_dw = calculate_total_delta_weighted_gex(chain, spot_price)
@@ -252,10 +269,14 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 "gamma_flip_delta_weighted": gamma_flip_dw,
                 "liquidity": liquidity_metrics,
             }
+            if key in iv_surfaces:
+                signals[key]["iv_surface"] = iv_surfaces[key]
         except Exception as e:
             _logger.exception("signal_generation_failed", e, operation="signal_generation", key=key)
             results.setdefault("errors", []).append(f"signal_generation_{key}: {e}")
     results["signals"] = signals
+    if iv_surfaces:
+        results["iv_surfaces"] = iv_surfaces
 
     try:
         from .config import BacktestConfig, RiskConfig
