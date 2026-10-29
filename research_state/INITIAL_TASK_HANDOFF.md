@@ -1,10 +1,10 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T17:02:47Z
+Timestamp (UTC): 2026-10-29T17:03:09Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 320 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN OF MODIFIED FILES (UNTRACKED ONLY) | ZERO PLACEHOLDERS | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - ENHANCED & VERIFIED
+State: 320 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN OF MODIFIED FILES (UNTRACKED ONLY) | ZERO PLACEHOLDERS | PHASES 1-4 COMPLETE/HARDENED | PHASE 5 PIPELINE INTEGRATION - IN PROGRESS
 
-Session start: 2026-10-29T17:02:47Z
+Session start: 2026-10-29T17:03:09Z
 
 ## MANDATE
 - Heavy quantitative engineering only. Mathematical correctness is mandatory.
@@ -28,8 +28,8 @@ Phases 1-4 are complete and hardened (320 tests passing). Mypy clean. Baseline v
 
 ## Immediate Objectives (IN ORDER)
 1. **Re-verify baseline** (MANDATORY):
-   - `PYTHONPATH=/home/runner/work/_temp/kilo-home/.local/lib/python3.12/site-packages:/home/runner/work/_temp/kilo-home/.local/bin python -m pytest -q` >= 320 passing
-   - `PYTHONPATH=/home/runner/work/_temp/kilo-home/.local/lib/python3.12/site-packages:/home/runner/work/_temp/kilo-home/.local/bin python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean
+   - `python -m pytest -q` >= 320 passing
+   - `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean
    - `git status` clean of modifications
 2. **PHASE 5 - Pipeline Integration (HEAVY QUANT):** Wire options pricing/Greeks and IV surface into the live pipeline with zero regressions.
    - Integrate `src/features/options_pricing.py` and `src/features/iv_surface.py` into `src/main.py` using existing APIs: `black_scholes`, `black_scholes_greeks`, `implied_volatility`, `build_iv_surface_from_chain`, `calibrate_iv_surface`.
