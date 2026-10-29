@@ -224,3 +224,91 @@ class PricingOutputs(BaseModel):
         if not isinstance(v, int) or isinstance(v, bool) or v < 0:
             raise ValueError(f"{field_name} must be a non-negative integer")
         return int(v)
+
+
+class IVPoint(BaseModel):
+    """Single point on an implied volatility surface."""
+
+    strike: float
+    expiry: datetime
+    time_to_expiry: float
+    option_type: str  # 'call' or 'put'
+    iv: float
+    price: Optional[float] = None
+
+    @field_validator("strike")
+    @classmethod
+    def _strike_pos(cls, v: float) -> float:
+        v = float(v)
+        if v <= 0.0 or not math.isfinite(v):
+            raise ValueError("strike must be positive finite")
+        return v
+
+    @field_validator("time_to_expiry")
+    @classmethod
+    def _tte_nonneg(cls, v: float) -> float:
+        v = float(v)
+        if v < 0.0 or not math.isfinite(v):
+            raise ValueError("time_to_expiry must be non-negative finite")
+        return v
+
+    @field_validator("iv")
+    @classmethod
+    def _iv_finite_pos(cls, v: float) -> float:
+        v = float(v)
+        if v < 0.0 or not math.isfinite(v):
+            raise ValueError("iv must be non-negative finite")
+        return v
+
+    @field_validator("option_type")
+    @classmethod
+    def _ot_valid(cls, v: str) -> str:
+        ot = str(v).strip().lower()
+        if ot not in ("call", "put"):
+            raise ValueError("option_type must be 'call' or 'put'")
+        return ot
+
+    @field_validator("price")
+    @classmethod
+    def _price_finite_or_none(cls, v: Optional[float]) -> Optional[float]:
+        if v is None:
+            return None
+        v = float(v)
+        if not math.isfinite(v) or v < 0.0:
+            raise ValueError("price must be non-negative finite or None")
+        return v
+
+
+class IVSurfaceSnapshot(BaseModel):
+    """Serialized IV surface with serialization invariants."""
+
+    underlying: str
+    venue: str
+    spot: float
+    rate: float = 0.0
+    timestamp: Optional[datetime] = None
+    points: List[IVPoint] = Field(default_factory=list)
+    seed: int = 42
+
+    @field_validator("spot")
+    @classmethod
+    def _spot_pos(cls, v: float) -> float:
+        v = float(v)
+        if v <= 0.0 or not math.isfinite(v):
+            raise ValueError("spot must be positive finite")
+        return v
+
+    @field_validator("rate")
+    @classmethod
+    def _rate_finite(cls, v: float) -> float:
+        v = float(v)
+        if not math.isfinite(v):
+            raise ValueError("rate must be finite")
+        return v
+
+    @field_validator("seed")
+    @classmethod
+    def _seed_nonneg_int(cls, v: int) -> int:
+        if not isinstance(v, int) or isinstance(v, bool) or v < 0:
+            raise ValueError("seed must be a non-negative integer")
+        return int(v)

@@ -13,6 +13,7 @@ except Exception:  # pragma: no cover - environment dependent
 from ..config import BacktestConfig, RiskConfig
 from ..errors import RiskLimitError, OrderError, DeterminismError, SerializationError, get_logger
 from ..telemetry import log_strategy_error, serialize_metrics_strict
+from .options_hedging import delta_hedged_option_pnl
 
 
 _logger = get_logger(__name__)
