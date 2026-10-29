@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (POINTER TO SINGLE DURABLE HANDOFF)
-Timestamp (UTC): 2026-10-29T21:00:38Z
+Timestamp (UTC): 2026-10-29T21:01:13Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 
 **SINGLE SOURCE OF TRUTH:** `research_state/durable_handoff.md`
@@ -9,7 +9,7 @@ This file is the initial task message / index. The authoritative, single durable
 ## Initial Task Message
 **DO NOT EXPLORE AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE. HEAVY QUANT WORK ONLY.**
 
-You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. This is production-grade crypto options + orderflow quant. Phases 1-4 complete and hardened. **NEXT MANDATORY FOCUS: PHASE 5 - PIPELINE INTEGRATION & END-TO-END CAMPAIGN VERIFICATION.** See `research_state/durable_handoff.md` for exact baseline, integration gaps, heavy quant tasks, and acceptance criteria.
+You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. This is production-grade crypto options + orderflow quant. Phases 1-4 complete and hardened. **NEXT MANDATORY FOCUS: PHASE 6 - ADVANCED INTEGRATION & PRODUCTION HARDENING (HEAVY QUANT).** See `research_state/durable_handoff.md` for exact baseline, integration gaps, heavy quant tasks, and acceptance criteria.
 
 ## Immediate Objectives
 1. Re-verify baseline: `python -m pytest -q` >=321 passing. `python -m mypy src/ --disallow-untyped-defs --warn-return-any` clean. `git status` shows only intentional Phase-5 edits.
@@ -18,14 +18,14 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 4. Declare Phase 5 complete ONLY when all acceptance criteria in `research_state/durable_handoff.md` pass simultaneously. Update handoff if stopping mid-campaign.
 
 ## Next Focus Campaign
-**Campaign Goal:** Complete Phase 5 integration with full end-to-end verification. IV surface/Greeks MUST drive signals and backtest attribution. Pipeline MUST be deterministically verifiable run-to-run. Future agents MUST do heavy quantitative engineering - no scaffolding, no placeholders.
+**Campaign Goal:** Complete Phase 6 advanced integration & production hardening with full verification. IV surface/Greeks MUST drive signals and backtest attribution. Pipeline MUST be deterministically verifiable run-to-run. Future agents MUST do heavy quantitative engineering - no scaffolding, no placeholders.
 
 Phases:
 - Phase 1: Options Pricing Core (Black-Scholes, Greeks) - COMPLETE
 - Phase 2: IV Surface Construction & Calibration - COMPLETE
 - Phase 3: Delta-Hedged P&L & Attribution - COMPLETE
 - Phase 4: Adversarial Hardening & Robustness - COMPLETE
-- Phase 5: Pipeline Integration & End-to-End Campaign Verification - **IN PROGRESS (MANDATORY HEAVY WORK)**
+- Phase 6: Advanced Integration & Production Hardening - **IN PROGRESS (MANDATORY HEAVY WORK)**
   - Done: `src/main.py` wiring verified; `src/signals/composite.py` IV/Greeks deepened (iv_greeks component); `src/backtest/engine.py` options_data_ref declared field; iv_surfaces/options_hedging populated
   - Remaining (VERIFICATION GATE): simultaneous pytest >=321 + mypy clean + determinism + finite serialization + backward compatibility
 
@@ -34,4 +34,4 @@ Phases:
 ## MANDATE
 Heavy quantitative engineering only. Mathematical correctness mandatory. Numerical stability required. No placeholders/TODOs/FIXMEs/HACKs/XXX. Production-grade only. Complete end-to-end. Do not stop at scaffolding. Bottlenecks removed immediately. Determinism preserved. Keep changes minimal and backward compatible. Verify after every change. See `research_state/durable_handoff.md` for full execution rules.
 
-**Do not explore aimlessly. Do not rewrite existing correct code. Heavy quant work only. Phase 5 - Pipeline Integration & End-to-End Campaign Verification is the immediate mandatory focus.**
+**Do not explore aimlessly. Do not rewrite existing correct code. Heavy quant work only. Phase 6 - Advanced Integration & Production Hardening is the immediate mandatory focus.**
