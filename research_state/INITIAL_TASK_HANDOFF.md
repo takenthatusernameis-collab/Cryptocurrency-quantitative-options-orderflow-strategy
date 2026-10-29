@@ -94,3 +94,26 @@ Project-name priority order:
 - Fix inefficiencies/blockers immediately.
 - Leave clear timestamped handoff if work remains (update BOTH files).
 - DO NOT avoid heavy work. Execute in order without skipping.
+
+
+---
+
+## HANDOFF UPDATE (2026-10-29T04:21:07Z) — ORDERFLOW GUARDS HARDENED
+State: 216 TESTS PASSING | MYPY CLEAN | CHANGES NOT COMMITTED (working tree modified)
+
+### Completed (end-to-end)
+- **[HIGH] Strengthen numerical guards in features/orderflow.py** — DONE.
+  - Added safe_divide usage across divisions (orderflow imbalance, VPIN buckets/mean, absorption, aggressive flow, delta-adjusted/VWAP paths).
+  - Added structured error logging via log_error_with_context on non-finite results (cumulative delta, robust/vectorized paths, imbalance, VPIN, absorption, aggressive flow).
+  - Hardened delta_divergence_vs_price with guards and cleaner error context; added try/except wrapping for robustness.
+  - Imported numerical guards and telemetry logging; mypy clean.
+
+### Verification
+- `python -m pytest` → 216 passed, 1 warning (pre-existing in test_schemas)
+- `python -m mypy src/ --disallow-untyped-defs --warn-return-any` → Success: no issues found in 28 source files
+
+### Remaining Phase 8 (pick ONE next)
+- [ ] Any remaining telemetry/serialization edge cases discovered while working (scan for uncovered paths). If none obvious, move to next phase per priority.
+
+### Next Focus Campaign (strict by project name)
+Continue Phase 1-5 as per priority order; all previous Phase 8 items complete except possibly residual telemetry gaps. **Pick exactly ONE highest-impact item and complete end-to-end. Do NOT parallelize. Never avoid heavy quantitative work.**

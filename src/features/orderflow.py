@@ -7,6 +7,8 @@ import numpy as np
 
 from ..data.schemas import OrderflowSnapshot, Trade
 from ..errors import FeatureError, NonFiniteResultError
+from ..telemetry.error_logging import log_error_with_context
+from ..utils.numerical_guards import safe_divide, validate_finite
 
 
 def calculate_cumulative_delta(trades: List[Trade]) -> float:
@@ -37,6 +39,13 @@ def calculate_cumulative_delta(trades: List[Trade]) -> float:
             elif side == "sell":
                 delta -= vol
         if not isfinite(delta):
+            log_error_with_context(
+                "cumulative delta not finite",
+                operation="calculate_cumulative_delta",
+                module="src.features.orderflow",
+                symbol=getattr(trades[0], "symbol", None) if trades else None,
+                extra={"trade_count": len(trades), **ctx},
+            )
             raise NonFiniteResultError(
                 "cumulative delta not finite", context={**ctx}
             )
@@ -78,6 +87,13 @@ def calculate_cumulative_delta_robust(trades: List[Trade], window: Optional[int]
             elif side == "sell":
                 delta -= vol
         if not isfinite(delta):
+            log_error_with_context(
+                "cumulative delta not finite",
+                operation="calculate_cumulative_delta_robust",
+                module="src.features.orderflow",
+                symbol=getattr(trades_list[0], "symbol", None) if trades_list else None,
+                extra={**ctx},
+            )
             raise NonFiniteResultError(
                 "cumulative delta not finite", context={**ctx}
             )
@@ -94,26 +110,36 @@ def calculate_cumulative_delta_vectorized(trades: List[Trade]) -> float:
     Semantically identical to `calculate_cumulative_delta` but uses numpy
     accumulation for large trade lists.
     """
-    if not trades:
-        return 0.0
-    sides = np.empty(len(trades), dtype=object)
-    sizes = np.zeros(len(trades), dtype=np.float64)
-    for i, trade in enumerate(trades):
-        try:
-            sides[i] = str(trade.side).lower()
-        except Exception:
-            sides[i] = ""
-        try:
-            sizes[i] = float(trade.size)
-        except Exception:
-            sizes[i] = float("nan")
-    valid = np.isfinite(sizes)
-    buy_mask = (sides == "buy") & valid
-    sell_mask = (sides == "sell") & valid
-    delta = float(sizes[buy_mask].sum() - sizes[sell_mask].sum())
-    if not isfinite(delta):
-        return 0.0
-    return delta
+    try:
+        if not trades:
+            return 0.0
+        sides = np.empty(len(trades), dtype=object)
+        sizes = np.zeros(len(trades), dtype=np.float64)
+        for i, trade in enumerate(trades):
+            try:
+                sides[i] = str(trade.side).lower()
+            except Exception:
+                sides[i] = ""
+            try:
+                sizes[i] = float(trade.size)
+            except Exception:
+                sizes[i] = float("nan")
+        valid = np.isfinite(sizes)
+        buy_mask = (sides == "buy") & valid
+        sell_mask = (sides == "sell") & valid
+        delta = float(sizes[buy_mask].sum() - sizes[sell_mask].sum())
+        if not isfinite(delta):
+            log_error_with_context(
+                "cumulative delta not finite (vectorized)",
+                operation="calculate_cumulative_delta_vectorized",
+                module="src.features.orderflow",
+                symbol=getattr(trades[0], "symbol", None) if trades else None,
+                extra={"trade_count": len(trades)},
+            )
+            return 0.0
+        return delta
+    except Exception as e:
+        raise FeatureError("Failed to calculate vectorized cumulative delta", context={"function": "calculate_cumulative_delta_vectorized"}, cause=e)
 
 
 def calculate_signed_volume_vectorized(trades: List[Trade], window: Optional[int] = None) -> float:
@@ -149,43 +175,53 @@ def calculate_orderflow_imbalance_vectorized(trades: List[Trade], window: int = 
     Semantically identical to `calculate_orderflow_imbalance` but uses numpy
     for volume aggregation.
     """
-    if not trades:
-        return 0.0
     try:
-        w = int(window)
-    except Exception:
-        w = 100
-    if w <= 0:
-        recent_trades = trades
-    else:
-        recent_trades = trades[-w:] if len(trades) > w else trades
-    if not recent_trades:
-        return 0.0
-    sides = np.empty(len(recent_trades), dtype=object)
-    sizes = np.zeros(len(recent_trades), dtype=np.float64)
-    for i, t in enumerate(recent_trades):
+        if not trades:
+            return 0.0
         try:
-            sides[i] = str(t.side).lower()
+            w = int(window)
         except Exception:
-            sides[i] = ""
-        try:
-            sizes[i] = float(t.size)
-        except Exception:
-            sizes[i] = float("nan")
-    valid = np.isfinite(sizes)
-    buy_volume = float(sizes[(sides == "buy") & valid].sum())
-    sell_volume = float(sizes[(sides == "sell") & valid].sum())
-    total = buy_volume + sell_volume
-    if total == 0 or not isfinite(total):
-        return 0.0
-    result = (buy_volume - sell_volume) / total
-    if not isfinite(result):
-        return 0.0
-    if result < -1.0:
-        result = -1.0
-    if result > 1.0:
-        result = 1.0
-    return float(result)
+            w = 100
+        if w <= 0:
+            recent_trades = trades
+        else:
+            recent_trades = trades[-w:] if len(trades) > w else trades
+        if not recent_trades:
+            return 0.0
+        sides = np.empty(len(recent_trades), dtype=object)
+        sizes = np.zeros(len(recent_trades), dtype=np.float64)
+        for i, t in enumerate(recent_trades):
+            try:
+                sides[i] = str(t.side).lower()
+            except Exception:
+                sides[i] = ""
+            try:
+                sizes[i] = float(t.size)
+            except Exception:
+                sizes[i] = float("nan")
+        valid = np.isfinite(sizes)
+        buy_volume = float(sizes[(sides == "buy") & valid].sum())
+        sell_volume = float(sizes[(sides == "sell") & valid].sum())
+        total = buy_volume + sell_volume
+        if total == 0 or not isfinite(total):
+            return 0.0
+        result = safe_divide((buy_volume - sell_volume), total, default=0.0)
+        if not isfinite(result):
+            log_error_with_context(
+                "orderflow imbalance not finite (vectorized)",
+                operation="calculate_orderflow_imbalance_vectorized",
+                module="src.features.orderflow",
+                symbol=getattr(recent_trades[0], "symbol", None) if recent_trades else None,
+                extra={"window": w},
+            )
+            return 0.0
+        if result < -1.0:
+            result = -1.0
+        if result > 1.0:
+            result = 1.0
+        return float(result)
+    except Exception as e:
+        raise FeatureError("Failed to calculate vectorized orderflow imbalance", context={"function": "calculate_orderflow_imbalance_vectorized"}, cause=e)
 
 
 cumulative_delta_vectorized = calculate_cumulative_delta_vectorized
@@ -201,25 +237,41 @@ def calculate_vwap_adjusted_delta(trades: List[Trade]) -> float:
     if total volume is zero/non-finite, falls back to ``calculate_cumulative_delta``.
     Guards all values for finiteness.
     """
-    if not trades:
-        return 0.0
-    total_vol = 0.0
-    signed_notional = 0.0
-    for trade in trades:
-        vol = trade.size
-        if not isfinite(vol):
-            continue
-        total_vol += vol
-        if trade.side.lower() == "buy":
-            signed_notional += vol * trade.price
-        elif trade.side.lower() == "sell":
-            signed_notional -= vol * trade.price
-    if total_vol == 0 or not isfinite(signed_notional):
-        return calculate_cumulative_delta(trades)
-    vwap_adj = signed_notional / total_vol  # approximation
-    if not isfinite(vwap_adj):
-        return calculate_cumulative_delta(trades)
-    return float(vwap_adj)
+    try:
+        if not trades:
+            return 0.0
+        total_vol = 0.0
+        signed_notional = 0.0
+        for trade in trades:
+            try:
+                vol = float(trade.size)
+            except Exception:
+                continue
+            if not isfinite(vol):
+                continue
+            try:
+                price = float(trade.price)
+            except Exception:
+                continue
+            if not isfinite(price):
+                continue
+            total_vol += vol
+            try:
+                side = str(trade.side).lower()
+            except Exception:
+                continue
+            if side == "buy":
+                signed_notional += vol * price
+            elif side == "sell":
+                signed_notional -= vol * price
+        if total_vol == 0 or not isfinite(signed_notional) or not isfinite(total_vol):
+            return calculate_cumulative_delta(trades)
+        vwap_adj = safe_divide(signed_notional, total_vol, default=calculate_cumulative_delta(trades))
+        if not isfinite(vwap_adj):
+            return calculate_cumulative_delta(trades)
+        return float(vwap_adj)
+    except Exception as e:
+        raise FeatureError("Failed to calculate vwap adjusted delta", context={"function": "calculate_vwap_adjusted_delta"}, cause=e)
 
 
 def calculate_delta_adjusted_flow(trades: List[Trade], spot_price: Optional[float] = None) -> float:
@@ -228,13 +280,16 @@ def calculate_delta_adjusted_flow(trades: List[Trade], spot_price: Optional[floa
     Returns ``cumulative_delta / spot_price`` if spot_price is positive and
     finite, otherwise returns cumulative delta unchanged.
     """
-    cum_delta = calculate_cumulative_delta(trades)
-    if spot_price and spot_price > 0:
-        result = cum_delta / spot_price
-        if isfinite(result):
-            return result
+    try:
+        cum_delta = calculate_cumulative_delta(trades)
+        if spot_price and spot_price > 0 and isfinite(float(spot_price)):
+            result = safe_divide(cum_delta, spot_price, default=cum_delta)
+            if isfinite(result):
+                return result
+            return cum_delta
         return cum_delta
-    return cum_delta
+    except Exception as e:
+        raise FeatureError("Failed to calculate delta adjusted flow", context={"function": "calculate_delta_adjusted_flow"}, cause=e)
 
 
 def calculate_orderflow_imbalance(trades: List[Trade], window: int = 100) -> float:
@@ -244,47 +299,58 @@ def calculate_orderflow_imbalance(trades: List[Trade], window: int = 100) -> flo
     sums buy/sell volumes by side, and returns ``(buy-sell)/(buy+sell)`` clamped
     to [-1, 1]. Returns 0.0 on empty/zero total volume or non-finite results.
     """
-    if not trades:
-        return 0.0
-
+    ctx = {"function": "calculate_orderflow_imbalance"}
     try:
-        w = int(window)
-    except Exception:
-        w = 100
-    if w <= 0:
-        recent_trades = trades
-    else:
-        recent_trades = trades[-w:] if len(trades) > w else trades
-    buy_volume = 0.0
-    sell_volume = 0.0
-    for t in recent_trades:
-        try:
-            vol = float(t.size)
-        except Exception:
-            continue
-        if not isfinite(vol):
-            continue
-        try:
-            side = str(t.side).lower()
-        except Exception:
-            continue
-        if side == "buy":
-            buy_volume += vol
-        elif side == "sell":
-            sell_volume += vol
-    total = buy_volume + sell_volume
-    if total == 0 or not isfinite(total):
-        return 0.0
+        if not trades:
+            return 0.0
 
-    result = (buy_volume - sell_volume) / total
-    if not isfinite(result):
-        return 0.0
-    # clamp to [-1,1] for numerical safety
-    if result < -1.0:
-        result = -1.0
-    if result > 1.0:
-        result = 1.0
-    return float(result)
+        try:
+            w = int(window)
+        except Exception:
+            w = 100
+        if w <= 0:
+            recent_trades = trades
+        else:
+            recent_trades = trades[-w:] if len(trades) > w else trades
+        buy_volume = 0.0
+        sell_volume = 0.0
+        for t in recent_trades:
+            try:
+                vol = float(t.size)
+            except Exception:
+                continue
+            if not isfinite(vol):
+                continue
+            try:
+                side = str(t.side).lower()
+            except Exception:
+                continue
+            if side == "buy":
+                buy_volume += vol
+            elif side == "sell":
+                sell_volume += vol
+        total = buy_volume + sell_volume
+        if total == 0 or not isfinite(total):
+            return 0.0
+
+        result = safe_divide((buy_volume - sell_volume), total, default=0.0)
+        if not isfinite(result):
+            log_error_with_context(
+                "orderflow imbalance not finite",
+                operation="calculate_orderflow_imbalance",
+                module="src.features.orderflow",
+                symbol=getattr(recent_trades[0], "symbol", None) if recent_trades else None,
+                extra={"window": w, "total_volume": total},
+            )
+            return 0.0
+        # clamp to [-1,1] for numerical safety
+        if result < -1.0:
+            result = -1.0
+        if result > 1.0:
+            result = 1.0
+        return float(result)
+    except Exception as e:
+        raise FeatureError("Failed to calculate orderflow imbalance", context=ctx, cause=e)
 
 
 def orderflow_imbalance_multi_horizon(
@@ -471,89 +537,103 @@ def calculate_signed_volume(trades: List[Trade], window: Optional[int] = None) -
 
 def delta_divergence_vs_price(trades: List[Trade], price_series: Optional[List[float]] = None) -> float:
     """Footprint/orderflow divergence metric (delta divergence vs price)."""
-    # Normalize trades: filter non-finite sizes and valid sides
-    clean_trades: List[Trade] = []
-    iterator: Iterable[Trade]
-    if trades is not None:
-        try:
-            iterator = iter(trades)
-        except TypeError:
-            iterator = []
-        for t in iterator:
+    ctx = {"function": "delta_divergence_vs_price"}
+    try:
+        # Normalize trades: filter non-finite sizes and valid sides
+        clean_trades: List[Trade] = []
+        iterator: Iterable[Trade]
+        if trades is not None:
             try:
-                vol = float(getattr(t, "size", float("nan")))
+                iterator = iter(trades)
+            except TypeError:
+                iterator = []
+            for t in iterator:
+                try:
+                    vol = float(getattr(t, "size", float("nan")))
+                except Exception:
+                    continue
+                if not isfinite(vol):
+                    continue
+                try:
+                    side = str(getattr(t, "side", "")).lower()
+                except Exception:
+                    continue
+                if side not in ("buy", "sell"):
+                    continue
+                clean_trades.append(t)
+        if not clean_trades:
+            return 0.0
+
+        # Compute cum delta on clean trades
+        cum_delta = 0.0
+        for t in clean_trades:
+            try:
+                vol = float(t.size)
             except Exception:
                 continue
             if not isfinite(vol):
                 continue
             try:
-                side = str(getattr(t, "side", "")).lower()
+                side = str(t.side).lower()
             except Exception:
                 continue
-            if side not in ("buy", "sell"):
-                continue
-            clean_trades.append(t)
-    if not clean_trades:
-        return 0.0
-
-    # Compute cum delta on clean trades
-    cum_delta = 0.0
-    for t in clean_trades:
-        try:
-            vol = float(t.size)
-        except Exception:
-            continue
-        if not isfinite(vol):
-            continue
-        side = str(t.side).lower()
-        if side == "buy":
-            cum_delta += vol
-        elif side == "sell":
-            cum_delta -= vol
-    if not isfinite(cum_delta):
-        return 0.0
-
-    # Normalize price series
-    price_change = float("nan")
-    if price_series is not None:
-        try:
-            ps = list(price_series)
-        except Exception:
-            ps = []
-        if len(ps) >= 2:
-            # Use first and last; filter non-finite
-            p0 = ps[0]
-            p1 = ps[-1]
-            try:
-                p0f = float(p0)
-                p1f = float(p1)
-            except Exception:
-                p0f = float("nan")
-                p1f = float("nan")
-            if isfinite(p0f) and isfinite(p1f) and p0f != 0:
-                price_change = p1f - p0f
-            elif isfinite(p0f) and isfinite(p1f):
-                price_change = p1f - p0f
-
-    if isfinite(price_change):
-        if abs(price_change) > 1e-18:
-            # Divergence sign: if delta and price move opposite directions, divergence high
-            sign_pc = 1.0 if price_change > 0 else -1.0
-            div = cum_delta * sign_pc
-        else:
-            div = cum_delta
-        if not isfinite(div):
+            if side == "buy":
+                cum_delta += vol
+            elif side == "sell":
+                cum_delta -= vol
+        if not isfinite(cum_delta):
+            log_error_with_context(
+                "delta divergence: cum_delta not finite",
+                operation="delta_divergence_vs_price",
+                module="src.features.orderflow",
+                symbol=getattr(clean_trades[0], "symbol", None) if clean_trades else None,
+                extra={**ctx},
+            )
             return 0.0
-        # Clamp to reasonable range for robustness
-        if div < -1e18:
-            div = -1e18
-        if div > 1e18:
-            div = 1e18
-        return float(div)
 
-    if isfinite(cum_delta):
-        return float(cum_delta)
-    return 0.0
+        # Normalize price series
+        price_change = float("nan")
+        if price_series is not None:
+            try:
+                ps = list(price_series)
+            except Exception:
+                ps = []
+            if len(ps) >= 2:
+                # Use first and last; filter non-finite
+                p0 = ps[0]
+                p1 = ps[-1]
+                try:
+                    p0f = float(p0)
+                    p1f = float(p1)
+                except Exception:
+                    p0f = float("nan")
+                    p1f = float("nan")
+                if isfinite(p0f) and isfinite(p1f) and p0f != 0:
+                    price_change = p1f - p0f
+                elif isfinite(p0f) and isfinite(p1f):
+                    price_change = p1f - p0f
+
+        if isfinite(price_change):
+            if abs(price_change) > 1e-18:
+                # Divergence sign: if delta and price move opposite directions, divergence high
+                sign_pc = 1.0 if price_change > 0 else -1.0
+                div = cum_delta * sign_pc
+            else:
+                div = cum_delta
+            if not isfinite(div):
+                return 0.0
+            # Clamp to reasonable range for robustness
+            if div < -1e18:
+                div = -1e18
+            if div > 1e18:
+                div = 1e18
+            return float(div)
+
+        if isfinite(cum_delta):
+            return float(cum_delta)
+        return 0.0
+    except Exception as e:
+        raise FeatureError("Failed to calculate delta divergence vs price", context=ctx, cause=e)
 
 
 def absorption_detection(trades: List[Trade], threshold: float = 2.0) -> float:
@@ -563,49 +643,59 @@ def absorption_detection(trades: List[Trade], threshold: float = 2.0) -> float:
     ``threshold * mean_size``, and returns the fraction in [0,1]. Requires >=3
     trades with valid sizes; guards against zero mean/non-finite values.
     """
-    if trades is None:
-        return 0.0
+    ctx = {"function": "absorption_detection"}
     try:
-        trades_list = list(trades)
-    except Exception:
-        return 0.0
-    if len(trades_list) < 3:
-        return 0.0
-
-    try:
-        th = float(threshold)
-    except Exception:
-        th = 2.0
-    if not isfinite(th) or th < 0:
-        th = 2.0
-
-    # Filter non-finite sizes
-    sizes = []
-    for t in trades_list:
+        if trades is None:
+            return 0.0
         try:
-            vol = float(getattr(t, "size", float("nan")))
+            trades_list = list(trades)
         except Exception:
-            continue
-        if not isfinite(vol):
-            continue
-        sizes.append(vol)
-    if len(sizes) < 3:
-        return 0.0
-    avg_size = sum(sizes) / len(sizes)
-    if avg_size == 0 or not isfinite(avg_size):
-        return 0.0
-    large_trades = 0
-    for s in sizes:
-        if s > th * avg_size:
-            large_trades += 1
-    result = large_trades / len(sizes)
-    if not isfinite(result):
-        return 0.0
-    if result < 0.0:
-        result = 0.0
-    if result > 1.0:
-        result = 1.0
-    return float(result)
+            return 0.0
+        if len(trades_list) < 3:
+            return 0.0
+
+        try:
+            th = float(threshold)
+        except Exception:
+            th = 2.0
+        if not isfinite(th) or th < 0:
+            th = 2.0
+
+        # Filter non-finite sizes
+        sizes = []
+        for t in trades_list:
+            try:
+                vol = float(getattr(t, "size", float("nan")))
+            except Exception:
+                continue
+            if not isfinite(vol):
+                continue
+            sizes.append(vol)
+        if len(sizes) < 3:
+            return 0.0
+        avg_size = sum(sizes) / len(sizes)
+        if avg_size == 0 or not isfinite(avg_size):
+            return 0.0
+        large_trades = 0
+        for s in sizes:
+            if s > th * avg_size:
+                large_trades += 1
+        result = safe_divide(large_trades, len(sizes), default=0.0)
+        if not isfinite(result):
+            log_error_with_context(
+                "absorption detection result not finite",
+                operation="absorption_detection",
+                module="src.features.orderflow",
+                extra={"trade_count": len(trades_list)},
+            )
+            return 0.0
+        if result < 0.0:
+            result = 0.0
+        if result > 1.0:
+            result = 1.0
+        return float(result)
+    except Exception as e:
+        raise FeatureError("Failed to calculate absorption detection", context=ctx, cause=e)
 
 
 def vpin_style_toxicity(trades: List[Trade], bucket_size: int = 50) -> float:
@@ -661,11 +751,20 @@ def vpin_style_toxicity(trades: List[Trade], bucket_size: int = 50) -> float:
                     sell_vol += vol
             total = buy_vol + sell_vol
             if total > 0.0 and isfinite(buy_vol) and isfinite(sell_vol):
-                vpin += abs(buy_vol - sell_vol) / total
+                bucket_res = safe_divide(abs(buy_vol - sell_vol), total, default=0.0)
+                if isfinite(bucket_res):
+                    vpin += bucket_res
             # If total == 0 (all sizes filtered), this bucket contributes 0 — safe.
 
-        vpin_result = vpin / num_buckets if num_buckets > 0 else 0.0
+        vpin_result = safe_divide(vpin, num_buckets, default=0.0)
         if not isfinite(vpin_result):
+            log_error_with_context(
+                "vpin result not finite",
+                operation="vpin_style_toxicity",
+                module="src.features.orderflow",
+                symbol=getattr(trades_list[0], "symbol", None) if trades_list else None,
+                extra={**ctx},
+            )
             raise NonFiniteResultError(
                 "vpin result not finite", context={**ctx}
             )
@@ -687,70 +786,81 @@ def detect_aggressive_flow(trades: List[Trade], window: int = 50) -> float:
     counts trades larger than average that align with the prevailing side;
     returns fraction in [0,1] with numerical guards.
     """
-    if trades is None:
-        return 0.0
+    ctx = {"function": "detect_aggressive_flow"}
     try:
-        trades_list_all = list(trades)
-    except Exception:
-        return 0.0
-    if len(trades_list_all) < 2:
-        return 0.0
-
-    try:
-        w = int(window)
-    except Exception:
-        w = 50
-    if w <= 0:
-        trades_list = trades_list_all
-    else:
-        trades_list = trades_list_all[-w:] if len(trades_list_all) > w else trades_list_all
-
-    if len(trades_list) < 2:
-        return 0.0
-
-    # Filter valid trades
-    valid = []
-    for t in trades_list:
+        if trades is None:
+            return 0.0
         try:
-            vol = float(getattr(t, "size", float("nan")))
+            trades_list_all = list(trades)
         except Exception:
-            continue
-        if not isfinite(vol):
-            continue
+            return 0.0
+        if len(trades_list_all) < 2:
+            return 0.0
+
         try:
-            side = str(getattr(t, "side", "")).lower()
+            w = int(window)
         except Exception:
-            continue
-        if side not in ("buy", "sell"):
-            continue
-        valid.append((side, vol))
-    if len(valid) < 2:
-        return 0.0
+            w = 50
+        if w <= 0:
+            trades_list = trades_list_all
+        else:
+            trades_list = trades_list_all[-w:] if len(trades_list_all) > w else trades_list_all
 
-    sizes = [v for _, v in valid]
-    avg_size = sum(sizes) / len(sizes)
-    if avg_size == 0 or not isfinite(avg_size):
-        return 0.0
+        if len(trades_list) < 2:
+            return 0.0
 
-    buy_aggressive = 0
-    sell_aggressive = 0
-    for side, vol in valid:
-        if vol > 2.0 * avg_size:
-            if side == "buy":
-                buy_aggressive += 1
-            elif side == "sell":
-                sell_aggressive += 1
-    total = len(valid)
-    if total == 0 or not isfinite(total):
-        return 0.0
-    aggressive_ratio = (buy_aggressive - sell_aggressive) / total
-    if not isfinite(aggressive_ratio):
-        return 0.0
-    if aggressive_ratio < -1.0:
-        aggressive_ratio = -1.0
-    if aggressive_ratio > 1.0:
-        aggressive_ratio = 1.0
-    return float(aggressive_ratio)
+        # Filter valid trades
+        valid = []
+        for t in trades_list:
+            try:
+                vol = float(getattr(t, "size", float("nan")))
+            except Exception:
+                continue
+            if not isfinite(vol):
+                continue
+            try:
+                side = str(getattr(t, "side", "")).lower()
+            except Exception:
+                continue
+            if side not in ("buy", "sell"):
+                continue
+            valid.append((side, vol))
+        if len(valid) < 2:
+            return 0.0
+
+        sizes = [v for _, v in valid]
+        avg_size = sum(sizes) / len(sizes)
+        if avg_size == 0 or not isfinite(avg_size):
+            return 0.0
+
+        buy_aggressive = 0
+        sell_aggressive = 0
+        for side, vol in valid:
+            if vol > 2.0 * avg_size:
+                if side == "buy":
+                    buy_aggressive += 1
+                elif side == "sell":
+                    sell_aggressive += 1
+        total = len(valid)
+        if total == 0 or not isfinite(total):
+            return 0.0
+        aggressive_ratio = safe_divide((buy_aggressive - sell_aggressive), total, default=0.0)
+        if not isfinite(aggressive_ratio):
+            log_error_with_context(
+                "aggressive flow ratio not finite",
+                operation="detect_aggressive_flow",
+                module="src.features.orderflow",
+                symbol=getattr(trades_list_all[0], "symbol", None) if trades_list_all else None,
+                extra={"window": w},
+            )
+            return 0.0
+        if aggressive_ratio < -1.0:
+            aggressive_ratio = -1.0
+        if aggressive_ratio > 1.0:
+            aggressive_ratio = 1.0
+        return float(aggressive_ratio)
+    except Exception as e:
+        raise FeatureError("Failed to detect aggressive flow", context=ctx, cause=e)
 
 
 vpin_toxicity = vpin_style_toxicity
