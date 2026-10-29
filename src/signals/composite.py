@@ -444,7 +444,7 @@ class CompositeSignalGenerator:
         confidence = _clamp(confidence, 0.0, 1.0)
 
         confidence = confidence * self._regime_flip_penalty
-            confidence = _clamp(confidence, 0.0, 1.0)
+        confidence = _clamp(confidence, 0.0, 1.0)
 
         # Build metadata with IV surface and Greeks info (store them as accepted)
         meta: Dict[str, Any] = {}
@@ -476,30 +476,6 @@ class CompositeSignalGenerator:
             metadata=meta if meta else None,
         )
         return signal
-
-        trans_calibration_final = self._calibrate_regime_transition(raw_regime_check_final, self._prev_regime, total_gex_s, iv_skew_s, put_call_ratio_s)
-        if trans_calibration_final < 1.0:
-            confidence = confidence * (0.9 + 0.1 * trans_calibration_final)
-            confidence = _clamp(confidence, 0.0, 1.0)
-
-        return Signal(
-            symbol=symbol,
-            direction=direction,
-            strength=float(composite),
-            confidence=float(confidence),
-            components=components,
-            regime=regime,
-            metadata=(
-                {
-                    **({"pin_zone": pin_zone_info} if pin_zone_info else {}),
-                    **({"flip_zones": flip_zone_info} if flip_zone_info else {}),
-                    **({"iv_surface": iv_surface} if iv_surface is not None else {}),
-                    **({"greeks_summary": greeks_summary} if greeks_summary is not None else {}),
-                }
-                if (pin_zone_info or flip_zone_info or iv_surface is not None or greeks_summary is not None)
-                else None
-            ),
-        )
 
     def _get_weights(self, regime: str) -> Dict[str, float]:
         w = self.regime_weights.get(regime, self.regime_weights["neutral"]).copy()
