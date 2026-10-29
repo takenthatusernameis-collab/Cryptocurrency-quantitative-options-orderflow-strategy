@@ -1,13 +1,10 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-29T07:21:01Z
+Timestamp (UTC): 2026-10-29T07:26:00Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING
-State: 215 TESTS PASSING | 1 FAILING (test_campaign_resume.py::test_handoff_has_required_sections — handoff section format bottleneck) | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T07:21:01Z
-Classification: PRODUCTION-GRADE QUANTITATIVE RESEARCH CODEBASE
+State: 216 TESTS PASSING | 0 FAILING | MYPY CLEAN (--disallow-untyped-defs --warn-return-any) | WORKING TREE CLEAN | RE-VERIFIED 2026-10-29T07:26:00Z
 
-## Initial Task Message — FOR NEXT AGENTIC WORK SESSION (MANDATORY, NON-OPTIONAL)
-
-Session start: 2026-10-29T07:21:01Z
+Session start: 2026-10-29T07:26:00Z
 
 **EXECUTE IMMEDIATELY. NO EXPLORATION DIVERGENCES. NO SCOPING CREEP. NO SCORCHED-EARTH REWRITES.**
 
@@ -19,18 +16,19 @@ Session start: 2026-10-29T07:21:01Z
 
 ### ABSOLUTE FIRST ACTION (HEAVY, END-TO-END)
 
-**START PHASE 2 — ORDERFLOW MICROSTRUCTURE. HARDEN TO PRODUCTION-GRADE.**
+**PHASE 2 — ORDERFLOW MICROSTRUCTURE: COMPLETED (HARDENED).** All orderflow paths (signed volume/cumulative delta/vectorized parity, VPIN/toxicity, absorption, aggressive/passive flow) are adversarially hardened with finite guards, clamping, and parity checks. 216 tests passing, mypy clean. Move to **PHASE 3 — VOLATILITY SURFACE DYNAMICS** as next heavy deliverable. Do **NOT** regress Phase 2; keep defenses intact. Pick **EXACTLY ONE** coherent heavy deliverable for Phase 3 and take it **ALL THE WAY TO DONE**.**
 
-Pick **EXACTLY ONE** coherent heavy deliverable from the concrete targets below, take it **ALL THE WAY TO DONE** (implementation + adversarial tests + mypy clean + full test suite passing). Do **NOT** scaffold multiple subsystems at once. Leave the rest explicitly specified for the next agent. **NEVER AVOID HEAVY QUANTITATIVE WORK.**
+### CONCRETE TARGETS (COMPLETED) — FOCUS: `src/features/orderflow.py`
+Phase 2 completed and verified. Adversarial hardening in place for signed volume/cumulative delta (scalar+vectorized parity), VPIN/toxicity (bucket guards, capping, clamping), absorption/aggressive flow (degenerate/NaN/Inf), multi-horizon orderflow with decay weighting (finite/clamp guarantees). Exports/integration verified; tests passing.
 
-### CONCRETE TARGETS (MUST HIT) — FOCUS: `src/features/orderflow.py`
-Harden and verify the following with adversarial safety, numerical stability, and vectorized paths where applicable:
+### NEXT CONCRETE TARGETS (MUST HIT) — FOCUS: `src/features/volatility.py`
+Start **Phase 3 — Volatility surface dynamics** with exactly one heavy item, end-to-end:
 
-1. **Signed volume / cumulative delta** — Make `calculate_signed_volume_vectorized` / `calculate_cumulative_delta_vectorized` and scalar equivalents fully robust to zero/NaN/Inf prices/volumes, missing keys/columns, extreme values. Enforce scalar<->vectorized parity. Never leak NaN/Inf. Guard divide-by-zero and degenerate ticks.
-2. **VPIN/toxicity** — Harden `vpin_style_toxicity` / `vpin_toxicity`. Handle small bucket counts, all-zero volumes, NaN/Inf, and pathological distributions. Clamp to valid ranges. Deterministic. Avoid division by zero and log of non-positive in unsafe forms.
-3. **Absorption / aggressive flow** — Harden `absorption_detection`, `detect_aggressive_flow`. Defensive against empty/degenerate inputs. Preserve semantics, add finite guards and sensible fallbacks.
-4. **Exports/integration** — Verify `src/features/__init__.py` exports remain correct. Ensure no consumer of orderflow breaks; add minimal guards only if strictly necessary (no API changes).
-5. **Adversarial coverage** — Add/strengthen focused tests (e.g. `tests/test_pipeline_integration.py`, `tests/test_signals_regime.py`, or a new tight test) covering NaN/Inf, zeros, all-equal, tiny windows, large spikes. Do not bloat tests unnecessarily.
+1. **ATM/term structure & skew** — Harden ATM volatility term structure, skew/RR metrics against degenerate surfaces (few strikes/expiries), NaN/Inf, monotonicity issues. Vectorize where sensible, enforce finite outputs and clamps.
+2. **Calendar spreads / surface coherence** — Validate calendar spread consistency, guard against inverted/ill-posed curves, prevent division by zero.
+3. **Max pain / edge cases** — Ensure max pain and related helpers are robust to sparse OI/volume, zero totals, extreme strikes.
+4. **Exports/integration** — Verify `src/features/__init__.py` remains correct; no API changes unless strictly necessary with full regression.
+5. **Adversarial tests** — Add/strengthen focused tests covering sparse/degenerate surfaces, NaN/Inf, all-equal values; keep suite green.
 
 ### VERIFICATION (REQUIRED BEFORE HANDOFF)
 - `python -m pytest` → must be >= 216 passing (do not regress; fix any regressions immediately).
@@ -43,8 +41,8 @@ Harden and verify the following with adversarial safety, numerical stability, an
 Project-name priority is law. Do not reorder.
 
 1. **Phase 1 — Dealer positioning/gamma exposure**: ✅ COMPLETED (hardened pin/flip zones, adversarial-safe, safely integrated).
-2. **Phase 2 — Orderflow microstructure (CURRENT MANDATE)**: signed volume, cumulative delta, VPIN/toxicity, absorption, aggressive/passive flow with adversarial guards. **HEAVY WORK REQUIRED.**
-3. **Phase 3 — Volatility surface dynamics**: skew/term structure/RR, ATM term structure, calendar spreads, max pain. Degenerate-surface guards, numerical stability.
+2. **Phase 2 — Orderflow microstructure**: ✅ COMPLETED (hardened signed volume/cumulative delta, VPIN/toxicity, absorption/aggressive flow, multi-horizon with decay; adversarial-safe).
+3. **Phase 3 — Volatility surface dynamics (CURRENT MANDATE)**: skew/term structure/RR, ATM term structure, calendar spreads, max pain. Degenerate-surface guards, numerical stability. **HEAVY WORK REQUIRED.**
 4. **Phase 4 — Regime-aware signal engineering**: cross-features, calibration, normalization, feature leakage prevention, determinism.
 5. **Phase 5 — Rigorous backtesting**: fills/slippage/costs/partial fills, round lots, walk-forward/OOS, stress, transaction costs, sanitized metrics, strict no-lookahead.
 
