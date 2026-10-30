@@ -122,6 +122,22 @@ class CircuitBreaker:
         self.half_open_calls = 0
         self.call_history = []
 
+    def snapshot(self) -> Dict[str, Any]:
+        """Return a deep-copyable, serialization-safe snapshot of current state.
+
+        Used by stress-test harnesses to assert state transitions and to
+        record deterministic checkpoints without exposing internal mutable
+        references.
+        """
+        return serialize_metrics_strict({
+            "state": self.state.value,
+            "failure_count": int(self.failure_count),
+            "success_count": int(self.success_count),
+            "last_failure_time": self.last_failure_time.isoformat() if self.last_failure_time else None,
+            "half_open_calls": int(self.half_open_calls),
+            "call_history_len": int(len(self.call_history)),
+        })
+
     def get_status(self) -> Dict[str, Any]:
         return serialize_metrics_strict({
             "state": self.state.value,
