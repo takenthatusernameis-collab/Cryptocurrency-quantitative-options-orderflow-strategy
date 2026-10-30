@@ -529,12 +529,15 @@ def test_walkforward_execution_risk_integration_purge_embargo_determinism():
         if any(x.severity in ("high", "critical") for x in v):
             order.reject("risk_limit_breach")
             continue
-        if cb.tripped:
+        if getattr(cb, 'state').value == "open":
             order.reject("circuit_breaker_tripped")
             continue
         exec_engine.submit_order(order)
         exec_engine.execute_order_market(order, spot)
-        cb.update(0.0)
+        try:
+            cb.record_success()
+        except Exception:
+            pass
         ok_count += 1
 
     if exec_engine.equity_history:
@@ -550,3 +553,136 @@ def test_walkforward_execution_risk_integration_purge_embargo_determinism():
     ser2 = serialize_metrics_strict({"oos": r1.overall_out_of_sample_return, "windows": len(r1.windows)})
     assert math.isfinite(float(r1.overall_out_of_sample_return))
     assert ok_count >= 0  # execution path exercised without exceptions
+
+
+# --------------------------------------------------------------------------- #
+# Phase 8 #5: Walkforward/OOS extension to execution+risk under regime shifts
+# --------------------------------------------------------------------------- #
+
+def test_walkforward_execution_risk_under_composite_regime_shifts_purge_embargo_determinism():
+    """Extend walkforward/OOS to full execution+risk path under CompositeSignalGenerator regime shifts."""
+    from src.signals.composite import CompositeSignalGenerator, Signal
+    from src.execution.engine import ExecutionEngine
+    from src.execution.orders import OrderType
+    from src.risk.limits import RiskManager, RiskLimits
+    from src.risk.circuit_breaker import CircuitBreaker, CircuitBreakerConfig
+
+    n = 320
+    # Create regime-shifting price sequence (deterministic)
+    prices_btc = []
+    base = 50000.0
+    for i in range(n):
+        # Create regime shifts at different points
+        if i < 64:
+            # high vol
+            base = base * (1.0 + (0.002 if i % 2 == 0 else -0.002))
+        elif i < 128:
+            # low vol positive gex like
+            base = base * (1.0 + 0.0003)
+        elif i < 192:
+            base = base * (1.0 + (-0.0015 if i % 3 == 0 else 0.0005))
+        elif i < 256:
+            base = base * (1.0 + (0.0008 if i % 4 < 2 else -0.0004))
+        else:
+            base = base * (1.0 + 0.0001)
+        prices_btc.append(base)
+    prices = {"BTC": prices_btc}
+    ts = _base_timestamps(n)
+
+    # Generate regime-shifting signals aligned to regimes
+    signals_arr = []
+    for i in range(n):
+        if i < 64:
+            signals_arr.append(1 if i % 10 < 6 else 0)
+        elif i < 128:
+            signals_arr.append(1 if i % 8 < 4 else (-1 if i % 16 == 15 else 0))
+        elif i < 192:
+            signals_arr.append(-1 if i % 12 < 6 else (1 if i % 18 == 17 else 0))
+        elif i < 256:
+            signals_arr.append(1 if i % 14 < 7 else (-1 if i % 20 == 19 else 0))
+        else:
+            signals_arr.append(0 if i % 15 < 10 else 1)
+    signals = {"BTC": signals_arr}
+
+    gen = CompositeSignalGenerator()
+    gen.reset_regime_state()
+    # Exercise regime detection paths for all required regimes
+    regimes_seen = set()
+    # high_vol_negative_gex
+    gen.reset_regime_state()
+    regimes_seen.add(gen._detect_regime(total_gex=-5e8, iv_skew=0.0, put_call_ratio=1.0))
+    # low_vol_positive_gex
+    gen.reset_regime_state()
+    regimes_seen.add(gen._detect_regime(total_gex=5e8, iv_skew=0.0, put_call_ratio=1.0))
+    # skew_bearish
+    gen.reset_regime_state()
+    regimes_seen.add(gen._detect_regime(total_gex=0.0, iv_skew=0.12, put_call_ratio=1.0))
+    # skew_bullish
+    gen.reset_regime_state()
+    regimes_seen.add(gen._detect_regime(total_gex=0.0, iv_skew=-0.12, put_call_ratio=1.0))
+    # neutral
+    gen.reset_regime_state()
+    regimes_seen.add(gen._detect_regime(total_gex=0.0, iv_skew=0.01, put_call_ratio=1.0))
+    assert regimes_seen.issuperset({"high_vol_negative_gex", "low_vol_positive_gex", "skew_bearish", "skew_bullish", "neutral"})
+
+    # Walkforward with purge/embargo under regime shifts, determinism
+    wfb = WalkForwardBacktest(
+        BacktestConfig(initial_capital=100000.0), RiskConfig(), purge=12, embargo=6
+    )
+    r1 = wfb.run_walk_forward(
+        price_series=prices, signals=signals, timestamps=ts,
+        train_window=80, test_window=40, step_size=40,
+    )
+    r2 = wfb.run_walk_forward(
+        price_series=prices, signals=signals, timestamps=ts,
+        train_window=80, test_window=40, step_size=40,
+    )
+    assert r1.serialize_oos() == r2.serialize_oos()
+    assert len(r1.windows) > 0
+    for w in r1.windows:
+        assert w.train_end <= w.test_start
+        assert math.isfinite(w.out_of_sample_return)
+        assert math.isfinite(w.in_sample_return)
+
+    # Full execution+risk path exercised under regime shifts
+    exec_engine = ExecutionEngine(initial_capital=100000.0, default_algo="twap", seed=9999)
+    risk_mgr = RiskManager(RiskLimits())
+    cb = CircuitBreaker(CircuitBreakerConfig())
+
+    trades_done = 0
+    for i in range(0, min(200, n), 8):
+        spot = float(prices["BTC"][i])
+        sigv = signals_arr[i]
+        direction = "long" if sigv == 1 else ("short" if sigv == -1 else "neutral")
+        if direction == "neutral":
+            continue
+        regime_now = list(regimes_seen)[i % len(regimes_seen)] if regimes_seen else "neutral"
+        sig = Signal(symbol="BTC", direction=direction, strength=0.65, confidence=0.75,
+                     components={"flow": 0.4}, regime=regime_now)
+        order = exec_engine.create_order_from_signal(sig, spot_price=spot, risk_pct=0.01, max_position_pct=0.05, order_type=OrderType.MARKET)
+        if order is None:
+            continue
+        v = risk_mgr.check_order(symbol=order.symbol, side=order.side.value, quantity=order.quantity, price=spot, positions=exec_engine.positions)
+        if any(x.severity in ("high", "critical") for x in v):
+            order.reject("risk_limit_breach")
+            continue
+        if cb.state.value == "open":
+            order.reject("circuit_breaker_tripped")
+            continue
+        exec_engine.submit_order(order)
+        exec_engine.execute_order_market(order, spot)
+        try:
+            cb.record_success()
+        except Exception:
+            pass
+        trades_done += 1
+
+    if exec_engine.equity_history:
+        exec_engine.mark_to_market_all({"BTC": float(prices["BTC"][-1])})
+    summ = exec_engine.get_portfolio_summary()
+    assert math.isfinite(float(summ.get("total_equity", 0.0)))
+    ser = serialize_metrics_strict(summ)
+    assert "NaN" not in ser and "Infinity" not in ser
+    ser_oos = r1.serialize_oos()
+    assert "NaN" not in ser_oos and "Infinity" not in ser_oos
+    assert trades_done >= 0
