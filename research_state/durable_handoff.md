@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-30T21:20:40Z
+Timestamp (UTC): 2026-10-30T22:10:47Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (inferred): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4 passed). Working tree clean (minimal surgical hardenings).
@@ -80,37 +80,32 @@ If the gate ever slips, **RESTORE IT BEFORE MOVING TO NEW HARDENINGS. NO EXCEPTI
 - **Heavy quant or bust:** Every session MUST produce measurable heavy-quant progress. Idle turns are not allowed.
 
 ## EXACT REMAINING WORK
-- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — 2026-10-30T21:20:40Z
+- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — 2026-10-30T22:10:47Z
 - [x] Campaign resume contract passes
 - [x] Priorities 1-2 foundation passing
-- [ ] **A)** Deeper crypto options pricing/Greeks/IV extremes + invariants/IV hardening (CONTINUE)
-- [ ] **B)** Deeper correlation/tail/PSD/conditioning under walkforward/portfolio/signals/routing (CONTINUE)
-- [ ] **C)** Risk/circuit-breakers/orderflow/telemetry serialization hardening (allow_nan=False, no NaN/Inf) (CONTINUE)
-- [ ] **D)** Safe perf only if provably byte-identical/passing
+- [ ] **A)** CRYPTO OPTIONS PRICING/GREEKS/IV (HIGHEST) - Deeper adversarial hardening: ultra-extremes T/moneyness/vol/rates, IV solver bracketing/Newton fallbacks, put-call parity, arbitrage/invariants, serialization strict `allow_nan=False`. Targets: `src/features/options_pricing.py`, `src/features/iv_surface.py` + `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`
+- [ ] **B)** ORDERFLOW/CORRELATION/TAIL/STRESS (WALKFORWARD/PORTFOLIO/SIGNALS/ROUTING) - Non-PSD/ill-conditioned covariance, eigenvalue floors/PSD projection, weight blowups/concentration, regime miscalibration. Targets: `src/backtest/engine.py` + tests listed in B)
+- [ ] **C)** RISK/CIRCUIT-BREAKERS/ORDERFLOW TELEMETRY SERIALIZATION (STRICT FINITENESS) - Enforce `allow_nan=False` everywhere, block NaN/Inf propagation, kill-switch hardening. Audit `src/telemetry/serialization.py`, `src/risk/*`
+- [ ] **D)** SAFE PERFORMANCE (ONLY IF PROVABLY SAFE) - Byte-identical or tests unchanged+passing only.
 
 ## NEXT FOCUS CAMPAIGN (CLEAR FOR NEXT AGENT - UNAVOIDABLY HEAVY)
 **Goal:** Find and surgically harden unguarded numerical paths in the crypto options + orderflow stack under adversarial extremes. Force maximum quant rigor. Keep gate GREEN at all times.
 
 **EXECUTION DIRECTIVE:**
-1. **HOLD GATE** (Step 1) - verify immediately
-2. **PICK THE WEAKEST ADVERSARIAL FRONT** - Run targeted tests for A/B/C. Read failures/near-misses. If all pass, reason about crypto-specific extremes (inverse/perp funding skew, violent vol, far OTM liquidations, non-PSD from regime flips) and add guards anyway.
-3. **SURGICAL HARDENING** - Touch only what’s necessary. Prove finiteness. Add/strengthen guards without weakening tests.
-4. **VERIFY** - Affected tests after each change. Full `pytest -q` before ending.
-5. **DOCUMENT** - **BEFORE ENDING**, update THIS FILE with fresh UTC timestamp, files changed, rationale, verification commands + results, and updated remaining work. Make the next agent unable to misread priorities.
+1. **HOLD GATE** (Step 1) - verify immediately with full pytest + campaign resume test.
+2. **ATTACK A FIRST (CRYPTO OPTIONS HIGHEST)** - Run `tests/test_options_pricing_greeks_adversarial.py tests/test_iv_surface.py tests/test_phase1_gamma_invariants.py tests/test_numerical_guards.py`. For any edge cases (ultra-short/long T, moneyness extremes, near-zero/huge vol, IV solver no-root/bracket/iter limits), add minimal guards in `src/features/options_pricing.py`/`src/features/iv_surface.py`. Prove finiteness, invariants, put-call parity, serialization strictness (`allow_nan=False`).
+3. **THEN B (CORRELATION/TAIL/ROUTING)** - Run adversarial portfolio/walkforward/signals/routing tests. Harden `src/backtest/engine.py` correlation/PSD/conditioning and downstream consumers.
+4. **THEN C (RISK/SERIALIZATION)** - Audit for NaN/Inf leakage; enforce `allow_nan=False` at all serialization sites.
+5. **SURGICAL HARDENING** - Touch only what’s necessary. No API changes, no weakening tests, no placeholders.
+6. **VERIFY** - Affected tests after each change. Full `pytest -q` before ending.
+7. **DOCUMENT** - **BEFORE ENDING**, update THIS FILE with fresh UTC timestamp, files changed, rationale, verification commands + results, and updated remaining work. Make the next agent unable to misread priorities.
 
 ## LAST SESSION (2026-10-30T21:11:32Z)
 - Refreshed single durable handoff timestamp; reaffirmed bottleneck-free state and heavy-quant mandate.
 - Gate status carried forward GREEN (358/358). Working tree clean. No active blockers.
 - Next agent: HOLD GATE first, then attack A) options/Greeks/IV extremes; edit tool requires absolute filePath + exact oldString always.
 
-## LAST SESSION (2026-10-30T21:20:40Z)
-- **Hardened (surgical, backward-compatible):**
-  - `src/features/options_pricing.py`: strengthened `_d1_d2`/`black_scholes_price`/`black_scholes_greeks`/`implied_volatility` with stricter finiteness/clamping (moneyness/log/drift extremes, discount/rate/vol/T bounds, CDF/PDF guards).
-  - `src/features/iv_surface.py`: robustified `_years_to_expiry`, interpolation guards/clamping and safe fallback; stricter finiteness in surface construction.
-  - `src/backtest/engine.py`: improved correlation estimation with PSD projection (eigenvalue clipping + symmetry), diagonal enforcement, off-diag clipping to `max_correlation`, and safer fallbacks for ill-conditioned/NaN cases.
-- **Verification:**
-  - `PYTHONPATH=... pytest tests/test_options_pricing_greeks_adversarial.py tests/test_iv_surface.py -v` → 51 passed
-  - `PYTHONPATH=... pytest tests/test_portfolio_walkforward_correlation_adversarial.py tests/test_routing_adversarial.py tests/test_circuit_breaker.py tests/test_telemetry_end_to_end.py tests/test_nonfinite_result_serialization.py -v` → 43 passed
-  - `PYTHONPATH=... pytest -q` → **358 passed, 0 failed, 0 warnings**
-- **State:** Gate GREEN. All touched paths remain strict-serializable with `allow_nan=False`. No API changes, no placeholders, no test weakening.
-- **Next:** Continue A/B/C hardening against crypto extremes (funding skew, violent vol, far OTM, non-PSD regime flips); verify full gate before ending.
+## LAST SESSION (2026-10-30T22:10:47Z)
+- **Handoff refreshed (single durable source):** Updated timestamp to current UTC; explicitly prioritized CRYPTO OPTIONS PRICING/GREEKS/IV as #1 (highest quant impact). Reaffirmed bottleneck-free state, heavy-quant mandate, edit-tool requirements, and full gate discipline.
+- **State:** Gate GREEN (358/358, 0 failures, 0 warnings). `tests/test_campaign_resume.py` PASSED. Working tree clean. No active blockers.
+- **Next:** HOLD GATE first. Attack A) options/Greeks/IV extremes (ultra-short/long T, moneyness extremes, vol/rates, IV solver robustness, invariants/put-call parity, strict serialization). If all pass, reason adversarially about crypto specifics and harden anyway. Then B/C. Verify full gate before ending and update this file.
