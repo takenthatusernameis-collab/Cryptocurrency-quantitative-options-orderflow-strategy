@@ -262,17 +262,6 @@ class ImplementationShortfallAlgorithm(ExecutionAlgorithm):
         num_slices = max(5, int(10 * (0.5 + self.urgency)))
         slices: List[Slice] = []
         cum_qty = 0.0
-        for i in range(num_slices):
-            # Exponential decay / front-loading
-            t_frac = (i + 1) / float(num_slices)
-            # Urgent => more front-loaded
-            w = (t_frac ** (1.0 / max(self.urgency + 0.1, 0.1))) / num_slices * num_slices  # normalize
-            # Simpler: use power function
-            weight = (i + 1) ** (1.0 + self.urgency * 2.0)
-            # Compute relative weights
-            pass
-
-        # Better implementation
         weights = []
         for i in range(num_slices):
             # Frontload: higher weight earlier
