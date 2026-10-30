@@ -1,17 +1,17 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T00:51:05Z
+Timestamp (UTC): 2026-10-30T00:51:24Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: crypto options + orderflow quantitative strategy (options pricing/IV surfaces/Greeks/delta-hedged PnL/attribution/regime/composite)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW)
 State: 321 TESTS PASSING | 0 FAILING | 1 WARNING (datetime.utcnow in tests/test_schemas.py) | WORKING TREE CLEAN | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-6 COMPLETE - ALL GATES PASSED
 
 Session start: 2026-10-29T21:01:52Z
-Handoff updated: 2026-10-30T00:51:05Z (stale INITIAL_TASK_HANDOFF pointer corrected to Phase 7; bottleneck resolved)
+Handoff updated: 2026-10-30T00:51:24Z (baseline re-verified: 321 passing, clean tree; Phase 7 remains the mandatory focus)
 
 ## BOTTLENECK STATUS (CURRENT - RESOLVED)
 - BASELINE VERIFIED: `python -m pytest -q` = 321 passing, 1 warning (datetime.utcnow in tests/test_schemas.py). `git status` clean. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. All `json.dumps` in `src/` use `allow_nan=False`. Serialization paths use `allow_nan=False` / `serialize_metrics_strict`. Determinism tests pass. mypy not installed in env but codebase follows strict typing patterns.
 - NO EXPLORATORY BLOCKERS: IV surface build/calibration wired in `src/main.py`; Greeks passed to `CompositeSignalGenerator.generate_signal` (`iv_surface` + `greeks_summary`); `src/signals/composite.py` has `iv_greeks` component with weights/regime handling; `BacktestEngine` accepts `iv_surfaces`/`options_data` and wires `delta_hedged_option_pnl`; determinism test exists.
-- HISTORICAL NOISE: `research_state/workflow_run_diagnostics.jsonl` contains old edit-tool argument errors/cancellations - IGNORE. Do not get distracted.
+- HISTORICAL NOISE: `research_state/workflow_run_diagnostics.jsonl` contains old edit-tool argument errors/cancellations (2026-10-27 to 2026-10-29) - IGNORE. Do not get distracted. These are not current blockers.
 - CONTRADICTION RESOLVED: The duplicate "EXACT REMAINING WORK" sections (one unchecked, one checked) in the prior handoff have been consolidated. Phase 6 is CONFIRMED COMPLETE with all gates passing. There is no remaining Phase 6 work.
 - NO ACTIVE BLOCKERS: All Phase 6 acceptance criteria passed simultaneously. Working tree clean. Sessions may proceed directly to Phase 7.
 
