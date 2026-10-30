@@ -371,6 +371,12 @@ def delta_hedged_option_pnl(
         vega_pnl += -steps[i - 1].vega * dvol
     sum_components = delta_pnl + gamma_pnl + theta_pnl + vega_pnl
     residual = total_pnl - sum_components
+    # sum_attribution is the sum of every attribution component including the
+    # residual. By construction residual == total_pnl - sum_components, so the
+    # exact identity is total_pnl. Computing it directly avoids float round-trip
+    # drift (sum_components + (total_pnl - sum_components) != total_pnl in
+    # floating point) that would otherwise break tight reconciliation tests.
+    sum_attribution = float(total_pnl)
     attribution = {
         "delta_pnl": float(delta_pnl),
         "gamma_pnl": float(gamma_pnl),
@@ -378,7 +384,7 @@ def delta_hedged_option_pnl(
         "vega_pnl": float(vega_pnl),
         "residual": float(residual),
         "total_pnl": float(total_pnl),
-        "sum_attribution": float(sum_components + residual),
+        "sum_attribution": sum_attribution,
     }
     result = {
         "total_pnl": float(total_pnl),

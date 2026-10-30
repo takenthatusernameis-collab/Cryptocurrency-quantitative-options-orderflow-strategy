@@ -271,3 +271,58 @@ def test_attribution_components_finite_all_paths():
     attr = result["attribution"]
     for k in ["delta_pnl", "gamma_pnl", "theta_pnl", "vega_pnl", "residual", "total_pnl", "sum_attribution"]:
         assert math.isfinite(float(attr[k]))
+
+
+# ---------------------------------------------------------------------------
+# Attribution identity and near-expiry edge cases
+# ---------------------------------------------------------------------------
+
+def test_attribution_identity_exact():
+    """sum_attribution must equal total_pnl exactly (not just within tolerance).
+
+    The attribution is defined as delta+gamma+theta+vega+residual with
+    residual = total_pnl - sum_components, so the identity is exact by
+    construction. Float round-trip drift between the two stored values must
+    not break tight reconciliation.
+    """
+    for spot_path, times in (
+        (_ramp_path(100.0, 20, 0.4), _times(20, 10 / 365.25)),
+        (_ramp_path(95.0, 15, -0.3), _times(15, 7 / 365.25)),
+        (_constant_path(100.0, 10), _times(10, 5 / 365.25)),
+    ):
+        for ot in ("call", "put"):
+            result = delta_hedged_option_pnl(spot_path, times, **dict(_base_kwargs(), option_type=ot))
+            attr = result["attribution"]
+            assert attr["sum_attribution"] == attr["total_pnl"], (ot, attr["sum_attribution"], attr["total_pnl"])
+
+
+def test_near_expiry_path_does_not_explode_attribution():
+    """A path that ends at/near expiry must not produce 1e7 gamma / 1e9 theta
+    that catastrophically cancel in the attribution sum.
+
+    Previously the analytic gamma/theta blew up at ultra-short T and the
+    attribution reconciliation drifted by ~1e-8 relative to total_pnl.
+    """
+    spot_path = [100.0 + i * 0.5 for i in range(12)]
+    # Path ends at 1e-18 years (effectively at expiry) - the first step is
+    # the ultra-short-T edge that previously broke reconciliation.
+    times = [1e-18 + i * (2 / 365.25) for i in range(12)]
+    result = delta_hedged_option_pnl(spot_path, times, **_base_kwargs())
+    attr = result["attribution"]
+    for k in ["delta_pnl", "gamma_pnl", "theta_pnl", "vega_pnl", "residual", "total_pnl", "sum_attribution"]:
+        assert math.isfinite(float(attr[k])), (k, attr[k])
+    assert abs(attr["sum_attribution"] - attr["total_pnl"]) < 1e-9
+    # gamma/theta must not be the 1e7/1e9 singularity values
+    assert abs(attr["gamma_pnl"]) < 1e6, attr["gamma_pnl"]
+    assert abs(attr["theta_pnl"]) < 1e7, attr["theta_pnl"]
+
+
+def test_at_expiry_path_is_finite():
+    """A path pinned exactly at expiry must still price and attribute cleanly."""
+    spot_path = [100.0, 100.5, 101.0, 100.0]
+    times = [0.0, 0.0, 0.0, 0.0]
+    result = delta_hedged_option_pnl(spot_path, times, **_base_kwargs())
+    attr = result["attribution"]
+    for k in ["delta_pnl", "gamma_pnl", "theta_pnl", "vega_pnl", "residual", "total_pnl", "sum_attribution"]:
+        assert math.isfinite(float(attr[k])), (k, attr[k])
+    assert abs(attr["sum_attribution"] - attr["total_pnl"]) < 1e-9

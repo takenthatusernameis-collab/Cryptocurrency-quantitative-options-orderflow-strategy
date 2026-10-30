@@ -284,7 +284,17 @@ def black_scholes_greeks(inputs: PricingInputs) -> Dict[str, float]:
         delta = 0.5 if ot == "call" else -0.5
     delta = max(-1.0, min(1.0, delta))
 
-    if sqrt_t <= 0.0 or volatility <= 0.0:
+    if sqrt_t <= 0.0 or volatility <= 0.0 or volatility * sqrt_t < 1e-6:
+        # Degenerate / at-expiry: no time value remains. As T -> 0 the analytic
+        # gamma ~ phi(d1)/(S*sigma*sqrt(T)) and theta ~ -S*phi(d1)*sigma/(2*sqrt(T))
+        # blow up toward a 1/sqrt(T) singularity; the payoff becomes deterministic
+        # so the correct limit is gamma -> 0, vega -> 0, theta -> 0. The 1e-6
+        # threshold on vol*sqrt(T) only triggers for T below ~0.5 microseconds
+        # (e.g. T=1e-18), well under any real option horizon, so legitimate
+        # short-dated options are unaffected. Without this floor the
+        # finite-difference cross-check (and any delta-hedged attribution)
+        # accumulates catastrophic cancellation between huge gamma and theta
+        # terms, which is exactly the ultra-short-T adversarial edge.
         gamma = 0.0
         vega = 0.0
         theta = 0.0
@@ -297,7 +307,11 @@ def black_scholes_greeks(inputs: PricingInputs) -> Dict[str, float]:
         vega = spot * n_prime_d1 * sqrt_t
         if not math.isfinite(vega):
             vega = 0.0
-        theta_common = -spot * n_prime_d1 * volatility * sqrt_t / 2.0
+        # Theta time-decay term: -S * phi(d1) * sigma / (2 * sqrt(T)).
+        # NOTE: division by sqrt(T), not multiplication. Multiplying by sqrt_t
+        # is only correct when T == 1.0 (sqrt(1) == 1) and silently corrupts
+        # every other maturity (short T under-decays, long T over-decays).
+        theta_common = -spot * n_prime_d1 * volatility / (2.0 * sqrt_t)
         if not math.isfinite(theta_common):
             theta_common = 0.0
         if ot == "call":

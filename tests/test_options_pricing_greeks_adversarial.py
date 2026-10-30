@@ -152,6 +152,80 @@ def test_finite_difference_put_matches_analytic():
 
 
 # ---------------------------------------------------------------------------
+# Theta correctness across maturities (the analytic formula had a sqrt(T)
+# multiply-instead-of-divide bug that only shows up at T != 1.0).
+# ---------------------------------------------------------------------------
+
+def test_theta_correct_at_non_unit_maturity():
+    """Analytic theta must match the reference formula at T != 1.0."""
+    import math
+    for T in (0.25, 0.5, 2.0, 0.1):
+        inp = PricingInputs(spot=100.0, strike=100.0, rate=0.05, volatility=0.2,
+                            time_to_expiry=T, option_type="call", seed=42)
+        g = black_scholes_greeks(inp)
+        d1, d2 = g["d1"], g["d2"]
+        phi = math.exp(-0.5 * d1 * d1) / math.sqrt(2.0 * math.pi)
+        n_d2 = 0.5 * (1.0 + math.erf(d2 / math.sqrt(2.0)))
+        correct = (-100.0 * phi * 0.2 / (2.0 * math.sqrt(T))
+                   - 0.05 * 100.0 * math.exp(-0.05 * T) * n_d2)
+        assert abs(g["theta"] - correct) < 1e-9, (T, g["theta"], correct)
+
+
+def test_theta_fd_matches_analytic_across_maturities():
+    """Finite-difference theta must agree with analytic theta for all T."""
+    for T in (0.25, 0.5, 1.0, 2.0):
+        for ot in ("call", "put"):
+            inp = PricingInputs(spot=100.0, strike=100.0, rate=0.05, volatility=0.2,
+                                time_to_expiry=T, option_type=ot, seed=42)
+            m = greeks_match_analytic(inp, bump=1e-4, tol=1e-2)
+            assert m["theta"]["match"] is True, (ot, T, m["theta"])
+
+
+# ---------------------------------------------------------------------------
+# Ultra-short-T / at-expiry edge: gamma and theta must not blow up to 1e7/1e9
+# and catastrophically cancel, which breaks delta-hedged attribution.
+# ---------------------------------------------------------------------------
+
+def test_ultra_short_expiry_greeks_stay_finite_and_bounded():
+    """At T -> 0 the payoff is deterministic; gamma/vega/theta must floor to 0.
+
+    The floor triggers at vol*sqrt(T) < 1e-6, i.e. T < 2.5e-11 for vol=0.2,
+    so only the truly sub-microsecond expiries are floored; legitimate short
+    dated options keep their real gamma/theta.
+    """
+    for T in (1e-18, 1e-12, 0.0):
+        inp = PricingInputs(spot=100.0, strike=100.0, rate=0.05, volatility=0.2,
+                            time_to_expiry=T, option_type="call", seed=42)
+        g = black_scholes_greeks(inp)
+        for k in ("delta", "gamma", "vega", "theta", "rho"):
+            assert math.isfinite(g[k]), (T, k, g[k])
+        # gamma/vega/theta must not blow up toward the 1/sqrt(T) singularity
+        assert abs(g["gamma"]) < 1.0, (T, g["gamma"])
+        assert abs(g["vega"]) < 1.0, (T, g["vega"])
+        assert abs(g["theta"]) < 10.0, (T, g["theta"])
+
+    # Every expiry must produce finite greeks (no NaN/Inf leakage)
+    for T in (1e-9, 1e-6, 1e-3, 0.02738, 1.0):
+        inp = PricingInputs(spot=100.0, strike=100.0, rate=0.05, volatility=0.2,
+                            time_to_expiry=T, option_type="call", seed=42)
+        g = black_scholes_greeks(inp)
+        for k in ("delta", "gamma", "vega", "theta", "rho"):
+            assert math.isfinite(g[k]), (T, k, g[k])
+
+
+def test_ultra_short_expiry_price_is_intrinsic():
+    """At T=0 the price must equal intrinsic value, with zero time value."""
+    for ot, strike, spot, intrinsic in (
+        ("call", 90.0, 100.0, 10.0),
+        ("put", 110.0, 100.0, 10.0),
+    ):
+        inp = PricingInputs(spot=spot, strike=strike, rate=0.05, volatility=0.2,
+                            time_to_expiry=0.0, option_type=ot, seed=42)
+        out = black_scholes(inp)
+        assert abs(out.price - intrinsic) < 1e-9, (ot, out.price, intrinsic)
+
+
+# ---------------------------------------------------------------------------
 # Implied volatility solver
 # ---------------------------------------------------------------------------
 
