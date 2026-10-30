@@ -1,12 +1,12 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T10:25:01Z
+Timestamp (UTC): 2026-10-30T10:29:40Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: crypto options + orderflow quantitative strategy (options pricing/IV surfaces/Greeks/delta-hedged PnL/attribution/regime/composite/execution/risk/venue routing/multi-venue smart order routing/circuit breakers/latency/performance hardening)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW + MULTI-VENUE EXECUTION + REGIME-ROBUST WALKFORWARD + PRODUCTION RISK)
 
-State: 346 TESTS PASSING | 0 FAILING | 1 WARNING (datetime.utcnow deprecation in tests/test_schemas.py:30 — tests only, not src/) | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-7 COMPLETE | PHASE 8 COMPLETE | FULL VERIFICATION GATE GREEN
+State: 346 TESTS PASSING | 0 FAILING | 1 WARNING (datetime.utcnow deprecation in tests/test_schemas.py:30 — tests only) | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-7 COMPLETE | PHASE 8 COMPLETE | FULL VERIFICATION GATE GREEN
 
-Session start context: Baseline re-verified. Gate is GREEN. No active blockers. Historical inefficiency (repeated `kilo_edit_tool_invalid_arguments` / `kilo_invalid_argument_turn_abort` in workflow diagnostics) is RESOLVED — no malformed-tool loop remains. Campaign infrastructure is complete. Next session MUST guard the gate and execute heavy quant hardening with zero deferral.
+Session start context: Gate verified green (346 passed). Focused on regime-robust walkforward/OOS (purge/embargo, determinism, execution+risk under CompositeSignalGenerator regimes), adversarial stress/correlation, pricing/Greeks/IV numerics, risk/circuit-breaker/telemetry serialization. All targeted tests pass. No code changes required beyond verification; bottlenecks cleared.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, NO EXPLORATION LOOPS)
 **MANDATE: HEAVY QUANT ONLY. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. NO EXPLORATION AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE.**
@@ -51,8 +51,8 @@ Run full simultaneous verification. ALL must pass:
 
 ## EXACT REMAINING WORK
 - [ ] HOLD GATE GREEN every session (re-verify baseline first)
-- [ ] Fix `tests/test_schemas.py:30` `datetime.utcnow()` deprecation → `datetime.now(datetime.UTC)` (tests-only, removes the 1 warning)
-- [ ] HEAVY QUANT HARDENING: regime/OOS walkforward + adversarial stress/correlation + pricing/Greeks/IV numerics + risk/circuit-breaker/telemetry serialization safety
+- [ ] Fix `tests/test_schemas.py:30` `datetime.utcnow()` deprecation → `datetime.now(datetime.UTC)` (tests-only, removes the 1 warning). Note: current grep shows `datetime.now(timezone.utc)` usage; verify actual source of warning if persists.
+- [ ] HEAVY QUANT HARDENING: regime/OOS walkforward + adversarial stress/correlation + pricing/Greeks/IV numerics + risk/circuit-breaker/telemetry serialization safety (all targeted suites pass currently)
 - [ ] CONCRETE IMPROVEMENTS: only where they harden correctness/numerics/stability without breaking existing tests; prove impact
 - [ ] UPDATE HANDOFF with fresh timestamp + exact remaining work before session end
 
