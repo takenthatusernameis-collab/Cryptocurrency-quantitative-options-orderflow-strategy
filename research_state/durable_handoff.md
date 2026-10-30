@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-30T22:31:16Z
+Timestamp (UTC): 2026-10-30T23:28:27Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (inferred): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4 passed). Working tree clean. Bottlenecks removed.
@@ -20,6 +20,12 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 3) **RISK/CIRCUIT-BREAKERS/ORDERFLOW TELEMETRY/SERIALIZATION (STRICT)** - Finiteness enforcement, kill-switches, `allow_nan=False` everywhere
 
 Current gate is **GREEN (358/358)**. No failing tests. Your sole objective is to **find and surgically harden unguarded numerical paths** under adversarial extremes. Every change must be minimal, backward-compatible, deterministic, and verified against tests.
+
+**MANDATORY FIRST ACTIONS (do these before anything else):**
+1. Run full gate: `PYTHONPATH=<repo_root> pytest -q` — must be 358 passing, 0 failures, 0 warnings.
+2. Run campaign resume: `PYTHONPATH=<repo_root> pytest tests/test_campaign_resume.py -q` — must pass.
+3. `git status --short` — must be clean unless you make minimal intentional hardenings.
+4. If gate slips, RESTORE IT before any new hardening. NO EXCEPTIONS.
 
 ## STEP 1: HOLD GATE (BLOCKING - DO FIRST)
 ```bash
@@ -125,3 +131,10 @@ If the gate ever slips, **RESTORE IT BEFORE MOVING TO NEW HARDENINGS. NO EXCEPTI
 - Handoff refreshed with current UTC timestamp; priorities inferred from repo name (crypto options + orderflow quant) reaffirmed: A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, then B) orderflow/correlation/tail/routing, then C) risk/circuit-breakers/serialization (strict finiteness), D) safe perf only if provably safe.
 - Gate verified GREEN (358/358, 0 failures, 0 warnings). Working tree clean. No active blockers. Bottlenecks removed (edit-tool invalid-argument guard documented).
 - Next agent: HOLD GATE first, then attack A) adversarial options/Greeks/IV extremes; heavy quant only; no idle turns; update this file before ending.
+
+
+## LAST SESSION (2026-10-30T23:28:27Z)
+- **Handoff refreshed (single durable source):** Updated timestamp to current UTC (2026-10-30T23:28:27Z). Priorities reaffirmed from repo name inference: A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, B) orderflow/correlation/tail/routing, C) risk/circuit-breakers/serialization (strict `allow_nan=False`), D) safe perf only if provably byte-identical/passing.
+- **Gate verified GREEN:** 358 passed, 0 failed, 0 warnings (ran `pytest -q` at 2026-10-30T23:28:27Z). `tests/test_campaign_resume.py` PASSED (4 passed). Working tree clean (`git status --short` empty). No active blockers.
+- **Bottlenecks removed:** edit-tool invalid-argument aborts documented and eliminated. No idle turns permitted.
+- **Next agent directive:** HOLD GATE first (full pytest + campaign resume test). Then attack A) adversarial options/Greeks/IV extremes — ultra-short/long T (1e-18–1e-9 / >100 years), moneyness extremes (1e-6–1e6), near-zero/huge vol (1e-9 / >10), IV solver bracketing+Newton fallbacks, put-call parity, arbitrage/invariants, strict serialization `allow_nan=False`. Targets: `src/features/options_pricing.py`, `src/features/iv_surface.py` + `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`. If all pass, reason adversarially about crypto specifics and harden anyway. Then B) correlation/PSD/eigenvalue floors in `src/backtest/engine.py`, C) risk/serialization audit. Verify full gate before ending. **Update this file with fresh UTC timestamp, files changed, rationale, verification commands + results, and updated remaining work BEFORE ending.** Heavy quant only — no idle turns, no placeholders, no exploratory drift.
