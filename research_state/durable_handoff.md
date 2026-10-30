@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-30T22:10:47Z
+Timestamp (UTC): 2026-10-30T22:12:35Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (inferred): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4 passed). Working tree clean (minimal surgical hardenings).
@@ -109,3 +109,8 @@ If the gate ever slips, **RESTORE IT BEFORE MOVING TO NEW HARDENINGS. NO EXCEPTI
 - **Handoff refreshed (single durable source):** Updated timestamp to current UTC; explicitly prioritized CRYPTO OPTIONS PRICING/GREEKS/IV as #1 (highest quant impact). Reaffirmed bottleneck-free state, heavy-quant mandate, edit-tool requirements, and full gate discipline.
 - **State:** Gate GREEN (358/358, 0 failures, 0 warnings). `tests/test_campaign_resume.py` PASSED. Working tree clean. No active blockers.
 - **Next:** HOLD GATE first. Attack A) options/Greeks/IV extremes (ultra-short/long T, moneyness extremes, vol/rates, IV solver robustness, invariants/put-call parity, strict serialization). If all pass, reason adversarially about crypto specifics and harden anyway. Then B/C. Verify full gate before ending and update this file.
+
+## LAST SESSION (2026-10-30T22:12:35Z)
+- Handoff refreshed with current UTC timestamp; priorities inferred from repo name (crypto options + orderflow quant) reaffirmed: A) options/Greeks/IV highest, then B) correlation/tail/routing, then C) risk/serialization, D) safe perf only.
+- Gate remains GREEN (358/358). Working tree clean. No active blockers. Bottlenecks removed (edit-tool misuse guard documented).
+- Next agent: HOLD GATE first, then attack A) adversarial options/Greeks/IV extremes; heavy quant only; no idle turns.
