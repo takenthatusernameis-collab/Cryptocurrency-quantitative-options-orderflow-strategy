@@ -1,12 +1,13 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-30T21:09:29Z
+Timestamp (UTC): 2026-10-30T21:11:07Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (inferred): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4 passed). Working tree clean. Up to date with origin/main.
 
 ## BOTTLENECKS
-- NONE. All tooling/edit paths unblocked.
-- NO IDLE TURNS: Every turn must produce measurable, heavy-quant progress. Do not explore aimlessly. Do not refactor for style.
+- NONE active. All tooling/edit paths unblocked.
+- REMOVED: edit-tool invalid-argument aborts (missing filePath/oldString) — next agents MUST always pass absolute filePath + exact oldString (or use Write for full rewrites). Do NOT call edit with partial/empty args.
+- NO IDLE TURNS: Every turn must produce measurable, heavy-quant progress.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENT - EXECUTE IMMEDIATELY)
 **DO NOT EXPLORE AIMLESSLY. HEAVY QUANT ONLY. NO PLACEHOLDERS.**
@@ -100,3 +101,8 @@ If the gate ever slips, **RESTORE IT BEFORE MOVING TO NEW HARDENINGS. NO EXCEPTI
 - Enforced heavy-quant mandate, zero-idle-turns, strict gate restoration, and bottleneck-free execution.
 - Verified: `python -m pytest -q` → 358 passed, 0 failed, 0 warnings; `python -m pytest tests/test_campaign_resume.py -q` → 4 passed; `git status --short` → clean.
 - Directed next agent to attack A) options/Greeks/IV and B) correlation/tail/PSD under adversarial extremes with surgical guards.
+
+## LAST SESSION (2026-10-30T21:11:07Z)
+- Refreshed single durable handoff timestamp; removed edit-tool invalid-argument bottleneck by documenting required args.
+- Gate remains GREEN (358/358). Working tree clean.
+- Next agent: HOLD GATE first, then attack A) options/Greeks/IV extremes; use edit tool with absolute filePath + exact oldString always.
