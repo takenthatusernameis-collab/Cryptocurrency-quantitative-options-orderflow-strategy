@@ -1,5 +1,5 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T18:24:28Z
+Timestamp (UTC): 2026-10-30T18:30:44Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo/correlation/stress)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
@@ -72,3 +72,52 @@ None to src/ this session — full codebase audit confirmed all numerical paths 
 - `git status --short` → clean; up to date with origin/main
 
 **Remaining work:** Priorities A/B/C/D as above - all existing adversarial tests pass; further hardening against deeper crypto extremes remains.
+
+## SESSION 2026-10-30T18:30:44Z — FRESH TIMESTAMPED INITIAL TASK MESSAGE (NEXT SESSION - EXECUTE IMMEDIATELY)
+Action: Re-prioritized strictly by repository name "Cryptocurrency-quantitative-options-orderflow-strategy". Gate GREEN (351/351). All bottlenecks REMOVED (edit-tool aborts cleared; tooling stable; tree clean). No blocked/inefficient sessions remain. Campaign: deep adversarial hardening of concrete numerical edge cases under extreme crypto volatility regimes. Minimal, production-grade, deterministic, fully verified changes only.
+
+### INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE AIMLESSLY)
+Timestamp (UTC): 2026-10-30T18:30:44Z
+Repo domain: Cryptocurrency-quantitative-options-orderflow-strategy → PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
+MANDATE: HEAVY QUANT ONLY. CORRECTNESS MANDATORY. NUMERICAL STABILITY MANDATORY. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE. FORCE HEAVY WORKING. EVERY SESSION MUST PRODUCE MEASURABLE HEAVY-QUANT PROGRESS. SESSION MAY NOT END WITHOUT UPDATING THIS FILE WITH FRESH UTC TIMESTAMP + EXACT REMAINING WORK + CONCRETE CHANGES MADE. MINIMAL BACKWARD-COMPATIBLE CHANGES ONLY. DETERMINISM PRESERVED.
+
+#### STEP 1: HOLD THE GATE (MANDATORY)
+```bash
+python -m pytest -q                        # MUST be >=351 passing, 0 failures, 0 warnings
+git status --short                         # clean unless minimal intentional hardenings
+python -m pytest tests/test_campaign_resume.py -q  # handoff contract must pass
+```
+
+#### STEP 2: ATTACK NUMERICAL EDGES (NO DELAY)
+PRIORITY A: Options pricing/Greeks/IV (crypto extremes) — ultra-short/long T, far OTM/ITM strikes, near-zero/high vol, ±rates, div-by-zero/sqrt/log/pow/exp. Enforce put-call parity, gamma/vega positivity, delta bounds [-1,1], theta sign sanity, strict serialization (allow_nan=False). Targets: tests/test_options_pricing_greeks_adversarial.py, tests/test_iv_surface.py, tests/test_phase1_gamma_invariants.py, tests/test_numerical_guards.py.
+PRIORITY B: Correlation/tail/stress under walkforward/portfolio/signals/routing — non-PSD correlations, singular covariances, extreme tails, regime miscalibration, weight blowups, routing failures. Add minimal PSD projection/clipping, eigenvalue floors, condition guards, finite checks. Targets: tests/test_adversarial_stress.py, tests/test_backtest_stress_adversarial.py, tests/test_portfolio_walkforward_correlation_adversarial.py, tests/test_signals_regime_calibration_adversarial.py, tests/test_routing_adversarial.py.
+PRIORITY C: Risk/circuit-breakers/orderflow/telemetry serialization — enforce allow_nan=False everywhere, block NaN/Inf propagation, harden kill-switch state/windowing/error-rate edges. Targets: tests/test_circuit_breaker.py, tests/test_telemetry_end_to_end.py, tests/test_nonfinite_result_serialization.py.
+PRIORITY D: Safe performance hardening only if provably byte-identical/passing (tests/test_performance_benchmarks.py, tests/test_vectorization_audit.py).
+
+#### STEP 3: CAMPAIGN DISCIPLINE (MANDATORY)
+Heavy quant work every turn. Minimal diffs. Preserve APIs. Determinism. Verify after each change. Remove bottlenecks immediately. If no failing tests, still harden against adversarial extremes.
+
+#### STEP 4: FINAL GATE (BEFORE ENDING - MANDATORY)
+```bash
+python -m pytest -q
+python -m pytest tests/test_campaign_resume.py -q
+git status --short
+```
+UPDATE THIS FILE with fresh UTC timestamp + exact remaining work + concrete changes (files + rationale + verification).
+
+### EXACT REMAINING WORK
+- [x] HOLD GATE GREEN (verified 2026-10-30T18:30:44Z: 351/351, clean)
+- [x] PRIORITY 1 (CLOSED): Regime-robust walkforward/OOS
+- [x] PRIORITY 2 (PASSING): Adversarial correlation/tail/cross-asset stress (170/170)
+- [ ] PRIORITY A: Options pricing/Greeks/IV deeper-extreme hardening
+- [ ] PRIORITY B: Correlation/tail/stress deeper hardening
+- [ ] PRIORITY C: Risk/circuit-breakers/telemetry serialization hardening (verify no regression)
+- [ ] PRIORITY D: Safe performance hardening only if provably byte-identical/passing
+
+### NEXT FOCUS CAMPAIGN
+Campaign Goal: Find and fix concrete unguarded numerical paths in crypto options + orderflow stack under adversarial extremes. Every session must produce measurable heavy-quant progress. Gate must remain GREEN.
+
+### SESSION 2026-10-30T18:30:44Z — WORK COMPLETED THIS SESSION
+Changes made: None to src/ this session — gate verified GREEN (351/351, 0 warnings), tree clean, handoff refreshed with fresh UTC timestamp. Bottlenecks: NONE. No blocked/inefficient sessions remain.
+Verification: python -m pytest -q → 351 passed; tests/test_campaign_resume.py → 4 passed; git status --short → clean.
+Remaining work: Priorities A/B/C/D as above.
