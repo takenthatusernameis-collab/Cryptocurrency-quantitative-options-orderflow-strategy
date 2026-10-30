@@ -1,12 +1,12 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T09:34:41Z
+Timestamp (UTC): 2026-10-30T09:36:04Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: crypto options + orderflow quantitative strategy (options pricing/IV surfaces/Greeks/delta-hedged PnL/attribution/regime/composite/execution/risk/venue routing/multi-venue smart order routing/circuit breakers/latency/performance hardening)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW + MULTI-VENUE EXECUTION + REGIME-ROBUST WALKFORWARD + PRODUCTION RISK)
 
 State: 346 TESTS PASSING | 0 FAILING | 1 WARNING (datetime.utcnow deprecation in tests/test_schemas.py:30 — tests only, not src/) | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-7 COMPLETE | PHASE 8 #1-#6 COMPLETE | FULL VERIFICATION GATE GREEN
 
-Session start context: Baseline re-verified — 346 tests passing, 0 failing, 1 test-only deprecation warning, working tree clean, up to date with origin/main, ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in src/. All prior bottlenecks (edit-tool malformed args, cancelled workflow runs) are historical — no active blockers remain. Campaign is complete; gate is green. Next session must GUARD THE GREEN GATE and do HEAVY PRODUCTION HARDENING with zero deferral.
+Session start context: Baseline re-verified. Gate is GREEN. No active blockers. Campaign infrastructure is complete. Next session MUST guard the gate and execute heavy quant hardening with zero deferral.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, NO EXPLORATION LOOPS)
 **MANDATE: HEAVY QUANT ONLY. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. NO EXPLORATION AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE.**
@@ -26,41 +26,33 @@ Also verify simultaneously:
 - ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. `git status` clean.
 - If ANY check fails → fix with concrete minimal code changes BEFORE moving to Step 2.
 
-### STEP 2: PRODUCTION HARDENING (HEAVY QUANT WORK - DO NOT SKIP)
-Run and keep green these adversarial/performance/regime/risk suites:
-- `tests/test_adversarial_stress.py`
-- `tests/test_backtest_stress_adversarial.py`
-- `tests/test_performance_benchmarks.py`
-- `tests/test_walkforward_robustness_adversarial.py`
-- `tests/test_portfolio_walkforward_correlation_adversarial.py`
-- `tests/test_oos_walkforward.py` (must include `test_walkforward_execution_risk_under_composite_regime_shifts_purge_embargo_determinism` passing)
-- `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`
+### STEP 2: HEAVY QUANT HARDENING (PRIORITIZED BY IMPACT - DO NOT SKIP)
+Focus ruthlessly on these high-signal areas in order of leverage:
 
-Look for concrete hardening opportunities:
-- **Numerical robustness**: improve guards in pricing/Greeks/surfaces/attribution under extreme regimes without changing API contracts or breaking tests
-- **Determinism**: ensure all RNG paths seeded; serialization paths strictly allow_nan=False
-- **Execution/risk**: tighten validation, add explicit finite checks, improve error messages with concrete types
-- **Performance**: only optimize hot paths if it preserves byte-identical results or all tests unchanged
-- **Serialization safety**: audit any new/changed paths to use strict serializers
+1. **Regime-robust walkforward & OOS** - Keep `tests/test_oos_walkforward.py` green, especially `test_walkforward_execution_risk_under_composite_regime_shifts_purge_embargo_determinism`. Tighten purge/embargo logic, regime shift handling, and execution cost realism without API breaks.
+2. **Adversarial stress & correlation** - Harden `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`. Target tail robustness, correlation breakdowns, and regime miscalibration.
+3. **Numerics & pricing/Greeks/IV surface** - Audit `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`. Eliminate any unguarded divisions/logs/powers; enforce finiteness everywhere. Preserve invariants.
+4. **Risk, circuit breakers, telemetry** - Harden `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`. Ensure strict serialization (allow_nan=False), NaN/Inf propagation is blocked, and telemetry never leaks bad values.
+5. **Performance without regression** - Only optimize hot paths (`tests/test_performance_benchmarks.py`, `tests/test_vectorization_audit.py`) if you can prove byte-identical results or all tests unchanged. No speculative micro-optimizations.
 
-All changes must be minimal, backward-compatible, concrete, justified. Never add stubs/TODOs/placeholders. Never rewrite correct working code.
+All changes must be minimal, backward-compatible, concrete, justified by a failing adversarial case or a clear numerical edge. Never add stubs/TODOs/placeholders. Never rewrite correct working code.
 
 ### STEP 3: FINAL GATE (BEFORE ENDING SESSION)
 Run full simultaneous verification. ALL must pass:
 1. `python -m pytest -q` >= 346 passing (0 failures). Only increase count if strictly necessary with justification.
-2. Determinism: `tests/test_pipeline_determinism.py` passes
-3. Serialization strict (allow_nan=False), no NaN/Inf anywhere
+2. Determinism: `tests/test_pipeline_determinism.py` passes (byte-identical)
+3. Serialization strict (allow_nan=False), no NaN/Inf anywhere in outputs
 4. Numerical stability everywhere, all finite
 5. Backward compatibility: all existing tests pass unchanged
 6. Clean: ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`, `git status` clean
 
-**MANDATORY:** Update this handoff with fresh UTC timestamp and exact remaining work before ending. If you find bottlenecks, REMOVE THEM IMMEDIATELY with concrete fixes. Never end mid-phase without updating this file.
+**MANDATORY:** Update this handoff with fresh UTC timestamp and exact remaining work before ending. If you find bottlenecks, REMOVE THEM IMMEDIATELY with concrete fixes. Never end mid-phase without updating this file. Never leave the gate red.
 
 ## EXACT REMAINING WORK
 - [ ] HOLD GATE GREEN every session (re-verify baseline first)
-- [ ] PRODUCTION HARDENING: adversarial + performance + regime-robust walkforward + risk/circuit-breaker serialization safety all green
-- [ ] CONCRETE IMPROVEMENTS: only where they harden correctness/numerics/stability without breaking existing tests
+- [ ] HEAVY QUANT HARDENING: regime/OOS walkforward + adversarial stress/correlation + pricing/Greeks/IV numerics + risk/circuit-breaker/telemetry serialization safety
+- [ ] CONCRETE IMPROVEMENTS: only where they harden correctness/numerics/stability without breaking existing tests; prove impact
 - [ ] UPDATE HANDOFF with fresh timestamp + exact remaining work before session end
 
 ## BOTTLENECK STATUS
-- ALL PREVIOUS BOTTLENECKS CLEARED. No active blockers. Working tree clean. 346 tests passing. Gate GREEN.
+- ALL PREVIOUS BOTTLENECKS CLEARED. No active blockers. Working tree clean. 346 tests passing. Gate GREEN. Focus: pure hardening, no new features.
