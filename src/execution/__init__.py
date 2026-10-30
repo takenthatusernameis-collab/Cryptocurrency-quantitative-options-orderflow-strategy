@@ -19,6 +19,14 @@ from .algorithms import (
     SlippageModel,
     create_algorithm,
 )
+from .routing import (
+    VenueType,
+    VenueConfig,
+    VenueQuote,
+    RoutingDecision,
+    FillTrackingRecord,
+    SmartOrderRouter,
+)
 
 __all__ = [
     "Order",
@@ -36,4 +44,10 @@ __all__ = [
     "ImplementationShortfallAlgorithm",
     "SlippageModel",
     "create_algorithm",
+    "VenueType",
+    "VenueConfig",
+    "VenueQuote",
+    "RoutingDecision",
+    "FillTrackingRecord",
+    "SmartOrderRouter",
 ]
