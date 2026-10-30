@@ -1,16 +1,16 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T14:29:42Z
+Timestamp (UTC): 2026-10-30T14:30:42Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
-State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T13:38:33Z (python -m pytest -q → 351 passed)
+State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T14:30:42Z (python -m pytest -q → 351 passed)
 
-## SESSION 2026-10-30T13:38Z — HANDOFF REFRESH (BASELINE RE-VERIFIED GREEN)
-Action: Re-verified baseline `python -m pytest -q` → 351 passed, 0 failed, 0 warnings. Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. Working tree clean. No active bottlenecks. Refreshed initial task message and focus campaign for the next session below. No source changes made this session.
+## SESSION 2026-10-30T14:30Z — HANDOFF REFRESHED FOR NEXT AGENT
+Action: Re-verified baseline `python -m pytest -q` → 351 passed, 0 failed, 0 warnings. Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. Working tree clean. Bottlenecks removed/absent. Sharpened the initial task message below to force immediate heavy-quant work with no exploration.
 
 Verified:
-- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T13:38Z)
+- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T14:30:42Z)
 - `tests/test_pipeline_determinism.py` → PASSED (byte-identical)
 - Strict serialization enforced with `allow_nan=False`; zero NaN/Inf in serialized outputs/telemetry/events
 - Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`
@@ -25,16 +25,16 @@ MANDATE: HEAVY QUANT ONLY. PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW. NO SCAFF
 #### STEP 1: HOLD THE GATE (MANDATORY, BLOCKS ALL ELSE)
 ```bash
 python -m pytest -q  # MUST be >=351 passing, 0 failures, 0 warnings
+git status --short   # should be clean unless making minimal intentional hardenings
 ```
 Simultaneous checks:
 - Strict serialization: use `serialize_metrics`/`serialize_metrics_strict` or `json.dumps(..., allow_nan=False)`. ZERO NaN/Inf anywhere in serialized outputs/telemetry/events.
 - Numerical stability: audit divisions/logs/sqrt/powers/clamp bounds. ALL outputs finite.
 - ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`.
-- `git status` - working tree clean unless you make intentional minimal hardenings; do NOT create new untracked files.
 - If ANY fails → minimal concrete fix BEFORE Step 2.
 
 #### STEP 2: HEAVY QUANT PRIORITIES (IN ORDER, NO SKIPPING)
-1. **Regime-robust walkforward/OOS (HIGHEST)** - Target `tests/test_oos_walkforward.py` esp. `test_walkforward_execution_risk_under_composite_regime_shifts_purge_embargo_determinism`. Attack concrete edges: tighten purge/embargo logic under `CompositeSignalGenerator` regimes (`high_vol_negative_gex`, `low_vol_positive_gex`, `skew_bearish`, `skew_bullish`, `neutral`). Stress regime flip boundaries, ensure determinism, strict serialization. No change to test expectations.
+1. **Regime-robust walkforward/OOS (HIGHEST)** - Target `tests/test_oos_walkforward.py` esp. `test_walkforward_execution_risk_under_composite_regime_shifts_purge_embargo_determinism`. Tighten purge/embargo under `CompositeSignalGenerator` regimes (`high_vol_negative_gex`, `low_vol_positive_gex`, `skew_bearish`, `skew_bullish`, `neutral`). Stress regime flip boundaries, ensure determinism, strict serialization. No change to test expectations.
 2. **Adversarial stress/correlation breakdowns** - Target `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`. Find concrete numerical edges (non-PSD correlation, extreme tails, regime miscalibration) and add minimal guards; prove finiteness.
 3. **Pricing/Greeks/IV numerics** - Target `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`. Eliminate unguarded div/log/sqrt/pow/exp; enforce invariants (delta in [0,1] for calls/puts as applicable, gamma>=0 where expected, vega finite, no NaN/Inf). Minimal guards only.
 4. **Risk/circuit-breakers/telemetry serialization** - Target `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`. Harden serialization to `allow_nan=False`, block NaN/Inf propagation, safe kill-switch/risk-limit breach paths. Alerts cannot emit non-finite values.
@@ -55,7 +55,7 @@ Every change must be minimal/backward-compatible, justified by concrete numerica
 ## EXACT REMAINING WORK
 - [x] HOLD GATE GREEN every session (verify baseline first)
 - [x] CONCRETE NUMERICAL HARDENING (clamp/inf bug, safe_log/safe_pow, GEX overflow, variance/std overflow) — COMPLETED
-- [ ] **PRIORITY 1:** Regime-robust walkforward/OOS under CompositeSignalGenerator regime shifts with tightened purge/embargo + determinism + strict serialization (target `test_oos_walkforward.py`)
+- [ ] **PRIORITY 1:** Regime-robust walkforward/OOS under CompositeSignalGenerator regime shifts with tightened purge/embargo + determinism + strict serialization (target `test_oos_walkforward.py`) — ACTIVE HEAVY QUANT FOCUS
 - [ ] **PRIORITY 2:** Adversarial correlation breakdowns/tail stress (portfolio/walkforward/signals) with concrete guards
 - [ ] **PRIORITY 3:** Pricing/Greeks/IV + numerical guard coverage for remaining unguarded ops
 - [ ] **PRIORITY 4:** Risk/circuit-breaker/telemetry serialization hardening (block NaN/Inf, safe kill-switch paths)
@@ -67,8 +67,8 @@ Every change must be minimal/backward-compatible, justified by concrete numerica
 - **CLEARED:** clamp infinite bound in execution/engine paths — fixed with finite bounds
 - **CLEARED (HISTORICAL):** kilo edit-tool invalid-argument failures — prevention: complete edit calls with filePath/oldString/newString
 - **CLEARED (HISTORICAL):** historical CI issues — file structure corrected, suite passes 351/351
-- **CLEARED (THIS SESSION):** No active bottlenecks remained; gate re-verified GREEN 351/351 before issuing this handoff
-- **ACTIVE:** None. Gate GREEN (351/351). Working tree CLEAN. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`.
+- **CLEARED (THIS REFRESH):** No active bottlenecks. Gate GREEN 351/351 at 2026-10-30T14:30:42Z. Working tree CLEAN. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`.
+- **ACTIVE:** None. Do NOT pause for exploration — attack Priority 1 directly with minimal concrete guards if any edge is found; otherwise harden adjacent regime boundaries while keeping tests unchanged.
 
 ## NEXT FOCUS CAMPAIGN (FORCES HEAVY QUANT WORK)
 Campaign Goal: Harden the system against adversarial regime/correlation/tail cases with production-grade numerical safety. Every session MUST produce measurable heavy-quant progress (concrete guard tightened, adversarial path hardened, purge/embargo tightened, serialization-safety fix, or invariant enforced) and end with gate GREEN.
