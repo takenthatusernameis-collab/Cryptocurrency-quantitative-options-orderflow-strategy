@@ -1,5 +1,5 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T04:32:46Z
+Timestamp (UTC): 2026-10-30T04:34:57Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: crypto options + orderflow quantitative strategy (options pricing/IV surfaces/Greeks/delta-hedged PnL/attribution/regime/composite/execution/risk/venue routing)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW + MULTI-VENUE EXECUTION)
@@ -7,7 +7,7 @@ Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW + MULTI
 State: 324 TESTS PASSING | 0 FAILING | 1 WARNING (datetime.utcnow deprecation in tests/test_schemas.py:30 — tests only, not src/) | WORKING TREE CLEAN | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-7 COMPLETE - PHASE 8 #1 COMPLETE
 
 Session start: 2026-10-29T21:01:52Z
-Handoff updated: 2026-10-30T04:32:46Z (baseline re-verified: `python -m pytest -q` = 324 passing, 0 failures, 1 warning; `git status` clean on `main`; bottlenecks removed; no active blockers; up to date with origin/main)
+Handoff updated: 2026-10-30T04:34:57Z (baseline re-verified: `python -m pytest -q` = 324 passing, 0 failures, 1 warning; `git status` clean on `main`; bottlenecks removed; no active blockers; up to date with origin/main; handoff refreshed with prioritized initial task for next agent)
 
 ## BOTTLENECK STATUS (CURRENT - CLEARED)
 - BASELINE VERIFIED: `python -m pytest -q` = 324 passing, 0 failures, 1 warning. `git status` clean. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. All `json.dumps` in `src/` use `allow_nan=False`. Serialization paths use `allow_nan=False` / `serialize_metrics_strict`. Determinism test passes.
@@ -20,7 +20,7 @@ Handoff updated: 2026-10-30T04:32:46Z (baseline re-verified: `python -m pytest -
 
 You are continuing the **Cryptocurrency-quantitative-options-orderflow-strategy** campaign. Production-grade crypto options + orderflow quant strategy (repo: crypto options orderflow). **Phases 1-7 COMPLETE. Phase 7 core COMPLETE (orders/algorithms/engine/limits/kill-switch/circuit-breaker) with full simultaneous verification.** MANDATORY NEXT FOCUS: Enter the **Phase 8 Production Execution & Risk — Live Readiness & Performance Hardening** campaign and keep every verification gate passing simultaneously.
 
-**PHASE 8 NEXT PRIORITY #1 (UNFINISHED - DO THIS FIRST):** Multi-venue smart order routing + fill tracking across deribit/okx/binance with participation-cap and slippage enforcement. This is the execution layer that connects composite signals to venue execution — directly maps to the repo name (crypto + options + orderflow + execution). Build `src/execution/routing.py` (venue selection, smart order routing, participation caps, slippage/cost models, fill reconciliation) wired to `src/execution/engine.py` and `src/risk/limits.py`/`src/risk/circuit_breaker.py` kill-switch with deterministic serialization (`allow_nan=False`).
+**TOP PRIORITY (UNFINISHED - DO THIS FIRST):** **Multi-venue smart order routing + fill tracking across deribit/okx/binance with participation-cap and slippage enforcement.** This is the execution layer that directly maps to the repo name (crypto + options + orderflow + execution). Build `src/execution/routing.py` (venue selection, smart order routing logic, participation caps, slippage/cost models, fill reconciliation) wired to `src/execution/engine.py`, `src/execution/algorithms.py`, `src/risk/limits.py`/`src/risk/circuit_breaker.py` kill-switch with deterministic serialization (`allow_nan=False`). Add strict adversarial tests (no stubs/placeholders/TODOs). Enforce no-lookahead, finite outputs, and SLO-aware behavior consistent with existing patterns.
 
 Bottlenecks are cleared; focus on heavy quant work with minimal backward-compatible changes. Do not end the session without updating this handoff with a fresh UTC timestamp and exact remaining work.
 
