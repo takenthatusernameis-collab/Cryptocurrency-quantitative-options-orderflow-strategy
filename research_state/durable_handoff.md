@@ -14,7 +14,7 @@ Preserve put-call/Greek invariants, PSD/correlation and finite-value guards, all
 ---
 
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-30T20:19:52Z
+Timestamp (UTC): 2026-10-30T20:21:35Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (inferred from name): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4 passed). Working tree clean. Up to date with origin/main.
@@ -25,9 +25,12 @@ Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resum
 - Determinism preserved; minimal backward-compatible diffs only
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE AIMLESSLY)
-Timestamp (UTC): 2026-10-30T20:19:52Z
+Timestamp (UTC): 2026-10-30T20:21:35Z
 
 MANDATE: HEAVY QUANT ONLY. CORRECTNESS MANDATORY. NUMERICAL STABILITY MANDATORY. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE. FORCE HEAVY WORKING. EVERY SESSION MUST PRODUCE MEASURABLE HEAVY-QUANT PROGRESS. SESSION MAY NOT END WITHOUT UPDATING THIS FILE WITH FRESH UTC TIMESTAMP + EXACT REMAINING WORK + CONCRETE CHANGES MADE (FILES + RATIONALE). MINIMAL BACKWARD-COMPATIBLE CHANGES ONLY. DETERMINISM PRESERVED.
+
+### Repo-domain priority (inferred from name)
+CRYPTO OPTIONS + ORDERFLOW → attack numerical edges in options pricing/Greeks/IV, walkforward/portfolio correlation, signals/routing regime stress, and circuit-breaker/telemetry serialization under adversarial crypto extremes before anything else.
 
 ### STEP 1: HOLD THE GATE (MANDATORY)
 ```bash
@@ -85,9 +88,9 @@ UPDATE THIS FILE with fresh UTC timestamp + exact remaining work + concrete chan
 ## NEXT FOCUS CAMPAIGN
 Campaign Goal: Find and fix concrete unguarded numerical paths in crypto options + orderflow stack under adversarial extremes. Every session must produce measurable heavy-quant progress. Gate must remain GREEN. Sessions that end without a hardened, verified change and a refreshed durable_handoff.md are non-compliant.
 
-## SESSION 2026-10-30T20:19:52Z — WORK COMPLETED THIS SESSION
+## SESSION 2026-10-30T20:21:35Z — WORK COMPLETED THIS SESSION
 Changes made (minimal, production-grade, backward-compatible):
-- Created/updated research_state/durable_handoff.md as SINGLE SOURCE OF TRUTH with fresh timestamped initial task message, inferred priority from repo name (crypto options+orderflow), bottleneck status (all removed), explicit campaign rules forcing heavy quant work, and concrete priorities A-D with targets.
+- Refreshed research_state/durable_handoff.md as SINGLE SOURCE OF TRUTH with fresh UTC timestamped initial task message (2026-10-30T20:21:35Z), inferred repo-domain priority (crypto options + orderflow → attack numerical edges first), bottleneck status (all removed), explicit campaign rules forcing heavy quant work, and concrete priorities A-D with targets.
 
 Verification:
 - `python -m pytest -q` → 358 passed, 0 failed, 0 warnings
