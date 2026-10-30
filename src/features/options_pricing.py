@@ -123,25 +123,42 @@ def _d1_d2(spot: float, strike: float, rate: float, volatility: float,
         volatility = 0.0
     if time_to_expiry > 100.0:  # years, absurd but guard
         time_to_expiry = 100.0
+    if abs(rate) > 10.0:
+        rate = max(-10.0, min(10.0, rate))
     sqrt_t = safe_sqrt(time_to_expiry, default=0.0, operation="d1_sqrt_t")
-    if sqrt_t <= 0.0:
+    if sqrt_t <= 0.0 or not math.isfinite(sqrt_t):
         return 0.0, 0.0
     vol_sqrt_t = volatility * sqrt_t
     if vol_sqrt_t <= 0.0 or not math.isfinite(vol_sqrt_t):
         return 0.0, 0.0
     # moneyness guard
     try:
-        moneyness = spot / strike if strike > 0 else 1.0
+        if strike <= 0.0 or not math.isfinite(strike):
+            return 0.0, 0.0
+        moneyness = spot / strike
     except Exception:
         moneyness = 1.0
     if moneyness <= 0.0 or not math.isfinite(moneyness):
-        return 0.0, 0.0
+        # Deep ITM/OTM - still compute, but guard
+        if spot <= 0.0:
+            return 0.0, 0.0
     # log guard
     log_m = safe_log(moneyness, default=0.0, operation="d1_log")
     if not math.isfinite(log_m):
-        log_m = 0.0
+        # Try clamping
+        if moneyness > 1e18:
+            moneyness_clamped = 1e18
+            log_m = safe_log(moneyness_clamped, default=0.0, operation="d1_log_clamped")
+        elif moneyness < 1e-18:
+            moneyness_clamped = 1e-18
+            log_m = safe_log(moneyness_clamped, default=0.0, operation="d1_log_clamped")
+        else:
+            log_m = 0.0
     # drift term guard
-    drift_term = (rate + 0.5 * volatility * volatility) * time_to_expiry
+    try:
+        drift_term = (rate + 0.5 * volatility * volatility) * time_to_expiry
+    except Exception:
+        drift_term = 0.0
     if not math.isfinite(drift_term):
         drift_term = 0.0
     d1 = safe_divide(
@@ -156,8 +173,8 @@ def _d1_d2(spot: float, strike: float, rate: float, volatility: float,
     if not math.isfinite(d2):
         d2 = d1
     # Clamp extreme values to keep CDF/PDF numerically well behaved.
-    d1 = max(-50.0, min(50.0, d1))
-    d2 = max(-50.0, min(50.0, d2))
+    d1 = max(-200.0, min(200.0, d1))
+    d2 = max(-200.0, min(200.0, d2))
     return d1, d2
 
 
@@ -178,21 +195,23 @@ def black_scholes_price(inputs: PricingInputs) -> float:
         time_to_expiry = validate_finite(inputs.time_to_expiry, "time_to_expiry")
     except Exception as e:
         raise
-    if spot <= 0.0:
+    if spot <= 0.0 or not math.isfinite(spot):
         raise NonFiniteResultError("spot must be positive",
                                    context={"function": "black_scholes_price", "spot": spot})
-    if strike <= 0.0:
+    if strike <= 0.0 or not math.isfinite(strike):
         raise NonFiniteResultError("strike must be positive",
                                    context={"function": "black_scholes_price", "strike": strike})
-    if volatility < 0.0:
+    if volatility < 0.0 or not math.isfinite(volatility):
         raise NonFiniteResultError("volatility must be >= 0",
                                    context={"function": "black_scholes_price", "volatility": volatility})
-    if time_to_expiry < 0.0:
+    if time_to_expiry < 0.0 or not math.isfinite(time_to_expiry):
         raise NonFiniteResultError("time_to_expiry must be >= 0",
                                    context={"function": "black_scholes_price", "time_to_expiry": time_to_expiry})
     # Clamp extremes for numerical stability
     if volatility > 10.0:
         volatility = 10.0
+    if volatility < 0.0:
+        volatility = 0.0
     if time_to_expiry > 100.0:
         time_to_expiry = 100.0
     if abs(rate) > 10.0:
@@ -201,6 +220,8 @@ def black_scholes_price(inputs: PricingInputs) -> float:
     discount = _discount_factor(rate, time_to_expiry)
     if not math.isfinite(discount) or discount < 0.0:
         discount = 0.0
+    if discount > 1e18:  # should not happen with clamped rates
+        discount = 1.0 if rate >= 0 else 0.0
     # Degenerate: no time value (expiry at/before now or zero volatility).
     if time_to_expiry <= 0.0 or volatility <= 0.0:
         if ot == "call":
@@ -209,7 +230,10 @@ def black_scholes_price(inputs: PricingInputs) -> float:
             price = max(strike * discount - spot, 0.0)
         if not math.isfinite(price):
             price = 0.0
-        return float(max(0.0, price))
+        price = float(max(0.0, price))
+        if not math.isfinite(price):
+            price = 0.0
+        return float(price)
 
     d1, d2 = _d1_d2(spot, strike, rate, volatility, time_to_expiry)
     try:
@@ -249,16 +273,18 @@ def black_scholes_greeks(inputs: PricingInputs) -> Dict[str, float]:
         time_to_expiry = validate_finite(inputs.time_to_expiry, "time_to_expiry")
     except Exception:
         raise
-    if spot <= 0.0 or strike <= 0.0:
+    if spot <= 0.0 or not math.isfinite(spot) or strike <= 0.0 or not math.isfinite(strike):
         raise NonFiniteResultError("spot and strike must be positive",
                                    context={"function": "black_scholes_greeks",
                                             "spot": spot, "strike": strike})
-    if volatility < 0.0 or time_to_expiry < 0.0:
+    if volatility < 0.0 or not math.isfinite(volatility) or time_to_expiry < 0.0 or not math.isfinite(time_to_expiry):
         raise NonFiniteResultError("volatility and time_to_expiry must be >= 0",
                                    context={"function": "black_scholes_greeks",
                                             "volatility": volatility, "time_to_expiry": time_to_expiry})
     if volatility > 10.0:
         volatility = 10.0
+    if volatility < 0.0:
+        volatility = 0.0
     if time_to_expiry > 100.0:
         time_to_expiry = 100.0
     if abs(rate) > 10.0:
@@ -267,6 +293,8 @@ def black_scholes_greeks(inputs: PricingInputs) -> Dict[str, float]:
     discount = _discount_factor(rate, time_to_expiry)
     if not math.isfinite(discount) or discount < 0.0:
         discount = 0.0
+    if discount > 1e18:
+        discount = 1.0 if rate >= 0 else 0.0
     d1, d2 = _d1_d2(spot, strike, rate, volatility, time_to_expiry)
     try:
         n_d1 = _norm_cdf(d1)
@@ -274,6 +302,10 @@ def black_scholes_greeks(inputs: PricingInputs) -> Dict[str, float]:
         n_prime_d1 = _norm_pdf(d1)
     except Exception:
         n_d1, n_d2, n_prime_d1 = 0.5, 0.5, 0.0
+    if not all(math.isfinite(x) for x in (n_d1, n_d2, n_prime_d1)):
+        n_d1 = n_d1 if math.isfinite(n_d1) else 0.5
+        n_d2 = n_d2 if math.isfinite(n_d2) else 0.5
+        n_prime_d1 = n_prime_d1 if math.isfinite(n_prime_d1) else 0.0
     sqrt_t = safe_sqrt(time_to_expiry, default=0.0, operation="greeks_sqrt_t")
 
     if ot == "call":
@@ -526,23 +558,28 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
         market_price = validate_finite(market_price, "market_price")
     except Exception:
         raise
-    if spot <= 0.0:
+    if spot <= 0.0 or not math.isfinite(spot):
         raise NonFiniteResultError("spot must be positive",
                                    context={"function": "implied_volatility", "spot": spot})
-    if strike <= 0.0:
+    if strike <= 0.0 or not math.isfinite(strike):
         raise NonFiniteResultError("strike must be positive",
                                    context={"function": "implied_volatility", "strike": strike})
-    if time_to_expiry <= 0.0:
+    if time_to_expiry <= 0.0 or not math.isfinite(time_to_expiry):
         raise NonFiniteResultError("time_to_expiry must be > 0 for IV solve",
                                    context={"function": "implied_volatility",
                                             "time_to_expiry": time_to_expiry})
-    if volatility_check := False:  # placeholder
-        pass
+    if not math.isfinite(market_price) or market_price < 0.0:
+        raise NonFiniteResultError("market_price must be finite and >= 0",
+                                   context={"function": "implied_volatility", "market_price": market_price})
     # Clamp extremes
     if time_to_expiry > 100.0:
         time_to_expiry = 100.0
     if abs(rate) > 10.0:
         rate = max(-10.0, min(10.0, rate))
+    if spot > 1e18:
+        spot = 1e18
+    if strike > 1e18:
+        strike = 1e18
 
     try:
         rng = random.Random(seed)

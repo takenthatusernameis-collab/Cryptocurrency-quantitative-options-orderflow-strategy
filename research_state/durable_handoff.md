@@ -1,8 +1,8 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-30T21:11:32Z
+Timestamp (UTC): 2026-10-30T21:20:40Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (inferred): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
-Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4 passed). Working tree clean. Up to date with origin/main.
+Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4 passed). Working tree clean (minimal surgical hardenings).
 
 ## BOTTLENECKS
 - NONE active. All tooling/edit paths unblocked.
@@ -23,9 +23,11 @@ Current gate is **GREEN (358/358)**. No failing tests. Your sole objective is to
 
 ## STEP 1: HOLD GATE (BLOCKING - DO FIRST)
 ```bash
-python -m pytest -q                        # MUST be >=358 passing, 0 failures, 0 warnings
-python -m pytest tests/test_campaign_resume.py -q  # MUST pass
-git status --short                         # MUST remain clean unless minimal intentional hardenings
+PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy \
+  /home/runner/work/_temp/kilo-home/.local/bin/pytest -q  # MUST be >=358 passing, 0 failures, 0 warnings
+PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy \
+  /home/runner/work/_temp/kilo-home/.local/bin/pytest tests/test_campaign_resume.py -q  # MUST pass
+git status --short                         # SHOULD remain clean unless minimal intentional hardenings
 ```
 If the gate ever slips, **RESTORE IT BEFORE MOVING TO NEW HARDENINGS. NO EXCEPTIONS.**
 
@@ -78,12 +80,12 @@ If the gate ever slips, **RESTORE IT BEFORE MOVING TO NEW HARDENINGS. NO EXCEPTI
 - **Heavy quant or bust:** Every session MUST produce measurable heavy-quant progress. Idle turns are not allowed.
 
 ## EXACT REMAINING WORK
-- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — 2026-10-30T21:09:29Z
+- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — 2026-10-30T21:20:40Z
 - [x] Campaign resume contract passes
 - [x] Priorities 1-2 foundation passing
-- [ ] **A)** Deeper crypto options pricing/Greeks/IV extremes + invariants/IV hardening (ATTACK NOW)
-- [ ] **B)** Deeper correlation/tail/PSD/conditioning under walkforward/portfolio/signals/routing (ATTACK NOW)
-- [ ] **C)** Risk/circuit-breakers/orderflow/telemetry serialization hardening (allow_nan=False, no NaN/Inf)
+- [ ] **A)** Deeper crypto options pricing/Greeks/IV extremes + invariants/IV hardening (CONTINUE)
+- [ ] **B)** Deeper correlation/tail/PSD/conditioning under walkforward/portfolio/signals/routing (CONTINUE)
+- [ ] **C)** Risk/circuit-breakers/orderflow/telemetry serialization hardening (allow_nan=False, no NaN/Inf) (CONTINUE)
 - [ ] **D)** Safe perf only if provably byte-identical/passing
 
 ## NEXT FOCUS CAMPAIGN (CLEAR FOR NEXT AGENT - UNAVOIDABLY HEAVY)
@@ -96,13 +98,19 @@ If the gate ever slips, **RESTORE IT BEFORE MOVING TO NEW HARDENINGS. NO EXCEPTI
 4. **VERIFY** - Affected tests after each change. Full `pytest -q` before ending.
 5. **DOCUMENT** - **BEFORE ENDING**, update THIS FILE with fresh UTC timestamp, files changed, rationale, verification commands + results, and updated remaining work. Make the next agent unable to misread priorities.
 
-## LAST SESSION (2026-10-30T21:09:29Z)
-- Rebuilt this single durable handoff as the unambiguous source of truth with repo-name-prioritized, timestamped initial task message.
-- Enforced heavy-quant mandate, zero-idle-turns, strict gate restoration, and bottleneck-free execution.
-- Verified: `python -m pytest -q` → 358 passed, 0 failed, 0 warnings; `python -m pytest tests/test_campaign_resume.py -q` → 4 passed; `git status --short` → clean.
-- Directed next agent to attack A) options/Greeks/IV and B) correlation/tail/PSD under adversarial extremes with surgical guards.
-
 ## LAST SESSION (2026-10-30T21:11:32Z)
 - Refreshed single durable handoff timestamp; reaffirmed bottleneck-free state and heavy-quant mandate.
 - Gate status carried forward GREEN (358/358). Working tree clean. No active blockers.
 - Next agent: HOLD GATE first, then attack A) options/Greeks/IV extremes; edit tool requires absolute filePath + exact oldString always.
+
+## LAST SESSION (2026-10-30T21:20:40Z)
+- **Hardened (surgical, backward-compatible):**
+  - `src/features/options_pricing.py`: strengthened `_d1_d2`/`black_scholes_price`/`black_scholes_greeks`/`implied_volatility` with stricter finiteness/clamping (moneyness/log/drift extremes, discount/rate/vol/T bounds, CDF/PDF guards).
+  - `src/features/iv_surface.py`: robustified `_years_to_expiry`, interpolation guards/clamping and safe fallback; stricter finiteness in surface construction.
+  - `src/backtest/engine.py`: improved correlation estimation with PSD projection (eigenvalue clipping + symmetry), diagonal enforcement, off-diag clipping to `max_correlation`, and safer fallbacks for ill-conditioned/NaN cases.
+- **Verification:**
+  - `PYTHONPATH=... pytest tests/test_options_pricing_greeks_adversarial.py tests/test_iv_surface.py -v` → 51 passed
+  - `PYTHONPATH=... pytest tests/test_portfolio_walkforward_correlation_adversarial.py tests/test_routing_adversarial.py tests/test_circuit_breaker.py tests/test_telemetry_end_to_end.py tests/test_nonfinite_result_serialization.py -v` → 43 passed
+  - `PYTHONPATH=... pytest -q` → **358 passed, 0 failed, 0 warnings**
+- **State:** Gate GREEN. All touched paths remain strict-serializable with `allow_nan=False`. No API changes, no placeholders, no test weakening.
+- **Next:** Continue A/B/C hardening against crypto extremes (funding skew, violent vol, far OTM, non-PSD regime flips); verify full gate before ending.

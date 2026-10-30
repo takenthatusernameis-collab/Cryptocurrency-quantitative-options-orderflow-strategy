@@ -1958,16 +1958,30 @@ class PortfolioWalkForwardBacktest:
                 Z_arr = (arr - means_arr) / stds_arr  # type: ignore
                 C_arr = (Z_arr @ Z_arr.T) / float(min_len)  # type: ignore
                 try:
+                    # Project to PSD (nearest PSD via eigenvalue clipping) for numerical stability
                     w_e, V_e = _np.linalg.eigh(C_arr)  # type: ignore
                     w_clipped = _np.maximum(w_e, 1e-12)  # type: ignore
                     C_psd = V_e @ _np.diag(w_clipped) @ V_e.T  # type: ignore
+                    # Ensure symmetry
+                    C_psd = 0.5 * (C_psd + C_psd.T)  # type: ignore
                     d_arr = _np.sqrt(_np.diag(C_psd))  # type: ignore
                     d_arr = _np.where(d_arr < 1e-18, 1e-18, d_arr)  # type: ignore
                     C_psd = C_psd / (d_arr[:, None] * d_arr[None, :])  # type: ignore
                     C_out_list: List[List[float]] = [[0.0] * n_syms for _ in range(n_syms)]
                     for _i in range(n_syms):
                         for _j in range(n_syms):
-                            C_out_list[_i][_j] = float(C_psd[_i, _j])  # type: ignore[index]
+                            val_c = float(C_psd[_i, _j])  # type: ignore[index]
+                            if not isfinite(val_c):
+                                val_c = 1.0 if _i == _j else 0.0
+                            # clip
+                            if _i != _j:
+                                if val_c > self.max_correlation:
+                                    val_c = self.max_correlation
+                                elif val_c < -self.max_correlation:
+                                    val_c = -self.max_correlation
+                            else:
+                                val_c = 1.0
+                            C_out_list[_i][_j] = val_c
                 except Exception:
                     C_out_list = [[float(C_arr[_i, _j]) for _j in range(n_syms)] for _i in range(n_syms)]  # type: ignore[index]
                 for i in range(n_syms):
@@ -1975,49 +1989,55 @@ class PortfolioWalkForwardBacktest:
                     for j in range(n_syms):
                         if i != j:
                             val = float(C_out_list[i][j])
+                            if not isfinite(val):
+                                val = 0.0
                             if val > self.max_correlation:
                                 val = self.max_correlation
                             elif val < -self.max_correlation:
                                 val = -self.max_correlation
-                            if not isfinite(val):
-                                val = 0.0
                             C_out_list[i][j] = val
                             C_out_list[j][i] = val
                 return C_out_list
             except Exception:
                 pass
-        # Fallback pure Python
-        means = {}
-        stds = {}
-        for s in symbols:
-            vals = window_returns[s][:min_len]
-            m = sum(vals) / len(vals)
-            means[s] = m
-            var = _safe_variance(vals, mean=m)
-            stds[s] = _safe_std(vals, mean=m)
-        mat_res = [[0.0] * n_syms for _ in range(n_syms)]
-        for i, si in enumerate(symbols):
-            mat_res[i][i] = 1.0
-            for j in range(i + 1, n_syms):
-                sj = symbols[j]
-                vi = window_returns[si][:min_len]
-                vj = window_returns[sj][:min_len]
-                mi, mj = means[si], means[sj]
-                si_std, sj_std = stds[si], stds[sj]
-                if si_std < 1e-18 or sj_std < 1e-18:
-                    cov = 0.0
-                else:
-                    cov = sum((vi[k] - mi) * (vj[k] - mj) for k in range(min_len)) / min_len
-                corr = cov / (si_std * sj_std)
-                if not isfinite(corr):
-                    corr = 0.0
-                if corr > self.max_correlation:
-                    corr = self.max_correlation
-                elif corr < -self.max_correlation:
-                    corr = -self.max_correlation
-                mat_res[i][j] = corr
-                mat_res[j][i] = corr
-        return mat_res
+            # Fallback pure Python
+            means = {}
+            stds = {}
+            for s in symbols:
+                vals = window_returns[s][:min_len]
+                m = sum(vals) / len(vals)
+                means[s] = m
+                var = _safe_variance(vals, mean=m)
+                stds[s] = _safe_std(vals, mean=m)
+            mat_res = [[0.0] * n_syms for _ in range(n_syms)]
+            for i, si in enumerate(symbols):
+                mat_res[i][i] = 1.0
+                for j in range(i + 1, n_syms):
+                    sj = symbols[j]
+                    vi = window_returns[si][:min_len]
+                    vj = window_returns[sj][:min_len]
+                    mi, mj = means[si], means[sj]
+                    si_std, sj_std = stds[si], stds[sj]
+                    if si_std < 1e-18 or sj_std < 1e-18 or not isfinite(si_std) or not isfinite(sj_std):
+                        cov = 0.0
+                    else:
+                        try:
+                            cov = sum((vi[k] - mi) * (vj[k] - mj) for k in range(min_len)) / min_len
+                        except Exception:
+                            cov = 0.0
+                    if not isfinite(cov):
+                        corr = 0.0
+                    else:
+                        corr = safe_divide(cov, si_std * sj_std, default=0.0, operation="corr_fallback")
+                    if not isfinite(corr):
+                        corr = 0.0
+                    if corr > self.max_correlation:
+                        corr = self.max_correlation
+                    elif corr < -self.max_correlation:
+                        corr = -self.max_correlation
+                    mat_res[i][j] = corr
+                    mat_res[j][i] = corr
+            return mat_res
 
     def _get_regime_for_window(self, regime: Optional[str] = None) -> str:
         if regime is None:

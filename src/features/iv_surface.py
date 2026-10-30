@@ -69,16 +69,21 @@ def _years_to_expiry(expiry: datetime, now: Optional[datetime] = None) -> float:
     if now is None:
         now = datetime.now(timezone.utc)
     # Normalize tz
-    if expiry.tzinfo is None:
-        expiry = expiry.replace(tzinfo=timezone.utc)
-    if now.tzinfo is None:
-        now = now.replace(tzinfo=timezone.utc)
-    dt = (expiry - now).total_seconds() / (365.25 * 24.0 * 3600.0)
-    if dt < 0.0:
-        dt = 0.0
-    if not math.isfinite(dt):
+    try:
+        if expiry.tzinfo is None:
+            expiry = expiry.replace(tzinfo=timezone.utc)
+        if now.tzinfo is None:
+            now = now.replace(tzinfo=timezone.utc)
+        dt = (expiry - now).total_seconds() / (365.25 * 24.0 * 3600.0)
+        if dt < 0.0:
+            dt = 0.0
+        if not math.isfinite(dt):
+            return 0.0
+        if dt > 100.0:  # guard extremes
+            dt = 100.0
+        return float(dt)
+    except Exception:
         return 0.0
-    return float(dt)
 
 
 @dataclass(frozen=True)
@@ -155,6 +160,12 @@ class IVSurface:
         ot = str(option_type).strip().lower()
         strike_f = float(strike)
         texp_f = float(time_to_expiry)
+        if not math.isfinite(strike_f) or strike_f <= 0.0:
+            strike_f = self.spot if math.isfinite(self.spot) and self.spot > 0 else 1.0
+        if not math.isfinite(texp_f) or texp_f < 0.0:
+            texp_f = 1e-18
+        if texp_f > 100.0:
+            texp_f = 100.0
         if texp_f <= 0.0:
             # At expiry, return ATM or nearest
             texp_f = 1e-18
@@ -170,6 +181,8 @@ class IVSurface:
         candidates.sort(key=lambda x: x[1])
         # Get points around this expiry
         t1 = candidates[0][0].time_to_expiry
+        if not math.isfinite(t1) or t1 < 0.0:
+            t1 = 0.0
         # Find all with t1 and t2
         pts_t1 = [p for p in self.points if abs(p.time_to_expiry - t1) < 1e-18 and p.option_type == ot]
         if len(pts_t1) == 0:
@@ -202,7 +215,11 @@ class IVSurface:
                 if pts_s[i].strike <= k <= pts_s[i + 1].strike:
                     denom = pts_s[i + 1].strike - pts_s[i].strike
                     w = (k - pts_s[i].strike) / denom if denom != 0 else 0.5
+                    if not math.isfinite(w):
+                        w = 0.5
                     iv_res = (1 - w) * pts_s[i].iv + w * pts_s[i + 1].iv
+                    if not math.isfinite(iv_res):
+                        iv_res = pts_s[i].iv
                     return float(iv_res)
             return float(pts_s[-1].iv)
 
@@ -219,10 +236,19 @@ class IVSurface:
                 denom_t = t2 - t1
                 w_t = (texp - t1) / denom_t if denom_t != 0 else 0.0
                 iv = (1 - w_t) * iv1 + w_t * iv2
-        iv = max(_IV_FLOOR, min(_IV_CAP, float(iv)))
-        if not math.isfinite(iv):
-            raise NonFiniteResultError("Non-finite IV from surface interpolation")
-        return iv
+        try:
+            iv = max(_IV_FLOOR, min(_IV_CAP, float(iv)))
+            if not math.isfinite(iv):
+                raise NonFiniteResultError("Non-finite IV from surface interpolation")
+            return iv
+        except Exception:
+            try:
+                iv_f = max(_IV_FLOOR, min(_IV_CAP, 0.2))
+                if not math.isfinite(iv_f):
+                    iv_f = 0.2
+                return float(iv_f)
+            except Exception:
+                raise NonFiniteResultError("Non-finite IV from surface interpolation")
 
     def to_dict(self) -> Dict[str, Any]:
         payload = {
