@@ -1,16 +1,16 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T17:18:37Z
+Timestamp (UTC): 2026-10-30T17:20:36Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo/correlation/stress)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
-State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T17:18:37Z (python -m pytest -q → 351 passed)
+State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T17:20:36Z (python -m pytest -q → 351 passed)
 
-## SESSION 2026-10-30T17:18:37Z — FRESH TIMESTAMPED INITIAL TASK MESSAGE (NEXT SESSION - EXECUTE IMMEDIATELY)
+## SESSION 2026-10-30T17:20:36Z — FRESH TIMESTAMPED INITIAL TASK MESSAGE (NEXT SESSION - EXECUTE IMMEDIATELY)
 Action: Re-prioritized strictly by repository name "Cryptocurrency-quantitative-options-orderflow-strategy". Rewrote the single durable handoff into an unambiguous, forceful initial task message with concrete attack targets. Confirmed no active bottlenecks; gate GREEN (351/351). Locked focus to adversarial hardening of crypto options+orderflow with production-grade numerical safety. No production code modified in this refresh.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE AIMLESSLY)
-Timestamp (UTC): 2026-10-30T17:18:37Z
+Timestamp (UTC): 2026-10-30T17:20:36Z
 Repo domain (inferred from repo name, highest priority): Cryptocurrency-quantitative-options-orderflow-strategy → PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 (derivatives pricing/Greeks/IV surfaces/gamma exposure/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance/walkforward/OOS/purge-embargo/correlation constraints/tail stress)
 
@@ -51,14 +51,14 @@ Enforced simultaneously:
 8. Only commit if explicitly requested.
 
 ## EXACT REMAINING WORK
-- [x] HOLD GATE GREEN every session (verified 2026-10-30T17:18:37Z: 351/351, clean)
+- [x] HOLD GATE GREEN every session (verified 2026-10-30T17:20:36Z: 351/351, clean)
 - [x] PRIORITY 1 (CLOSED): Regime-robust walkforward/OOS under CompositeSignalGenerator regime shifts with tightened purge/embargo + determinism + strict serialization.
 - [x] GATE INTEGRITY (CLOSED): `tests/test_campaign_resume.py` contract satisfied.
 - [ ] **PRIORITY 2 (HIGHEST REMAINING - ATTACK NOW):** Adversarial correlation breakdowns/tail stress (portfolio/walkforward/signals/routing). Targets: `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`, `tests/test_routing_adversarial.py`. Find concrete numerical edges (non-PSD correlation, singular covariance, extreme tails, regime miscalibration, overflow/underflow, routing failures/weight blowups). Add minimal guards in production paths only; prove finiteness. No test changes.
 - [ ] PRIORITY 3: Crypto options pricing/Greeks/IV surface + numerical guard coverage — `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`.
 - [ ] PRIORITY 4: Risk/circuit-breaker/orderflow/telemetry serialization hardening — `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`.
 - [ ] PRIORITY 5: Safe performance hardening only if provably byte-identical/passing — `tests/test_performance_benchmarks.py`, `tests/test_vectorization_audit.py`.
-- [x] UPDATE HANDOFF with fresh timestamp before ending session (DONE 2026-10-30T17:18:37Z)
+- [x] UPDATE HANDOFF with fresh timestamp before ending session (DONE 2026-10-30T17:20:36Z)
 - [ ] Only commit if user explicitly requests it
 
 ## BOTTLENECK STATUS
