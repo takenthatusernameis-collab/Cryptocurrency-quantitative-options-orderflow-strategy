@@ -1,6 +1,6 @@
 """Tests for data schemas."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from src.data.schemas import OptionContract, OptionQuote, OptionsChain, Trade
 
@@ -27,7 +27,7 @@ def test_trade_creation():
         price=20000.0,
         size=0.1,
         side="buy",
-        timestamp=datetime.utcnow(),
+        timestamp=datetime.now(timezone.utc),
     )
     assert trade.price == 20000.0
     assert trade.size == 0.1
