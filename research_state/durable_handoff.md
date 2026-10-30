@@ -1,5 +1,5 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T02:57:00Z
+Timestamp (UTC): 2026-10-30T02:58:10Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: crypto options + orderflow quantitative strategy (options pricing/IV surfaces/Greeks/delta-hedged PnL/attribution/regime/composite/execution/risk)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW + EXECUTION)
@@ -7,7 +7,7 @@ Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW + EXECU
 State: 324 TESTS PASSING | 0 FAILING | 1 WARNING (datetime.utcnow deprecation in tests/test_schemas.py:30 — tests only, not src/) | WORKING TREE CLEAN | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-7 COMPLETE - PHASE 8 PRIORITY #1 COMPLETE
 
 Session start: 2026-10-29T21:01:52Z
-Handoff updated: 2026-10-30T02:57:00Z (baseline re-verified: 324 passing, 0 failures, 1 warning; clean tree; Phase 7 closure complete; bottlenecks removed; no active blockers; `git status` clean; up to date with origin/main)
+Handoff updated: 2026-10-30T02:58:10Z (baseline re-verified: `python -m pytest -q` = 324 passing, 0 failures, 1 warning; `git status` clean on `main`; Phase 7 closure complete; bottlenecks removed; no active blockers; up to date with origin/main)
 
 ## BOTTLENECK STATUS (CURRENT - CLEARED)
 - BASELINE VERIFIED: `python -m pytest -q` = 324 passing, 0 failures, 1 warning. `git status` clean. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. All `json.dumps` in `src/` use `allow_nan=False`. Serialization paths use `allow_nan=False` / `serialize_metrics_strict`. Determinism test passes.
@@ -34,7 +34,7 @@ Bottlenecks are cleared; focus on heavy quant work with minimal backward-compati
 5. Backward compatibility: all existing tests pass unchanged.
 6. Clean state: ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. Working tree clean. Changes minimal and justified.
 
-**HARD GATE:** Phases 1-7 complete - all gates passed simultaneously (322 passing, 0 failures). Working tree clean. No TODO/FIXME/PLACEHOLDER/HACK/XXX in src/. Serialization strict; determinism preserved. Update this handoff with fresh UTC timestamp if making changes beyond Phase 7.
+**HARD GATE:** Phases 1-7 complete - all gates passed simultaneously (324 passing, 0 failures). Working tree clean. No TODO/FIXME/PLACEHOLDER/HACK/XXX in src/. Serialization strict; determinism preserved. Update this handoff with fresh UTC timestamp if making changes beyond Phase 7.
 
 ## NEXT FOCUS CAMPAIGN (FUTURE AGENTS CANNOT AVOID HEAVY WORK)
 **Campaign Goal:** Phase 8 Production Execution & Risk — Live Readiness & Performance Hardening. Maintain heavy quantitative engineering discipline - no scaffolding/stubs/TODOs/placeholders. All gates must remain passing simultaneously if changes are made. Future agents must not skip or defer this work. Remove bottlenecks immediately if encountered.
@@ -67,7 +67,7 @@ Bottlenecks are cleared; focus on heavy quant work with minimal backward-compati
 - This file (`research_state/durable_handoff.md`) is the ONLY source of truth. `research_state/INITIAL_TASK_HANDOFF.md` points here.
 
 ## EXACT REMAINING WORK (ACTIONABLE NOW)
-- [x] PHASES 1-7 COMPLETE - all gates passed simultaneously (322 passing, 0 failures).
+- [x] PHASES 1-7 COMPLETE - all gates passed simultaneously (324 passing, 0 failures).
 - [x] PHASE 8 PRIORITY #1 COMPLETE - execution performance benchmarks/latency profiling added for engine+algorithms with SLO tests passing (324 passing total).
 - [ ] **PHASE 8 NEXT PRIORITY #1 (IMMEDIATE):** Multi-venue smart order routing + fill tracking across deribit/okx/binance with participation-cap and slippage enforcement. Build `src/execution/routing.py` wired to engine + risk kill-switch, strict serialization, adversarial tests.
 - [ ] **PHASE 8 NEXT:** Automated delta-hedging / position rebalancing loop wired to `src/risk/limits.py` and `src/risk/circuit_breaker.py` kill-switch (no-lookahead, finite outputs).
