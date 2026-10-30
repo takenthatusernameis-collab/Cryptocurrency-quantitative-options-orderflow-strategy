@@ -768,6 +768,9 @@ class WalkForwardWindowResult:
     out_of_sample_max_drawdown: float = 0.0
     oos_metrics: Optional[BacktestResults] = None
     is_metrics: Optional[BacktestResults] = None
+    regime_info: Optional[Dict[str, Any]] = None
+    purge_applied: int = 0
+    embargo_applied: int = 0
 
 
 @dataclass
@@ -857,6 +860,8 @@ class WalkForwardResults:
     degradation: float = 0.0
     oos_equity_curve: List[float] = field(default_factory=list)
     oos_trades: List[Trade] = field(default_factory=list)
+    regime_shift_coverage: Dict[str, int] = field(default_factory=dict)
+    purge_embargo_enforced: bool = True
 
     def assert_oos_finite(self) -> None:
         """Raise :class:`SerializationError` if any aggregate OOS metric is non-finite.
@@ -1214,6 +1219,8 @@ class WalkForwardBacktest:
     def _run_window(self, price_series: Optional[Dict[str, List[float]]], signals: Optional[Dict[str, List[int]]], timestamps: Optional[List[datetime]], train_start: int, train_end: int, test_start: int, test_end: int, purge: int = 0, embargo: int = 0) -> WalkForwardWindowResult:
         wres = WalkForwardWindowResult(train_start=train_start, train_end=train_end,
                                        test_start=test_start, test_end=test_end)
+        wres.purge_applied = int(purge) if isinstance(purge, int) else 0
+        wres.embargo_applied = int(embargo) if isinstance(embargo, int) else 0
         # Strict time ordering guard
         if timestamps is not None:
             try:

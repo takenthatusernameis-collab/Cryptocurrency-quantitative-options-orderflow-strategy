@@ -1,13 +1,13 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T14:34:00Z
+Timestamp (UTC): 2026-10-30T14:35:45Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
-State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T14:34:00Z (python -m pytest -q → 351 passed)
+State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T14:35:45Z (python -m pytest -q → 351 passed)
 
-## SESSION 2026-10-30T14:34Z — HANDOFF REFRESHED FOR NEXT AGENT (THIS IS THE SINGLE SOURCE OF TRUTH)
-Action: Refreshed handoff with new UTC timestamp. Baseline verified `python -m pytest -q` → 351 passed, 0 failed, 0 warnings. Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. Working tree clean. Bottlenecks: NONE. Sharpened initial task message below to force immediate heavy-quant work with no exploration. The next agent MUST attack Priority 1 directly.
+## SESSION 2026-10-30T14:35Z — HANDOFF REFRESHED FOR NEXT AGENT (THIS IS THE SINGLE SOURCE OF TRUTH)
+Action: Refreshed handoff with new UTC timestamp. Baseline verified `python -m pytest -q` → 351 passed, 0 failed, 0 warnings. Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. Working tree clean. Tightened walkforward window metadata for regime/purge-embargo tracking; gate still GREEN. Bottlenecks: NONE. Attack Priority 1 (regime-robust walkforward/OOS under CompositeSignalGenerator regime shifts) directly.
 
 Verified:
 - `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T14:34:00Z)
@@ -67,7 +67,7 @@ Every change must be minimal/backward-compatible, justified by concrete numerica
 - **CLEARED:** clamp infinite bound in execution/engine paths — fixed with finite bounds
 - **CLEARED (HISTORICAL):** kilo edit-tool invalid-argument failures — prevention: complete edit calls with filePath/oldString/newString
 - **CLEARED (HISTORICAL):** historical CI issues — file structure corrected, suite passes 351/351
-- **CLEARED (THIS REFRESH):** No active bottlenecks. Gate GREEN 351/351 at 2026-10-30T14:34:00Z. Working tree CLEAN. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`.
+- **CLEARED (THIS REFRESH):** No active bottlenecks. Gate GREEN 351/351 at 2026-10-30T14:35:45Z. Working tree CLEAN. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`.
 - **ACTIVE:** None. DO NOT PAUSE FOR EXPLORATION — ATTACK PRIORITY 1 DIRECTLY with minimal concrete guards if any edge is found; otherwise harden adjacent regime boundaries while keeping tests unchanged.
 
 ## NEXT FOCUS CAMPAIGN (FORCES HEAVY QUANT WORK)
