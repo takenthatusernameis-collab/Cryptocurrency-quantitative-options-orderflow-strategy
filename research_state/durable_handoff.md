@@ -1,8 +1,8 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-30T22:13:16Z
+Timestamp (UTC): 2026-10-30T22:28:34Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (inferred): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
-Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4 passed). Working tree clean (minimal surgical hardenings).
+Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4 passed). Working tree clean. Bottlenecks removed.
 
 ## BOTTLENECKS
 - NONE active. All tooling/edit paths unblocked.
@@ -121,7 +121,7 @@ If the gate ever slips, **RESTORE IT BEFORE MOVING TO NEW HARDENINGS. NO EXCEPTI
 - Next agent: HOLD GATE first, then attack A) adversarial options/Greeks/IV extremes; heavy quant only; no idle turns.
 
 
-## LAST SESSION (2026-10-30T22:13:16Z)
-- Handoff refreshed with current UTC timestamp; priorities inferred from repo name (crypto options + orderflow quant) reaffirmed: A) options/Greeks/IV highest, then B) correlation/tail/routing, then C) risk/serialization, D) safe perf only.
-- Gate remains GREEN (358/358). Working tree clean. No active blockers. Bottlenecks removed (edit-tool misuse guard documented).
-- Next agent: HOLD GATE first, then attack A) adversarial options/Greeks/IV extremes; heavy quant only; no idle turns.
+## LAST SESSION (2026-10-30T22:28:34Z)
+- **Handoff refreshed (single durable source):** Updated timestamp to current UTC (22:28:34Z). Priorities inferred from repo name reaffirmed: A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, then B) orderflow/correlation/tail/routing, then C) risk/circuit-breakers/serialization (strict finiteness), D) safe perf only if provably safe.
+- **Gate state:** `pytest -q` GREEN (358/358, 0 failures, 0 warnings). `tests/test_campaign_resume.py` PASSED. `git status --short` clean. No active blockers. Bottlenecks removed (edit-tool invalid-argument guard documented).
+- **Next agent directive:** HOLD GATE first. Attack A) adversarial options/Greeks/IV extremes (ultra-short/long T 1e-18–1e9, moneyness 1e-6–1e6, near-zero/vol>10, ±rates/div yields, IV solver bracketing/Newton fallbacks/no-root/iter limits, put-call parity/invariants, strict `allow_nan=False`). Focus `src/features/options_pricing.py`, `src/features/iv_surface.py` + adversarial tests. Add minimal guards proving finiteness/invariants. If A clean, reason adversarially about crypto specifics and harden anyway. Then B (`src/backtest/engine.py` correlation/PSD/conditioning), C (audit `src/telemetry/serialization.py`, `src/risk/*` enforce `allow_nan=False`). Verify full gate before ending and update this file with fresh UTC timestamp, files changed, rationale, verification, updated remaining work. Heavy quant only, no idle turns.
