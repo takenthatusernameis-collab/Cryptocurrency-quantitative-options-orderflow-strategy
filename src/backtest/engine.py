@@ -972,6 +972,9 @@ class WalkForwardBacktest:
             embargo = 0
         self.purge = purge
         self.embargo = embargo
+        # Per-run regime coverage accumulator (reset at the start of each
+        # run_walk_forward call so repeated runs are independent).
+        self._regime_shift_coverage: Dict[str, int] = {}
 
     def run_walk_forward(self,
                          price_series: Optional[Dict[str, List[float]]] = None,
@@ -1003,6 +1006,9 @@ class WalkForwardBacktest:
             purge_eff = 0
         if not isinstance(embargo_eff, int) or embargo_eff < 0:
             embargo_eff = 0
+
+        # Reset per-run regime coverage so repeated calls are independent.
+        self._regime_shift_coverage = {}
 
         # Strict time ordering: timestamps must be monotonically increasing if provided.
         if timestamps is not None:
@@ -1145,6 +1151,12 @@ class WalkForwardBacktest:
         if not isfinite(results.degradation):
             results.degradation = 0.0
 
+        # Persist the per-run regime coverage audit on the results object so
+        # callers can verify which volatility regimes the walk-forward actually
+        # exercised (regime-shift auditability).
+        results.regime_shift_coverage = dict(self._regime_shift_coverage)
+        results.purge_embargo_enforced = bool(purge_eff > 0 or embargo_eff > 0)
+
         return results
 
     def _validate_time_ordering(self, timestamps: List[datetime]) -> None:
@@ -1254,6 +1266,30 @@ class WalkForwardBacktest:
             if gap >= 0:
                 # Push embargo further if purge didn't create enough gap
                 test_start_embargoed = min(test_end, train_end_purged + 1)
+
+        # Regime classification for this window (volatility regime from the
+        # training price path). Recorded on the window and aggregated into the
+        # top-level regime_shift_coverage map so callers can audit which regimes
+        # the walk-forward actually exercised. Pure function: no lookahead.
+        try:
+            if price_series is not None:
+                first_key = next(iter(price_series.keys()))
+                train_prices = price_series[first_key][train_start:train_end_purged]
+                test_prices = price_series[first_key][test_start_embargoed:test_end]
+                regime_train = detect_regime_from_window(train_prices)
+                regime_test = detect_regime_from_window(test_prices)
+                wres.regime_info = {
+                    "train_regime": regime_train,
+                    "test_regime": regime_test,
+                    "train_start": train_start,
+                    "train_end": train_end_purged,
+                    "test_start": test_start_embargoed,
+                    "test_end": test_end,
+                }
+                self._regime_shift_coverage[regime_test] = self._regime_shift_coverage.get(regime_test, 0) + 1
+        except Exception:
+            wres.regime_info = None
+
         # Run in-sample (for metrics)
         is_engine = BacktestEngine(self.config, self.risk_config)
         self._simulate_period(is_engine, price_series, signals, timestamps, train_start, train_end_purged)

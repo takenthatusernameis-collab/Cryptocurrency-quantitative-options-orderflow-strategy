@@ -17,6 +17,67 @@ from .algorithms import ExecutionAlgorithm, create_algorithm, SlippageModel
 
 _logger = get_logger(__name__)
 
+# Production-grade PnL/clamp bounds: prevents Inf/NaN from propagating into
+# portfolio summaries when a PositionState holds a non-finite realized or
+# unrealized PnL (e.g. from an adversarial fill or internal drift). Values are
+# clamped to a large-but-finite bound so strict serialization (allow_nan=False)
+# can never fail on a summary produced by this engine.
+_PNL_BOUND = 1e18
+
+
+def _safe_position_value(values: List[Any]) -> float:
+    """Sum ``values`` with non-finite entries coerced to 0.0.
+
+    Each entry is converted to float; non-convertible or non-finite entries
+    contribute 0.0. The running total is clamped to ``[-_PNL_BOUND, _PNL_BOUND]``
+    so overflow cannot occur. Returns a finite float.
+    """
+    total = 0.0
+    for v in values:
+        try:
+            f = float(v)
+        except (TypeError, ValueError):
+            continue
+        if not isfinite(f):
+            continue
+        total += f
+    if not isfinite(total):
+        return 0.0
+    if total > _PNL_BOUND:
+        return _PNL_BOUND
+    if total < -_PNL_BOUND:
+        return -_PNL_BOUND
+    return total
+
+
+def _safe_position_state_summary(p: "PositionState") -> Dict[str, float]:
+    """Return a finite, serialization-safe summary dict for a PositionState.
+
+    Realized/unrealized PnL and total commission are individually clamped to
+    finite bounds before summation so a single bad position cannot poison the
+    whole portfolio summary.
+    """
+    realized = float(p.realized_pnl) if isfinite(float(p.realized_pnl)) else 0.0
+    unrealized = float(p.unrealized_pnl) if isfinite(float(p.unrealized_pnl)) else 0.0
+    commission = float(p.total_commission) if isfinite(float(p.total_commission)) else 0.0
+    if realized > _PNL_BOUND:
+        realized = _PNL_BOUND
+    elif realized < -_PNL_BOUND:
+        realized = -_PNL_BOUND
+    if unrealized > _PNL_BOUND:
+        unrealized = _PNL_BOUND
+    elif unrealized < -_PNL_BOUND:
+        unrealized = -_PNL_BOUND
+    if commission < 0.0:
+        commission = 0.0
+    elif commission > _PNL_BOUND:
+        commission = _PNL_BOUND
+    return {
+        "realized_pnl": realized,
+        "unrealized_pnl": unrealized,
+        "total_commission": commission,
+    }
+
 
 class ExecutionEngine:
     """Deterministic execution engine that consumes composite signals."""
@@ -296,24 +357,37 @@ class ExecutionEngine:
             if px is not None and isfinite(px) and px > 0:
                 equity += float(pos.quantity) * float(px)
             else:
-                equity += float(pos.quantity) * float(pos.avg_entry_price)
+                # Fall back to avg entry price when mark price is unavailable;
+                # guard against a non-finite entry price so equity stays finite.
+                entry = float(pos.avg_entry_price)
+                equity += float(pos.quantity) * (entry if isfinite(entry) else 0.0)
+        # Never let non-finite equity propagate into the equity history: clamp
+        # to the initial capital as a safe floor so downstream metrics and
+        # serialization (allow_nan=False) cannot break.
         if not isfinite(equity):
             equity = float(self.initial_capital)
         self.equity_history.append(float(equity))
         return float(equity)
 
     def get_portfolio_summary(self) -> Dict[str, Any]:
-        total_realized = sum(p.realized_pnl for p in self.positions.values())
-        total_unrealized = sum(p.unrealized_pnl for p in self.positions.values())
-        total_commission = sum(p.total_commission for p in self.positions.values())
+        # Guard every position-derived PnL/commission value against non-finite
+        # drift so the summary is always strict-serializable (allow_nan=False).
+        # A single corrupted PositionState must not poison the whole summary.
+        safe_positions: Dict[str, Dict[str, float]] = {}
+        for k, v in self.positions.items():
+            safe_positions[k] = _safe_position_state_summary(v)
+        total_realized = _safe_position_value([s["realized_pnl"] for s in safe_positions.values()])
+        total_unrealized = _safe_position_value([s["unrealized_pnl"] for s in safe_positions.values()])
+        total_commission = _safe_position_value([s["total_commission"] for s in safe_positions.values()])
+        active_positions = [p for p in self.positions.values() if abs(p.quantity) > 1e-18]
         return serialize_metrics_strict({
             "initial_capital": float(self.initial_capital),
             "cash": float(self.cash),
             "num_orders": len(self.orders),
-            "num_positions": len([p for p in self.positions.values() if abs(p.quantity) > 1e-18]),
+            "num_positions": len(active_positions),
             "num_fills": len(self.fills),
-            "total_realized_pnl": float(total_realized),
-            "total_unrealized_pnl": float(total_unrealized),
-            "total_commission": float(total_commission),
+            "total_realized_pnl": total_realized,
+            "total_unrealized_pnl": total_unrealized,
+            "total_commission": total_commission,
             "positions": {k: v.to_dict() for k, v in self.positions.items()},
         })

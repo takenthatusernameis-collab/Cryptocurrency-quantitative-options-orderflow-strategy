@@ -15,6 +15,31 @@ from ..telemetry import serialize_metrics_strict
 
 _logger = get_logger(__name__)
 
+# Production-grade PnL/clamp bounds: prevents Inf/NaN from propagating into
+# position snapshots when a PositionState holds a non-finite realized or
+# unrealized PnL (e.g. from an adversarial fill or internal drift). Values are
+# clamped to a large-but-finite bound so strict serialization (allow_nan=False)
+# can never fail on a position dict produced by this class.
+_PNL_BOUND = 1e18
+
+
+def _safe_position_value(value: Any, default: float = 0.0) -> float:
+    """Coerce ``value`` to a finite float, clamped to ``[-_PNL_BOUND, _PNL_BOUND]``.
+
+    Non-convertible or non-finite inputs yield ``default``. Never raises.
+    """
+    try:
+        f = float(value)
+    except (TypeError, ValueError):
+        return default
+    if not isfinite(f):
+        return default
+    if f > _PNL_BOUND:
+        return _PNL_BOUND
+    if f < -_PNL_BOUND:
+        return -_PNL_BOUND
+    return f
+
 
 class OrderSide(str, Enum):
     BUY = "buy"
@@ -312,15 +337,25 @@ class PositionState:
         return float(self.unrealized_pnl)
 
     def to_dict(self) -> Dict[str, Any]:
+        # Guard every PnL/commission field against non-finite drift so the
+        # position snapshot is always strict-serializable (allow_nan=False).
+        # A single corrupted field must not poison the whole snapshot.
+        realized = _safe_position_value(self.realized_pnl)
+        unrealized = _safe_position_value(self.unrealized_pnl)
+        commission = _safe_position_value(self.total_commission, default=0.0)
+        if commission < 0.0:
+            commission = 0.0
+        quantity = _safe_position_value(self.quantity, default=0.0)
+        avg_entry = _safe_position_value(self.avg_entry_price, default=0.0)
         return serialize_metrics_strict({
             "symbol": self.symbol,
-            "quantity": float(self.quantity),
+            "quantity": quantity,
             "side": self.side,
-            "avg_entry_price": float(self.avg_entry_price),
-            "realized_pnl": float(self.realized_pnl),
-            "unrealized_pnl": float(self.unrealized_pnl),
-            "total_commission": float(self.total_commission),
-            "market_value_abs": float(self.market_value_abs),
+            "avg_entry_price": avg_entry,
+            "realized_pnl": realized,
+            "unrealized_pnl": unrealized,
+            "total_commission": commission,
+            "market_value_abs": abs(quantity) * avg_entry,
             "last_update": self.last_update.isoformat(),
         })
 

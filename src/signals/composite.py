@@ -198,17 +198,21 @@ class CompositeSignalGenerator:
         pcr = _safe_float(put_call_ratio, 1.0)
         if pcr <= 0.0:
             pcr = 1.0
-        if gex < -1e8:
+        # Boundary consistency: use a single strict inequality direction for each
+        # primary regime so that the exact threshold value maps to exactly one
+        # regime (no gaps/overlaps at the boundary). Secondary PCR refinement uses
+        # the same direction so adjacent boundaries cannot both fire.
+        if gex <= -1e8:
             return "high_vol_negative_gex"
-        if gex > 1e8:
+        if gex >= 1e8:
             return "low_vol_positive_gex"
-        if skew > 0.05:
+        if skew >= 0.05:
             return "skew_bearish"
-        if skew < -0.05:
+        if skew <= -0.05:
             return "skew_bullish"
-        if skew > 0.02 and pcr > 1.2:
+        if skew >= 0.02 and pcr >= 1.2:
             return "high_vol_negative_gex"
-        if skew < -0.02 and pcr < 0.8:
+        if skew <= -0.02 and pcr <= 0.8:
             return "low_vol_positive_gex"
         return "neutral"
 
