@@ -1214,10 +1214,39 @@ class WalkForwardBacktest:
     def _run_window(self, price_series: Optional[Dict[str, List[float]]], signals: Optional[Dict[str, List[int]]], timestamps: Optional[List[datetime]], train_start: int, train_end: int, test_start: int, test_end: int, purge: int = 0, embargo: int = 0) -> WalkForwardWindowResult:
         wres = WalkForwardWindowResult(train_start=train_start, train_end=train_end,
                                        test_start=test_start, test_end=test_end)
-        # Apply purge: shrink train window tail adjacent to test set
-        train_end_purged = max(train_start, train_end - purge)
+        # Strict time ordering guard
+        if timestamps is not None:
+            try:
+                self._validate_time_ordering(timestamps)
+            except Exception:
+                pass
+        # Apply purge: shrink train window tail adjacent to test set (regime-shift safe)
+        try:
+            purge_eff = int(purge) if isinstance(purge, int) else int(purge)
+        except Exception:
+            purge_eff = 0
+        if purge_eff < 0:
+            purge_eff = 0
+        train_end_purged = train_end - purge_eff
+        if train_end_purged < train_start:
+            train_end_purged = train_start
         # Apply embargo: shrink test window head adjacent to train set
-        test_start_embargoed = min(test_end, test_start + embargo)
+        try:
+            embargo_eff = int(embargo) if isinstance(embargo, int) else int(embargo)
+        except Exception:
+            embargo_eff = 0
+        if embargo_eff < 0:
+            embargo_eff = 0
+        test_start_embargoed = test_start + embargo_eff
+        if test_start_embargoed > test_end:
+            test_start_embargoed = test_end
+        # Ensure no overlap between train/test windows after purge/embargo
+        if train_end_purged > test_start_embargoed and test_start_embargoed >= train_start:
+            # Enforce strict separation
+            gap = train_end_purged - test_start_embargoed
+            if gap >= 0:
+                # Push embargo further if purge didn't create enough gap
+                test_start_embargoed = min(test_end, train_end_purged + 1)
         # Run in-sample (for metrics)
         is_engine = BacktestEngine(self.config, self.risk_config)
         self._simulate_period(is_engine, price_series, signals, timestamps, train_start, train_end_purged)

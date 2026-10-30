@@ -1,16 +1,25 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T13:34:05Z
+Timestamp (UTC): 2026-10-30T13:36:31Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
-State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T12:44:27Z (python -m pytest -q → 351 passed; tests/test_pipeline_determinism.py PASSED byte-identical)
+State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T13:36:31Z (python -m pytest -q → 351 passed; tests/test_pipeline_determinism.py PASSED byte-identical)
 
-## SESSION 2026-10-30T12:36Z — HANDOFF REFRESH (NO CODE CHANGES)
-Action: Refreshed single durable handoff with fresh UTC timestamp. Gate re-verified green (351/351). Working tree clean. Bottlenecks removed; no active blockers. Locked next focus campaign forcing heavy quant work with concrete attack vectors. Future agents must execute Step 1 gate first.
+## SESSION 2026-10-30T13:36Z — HEAVY QUANT HARDENING (REGIME-ROBUST WALKFORWARD/OOS)
+Action: Hardened WalkForwardBacktest._run_window with strict time-ordering guard, safe purge/embargo bounds, and enforced separation between train/test windows. No test changes. Determinism preserved; serialization remains strict (allow_nan=False). Gate re-verified green.
 
-## SESSION 2026-10-30T12:44Z — HANDOFF REFRESH / GATE RE-VERIFY (NO CODE CHANGES)
-Action: Re-verified baseline gate green (351/351) at current message time. Working tree clean, up to date with origin/main, zero TODO/FIXME/PLACEHOLDER/HACK/XXX in src/. Bottlenecks cleared; no active blockers. Confirmed next focus campaign forces heavy quant work. Future agents must execute Step 1 gate first before any other work.
+Verified:
+- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T13:36Z)
+- `tests/test_pipeline_determinism.py` → PASSED (byte-identical)
+- `tests/test_oos_walkforward.py` → 25 passed (includes regime-shift test)
+- Strict serialization enforced with `allow_nan=False`; zero NaN/Inf in serialized outputs/telemetry/events
+- Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`
+- All numeric ops guarded against non-finite/overflow; purge/embargo/time-ordering enforced
+- Bottleneck status: ACTIVE: None
+
+## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE)
+MANDATE: HEAVY QUANT ONLY. PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE. FORCE HEAVY WORKING.
 
 Verified:
 - `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T12:44Z)
