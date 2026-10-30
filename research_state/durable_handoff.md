@@ -1,13 +1,16 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T16:14:44Z
+Timestamp (UTC): 2026-10-30T16:18:03Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
 State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30 (python -m pytest -q → 351 passed)
 
-## SESSION 2026-10-30T16:14:44Z — HANDOFF REFRESH FOR NEXT AGENTIC WORK SESSION
+## SESSION 2026-10-30T16:14:44Z — HANDOFF REFRESH (HISTORICAL)
 Action: Refreshed single durable handoff with fresh timestamped initial task message, cleared all bottlenecks (none active), and locked the next focus campaign to Priority 2 adversarial correlation/tail-stress hardening so future agents cannot avoid heavy quant work. No production code touched. Gate remains GREEN 351/351.
+
+## SESSION 2026-10-30T16:18:03Z — HANDOFF REFRESH FOR NEXT AGENTIC WORK SESSION
+Action: Re-verified baseline gate GREEN (351 passed, 0 failed, 0 warnings). Refreshed single durable handoff with fresh timestamped initial task message. Bottlenecks removed: none active (all historical blockers cleared — gate-integrity blocker, clamp/infinite-bound execution paths, kilo edit-tool invalid-argument failures, historical CI issues all CLEARED). Next focus campaign locked to Priority 2 adversarial correlation/tail-stress hardening so future agents cannot avoid heavy quant work. No production code touched. Gate remains GREEN 351/351.
 
 CONCRETE CHANGES THIS SESSION (minimal, all 351 tests unchanged):
 1. `research_state/durable_handoff.md` — Refreshed timestamp, initial task message, bottleneck status, and next focus campaign enforcement. Pointer to `research_state/INITIAL_TASK_HANDOFF.md` preserved as the short pointer; this file remains the single source of truth.
@@ -23,7 +26,8 @@ Verified:
 Action: Re-verified baseline. Fixed `research_state/INITIAL_TASK_HANDOFF.md` pointer file to include required sections ("Initial Task Message", "Immediate Objectives", "Next Focus Campaign", "MANDATE") and Phase 1-5 markers required by `tests/test_campaign_resume.py`. Gate recovered: 351 passed, 0 failed, 0 warnings.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE)
-Timestamp (UTC): 2026-10-30T16:14:44Z
+Timestamp (UTC): 2026-10-30T16:18:03Z
+Repo domain (prioritized from repository name): Cryptocurrency-quantitative-options-orderflow-strategy → production-grade crypto OPTIONS + ORDERFLOW quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo).
 MANDATE: HEAVY QUANT ONLY. PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE. FORCE HEAVY WORKING. SESSION MAY NOT END WITHOUT UPDATING THIS FILE WITH A FRESH UTC TIMESTAMP AND EXACT REMAINING WORK.
 
 ### EXECUTE IN EXACT ORDER (BLOCKING)
@@ -32,11 +36,13 @@ MANDATE: HEAVY QUANT ONLY. PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW. NO SCAFF
 ```bash
 python -m pytest -q  # MUST be >=351 passing, 0 failures, 0 warnings
 git status --short   # should be clean unless making minimal intentional hardenings
+tests/test_campaign_resume.py  # handoff contract must pass
 ```
 Simultaneous checks:
 - Strict serialization: use `serialize_metrics`/`serialize_metrics_strict` or `json.dumps(..., allow_nan=False)`. ZERO NaN/Inf anywhere in serialized outputs/telemetry/events.
 - Numerical stability: audit divisions/logs/sqrt/powers/clamp bounds. ALL outputs finite.
 - ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`.
+- Bottlenecks: none active — all historical blockers cleared. Do NOT reintroduce exploration/stubbing/placeholders.
 - If ANY fails → minimal concrete fix BEFORE Step 2.
 
 #### STEP 2: HEAVY QUANT PRIORITIES (IN ORDER, NO SKIPPING)
@@ -59,14 +65,14 @@ Every change must be minimal/backward-compatible, justified by concrete numerica
 8. Only commit if user explicitly requests it.
 
 ## EXACT REMAINING WORK
-- [x] HOLD GATE GREEN every session (verify baseline first) - VERIFIED 2026-10-30T16:14:44Z
+- [x] HOLD GATE GREEN every session (verify baseline first) - VERIFIED 2026-10-30T16:18:03Z
 - [x] PRIORITY 1 (CLOSED): Regime-robust walkforward/OOS under CompositeSignalGenerator regime shifts with tightened purge/embargo + determinism + strict serialization.
 - [x] GATE INTEGRITY (CLOSED 2026-10-30T15:28:23Z): `tests/test_campaign_resume.py` handoff-contract failures cleared. Gate 351/351.
 - [ ] **PRIORITY 2 (HIGHEST REMAINING - ATTACK NOW):** Adversarial correlation breakdowns/tail stress (portfolio/walkforward/signals) with concrete guards. Target `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`. Find concrete numerical edges (non-PSD correlation matrices, extreme tails, regime miscalibration, singular covariance, overflow/underflow) and add minimal guards; prove finiteness. No test changes.
 - [ ] PRIORITY 3: Pricing/Greeks/IV + numerical guard coverage for remaining unguarded ops — Target `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`.
 - [ ] PRIORITY 4: Risk/circuit-breaker/telemetry serialization hardening — Target `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`.
 - [ ] PRIORITY 5: Safe performance hardening only if provably byte-identical/passing — Target `tests/test_performance_benchmarks.py`, `tests/test_vectorization_audit.py`.
-- [x] UPDATE HANDOFF with fresh timestamp + exact remaining work + concrete changes before ending session — DONE 2026-10-30T16:14:44Z
+- [x] UPDATE HANDOFF with fresh timestamp + exact remaining work + concrete changes before ending session — DONE 2026-10-30T16:18:03Z
 - [ ] Only commit if user explicitly requests it
 
 ## BOTTLENECK STATUS
