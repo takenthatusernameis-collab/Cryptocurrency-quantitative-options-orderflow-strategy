@@ -12,6 +12,9 @@ import yaml
 
 from .backtest.engine import BacktestEngine
 from .data.normalization import normalize_options_chain, normalize_orderflow
+from .execution.algorithms import create_algorithm
+from .execution.engine import ExecutionEngine
+from .execution.orders import OrderType
 from .features.gamma_exposure import (
     calculate_total_gex,
     calculate_total_delta_weighted_gex,
@@ -349,9 +352,70 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
 
     try:
         from .config import BacktestConfig, RiskConfig
+        from .risk.limits import RiskManager, RiskLimits
 
         bt_config = config.get("backtest", {})
         risk_config = config.get("risk", {}) or {}
+        risk_limits_raw = risk_config.get("limits", {}) if isinstance(risk_config, dict) else {}
+        risk_manager = RiskManager(RiskLimits(**risk_limits_raw) if risk_limits_raw else None)
+        exec_engine = ExecutionEngine(
+            initial_capital=float(bt_config.get("initial_capital", 100000.0)),
+            slippage_model=None,
+            default_algo=str(bt_config.get("execution_algo", "twap")),
+            seed=int(bt_config.get("execution_seed", 42)),
+        )
+        algo_type = str(bt_config.get("execution_algo", "twap"))
+        if signals:
+            for key, sig in signals.items():
+                spot = sig.get("spot_price", 50000.0)
+                direction = sig.get("direction", "neutral")
+                confidence = float(sig.get("confidence", 0.0))
+                if direction == "neutral" or confidence < 1e-12:
+                    continue
+                # Build a synthetic Signal object for the execution engine
+                from .signals.composite import Signal
+
+                signal_obj = Signal(
+                    symbol=str(sig.get("symbol", key)),
+                    direction=direction,
+                    strength=float(sig.get("strength", 0.0)),
+                    confidence=confidence,
+                    components=sig.get("components", {}),
+                    regime=str(sig.get("regime", "unknown")),
+                )
+                try:
+                    order = exec_engine.create_order_from_signal(
+                        signal_obj,
+                        spot_price=float(spot),
+                        risk_pct=float(bt_config.get("risk_pct", 0.02)),
+                        max_position_pct=float(risk_config.get("max_position_pct", 0.1)),
+                        order_type=OrderType.MARKET,
+                    )
+                    if order is None:
+                        continue
+                    # Pre-trade risk check
+                    violations = risk_manager.check_order(
+                        symbol=order.symbol,
+                        side=order.side.value,
+                        quantity=order.quantity,
+                        price=float(spot),
+                        positions=exec_engine.positions,
+                    )
+                    if any(v.severity in ("high", "critical") for v in violations):
+                        order.reject("risk_limit_breach")
+                        continue
+                    exec_engine.submit_order(order)
+                    exec_engine.execute_order_market(order, float(spot))
+                    risk_manager.update_pnl(0.0, order.quantity * float(spot))
+                    risk_manager.update_equity(exec_engine.equity_history[-1] if exec_engine.equity_history else float(bt_config.get("initial_capital", 100000.0)))
+                except Exception as e:
+                    _logger.exception("execution_engine_step_failed", e, symbol=key, operation="execution_engine")
+                    results.setdefault("errors", []).append(f"execution_{key}: {e}")
+            prices = {k: s["spot_price"] for k, s in signals.items()}
+            exec_engine.mark_to_market_all(prices)
+        exec_summary = exec_engine.get_portfolio_summary()
+        results["execution"] = exec_summary
+        results["risk"] = risk_manager.get_risk_report()
         engine = BacktestEngine(
             config=BacktestConfig(
                 initial_capital=float(bt_config.get("initial_capital", 100000.0)),

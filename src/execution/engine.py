@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import uuid
+import hashlib
 from datetime import datetime, timedelta, timezone
 from math import isfinite
 from typing import Any, Dict, List, Optional
@@ -45,9 +45,20 @@ class ExecutionEngine:
         self.fills: List[OrderFill] = []
         self.reports: List[ExecutionReport] = []
         self.equity_history: List[float] = [self.initial_capital]
+        self._id_counter: int = 0
 
     def _generate_id(self, prefix: str = "ord") -> str:
-        return f"{prefix}_{uuid.uuid4().hex[:12]}"
+        """Deterministic ID generator (seeded counter + hash).
+
+        Replaces ``uuid.uuid4()`` so repeated runs with identical inputs
+        produce byte-identical order/fill/report identifiers. The counter is
+        incremented per call; the hash binds the sequence position to the
+        engine seed for cross-run stability.
+        """
+        self._id_counter += 1
+        payload = f"{int(self.seed)}|{prefix}|{self._id_counter}"
+        digest = hashlib.sha256(payload.encode("utf-8")).hexdigest()[:12]
+        return f"{prefix}_{digest}"
 
     def create_order_from_signal(
         self,
@@ -273,29 +284,19 @@ class ExecutionEngine:
             px = prices.get(sym)
             if px is not None and isfinite(px) and px > 0:
                 total_unrealized += pos.mark_to_market(float(px))
-        equity = self.cash + sum(p.quantity * p.avg_entry_price if False else 0 for p in self.positions.values())  # rough
-        # better calc
-        equity = self.cash
+        # Equity = cash + market value of all open positions.
+        # For long positions quantity>0 contributes +qty*px; for shorts
+        # quantity<0 contributes -|qty|*px (liability). Cash accounting on
+        # open short already credited proceeds, so no double counting.
+        equity = float(self.cash)
         for sym, pos in self.positions.items():
             px = prices.get(sym)
             if px is not None and isfinite(px) and px > 0:
-                if pos.quantity > 0:
-                    equity += pos.quantity * px
-                elif pos.quantity < 0:
-                    equity += pos.quantity * px  # short gives negative contribution in this simple form? easier: cash already includes
+                equity += float(pos.quantity) * float(px)
             else:
-                equity += pos.quantity * pos.avg_entry_price
-        # simpler correct: track via realized+unrealized properly
-        equity = self.initial_capital + sum(p.realized_pnl + p.unrealized_pnl - p.total_commission for p in self.positions.values())
-        # but cash accounting is separate; better use cash + market value of positions
-        equity = self.cash
-        for sym, pos in self.positions.items():
-            px = prices.get(sym, pos.avg_entry_price)
-            if pos.quantity > 0:
-                equity += pos.quantity * px
-            elif pos.quantity < 0:
-                equity += pos.quantity * px  # position quantity negative, so adds negative; but we got cash on short - this is a simplification
-                # more accurately, for short we need to cover; our cash accounting above is simplified
+                equity += float(pos.quantity) * float(pos.avg_entry_price)
+        if not isfinite(equity):
+            equity = float(self.initial_capital)
         self.equity_history.append(float(equity))
         return float(equity)
 
