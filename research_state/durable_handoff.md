@@ -1,5 +1,5 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T10:29:40Z
+Timestamp (UTC): 2026-10-30T10:31:29Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: crypto options + orderflow quantitative strategy (options pricing/IV surfaces/Greeks/delta-hedged PnL/attribution/regime/composite/execution/risk/venue routing/multi-venue smart order routing/circuit breakers/latency/performance hardening)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW + MULTI-VENUE EXECUTION + REGIME-ROBUST WALKFORWARD + PRODUCTION RISK)
@@ -51,13 +51,14 @@ Run full simultaneous verification. ALL must pass:
 
 ## EXACT REMAINING WORK
 - [ ] HOLD GATE GREEN every session (re-verify baseline first)
-- [ ] Fix `tests/test_schemas.py:30` `datetime.utcnow()` deprecation → `datetime.now(datetime.UTC)` (tests-only, removes the 1 warning). Note: current grep shows `datetime.now(timezone.utc)` usage; verify actual source of warning if persists.
+- [x] Fix `tests/test_schemas.py:30` `datetime.utcnow()` deprecation → `datetime.now(timezone.utc)` (RESOLVED: already uses timezone-aware datetime.now(timezone.utc); gate now 346 passed, 0 warnings)
+- [ ] HEAVY QUANT HARDENING: regime/OOS walkforward + adversarial stress/correlation + pricing/Greeks/IV numerics + risk/circuit-breaker/telemetry serialization safety (all targeted suites pass currently)
 - [ ] HEAVY QUANT HARDENING: regime/OOS walkforward + adversarial stress/correlation + pricing/Greeks/IV numerics + risk/circuit-breaker/telemetry serialization safety (all targeted suites pass currently)
 - [ ] CONCRETE IMPROVEMENTS: only where they harden correctness/numerics/stability without breaking existing tests; prove impact
 - [ ] UPDATE HANDOFF with fresh timestamp + exact remaining work before session end
 
 ## BOTTLENECK STATUS
-- ALL PREVIOUS BOTTLENECKS CLEARED. No active blockers. Working tree clean. 346 tests passing. Gate GREEN. Historical edit-tool abort loop resolved. Focus: pure hardening, no new features, no deferral.
+- ALL PREVIOUS BOTTLENECKS CLEARED. No active blockers. Working tree clean. 346 tests passing, 0 warnings. Gate GREEN. Historical edit-tool abort loop resolved. Focus: pure hardening, no new features, no deferral.
 
 ## NEXT FOCUS CAMPAIGN (FORCES HEAVY QUANT WORK - NO AVOIDANCE)
 **Campaign goal:** Sustain Phase 8 production-readiness hardening indefinitely. Every session must produce measurable heavy-quant progress (a tightened numerical guard, a hardened adversarial case, a tightened purge/embargo path, or a serialization-safety fix) and end with the gate GREEN. Future agents CANNOT avoid heavy working: Step 1 (hold the gate) is mandatory and blocks everything else; Step 2 is executed in fixed priority order without skipping; Step 3 (final gate) is mandatory before session end. No scaffolding, no stubs, no placeholders, no exploration loops, no new features — correctness, numerical stability, determinism, and strict serialization only.
