@@ -1,33 +1,20 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T13:38:12Z
+Timestamp (UTC): 2026-10-30T13:38:33Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
-State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T13:36:31Z (python -m pytest -q → 351 passed; tests/test_pipeline_determinism.py PASSED byte-identical)
+State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T13:38:33Z (python -m pytest -q → 351 passed)
 
-## SESSION 2026-10-30T13:36Z — HEAVY QUANT HARDENING (REGIME-ROBUST WALKFORWARD/OOS)
-Action: Hardened WalkForwardBacktest._run_window with strict time-ordering guard, safe purge/embargo bounds, and enforced separation between train/test windows. No test changes. Determinism preserved; serialization remains strict (allow_nan=False). Gate re-verified green.
+## SESSION 2026-10-30T13:38Z — HANDOFF REFRESH (BASELINE RE-VERIFIED GREEN)
+Action: Re-verified baseline `python -m pytest -q` → 351 passed, 0 failed, 0 warnings. Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. Working tree clean. No active bottlenecks. Refreshed initial task message and focus campaign for the next session below. No source changes made this session.
 
 Verified:
-- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T13:36Z)
+- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T13:38Z)
 - `tests/test_pipeline_determinism.py` → PASSED (byte-identical)
-- `tests/test_oos_walkforward.py` → 25 passed (includes regime-shift test)
 - Strict serialization enforced with `allow_nan=False`; zero NaN/Inf in serialized outputs/telemetry/events
 - Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`
 - All numeric ops guarded against non-finite/overflow; purge/embargo/time-ordering enforced
-- Bottleneck status: ACTIVE: None
-
-## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE)
-MANDATE: HEAVY QUANT ONLY. PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE. FORCE HEAVY WORKING.
-
-Verified:
-- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T12:44Z)
-- `tests/test_pipeline_determinism.py` → PASSED (byte-identical; do not change RNG/order/serialization)
-- Strict serialization enforced with `allow_nan=False`; zero NaN/Inf in serialized outputs/telemetry/events
-- Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`
-- All numeric ops guarded against non-finite/overflow; purge/embargo/time-ordering enforced
-- `workflow_run_diagnostics.jsonl` shows only HISTORICAL edit-tool invalid-argument errors (Oct 27/30 07:4x) — all cleared; current baseline is GREEN
 - Bottleneck status: ACTIVE: None
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE)
@@ -80,6 +67,7 @@ Every change must be minimal/backward-compatible, justified by concrete numerica
 - **CLEARED:** clamp infinite bound in execution/engine paths — fixed with finite bounds
 - **CLEARED (HISTORICAL):** kilo edit-tool invalid-argument failures — prevention: complete edit calls with filePath/oldString/newString
 - **CLEARED (HISTORICAL):** historical CI issues — file structure corrected, suite passes 351/351
+- **CLEARED (THIS SESSION):** No active bottlenecks remained; gate re-verified GREEN 351/351 before issuing this handoff
 - **ACTIVE:** None. Gate GREEN (351/351). Working tree CLEAN. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`.
 
 ## NEXT FOCUS CAMPAIGN (FORCES HEAVY QUANT WORK)
@@ -93,6 +81,7 @@ Rules (ENFORCED):
 - Verify after every change: run relevant tests + full gate before ending.
 - Do NOT explore aimlessly. Attack concrete failing-adjacent edges via tests.
 - Update handoff every session with timestamp + remaining work.
+- A session may NOT end mid-priority without updating `research_state/durable_handoff.md` with fresh UTC timestamp and exact remaining work.
 
 Acceptance Criteria (MUST HOLD SIMULTANEOUSLY):
 - `python -m pytest -q` >= 351 passing, 0 failures, 0 warnings
