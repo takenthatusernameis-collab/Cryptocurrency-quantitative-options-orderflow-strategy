@@ -314,7 +314,7 @@ def run_pipeline(config: Dict[str, Any], symbols: list[str] | None = None) -> Di
                 gamma_flip_dw = gamma_flip_level_weighted(chain, spot_price, weighted="delta")
             except Exception as e:
                 _logger.exception("gamma_flip_weighted_failed", e, operation="gamma_flip_level_weighted", symbol=sym, venue=v)
-                gamma_flip_dw = signals.get(key, {}).get("gamma_flip") if False else gamma_flip_level(chain, spot_price)
+                gamma_flip_dw = gamma_flip_level(chain, spot_price)
             try:
                 liquidity_metrics = calculate_chain_liquidity_metrics(chain)
             except Exception as e:

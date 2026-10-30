@@ -541,7 +541,7 @@ class BacktestEngine:
                     opt_res = delta_hedged_option_pnl(
                         spot_path=self.options_data.get("spot_path", self.equity_curve),
                         times=self.options_data.get("times", list(range(len(self.equity_curve)))) if self.equity_curve else [],
-                        strike=float(self.options_data.get("strike", getattr(self.config, "initial_capital", 100000.0) and 50000.0)),
+                        strike=float(self.options_data.get("strike", 50000.0)),
                         rate=float(getattr(self.config, "risk_free_rate", 0.0)),
                         volatility=float(self.options_data.get("volatility", 0.5)),
                         option_type=str(self.options_data.get("option_type", "call")),
