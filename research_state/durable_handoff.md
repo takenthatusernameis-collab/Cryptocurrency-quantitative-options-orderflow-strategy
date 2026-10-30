@@ -1,3 +1,18 @@
+# DELAY-ELIMINATION OVERRIDE — 2026-10-30
+
+The “heavy quant work every turn” and “every session must produce a hardened change” wording can cause unnecessary edits and repeated full-suite work when the gate is already green. Supersede that cadence:
+
+- Require a concrete failing invariant, demonstrated numerical edge case, measured performance issue, or actionable test gap before changing code. Do not manufacture changes to satisfy a session quota.
+- Run the narrow adversarial test(s) for each change. Batch related changes and run the full 358+ suite once at the milestone/final gate, plus the campaign-resume test. Preserve the full final gate.
+- For performance work, profile first, optimize only measured hotspots, and prove numerical equivalence or an explicitly approved behavior change. Do not run repeated full benchmarks if code and inputs are unchanged.
+- Check the durable handoff and source diff before running tests. If HEAD, source, tests and relevant inputs are unchanged and the last full gate is green, do not rerun the entire suite or rewrite this file just to refresh a timestamp.
+- Keep one actionable next task and record exact changes/verification only when there is a real delta. A no-change activation should exit without a commit.
+- When work is blocked by a genuine dependency, continue an independent permitted task; do not bypass numerical, determinism, risk, serialization or trading-safety controls.
+
+Preserve put-call/Greek invariants, PSD/correlation and finite-value guards, allow_nan=False, determinism, minimal backward-compatible changes, and the full final test gate. No artificial code changes or reduced coverage.
+
+---
+
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 Timestamp (UTC): 2026-10-30T20:19:52Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
