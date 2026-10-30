@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-30T23:30:54Z
+Timestamp (UTC): 2026-10-30T23:32:16Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (inferred): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED. Working tree clean. Bottlenecks removed.
@@ -106,7 +106,7 @@ git status --short
 6. **VERIFY** - Affected tests after each change. Full `pytest -q` before ending.
 7. **DOCUMENT** - BEFORE ENDING, update THIS FILE with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make next agent unable to misread priorities.
 
-## LAST SESSION (2026-10-30T23:30:54Z)
+## LAST SESSION (2026-10-30T23:32:16Z)
 - **Handoff refreshed (single durable source):** Updated timestamp to 2026-10-30T23:30:54Z. Priorities inferred from repo name (crypto options + orderflow) reaffirmed: A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, B) orderflow/correlation/tail/routing, C) risk/circuit-breakers/serialization (strict `allow_nan=False`), D) safe perf only if provably byte-identical/passing.
 - **Gate verified GREEN:** 358 passed, 0 failed, 0 warnings (`pytest -q`). `tests/test_campaign_resume.py` PASSED. Working tree clean (`git status --short`). No active blockers.
 - **Bottlenecks removed:** Edit-tool invalid-argument abuse documented; mandate absolute filePath+exact oldString. No idle turns.
