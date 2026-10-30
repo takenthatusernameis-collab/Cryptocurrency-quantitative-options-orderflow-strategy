@@ -1,17 +1,17 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T12:29:55Z
+Timestamp (UTC): 2026-10-30T12:31:20Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
-State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T12:29:55Z (python -m pytest -q → 351 passed; determinism byte-identical)
+State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T12:31:20Z (python -m pytest -q → 351 passed; tests/test_pipeline_determinism.py PASSED byte-identical)
 
-## SESSION 2026-10-30T12:29Z — HANDOFF REFRESH (NO CODE CHANGES)
-**Action:** Refreshed durable handoff to leave a single, unambiguous timestamped initial task for the next agentic session. Gate re-verified green (351/351). Working tree clean (no new untracked files). Prior bottlenecks remain cleared.
+## SESSION 2026-10-30T12:31Z — HANDOFF REFRESH (NO CODE CHANGES)
+**Action:** Refreshed durable handoff to leave a single, unambiguous timestamped initial task for the next agentic session. Gate re-verified green (351/351). Working tree clean (no new untracked files). All bottlenecks cleared.
 
 **Verified:**
-- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T12:29Z)
-- `tests/test_pipeline_determinism.py` must remain byte-identical (do not change RNG/order/serialization)
+- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T12:31Z)
+- `tests/test_pipeline_determinism.py` → PASSED (byte-identical; do not change RNG/order/serialization)
 - Strict serialization enforced with `allow_nan=False`; zero NaN/Inf in serialized outputs/telemetry/events
 - Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`
 - All numeric ops guarded against non-finite/overflow; purge/embargo/time-ordering enforced
@@ -19,9 +19,7 @@ State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO D
 - Bottleneck status: ACTIVE: None
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE)
-**MANDATE: HEAVY QUANT ONLY. PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE.**
-
-You are inheriting the **Cryptocurrency-quantitative-options-orderflow-strategy** campaign. Everything is built and verified green. Your sole purpose is to **HOLD THE GATE, FIND CONCRETE NUMERICAL EDGES, AND HARDEN THEM**. Future agents MUST NOT avoid heavy working - this message FORCES it.
+**MANDATE: HEAVY QUANT ONLY. PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE. FORCE HEAVY WORKING.**
 
 ### EXECUTE IN EXACT ORDER (BLOCKING)
 #### STEP 1: HOLD THE GATE (MANDATORY, BLOCKS ALL ELSE)
