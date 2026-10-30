@@ -276,6 +276,43 @@ def safe_mean(values: List[Any], default: float = 0.0, *,
     return result
 
 
+def safe_pow(base: Any, exponent: Any, default: float = 0.0, *,
+            operation: str = "safe_pow",
+            context: Optional[Dict[str, Any]] = None,
+            max_abs: float = 1e300) -> float:
+    """Power ``base ** exponent`` guarded against overflow/underflow/non-finite inputs.
+
+    Returns ``default`` when either operand is non-convertible/non-finite, or when
+    the result would overflow past ``max_abs``. Prevents NaN (e.g. ``0 ** -1``)
+    and Inf propagation from extreme exponentiation.
+    """
+    ctx = {"function": operation, **(context or {})}
+    try:
+        b = float(base)
+        e = float(exponent)
+    except (TypeError, ValueError) as ex:
+        _log_guard_warning(operation, "operands", (base, exponent), "non-convertible operand")
+        return default
+    if not math.isfinite(b) or not math.isfinite(e):
+        _log_guard_warning(operation, "operands", (base, exponent), "non-finite operand")
+        return default
+    # 0 ** negative exponent is undefined (ZeroDivisionError-like); guard it.
+    if b == 0.0 and e < 0.0:
+        _log_guard_warning(operation, "base", base, "zero base with negative exponent")
+        return default
+    try:
+        result = math.pow(b, e)
+    except (ValueError, OverflowError, ZeroDivisionError):
+        return default
+    if not math.isfinite(result):
+        _log_guard_warning(operation, "result", result, "non-finite power")
+        return default
+    if abs(result) > max_abs:
+        _log_guard_warning(operation, "result", result, "result exceeds max_abs")
+        return default
+    return result
+
+
 def clamp(value: Any, low: float, high: float, default: float = 0.0, *,
           operation: str = "clamp", context: Optional[Dict[str, Any]] = None) -> float:
     """Clamp ``value`` to ``[low, high]`` with finite guards.
@@ -309,6 +346,7 @@ __all__ = [
     "safe_divide",
     "safe_log",
     "safe_sqrt",
+    "safe_pow",
     "safe_pct_change",
     "safe_mean",
     "clamp",

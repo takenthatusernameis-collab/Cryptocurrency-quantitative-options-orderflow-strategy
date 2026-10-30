@@ -89,7 +89,9 @@ class ExecutionEngine:
         max_capital = self.cash * float(max_position_pct)
         qty_by_capital = safe_divide(max_capital, spot_price, 0.0)
         qty = min(qty_by_risk, qty_by_capital) * confidence
-        qty = clamp(qty, 0.0, float("inf"))
+        # Use a large finite upper bound instead of float("inf") to avoid
+        # clamp returning default 0.0 when the upper bound is non-finite.
+        qty = clamp(qty, 0.0, 1e18)
         if qty < 1e-18:
             return None
 

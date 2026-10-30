@@ -27,7 +27,7 @@ import numpy as np
 from ..data.schemas import PricingInputs, PricingOutputs
 from ..errors import FeatureError, NonFiniteResultError, get_logger
 from ..telemetry import serialize_metrics_strict
-from ..utils.numerical_guards import safe_divide, safe_sqrt, validate_finite
+from ..utils.numerical_guards import safe_divide, safe_sqrt, safe_log, validate_finite
 
 _logger = get_logger(__name__)
 
@@ -85,7 +85,8 @@ def _d1_d2(spot: float, strike: float, rate: float, volatility: float,
     if vol_sqrt_t <= 0.0 or not math.isfinite(vol_sqrt_t):
         return 0.0, 0.0
     d1 = safe_divide(
-        math.log(spot / strike) + (rate + 0.5 * volatility * volatility) * time_to_expiry,
+        safe_log(safe_divide(spot, strike, default=1.0, operation="d1_moneyness"), default=0.0, operation="d1_log")
+        + (rate + 0.5 * volatility * volatility) * time_to_expiry,
         vol_sqrt_t,
         default=0.0,
         operation="d1",

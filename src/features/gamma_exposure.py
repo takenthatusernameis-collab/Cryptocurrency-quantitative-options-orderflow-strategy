@@ -7,6 +7,7 @@ import numpy as np
 
 from ..data.schemas import OptionsChain, OptionQuote
 from ..errors import FeatureError, NonFiniteResultError
+from ..utils.numerical_guards import safe_pow
 
 
 def _ensure_finite(value: float, name: str, context: Optional[Dict[str, object]] = None) -> float:
@@ -24,6 +25,14 @@ def _ensure_finite(value: float, name: str, context: Optional[Dict[str, object]]
             context={"field": name, **(context or {})},
         )
     return v
+
+
+def _safe_spot_squared(spot: float) -> float:
+    """Compute ``spot ** 2`` with overflow guard; returns 0.0 on overflow."""
+    sq = safe_pow(spot, 2.0, default=0.0, operation="gex_spot_squared")
+    if not isfinite(sq) or sq <= 0.0:
+        return 0.0
+    return float(sq)
 
 
 def calculate_gamma_exposure(quote: OptionQuote, spot_price: float) -> float:
@@ -58,7 +67,7 @@ def calculate_gamma_exposure(quote: OptionQuote, spot_price: float) -> float:
             )
 
         # GEX in terms of dollar gamma exposure (common convention)
-        gex = gamma * oi * contract_size * (spot ** 2) / 100.0
+        gex = gamma * oi * contract_size * _safe_spot_squared(spot) / 100.0
 
         if getattr(getattr(quote, "contract", None), "option_type", "call").lower() == "put":
             gex = -abs(gex)
@@ -175,7 +184,7 @@ def calculate_net_gamma_exposure(chain: OptionsChain, spot_price: float) -> floa
         spot = float(spot_price) if spot_price > 0 else 0.0
         if not isfinite(gamma) or not isfinite(oi) or not isfinite(spot):
             continue
-        gex = gamma * oi * contract_size * (spot ** 2) / 100.0
+        gex = gamma * oi * contract_size * _safe_spot_squared(spot) / 100.0
         if not isfinite(gex):
             continue
         if quote.contract.option_type.lower() == "put":
@@ -215,7 +224,7 @@ def calculate_gamma_notional_by_delta_bands(
         delta = float(quote.delta) if quote.delta is not None else None
         if not isfinite(gamma) or not isfinite(oi) or not isfinite(spot):
             continue
-        gex = gamma * oi * contract_size * (spot ** 2) / 100.0
+        gex = gamma * oi * contract_size * _safe_spot_squared(spot) / 100.0
         if not isfinite(gex):
             continue
         if quote.contract.option_type.lower() == "put":
@@ -329,7 +338,7 @@ def _vectorized_gex(quotes: List[OptionQuote], spot_price: float) -> np.ndarray:
     if not isfinite(spot) or spot <= 0.0:
         return out
 
-    gex = gamma * oi * contract_size * (spot ** 2) / 100.0
+    gex = gamma * oi * contract_size * _safe_spot_squared(spot) / 100.0
     gex = np.where(np.isfinite(gex), gex, 0.0)
     gex = np.where(is_put, -np.abs(gex), np.abs(gex))
     gex = np.where(np.isfinite(gex), gex, 0.0)

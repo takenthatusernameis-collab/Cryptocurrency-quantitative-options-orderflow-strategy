@@ -15,6 +15,7 @@ from src.utils.numerical_guards import (
     safe_log,
     safe_mean,
     safe_pct_change,
+    safe_pow,
     safe_sqrt,
     validate_finite,
 )
@@ -188,3 +189,41 @@ def test_clamp_non_finite():
 
 def test_clamp_invalid_bounds():
     assert clamp(5.0, 10.0, 0.0) == 0.0
+
+
+# --------------------------------------------------------------------------- #
+# safe_pow
+# --------------------------------------------------------------------------- #
+
+def test_safe_pow_normal():
+    assert safe_pow(2.0, 3.0) == 8.0
+    assert safe_pow(4.0, 0.5) == 2.0
+    assert safe_pow(9.0, 0.0) == 1.0
+
+
+def test_safe_pow_zero_base_negative_exponent():
+    # 0 ** -1 is undefined; must return default, not raise or return inf/nan.
+    assert safe_pow(0.0, -1.0) == 0.0
+    assert safe_pow(0.0, -1.0, default=42.0) == 42.0
+
+
+def test_safe_pow_non_finite_operands():
+    assert safe_pow(float("nan"), 2.0) == 0.0
+    assert safe_pow(2.0, float("inf")) == 0.0
+    assert safe_pow(float("inf"), 2.0) == 0.0
+
+
+def test_safe_pow_overflow_returns_default():
+    # 1e200 ** 2 = 1e400 > default max_abs (1e300) -> default
+    assert safe_pow(1e200, 2.0) == 0.0
+    assert safe_pow(1e200, 2.0, default=99.0) == 99.0
+    # With raised max_abs it should succeed (within float precision)
+    result = safe_pow(1e140, 2.0, max_abs=1e300)
+    assert abs(result - 1e280) / 1e280 < 1e-12
+
+
+def test_safe_pow_negative_base_fractional_exponent():
+    # (-2) ** 0.5 is complex -> math.pow raises ValueError -> default
+    assert safe_pow(-2.0, 0.5) == 0.0
+    # (-2) ** 3 (integer exponent) is fine
+    assert safe_pow(-2.0, 3.0) == -8.0

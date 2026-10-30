@@ -16,10 +16,57 @@ from ..errors import RiskLimitError, OrderError, DeterminismError, Serialization
 from ..features.options_pricing import black_scholes, black_scholes_greeks
 from ..features.iv_surface import build_iv_surface_from_chain
 from ..telemetry import log_strategy_error, serialize_metrics_strict
+from ..utils.numerical_guards import safe_divide, safe_sqrt, safe_pow
 from .options_hedging import delta_hedged_option_pnl
 
 
 _logger = get_logger(__name__)
+
+
+def _safe_variance(values: List[float], mean: Optional[float] = None) -> float:
+    """Population variance with overflow/underflow guards.
+
+    Uses a numerically stable two-pass algorithm when the naive sum-of-squares
+    would overflow. Returns 0.0 for empty input or non-finite results.
+    """
+    if not values:
+        return 0.0
+    valid: List[float] = []
+    for v in values:
+        try:
+            f = float(v)
+        except (TypeError, ValueError):
+            continue
+        if isfinite(f):
+            valid.append(f)
+    if len(valid) < 2:
+        return 0.0
+    if mean is None:
+        m = sum(valid) / len(valid)
+    else:
+        m = float(mean)
+    if not isfinite(m):
+        m = 0.0
+    # Two-pass: compute mean first, then squared deviations.
+    # Guard against overflow by scaling if values are extreme.
+    max_abs = max(abs(v) for v in valid)
+    if max_abs > 1e150:
+        scale = max_abs
+        scaled = [v / scale for v in valid]
+        m_scaled = m / scale
+        var = sum((x - m_scaled) ** 2 for x in scaled) / len(scaled)
+        var = var * scale * scale
+    else:
+        var = sum((v - m) ** 2 for v in valid) / len(valid)
+    if not isfinite(var) or var < 0.0:
+        return 0.0
+    return float(var)
+
+
+def _safe_std(values: List[float], mean: Optional[float] = None) -> float:
+    """Population standard deviation with numerical guards. Returns 0.0 on degenerate input."""
+    var = _safe_variance(values, mean=mean)
+    return safe_sqrt(var, default=0.0, operation="safe_std")
 
 
 @dataclass
@@ -580,8 +627,8 @@ class BacktestEngine:
         sortino_ratio = 0.0
         if returns:
             avg_return = sum(returns) / len(returns)
-            var = sum((r - avg_return) ** 2 for r in returns) / len(returns)
-            std_return = var ** 0.5 if var >= 0 else 0.0
+            var = _safe_variance(returns, mean=avg_return)
+            std_return = _safe_std(returns, mean=avg_return)
             if std_return > 0 and isfinite(std_return):
                 sharpe_ratio = (avg_return - risk_free_rate / 252.0) / std_return * (252.0 ** 0.5)
             else:
@@ -589,8 +636,8 @@ class BacktestEngine:
             # Sortino
             downside = [r for r in returns if r < 0 and isfinite(r)]
             if downside:
-                downside_var = sum((r) ** 2 for r in downside) / len(downside)
-                downside_std = downside_var ** 0.5 if downside_var >= 0 else 0.0
+                downside_var = _safe_variance(downside)
+                downside_std = _safe_std(downside)
                 if downside_std > 0 and isfinite(downside_std):
                     sortino_ratio = (avg_return - risk_free_rate / 252.0) / downside_std * (252.0 ** 0.5)
                 else:
@@ -1068,8 +1115,8 @@ class WalkForwardBacktest:
                     oos_returns.append(w.out_of_sample_return)
             if oos_returns:
                 avg_oos = sum(oos_returns) / len(oos_returns)
-                var_oos = sum((r - avg_oos) ** 2 for r in oos_returns) / len(oos_returns)
-                std_oos = var_oos ** 0.5 if var_oos >= 0 else 0.0
+                var_oos = _safe_variance(oos_returns, mean=avg_oos)
+                std_oos = _safe_std(oos_returns, mean=avg_oos)
                 if std_oos > 0 and isfinite(std_oos):
                     results.stability_ratio = abs(avg_oos) / std_oos
                 else:
@@ -1384,8 +1431,8 @@ def detect_regime_from_window(
     if len(returns) < 2:
         return "normal"
     mean_r = sum(returns) / len(returns)
-    var = sum((r - mean_r) ** 2 for r in returns) / len(returns)
-    vol = var ** 0.5 if var >= 0 else 0.0
+    var = _safe_variance(returns, mean=mean_r)
+    vol = _safe_std(returns, mean=mean_r)
     if not isfinite(vol):
         return "normal"
     low_th, high_th, stress_th = thresholds
@@ -1874,8 +1921,8 @@ class PortfolioWalkForwardBacktest:
             vals = window_returns[s][:min_len]
             m = sum(vals) / len(vals)
             means[s] = m
-            var = sum((x - m) ** 2 for x in vals) / len(vals)
-            stds[s] = var ** 0.5 if var >= 0 else 0.0
+            var = _safe_variance(vals, mean=m)
+            stds[s] = _safe_std(vals, mean=m)
         mat_res = [[0.0] * n_syms for _ in range(n_syms)]
         for i, si in enumerate(symbols):
             mat_res[i][i] = 1.0
@@ -2047,8 +2094,8 @@ class PortfolioWalkForwardBacktest:
                     oos_returns.append(w.out_of_sample_return)
             if oos_returns:
                 avg_oos = sum(oos_returns) / len(oos_returns)
-                var_oos = sum((r - avg_oos) ** 2 for r in oos_returns) / len(oos_returns)
-                std_oos = var_oos ** 0.5 if var_oos >= 0 else 0.0
+                var_oos = _safe_variance(oos_returns, mean=avg_oos)
+                std_oos = _safe_std(oos_returns, mean=avg_oos)
                 if std_oos > 0 and isfinite(std_oos):
                     results.stability_ratio = abs(avg_oos) / std_oos
                 else:
