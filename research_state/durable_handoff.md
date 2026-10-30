@@ -1,16 +1,16 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T12:27:38Z
+Timestamp (UTC): 2026-10-30T12:29:55Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
-State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T12:27:38Z (python -m pytest -q → 351 passed; determinism byte-identical)
+State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T12:29:55Z (python -m pytest -q → 351 passed; determinism byte-identical)
 
-## SESSION 2026-10-30T12:27Z — HANDOFF REFRESH (NO CODE CHANGES)
-**Action:** Refreshed durable handoff to leave a single, unambiguous timestamped initial task for the next agentic session. Gate re-verified green. Working tree clean (no new untracked files). Prior bottlenecks remain cleared.
+## SESSION 2026-10-30T12:29Z — HANDOFF REFRESH (NO CODE CHANGES)
+**Action:** Refreshed durable handoff to leave a single, unambiguous timestamped initial task for the next agentic session. Gate re-verified green (351/351). Working tree clean (no new untracked files). Prior bottlenecks remain cleared.
 
 **Verified:**
-- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T12:27Z)
+- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T12:29Z)
 - `tests/test_pipeline_determinism.py` must remain byte-identical (do not change RNG/order/serialization)
 - Strict serialization enforced with `allow_nan=False`; zero NaN/Inf in serialized outputs/telemetry/events
 - Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`
@@ -56,7 +56,7 @@ Every change must be minimal/backward-compatible, justified by a concrete numeri
 8. If working tree has only intended hardening changes, **DO NOT COMMIT** unless explicitly requested by user. User must explicitly request commit.
 
 ## EXACT REMAINING WORK
-- [x] HOLD GATE GREEN every session (verify baseline first) — current: 351/351 passing, 0 warnings (2026-10-30T12:27:38Z)
+- [x] HOLD GATE GREEN every session (verify baseline first) — current: 351/351 passing, 0 warnings (2026-10-30T12:29:55Z)
 - [x] CONCRETE NUMERICAL HARDENING: clamp/inf bug, safe_log/safe_pow guards, GEX overflow, variance/std overflow — COMPLETED (historical)
 - [ ] **PRIORITY 1:** Regime-robust walkforward/OOS under CompositeSignalGenerator regime shifts with tightened purge/embargo + determinism + strict serialization (target `test_oos_walkforward.py`)
 - [ ] **PRIORITY 2:** Adversarial correlation breakdowns/tail stress (portfolio/walkforward/signals) with concrete guards
