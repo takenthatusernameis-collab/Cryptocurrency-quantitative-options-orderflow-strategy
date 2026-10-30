@@ -1,5 +1,5 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T04:45:27Z
+Timestamp (UTC): 2026-10-30T04:46:00Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: crypto options + orderflow quantitative strategy (options pricing/IV surfaces/Greeks/delta-hedged PnL/attribution/regime/composite/execution/risk/venue routing)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW + MULTI-VENUE EXECUTION)
@@ -7,7 +7,7 @@ Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (OPTIONS + ORDERFLOW + MULTI
 State: 333 TESTS PASSING | 0 FAILING | 1 WARNING (datetime.utcnow deprecation in tests/test_schemas.py:30 — tests only, not src/) | WORKING TREE CLEAN | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-7 COMPLETE | PHASE 8 #1 + #2 COMPLETE | PHASE 8 #3 NEXT (AUTOMATED DELTA-HEDGING / POSITION REBALANCING LOOP)
 
 Session start: 2026-10-29T21:01:52Z
-Handoff updated: 2026-10-30T04:45:27Z (baseline re-verified: `python -m pytest -q` = 333 passing, 0 failures, 1 warning; `git status` clean; up to date with origin/main; Phase 8 #1 multi-venue smart order routing + fill tracking (`src/execution/routing.py`) COMPLETE with adversarial tests passing; Phase 8 #2 execution performance benchmarks/latency profiling COMPLETE with SLO tests passing; Phase 8 #3 automated delta-hedging/rebalancing loop is the immediate next priority — NOT STARTED; no active blockers; bottlenecks cleared)
+Handoff updated: 2026-10-30T04:46:00Z (baseline re-verified: `python -m pytest -q` = 333 passing, 0 failures, 1 warning; `git status` clean; up to date with origin/main; Phase 8 #1 multi-venue smart order routing + fill tracking (`src/execution/routing.py`) COMPLETE with adversarial tests passing; Phase 8 #2 execution performance benchmarks/latency profiling COMPLETE with SLO tests passing; Phase 8 #3 automated delta-hedging/rebalancing loop is the immediate next priority — NOT STARTED; no active blockers; bottlenecks cleared)
 
 ## BOTTLENECK STATUS (CURRENT - CLEARED)
 - BASELINE VERIFIED: `python -m pytest -q` = 333 passing (0 failures), 1 warning. `git status` clean. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`. All `json.dumps` in `src/` use `allow_nan=False`. Serialization paths use `allow_nan=False` / `serialize_metrics_strict`. Determinism test passes.
@@ -20,11 +20,20 @@ Handoff updated: 2026-10-30T04:45:27Z (baseline re-verified: `python -m pytest -
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, NO EXPLORATION LOOPS)
 **DO NOT EXPLORE AIMLESSLY. DO NOT REWRITE CORRECT CODE. HEAVY QUANTITATIVE ENGINEERING ONLY.**
 
-You are continuing the **Cryptocurrency-quantitative-options-orderflow-strategy** campaign. Production-grade crypto options + orderflow quant strategy (repo: crypto options orderflow). **Phases 1-7 COMPLETE. Phase 8 routing (#1) + benchmarks (#2) COMPLETE.** MANDATORY NEXT FOCUS: Enter the **Phase 8 Production Execution & Risk — Live Readiness & Performance Hardening** campaign and keep every verification gate passing simultaneously.
+You are continuing the **Cryptocurrency-quantitative-options-orderflow-strategy** campaign. This is a production-grade crypto options + orderflow quantitative strategy (repo: Cryptocurrency-quantitative-options-orderflow-strategy). Focus areas: options pricing/IV surfaces/Greeks/delta-hedged PnL/attribution/regime/composite/execution/risk/venue routing.
 
-**TOP PRIORITY (UNFINISHED - DO THIS FIRST):** **Automated delta-hedging / position rebalancing loop** wired to `src/risk/limits.py` and `src/risk/circuit_breaker.py` kill-switch with no-lookahead guards, determinism, and finite outputs. Build/extend hedging logic in `src/backtest/options_hedging.py` or integrate into execution/risk with strict serialization (`allow_nan=False`). Add strict adversarial tests (no stubs/placeholders/TODOs). Enforce no-lookahead, finite outputs, and SLO-aware behavior consistent with existing patterns.
+**Phases 1-7 COMPLETE. Phase 8 routing (#1) + benchmarks (#2) COMPLETE.**
 
-Bottlenecks are cleared; focus on heavy quant work with minimal backward-compatible changes. Do not end the session without updating this handoff with a fresh UTC timestamp and exact remaining work.
+**MANDATORY NEXT FOCUS: Enter Phase 8 Production Execution & Risk — Live Readiness & Performance Hardening. EVERY FUTURE AGENT MUST DO HEAVY QUANTITATIVE WORK - NO SCAFFOLDING, NO STUBS, NO PLACEHOLDERS.**
+
+### TOP PRIORITY (UNFINISHED - DO THIS FIRST, NO EXCEPTIONS)
+**Automated delta-hedging / position rebalancing loop** wired to `src/risk/limits.py` and `src/risk/circuit_breaker.py` kill-switch with no-lookahead guards, determinism, and finite outputs.
+
+**Implementation requirements:**
+1. Extend `src/backtest/options_hedging.py` with automated delta-hedging/rebalancing logic that integrates with risk controls. Or create a new module in `src/risk/` or `src/execution/` if more appropriate - but must be minimal, backward-compatible, production-grade.
+2. Wire to `src/risk/limits.py` RiskManager and `src/risk/circuit_breaker.py` CircuitBreaker kill-switch. Enforce pre-trade/post-trade checks, no-lookahead, finite outputs.
+3. Add strict adversarial tests. Follow existing patterns (strict serialization with `allow_nan=False`/`serialize_metrics_strict`, numerical guards, no division by zero).
+4. All existing tests must continue to pass unchanged. Add tests only if strictly necessary and they follow the same quality bar.
 
 **VERIFIED BASELINE (MUST HOLD):** imports OK; `python -m pytest -q` = 333 passing (0 failures), 1 warning; `git status` clean; ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`; serialization uses `allow_nan=False` paths; determinism preserved.
 
@@ -52,7 +61,7 @@ Bottlenecks are cleared; focus on heavy quant work with minimal backward-compati
 **Phase 8 Scope (heavy quantitative engineering - PRIORITIZED):**
 1. **Multi-venue smart order routing + fill tracking (COMPLETE)** - Implemented `src/execution/routing.py` wired to engine+execution exports, participation caps, slippage/cost models, fill reconciliation, strict serialization, adversarial tests.
 2. **Execution performance benchmarks & latency profiling (COMPLETE)** - Deterministic benchmark coverage for `src/execution/engine.py` and `src/execution/algorithms.py`.
-3. **Automated delta-hedging / position rebalancing loop (TOP PRIORITY - NEXT)** - Wire automated hedging/rebalancing to `src/risk/limits.py` and `src/risk/circuit_breaker.py` kill-switch with no-lookahead guards, determinism, and finite outputs. Extend `src/backtest/options_hedging.py` and integrate with risk controls.
+3. **Automated delta-hedging / position rebalancing loop (TOP PRIORITY - NEXT)** - Wire automated hedging/rebalancing to `src/risk/limits.py` and `src/risk/circuit_breaker.py` kill-switch with no-lookahead guards, determinism, and finite outputs. Extend `src/backtest/options_hedging.py` and integrate with risk controls. Add strict adversarial tests.
 4. **Circuit-breaker stress testing** - Harden kill-switch triggers under adverse orderflow/IV shocks; add/extend adversarial tests without stubs/placeholders.
 5. **Walkforward/OOS extension** - Extend `tests/test_oos_walkforward.py` coverage to execution+risk path under regime shifts with purge/embargo, determinism, strict serialization.
 6. **Production monitoring/alerting hooks** - Add structured risk-limit breach and kill-switch event hooks with serialization-safe payloads.
