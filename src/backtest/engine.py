@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from math import isfinite
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 try:
     import numpy as _np  # type: ignore
