@@ -1,5 +1,5 @@
 # INITIAL TASK HANDOFF (POINTER TO SINGLE DURABLE HANDOFF)
-Timestamp (UTC): 2026-10-30T17:17:24Z
+Timestamp (UTC): 2026-10-30T17:18:37Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 
 **SINGLE SOURCE OF TRUTH:** research_state/durable_handoff.md
@@ -9,11 +9,11 @@ This file points to the authoritative handoff. Read durable_handoff.md for full 
 ## Initial Task Message
 **DO NOT EXPLORE AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE. HEAVY QUANT WORK ONLY.**
 
-You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. Production-grade crypto options + orderflow quant. Phases 1-8 COMPLETE. **CURRENT STATE (2026-10-30T17:17:24Z): 351 tests passing, 0 failing, 0 warnings. Gate GREEN. Bottlenecks: NONE.** Read durable_handoff.md for exact requirements.
+You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. Production-grade crypto options + orderflow quant. Phases 1-8 COMPLETE. **CURRENT STATE (2026-10-30T17:18:37Z): 351 tests passing, 0 failing, 0 warnings. Gate GREEN. Bottlenecks: NONE.** Read durable_handoff.md for exact requirements.
 
 ## Immediate Objectives
 1. **HOLD GATE:** `python -m pytest -q` (>=351 passing, 0 failures). `tests/test_campaign_resume.py` must pass.
-2. **PRIORITY 2 (HIGHEST REMAINING - ATTACK NOW):** Adversarial correlation/tail/cross-asset stress under portfolio walkforward/signals/routing. Hunt concrete numerical edges (non-PSD correlation, singular covariance, extreme tails, regime miscalibration, routing blowups). Add minimal guards in production code paths; prove finiteness. Do not weaken assertions.
+2. **PRIORITY 2 (HIGHEST REMAINING - ATTACK NOW):** Adversarial correlation/tail/cross-asset stress under portfolio walkforward/signals/routing. Hunt concrete numerical edges (non-PSD correlation, singular covariance, extreme tails, regime miscalibration, overflow/underflow, routing failures/weight blowups). Add minimal guards in production code paths; prove finiteness. Do not weaken assertions.
 3. Continue P3-P5 as defined in durable_handoff.md.
 4. Full simultaneous verification pass before ending; update durable_handoff.md with fresh UTC timestamp + changes + remaining work.
 
@@ -22,11 +22,11 @@ You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy ca
 
 **MANDATE:** Heavy quant only. Correctness mandatory. Numerical stability required. No placeholders/TODOs/FIXMEs/HACKs/XXX. Production-grade. Complete end-to-end. Bottlenecks removed immediately. Determinism preserved. Minimal backward-compatible changes. Verify after every change. Read durable_handoff.md first.
 
-### Phase 1
-Regime-robust walkforward/OOS under CompositeSignalGenerator regime shifts with tightened purge/embargo + determinism + strict serialization. **CLOSED.**
+### Phase 1 (CLOSED)
+Regime-robust walkforward/OOS under CompositeSignalGenerator regime shifts with tightened purge/embargo + determinism + strict serialization.
 
-### Phase 2
-Adversarial correlation breakdowns/tail stress (portfolio/walkforward/signals/routing). Targets: `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`, `tests/test_routing_adversarial.py`. Find concrete numerical edges (non-PSD correlation, singular covariance, extreme tails, regime miscalibration, overflow/underflow, routing failures). Add minimal guards; prove finiteness. **ATTACK NOW — HIGHEST REMAINING.**
+### Phase 2 (ATTACK NOW - HIGHEST REMAINING)
+Adversarial correlation breakdowns/tail stress (portfolio/walkforward/signals/routing). Targets: `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`, `tests/test_routing_adversarial.py`. Find concrete numerical edges (non-PSD correlation, singular covariance, extreme tails, regime miscalibration, overflow/underflow, routing failures/weight blowups). Add minimal guards; prove finiteness. **ATTACK NOW — NO DELAY.**
 
 ### Phase 3
 Crypto options pricing/Greeks/IV + numerical guard coverage. Targets: `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`. Harden Black-Scholes/Greeks/IV against adversarial inputs while preserving invariants.
