@@ -1,20 +1,22 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T11:37:38Z
+Timestamp (UTC): 2026-10-30T12:26:00Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
-State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T11:37:38Z (python -m pytest -q → 351 passed; determinism byte-identical)
+State: 351 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T12:26:00Z (python -m pytest -q → 351 passed; determinism byte-identical)
 
-## SESSION 2026-10-30T11:37Z — HANDOFF REFRESH (NO CODE CHANGES)
+## SESSION 2026-10-30T12:26Z — HANDOFF REFRESH (NO CODE CHANGES)
 **Action:** Refreshed durable handoff to leave a single, unambiguous timestamped initial task for the next agentic session. Gate re-verified green. Working tree clean (no new untracked files). Prior bottlenecks remain cleared.
 
 **Verified:**
-- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings
+- `python -m pytest -q` → 351 passed, 0 failed, 0 warnings (2026-10-30T12:26Z)
 - `tests/test_pipeline_determinism.py` must remain byte-identical (do not change RNG/order/serialization)
 - Strict serialization enforced with `allow_nan=False`; zero NaN/Inf in serialized outputs/telemetry/events
 - Zero TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`
-- All numeric ops guarded against non-finite/overflow; purge/embargo/time-ordering/enforced
+- All numeric ops guarded against non-finite/overflow; purge/embargo/time-ordering enforced
+- `workflow_run_diagnostics.jsonl` shows only HISTORICAL edit-tool invalid-argument errors (Oct 27/30 07:4x) and a historical CI failure (Oct 27) — all cleared; current baseline is GREEN with 351/351 passing
+- Bottleneck status: ACTIVE: None
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE)
 **MANDATE: HEAVY QUANT ONLY. PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE.**
@@ -54,7 +56,7 @@ Every change must be minimal/backward-compatible, justified by a concrete numeri
 8. If working tree has only intended hardening changes, **DO NOT COMMIT** unless explicitly requested by user. User must explicitly request commit.
 
 ## EXACT REMAINING WORK
-- [x] HOLD GATE GREEN every session (verify baseline first) — current: 351/351 passing, 0 warnings (2026-10-30T11:37:38Z)
+- [x] HOLD GATE GREEN every session (verify baseline first) — current: 351/351 passing, 0 warnings (2026-10-30T12:26:00Z)
 - [x] CONCRETE NUMERICAL HARDENING: clamp/inf bug, safe_log/safe_pow guards, GEX overflow, variance/std overflow — COMPLETED (historical)
 - [ ] **PRIORITY 1:** Regime-robust walkforward/OOS under CompositeSignalGenerator regime shifts with tightened purge/embargo + determinism + strict serialization (target `test_oos_walkforward.py`)
 - [ ] **PRIORITY 2:** Adversarial correlation breakdowns/tail stress (portfolio/walkforward/signals) with concrete guards
@@ -67,6 +69,7 @@ Every change must be minimal/backward-compatible, justified by a concrete numeri
 ## BOTTLENECK STATUS
 - **CLEARED:** `clamp(qty, 0.0, float("inf"))` in `src/execution/engine.py:92` zeroing all quantities → fixed with finite bound `1e18`. Audit all `clamp`/`safe_*` for non-finite bounds.
 - **CLEARED (HISTORICAL):** kilo edit-tool invalid-argument failures/turn aborts from malformed edit calls. Prevention: always pass complete `edit` calls with `filePath`, `oldString`, `newString` (exact indentation/context). Prefer Read before Edit.
+- **CLEARED (HISTORICAL):** Oct 27 CI failure (`tests/test_controller_progress_accounting.py` not found at that time) — file now exists, suite passes 351/351.
 - **ACTIVE:** None. Gate GREEN (351/351). Working tree CLEAN. No TODO/FIXME/PLACEHOLDER/HACK/XXX in `src/`.
 
 ## NEXT FOCUS CAMPAIGN (FORCES HEAVY QUANT WORK)
