@@ -1,10 +1,10 @@
 # DURABLE HANDOFF (SINGLE SOURCE OF TRUTH) — LATEST
-Timestamp (UTC): 2026-10-30T10:34:20Z
+Timestamp (UTC): 2026-10-30T10:35:00Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo focus: cryptocurrency options + orderflow quantitative strategy (derivatives pricing/Greeks/IV surfaces/delta-hedged PnL/attribution/regime classification/composite signals/execution/risk/multi-venue routing/latency/performance hardening/walkforward/OOS/purge-embargo)
 Priority: CRITICAL - HEAVY QUANTITATIVE ENGINEERING (NO EXPLORATION, NO SCAFFOLDING)
 
-State: 346 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN
+State: 346 TESTS PASSING | 0 FAILING | 0 WARNINGS | WORKING TREE CLEAN | UP TO DATE WITH origin/main | ZERO TODO/FIXME/PLACEHOLDER/HACK/XXX IN src/ | PHASES 1-8 COMPLETE | GATE GREEN | BASELINE VERIFIED 2026-10-30T10:35:00Z (python -m pytest -q → 346 passed; determinism byte-identical; git status clean)
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE)
 **MANDATE: HEAVY QUANT ONLY. PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE.**
@@ -48,7 +48,8 @@ Every change must be minimal/backward-compatible, justified by numerical edge/ad
 - [ ] UPDATE HANDOFF with fresh timestamp + exact remaining work before ending session
 
 ## BOTTLENECK STATUS
-- ALL CLEARED. Working tree clean. 346 passing. Gate GREEN. No active blockers. Focus: pure hardening. No deferral.
+- ALL CLEARED. Working tree clean. 346 passing. Gate GREEN. No active blockers.
+- HISTORICAL BOTTLENECKS REMOVED: workflow_run_diagnostics.jsonl (2026-10-27 → 2026-10-30) showed repeated kilo edit-tool invalid-argument failures and turn aborts (kilo_invalid_argument_turn_abort) across multiple sessions. Root cause: malformed edit calls (missing filePath/oldString). These are historical only — no uncommitted changes, no failed jobs pending, tree is clean, gate is green. Future sessions: issue complete edit calls (filePath + oldString + newString) in one shot; do not re-issue malformed calls. No deferral. Focus: pure hardening.
 
 ## NEXT FOCUS CAMPAIGN (FORCES HEAVY QUANT WORK)
 Sustain production-readiness hardening indefinitely. Every session MUST produce measurable heavy-quant progress (tightened guard, hardened adversarial path, tightened purge/embargo, or serialization-safety fix) and end with gate GREEN. Steps 1-3 are mandatory. No scaffolding/stubs/placeholders/exploration/new features — correctness, numerical stability, determinism, strict serialization only.
