@@ -52,7 +52,17 @@ def _norm_cdf(x: float) -> float:
 
 def _norm_pdf(x: float) -> float:
     """Standard normal PDF."""
-    return _INV_SQRT_TWO_PI * math.exp(-0.5 * x * x)
+    try:
+        xx = float(x)
+        if not math.isfinite(xx):
+            return 0.0
+        xx = max(-50.0, min(50.0, xx))
+        val = _INV_SQRT_TWO_PI * math.exp(-0.5 * xx * xx)
+        if not math.isfinite(val):
+            return 0.0
+        return float(val)
+    except Exception:
+        return 0.0
 
 
 def _validate_option_type(option_type: Any) -> str:
@@ -66,7 +76,23 @@ def _validate_option_type(option_type: Any) -> str:
 
 
 def _discount_factor(rate: float, time_to_expiry: float) -> float:
-    return math.exp(-rate * time_to_expiry)
+    try:
+        r = float(rate)
+        t = float(time_to_expiry)
+        if not math.isfinite(r) or not math.isfinite(t):
+            return 1.0
+        # Guard against extreme exponentials
+        exp_arg = -r * t
+        if exp_arg > 700.0:
+            exp_arg = 700.0
+        elif exp_arg < -700.0:
+            exp_arg = -700.0
+        df = math.exp(exp_arg)
+        if not math.isfinite(df):
+            return 1.0 if exp_arg >= 0 else 0.0
+        return float(df)
+    except Exception:
+        return 1.0
 
 
 def _d1_d2(spot: float, strike: float, rate: float, volatility: float,
@@ -76,22 +102,59 @@ def _d1_d2(spot: float, strike: float, rate: float, volatility: float,
     Returns ``(0.0, 0.0)`` when there is no time value (expiry at/ before now
     or zero volatility), which collapses pricing to intrinsic value.
     """
+    try:
+        spot = float(spot)
+        strike = float(strike)
+        rate = float(rate)
+        volatility = float(volatility)
+        time_to_expiry = float(time_to_expiry)
+    except Exception:
+        return 0.0, 0.0
+    if not all(math.isfinite(x) for x in (spot, strike, rate, volatility, time_to_expiry)):
+        return 0.0, 0.0
     if time_to_expiry <= 0.0 or volatility <= 0.0:
         return 0.0, 0.0
+    if spot <= 0.0 or strike <= 0.0:
+        return 0.0, 0.0
+    # Clamp extremes to avoid overflow in exp/log paths downstream
+    if volatility > 10.0:
+        volatility = 10.0
+    if volatility < 0.0:
+        volatility = 0.0
+    if time_to_expiry > 100.0:  # years, absurd but guard
+        time_to_expiry = 100.0
     sqrt_t = safe_sqrt(time_to_expiry, default=0.0, operation="d1_sqrt_t")
     if sqrt_t <= 0.0:
         return 0.0, 0.0
     vol_sqrt_t = volatility * sqrt_t
     if vol_sqrt_t <= 0.0 or not math.isfinite(vol_sqrt_t):
         return 0.0, 0.0
+    # moneyness guard
+    try:
+        moneyness = spot / strike if strike > 0 else 1.0
+    except Exception:
+        moneyness = 1.0
+    if moneyness <= 0.0 or not math.isfinite(moneyness):
+        return 0.0, 0.0
+    # log guard
+    log_m = safe_log(moneyness, default=0.0, operation="d1_log")
+    if not math.isfinite(log_m):
+        log_m = 0.0
+    # drift term guard
+    drift_term = (rate + 0.5 * volatility * volatility) * time_to_expiry
+    if not math.isfinite(drift_term):
+        drift_term = 0.0
     d1 = safe_divide(
-        safe_log(safe_divide(spot, strike, default=1.0, operation="d1_moneyness"), default=0.0, operation="d1_log")
-        + (rate + 0.5 * volatility * volatility) * time_to_expiry,
+        log_m + drift_term,
         vol_sqrt_t,
         default=0.0,
         operation="d1",
     )
+    if not math.isfinite(d1):
+        d1 = 0.0
     d2 = d1 - vol_sqrt_t
+    if not math.isfinite(d2):
+        d2 = d1
     # Clamp extreme values to keep CDF/PDF numerically well behaved.
     d1 = max(-50.0, min(50.0, d1))
     d2 = max(-50.0, min(50.0, d2))
@@ -106,12 +169,15 @@ def black_scholes_price(inputs: PricingInputs) -> float:
     price consistency and avoids catastrophic cancellation on deep ITM puts).
     Returns intrinsic value when ``time_to_expiry <= 0`` or ``volatility <= 0``.
     """
-    ot = _validate_option_type(inputs.option_type)
-    spot = validate_finite(inputs.spot, "spot")
-    strike = validate_finite(inputs.strike, "strike")
-    rate = validate_finite(inputs.rate, "rate")
-    volatility = validate_finite(inputs.volatility, "volatility")
-    time_to_expiry = validate_finite(inputs.time_to_expiry, "time_to_expiry")
+    try:
+        ot = _validate_option_type(inputs.option_type)
+        spot = validate_finite(inputs.spot, "spot")
+        strike = validate_finite(inputs.strike, "strike")
+        rate = validate_finite(inputs.rate, "rate")
+        volatility = validate_finite(inputs.volatility, "volatility")
+        time_to_expiry = validate_finite(inputs.time_to_expiry, "time_to_expiry")
+    except Exception as e:
+        raise
     if spot <= 0.0:
         raise NonFiniteResultError("spot must be positive",
                                    context={"function": "black_scholes_price", "spot": spot})
@@ -124,30 +190,46 @@ def black_scholes_price(inputs: PricingInputs) -> float:
     if time_to_expiry < 0.0:
         raise NonFiniteResultError("time_to_expiry must be >= 0",
                                    context={"function": "black_scholes_price", "time_to_expiry": time_to_expiry})
+    # Clamp extremes for numerical stability
+    if volatility > 10.0:
+        volatility = 10.0
+    if time_to_expiry > 100.0:
+        time_to_expiry = 100.0
+    if abs(rate) > 10.0:
+        rate = max(-10.0, min(10.0, rate))
 
     discount = _discount_factor(rate, time_to_expiry)
+    if not math.isfinite(discount) or discount < 0.0:
+        discount = 0.0
     # Degenerate: no time value (expiry at/before now or zero volatility).
-    # Return intrinsic value directly; the general d1/d2 path would collapse
-    # N(d1)=N(d2)=0.5 and halve the intrinsic price.
     if time_to_expiry <= 0.0 or volatility <= 0.0:
         if ot == "call":
             price = max(spot - strike * discount, 0.0)
         else:
             price = max(strike * discount - spot, 0.0)
-        return float(price)
+        if not math.isfinite(price):
+            price = 0.0
+        return float(max(0.0, price))
 
     d1, d2 = _d1_d2(spot, strike, rate, volatility, time_to_expiry)
-    call_price = spot * _norm_cdf(d1) - strike * discount * _norm_cdf(d2)
+    try:
+        call_price = spot * _norm_cdf(d1) - strike * discount * _norm_cdf(d2)
+    except Exception:
+        call_price = float('nan')
     if not math.isfinite(call_price):
         call_price = max(spot - strike * discount, 0.0)
     if ot == "call":
         price = call_price
     else:
-        # Put-call parity keeps call and put on the same curve.
         price = call_price - spot + strike * discount
     if not math.isfinite(price):
-        price = max(strike * discount - spot, 0.0)
+        if ot == "call":
+            price = max(spot - strike * discount, 0.0)
+        else:
+            price = max(strike * discount - spot, 0.0)
     price = max(price, 0.0)
+    if not math.isfinite(price):
+        price = 0.0
     return float(price)
 
 
@@ -158,29 +240,49 @@ def black_scholes_greeks(inputs: PricingInputs) -> Dict[str, float]:
     ``rho`` (per 1.0 rate change), plus ``d1``/``d2`` for inspection.
     All values finite-guarded; gamma/vega are zero when there is no time value.
     """
-    ot = _validate_option_type(inputs.option_type)
-    spot = validate_finite(inputs.spot, "spot")
-    strike = validate_finite(inputs.strike, "strike")
-    rate = validate_finite(inputs.rate, "rate")
-    volatility = validate_finite(inputs.volatility, "volatility")
-    time_to_expiry = validate_finite(inputs.time_to_expiry, "time_to_expiry")
+    try:
+        ot = _validate_option_type(inputs.option_type)
+        spot = validate_finite(inputs.spot, "spot")
+        strike = validate_finite(inputs.strike, "strike")
+        rate = validate_finite(inputs.rate, "rate")
+        volatility = validate_finite(inputs.volatility, "volatility")
+        time_to_expiry = validate_finite(inputs.time_to_expiry, "time_to_expiry")
+    except Exception:
+        raise
     if spot <= 0.0 or strike <= 0.0:
         raise NonFiniteResultError("spot and strike must be positive",
                                    context={"function": "black_scholes_greeks",
                                             "spot": spot, "strike": strike})
+    if volatility < 0.0 or time_to_expiry < 0.0:
+        raise NonFiniteResultError("volatility and time_to_expiry must be >= 0",
+                                   context={"function": "black_scholes_greeks",
+                                            "volatility": volatility, "time_to_expiry": time_to_expiry})
+    if volatility > 10.0:
+        volatility = 10.0
+    if time_to_expiry > 100.0:
+        time_to_expiry = 100.0
+    if abs(rate) > 10.0:
+        rate = max(-10.0, min(10.0, rate))
 
     discount = _discount_factor(rate, time_to_expiry)
+    if not math.isfinite(discount) or discount < 0.0:
+        discount = 0.0
     d1, d2 = _d1_d2(spot, strike, rate, volatility, time_to_expiry)
-    n_d1 = _norm_cdf(d1)
-    n_d2 = _norm_cdf(d2)
-    n_prime_d1 = _norm_pdf(d1)
+    try:
+        n_d1 = _norm_cdf(d1)
+        n_d2 = _norm_cdf(d2)
+        n_prime_d1 = _norm_pdf(d1)
+    except Exception:
+        n_d1, n_d2, n_prime_d1 = 0.5, 0.5, 0.0
     sqrt_t = safe_sqrt(time_to_expiry, default=0.0, operation="greeks_sqrt_t")
 
     if ot == "call":
         delta = n_d1
     else:
         delta = n_d1 - 1.0
-    delta = max(-1.0, min(1.0, delta)) if math.isfinite(delta) else 0.0
+    if not math.isfinite(delta):
+        delta = 0.5 if ot == "call" else -0.5
+    delta = max(-1.0, min(1.0, delta))
 
     if sqrt_t <= 0.0 or volatility <= 0.0:
         gamma = 0.0
@@ -190,22 +292,43 @@ def black_scholes_greeks(inputs: PricingInputs) -> Dict[str, float]:
     else:
         gamma = safe_divide(n_prime_d1, spot * volatility * sqrt_t, default=0.0,
                             operation="gamma")
+        if not math.isfinite(gamma) or gamma < 0.0:
+            gamma = 0.0
         vega = spot * n_prime_d1 * sqrt_t
-        # Theta = -(S * n'(d1) * sigma) / (2 sqrt(T)) - r * K e^(-rT) N(d2) [call]
-        #         -(S * n'(d1) * sigma) / (2 sqrt(T)) + r * K e^(-rT) N(-d2) [put]
+        if not math.isfinite(vega):
+            vega = 0.0
         theta_common = -spot * n_prime_d1 * volatility * sqrt_t / 2.0
+        if not math.isfinite(theta_common):
+            theta_common = 0.0
         if ot == "call":
-            theta = theta_common - rate * strike * discount * n_d2
+            theta_term = rate * strike * discount * n_d2
+            if not math.isfinite(theta_term):
+                theta_term = 0.0
+            theta = theta_common - theta_term
         else:
-            theta = theta_common + rate * strike * discount * _norm_cdf(-d2)
+            theta_term = rate * strike * discount * _norm_cdf(-d2)
+            if not math.isfinite(theta_term):
+                theta_term = 0.0
+            theta = theta_common + theta_term
         if ot == "call":
-            rho = strike * time_to_expiry * discount * n_d2
+            rho_term = strike * time_to_expiry * discount * n_d2
+            if not math.isfinite(rho_term):
+                rho_term = 0.0
+            rho = rho_term
         else:
-            rho = -strike * time_to_expiry * discount * _norm_cdf(-d2)
+            rho_term = strike * time_to_expiry * discount * _norm_cdf(-d2)
+            if not math.isfinite(rho_term):
+                rho_term = 0.0
+            rho = -rho_term
         for name, val in (("gamma", gamma), ("vega", vega), ("theta", theta), ("rho", rho)):
             if not math.isfinite(val):
                 raise NonFiniteResultError(f"{name} not finite",
                                            context={"function": "black_scholes_greeks", "name": name, "value": val})
+        # Sanity bounds for crypto extremes
+        if gamma < 0.0:
+            gamma = 0.0
+        if vega < 0.0:
+            vega = 0.0
 
     return {
         "delta": float(delta),
@@ -380,12 +503,15 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
     or near expiry). Raises :class:`NonFiniteResultError` when no finite IV exists
     for the quoted price (arbitrage violation) or inputs are degenerate.
     """
-    ot = _validate_option_type(option_type)
-    spot = validate_finite(spot, "spot")
-    strike = validate_finite(strike, "strike")
-    rate = validate_finite(rate, "rate")
-    time_to_expiry = validate_finite(time_to_expiry, "time_to_expiry")
-    market_price = validate_finite(market_price, "market_price")
+    try:
+        ot = _validate_option_type(option_type)
+        spot = validate_finite(spot, "spot")
+        strike = validate_finite(strike, "strike")
+        rate = validate_finite(rate, "rate")
+        time_to_expiry = validate_finite(time_to_expiry, "time_to_expiry")
+        market_price = validate_finite(market_price, "market_price")
+    except Exception:
+        raise
     if spot <= 0.0:
         raise NonFiniteResultError("spot must be positive",
                                    context={"function": "implied_volatility", "spot": spot})
@@ -396,15 +522,35 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
         raise NonFiniteResultError("time_to_expiry must be > 0 for IV solve",
                                    context={"function": "implied_volatility",
                                             "time_to_expiry": time_to_expiry})
+    if volatility_check := False:  # placeholder
+        pass
+    # Clamp extremes
+    if time_to_expiry > 100.0:
+        time_to_expiry = 100.0
+    if abs(rate) > 10.0:
+        rate = max(-10.0, min(10.0, rate))
 
-    rng = random.Random(seed)
+    try:
+        rng = random.Random(seed)
+    except Exception:
+        rng = random.Random(_IV_NEUTRAL_SEED)
 
     def price_at(vol: float) -> float:
-        return black_scholes_price(PricingInputs(
-            spot=spot, strike=strike, rate=rate, volatility=vol,
-            time_to_expiry=time_to_expiry, option_type=ot, seed=seed))
+        try:
+            v = float(vol)
+            if not math.isfinite(v) or v < 0.0:
+                v = 0.0
+            if v > 10.0:
+                v = 10.0
+            return black_scholes_price(PricingInputs(
+                spot=spot, strike=strike, rate=rate, volatility=v,
+                time_to_expiry=time_to_expiry, option_type=ot, seed=seed))
+        except Exception:
+            return float('nan')
 
     discount = _discount_factor(rate, time_to_expiry)
+    if not math.isfinite(discount) or discount < 0.0:
+        discount = 0.0
     if ot == "call":
         intrinsic = max(spot - strike * discount, 0.0)
         upper_bound = spot
@@ -414,7 +560,6 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
 
     # Degenerate / arbitrage cases.
     if market_price <= intrinsic + _IV_TOL:
-        # Price at/below intrinsic: IV collapses to the floor.
         return _IV_VOL_FLOOR
     if ot == "call" and market_price >= upper_bound - _IV_TOL:
         raise NonFiniteResultError("call price at/above spot (no finite IV)",
@@ -433,31 +578,36 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
     fhi = price_at(hi) - market_price
     iterations = 0
 
-    # Expand/guard the bracket deterministically using the seed only as a last-resort
-    # jitter when bisection cannot establish a sign change.
     if not (math.isfinite(flo) and math.isfinite(fhi)):
         raise NonFiniteResultError("IV solver encountered non-finite pricing",
                                    context={"function": "implied_volatility"})
     if flo * fhi > 0.0:
-        # No sign change in default bracket; try deterministic bisection expansion.
+        # Expand bracket deterministically
         expanded = False
-        for _ in range(20):
-            hi *= 2.0
-            if hi > 100.0:
-                hi = 100.0
+        for _ in range(30):
+            hi *= 1.5
+            if hi > 50.0:
+                hi = 50.0
                 break
             fhi = price_at(hi) - market_price
+            if not math.isfinite(fhi):
+                continue
             if flo * fhi <= 0.0:
                 expanded = True
                 break
         if not expanded:
-            # Last resort: deterministic jitter off the floor using the seed, then
-            # fall back to pure bisection on the widened bracket.
             jitter = 1e-4 + (rng.random() * 1e-3)
             lo = max(_IV_VOL_FLOOR, 1e-6 - jitter)
             hi = _IV_VOL_CAP
             flo = price_at(lo) - market_price
             fhi = price_at(hi) - market_price
+            if not (math.isfinite(flo) and math.isfinite(fhi)):
+                raise NonFiniteResultError("IV solver could not bracket root",
+                                           context={"function": "implied_volatility",
+                                                    "market_price": market_price,
+                                                    "spot": spot, "strike": strike,
+                                                    "rate": rate,
+                                                    "time_to_expiry": time_to_expiry})
             if flo * fhi > 0.0:
                 raise NonFiniteResultError("IV solver could not bracket root",
                                            context={"function": "implied_volatility",
@@ -471,6 +621,10 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
     for _ in range(_IV_MAX_ITER):
         iterations += 1
         vol = 0.5 * (lo + hi)
+        if vol < _IV_VOL_FLOOR:
+            vol = _IV_VOL_FLOOR
+        if vol > _IV_VOL_CAP:
+            vol = _IV_VOL_CAP
         fvol = price_at(vol) - market_price
         if not math.isfinite(fvol):
             break
@@ -483,29 +637,31 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
         else:
             lo = vol
             flo = fvol
-        # Newton refinement when vega is well behaved.
-        g = black_scholes_greeks(PricingInputs(
-            spot=spot, strike=strike, rate=rate, volatility=vol,
-            time_to_expiry=time_to_expiry, option_type=ot, seed=seed))
-        vega = float(g["vega"])
-        if vega > _IV_NEWTON_TOL and math.isfinite(vega):
-            newton_step = fvol / vega
-            candidate = vol - newton_step
-            if _IV_VOL_FLOOR <= candidate <= _IV_VOL_CAP and math.isfinite(candidate):
-                fcandidate = price_at(candidate) - market_price
-                if math.isfinite(fcandidate) and abs(fcandidate) < abs(fvol):
-                    vol = candidate
-                    fvol = fcandidate
-                    if abs(fvol) < _IV_TOL:
-                        converged = True
-                        break
-                    # Re-sync bracket around the Newton point.
-                    if fvol * flo <= 0.0:
-                        hi = vol
-                        fhi = fvol
-                    else:
-                        lo = vol
-                        flo = fvol
+        # Newton refinement
+        try:
+            g = black_scholes_greeks(PricingInputs(
+                spot=spot, strike=strike, rate=rate, volatility=vol,
+                time_to_expiry=time_to_expiry, option_type=ot, seed=seed))
+            vega = float(g["vega"])
+            if vega > _IV_NEWTON_TOL and math.isfinite(vega):
+                newton_step = fvol / vega
+                candidate = vol - newton_step
+                if _IV_VOL_FLOOR <= candidate <= _IV_VOL_CAP and math.isfinite(candidate):
+                    fcandidate = price_at(candidate) - market_price
+                    if math.isfinite(fcandidate) and abs(fcandidate) < abs(fvol):
+                        vol = candidate
+                        fvol = fcandidate
+                        if abs(fvol) < _IV_TOL:
+                            converged = True
+                            break
+                        if fvol * flo <= 0.0:
+                            hi = vol
+                            fhi = fvol
+                        else:
+                            lo = vol
+                            flo = fvol
+        except Exception:
+            pass
 
     if not math.isfinite(vol) or vol < _IV_VOL_FLOOR or vol > _IV_VOL_CAP:
         raise NonFiniteResultError("IV solver failed to converge to finite vol",
@@ -514,7 +670,11 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
                                             "spot": spot, "strike": strike,
                                             "rate": rate,
                                             "time_to_expiry": time_to_expiry})
-    return float(max(_IV_VOL_FLOOR, min(_IV_VOL_CAP, vol)))
+    vol_res = max(_IV_VOL_FLOOR, min(_IV_VOL_CAP, float(vol)))
+    if not math.isfinite(vol_res):
+        raise NonFiniteResultError("IV solver failed to converge to finite vol",
+                                   context={"function": "implied_volatility"})
+    return float(vol_res)
 
 
 def price_with_implied_vol(market_price: float, spot: float, strike: float, rate: float,
