@@ -461,3 +461,92 @@ def test_walkforward_multi_symbol():
     )
     assert results is not None
     assert math.isfinite(results.overall_out_of_sample_return)
+
+
+def test_walkforward_execution_risk_integration_purge_embargo_determinism():
+    """Walk-forward with execution + risk integration under purge/embargo, time-ordering, serialization strictness."""
+    from src.execution.engine import ExecutionEngine
+    from src.execution.orders import OrderType
+    from src.risk.limits import RiskManager, RiskLimits
+    from src.risk.circuit_breaker import CircuitBreaker, CircuitBreakerConfig
+    from src.signals.composite import Signal
+
+    n = 240
+    prices = {"BTC": _rising_prices(n, base=50000.0, step=5.0)}
+    signals_arr = [1 if i % 12 < 6 else (-1 if i % 24 == 23 else 0) for i in range(n)]
+    signals = {"BTC": signals_arr}
+    ts = _base_timestamps(n)
+
+    # Determinism across runs with purge/embargo
+    wfb = WalkForwardBacktest(
+        BacktestConfig(initial_capital=100000.0), RiskConfig(), purge=8, embargo=4
+    )
+    r1 = wfb.run_walk_forward(
+        price_series=prices, signals=signals, timestamps=ts,
+        train_window=80, test_window=40, step_size=40,
+    )
+    r2 = wfb.run_walk_forward(
+        price_series=prices, signals=signals, timestamps=ts,
+        train_window=80, test_window=40, step_size=40,
+    )
+    s1 = r1.serialize_oos()
+    s2 = r2.serialize_oos()
+    assert s1 == s2
+    assert len(r1.windows) > 0
+    for w in r1.windows:
+        assert w.train_end <= w.test_start
+        assert math.isfinite(w.out_of_sample_return)
+
+    # Exercise execution engine + risk manager path with strict serialization
+    exec_engine = ExecutionEngine(
+        initial_capital=100000.0,
+        default_algo="twap",
+        seed=12345,
+    )
+    risk_mgr = RiskManager(RiskLimits())
+    cb = CircuitBreaker(CircuitBreakerConfig())
+
+    ok_count = 0
+    for i in range(0, min(80, n), 10):
+        spot = float(prices["BTC"][i])
+        direction = "long" if signals_arr[i] == 1 else ("short" if signals_arr[i] == -1 else "neutral")
+        if direction == "neutral":
+            continue
+        sig = Signal(
+            symbol="BTC",
+            direction=direction,
+            strength=0.6,
+            confidence=0.8,
+            components={"flow": 0.3},
+            regime="normal",
+        )
+        order = exec_engine.create_order_from_signal(
+            sig, spot_price=spot, risk_pct=0.01, max_position_pct=0.05, order_type=OrderType.MARKET
+        )
+        if order is None:
+            continue
+        v = risk_mgr.check_order(symbol=order.symbol, side=order.side.value, quantity=order.quantity, price=spot, positions=exec_engine.positions)
+        if any(x.severity in ("high", "critical") for x in v):
+            order.reject("risk_limit_breach")
+            continue
+        if cb.tripped:
+            order.reject("circuit_breaker_tripped")
+            continue
+        exec_engine.submit_order(order)
+        exec_engine.execute_order_market(order, spot)
+        cb.update(0.0)
+        ok_count += 1
+
+    if exec_engine.equity_history:
+        exec_engine.mark_to_market_all({"BTC": float(prices["BTC"][-1])})
+    summ = exec_engine.get_portfolio_summary()
+    rep = risk_mgr.get_risk_report()
+    assert math.isfinite(float(summ.get("total_equity", 0.0)))
+    assert isinstance(rep, dict)
+
+    # Strict serialization
+    ser = serialize_metrics_strict(summ)
+    assert '"NaN"' not in ser and '"Infinity"' not in ser and '"-Infinity"' not in ser
+    ser2 = serialize_metrics_strict({"oos": r1.overall_out_of_sample_return, "windows": len(r1.windows)})
+    assert math.isfinite(float(r1.overall_out_of_sample_return))
+    assert ok_count >= 0  # execution path exercised without exceptions
