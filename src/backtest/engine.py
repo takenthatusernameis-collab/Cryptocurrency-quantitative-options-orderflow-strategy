@@ -1260,6 +1260,144 @@ class WalkForwardBacktest:
         return
 
 
+# ---------------------------------------------------------------------------
+# Regime-shift aware walk-forward / OOS extension (Phase 8 #5)
+# ---------------------------------------------------------------------------
+
+@dataclass
+class RegimeShiftConfig:
+    """Configuration for regime-shift-aware walk-forward execution/risk extension.
+
+    Defines how market regime transitions (low_vol / normal / high_vol / stress)
+    modulate out-of-sample execution costs, risk limits, and position sizing so
+    that the OOS path is evaluated under regime-conditional realism rather than
+    a single flat cost/limit profile. All numeric fields are finite-guarded.
+    """
+
+    regime_labels: List[str] = field(default_factory=lambda: ["low_vol", "normal", "high_vol", "stress"])
+    detection_window: int = 20  # rolling window length for volatility regime detection
+    vol_thresholds: Tuple[float, float, float] = (0.005, 0.015, 0.03)  # low | normal | high | stress
+    cost_multipliers: Dict[str, float] = field(default_factory=lambda: {
+        "low_vol": 0.5,
+        "normal": 1.0,
+        "high_vol": 1.8,
+        "stress": 3.0,
+    })
+    slippage_multipliers: Dict[str, float] = field(default_factory=lambda: {
+        "low_vol": 0.5,
+        "normal": 1.0,
+        "high_vol": 2.0,
+        "stress": 4.0,
+    })
+    fee_multipliers: Dict[str, float] = field(default_factory=lambda: {
+        "low_vol": 0.8,
+        "normal": 1.0,
+        "high_vol": 1.5,
+        "stress": 2.0,
+    })
+    position_size_multipliers: Dict[str, float] = field(default_factory=lambda: {
+        "low_vol": 1.0,
+        "normal": 1.0,
+        "high_vol": 0.7,
+        "stress": 0.4,
+    })
+    max_drawdown_multipliers: Dict[str, float] = field(default_factory=lambda: {
+        "low_vol": 1.0,
+        "normal": 1.0,
+        "high_vol": 0.75,
+        "stress": 0.5,
+    })
+    min_confidence_by_regime: Dict[str, float] = field(default_factory=lambda: {
+        "low_vol": 0.3,
+        "normal": 0.35,
+        "high_vol": 0.45,
+        "stress": 0.6,
+    })
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.detection_window, int) or self.detection_window < 1:
+            self.detection_window = 20
+        if not isinstance(self.regime_labels, list) or not self.regime_labels:
+            self.regime_labels = ["low_vol", "normal", "high_vol", "stress"]
+        for name, val in [
+            ("vol_thresholds", self.vol_thresholds),
+        ]:
+            if not isinstance(val, tuple) or len(val) != 3:
+                raise OrderError("vol_thresholds must be a 3-tuple", context={"field": name})
+            for v in val:
+                if not isfinite(float(v)) or float(v) < 0:
+                    raise OrderError("vol_threshold entries must be finite and >= 0", context={"field": name, "value": v})
+        for dict_name in ["cost_multipliers", "slippage_multipliers", "fee_multipliers",
+                          "position_size_multipliers", "max_drawdown_multipliers",
+                          "min_confidence_by_regime"]:
+            d = getattr(self, dict_name)
+            if not isinstance(d, dict):
+                raise OrderError(f"{dict_name} must be a dict", context={"field": dict_name})
+            for k, v in d.items():
+                if not isfinite(float(v)):
+                    raise OrderError(f"{dict_name}.{k} must be finite", context={"field": f"{dict_name}.{k}", "value": v})
+
+    def get_multiplier(self, regime: str, kind: str, default: float = 1.0) -> float:
+        """Look up a regime-conditional multiplier with a safe default."""
+        d = getattr(self, kind + "_multipliers", None) or getattr(self, kind, None)
+        if isinstance(d, dict):
+            v = d.get(regime)
+            if v is not None and isfinite(float(v)):
+                return float(v)
+        return float(default)
+
+
+def detect_regime_from_window(
+    prices: Sequence[float],
+    window: int = 20,
+    thresholds: Tuple[float, float, float] = (0.005, 0.015, 0.03),
+) -> str:
+    """Classify a price window into a volatility regime.
+
+    Computes realized volatility over the trailing ``window`` returns and maps
+    it to one of ``low_vol`` / ``normal`` / ``high_vol`` / ``stress`` using the
+    provided thresholds. Returns ``"normal"`` for degenerate inputs (fewer than
+    2 prices, non-finite values, zero variance). Pure function: no state, no
+    lookahead (uses only the supplied historical window).
+    """
+    if prices is None or len(prices) < 2:
+        return "normal"
+    valid: List[float] = []
+    for p in prices[-window - 1:] if window > 0 else prices:
+        try:
+            f = float(p)
+        except (TypeError, ValueError):
+            continue
+        if isfinite(f) and f > 0:
+            valid.append(f)
+    if len(valid) < 2:
+        return "normal"
+    returns: List[float] = []
+    for i in range(1, len(valid)):
+        prev = valid[i - 1]
+        curr = valid[i]
+        if prev == 0:
+            continue
+        r = (curr - prev) / prev
+        if isfinite(r):
+            returns.append(r)
+    if len(returns) < 2:
+        return "normal"
+    mean_r = sum(returns) / len(returns)
+    var = sum((r - mean_r) ** 2 for r in returns) / len(returns)
+    vol = var ** 0.5 if var >= 0 else 0.0
+    if not isfinite(vol):
+        return "normal"
+    low_th, high_th, stress_th = thresholds
+    if vol >= stress_th:
+        return "stress"
+    if vol >= high_th:
+        return "high_vol"
+    if vol >= low_th:
+        return "normal"
+    return "low_vol"
+
+
 # Convenience functions
 def run_walk_forward(*args: Any, **kwargs: Any) -> WalkForwardResults:
     # Extract walkforward-specific params
