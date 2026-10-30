@@ -1,10 +1,10 @@
 # INITIAL TASK HANDOFF (POINTER TO SINGLE DURABLE HANDOFF)
-Timestamp (UTC): 2026-10-30T23:32:42Z
+Timestamp (UTC): 2026-10-30T23:33:07Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 
 **SINGLE SOURCE OF TRUTH:** research_state/durable_handoff.md
 
-This file points to the authoritative handoff. Read durable_handoff.md for full timestamped initial task message, bottlenecks, objectives, acceptance criteria, and execution rules.
+This file points to the authoritative handoff. Read durable_handoff.md for full timestamped initial task message, bottlenecks, objectives, acceptance criteria, and execution rules. Priorities inferred from repo name (crypto options + orderflow); A) CRYPTO OPTIONS PRICING/GREEKS/IV is highest.
 
 ## Initial Task Message
 **DO NOT EXPLORE AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE. HEAVY QUANT WORK ONLY.**
