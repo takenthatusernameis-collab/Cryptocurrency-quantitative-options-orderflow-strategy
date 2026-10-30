@@ -13,6 +13,9 @@ from src.data.schemas import OptionContract, OptionQuote, OptionsChain, Trade
 from src.features.gamma_exposure import calculate_total_delta_weighted_gex, calculate_total_gex
 from src.features.orderflow import orderflow_imbalance_multi_horizon
 from src.features.volatility import calculate_iv_skew_term_structure
+from src.execution.algorithms import TWAPAlgorithm, VWAPAlgorithm, ImplementationShortfallAlgorithm, SlippageModel
+from src.execution.engine import ExecutionEngine
+from src.execution.orders import Order, OrderSide, OrderType
 
 
 def _make_option_contract(symbol: str, strike: float, option_type: str, expiry: datetime) -> OptionContract:
@@ -260,3 +263,59 @@ def test_benchmark_comprehensive_hot_paths_baseline():
     assert timings["gex_delta_weighted_10k"] < 50.0
     assert timings["orderflow_100k"] < 100.0
     assert timings["iv_skew_term_structure"] < 100.0
+
+
+def test_benchmark_execution_engine_market_slicing_slo():
+    """Benchmark ExecutionEngine market orders and algorithm slicing hot paths."""
+    engine = ExecutionEngine(initial_capital=1000000.0, seed=12345)
+    spot = 50000.0
+
+    # Create many orders
+    start = time.perf_counter()
+    for i in range(1000):
+        from src.signals.composite import Signal
+        sig = Signal(
+            symbol=f"BTC{i%5}",
+            direction="long" if i % 2 == 0 else "short",
+            strength=0.6,
+            confidence=0.8,
+            components={"test": 0.6},
+            regime="trending",
+            metadata={},
+        )
+        order = engine.create_order_from_signal(sig, spot_price=spot, risk_pct=0.001)
+        if order is not None:
+            engine.submit_order(order)
+            engine.execute_order_market(order, fill_price=spot)
+    elapsed = (time.perf_counter() - start) * 1000.0
+    assert elapsed < 200.0, f"ExecutionEngine market path benchmark failed SLO: {elapsed:.2f}ms >= 200ms"
+
+
+def test_benchmark_execution_algorithms_slicing_slo():
+    """Benchmark TWAP/VWAP/ImplementationShortfall slice generation."""
+    slippage = SlippageModel()
+    twap = TWAPAlgorithm(num_slices=20, slippage_model=slippage, seed=42)
+    vwap = VWAPAlgorithm(num_slices=20, slippage_model=slippage, seed=42)
+    is_alg = ImplementationShortfallAlgorithm(urgency=0.7, risk_aversion=0.3, slippage_model=slippage, seed=42)
+
+    start_t = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    end_t = start_t + timedelta(hours=1)
+
+    # Create orders
+    orders = []
+    for i in range(100):
+        orders.append(Order(
+            order_id=f"ord{i}",
+            symbol="BTC",
+            side=OrderSide.BUY if i % 2 == 0 else OrderSide.SELL,
+            order_type=OrderType.MARKET,
+            quantity=1.0 + i * 0.01,
+        ))
+
+    start = time.perf_counter()
+    for o in orders:
+        twap.generate_slices(o, start_t, end_t, adv=1000.0)
+        vwap.generate_slices(o, start_t, end_t, adv=1000.0)
+        is_alg.generate_slices(o, start_t, end_t, adv=1000.0)
+    elapsed = (time.perf_counter() - start) * 1000.0
+    assert elapsed < 150.0, f"Execution algorithms slicing benchmark failed SLO: {elapsed:.2f}ms >= 150ms"
