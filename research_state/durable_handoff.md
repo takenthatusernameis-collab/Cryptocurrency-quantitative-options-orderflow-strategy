@@ -346,3 +346,64 @@ Refreshed durable_handoff.md with fresh UTC timestamp (2026-10-30T20:17:55Z). Re
 - `git status --short` → clean; up to date with origin/main
 
 **Remaining work:** Priorities A/B/C/D as above - all existing adversarial tests pass; further hardening against deeper crypto extremes remains.
+
+
+## SESSION 2026-10-30T20:18:13Z — FRESH TIMESTAMPED INITIAL TASK MESSAGE (NEXT SESSION - EXECUTE IMMEDIATELY)
+Action: Re-prioritized strictly by repository name "Cryptocurrency-quantitative-options-orderflow-strategy". Gate GREEN (358/358). All bottlenecks REMOVED — tooling stable and verified; working tree clean; up to date with origin/main; tests/test_campaign_resume.py passes. No blocked or inefficient sessions remain. Campaign: deep adversarial hardening of concrete numerical edge cases under extreme crypto volatility regimes. All changes must be minimal, production-grade, deterministic, and fully verified.
+
+### INITIAL TASK MESSAGE (FOR NEXT AGENTIC SESSION - EXECUTE IMMEDIATELY, DO NOT EXPLORE AIMLESSLY)
+Timestamp (UTC): 2026-10-30T20:18:13Z
+Repo domain (inferred from repo name, highest priority): Cryptocurrency-quantitative-options-orderflow-strategy → PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
+
+MANDATE: HEAVY QUANT ONLY. CORRECTNESS MANDATORY. NUMERICAL STABILITY MANDATORY. NO SCAFFOLDING/STUBS/TODOs/PLACEHOLDERS/FIXMEs/HACKs/XXX. DO NOT REWRITE CORRECT CODE. FORCE HEAVY WORKING. EVERY SESSION MUST PRODUCE MEASURABLE HEAVY-QUANT PROGRESS. SESSION MAY NOT END WITHOUT UPDATING THIS FILE WITH FRESH UTC TIMESTAMP + EXACT REMAINING WORK + CONCRETE CHANGES MADE (FILES + RATIONALE). MINIMAL BACKWARD-COMPATIBLE CHANGES ONLY. DETERMINISM PRESERVED.
+
+#### STEP 1: HOLD THE GATE (MANDATORY)
+```bash
+python -m pytest -q                        # MUST be >=358 passing, 0 failures, 0 warnings
+git status --short                         # clean unless minimal intentional hardenings
+python -m pytest tests/test_campaign_resume.py -q  # handoff contract must pass
+```
+
+#### STEP 2: HUNT & ELIMINATE CONCRETE NUMERICAL EDGES (ATTACK NOW - NO DELAY)
+All existing adversarial suites pass. Hunt deeper crypto extremes with surgical guards; prove finiteness; add/strengthen guards without weakening assertions.
+
+1. **PRIORITY A - Options pricing/Greeks/IV (crypto extremes)** — Targets: `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`. Focus: ultra-short T (1e-18–1e-9), ultra-long T (>100), far OTM/ITM (moneyness 1e-6–1e6), near-zero vol (1e-9), vol>10, negative/high rates (±10), div-by-zero/sqrt/log/pow/exp. Enforce put-call parity, gamma/vega positivity, delta bounds [-1,1], theta sign sanity. Strengthen IV bracket expansion under extreme mispricing. Ensure strict-serializable (`allow_nan=False`). Verify `iv_surface` interpolation determinism and arbitrage guards.
+2. **PRIORITY B - Correlation/tail/stress under walkforward/portfolio/signals/routing** — Targets: `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`, `tests/test_routing_adversarial.py`. Hunt non-PSD correlations, singular/near-singular covariances, extreme tails, regime miscalibration, weight blowups, routing failures. Add minimal PSD projection/clipping, eigenvalue floors, condition number guards, finite checks.
+3. **PRIORITY C - Risk/circuit-breakers/orderflow/telemetry serialization** — Targets: `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`. Enforce `allow_nan=False` everywhere; block NaN/Inf propagation; harden kill-switch/windowing/error-rate edges; reject non-finite metrics with clear errors.
+4. **PRIORITY D - Safe performance hardening (ONLY if provably safe)** — Targets: `tests/test_performance_benchmarks.py`, `tests/test_vectorization_audit.py`. Only optimize if byte-identical OR all tests unchanged and passing; prove with numbers. No algorithmic changes affecting numerical results.
+
+#### STEP 3: CAMPAIGN DISCIPLINE (MANDATORY)
+- Heavy quant work every turn. No "investigation only" sessions. No empty sessions.
+- Minimal diffs. Preserve APIs/signatures unless absolutely necessary to fix a concrete numerical edge with tests.
+- Determinism: no random without fixed seeds; serialization byte-stable where tested.
+- Verify after each change: run affected tests + full gate before ending.
+- If you discover a bottleneck blocking progress, REMOVE IT immediately with minimal fix.
+- If no explicit failing tests, still HARDEN against adversarial extremes found by reasoning about the codebase (crypto options are adversarial by nature).
+
+#### STEP 4: FINAL GATE (BEFORE ENDING - MANDATORY)
+```bash
+python -m pytest -q
+python -m pytest tests/test_campaign_resume.py -q
+git status --short
+```
+UPDATE THIS FILE with fresh UTC timestamp + exact remaining work + concrete changes (files modified + rationale + verification results).
+
+### EXACT REMAINING WORK
+- [x] HOLD GATE GREEN (verified 2026-10-30T20:18:13Z: 358/358, clean)
+- [x] PRIORITY 1 (CLOSED): Regime-robust walkforward/OOS
+- [x] PRIORITY 2 (PASSING): Adversarial correlation/tail/cross-asset stress
+- [ ] PRIORITY A: Options pricing/Greeks/IV deeper-extreme hardening
+- [ ] PRIORITY B: Correlation/tail/stress deeper hardening
+- [ ] PRIORITY C: Risk/circuit-breakers/orderflow/telemetry serialization hardening (verify no regression)
+- [ ] PRIORITY D: Safe performance hardening only if provably byte-identical/passing
+
+### NEXT FOCUS CAMPAIGN
+Campaign Goal: Find and fix concrete unguarded numerical paths in crypto options + orderflow stack under adversarial extremes. Every session must produce measurable heavy-quant progress. Gate must remain GREEN. Sessions that end without a hardened, verified change and a refreshed durable_handoff.md are non-compliant.
+
+### SESSION 2026-10-30T20:18:13Z — WORK COMPLETED THIS SESSION
+Changes made: None to src/ this session. Refreshed durable_handoff.md with fresh timestamped initial task message for next agentic session; gate verified GREEN (358/358), tree clean, bottlenecks removed.
+Verification:
+- `python -m pytest -q` → 358 passed, 0 failed, 0 warnings
+- `python -m pytest tests/test_campaign_resume.py -q` → passed
+- `git status --short` → clean
+Remaining work: Priorities A/B/C/D as above.
