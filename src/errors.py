@@ -155,6 +155,9 @@ class StructuredLogger:
     def error(self, msg: str, **ctx: Any) -> None:
         self._emit("ERROR", msg, **ctx)
 
+    def critical(self, msg: str, **ctx: Any) -> None:
+        self._emit("CRITICAL", msg, **ctx)
+
     def exception(self, msg: str, exc: BaseException, **ctx: Any) -> None:
         c = dict(ctx)
         c.setdefault("exc_type", type(exc).__name__)

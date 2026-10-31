@@ -120,3 +120,16 @@ orderflow_imbalance vs forward return: -0.4583478199902648
 - Artifacts (strict `allow_nan=False`): `research_state/PRODUCTION_CAMPAIGN_20261031T224626Z.json`, `PRODUCTION_CAMPAIGN_20261031T224651Z.json`, `PRODUCTION_CAMPAIGN_20261031T224703Z.json`, `RISK_AUDIT_20261031T224626Z.json`, `RISK_AUDIT_20261031T224651Z.json`, `RISK_AUDIT_20261031T224703Z.json`, `MICROSTRUCTURE_ADVERSARIAL_20261031T224626Z.json`, `MICROSTRUCTURE_ADVERSARIAL_20261031T224651Z.json`, `MICROSTRUCTURE_ADVERSARIAL_20261031T224703Z.json`.
 - Determinism/resume/serialization verified; full pipeline exercises execution+risk+microstructure+latency hedging with strict serialization.
 - Gate: `python -m pytest tests/ -q` = 500 passed, 2 skipped, 0 failed.
+
+
+## Phase 8: Live Trading Readiness, Paper Trading & Deployment Hardening (Crypto Options + Orderflow) (2026-10-31T23:44:18Z)
+- **Exchange Adapters Hardened**: Extended `src/ingestion/deribit.py`, `src/ingestion/okx.py`, `src/ingestion/binance.py` with production patterns; added `src/ingestion/adapter_utils.py` (rate limiting/token bucket, retry with exponential backoff, websocket reconnect manager).
+- **Live/Paper Trading Engine**: New `src/execution/live_trading.py` with full order lifecycle (submit/replace/cancel), state machine, reconciliation against exchange, idempotency keys, fills matching (partials/full), time-in-force, reject handling, wired to ExecutionEngine + risk integration.
+- **Secrets & Config Hardening**: New `src/config/secrets.py`, `src/config/__init__.py` with secure config loading, env overrides, validation, redaction in logs; added `.env.example`. Strict schema validation.
+- **Reconciliation & Position/Margin**: New `src/risk/reconciliation.py` with position/PnL reconciliation, margin/collateral checks, discrepancy alerts, auto-halt on critical mismatch, full audit trail.
+- **Pre-Live Gates & Deployment**: New `scripts/run_paper_trading_campaign.py` (pre-live checklist gates, canary/paper mode, rollback procedures, health checks, telemetry integration), new `docs/DEPLOYMENT.md` with deployment runbooks.
+- **Comprehensive Tests**: New `tests/test_live_trading_readiness.py` with 38 tests covering adapters/retry/auth flows (mocked), order lifecycle/reconciliation, secrets/config, margin checks, determinism, strict serialization, failure injection - all passing.
+- **Artifacts**: Emitted timestamped artifacts to `research_state/`: `PAPER_TRADING_CAMPAIGN_*.json`, `RECONCILIATION_AUDIT_*.json`, `PRE_LIVE_GATE_REPORT_*.json` with strict `allow_nan=False` serialization.
+- **Gate**: `python -m pytest tests/ -q` = 538 passed, 2 skipped, 0 failed (all Phase 8 tests passing).
+- **Determinism**: Verified reruns produce identical key metrics; full pipeline exercises live/paper path with strict serialization.
+- **Integration**: Risk controls wired into execution with hard enforcement; all components use production-grade patterns, no placeholders/TODOs/FIXMEs/HACKs.

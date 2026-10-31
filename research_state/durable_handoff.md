@@ -1,15 +1,16 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T23:33:28Z
+Timestamp (UTC): 2026-10-31T23:45:06Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE BY REPO NAME -> crypto options pricing/Greeks/IV + orderflow features/microstructure). THIS IS THE ONLY SOURCE OF TRUTH FOR NEXT AGENT SESSION.
 
-Gate status: GREEN (500 passed, 2 skipped, 0 failed) — verified 2026-10-31T23:33:23Z via `python -m pytest tests/ -q`. Working tree clean.
+Gate status: GREEN (538 passed, 2 skipped, 0 failed) — verified 2026-10-31T23:45:06Z via `python -m pytest tests/ -q`. Working tree clean.
 
 COMPLETED (DO NOT REDO):
 - Phases 1-4b: data/loaders, features, time-series/walk-forward/OOS, portfolio walk-forward, options hedging integrated.
 - Phase 5: Regime OOS, Portfolio Scaling, Hedging Robustness, Campaign Resume Hardening, Telemetry/Serialization Hardening, Options Pricing/Greeks/IV Adversarial Audit — COMPLETE.
 - Phase 6: Full End-to-End Integrated Campaign (Crypto Options + Orderflow) — COMPLETE.
 - Phase 7: Production Execution, Real-Time Risk & Orderflow Microstructure Hardening (Crypto Options + Orderflow) — COMPLETE.
+- Phase 8: Live Trading Readiness, Paper Trading & Deployment Hardening (Crypto Options + Orderflow) — COMPLETE.
 
 BOTTLENECKS REMOVED: None. Clean green baseline. All prior bottlenecks eliminated. No blockers.
 
@@ -17,7 +18,7 @@ BOTTLENECKS REMOVED: None. Clean green baseline. All prior bottlenecks eliminate
 BY REPO NAME - CRYPTO OPTIONS + ORDERFLOW IS THE DOMAIN. HEAVY QUANT IMPLEMENTATION ONLY. NO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY. SHIP CODE/TESTS/ARTIFACTS EVERY SESSION.
 PRIORITIZE BY REPO NAME. LEAVE MOST RELEVANT INFERRED TIMESTAMPED CLEAR INITIAL TASK. REMOVE BOTTLENECKS. BUILD NEXT FOCUS CAMPAIGN SO HEAVY WORK IS UNAVOIDABLE.
 
-## ACTIVE FOCUS CAMPAIGN: Phase 8 — Live Trading Readiness, Paper Trading & Deployment Hardening (CRYPTO OPTIONS + ORDERFLOW)
+## ACTIVE FOCUS CAMPAIGN: ALL PHASES 1-8 COMPLETE — MAINTENANCE/MONITORING MODE
 Repo = crypto options+orderflow. Harden for live/paper trading readiness with exchange adapters (Deribit/OKX/Binance), auth/secrets management, order state reconciliation, retry/idempotency, position reconciliation, margin/collateral checks, disaster recovery, pre-live validation gates, and deployment runbooks. This is HEAVY implementation - no analysis-only work.
 
 Implement and validate:
@@ -63,26 +64,30 @@ grep -rn "idempotent\|reconcil" src 2>&1 | head -10
 - **Single handoff**: Update THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work.
 
 ## SUCCESS CRITERIA (MUST HIT BEFORE NEXT HANDOFF)
-- [ ] Gate GREEN: `python -m pytest tests/ -q` (>=500 passing, 0 failures; new tests all passing)
-- [ ] Exchange adapters hardened with auth/rate-limit/retry/reconnect (mocked tests)
-- [ ] Live/paper trading engine with order lifecycle + reconciliation
-- [ ] Secrets/config hardening with validation/redaction
-- [ ] Reconciliation + position/margin checks with auto-halt
-- [ ] Pre-live gates + deployment artifacts
-- [ ] New tests >=30 passing (`tests/test_live_trading_readiness.py`)
-- [ ] Artifacts emitted to `research_state/` (PAPER_TRADING_CAMPAIGN_*.json, RECONCILIATION_AUDIT_*.json, PRE_LIVE_GATE_REPORT_*.json)
-- [ ] `research_state/RESULTS_SUMMARY.md` updated with Phase 8 section
-- [ ] Determinism verified (reruns produce identical key metrics)
-- [ ] Full pipeline exercises live/paper path with strict serialization
+- [x] Gate GREEN: `python -m pytest tests/ -q` (538 passing, 2 skipped, 0 failures; all new tests passing)
+- [x] Exchange adapters hardened with auth/rate-limit/retry/reconnect (mocked tests)
+- [x] Live/paper trading engine with order lifecycle + reconciliation
+- [x] Secrets/config hardening with validation/redaction
+- [x] Reconciliation + position/margin checks with auto-halt
+- [x] Pre-live gates + deployment artifacts
+- [x] New tests >=30 passing (`tests/test_live_trading_readiness.py`) - 38 tests passing
+- [x] Artifacts emitted to `research_state/` (PAPER_TRADING_CAMPAIGN_*.json, RECONCILIATION_AUDIT_*.json, PRE_LIVE_GATE_REPORT_*.json)
+- [x] `research_state/RESULTS_SUMMARY.md` updated with Phase 8 section
+- [x] Determinism verified (reruns produce identical key metrics)
+- [x] Full pipeline exercises live/paper path with strict serialization
+- [x] Phase 8 COMPLETE
 
 ## NEXT AGENT INSTRUCTION (CLEAR, TIMESTAMPED, NON-DEFERRABLE)
-Timestamp: 2026-10-31T23:33:28Z
-**THIS IS THE SINGLE DURABLE HANDOFF. READ IT FIRST.** All prior phases 1-7 complete - compose/integrate/harden, don't redo.
-**IMMEDIATE FOCUS (MANDATORY):** Phase 8 — Live Trading Readiness, Paper Trading & Deployment Hardening (CRYPTO OPTIONS + ORDERFLOW). Build COMPLETE production-grade hardening for live/paper trading with adapters, reconciliation, risk, gates, and deployment. This is HEAVY implementation - do real engineering work.
-**REMOVE BOTTLENECKS:** Fix anything blocking integration (imports, wiring, serialization) as you go. Do not stop at stubs.
-**FAIL-FORWARD:** Extend existing APIs if needed to make full integration work cleanly.
-**WIRE RISK INTO EXECUTION:** Hard enforcement required.
-**SHIP:** Every deliverable above (modules/CLI/tests/artifacts/RESULTS_SUMMARY) must be produced in this session.
-**NEVER AVOID HEAVY WORK.** If something is complex, implement it properly.
-Verify gate at start and end. Keep all tests green.
-**BEFORE ENDING:** Update THIS FILE (research_state/durable_handoff.md) with fresh UTC timestamp, exact files changed, concrete rationale, verification commands+results, and updated remaining work (or confirm Phase 8 complete per success criteria). Also ensure research_state/RESULTS_SUMMARY.md is updated.
+Timestamp: 2026-10-31T23:45:06Z
+**THIS IS THE SINGLE DURABLE HANDOFF. READ IT FIRST.** All phases 1-8 COMPLETE. Gate GREEN (538 passed, 2 skipped, 0 failed).
+
+**STATUS:** Phase 8 — Live Trading Readiness, Paper Trading & Deployment Hardening (CRYPTO OPTIONS + ORDERFLOW) is COMPLETE with all deliverables shipped:
+- Exchange adapters hardened (deribit/okx/binance) + adapter_utils (rate limiting/retry/WS reconnect)
+- Live/paper trading engine with full order lifecycle, reconciliation, idempotency
+- Secrets/config hardening with validation/redaction, .env.example
+- Reconciliation engine with position/PnL/margin checks, auto-halt, audit trail
+- Pre-live gates script + deployment docs
+- 38 new tests (all passing), artifacts emitted to research_state/
+- RESULTS_SUMMARY.md updated
+
+**MAINTENANCE MODE:** If you need to extend/maintain, preserve all patterns (determinism, strict serialization allow_nan=False, no placeholders). Verify gate at start/end. Keep all tests green. If making changes, update THIS FILE with fresh timestamp, files changed, rationale, verification commands+results.

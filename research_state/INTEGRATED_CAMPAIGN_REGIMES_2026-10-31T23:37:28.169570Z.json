@@ -1,0 +1,215 @@
+{
+  "campaign_id": "test_symbols",
+  "timestamp": "2026-10-31T23:37:28.169570Z",
+  "seed": 3,
+  "regimes": {
+    "BTC": {
+      "regime": "neutral",
+      "confidence": 0.5046165733685829,
+      "strength": 0.09314900298738774,
+      "components": {
+        "gamma": 0.11139743575673815,
+        "orderflow": 0.11363406851775336,
+        "vol_skew": 0.08,
+        "iv_greeks": 0.050588311355360176,
+        "put_call": 0.07732746328039974
+      },
+      "total_gex": 0.0,
+      "iv_skew": 0.0,
+      "put_call_ratio": 0.9226725367196003
+    },
+    "ETH": {
+      "regime": "neutral",
+      "confidence": 0.4369067176289784,
+      "strength": 0.05123241762325073,
+      "components": {
+        "gamma": 0.14969932344563744,
+        "orderflow": 0.07089189805697374,
+        "vol_skew": 0.08,
+        "iv_greeks": 0.06165284897232298,
+        "put_call": -0.14251012895078985
+      },
+      "total_gex": 0.0,
+      "iv_skew": 0.0,
+      "put_call_ratio": 1.2850202579015797
+    },
+    "SOL": {
+      "regime": "neutral",
+      "confidence": 0.4378765113058681,
+      "strength": 0.10639890980930897,
+      "components": {
+        "gamma": 0.2788240383609614,
+        "orderflow": 0.08141989050519442,
+        "vol_skew": 0.06400502612717289,
+        "iv_greeks": 0.11914923787728783,
+        "put_call": -0.025046781355404057
+      },
+      "total_gex": 0.0,
+      "iv_skew": 0.0,
+      "put_call_ratio": 1.0500935627108081
+    }
+  },
+  "regime_walkforward": {
+    "BTC": {
+      "regime": "unknown",
+      "overall_out_of_sample_return": 0.0,
+      "stability_ratio": 0.0
+    },
+    "ETH": {
+      "regime": "unknown",
+      "overall_out_of_sample_return": 0.0,
+      "stability_ratio": 0.0
+    },
+    "SOL": {
+      "regime": "unknown",
+      "overall_out_of_sample_return": 0.0,
+      "stability_ratio": 0.0
+    }
+  },
+  "portfolio_allocation": {
+    "campaign_id": "test_symbols",
+    "step": "portfolio_scaling",
+    "status": "completed",
+    "allocation_mode": "risk_parity",
+    "vol_target": 0.1,
+    "turnover_cap": 0.05,
+    "risk_parity": true,
+    "purge": 10,
+    "embargo": 5,
+    "num_windows": 6,
+    "overall_out_of_sample_return": 0.0,
+    "overall_out_of_sample_sharpe": 0.0,
+    "overall_out_of_sample_max_drawdown": 0.0,
+    "stability_ratio": 0.0,
+    "degradation": 0.0,
+    "oos_trade_count": 0,
+    "windows": [
+      {
+        "train_start": 0,
+        "train_end": 40,
+        "test_start": 40,
+        "test_end": 60,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.25,
+          "ETH": 0.5,
+          "SOL": 0.25
+        },
+        "turnover": 0.0,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 20,
+        "train_end": 60,
+        "test_start": 60,
+        "test_end": 80,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.28098014218210265,
+          "ETH": 0.45,
+          "SOL": 0.26901985781789733
+        },
+        "turnover": 0.04999999999999999,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 40,
+        "train_end": 80,
+        "test_start": 80,
+        "test_end": 100,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.30192585407126576,
+          "ETH": 0.4,
+          "SOL": 0.2980741459287342
+        },
+        "turnover": 0.04999999999999999,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 60,
+        "train_end": 100,
+        "test_start": 100,
+        "test_end": 120,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.32466897820028834,
+          "ETH": 0.35000000000000003,
+          "SOL": 0.32533102179971174
+        },
+        "turnover": 0.050000000000000044,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 80,
+        "train_end": 120,
+        "test_start": 120,
+        "test_end": 140,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.33902770144010586,
+          "ETH": 0.3513346306659414,
+          "SOL": 0.30963766789395286
+        },
+        "turnover": 0.015693353905758878,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 100,
+        "train_end": 140,
+        "test_start": 140,
+        "test_end": 150,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.3375941802172301,
+          "ETH": 0.33649493286490173,
+          "SOL": 0.3259108869178682
+        },
+        "turnover": 0.016273219023915375,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      }
+    ]
+  }
+}
