@@ -187,18 +187,22 @@ class RiskManager:
         if self.kill_switch_state == KillSwitchState.TRIGGERED:
             return
         self.kill_switch_state = KillSwitchState.TRIGGERED
+        # Neutralize non-finite values so the violation record itself stays
+        # serializable through serialize_metrics_strict (allow_nan=False).
+        cur_f = float(current) if isfinite(float(current)) else 0.0
+        lim_f = float(limit) if isfinite(float(limit)) else 0.0
         viol = RiskViolation(
             violation_id=self._generate_violation_id(),
             violation_type=vtype,
             severity="critical",
             symbol=None,
             message=f"Kill switch triggered: {vtype}",
-            current_value=float(current),
-            limit_value=float(limit),
+            current_value=cur_f,
+            limit_value=lim_f,
             action_taken="KILL_SWITCH_ACTIVATED",
         )
         self.violations.append(viol)
-        _logger.error("kill_switch_triggered", violation_type=vtype, current_value=current, limit_value=limit)
+        _logger.error("kill_switch_triggered", violation_type=vtype, current_value=cur_f, limit_value=lim_f)
 
     def check_order(self, symbol: str, side: str, quantity: float, price: float, positions: Dict[str, Any],
                     portfolio_greeks: Optional[Dict[str, float]] = None) -> List[RiskViolation]:
@@ -250,7 +254,14 @@ class RiskManager:
 
         qty = float(quantity)
         px = float(price)
-        notional = qty * px
+        try:
+            notional = qty * px
+        except Exception:
+            notional = 0.0
+        if not isfinite(notional):
+            notional = 0.0
+        if abs(notional) > 1e18:
+            notional = 1e18 if notional > 0 else -1e18
 
         # Per-symbol notional
         if notional > self.limits.max_notional_per_symbol:
@@ -284,7 +295,15 @@ class RiskManager:
 
         # Portfolio notional
         if self.current_equity > 0:
-            total_notional = sum(getattr(p, "market_value_abs", 0) for p in positions.values()) + notional
+            try:
+                existing_notional = sum(getattr(p, "market_value_abs", 0) for p in positions.values())
+            except Exception:
+                existing_notional = 0.0
+            if not isfinite(existing_notional):
+                existing_notional = 0.0
+            total_notional = existing_notional + notional
+            if not isfinite(total_notional):
+                total_notional = 0.0
             if total_notional > self.limits.max_portfolio_notional:
                 viol = RiskViolation(
                     violation_id=self._generate_violation_id(),

@@ -172,17 +172,21 @@ class IVSurface:
             # At expiry, return ATM or nearest
             texp_f = 1e-18
         texp = texp_f
-        # Clamp extremes
+        # Clamp extremes on LOCAL copies only. Mutating self.spot/self.rate here
+        # would corrupt the surface for every subsequent call (determinism +
+        # serialization violation); extreme inputs must never persist.
+        spot_f = self.spot if math.isfinite(self.spot) and self.spot > 0.0 else 1.0
+        rate_f = self.rate if math.isfinite(self.rate) else 0.0
+        if spot_f > 1e18:
+            spot_f = 1e18
+        if spot_f < 1e-18:
+            spot_f = 1e-18
+        if abs(rate_f) > 10.0:
+            rate_f = max(-10.0, min(10.0, rate_f))
         if strike_f > 1e18:
             strike_f = 1e18
         if strike_f < 1e-18:
             strike_f = 1e-18
-        if self.spot > 1e18:
-            self.spot = 1e18
-        if self.spot < 1e-18:
-            self.spot = 1e-18
-        if abs(self.rate) > 10.0:
-            self.rate = max(-10.0, min(10.0, self.rate))
         # Find nearest expiry points
         candidates = [(p, abs(p.time_to_expiry - texp)) for p in self.points if p.option_type == ot]
         if not candidates:

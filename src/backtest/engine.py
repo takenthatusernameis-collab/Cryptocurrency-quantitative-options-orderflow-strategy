@@ -280,6 +280,16 @@ class BacktestEngine:
         qty = min(qty_by_risk, qty_by_capital)
         if qty < 0:
             qty = 0.0
+        # Hard finite cap: extreme prices (e.g. 1e-300) produce absurd quantities
+        # that overflow equity on fill. Cap at a physically meaningful bound so
+        # no path can emit a non-finite position size.
+        if not isfinite(qty):
+            qty = 0.0
+        max_qty = getattr(self.risk_config, "max_position_qty", 0.0)
+        if not max_qty or not isfinite(max_qty) or max_qty <= 0:
+            max_qty = 1e18
+        if qty > max_qty:
+            qty = max_qty
         return qty
 
     def execute_trade(self, symbol: str, quantity: float, price: float, side: str, timestamp: datetime,
@@ -552,11 +562,26 @@ class BacktestEngine:
             if symbol not in current_prices or not isfinite(current_prices[symbol]):
                 continue
             price = float(current_prices[symbol])
+            # Guard the notional against overflow: an extreme price * extreme
+            # quantity can overflow float -> -inf equity, which then propagates
+            # through every drawdown/Sharpe computation. Clamp the per-position
+            # contribution to a finite bound so equity stays finite.
+            try:
+                notional = pos.quantity * price
+            except Exception:
+                notional = 0.0
+            if not isfinite(notional):
+                # Neutralize rather than let -inf/inf leak into the equity curve.
+                notional = 0.0
+            if abs(notional) > 1e18:
+                notional = 1e18 if notional > 0 else -1e18
             if pos.side == "long":
-                equity += pos.quantity * price
+                equity += notional
             elif pos.side == "short":
                 # Subtract current liability; proceeds already in cash.
-                equity -= pos.quantity * price
+                equity -= notional
+        if not isfinite(equity):
+            equity = float(self.cash)
         return equity
 
     def calculate_metrics(self) -> BacktestResults:

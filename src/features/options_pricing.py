@@ -616,6 +616,7 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
         rng = random.Random(seed)
     except Exception:
         rng = random.Random(_IV_NEUTRAL_SEED)
+    _ = rng  # retained for API stability; solver is deterministic via bisection+Newton
 
     def price_at(vol: float) -> float:
         try:
@@ -664,7 +665,10 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
         raise NonFiniteResultError("IV solver encountered non-finite pricing",
                                    context={"function": "implied_volatility"})
     if flo * fhi > 0.0:
-        # Expand bracket deterministically
+        # Expand bracket deterministically. Cap the expansion so an
+        # unbounded loop cannot burn wall-clock on adversarial inputs; if the
+        # bracket still cannot be widened to contain the root, the quoted
+        # price is an arbitrage violation and we raise rather than guess.
         expanded = False
         for _ in range(30):
             hi *= 1.5
@@ -678,25 +682,22 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
                 expanded = True
                 break
         if not expanded:
-            jitter = 1e-4 + (rng.random() * 1e-3)
-            lo = max(_IV_VOL_FLOOR, 1e-6 - jitter)
-            hi = _IV_VOL_CAP
-            flo = price_at(lo) - market_price
-            fhi = price_at(hi) - market_price
-            if not (math.isfinite(flo) and math.isfinite(fhi)):
-                raise NonFiniteResultError("IV solver could not bracket root",
-                                           context={"function": "implied_volatility",
-                                                    "market_price": market_price,
-                                                    "spot": spot, "strike": strike,
-                                                    "rate": rate,
-                                                    "time_to_expiry": time_to_expiry})
-            if flo * fhi > 0.0:
-                raise NonFiniteResultError("IV solver could not bracket root",
-                                           context={"function": "implied_volatility",
-                                                    "market_price": market_price,
-                                                    "spot": spot, "strike": strike,
-                                                    "rate": rate,
-                                                    "time_to_expiry": time_to_expiry})
+            # Try widening the lower bound toward zero as a last resort.
+            for _ in range(10):
+                lo = max(_IV_VOL_FLOOR, lo * 0.5)
+                flo = price_at(lo) - market_price
+                if not math.isfinite(flo):
+                    continue
+                if flo * fhi <= 0.0:
+                    expanded = True
+                    break
+        if not expanded:
+            raise NonFiniteResultError("IV solver could not bracket root",
+                                       context={"function": "implied_volatility",
+                                                "market_price": market_price,
+                                                "spot": spot, "strike": strike,
+                                                "rate": rate,
+                                                "time_to_expiry": time_to_expiry})
 
     vol = 0.5 * (lo + hi)
     converged = False
