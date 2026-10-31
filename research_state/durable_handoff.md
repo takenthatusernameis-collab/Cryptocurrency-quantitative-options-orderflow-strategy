@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T02:15:59Z
+Timestamp (UTC): 2026-10-31T02:22:14Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks removed.
@@ -115,7 +115,8 @@ Run gate + campaign resume. Do not proceed if not green.
 6. VERIFY affected tests after each change. Full `pytest -q` before ending.
 7. UPDATE THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make priorities unmissable. NO IDLE TURNS. HEAVY QUANT WORK ONLY.
 
-## LAST SESSION (2026-10-31T02:15:59Z)
+## LAST SESSION (2026-10-31T02:22:14Z)
 - **Handoff refreshed to single durable source with fresh timestamp.** Priorities explicitly inferred from repo name (crypto options + orderflow) — A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, B) orderflow/correlation/tail/routing, C) risk/circuit-breakers/serialization (strict `allow_nan=False`), D) safe perf only if provably byte-identical/passing.
-- **Gate verified GREEN:** 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean. Bottlenecks documented/prevented.
+- **Gate verified GREEN:** `python -m pytest -q` → 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean (`git status --short` empty). Bottlenecks documented/prevented (edit-tool invalid-argument mandate in place; no idle turns).
 - **Current state:** All adversarial options/IV/Greeks tests passing (51 passed). Numerical guards and strict serialization in place. Correlation/PSD handling present in backtest engine. Ready for next agent to continue deep hardening as directed above.
+- **Immediate next attack:** Phase A — unguarded numerical paths in `src/features/options_pricing.py`/`src/features/iv_surface.py` under crypto extremes (ultra-short T 1e-18–1e-9, ultra-long T >100, far OTM/ITM moneyness 1e-6–1e6, near-zero vol 1e-9, vol >10, extreme rates/strikes), IV solver bracketing/Newton fallbacks, put-call parity, invariants, strict `allow_nan=False` serialization.
