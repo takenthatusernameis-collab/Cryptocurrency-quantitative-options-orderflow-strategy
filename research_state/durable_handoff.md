@@ -1,8 +1,8 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T09:02:19Z
+Timestamp (UTC): 2026-10-31T09:04:47Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY (PRIORITIZE BY REPO NAME)
-Gate status: GREEN (360 passed, 0 failed, 0 warnings — verified 2026-10-31T09:02:19Z). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks: NONE active.
+Gate status: GREEN (360 passed, 0 failed, 0 warnings — verified 2026-10-31T09:04:47Z). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks: NONE active.
 
 ## BOTTLENECKS (FIXED / PREVENTED)
 - NONE active. All tooling/edit paths unblocked.
@@ -19,7 +19,7 @@ Gate status: GREEN (360 passed, 0 failed, 0 warnings — verified 2026-10-31T09:
 You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy** campaign (crypto options + orderflow quant). Phases A-C COMPLETE. Current gate GREEN (360/360, 0 failures, 0 warnings).
 
 **MANDATORY PRIORITIZATION BY REPOSITORY NAME (INFERRED - MUST FOLLOW):**
-1. **A) CRYPTO OPTIONS PRICING/GREEKS/IV** — HIGHEST PRIORITY (repo name = crypto options). Hardened; only extend if unguarded edge found. Targets: `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`.
+1. **A) CRYPTO OPTIONS PRICING/GREEKS/IV** — HIGHEST PRIORITY (repo name = crypto options). Hardened; only extend if unguarded edge found. Targets: `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`. Source: `src/features/options_pricing.py`, `src/features/iv_surface.py`.
 2. **B) ORDERFLOW/CORRELATION/TAIL/STRESS** — Verified passing; audit only. Targets: `tests/test_adversarial_stress.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`, `tests/test_routing_adversarial.py`.
 3. **C) RISK/CIRCUIT-BREAKERS/TELEMETRY SERIALIZATION** — Hardened; re-audit if any unguarded edge. Targets: `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`.
 4. **D) SAFE PERFORMANCE — CURRENT PRIMARY ATTACK** — Optimize only measured hotspots with proof of numerical equivalence (byte-identical OR tests unchanged+passing). Targets: `tests/test_performance_benchmarks.py`, `tests/test_vectorization_audit.py`. Files: hotspots surfaced by profiling. If no provably safe optimization exists, do NOT fabricate; instead produce heavy quant progress by (a) re-auditing C/B/A for remaining unguarded numerical edges and hardening them, or (b) adding adversarial regression tests that fail on unguarded paths. Every session MUST produce measurable heavy-quant progress and end with gate GREEN. No idle turns.
@@ -58,7 +58,7 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 - [x] Phase A hardening complete
 - [x] Phase B adversarial targets pass
 - [x] Phase C hardened (serialization, circuit breaker, risk limits) — targets pass (20/20)
-- [ ] **D) SAFE PERFORMANCE** - Byte-identical or tests unchanged+passing only. If no safe win, re-audit C/B/A for unguarded edges and harden.
+- [ ] **D) SAFE PERFORMANCE** - Byte-identical or tests unchanged+passing only. If no safe win, re-audit C then B then A for unguarded edges and harden.
 
 ## NEXT FOCUS CAMPAIGN (CLEAR FOR NEXT AGENT - UNAVOIDABLY HEAVY)
 **Goal:** Deliver provably safe performance gains OR adversarial hardening of remaining unguarded edges. No session may end without measurable heavy-quant progress and gate GREEN.
@@ -70,6 +70,6 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 4. VERIFY affected tests after each change. Full `python3 -m pytest -q` before ending.
 5. UPDATE THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make priorities unmissable. NO IDLE TURNS. HEAVY QUANT WORK ONLY.
 
-## LAST SESSION (2026-10-31T08:04:12Z)
-- **Handoff refreshed:** single durable handoff updated with timestamped initial task message, bottlenecks cleared (none active), next focus campaign built (D safe performance primary; fallback re-audit C/B/A). Gate GREEN (360/360). Working tree clean.
+## LAST SESSION (2026-10-31T09:04:47Z)
+- **Handoff refreshed:** single durable handoff updated with timestamped initial task message, bottlenecks cleared (none active), next focus campaign built (D safe performance primary; fallback re-audit C/B/A; repo-name priority A highest). Gate GREEN (360/360). Working tree clean.
 - **State:** Ready for next agent. Heavy quant work mandatory.
