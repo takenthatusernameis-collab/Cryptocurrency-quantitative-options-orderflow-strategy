@@ -81,6 +81,8 @@ def _years_to_expiry(expiry: datetime, now: Optional[datetime] = None) -> float:
             return 0.0
         if dt > 100.0:  # guard extremes
             dt = 100.0
+        if dt < 1e-18:
+            dt = 1e-18
         return float(dt)
     except Exception:
         return 0.0
@@ -170,6 +172,17 @@ class IVSurface:
             # At expiry, return ATM or nearest
             texp_f = 1e-18
         texp = texp_f
+        # Clamp extremes
+        if strike_f > 1e18:
+            strike_f = 1e18
+        if strike_f < 1e-18:
+            strike_f = 1e-18
+        if self.spot > 1e18:
+            self.spot = 1e18
+        if self.spot < 1e-18:
+            self.spot = 1e-18
+        if abs(self.rate) > 10.0:
+            self.rate = max(-10.0, min(10.0, self.rate))
         # Find nearest expiry points
         candidates = [(p, abs(p.time_to_expiry - texp)) for p in self.points if p.option_type == ot]
         if not candidates:

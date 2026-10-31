@@ -148,12 +148,22 @@ def _d1_d2(spot: float, strike: float, rate: float, volatility: float,
         # Try clamping
         if moneyness > 1e18:
             moneyness_clamped = 1e18
+            moneyness = moneyness_clamped
             log_m = safe_log(moneyness_clamped, default=0.0, operation="d1_log_clamped")
         elif moneyness < 1e-18:
             moneyness_clamped = 1e-18
+            moneyness = moneyness_clamped
             log_m = safe_log(moneyness_clamped, default=0.0, operation="d1_log_clamped")
         else:
             log_m = 0.0
+    if not math.isfinite(log_m):
+        # Hard clamp as last resort
+        if moneyness >= 1.0:
+            moneyness = min(moneyness, 1e18)
+            log_m = 41.44653167389282  # log(1e18) approx
+        else:
+            moneyness = max(moneyness, 1e-18)
+            log_m = -41.44653167389282  # log(1e-18) approx
     # drift term guard
     try:
         drift_term = (rate + 0.5 * volatility * volatility) * time_to_expiry
@@ -214,8 +224,18 @@ def black_scholes_price(inputs: PricingInputs) -> float:
         volatility = 0.0
     if time_to_expiry > 100.0:
         time_to_expiry = 100.0
+    if time_to_expiry < 0.0:
+        time_to_expiry = 0.0
     if abs(rate) > 10.0:
         rate = max(-10.0, min(10.0, rate))
+    if spot > 1e18:
+        spot = 1e18
+    if strike > 1e18:
+        strike = 1e18
+    if spot < 1e-18:
+        spot = 1e-18
+    if strike < 1e-18:
+        strike = 1e-18
 
     discount = _discount_factor(rate, time_to_expiry)
     if not math.isfinite(discount) or discount < 0.0:
@@ -571,15 +591,26 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
     if not math.isfinite(market_price) or market_price < 0.0:
         raise NonFiniteResultError("market_price must be finite and >= 0",
                                    context={"function": "implied_volatility", "market_price": market_price})
+    if market_price > 1e18 or market_price < 0.0:
+        # Still validate
+        pass
     # Clamp extremes
     if time_to_expiry > 100.0:
         time_to_expiry = 100.0
+    if time_to_expiry < 1e-18:
+        time_to_expiry = 1e-18
     if abs(rate) > 10.0:
         rate = max(-10.0, min(10.0, rate))
     if spot > 1e18:
         spot = 1e18
     if strike > 1e18:
         strike = 1e18
+    if spot < 1e-18:
+        spot = 1e-18
+    if strike < 1e-18:
+        strike = 1e-18
+    if market_price > 1e18:
+        market_price = 1e18
 
     try:
         rng = random.Random(seed)
