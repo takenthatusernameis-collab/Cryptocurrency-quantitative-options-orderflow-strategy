@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T01:20:56Z
+Timestamp (UTC): 2026-10-31T01:21:23Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks removed.
@@ -115,8 +115,7 @@ Run gate + campaign resume. Do not proceed if not green.
 6. VERIFY affected tests after each change. Full `pytest -q` before ending.
 7. UPDATE THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make priorities unmissable. NO IDLE TURNS. HEAVY QUANT WORK ONLY.
 
-## LAST SESSION (2026-10-31T01:19:00Z)
-- **Handoff refreshed to single durable source with fresh timestamp.** Priorities explicitly inferred from repo name (crypto options + orderflow) — reordered to A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, B) orderflow/correlation/tail/routing, C) risk/circuit-breakers/serialization (strict `allow_nan=False`), D) safe perf only if provably byte-identical/passing.
-- **Gate verified GREEN:** 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean. Bottlenecks documented/prevented (edit tool mandate, no idle turns).
-- **State carried forward:** Base moneyness/log/clamp hardening in `src/features/options_pricing.py` and IV surface extremes/clamping in `src/features/iv_surface.py` from prior session remain intact; all adversarial options/IV tests passing.
-- **Directive:** Hold gate first. Attack A) deeper adversarial options/Greeks/IV extremes if any gaps remain (ultra-short/long T 1e-18-1e-9/>100, moneyness 1e-6-1e6, vol 1e-9/>10, extreme rates/strikes, IV solver bracketing/Newton, put-call parity, invariants, strict `allow_nan=False`). Targets: `src/features/options_pricing.py`, `src/features/iv_surface.py`. Then B/C. Verify full gate before ending. Update this file before ending with timestamp/files/rationale/verification/remaining work. Heavy quant only.
+## LAST SESSION (2026-10-31T01:21:23Z)
+- **Handoff refreshed to single durable source with fresh timestamp.** Priorities explicitly inferred from repo name (crypto options + orderflow) — A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, B) orderflow/correlation/tail/routing, C) risk/circuit-breakers/serialization (strict `allow_nan=False`), D) safe perf only if provably byte-identical/passing.
+- **Gate verified GREEN:** 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean. Bottlenecks documented/prevented.
+- **Ready for next agent:** Execute NEXT FOCUS CAMPAIGN immediately — attack A first (ultra-extremes T/moneyness/vol/rates/strikes, IV solver bracketing/Newton/fallbacks, put-call parity, invariants, strict `allow_nan=False`) in `src/features/options_pricing.py` and `src/features/iv_surface.py`. Prove finiteness; then B/C. Full gate before ending. Update this file before ending. Heavy quant only.
