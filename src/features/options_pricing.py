@@ -757,6 +757,29 @@ def implied_volatility(market_price: float, spot: float, strike: float, rate: fl
     if not math.isfinite(vol_res):
         raise NonFiniteResultError("IV solver failed to converge to finite vol",
                                    context={"function": "implied_volatility"})
+    # Final residual verification. The bisection+Newton loop above can terminate
+    # at the [_IV_VOL_FLOOR, _IV_VOL_CAP] boundary without the bracket actually
+    # containing the root: a quoted price whose required vol lies ABOVE the cap
+    # (deep-ITM call price approaching spot) or BELOW the floor (price at/below
+    # intrinsic) leaves the solver parked at the bound with a large residual.
+    # Returning that bound silently misprices every downstream consumer, so
+    # verify the solved vol actually reprices to the quoted market price within
+    # a tolerance that valid round-trips (residual ~1e-10) clear by orders of
+    # magnitude while genuine bracket failures (residual ~1e0) are rejected.
+    _residual = abs(price_at(vol_res) - market_price)
+    _scale = max(abs(market_price), 1.0)
+    if not math.isfinite(_residual) or _residual > _IV_TOL * 100.0 + _scale * 1e-6:
+        raise NonFiniteResultError(
+            "IV solver residual too large; quoted price has no finite IV in bounds",
+            context={
+                "function": "implied_volatility",
+                "market_price": market_price,
+                "solved_vol": vol_res,
+                "residual": _residual,
+                "spot": spot, "strike": strike,
+                "rate": rate, "time_to_expiry": time_to_expiry,
+            },
+        )
     return float(vol_res)
 
 

@@ -290,6 +290,28 @@ def test_iv_solver_invalid_option_type_raises():
         implied_volatility(10.0, 100.0, 100.0, 0.05, 1.0, "forward", seed=42)
 
 
+def test_iv_solver_deep_itm_call_above_cap_raises():
+    """A call price whose required vol exceeds the solver cap must raise.
+
+    At vol=5.0 (the cap) a 1y ATM call on spot=100 reprices to ~98.79, so a
+    quoted price of 99.999 has no finite IV inside [_IV_VOL_FLOOR, _IV_VOL_CAP].
+    The old solver parked at the cap and silently returned 5.0 with a 1.21
+    residual, mispricing every downstream consumer. It must raise instead.
+    """
+    with pytest.raises(NonFiniteResultError):
+        implied_volatility(99.999, 100.0, 100.0, 0.05, 1.0, "call", seed=42)
+
+
+def test_iv_solver_residual_verified_on_valid_round_trip():
+    """Every valid round-trip must still solve with residual ~1e-10."""
+    for vol in (0.05, 0.2, 0.5, 0.8, 1.5, 3.0):
+        price = black_scholes_price(PricingInputs(
+            spot=100.0, strike=100.0, rate=0.05, volatility=vol,
+            time_to_expiry=1.0, option_type="call", seed=42))
+        iv = implied_volatility(price, 100.0, 100.0, 0.05, 1.0, "call", seed=42)
+        assert abs(iv - vol) < 1e-6, (vol, iv)
+
+
 # ---------------------------------------------------------------------------
 # price_with_implied_vol round trip + serialization
 # ---------------------------------------------------------------------------
