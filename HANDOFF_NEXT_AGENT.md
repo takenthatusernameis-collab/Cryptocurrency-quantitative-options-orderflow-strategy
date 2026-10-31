@@ -1,19 +1,20 @@
-# DURABLE HANDOFF - 2026-10-31T14:02:52Z
+# DURABLE HANDOFF - 2026-10-31T14:04:17Z
 Repo: Cryptocurrency-quantitative-options-orderflow-strategy
 Goal: Build a robust, production-grade crypto options/orderflow strategy with out-of-sample validation and portfolio capabilities.
 
-## STATUS (verified 2026-10-31T14:02:52Z)
+## STATUS (verified 2026-10-31T14:04:17Z)
 - **Tests**: 364 passed, 0 failed (`python -m pytest tests/ -q`). Codebase is GREEN.
+- **Working tree**: clean, branch `main` up to date with `origin/main`.
 - **Phases 1-4**: COMPLETE - data/loaders, features (orderflow/gamma/IV/liquidity/vol/pricing), time-series backtest, walk-forward/OOS with purge/embargo, portfolio walk-forward, options hedging integrated. Artifacts exist in `research_state/`.
 - **Recent artifacts**: `BACKTEST_TIMESERIES_20261031T095347Z.json`, `WALKFORWARD_purge_embargo_20261031T130538Z.json`, `PORTFOLIO_WALKFORWARD_20261031T130553Z.json`, `OPTIONS_HEDGING_INTEGRATED_20261031T130606Z.json`, `RESULTS_SUMMARY.md`.
 
 ## BOTTLENECKS REMOVED
-- Single-snapshot triviality fixed (windowed time-series).
-- Flow correlation added; leakage guarded via purge/embargo; regime tracking; correlation-aware portfolio; hedging integrated.
+- None currently blocking. Single-snapshot triviality fixed (windowed time-series). Flow correlation added; leakage guarded via purge/embargo; regime tracking; correlation-aware portfolio; hedging integrated.
+- Next agent starts from a clean green baseline; no open bottlenecks.
 
 ## SINGLE CLEAR INITIAL TASK MESSAGE (for next agent)
 **START IMMEDIATELY (HEAVY WORK - DO NOT ANALYZE ONLY):**
-"Implement and validate a **regime-stratified OOS stress suite** focused on crypto options/orderflow.
+"Implement and validate a **regime-stratified OOS stress suite** focused on crypto options/orderflow. Repo priority: crypto options/orderflow microstructure must be stress-tested per regime, not just on one synthetic path.
 1) Add `src/backtest/regime_stress.py` that generates synthetic regimes (trending, ranging, high-vol/chop, liquidity-thin) with crypto-realistic orderflow/gamma/IV microstructure (respect existing schemas/fixtures).
 2) Extend walk-forward to run per-regime with strict purge/embargo, log train/test splits, IS/OOS metrics (sharpe/Sortino/CAGR/maxDD/turnover/winrate) separately.
 3) Produce `research_state/WALKFORWARD_regime_{regime}_{YYYYMMDDTHHMMSSZ}.json` for >=3 regimes and update `research_state/RESULTS_SUMMARY.md` with a 'Phase 5: Regime OOS' section.
