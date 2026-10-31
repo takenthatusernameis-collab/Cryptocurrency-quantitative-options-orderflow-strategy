@@ -207,42 +207,58 @@ class RiskManager:
             return False
         self.reset_daily_if_needed()
         # Treat non-finite state as unsafe -> trigger kill switch conservatively
-        if not isfinite(float(self.daily_pnl)):
+        try:
+            if not isfinite(float(self.daily_pnl)):
+                self._trigger_kill_switch("daily_loss_limit_breached", 0.0, self.limits.max_daily_loss)
+                return True
+        except Exception:
             self._trigger_kill_switch("daily_loss_limit_breached", 0.0, self.limits.max_daily_loss)
             return True
-        if not isfinite(float(self.peak_equity)) or not isfinite(float(self.current_equity)):
+        try:
+            if not isfinite(float(self.peak_equity)) or not isfinite(float(self.current_equity)):
+                self._trigger_kill_switch("drawdown_pct_limit_breached", 0.0, self.limits.max_drawdown_pct)
+                return True
+        except Exception:
             self._trigger_kill_switch("drawdown_pct_limit_breached", 0.0, self.limits.max_drawdown_pct)
             return True
         # Check daily loss
         try:
-            if self.daily_pnl < -abs(self.limits.max_daily_loss):
+            if self.daily_pnl < -abs(float(self.limits.max_daily_loss)):
                 self._trigger_kill_switch("daily_loss_limit_breached", abs(self.daily_pnl), self.limits.max_daily_loss)
                 return True
         except Exception:
             self._trigger_kill_switch("daily_loss_limit_breached", 0.0, self.limits.max_daily_loss)
             return True
         # Check drawdown
-        if self.peak_equity > 0 and self.current_equity > 0:
-            try:
-                dd_pct = (self.peak_equity - self.current_equity) / self.peak_equity
-            except Exception:
-                dd_pct = float("nan")
-            if not isfinite(dd_pct):
-                self._trigger_kill_switch("drawdown_pct_limit_breached", 0.0, self.limits.max_drawdown_pct)
-                return True
-            if dd_pct >= self.limits.max_drawdown_pct:
-                self._trigger_kill_switch("drawdown_pct_limit_breached", dd_pct, self.limits.max_drawdown_pct)
-                return True
-            try:
-                dd_abs = self.peak_equity - self.current_equity
-            except Exception:
-                dd_abs = float("nan")
-            if not isfinite(dd_abs):
-                self._trigger_kill_switch("drawdown_absolute_limit_breached", 0.0, self.limits.max_drawdown_absolute)
-                return True
-            if dd_abs >= self.limits.max_drawdown_absolute:
-                self._trigger_kill_switch("drawdown_absolute_limit_breached", dd_abs, self.limits.max_drawdown_absolute)
-                return True
+        try:
+            if float(self.peak_equity) > 0:
+                if float(self.current_equity) <= 0:
+                    # Wiped out or negative equity is a 100%+ drawdown
+                    self._trigger_kill_switch("drawdown_pct_limit_breached", 1.0, self.limits.max_drawdown_pct)
+                    return True
+                try:
+                    dd_pct = (float(self.peak_equity) - float(self.current_equity)) / float(self.peak_equity)
+                except Exception:
+                    dd_pct = float("nan")
+                if not isfinite(dd_pct):
+                    self._trigger_kill_switch("drawdown_pct_limit_breached", 0.0, self.limits.max_drawdown_pct)
+                    return True
+                if dd_pct >= float(self.limits.max_drawdown_pct):
+                    self._trigger_kill_switch("drawdown_pct_limit_breached", dd_pct, self.limits.max_drawdown_pct)
+                    return True
+                try:
+                    dd_abs = float(self.peak_equity) - float(self.current_equity)
+                except Exception:
+                    dd_abs = float("nan")
+                if not isfinite(dd_abs):
+                    self._trigger_kill_switch("drawdown_absolute_limit_breached", 0.0, self.limits.max_drawdown_absolute)
+                    return True
+                if dd_abs >= float(self.limits.max_drawdown_absolute):
+                    self._trigger_kill_switch("drawdown_absolute_limit_breached", dd_abs, self.limits.max_drawdown_absolute)
+                    return True
+        except Exception:
+            self._trigger_kill_switch("drawdown_pct_limit_breached", 0.0, self.limits.max_drawdown_pct)
+            return True
         return self.kill_switch_state == KillSwitchState.TRIGGERED
 
     def _trigger_kill_switch(self, vtype: str, current: float, limit: float) -> None:
@@ -491,15 +507,22 @@ class RiskManager:
 
     def get_risk_report(self) -> Dict[str, Any]:
         dd_pct = 0.0
-        if self.peak_equity > 0 and self.current_equity > 0:
-            dd_pct = (self.peak_equity - self.current_equity) / self.peak_equity
+        try:
+            if float(self.peak_equity) > 0 and float(self.current_equity) > 0:
+                dd_pct = (float(self.peak_equity) - float(self.current_equity)) / float(self.peak_equity)
+                if not isfinite(dd_pct):
+                    dd_pct = 0.0
+            elif float(self.peak_equity) > 0 and float(self.current_equity) <= 0:
+                dd_pct = 1.0
+        except Exception:
+            dd_pct = 0.0
         return serialize_metrics_strict({
             "kill_switch_state": self.kill_switch_state.value,
             "limits": self.limits.to_dict(),
-            "daily_pnl": float(self.daily_pnl),
-            "daily_turnover": float(self.daily_turnover),
-            "current_equity": float(self.current_equity),
-            "peak_equity": float(self.peak_equity),
+            "daily_pnl": float(self.daily_pnl) if isfinite(float(self.daily_pnl)) else 0.0,
+            "daily_turnover": float(self.daily_turnover) if isfinite(float(self.daily_turnover)) else 0.0,
+            "current_equity": float(self.current_equity) if isfinite(float(self.current_equity)) else 0.0,
+            "peak_equity": float(self.peak_equity) if isfinite(float(self.peak_equity)) else 0.0,
             "drawdown_pct": float(dd_pct),
             "num_violations": len(self.violations),
             "recent_violations": [v.to_dict() for v in self.violations[-10:]],

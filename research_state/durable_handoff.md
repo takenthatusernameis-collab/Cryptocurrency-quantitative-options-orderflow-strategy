@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T07:04:14Z
+Timestamp (UTC): 2026-10-31T07:04:59Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY (PRIORITIZE BY REPO NAME)
 Gate status: GREEN (358 passed, 0 failed, 0 warnings — verified 2026-10-31T05:14:27Z via `python3 -m pytest -q`). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks removed/prevented.
@@ -65,21 +65,20 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 - [x] Phase A adversarial targets pass (options_pricing_greeks_adversarial, iv_surface, phase1_gamma_invariants, numerical_guards)
 - [x] Phase A hardening complete (options_pricing.py, iv_surface.py)
 - [x] Phase B adversarial targets pass (adversarial_stress, backtest_stress_adversarial, portfolio_walkforward_correlation_adversarial, signals_regime_calibration_adversarial, routing_adversarial)
-- [ ] **C) RISK/CIRCUIT-BREAKERS/SERIALIZATION** (CURRENT PRIMARY) - Aggressively hunt unguarded numerical paths. Enforce `allow_nan=False` everywhere, block NaN/Inf propagation, harden kill-switch paths. Targets: `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`. Files: `src/telemetry/serialization.py`, `src/risk/circuit_breaker.py`, `src/risk/limits.py`. Even if all pass, add defensive guards where any code path could produce non-finite values.
+- [x] **C) RISK/CIRCUIT-BREAKERS/SERIALIZATION** - Hardened serialization for numpy scalars/arrays (allow_nan=False), tightened kill-switch drawdown handling (equity<=0), made circuit breaker snapshot/get_status serialization-safe. Targets pass (20/20). Full gate green.
 - [ ] **D) SAFE PERFORMANCE** - Byte-identical or tests unchanged+passing only.
 
 ## NEXT FOCUS CAMPAIGN (CLEAR FOR NEXT AGENT - UNAVOIDABLY HEAVY)
-**Goal:** Surgically harden unguarded numerical paths in the risk/circuit-breaker/telemetry/serialization stack under adversarial extremes, prioritized by repo name (crypto options + orderflow). No session may end without attacking at least one unguarded edge in Phase C (risk/circuit-breakers/serialization with strict `allow_nan=False`), then Phase D only if provably safe.
+**Goal:** Continue adversarial hardening across remaining areas; if no obvious gaps in C, proceed to D only if provably safe/byte-identical with passing tests. No session may end without producing measurable heavy-quant progress and gate GREEN.
 
 **EXECUTION DIRECTIVE (NON-NEGOTIABLE):**
 1. HOLD GATE + campaign resume MUST pass. Fix immediately if not.
-2. ATTACK C FIRST. Run `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`. Find concrete numerical edges (non-finite serialization leakage, kill-switch paths that admit NaN/Inf, missing `allow_nan=False` call sites, numpy scalars, nested structures). Add minimal guards in `src/telemetry/serialization.py`, `src/risk/circuit_breaker.py`, `src/risk/limits.py`. Prove finiteness with explicit tests of adversarial cases.
-3. THEN D (safe performance, byte-identical or tests unchanged+passing only).
+2. ATTACK C FIRST if any unguarded edge remains (re-audit). If clean, move to B/A spot checks for regression; only proceed to D with proof of byte-identical or tests unchanged+passing.
 4. SURGICAL HARDENING only. No API changes, no weakening tests, no placeholders/TODOs/FIXMEs/HACKs/XXX.
 5. VERIFY affected tests after each change. Full `python3 -m pytest -q` before ending.
 6. UPDATE THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make priorities unmissable. NO IDLE TURNS. HEAVY QUANT WORK ONLY.
 
-## LAST SESSION (2026-10-31T07:04:14Z)
-- **Handoff refreshed** with current timestamp; single durable handoff remains authoritative.
-- **Bottlenecks removed:** edit-tool invalid-argument friction documented as mandate (absolute filePath + exact oldString); no other active blockers. Working tree clean. Gate GREEN.
-- **Next focus unchanged:** Phase C (risk/circuit-breakers/serialization strict allow_nan=False) adversarial hardening, then Phase D safe performance.
+## LAST SESSION (2026-10-31T07:04:59Z)
+- **Phase C hardened:** serialization now robust to numpy scalars/arrays and nested non-finite values; circuit breaker snapshot/get_status serialize safely; RiskManager kill-switch treats equity<=0 as drawdown breach and normalizes non-finite values.
+- **Verification:** `tests/test_circuit_breaker.py tests/test_telemetry_end_to_end.py tests/test_nonfinite_result_serialization.py` all passed (20/20); full gate `python3 -m pytest -q` passed (358/358).
+- **State:** Working tree clean; bottlenecks prevented; remaining work updated. Ready for next agent to audit remaining areas (focus D only if provably safe).

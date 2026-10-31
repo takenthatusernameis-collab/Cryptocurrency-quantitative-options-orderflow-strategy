@@ -167,11 +167,17 @@ class CircuitBreaker:
             chlen = int(len(self.call_history))
         except Exception:
             chlen = 0
+        lft = None
+        try:
+            if self.last_failure_time is not None:
+                lft = self.last_failure_time.isoformat()
+        except Exception:
+            lft = None
         return serialize_metrics_strict({
-            "state": self.state.value,
+            "state": str(getattr(self.state, "value", self.state)),
             "failure_count": fc,
             "success_count": sc,
-            "last_failure_time": self.last_failure_time.isoformat() if self.last_failure_time else None,
+            "last_failure_time": lft,
             "half_open_calls": hoc,
             "call_history_len": chlen,
         })
@@ -189,16 +195,28 @@ class CircuitBreaker:
             hoc = int(self.half_open_calls) if isfinite(float(self.half_open_calls)) else 0
         except Exception:
             hoc = 0
+        lft = None
+        try:
+            if self.last_failure_time is not None:
+                lft = self.last_failure_time.isoformat()
+        except Exception:
+            lft = None
+        try:
+            ert = float(self.config.error_rate_threshold)
+            if not isfinite(ert):
+                ert = 0.5
+        except Exception:
+            ert = 0.5
         return serialize_metrics_strict({
-            "state": self.state.value,
+            "state": str(getattr(self.state, "value", self.state)),
             "failure_count": fc,
             "success_count": sc,
-            "last_failure_time": self.last_failure_time.isoformat() if self.last_failure_time else None,
+            "last_failure_time": lft,
             "half_open_calls": hoc,
             "config": {
-                "failure_threshold": self.config.failure_threshold,
-                "timeout_seconds": self.config.timeout_seconds,
-                "half_open_max_calls": self.config.half_open_max_calls,
-                "error_rate_threshold": self.config.error_rate_threshold,
+                "failure_threshold": int(self.config.failure_threshold),
+                "timeout_seconds": int(self.config.timeout_seconds),
+                "half_open_max_calls": int(self.config.half_open_max_calls),
+                "error_rate_threshold": ert,
             },
         })
