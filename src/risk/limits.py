@@ -86,6 +86,33 @@ class RiskLimits:
             raise RiskLimitError("max_single_symbol_pct must be in (0,1]", context={"max_single_symbol_pct": self.max_single_symbol_pct})
 
     def to_dict(self) -> Dict[str, Any]:
+        for name in [
+            "max_delta",
+            "max_gamma",
+            "max_vega",
+            "max_theta",
+            "max_notional_per_symbol",
+            "max_position_qty_per_symbol",
+            "max_portfolio_delta",
+            "max_portfolio_gamma",
+            "max_portfolio_vega",
+            "max_portfolio_notional",
+            "max_leverage",
+            "max_daily_loss",
+            "max_drawdown_pct",
+            "max_drawdown_absolute",
+            "max_turnover_daily",
+            "max_turnover_pct",
+            "max_single_symbol_pct",
+            "max_correlation_exposure",
+        ]:
+            try:
+                val = float(getattr(self, name))
+            except Exception:
+                val = float("nan")
+            if not isfinite(val):
+                val = 0.0
+            object.__setattr__(self, name, val)
         return serialize_metrics_strict({
             "max_delta": float(self.max_delta),
             "max_gamma": float(self.max_gamma),
@@ -123,14 +150,26 @@ class RiskViolation:
     action_taken: str = ""
 
     def to_dict(self) -> Dict[str, Any]:
+        try:
+            cv = float(self.current_value)
+        except Exception:
+            cv = float("nan")
+        try:
+            lv = float(self.limit_value)
+        except Exception:
+            lv = float("nan")
+        if not isfinite(cv):
+            cv = 0.0
+        if not isfinite(lv):
+            lv = 0.0
         return serialize_metrics_strict({
             "violation_id": self.violation_id,
             "violation_type": self.violation_type,
             "severity": self.severity,
             "symbol": self.symbol,
             "message": self.message,
-            "current_value": float(self.current_value),
-            "limit_value": float(self.limit_value),
+            "current_value": cv,
+            "limit_value": lv,
             "timestamp": self.timestamp.isoformat(),
             "action_taken": self.action_taken,
         })
@@ -167,17 +206,40 @@ class RiskManager:
         if self.kill_switch_state == KillSwitchState.DISABLED:
             return False
         self.reset_daily_if_needed()
+        # Treat non-finite state as unsafe -> trigger kill switch conservatively
+        if not isfinite(float(self.daily_pnl)):
+            self._trigger_kill_switch("daily_loss_limit_breached", 0.0, self.limits.max_daily_loss)
+            return True
+        if not isfinite(float(self.peak_equity)) or not isfinite(float(self.current_equity)):
+            self._trigger_kill_switch("drawdown_pct_limit_breached", 0.0, self.limits.max_drawdown_pct)
+            return True
         # Check daily loss
-        if self.daily_pnl < -abs(self.limits.max_daily_loss):
-            self._trigger_kill_switch("daily_loss_limit_breached", abs(self.daily_pnl), self.limits.max_daily_loss)
+        try:
+            if self.daily_pnl < -abs(self.limits.max_daily_loss):
+                self._trigger_kill_switch("daily_loss_limit_breached", abs(self.daily_pnl), self.limits.max_daily_loss)
+                return True
+        except Exception:
+            self._trigger_kill_switch("daily_loss_limit_breached", 0.0, self.limits.max_daily_loss)
             return True
         # Check drawdown
         if self.peak_equity > 0 and self.current_equity > 0:
-            dd_pct = (self.peak_equity - self.current_equity) / self.peak_equity
+            try:
+                dd_pct = (self.peak_equity - self.current_equity) / self.peak_equity
+            except Exception:
+                dd_pct = float("nan")
+            if not isfinite(dd_pct):
+                self._trigger_kill_switch("drawdown_pct_limit_breached", 0.0, self.limits.max_drawdown_pct)
+                return True
             if dd_pct >= self.limits.max_drawdown_pct:
                 self._trigger_kill_switch("drawdown_pct_limit_breached", dd_pct, self.limits.max_drawdown_pct)
                 return True
-            dd_abs = self.peak_equity - self.current_equity
+            try:
+                dd_abs = self.peak_equity - self.current_equity
+            except Exception:
+                dd_abs = float("nan")
+            if not isfinite(dd_abs):
+                self._trigger_kill_switch("drawdown_absolute_limit_breached", 0.0, self.limits.max_drawdown_absolute)
+                return True
             if dd_abs >= self.limits.max_drawdown_absolute:
                 self._trigger_kill_switch("drawdown_absolute_limit_breached", dd_abs, self.limits.max_drawdown_absolute)
                 return True
@@ -189,8 +251,18 @@ class RiskManager:
         self.kill_switch_state = KillSwitchState.TRIGGERED
         # Neutralize non-finite values so the violation record itself stays
         # serializable through serialize_metrics_strict (allow_nan=False).
-        cur_f = float(current) if isfinite(float(current)) else 0.0
-        lim_f = float(limit) if isfinite(float(limit)) else 0.0
+        try:
+            cur_f = float(current)
+        except Exception:
+            cur_f = float("nan")
+        try:
+            lim_f = float(limit)
+        except Exception:
+            lim_f = float("nan")
+        if not isfinite(cur_f):
+            cur_f = 0.0
+        if not isfinite(lim_f):
+            lim_f = 0.0
         viol = RiskViolation(
             violation_id=self._generate_violation_id(),
             violation_type=vtype,
@@ -318,19 +390,24 @@ class RiskManager:
                 self.violations.append(viol)
                 violations.append(viol)
             # Concentration
-            if total_notional > 0 and notional / total_notional > self.limits.max_single_symbol_pct:
-                viol = RiskViolation(
-                    violation_id=self._generate_violation_id(),
-                    violation_type="concentration",
-                    severity="medium",
-                    symbol=symbol,
-                    message="Single symbol concentration exceeds limit",
-                    current_value=float(notional / total_notional),
-                    limit_value=float(self.limits.max_single_symbol_pct),
-                    action_taken="ORDER_REDUCED_OR_REJECTED",
-                )
-                self.violations.append(viol)
-                violations.append(viol)
+            try:
+                if total_notional > 0 and isfinite(total_notional) and isfinite(notional):
+                    conc = notional / total_notional
+                    if isfinite(conc) and conc > self.limits.max_single_symbol_pct:
+                        viol = RiskViolation(
+                            violation_id=self._generate_violation_id(),
+                            violation_type="concentration",
+                            severity="medium",
+                            symbol=symbol,
+                            message="Single symbol concentration exceeds limit",
+                            current_value=float(conc),
+                            limit_value=float(self.limits.max_single_symbol_pct),
+                            action_taken="ORDER_REDUCED_OR_REJECTED",
+                        )
+                        self.violations.append(viol)
+                        violations.append(viol)
+            except Exception:
+                pass
 
         # Greeks checks if provided
         if portfolio_greeks:
@@ -379,17 +456,26 @@ class RiskManager:
 
     def update_pnl(self, daily_pnl: float, turnover: float) -> None:
         self.reset_daily_if_needed()
-        if isfinite(daily_pnl):
-            self.daily_pnl += float(daily_pnl)
-        if isfinite(turnover):
-            self.daily_turnover += float(turnover)
+        try:
+            if isfinite(daily_pnl):
+                self.daily_pnl += float(daily_pnl)
+        except Exception:
+            pass
+        try:
+            if isfinite(turnover):
+                self.daily_turnover += float(turnover)
+        except Exception:
+            pass
 
     def update_equity(self, current_equity: float):
-        if not isfinite(current_equity):
+        try:
+            if not isfinite(current_equity):
+                return
+            self.current_equity = float(current_equity)
+            if self.current_equity > self.peak_equity:
+                self.peak_equity = self.current_equity
+        except Exception:
             return
-        self.current_equity = float(current_equity)
-        if self.current_equity > self.peak_equity:
-            self.peak_equity = self.current_equity
 
     def arm_kill_switch(self) -> None:
         if self.kill_switch_state != KillSwitchState.DISABLED:

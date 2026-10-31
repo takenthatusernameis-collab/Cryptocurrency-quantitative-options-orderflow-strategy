@@ -79,7 +79,10 @@ class CircuitBreaker:
 
     def record_success(self) -> None:
         self.success_count += 1
-        self.call_history.append((datetime.now(timezone.utc), True))
+        try:
+            self.call_history.append((datetime.now(timezone.utc), True))
+        except Exception:
+            pass
         if self.state == CircuitBreakerState.HALF_OPEN:
             # If we get enough successes, close the breaker
             if self.half_open_calls >= self.config.half_open_max_calls:
@@ -92,8 +95,14 @@ class CircuitBreaker:
 
     def record_failure(self) -> None:
         self.failure_count += 1
-        self.last_failure_time = datetime.now(timezone.utc)
-        self.call_history.append((datetime.now(timezone.utc), False))
+        try:
+            self.last_failure_time = datetime.now(timezone.utc)
+        except Exception:
+            self.last_failure_time = datetime.now(timezone.utc)
+        try:
+            self.call_history.append((datetime.now(timezone.utc), False))
+        except Exception:
+            pass
         if self.state == CircuitBreakerState.HALF_OPEN:
             # Any failure in half-open reopens
             self.state = CircuitBreakerState.OPEN
@@ -102,15 +111,28 @@ class CircuitBreaker:
         if self.state == CircuitBreakerState.CLOSED:
             if self.failure_count >= self.config.failure_threshold:
                 self.state = CircuitBreakerState.OPEN
-                _logger.warning("circuit_breaker_opened", failure_count=self.failure_count)
+                try:
+                    _logger.warning("circuit_breaker_opened", failure_count=self.failure_count)
+                except Exception:
+                    pass
         # Check error rate
         if len(self.call_history) >= self.config.error_rate_window:
-            recent = self.call_history[-self.config.error_rate_window:]
-            errors = sum(1 for _, s in recent if not s)
-            if errors / len(recent) >= self.config.error_rate_threshold:
-                self.state = CircuitBreakerState.OPEN
-                self.last_failure_time = datetime.now(timezone.utc)
-                _logger.warning("circuit_breaker_opened_error_rate", error_rate=errors / len(recent))
+            try:
+                recent = self.call_history[-self.config.error_rate_window:]
+                errors = sum(1 for _, s in recent if not s)
+                err_rate = errors / len(recent)
+                if err_rate >= self.config.error_rate_threshold:
+                    self.state = CircuitBreakerState.OPEN
+                    try:
+                        self.last_failure_time = datetime.now(timezone.utc)
+                    except Exception:
+                        pass
+                    try:
+                        _logger.warning("circuit_breaker_opened_error_rate", error_rate=err_rate)
+                    except Exception:
+                        pass
+            except Exception:
+                pass
         if len(self.call_history) > self.config.error_rate_window * 2:
             self.call_history = self.call_history[-self.config.error_rate_window * 2:]
 
@@ -129,22 +151,50 @@ class CircuitBreaker:
         record deterministic checkpoints without exposing internal mutable
         references.
         """
+        try:
+            fc = int(self.failure_count) if isfinite(float(self.failure_count)) else 0
+        except Exception:
+            fc = 0
+        try:
+            sc = int(self.success_count) if isfinite(float(self.success_count)) else 0
+        except Exception:
+            sc = 0
+        try:
+            hoc = int(self.half_open_calls) if isfinite(float(self.half_open_calls)) else 0
+        except Exception:
+            hoc = 0
+        try:
+            chlen = int(len(self.call_history))
+        except Exception:
+            chlen = 0
         return serialize_metrics_strict({
             "state": self.state.value,
-            "failure_count": int(self.failure_count),
-            "success_count": int(self.success_count),
+            "failure_count": fc,
+            "success_count": sc,
             "last_failure_time": self.last_failure_time.isoformat() if self.last_failure_time else None,
-            "half_open_calls": int(self.half_open_calls),
-            "call_history_len": int(len(self.call_history)),
+            "half_open_calls": hoc,
+            "call_history_len": chlen,
         })
 
     def get_status(self) -> Dict[str, Any]:
+        try:
+            fc = int(self.failure_count) if isfinite(float(self.failure_count)) else 0
+        except Exception:
+            fc = 0
+        try:
+            sc = int(self.success_count) if isfinite(float(self.success_count)) else 0
+        except Exception:
+            sc = 0
+        try:
+            hoc = int(self.half_open_calls) if isfinite(float(self.half_open_calls)) else 0
+        except Exception:
+            hoc = 0
         return serialize_metrics_strict({
             "state": self.state.value,
-            "failure_count": int(self.failure_count),
-            "success_count": int(self.success_count),
+            "failure_count": fc,
+            "success_count": sc,
             "last_failure_time": self.last_failure_time.isoformat() if self.last_failure_time else None,
-            "half_open_calls": int(self.half_open_calls),
+            "half_open_calls": hoc,
             "config": {
                 "failure_threshold": self.config.failure_threshold,
                 "timeout_seconds": self.config.timeout_seconds,

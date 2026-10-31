@@ -24,7 +24,17 @@ _NumpyFloatLike = Any  # numpy scalars duck-typed via float()/isnan
 def _is_nonfinite(value: Any) -> bool:
     """Return True if ``value`` is a non-finite float (NaN or Inf)."""
     try:
-        f = float(value)
+        # Check for numpy scalars
+        if hasattr(value, 'dtype') and hasattr(value, 'item'):
+            try:
+                f = float(value.item())
+            except Exception:
+                try:
+                    f = float(value)
+                except Exception:
+                    return False
+        else:
+            f = float(value)
     except (TypeError, ValueError):
         return False
     return not math.isfinite(f)
@@ -49,9 +59,24 @@ def _sanitize_value(value: Any) -> Any:
         if not math.isfinite(value):
             return None
         return value
+    if isinstance(value, (int, bool)) or value is None:
+        return value
     # Numpy float scalars (float64, etc.) are not isinstance float, so handle them
     # via duck-typing: try float() and check finiteness.
     try:
+        # Handle numpy scalars
+        if hasattr(value, 'dtype'):
+            try:
+                f = float(value)
+            except Exception:
+                return value
+            # Avoid treating ints as floats
+            if isinstance(value, (int, bool)) or value is None:
+                return value
+            if not math.isfinite(f):
+                return None
+            # Keep as python float for JSON serialization cleanliness
+            return f
         f = float(value)
     except (TypeError, ValueError):
         return value
@@ -86,7 +111,19 @@ def _collect_nonfinite_paths(
     elif isinstance(value, float):
         if not math.isfinite(value):
             bad.append(path)
+        return bad
+    elif isinstance(value, (int, bool)) or value is None:
+        return bad
     else:
+        # Check for numpy/scalar floats
+        if hasattr(value, 'dtype'):
+            try:
+                f = float(value)
+                if not math.isfinite(f):
+                    bad.append(path)
+                return bad
+            except Exception:
+                pass
         try:
             f = float(value)
         except (TypeError, ValueError):
