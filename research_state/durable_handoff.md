@@ -1,12 +1,12 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T00:23:58Z
+Timestamp (UTC): 2026-10-31T01:13:58Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
-Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED. Working tree clean. Bottlenecks removed.
+Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks removed.
 
 ## BOTTLENECKS
 - NONE active. All tooling/edit paths unblocked.
-- EDIT TOOL MANDATE: When using edit, always pass absolute filePath + exact oldString (with sufficient surrounding context). Do NOT call edit with partial/empty args. For full rewrites, use Write.
+- EDIT TOOL MANDATE: When using edit, always pass absolute filePath + exact oldString (with sufficient surrounding context). Do NOT call edit with partial/empty args. For full rewrites, use Write. (Prevents the repeated invalid-argument turn-aborts seen in research_state/workflow_run_diagnostics.jsonl.)
 - NO IDLE TURNS: Every turn must produce measurable, heavy-quant progress.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENT - EXECUTE IMMEDIATELY, NO DEVIATION)
@@ -61,6 +61,7 @@ git status --short
 - Strict serialization via `serialize_metrics_strict` with `allow_nan=False` on all outputs
 
 **Action:** Minimal guards in `src/features/options_pricing.py`, `src/features/iv_surface.py`. Prove finiteness + invariants. No weakening assertions. Add guards for unguarded paths only.
+(Note: base clamping for spot/strike/rate/vol/T/market_price already in place per last session; remaining work = deeper IV-solver bracketing/Newton fallbacks, put-call parity enforcement, degenerate-chain arbitrage, stricter extremes.)
 
 ### B) ORDERFLOW/CORRELATION/TAIL/STRESS (WALKFORWARD/PORTFOLIO/SIGNALS/ROUTING)
 **Targets:** `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`, `tests/test_routing_adversarial.py`
@@ -98,9 +99,9 @@ git status --short
 - **Heavy quant or bust:** Every session MUST produce measurable heavy-quant progress. Idle turns not allowed.
 
 ## EXACT REMAINING WORK
-- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — verified 2026-10-31T00:23:58Z
-- [x] Campaign resume contract passes
-- [ ] **A)** CRYPTO OPTIONS PRICING/GREEKS/IV (HIGHEST) - Deeper adversarial hardening: ultra-extremes T/moneyness/vol/rates, IV solver bracketing/Newton fallbacks, put-call parity, invariants, serialization strict `allow_nan=False`. Targets: `src/features/options_pricing.py`, `src/features/iv_surface.py` + `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py` (all passing; hardened moneyness/log clamping, spot/strike/mkt price/T/rate clamps in IV solver and surfaces for extreme crypto ranges).
+- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — verified 2026-10-31T01:13:58Z
+- [x] Campaign resume contract passes (4/4)
+- [ ] **A)** CRYPTO OPTIONS PRICING/GREEKS/IV (HIGHEST) - Deeper adversarial hardening: ultra-extremes T/moneyness/vol/rates, IV solver bracketing/Newton fallbacks, put-call parity, invariants, serialization strict `allow_nan=False`. Targets: `src/features/options_pricing.py`, `src/features/iv_surface.py` + `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py` (all passing; base moneyness/log clamping, spot/strike/mkt price/T/rate clamps already in place — attack remaining solver/surface edge cases).
 - [ ] **B)** ORDERFLOW/CORRELATION/TAIL/STRESS (WALKFORWARD/PORTFOLIO/SIGNALS/ROUTING) - Non-PSD/ill-conditioned covariance, eigenvalue floors/PSD projection, weight blowups/concentration, regime miscalibration. Targets: `src/backtest/engine.py` + tests listed in B) (all passing currently).
 - [ ] **C)** RISK/CIRCUIT-BREAKERS/ORDERFLOW TELEMETRY SERIALIZATION (STRICT FINITENESS) - Enforce `allow_nan=False` everywhere, block NaN/Inf propagation, kill-switch hardening. Audit `src/telemetry/serialization.py`, `src/risk/*` (all passing currently).
 - [ ] **D)** SAFE PERFORMANCE (ONLY IF PROVABLY SAFE) - Byte-identical or tests unchanged+passing only.
@@ -117,10 +118,10 @@ git status --short
 6. **VERIFY** - Affected tests after each change. Full `python -m pytest -q` before ending.
 7. **DOCUMENT** - BEFORE ENDING, update THIS FILE with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make next agent unable to misread priorities. **NO IDLE TURNS. HEAVY QUANT WORK ONLY.**
 
-## LAST SESSION (2026-10-31T00:23:58Z)
+## LAST SESSION (2026-10-31T01:13:58Z)
 - **Handoff refreshed (single durable source):** Priorities explicitly inferred from repo name (crypto options + orderflow). Reordered to A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, B) orderflow/correlation/tail/routing, C) risk/circuit-breakers/serialization (strict `allow_nan=False`), D) safe perf only if provably byte-identical/passing.
 - **Gate verified GREEN:** 358 passed, 0 failed, 0 warnings (`python -m pytest -q`). `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean. No active blockers.
-- **A) Hardened crypto options/IV (measurable heavy quant):** In `src/features/options_pricing.py`, strengthened moneyness/log clamping in `_d1_d2` (hard clamp for extreme moneyness 1e-18–1e18) and added/clamped extremes for spot/strike/rate/vol/T/market_price in `implied_volatility` (allowing ultra-small T 1e-18, clamping >100T to 100 and very large/small spot/strike/market_price to 1e18/1e-18). In `src/features/iv_surface.py`, added clamping for strikes/spot/rate/T extremes and allow T down to 1e-18. All A tests (`test_options_pricing_greeks_adversarial`, `test_iv_surface`, `test_phase1_gamma_invariants`, `test_numerical_guards`) pass; full gate still GREEN. Strict `allow_nan=False` serialization paths unchanged and respected.
+- **A) Hardened crypto options/IV (prior session, measurable heavy quant):** In `src/features/options_pricing.py`, strengthened moneyness/log clamping in `_d1_d2` (hard clamp for extreme moneyness 1e-18–1e18) and added/clamped extremes for spot/strike/rate/vol/T/market_price in `implied_volatility` (allowing ultra-small T 1e-18, clamping >100T to 100 and very large/small spot/strike/market_price to 1e18/1e-18). In `src/features/iv_surface.py`, added clamping for strikes/spot/rate/T extremes and allow T down to 1e-18. All A tests (`test_options_pricing_greeks_adversarial`, `test_iv_surface`, `test_phase1_gamma_invariants`, `test_numerical_guards`) pass; full gate still GREEN. Strict `allow_nan=False` serialization paths unchanged and respected.
 - **B)/C) Status:** Adversarial portfolio/walkforward/correlation/signals/routing tests all pass; circuit-breaker/telemetry/nonfinite serialization tests all pass. No changes made there.
 - **Bottlenecks removed:** Edit-tool invalid-argument abuse documented; mandate absolute filePath+exact oldString. No idle turns.
 - **Next agent directive:** HOLD GATE first. Attack A) deeper adversarial options/Greeks/IV extremes if any gaps remain (ultra-short/long T 1e-18-1e-9/>100, moneyness 1e-6-1e6, vol 1e-9/>10, extreme rates/strikes, IV solver bracketing/Newton, put-call parity, invariants, strict `allow_nan=False`). Targets: `src/features/options_pricing.py`, `src/features/iv_surface.py`. Then B/C. Verify full gate before ending. Update this file before ending with timestamp/files/rationale/verification/remaining work. Heavy quant only.
