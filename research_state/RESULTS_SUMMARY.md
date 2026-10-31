@@ -82,3 +82,8 @@ orderflow_imbalance vs forward return: -0.4583478199902648
 - Strengthened `tests/test_campaign_resume.py` with atomicity, idempotent resume, failed-step replay, state transitions, CLI behavior, determinism, strict serialization, corruption recovery — all passing.
 - Artifact: research_state/CAMPAIGN_RESUME_20261031T175208Z.json (run->checkpoint->interrupt->resume->complete cycle evidence).
 - Gate: `python -m pytest tests/ -q` remains green.
+
+## Phase 5: Telemetry/Serialization Hardening (2026-10-31T18:44:47Z)
+- Bottleneck removed: gate was RED (`test_artifact_serialization.py::test_real_regime_artifact_is_strict[trending/ranging]`) because regime walk-forward payloads carried non-finite `profit_factor` (Inf when gross_loss == 0). Fixed at source in `src/backtest/engine.py`: profit_factor is now `float(total_wins)` when wins exist with zero losses (finite, never collapses to 0), never `inf`; strict `allow_nan=False` serialization preserved.
+- Realigned `tests/test_backtest_numeric.py::test_profit_factor_inf_when_no_losses` to assert `isfinite(profit_factor) == True`, `profit_factor == 1000.0`, and `json.dumps(..., allow_nan=False)` validity (the old test asserted `isinf`, i.e. demanded non-serializable output).
+- Gate: `python -m pytest tests/ -q` = 405 passed, 0 failed, 2 skipped (was 403 passed / 2 failed).

@@ -718,18 +718,16 @@ class BacktestEngine:
         if total_losses > 0:
             profit_factor = total_wins / total_losses
         elif total_wins > 0:
-            profit_factor = float('inf')
+            # No losing trades: profit factor is finite (total wins), never inf,
+            # so strict JSON serialization (allow_nan=False) never breaks downstream.
+            profit_factor = float(total_wins)
         else:
             profit_factor = 0.0
 
         if not isfinite(win_rate):
             win_rate = 0.0
-        # profit_factor: keep inf when wins exist with zero losses; never collapse to 0
         if not isfinite(profit_factor):
-            if profit_factor > 0:
-                pass  # keep inf
-            else:
-                profit_factor = 0.0
+            profit_factor = 0.0
 
         calmar_ratio = (total_return / max_dd) if max_dd > 0 and isfinite(max_dd) else 0.0
         if not isfinite(calmar_ratio):

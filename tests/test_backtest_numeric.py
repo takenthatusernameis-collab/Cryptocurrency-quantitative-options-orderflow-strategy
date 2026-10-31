@@ -1,7 +1,8 @@
 """Numeric regression tests for backtest engine correctness."""
 
 from datetime import datetime, timezone
-from math import isinf
+from math import isfinite
+import json
 
 from src.backtest.engine import BacktestEngine
 from src.config import BacktestConfig, RiskConfig
@@ -52,8 +53,11 @@ def test_profit_factor_inf_when_no_losses():
         Trade("BTC", 1.0, 50000.0, "sell", datetime.now(timezone.utc), commission=0.0, pnl=500.0, is_win=True),
     ]
     res = engine.calculate_metrics()
-    assert isinf(res.profit_factor)
-    assert res.profit_factor > 0
+    # Profit factor must be finite: wins with zero losses -> total_wins (1000.0),
+    # never inf, so artifacts stay strictly JSON-serializable (allow_nan=False).
+    assert isfinite(res.profit_factor)
+    assert res.profit_factor == 1000.0
+    json.dumps({"profit_factor": res.profit_factor}, allow_nan=False)
 
 
 def test_max_position_pct_enforced_on_short():
