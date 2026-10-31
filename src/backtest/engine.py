@@ -814,6 +814,15 @@ class PortfolioWalkForwardWindowResult:
     correlation_matrix: Optional[List[List[float]]] = None
     oos_metrics: Optional[BacktestResults] = None
     is_metrics: Optional[BacktestResults] = None
+    # Portfolio scaling metadata
+    allocation_weights: Optional[Dict[str, float]] = None
+    allocation_mode: Optional[str] = None
+    turnover: float = 0.0
+    turnover_cap: Optional[float] = None
+    turnover_capped: bool = False
+    vol_target: Optional[float] = None
+    risk_budget: Optional[Dict[str, float]] = None
+    weights_train_only: bool = True
 
 
 @dataclass
@@ -826,6 +835,8 @@ class PortfolioWalkForwardResults:
     degradation: float = 0.0
     oos_equity_curve: List[float] = field(default_factory=list)
     oos_trades: List[Trade] = field(default_factory=list)
+    # Aggregated scaling info
+    scaling_summary: Optional[Dict[str, Any]] = None
 
     def assert_oos_finite(self) -> None:
         ctx = {
@@ -1887,6 +1898,13 @@ class PortfolioWalkForwardBacktest:
         correlation_window: int = 60,
         max_correlation: float = 0.7,
         regime_costs: Optional[Dict[str, float]] = None,
+        # Portfolio scaling options
+        allocation_mode: str = "equal_weight",  # equal_weight | risk_parity | vol_target
+        vol_target: Optional[float] = None,  # annualized target vol if desired
+        turnover_cap: Optional[float] = None,  # max fraction of portfolio turnover per rebalance/window transition
+        risk_parity: bool = False,
+        max_position_pct: Optional[float] = None,
+        previous_weights: Optional[Dict[str, float]] = None,
         **kwargs: Any,
     ) -> None:
         if engine is not None and not isinstance(engine, BacktestEngine):
@@ -1928,6 +1946,15 @@ class PortfolioWalkForwardBacktest:
             "high_vol": 0.0005,
             "stress": 0.0010,
         }
+        # Portfolio scaling
+        self.allocation_mode = str(allocation_mode)
+        self.vol_target = float(vol_target) if vol_target is not None and isfinite(vol_target) else None
+        self.turnover_cap = float(turnover_cap) if turnover_cap is not None and isfinite(turnover_cap) and turnover_cap >= 0 else None
+        self.risk_parity = bool(risk_parity)
+        if self.risk_parity and self.allocation_mode not in ("risk_parity", "vol_target"):
+            self.allocation_mode = "risk_parity"
+        self.max_position_pct = float(max_position_pct) if max_position_pct is not None and isfinite(max_position_pct) else None
+        self.previous_weights = dict(previous_weights) if previous_weights else {}
 
     def _validate_time_ordering(self, timestamps: List[datetime]) -> None:
         prev: Optional[datetime] = None
@@ -2105,6 +2132,11 @@ class PortfolioWalkForwardBacktest:
         embargo: Optional[int] = None,
         regime: Optional[str] = None,
         correlation_constraint: bool = True,
+        allocation_mode: Optional[str] = None,
+        vol_target: Optional[float] = None,
+        turnover_cap: Optional[float] = None,
+        max_position_pct: Optional[float] = None,
+        risk_parity: Optional[bool] = None,
         **kwargs: Any,
     ) -> PortfolioWalkForwardResults:
         if price_series is None or len(price_series) == 0:
@@ -2118,6 +2150,20 @@ class PortfolioWalkForwardBacktest:
             purge_eff = 0
         if not isinstance(embargo_eff, int) or embargo_eff < 0:
             embargo_eff = 0
+
+        # Override scaling params if passed
+        if allocation_mode is not None:
+            self.allocation_mode = str(allocation_mode)
+        if vol_target is not None and isfinite(vol_target):
+            self.vol_target = float(vol_target)
+        if turnover_cap is not None and isfinite(turnover_cap):
+            self.turnover_cap = float(turnover_cap)
+        if max_position_pct is not None and isfinite(max_position_pct):
+            self.max_position_pct = float(max_position_pct)
+        if risk_parity is not None:
+            self.risk_parity = bool(risk_parity)
+            if self.risk_parity and self.allocation_mode not in ("risk_parity", "vol_target"):
+                self.allocation_mode = "risk_parity"
 
         symbols = list(price_series.keys())
         first_key = symbols[0]
@@ -2291,9 +2337,41 @@ class PortfolioWalkForwardBacktest:
         else:
             pwres.correlation_matrix = None
 
+        # Compute allocation weights from train data only (no lookahead)
+        try:
+            prev_w = getattr(self, "_last_portfolio_weights", None)
+            alloc_w = self._compute_allocation_weights(price_series, train_start, train_end_purged, pwres.correlation_matrix, symbols, prev_w)
+            # ensure finite and sum to 1
+            sw = sum((v for v in alloc_w.values() if isfinite(v)))
+            if sw > 0:
+                for s in symbols:
+                    v = alloc_w.get(s, 0.0)
+                    if not isfinite(v) or v < 0:
+                        v = 0.0
+                    alloc_w[s] = v / sw
+            else:
+                alloc_w = {s: 1.0 / len(symbols) for s in symbols}
+            pwres.allocation_weights = dict(alloc_w)
+            pwres.allocation_mode = self.allocation_mode
+            pwres.vol_target = self.vol_target
+            pwres.turnover_cap = self.turnover_cap
+            if prev_w is not None:
+                pwres.turnover = self._compute_turnover(alloc_w, prev_w)
+                pwres.turnover_capped = (self.turnover_cap is not None and pwres.turnover <= float(self.turnover_cap) + 1e-12)
+            else:
+                pwres.turnover = 0.0
+                pwres.turnover_capped = True
+            # store for next window
+            self._last_portfolio_weights = dict(alloc_w)
+        except Exception:
+            pwres.allocation_weights = {s: 1.0 / len(symbols) for s in symbols}
+            pwres.allocation_mode = self.allocation_mode
+            pwres.turnover = 0.0
+            pwres.turnover_capped = True
+
         # In-sample
         is_engine = BacktestEngine(cfg, self.risk_config)
-        self._simulate_portfolio_period(is_engine, price_series, signals, timestamps, train_start, train_end_purged, correlation_constraint)
+        self._simulate_portfolio_period(is_engine, price_series, signals, timestamps, train_start, train_end_purged, correlation_constraint, pwres.allocation_weights)
         if is_engine.equity_curve:
             is_metrics = is_engine.calculate_metrics()
             pwres.is_metrics = is_metrics
@@ -2303,7 +2381,7 @@ class PortfolioWalkForwardBacktest:
 
         # Out-of-sample
         oos_engine = BacktestEngine(cfg, self.risk_config)
-        self._simulate_portfolio_period(oos_engine, price_series, signals, timestamps, test_start_embargoed, test_end, correlation_constraint)
+        self._simulate_portfolio_period(oos_engine, price_series, signals, timestamps, test_start_embargoed, test_end, correlation_constraint, pwres.allocation_weights)
         if oos_engine.equity_curve:
             oos_metrics = oos_engine.calculate_metrics()
             pwres.oos_metrics = oos_metrics
@@ -2322,6 +2400,7 @@ class PortfolioWalkForwardBacktest:
         start: int,
         end: int,
         correlation_constraint: bool,
+        allocation_weights: Optional[Dict[str, float]] = None,
     ) -> None:
         if start >= end or end < 0:
             return
@@ -2355,6 +2434,12 @@ class PortfolioWalkForwardBacktest:
                     if sig == 1 and sym not in engine.positions:
                         try:
                             qty = engine.calculate_position_size(price, side="long")
+                            # Apply allocation weight scaling if provided
+                            if allocation_weights and sym in allocation_weights:
+                                w = allocation_weights.get(sym, 1.0 / max(len(symbols), 1))
+                                if isfinite(w) and w > 0:
+                                    # scale by weight relative to equal weight for simplicity
+                                    qty = qty * w / (1.0 / max(len(symbols), 1))
                             # Apply correlation constraint: if too correlated exposure, scale down
                             if correlation_constraint and len(engine.positions) > 0 and len(symbols) > 1:
                                 # Simple diversification guard - reduce size if many correlated positions
@@ -2375,6 +2460,10 @@ class PortfolioWalkForwardBacktest:
                                 engine.execute_trade(sym, pos.quantity, price, "sell", ts)
                             elif sym not in engine.positions:
                                 qty = engine.calculate_position_size(price, side="short")
+                                if allocation_weights and sym in allocation_weights:
+                                    w = allocation_weights.get(sym, 1.0 / max(len(symbols), 1))
+                                    if isfinite(w) and w > 0:
+                                        qty = qty * w / (1.0 / max(len(symbols), 1))
                                 if correlation_constraint and len(engine.positions) >= 2:
                                     qty = qty * 0.5
                                     if qty < 1e-18:
