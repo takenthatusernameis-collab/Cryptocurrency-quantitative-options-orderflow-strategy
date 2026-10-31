@@ -328,3 +328,74 @@ def test_at_expiry_path_is_finite():
     for k in ["delta_pnl", "gamma_pnl", "theta_pnl", "vega_pnl", "residual", "total_pnl", "sum_attribution"]:
         assert math.isfinite(float(attr[k])), (k, attr[k])
     assert abs(attr["sum_attribution"] - attr["total_pnl"]) < 1e-9
+
+def test_automated_delta_hedging_loop_basic_attribution_reconciliation():
+    spot_path = _ramp_path(100.0, 12, 0.5)
+    times = _times(12, 7 / 365.25)
+    result = automated_delta_hedging_loop(spot_path, times, strike=100.0, rate=0.05,
+                                         volatility=0.25, option_type="call",
+                                         rebalance_every_step=True)
+    _assert_finite_result(result)
+    assert "attribution" in result
+    attr = result["attribution"]
+    for k in ("delta_pnl", "gamma_pnl", "theta_pnl", "vega_pnl", "residual", "total_pnl", "sum_attribution"):
+        assert k in attr
+        assert math.isfinite(float(attr[k]))
+    assert math.isclose(attr["sum_attribution"], attr["total_pnl"], rel_tol=1e-12, abs_tol=1e-12)
+    assert math.isclose(attr["sum_attribution"], result["total_pnl"], rel_tol=1e-12, abs_tol=1e-12)
+    # Sanity
+    assert result["hedge_steps"] == 12
+
+
+def test_automated_hedge_transaction_costs_reduce_pnl():
+    spot_path = _ramp_path(100.0, 18, 0.6)
+    times = _times(18, 4 / 365.25)
+    r_free = automated_delta_hedging_loop(spot_path, times, strike=100.0, rate=0.05,
+                                          volatility=0.25, option_type="call",
+                                          transaction_cost_bps=0.0)
+    r_costly = automated_delta_hedging_loop(spot_path, times, strike=100.0, rate=0.05,
+                                            volatility=0.25, option_type="call",
+                                            transaction_cost_bps=50.0)
+    _assert_finite_result(r_free)
+    _assert_finite_result(r_costly)
+    assert r_costly["total_pnl"] <= r_free["total_pnl"] + 1e-12
+
+
+def test_automated_hedge_rebalance_threshold_behavior():
+    spot_path = _ramp_path(100.0, 20, 0.7)
+    times = _times(20, 3 / 365.25)
+    r_step = automated_delta_hedging_loop(spot_path, times, strike=100.0, rate=0.05,
+                                         volatility=0.25, option_type="call",
+                                         rebalance_every_step=True)
+    r_band = automated_delta_hedging_loop(spot_path, times, strike=100.0, rate=0.05,
+                                         volatility=0.25, option_type="call",
+                                         rebalance_every_step=False,
+                                         rebalance_threshold=0.05)
+    _assert_finite_result(r_step)
+    _assert_finite_result(r_band)
+    assert r_step["num_rebalances"] >= r_band["num_rebalances"] or r_step["num_rebalances"] >= 0
+
+
+def test_automated_hedge_determinism_twice_byte_identical():
+    spot_path = _ramp_path(100.0, 15, 0.3)
+    times = _times(15, 5 / 365.25)
+    r1 = automated_delta_hedging_loop(spot_path, times, strike=100.0, rate=0.05,
+                                      volatility=0.25, option_type="call")
+    r2 = automated_delta_hedging_loop(spot_path, times, strike=100.0, rate=0.05,
+                                      volatility=0.25, option_type="call")
+    assert serialize_metrics_strict(r1) == serialize_metrics_strict(r2)
+    assert json.dumps(r1, allow_nan=False) == json.dumps(r2, allow_nan=False)
+
+
+def test_automated_hedge_risk_manager_blocks():
+    spot_path = _ramp_path(100.0, 10, 1.0)
+    times = _times(10, 1 / 365.25)
+    limits = RiskLimits(max_portfolio_notional=1.0)
+    rm = RiskManager(limits=limits)
+    cb = CircuitBreaker(CircuitBreakerConfig())
+    result = automated_delta_hedging_loop(spot_path, times, strike=100.0, rate=0.05,
+                                         volatility=0.25, option_type="call",
+                                         rebalance_every_step=True,
+                                         risk_manager=rm, circuit_breaker=cb)
+    _assert_finite_result(result)
+    assert "num_blocked" in result

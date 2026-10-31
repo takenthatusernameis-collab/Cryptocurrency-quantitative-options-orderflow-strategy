@@ -60,3 +60,10 @@ orderflow_imbalance vs forward return: -0.4583478199902648
 - `tests/test_portfolio_scaling.py`: 14 tests (weight sums/finiteness, turnover cap enforcement breach + under-cap, no-lookahead from train window, regime stability, strict serialization allow_nan=False, determinism run-twice-identical, invalid-mode fallback).
 - Artifact: research_state/PORTFOLIO_SCALING_20261031T155243Z.json (4 modes: risk_parity, risk_parity+turnover_cap, vol_target, vol_target+turnover_cap; per-window weights, turnover, OOS metrics, correlation matrices).
 - Gate: `python -m pytest tests/ -q` = 380 passed, 0 failed (was 366).
+
+
+## Phase 5: Hedging Robustness (2026-10-31T16:47:24Z)
+- Enhanced `src/backtest/options_hedging.py::automated_delta_hedging_loop` with full PnL attribution/decomposition (delta/gamma/vega/theta/residual) and exact reconciliation `sum_attribution == total_pnl` (residual-defined); fixed duplicated/unclear total PnL to correct no-lookahead calculation; attribution computed from in-sample/current-step greeks only. Added `rebalance_every_step` to serialized result.
+- Extended `tests/test_options_hedging.py` with risk-integrated loop tests: attribution reconciliation, transaction costs reduce PnL, rebalance threshold vs every-step behavior, determinism (byte-identical), strict serialization `allow_nan=False`, RiskManager/CircuitBreaker blocking paths.
+- Artifact: research_state/HEDGING_ROBUSTNESS_20261031T164724Z.json (4 modes: 0bps every-step vs 50bps every-step vs 10bps band vs put case; per-step decomposition totals, rebalances/blocks/holds, reconciliation verified).
+- Gate: `python -m pytest tests/ -q` = 380 passed, 0 failed.

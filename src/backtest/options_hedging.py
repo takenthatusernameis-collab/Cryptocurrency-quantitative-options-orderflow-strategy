@@ -298,6 +298,7 @@ def automated_delta_hedging_loop(
         "hedge_steps": len(actions),
         "transaction_cost_bps": float(transaction_cost_bps),
         "rebalance_threshold": float(rebalance_threshold),
+        "rebalance_every_step": bool(rebalance_every_step),
         "num_rebalances": sum(1 for a in actions if a.action == "rebalance"),
         "num_blocked": sum(1 for a in actions if a.action == "blocked"),
         "num_holds": sum(1 for a in actions if a.action == "hold"),
