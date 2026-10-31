@@ -1,9 +1,9 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T15:54:33Z
+Timestamp (UTC): 2026-10-31T16:43:03Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE BY REPO NAME -> crypto options pricing/Greeks/IV = Priority A)
 
-Gate status: GREEN (380 passed, 0 failed, 0 warnings — verified 2026-10-31T15:54:33Z via `python -m pytest tests/ -q`). Working tree clean, branch `main` up to date with `origin/main`.
+Gate status: GREEN (380 passed, 0 failed, 0 warnings — verified 2026-10-31T16:43:03Z via `python -m pytest tests/ -q`). Working tree clean, branch `main` up to date with `origin/main`.
 Phases 1-4b COMPLETE: data/loaders, features (orderflow/gamma/IV/liquidity/vol/pricing), time-series + walk-forward/OOS with purge/embargo, portfolio walk-forward, options hedging integrated.
 Phase 5 Regime OOS COMPLETE (artifacts + module + tests).
 Phase 5 Portfolio Scaling COMPLETE (2026-10-31T15:52:43Z): bottleneck removed + tests + artifact + RESULTS_SUMMARY section (see below).
@@ -76,7 +76,7 @@ python -m pytest tests/test_options_hedging.py tests/test_portfolio_scaling.py t
 
 ## NEXT AGENT INSTRUCTION (CLEAR, TIMESTAMPED, NON-DEFERRABLE)
 **EXECUTE NOW - NO QUESTIONS - NO DELAY**
-- Timestamp: 2026-10-31T15:54:33Z
+- Timestamp: 2026-10-31T16:43:03Z
 - Read this file first. Do NOT re-run portfolio scaling (DONE) or treat Priority A as blocking (already green).
 - Start on the Hedging robustness initial task immediately. Produce code/guards/tests/artifacts every turn.
 - Verify gate at start and end. Keep >=380 green.
