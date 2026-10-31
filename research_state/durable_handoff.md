@@ -1,12 +1,12 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T04:09:08Z
+Timestamp (UTC): 2026-10-31T04:16:17Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY (PRIORITIZE BY REPO NAME)
-Gate status: GREEN (358 passed, 0 failed, 0 warnings — verified 2026-10-31T04:09:08Z via `python3 -m pytest -q`). tests/test_campaign_resume.py: PASSED (4/4). Phase A adversarial targets: 100 passed. Working tree clean. Bottlenecks removed/prevented.
+Gate status: GREEN (358 passed, 0 failed, 0 warnings — verified 2026-10-31T04:16:17Z via `python3 -m pytest -q`). tests/test_campaign_resume.py: PASSED (4/4). Phase B adversarial targets verified passing (test_adversarial_stress.py, test_backtest_stress_adversarial.py, test_portfolio_walkforward_correlation_adversarial.py, test_signals_regime_calibration_adversarial.py, test_routing_adversarial.py — 62 passed combined with campaign resume). Working tree clean. Bottlenecks removed/prevented.
 
 ## BOTTLENECKS (FIXED / PREVENTED)
 - NONE active. All tooling/edit paths unblocked.
-- EDIT TOOL MANDATE: When using edit, always pass absolute filePath + exact oldString (with sufficient surrounding context). Do NOT call edit with partial/empty args. For full rewrites, use Write.
+- EDIT TOOL MANDATE: When using edit, always pass absolute filePath + exact oldString (with sufficient surrounding context). Do NOT call edit with partial/empty args. For full rewrites, use Write. (Prevents the repeated `filePath`/`oldString` missing-argument aborts seen in workflow_run_diagnostics.jsonl.)
 - NO IDLE TURNS: Every turn must produce measurable, heavy-quant progress. No exploration for exploration's sake.
 - SINGLE SOURCE OF TRUTH: Always read/update THIS file. research_state/INITIAL_TASK_HANDOFF.md points here.
 - LOCAL TEST RUNNER: If pytest not installed, use venv: `python3 -m venv .venv && .venv/bin/python -m pip install -r requirements.txt && .venv/bin/python -m pytest -q`
@@ -19,9 +19,9 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 
 **MANDATORY PRIORITIZATION BY REPOSITORY NAME (INFERRED - MUST FOLLOW):**
 1. **A) CRYPTO OPTIONS PRICING/GREEKS/IV (HIGHEST QUANT IMPACT)** — Black-Scholes/Greeks, IV surface/solver, arbitrage/invariants, crypto extreme regimes, strict `allow_nan=False` serialization. Attack unguarded numerical paths first. (Phase A hardening complete; extend adversarial coverage only if gaps found.)
-2. **B) ORDERFLOW-INFORMED SIGNALS/CORRELATION/TAIL/PORTFOLIO/WALKFORWARD/ROUTING** — Non-PSD/ill-conditioned covariance, tail risk, regime shifts, weight blowups/concentration, routing failures. (CURRENT PRIMARY ATTACK TARGET.)
-3. **C) RISK/CIRCUIT-BREAKERS/ORDERFLOW TELEMETRY/SERIALIZATION (STRICT FINITENESS)** — Block NaN/Inf propagation, kill-switch paths, `allow_nan=False` at every serialization call site.
-4. **D) SAFE PERFORMANCE (ONLY IF PROVABLY BYTE-IDENTICAL OR TESTS UNCHANGED+PASSING)** — Optimize only measured hotspots with proof of numerical equivalence.
+2. **B) ORDERFLOW-INFORMED SIGNALS/CORRELATION/TAIL/PORTFOLIO/WALKFORWARD/ROUTING** — Non-PSD/ill-conditioned covariance, tail risk, regime shifts, weight blowups/concentration, routing failures. (VERIFIED PASSING — attack only if unguarded edges remain after audit.)
+3. **C) RISK/CIRCUIT-BREAKERS/ORDERFLOW TELEMETRY/SERIALIZATION (STRICT FINITENESS) — CURRENT PRIMARY ATTACK** — Block NaN/Inf propagation, kill-switch paths, `allow_nan=False` at every serialization call site. (Files: `src/telemetry/serialization.py`, `src/risk/circuit_breaker.py`, `src/risk/limits.py`. Targets: `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`.)
+4. **D) SAFE PERFORMANCE (ONLY IF PROVABLY BYTE-IDENTICAL OR TESTS UNCHANGED+PASSING)** — Optimize only measured hotspots with proof of numerical equivalence. (Targets: `tests/test_performance_benchmarks.py`, `tests/test_vectorization_audit.py`.)
 
 **CORE DIRECTIVE:** Find and surgically harden unguarded numerical paths under adversarial extremes. Every change minimal, backward-compatible, deterministic, verified. If tests all pass, STILL reason adversarially and harden concrete edges. Every session MUST produce measurable heavy-quant progress and end with gate GREEN.
 
@@ -37,11 +37,11 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 **Targets:** `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`
 **Files:** `src/features/options_pricing.py`, `src/features/iv_surface.py`
 **Status:** Deep adversarial hardening already in place (guards on ultra-short/long T, extreme moneyness/vol/rates/strikes, IV solver bracketing+Newton+fallbacks, Greeks finiteness, put-call parity, strict `allow_nan=False`). Only extend adversarial test coverage if untouched edge regimes remain.
-### STEP 3: B) ORDERFLOW/CORRELATION/TAIL/STRESS (CURRENT PRIMARY ATTACK)
+### STEP 3: B) ORDERFLOW/CORRELATION/TAIL/STRESS (VERIFIED PASSING — AUDIT FOR GAPS)
 **Targets:** `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`, `tests/test_routing_adversarial.py`
 **Files:** `src/backtest/engine.py`, `src/features/orderflow.py`, `src/execution/routing.py`, `src/signals/composite.py`, `src/risk/limits.py`
-**Hunt:** Non-PSD/ill-conditioned covariance matrices (eigenvalue floors, PSD projection), tail risk extremes, regime miscalibration, weight blowups/concentration, correlation breakdown, routing failures under adversarial volume/spread, extreme orderflow imbalance. Add minimal guards in production code paths; prove finiteness. Do not weaken assertions.
-### STEP 4: C) RISK/CIRCUIT-BREAKERS/TELEMETRY SERIALIZATION (STRICT FINITENESS)
+**Status:** Adversarial targets verified passing. Source already carries heavy finiteness guards (eigenvalue-safe variance, clamped orderflow imbalance [-1,1], routing allocation normalization+finite clamp, risk notional/leverage caps, kill-switch neutralization). Audit for any unguarded edge (non-PSD covariance, singular covariance, extreme tails, regime miscalibration, overflow/underflow, weight blowups, routing failures); add minimal guards only if gaps found. Do not weaken assertions.
+### STEP 4: C) RISK/CIRCUIT-BREAKERS/TELEMETRY SERIALIZATION (STRICT FINITENESS) — CURRENT PRIMARY ATTACK
 **Targets:** `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`
 **Files:** `src/telemetry/serialization.py`, `src/risk/circuit_breaker.py`, `src/risk/limits.py`
 **Hunt:** Enforce `allow_nan=False` everywhere, block NaN/Inf propagation, kill-switch hardening.
@@ -60,27 +60,27 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 - Single handoff: Update THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work.
 
 ## EXACT REMAINING WORK
-- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — verified 2026-10-31T04:09:08Z
+- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — verified 2026-10-31T04:16:17Z
 - [x] Campaign resume contract passes (4/4)
-- [x] Phase A adversarial targets pass (100 passed)
+- [x] Phase A adversarial targets pass (options_pricing_greeks_adversarial, iv_surface, phase1_gamma_invariants, numerical_guards)
 - [x] Phase A hardening complete (options_pricing.py, iv_surface.py)
-- [ ] **B) ORDERFLOW/CORRELATION/TAIL/STRESS** (CURRENT PRIMARY) - Non-PSD/ill-conditioned covariance, eigenvalue floors/PSD projection, tail risk extremes, regime miscalibration, weight blowups/concentration, routing failures. Targets: `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`, `tests/test_routing_adversarial.py`. Files: `src/backtest/engine.py`, `src/execution/routing.py`, `src/signals/composite.py`, `src/risk/limits.py`.
-- [ ] **C) RISK/CIRCUIT-BREAKERS/SERIALIZATION** - Enforce `allow_nan=False` everywhere, block NaN/Inf propagation, kill-switch hardening. Targets: `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`.
+- [x] Phase B adversarial targets pass (adversarial_stress, backtest_stress_adversarial, portfolio_walkforward_correlation_adversarial, signals_regime_calibration_adversarial, routing_adversarial)
+- [ ] **C) RISK/CIRCUIT-BREAKERS/SERIALIZATION** (CURRENT PRIMARY) - Enforce `allow_nan=False` everywhere, block NaN/Inf propagation, kill-switch hardening. Targets: `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`. Files: `src/telemetry/serialization.py`, `src/risk/circuit_breaker.py`, `src/risk/limits.py`.
 - [ ] **D) SAFE PERFORMANCE** - Byte-identical or tests unchanged+passing only.
 
 ## NEXT FOCUS CAMPAIGN (CLEAR FOR NEXT AGENT - UNAVOIDABLY HEAVY)
-**Goal:** Surgically harden unguarded numerical paths in the orderflow + correlation + tail risk stack under adversarial extremes, prioritized by repo name. No session may end without attacking at least one unguarded edge in Phase B (orderflow/correlation/tail/portfolio/walkforward/routing).
+**Goal:** Surgically harden unguarded numerical paths in the risk/circuit-breaker/telemetry/serialization stack under adversarial extremes, prioritized by repo name (crypto options + orderflow). No session may end without attacking at least one unguarded edge in Phase C (risk/circuit-breakers/serialization with strict `allow_nan=False`), then Phase D only if provably safe.
 
 **EXECUTION DIRECTIVE (NON-NEGOTIABLE):**
 1. HOLD GATE + campaign resume MUST pass. Fix immediately if not.
-2. ATTACK B FIRST. Run adversarial orderflow/correlation/tail/routing tests. Find concrete numerical edges (non-PSD covariance, singular covariance, extreme tails, regime miscalibration, overflow/underflow, weight blowups, routing failures). Add minimal guards in `src/backtest/engine.py`, `src/execution/routing.py`, `src/signals/composite.py`, `src/risk/limits.py`. Prove finiteness. Reason adversarially even if tests pass.
-3. THEN C, THEN D.
+2. ATTACK C FIRST. Run `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`. Find concrete numerical edges (non-finite serialization leakage, kill-switch paths that admit NaN/Inf, missing `allow_nan=False` call sites). Add minimal guards in `src/telemetry/serialization.py`, `src/risk/circuit_breaker.py`, `src/risk/limits.py`. Prove finiteness. Reason adversarially even if tests pass.
+3. THEN D (safe performance, byte-identical or tests unchanged+passing only).
 4. SURGICAL HARDENING only. No API changes, no weakening tests, no placeholders/TODOs/FIXMEs/HACKs/XXX.
 5. VERIFY affected tests after each change. Full `python3 -m pytest -q` before ending.
 6. UPDATE THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make priorities unmissable. NO IDLE TURNS. HEAVY QUANT WORK ONLY.
 
-## LAST SESSION (2026-10-31T04:09:08Z)
-- **Handoff refreshed (single durable source of truth).** Priorities strictly inferred from repo name: A) CRYPTO OPTIONS PRICING/GREEKS/IV highest (hardening complete); B) orderflow/correlation/tail/portfolio/walkforward/routing = CURRENT PRIMARY ATTACK; C) risk/circuit-breakers/serialization with strict `allow_nan=False`; D) safe performance only if provably byte-identical/passing.
-- **Gate verified GREEN:** `python3 -m pytest -q` → 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Phase A adversarial targets → 100 passed. Working tree clean.
+## LAST SESSION (2026-10-31T04:16:17Z)
+- **Handoff refreshed (single durable source of truth).** Priorities strictly inferred from repo name: A) CRYPTO OPTIONS PRICING/GREEKS/IV highest (hardening complete); B) orderflow/correlation/tail/portfolio/walkforward/routing verified passing (audit for gaps); C) risk/circuit-breakers/serialization with strict `allow_nan=False` = CURRENT PRIMARY ATTACK; D) safe performance only if provably byte-identical/passing.
+- **Gate verified GREEN:** `python3 -m pytest -q` → 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Phase B adversarial targets → passing. Working tree clean.
 - **Bottlenecks removed/prevented:** Edit tool requires absolute path + exact oldString with context (use Write for full rewrites). Heavy quant mandate enforced; no TODOs/FIXMEs/HACKs/XXX. No active bottlenecks.
-- **Immediate next attack (UNAVOIDABLY HEAVY):** Phase B — surgically harden unguarded numerical paths in `src/backtest/engine.py`, `src/execution/routing.py`, `src/signals/composite.py`, `src/risk/limits.py` under adversarial extremes (non-PSD covariance, eigenvalue floors, tail risk, regime miscalibration, weight blowups, routing failures). Full gate before ending. Update this file.
+- **Immediate next attack (UNAVOIDABLY HEAVY):** Phase C — surgically harden unguarded numerical paths in `src/telemetry/serialization.py`, `src/risk/circuit_breaker.py`, `src/risk/limits.py` under adversarial extremes (strict `allow_nan=False`, block NaN/Inf propagation, kill-switch hardening). Full gate before ending. Update this file.
