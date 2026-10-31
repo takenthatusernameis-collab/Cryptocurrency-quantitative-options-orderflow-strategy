@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T01:17:45Z
+Timestamp (UTC): 2026-10-31T01:18:08Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks removed.
@@ -96,7 +96,7 @@ Run gate + campaign resume. Do not proceed if not green.
 - **Single handoff:** Update THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work.
 
 ## EXACT REMAINING WORK
-- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — verified 2026-10-31T01:17:45Z
+- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — verified 2026-10-31T01:18:08Z
 - [x] Campaign resume contract passes (4/4)
 - [ ] **A) CRYPTO OPTIONS PRICING/GREEKS/IV (HIGHEST)** - Deeper adversarial hardening: ultra-extremes T/moneyness/vol/rates, IV solver bracketing/Newton fallbacks, put-call parity, invariants, strict `allow_nan=False`. Targets: `src/features/options_pricing.py`, `src/features/iv_surface.py` + adversarial tests (base clamps already in place; attack remaining solver/surface edge cases).
 - [ ] **B) ORDERFLOW/CORRELATION/TAIL/STRESS** - Non-PSD/ill-conditioned covariance, eigenvalue floors/PSD projection, weight blowups/concentration, regime miscalibration. Targets: `src/backtest/engine.py` + listed tests.
@@ -115,7 +115,7 @@ Run gate + campaign resume. Do not proceed if not green.
 6. VERIFY affected tests after each change. Full `pytest -q` before ending.
 7. UPDATE THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make priorities unmissable. NO IDLE TURNS. HEAVY QUANT WORK ONLY.
 
-## LAST SESSION (2026-10-31T01:17:45Z)
+## LAST SESSION (2026-10-31T01:18:08Z)
 - **Handoff refreshed to single durable source with fresh timestamp.** Priorities explicitly inferred from repo name (crypto options + orderflow) — reordered to A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, B) orderflow/correlation/tail/routing, C) risk/circuit-breakers/serialization (strict `allow_nan=False`), D) safe perf only if provably byte-identical/passing.
 - **Gate verified GREEN:** 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean. Bottlenecks documented/prevented (edit tool mandate, no idle turns).
 - **State carried forward:** Base moneyness/log/clamp hardening in `src/features/options_pricing.py` and IV surface extremes/clamping in `src/features/iv_surface.py` from prior session remain intact; all adversarial options/IV tests passing.
