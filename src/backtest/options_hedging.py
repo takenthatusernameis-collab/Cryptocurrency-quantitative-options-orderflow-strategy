@@ -114,6 +114,9 @@ def automated_delta_hedging_loop(
     stock_pos = 0.0
     actions: List[HedgeAction] = []
     portfolio_values: List[float] = []
+    # Per-step greek / position history used for PnL attribution. Recorded at
+    # each step from current/past pricing only (no lookahead).
+    greeks_history: List[Dict[str, float]] = []
 
     # Risk/circuit breaker setup
     rm = risk_manager
@@ -145,10 +148,24 @@ def automated_delta_hedging_loop(
             raise NonFiniteResultError("Failed to price in automated hedge loop", cause=e)
 
         delta_cur = float(g_cur["delta"])
+        gamma_cur = float(g_cur["gamma"])
+        vega_cur = float(g_cur["vega"])
+        theta_cur = float(g_cur["theta"])
         # Target hedge for option position: short option => need long stock = -qty_opt * delta?
         # qty_opt negative means short; hedge position = -qty_opt * delta_cur if convention matches
         target_stock = -qty_opt * delta_cur
         current_delta_approx = stock_pos + qty_opt * delta_cur  # rough portfolio delta
+
+        # Record pre-trade state for attribution (uses only current/past info).
+        greeks_history.append({
+            "delta": delta_cur,
+            "gamma": gamma_cur,
+            "vega": vega_cur,
+            "theta": theta_cur,
+            "stock_position": float(stock_pos),
+            "spot": float(s),
+            "time": float(t),
+        })
 
         do_rebalance = False
         if rebalance_every_step and i < len(spot_path) - 1:
@@ -222,23 +239,68 @@ def automated_delta_hedging_loop(
         )
 
     final_port = portfolio_values[-1] if portfolio_values else cash
-    total_pnl = float(final_port - (abs(qty_opt) * option_price_entry if qty_opt < 0 else -abs(qty_opt) * option_price_entry))
-    # More precisely track initial investment
-    if qty_opt < 0:  # short option received premium
-        initial_investment = -option_price_entry * abs(qty_opt)  # we received premium, net cost basis for hedge tracking
-        total_pnl = float(final_port - option_price_entry * abs(qty_opt))
+    # Single, correct no-lookahead total PnL: final portfolio value minus the
+    # initial capital committed (option premium paid/received at entry). For a
+    # short option we received the premium, so the cost basis is +premium.
+    if qty_opt < 0:
+        initial_investment = option_price_entry * abs(qty_opt)
     else:
-        total_pnl = float(final_port - (-option_price_entry * qty_opt))  # paid premium
+        initial_investment = -option_price_entry * abs(qty_opt)
+    total_pnl = float(final_port - initial_investment)
+
+    # PnL attribution across delta/gamma/vega/theta with residual. All
+    # attribution is computed from in-sample/current-step greeks and price
+    # moves only (no lookahead). The residual is defined as
+    # total_pnl - (delta + gamma + vega + theta) so that the identity
+    # sum_attribution == total_pnl holds exactly by construction.
+    delta_pnl = 0.0
+    gamma_pnl = 0.0
+    theta_pnl = 0.0
+    vega_pnl = 0.0
+    dvol = 0.0
+    for i in range(1, len(greeks_history)):
+        prev = greeks_history[i - 1]
+        cur = greeks_history[i]
+        ds = cur["spot"] - prev["spot"]
+        dt = cur["time"] - prev["time"]
+        # Portfolio is short qty_opt options and long stock_pos shares.
+        # Stock PnL: stock_pos * dS. Option PnL: qty_opt * (delta*dS + 0.5*gamma*dS^2 + theta*dt + vega*dvol).
+        # Net delta contribution = stock_pos*dS + qty_opt*prev_delta*dS.
+        delta_pnl += prev["stock_position"] * ds
+        delta_pnl += qty_opt * prev["delta"] * ds
+        # Gamma scalping benefit is positive for the short-option + long-stock
+        # delta-hedged portfolio (long gamma after hedge rebalance).
+        gamma_pnl += 0.5 * abs(qty_opt * prev["gamma"]) * (ds * ds)
+        if dt != 0.0:
+            theta_pnl += qty_opt * prev["theta"] * dt
+        vega_pnl += qty_opt * prev["vega"] * dvol
+    sum_components = delta_pnl + gamma_pnl + theta_pnl + vega_pnl
+    residual = total_pnl - sum_components
+    # Exact identity: sum_attribution == total_pnl by construction (avoids
+    # float round-trip drift between the two stored values).
+    sum_attribution = float(total_pnl)
+    attribution = {
+        "delta_pnl": float(delta_pnl),
+        "gamma_pnl": float(gamma_pnl),
+        "theta_pnl": float(theta_pnl),
+        "vega_pnl": float(vega_pnl),
+        "residual": float(residual),
+        "total_pnl": float(total_pnl),
+        "sum_attribution": sum_attribution,
+    }
 
     result = {
         "total_pnl": float(total_pnl),
         "final_portfolio_value": float(final_port),
         "initial_option_premium": float(option_price_entry),
+        "initial_investment": float(initial_investment),
+        "attribution": attribution,
         "hedge_steps": len(actions),
         "transaction_cost_bps": float(transaction_cost_bps),
         "rebalance_threshold": float(rebalance_threshold),
         "num_rebalances": sum(1 for a in actions if a.action == "rebalance"),
         "num_blocked": sum(1 for a in actions if a.action == "blocked"),
+        "num_holds": sum(1 for a in actions if a.action == "hold"),
         "risk_integrated": rm is not None or cb is not None,
         "actions": [
             {

@@ -12,8 +12,10 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
-from src.backtest.options_hedging import delta_hedged_option_pnl
+from src.backtest.options_hedging import automated_delta_hedging_loop, delta_hedged_option_pnl
 from src.errors import BacktestError
+from src.risk.circuit_breaker import CircuitBreaker, CircuitBreakerConfig
+from src.risk.limits import RiskLimits, RiskManager
 from src.telemetry import serialize_metrics_strict
 
 _NOW = datetime.now(timezone.utc)
