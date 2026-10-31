@@ -1,15 +1,17 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T13:06:43Z
+Timestamp (UTC): 2026-10-31T13:06:56Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE BY REPO NAME)
 
-Gate status: GREEN (364 passed, 0 failed, 0 warnings — verified 2026-10-31T13:06:43Z). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean.
+Gate status: GREEN (364 passed, 0 failed, 0 warnings — verified 2026-10-31T13:06:56Z). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean.
+Phase 4b COMPLETE: walk-forward purge/embargo, portfolio correlation-aware (BTC/ETH/SOL), options hedging integrated into backtest path — artifacts in research_state/ (WALKFORWARD_purge_embargo_20261031T130538Z.json, PORTFOLIO_WALKFORWARD_20261031T130553Z.json, OPTIONS_HEDGING_INTEGRATED_20261031T130606Z.json).
 
-## BOTTLENECKS (REMOVED/PREVENTED)
+## BOTTLENECKS (REMOVED/PREVENTED — NONE ACTIVE)
 - [x] Trivial 1-trade backtest eliminated - time-series windowed backtest implemented with real metrics (20 trades), flow-correlation computed.
-- [x] All tests passing. No failing/blocked tests.
-- [x] Theta formula corrected for T != 1.0 (divide by sqrt(T)), ultra-short-T gamma/vega/theta singularity floored.
-- [x] IV solver hardened with bracket expansion, cap/floor enforcement, final residual verification (raises on unbracketable/arbitrage cases).
+- [x] All tests passing (364/364). No failing/blocked tests.
+- [x] Theta formula corrected for T != 1.0; ultra-short-T gamma/vega/theta singularity floored.
+- [x] IV solver hardened with bracket expansion, cap/floor enforcement, final residual verification.
+- [x] Walk-forward purge/embargo enforced; portfolio correlation-aware sizing applied; options hedging integrated.
 - EDIT TOOL MANDATE: When using edit, always pass absolute filePath + exact oldString (with sufficient surrounding context). For full rewrites, use Write.
 - NO IDLE TURNS: Every turn must produce measurable, heavy-quant progress (code/tests/guards/artifacts + verification).
 - SINGLE SOURCE OF TRUTH: Always read/update THIS file. research_state/INITIAL_TASK_HANDOFF.md points here.
@@ -21,14 +23,14 @@ Gate status: GREEN (364 passed, 0 failed, 0 warnings — verified 2026-10-31T13:
 **CRITICAL: BY REPO NAME - CRYPTO OPTIONS ARE #1 PRIORITY. HEAVY QUANT WORK ONLY. NO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.**
 
 You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy** campaign.
-**STATE:** Phases complete through time-series backtest with real metrics. Gate GREEN (364/364). Bottlenecks removed.
+**STATE:** Phases 1-4b complete through time-series backtest, walk-forward/OOS purge-embargo, portfolio correlation-aware scaling, and options hedging integration. Gate GREEN (364/364). Bottlenecks: none.
 
 ### MANDATORY PRIORITIZATION BY REPOSITORY NAME (INFERRED - MUST FOLLOW)
 1. **A) CRYPTO OPTIONS PRICING/GREEKS/IV — HIGHEST PRIORITY (repo name = crypto options)**
    - Core differentiator. Attack unguarded numerical edges in:
-     - Black-Scholes/Barone-Adesi-Whaley/custom pricing: `src/features/options_pricing.py`
-     - Greeks (delta/gamma/vega/theta/rho): finite differences vs closed forms, signs, ATM/ITM/OTM boundaries, near-expiry
-     - IV surface: construction/interpolation/extrapolation, arbitrage constraints: `src/features/iv_surface.py`
+      - Black-Scholes/Barone-Adesi-Whaley/custom pricing: `src/features/options_pricing.py`
+      - Greeks (delta/gamma/vega/theta/rho): finite differences vs closed forms, signs, ATM/ITM/OTM boundaries, near-expiry
+      - IV surface: construction/interpolation/extrapolation, arbitrage constraints: `src/features/iv_surface.py`
    - Targets: `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`
    - Action: Add minimal guards where needed without changing correct behavior; prove with tests. Harden surgically.
 
@@ -87,6 +89,6 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 - [ ] **C) RISK/CIRCUIT-BREAKERS/TELEMETRY** - Spot check serialization/non-finite paths
 - [ ] **D) SAFE PERFORMANCE** - Only if provably byte-identical/same tests passing
 
-## LAST SESSION (2026-10-31T13:06:43Z)
-- **Handoff refreshed:** Single durable handoff re-stamped with fresh UTC timestamp; gate re-verified GREEN (364/364, 0 warnings); campaign resume 4/4; working tree clean. Bottlenecks: none. Priorities by repo name unchanged (A crypto options first).
+## LAST SESSION (2026-10-31T13:06:56Z)
+- **Handoff refreshed:** Single durable handoff re-stamped with fresh UTC timestamp; gate re-verified GREEN (364/364, 0 warnings); campaign resume 4/4; working tree clean. Bottlenecks: none. Priorities by repo name unchanged (A crypto options first). Phase 4b marked complete.
 - **State:** Ready for next agent. Heavy quant work mandatory. Gate GREEN (364/364).
