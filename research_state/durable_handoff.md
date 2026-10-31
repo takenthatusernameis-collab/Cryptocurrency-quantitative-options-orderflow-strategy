@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-30T23:33:07Z
+Timestamp (UTC): 2026-10-31T00:13:28Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
 Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED. Working tree clean. Bottlenecks removed.
@@ -136,10 +136,10 @@ git status --short
 4. **THEN C (RISK/SERIALIZATION)** - Audit `src/telemetry/serialization.py`, `src/risk/*` for NaN/Inf leakage; enforce `allow_nan=False` at all serialization sites.
 5. **SURGICAL HARDENING** - Touch only necessary. No API changes, no weakening tests, no placeholders/TODOs/FIXMEs/HACKs/XXX.
 6. **VERIFY** - Affected tests after each change. Full `pytest -q` before ending.
-7. **DOCUMENT** - BEFORE ENDING, update THIS FILE with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make next agent unable to misread priorities.
+7. **DOCUMENT** - BEFORE ENDING, update THIS FILE with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make next agent unable to misread priorities. **NO IDLE TURNS. HEAVY QUANT WORK ONLY.**
 
-## LAST SESSION (2026-10-30T23:33:07Z)
+## LAST SESSION (2026-10-31T00:13:28Z)
 - **Handoff refreshed (single durable source):** Priorities explicitly inferred from repo name (crypto options + orderflow). Reordered to A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, B) orderflow/correlation/tail/routing, C) risk/circuit-breakers/serialization (strict `allow_nan=False`), D) safe perf only if provably byte-identical/passing.
-- **Gate verified GREEN:** 358 passed, 0 failed, 0 warnings (`pytest -q`). `tests/test_campaign_resume.py` PASSED. Working tree clean. No active blockers.
+- **Gate verified GREEN:** 358 passed, 0 failed, 0 warnings (`pytest -q`). `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean. No active blockers.
 - **Bottlenecks removed:** Edit-tool invalid-argument abuse documented; mandate absolute filePath+exact oldString. No idle turns.
 - **Next agent directive:** HOLD GATE first. Attack A) adversarial options/Greeks/IV extremes (ultra-short/long T 1e-18-1e-9/>100, moneyness 1e-6-1e6, vol 1e-9/>10, extreme rates/strikes, IV solver bracketing/Newton, put-call parity, invariants, strict `allow_nan=False`). Targets: `src/features/options_pricing.py`, `src/features/iv_surface.py` + relevant adversarial tests. If all pass, reason adversarially and harden anyway. Then B/C. Verify full gate before ending. Update this file before ending with timestamp/files/rationale/verification/remaining work. Heavy quant only.
