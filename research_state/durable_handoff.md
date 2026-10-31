@@ -90,17 +90,58 @@ ls src/backtest/ src/features/ src/portfolio/ 2>&1 | head -15
 - Verify gate at start and end. Keep all tests green.
 - **BEFORE ENDING:** Update THIS FILE (durable_handoff.md) with fresh UTC timestamp, exact files changed, concrete rationale, verification commands+results, and updated remaining work (or confirm Phase 6 complete per success criteria). Also ensure research_state/RESULTS_SUMMARY.md is updated.
 
-## HANDOFF UPDATE (2026-10-31T21:35:XXZ) - PHASE 6 COMPLETE
-- Timestamp (UTC): 2026-10-31T21:35:10Z
-- Files changed:
-  - `src/campaign/integrated.py` (present, full implementation)
-  - `scripts/run_integrated_campaign.py` (present, full CLI)
-  - `tests/test_integrated_campaign.py` (present, 29 tests passing)
-  - `research_state/INTEGRATED_CAMPAIGN_*.json`, `INTEGRATED_CAMPAIGN_SUMMARY_*.json`, `INTEGRATED_CAMPAIGN_REGIMES_*.json`, step artifacts (emitted)
-  - `research_state/RESULTS_SUMMARY.md` (appended Phase 6 section)
-- Rationale: Composed full crypto options + orderflow stack into deterministic, resumable integrated campaign with purge/embargo, train-only weights, current-step greeks, strict serialization, checkpoints, comprehensive artifacts. All requirements met.
-- Verification:
-  - `python -m pytest tests/ -q` -> 434 passed, 2 skipped, 0 failed
-  - `PYTHONPATH=... python scripts/run_integrated_campaign.py run --campaign-id phase6_e2e --seed 42` -> COMPLETED with artifacts emitted
-  - `python -m pytest tests/test_integrated_campaign.py -v` -> 29 passed
-- Remaining work: None for Phase 6. Baseline remains GREEN. Future work can extend integrated campaign with additional regimes/venues or deeper calibration as needed.
+
+
+## NEXT FOCUS CAMPAIGN (PHASE 7): Production Execution, Real-Time Risk & Orderflow Microstructure Hardening (CRYPTO OPTIONS + ORDERFLOW)
+Timestamp (UTC): 2026-10-31T21:36:30Z
+Repo domain: CRYPTO OPTIONS + ORDERFLOW QUANT. HEAVY PRODUCTION IMPLEMENTATION ONLY. NO PLACEHOLDERS.
+
+State: Phase 6 COMPLETE. Gate GREEN (434 passed, 2 skipped, 0 failed). Integrated pipeline operational with artifacts/resume/checkpoints.
+
+### OBJECTIVE
+Harden the integrated crypto options+orderflow system for production execution: realistic execution (fees/slippage/latency, order routing, partial fills), hard real-time risk controls integrated end-to-end, orderflow microstructure robustness (gamma walls, liquidity sweeps, footprint/signed flow) with adversarial validation, latency-aware delta/gamma hedging, and production telemetry/monitoring. Must be fully tested, deterministic, serializable, and ship artifacts.
+
+### MANDATORY DELIVERABLES
+1) **Execution Engine** (`src/execution/engine.py` new or extend): Production-grade execution simulator/routing for crypto options + spot hedges. Include fees (maker/taker), slippage models (linear/impact), latency (order->fill), partial fills, queue position, rejects, idempotent order IDs. Deterministic seeded behavior.
+2) **Risk Integration Layer** (`src/risk/execution_integration.py` new): Wire RiskManager/CircuitBreaker/KillSwitch into execution path with pre-trade checks, post-trade limits, kill-switch propagation, block/hold/flatten logic. Enforce no-trade on breach, full audit trail.
+3) **Orderflow Microstructure Hardening** (`src/features/orderflow_microstructure.py` extend/new): Harden features (signed volume, footprint imbalance, gamma walls, liquidity sweeps, OFI, trade aggressor) with NaN/Inf guards, regime-aware normalization, lookahead-free, crypto-realistic distributions. Add adversarial tests.
+4) **Latency-Aware Hedging** (`src/backtest/options_hedging.py` extend): Support latency-delayed rebalances, stale greeks detection, partial-hedge on latency, hedge slippage/fees, attribution including execution cost. Deterministic.
+5) **Production Telemetry & Monitoring** (`src/telemetry/monitor.py` new + `scripts/run_production_campaign.py`): Real-time-style metrics (PnL, drawdown, greeks, gamma exposure, VaR/ES, heat, limits utilization), alerts, structured logging, artifact emission. CLI with run/resume/status/abort.
+6) **Comprehensive Tests** (`tests/test_production_execution_risk.py`, `tests/test_orderflow_microstructure.py`): >=25 substantive tests covering execution, risk wiring, microstructure adversarial, latency hedging, determinism, strict serialization, no-lookahead.
+7) **Artifacts**: Emit to `research_state/` `PRODUCTION_CAMPAIGN_{TS}.json`, `RISK_AUDIT_{TS}.json`, `MICROSTRUCTURE_ADVERSARIAL_{TS}.json`, update `RESULTS_SUMMARY.md` with Phase 7 section.
+
+### IMMEDIATE FIRST ACTIONS
+```bash
+python -m pytest tests/ -q  # confirm GREEN
+ls src/execution/ src/risk/ src/features/ src/telemetry/ 2>&1 | head -20
+grep -rn "RiskManager\|CircuitBreaker" src 2>&1 | head -10
+grep -rn "orderflow" src/features 2>&1 | head -15
+```
+
+### HARD CONSTRAINTS
+- Production-grade, no stubs/placeholders/TODOs
+- Deterministic, purge/embargo where applicable, train-only where applicable, no-lookahead
+- Strict serialization allow_nan=False everywhere
+- Fail-forward, extend existing APIs
+- Wire risk controls into execution (hard enforcement)
+- Ship modules/CLI/tests/artifacts/RESULTS_SUMMARY every session
+- Single handoff: update THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification, remaining work
+
+### SUCCESS CRITERIA
+- [ ] Gate GREEN: `python -m pytest tests/ -q` (>=434 passing, 0 failures)
+- [ ] Execution engine + risk integration implemented and wired
+- [ ] Microstructure hardened with adversarial tests passing
+- [ ] Latency-aware hedging implemented with execution costs
+- [ ] Production CLI working (run/resume/status/abort)
+- [ ] New tests >=25 passing
+- [ ] Artifacts emitted to research_state/
+- [ ] RESULTS_SUMMARY.md updated with Phase 7
+- [ ] Determinism + strict serialization verified end-to-end
+
+### INITIAL TASK MESSAGE (EXECUTE IMMEDIATELY)
+Timestamp: 2026-10-31T21:36:30Z
+THIS IS THE SINGLE DURABLE HANDOFF. READ FIRST.
+IMMEDIATE FOCUS: Phase 7 — Production Execution, Real-Time Risk & Orderflow Microstructure Hardening (CRYPTO OPTIONS + ORDERFLOW). Heavy implementation required.
+REMOVE BOTTLENECKS. WIRE RISK INTO EXECUTION. HARDEN MICROSTRUCTURE. SHIP EVERYTHING.
+
+BEFORE ENDING: Update THIS FILE with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work.
