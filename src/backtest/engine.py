@@ -1955,6 +1955,7 @@ class PortfolioWalkForwardBacktest:
             self.allocation_mode = "risk_parity"
         self.max_position_pct = float(max_position_pct) if max_position_pct is not None and isfinite(max_position_pct) else None
         self.previous_weights = dict(previous_weights) if previous_weights else {}
+        self._last_portfolio_weights: Dict[str, float] = {}
 
     def _validate_time_ordering(self, timestamps: List[datetime]) -> None:
         prev: Optional[datetime] = None
@@ -2117,6 +2118,160 @@ class PortfolioWalkForwardBacktest:
             return regime
         return "normal"
 
+    # ------------------------------------------------------------------
+    # Portfolio scaling: allocation weights + turnover (no-lookahead, train
+    # data only). These back the allocation_mode / vol_target / turnover_cap
+    # API so risk-aware capital allocation is actually applied, not silently
+    # dropped to equal weights.
+    # ------------------------------------------------------------------
+    def _compute_turnover(self, new_weights: Dict[str, float], prev_weights: Optional[Dict[str, float]]) -> float:
+        """Portfolio turnover fraction between two weight vectors.
+
+        Turnover = 0.5 * sum(|w_new - w_prev|), i.e. the fraction of portfolio
+        notional that must be rebalanced (one unit bought, one unit sold per
+        unit of turnover). Returns 0.0 when there is no previous weights.
+        Non-finite inputs are neutralized; result is finite-guarded.
+        """
+        if not prev_weights:
+            return 0.0
+        symbols = set(list(new_weights.keys()) + list(prev_weights.keys()))
+        total = 0.0
+        for s in symbols:
+            try:
+                w_new = float(new_weights.get(s, 0.0))
+            except (TypeError, ValueError):
+                w_new = 0.0
+            try:
+                w_prev = float(prev_weights.get(s, 0.0))
+            except (TypeError, ValueError):
+                w_prev = 0.0
+            if not isfinite(w_new):
+                w_new = 0.0
+            if not isfinite(w_prev):
+                w_prev = 0.0
+            total += abs(w_new - w_prev)
+        turnover = 0.5 * total
+        if not isfinite(turnover) or turnover < 0.0:
+            return 0.0
+        return float(turnover)
+
+    def _train_window_vols(self, price_series: Dict[str, List[float]], symbols: List[str], train_start: int, train_end: int) -> Dict[str, float]:
+        """Realized per-symbol volatility over the train window (train data only, no lookahead)."""
+        vols: Dict[str, float] = {}
+        for s in symbols:
+            prices = price_series.get(s, [])
+            seg = prices[max(0, train_start):max(train_end, train_start)]
+            rets: List[float] = []
+            for i in range(1, len(seg)):
+                p0 = seg[i - 1]
+                p1 = seg[i]
+                if isfinite(p0) and p0 != 0 and isfinite(p1):
+                    r = (p1 / p0) - 1.0
+                    if isfinite(r):
+                        rets.append(r)
+            if len(rets) < 2:
+                vols[s] = 0.0
+                continue
+            m = sum(rets) / len(rets)
+            var = _safe_variance(rets, mean=m)
+            vol = safe_sqrt(var, default=0.0, operation="train_window_vol")
+            vols[s] = float(vol) if isfinite(vol) and vol >= 0 else 0.0
+        return vols
+
+    def _portfolio_vol(self, weights: Dict[str, float], vols: Dict[str, float], symbols: List[str], correlation_matrix: Optional[List[List[float]]]) -> float:
+        """Portfolio volatility from weights + per-symbol vols (full covariance if a valid correlation matrix is supplied, else diagonal)."""
+        try:
+            if correlation_matrix and len(correlation_matrix) == len(symbols):
+                var = 0.0
+                for i, si in enumerate(symbols):
+                    wi = float(weights.get(si, 0.0))
+                    vi = float(vols.get(si, 0.0))
+                    if not (isfinite(wi) and isfinite(vi)):
+                        continue
+                    for j, sj in enumerate(symbols):
+                        wj = float(weights.get(sj, 0.0))
+                        vj = float(vols.get(sj, 0.0))
+                        if not (isfinite(wj) and isfinite(vj)):
+                            continue
+                        try:
+                            cij = float(correlation_matrix[i][j])
+                        except (TypeError, ValueError, IndexError):
+                            cij = 1.0 if i == j else 0.0
+                        if not isfinite(cij):
+                            cij = 1.0 if i == j else 0.0
+                        var += wi * wj * vi * vj * cij
+                if var > 0 and isfinite(var):
+                    return float(safe_sqrt(var, default=0.0, operation="portfolio_vol"))
+            # Diagonal fallback
+            var = 0.0
+            for s in symbols:
+                w = float(weights.get(s, 0.0))
+                v = float(vols.get(s, 0.0))
+                if isfinite(w) and isfinite(v):
+                    var += (w * v) ** 2
+            if var > 0 and isfinite(var):
+                return float(safe_sqrt(var, default=0.0, operation="portfolio_vol_diag"))
+        except Exception:
+            pass
+        return 0.0
+
+    def _compute_allocation_weights(self, price_series: Dict[str, List[float]], train_start: int, train_end_purged: int, correlation_matrix: Optional[List[List[float]]], symbols: List[str], prev_w: Optional[Dict[str, float]]) -> Dict[str, float]:
+        """Compute allocation weights from train data only (no lookahead).
+
+        Modes:
+          - equal_weight: 1/N each
+          - risk_parity: inverse realized-vol weights, normalized to sum 1
+          - vol_target: risk-parity base de-risked (scale <= 1, no leverage)
+            toward ``vol_target``, allowing a cash buffer so weights sum <= 1
+            rather than being renormalized back to 1 (which would undo the
+            de-risking).
+
+        Returns dict symbol -> weight (finite, >= 0). Caller guards sum/finiteness.
+        prev_w is accepted for API symmetry but weights are derived only from
+        the train window, never from the test window.
+        """
+        n = len(symbols)
+        if n == 0:
+            return {}
+        mode = str(self.allocation_mode)
+        if mode not in ("equal_weight", "risk_parity", "vol_target"):
+            mode = "equal_weight"
+        if mode == "equal_weight":
+            return {s: 1.0 / n for s in symbols}
+        vols = self._train_window_vols(price_series, symbols, train_start, train_end_purged)
+        # Inverse-vol base weights (risk parity). Zero-vol symbols share the
+        # residual equally so no symbol is silently dropped.
+        inv_vols: Dict[str, float] = {}
+        zero_vol: List[str] = []
+        for s in symbols:
+            v = vols.get(s, 0.0)
+            if isfinite(v) and v > 0:
+                inv_vols[s] = 1.0 / v
+            else:
+                zero_vol.append(s)
+        base: Dict[str, float] = {s: 0.0 for s in symbols}
+        if inv_vols:
+            total_iv = sum(inv_vols.values())
+            if isfinite(total_iv) and total_iv > 0:
+                for s, iv in inv_vols.items():
+                    base[s] = iv / total_iv
+        if zero_vol:
+            share = 1.0 / max(len(zero_vol), 1)
+            for s in zero_vol:
+                base[s] = share
+        if mode == "risk_parity":
+            return {s: float(base.get(s, 0.0)) for s in symbols}
+        # vol_target: de-risk risk-parity portfolio toward target vol (scale <= 1)
+        vol_target = self.vol_target
+        if not vol_target or vol_target <= 0 or not isfinite(vol_target):
+            return {s: float(base.get(s, 0.0)) for s in symbols}
+        sigma_p = self._portfolio_vol(base, vols, symbols, correlation_matrix)
+        if not isfinite(sigma_p) or sigma_p <= 0:
+            return {s: float(base.get(s, 0.0)) for s in symbols}
+        scale = min(1.0, float(vol_target) / sigma_p)
+        scaled = {s: float(base.get(s, 0.0) * scale) for s in symbols}
+        return scaled
+
     def run_portfolio_walk_forward(
         self,
         price_series: Dict[str, List[float]],
@@ -2164,6 +2319,9 @@ class PortfolioWalkForwardBacktest:
             self.risk_parity = bool(risk_parity)
             if self.risk_parity and self.allocation_mode not in ("risk_parity", "vol_target"):
                 self.allocation_mode = "risk_parity"
+        # Reset per-run so repeated calls on the same instance are independent
+        # and deterministic (first window always starts with no previous weights).
+        self._last_portfolio_weights = {}
 
         symbols = list(price_series.keys())
         first_key = symbols[0]
@@ -2341,23 +2499,45 @@ class PortfolioWalkForwardBacktest:
         try:
             prev_w = getattr(self, "_last_portfolio_weights", None)
             alloc_w = self._compute_allocation_weights(price_series, train_start, train_end_purged, pwres.correlation_matrix, symbols, prev_w)
-            # ensure finite and sum to 1
-            sw = sum((v for v in alloc_w.values() if isfinite(v)))
-            if sw > 0:
-                for s in symbols:
-                    v = alloc_w.get(s, 0.0)
-                    if not isfinite(v) or v < 0:
-                        v = 0.0
-                    alloc_w[s] = v / sw
+            # ensure finite and non-negative. sum-to-1 is enforced except for
+            # vol_target mode, which may hold a cash buffer (sum <= 1) to meet
+            # the target portfolio volatility without leverage.
+            clean_w: Dict[str, float] = {}
+            for s in symbols:
+                v = alloc_w.get(s, 0.0)
+                if not isfinite(v) or v < 0:
+                    v = 0.0
+                clean_w[s] = float(v)
+            sw = sum(clean_w.values())
+            if sw > 0 and str(self.allocation_mode) != "vol_target":
+                alloc_w = {s: v / sw for s, v in clean_w.items()}
             else:
-                alloc_w = {s: 1.0 / len(symbols) for s in symbols}
+                alloc_w = dict(clean_w)
             pwres.allocation_weights = dict(alloc_w)
             pwres.allocation_mode = self.allocation_mode
             pwres.vol_target = self.vol_target
             pwres.turnover_cap = self.turnover_cap
+            cap = float(self.turnover_cap) if self.turnover_cap is not None and isfinite(float(self.turnover_cap)) else None
             if prev_w is not None:
                 pwres.turnover = self._compute_turnover(alloc_w, prev_w)
-                pwres.turnover_capped = (self.turnover_cap is not None and pwres.turnover <= float(self.turnover_cap) + 1e-12)
+                pwres.turnover_capped = bool(cap is not None and pwres.turnover <= cap + 1e-12)
+                # Turnover cap enforcement: scale the rebalancing trade down to
+                # the cap (reject excess turnover) so no window turns over more
+                # than the configured fraction of the portfolio.
+                if cap is not None and cap > 0 and pwres.turnover > cap + 1e-12:
+                    blend = cap / pwres.turnover
+                    blended: Dict[str, float] = {}
+                    for s in symbols:
+                        v = prev_w.get(s, 0.0) + (alloc_w.get(s, 0.0) - prev_w.get(s, 0.0)) * blend
+                        blended[s] = float(v) if isfinite(v) and v >= 0 else 0.0
+                    bsw = sum(blended.values())
+                    if bsw > 0:
+                        alloc_w = {s: blended[s] / bsw for s in symbols}
+                    else:
+                        alloc_w = dict(prev_w)
+                    pwres.allocation_weights = dict(alloc_w)
+                    pwres.turnover = self._compute_turnover(alloc_w, prev_w)
+                    pwres.turnover_capped = True
             else:
                 pwres.turnover = 0.0
                 pwres.turnover_capped = True

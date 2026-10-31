@@ -52,3 +52,11 @@ orderflow_imbalance vs forward return: -0.4583478199902648
   - research_state/WALKFORWARD_regime_liquidity_thin_20261031T144513Z.json
 - Module: src/backtest/regime_stress.py (generates regimes, runs per-regime walk-forward, serializes artifacts)
 - IS/OOS metrics logged per window; tests extended/added as needed
+
+
+## Phase 5: Portfolio Scaling (2026-10-31T15:52:43Z)
+- Bottleneck removed: `src/backtest/engine.py` `PortfolioWalkForwardBacktest` called `self._compute_allocation_weights` / `self._compute_turnover` (engine.py:2343/:2359) but neither was defined, so the portfolio walk-forward silently fell back to equal weights and `turnover_cap`/`vol_target`/`risk_parity` never applied. Implemented both methods plus turnover-cap enforcement (blend-to-cap on breach) and per-run `_last_portfolio_weights` reset for determinism.
+- `src/backtest/engine.py`: added `_compute_turnover`, `_train_window_vols`, `_portfolio_vol`, `_compute_allocation_weights`; `allocation_mode` (equal_weight / risk_parity / vol_target), `vol_target`, `turnover_cap`, `risk_parity` now actually applied; weights computed on train data only (no lookahead), applied out-of-sample; vol_target holds a cash buffer (sum <= 1) instead of leverage; risk_parity/equal_weight sum to 1.
+- `tests/test_portfolio_scaling.py`: 14 tests (weight sums/finiteness, turnover cap enforcement breach + under-cap, no-lookahead from train window, regime stability, strict serialization allow_nan=False, determinism run-twice-identical, invalid-mode fallback).
+- Artifact: research_state/PORTFOLIO_SCALING_20261031T155243Z.json (4 modes: risk_parity, risk_parity+turnover_cap, vol_target, vol_target+turnover_cap; per-window weights, turnover, OOS metrics, correlation matrices).
+- Gate: `python -m pytest tests/ -q` = 380 passed, 0 failed (was 366).
