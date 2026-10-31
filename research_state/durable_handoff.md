@@ -1,81 +1,86 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T18:49:48Z
+Timestamp (UTC): 2026-10-31T18:56:47Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (prioritize by repo name -> crypto options pricing/Greeks/IV + orderflow features)
 
-Gate status: GREEN (405 passed, 0 failed, 2 skipped — verified 2026-10-31T18:49:48Z via `python -m pytest tests/ -q`). Working tree clean, branch `main` up to date with `origin/main`.
+Gate status: GREEN (405 passed, 0 failed, 2 skipped — verified 2026-10-31T18:56:47Z via `python -m pytest tests/ -q`). Working tree clean.
 
 COMPLETED (DO NOT REDO):
 - Phases 1-4b: data/loaders, features (orderflow/gamma/IV/liquidity/vol/pricing), time-series + walk-forward/OOS with purge/embargo, portfolio walk-forward, options hedging integrated.
 - Phase 5 Regime OOS: COMPLETE (artifacts + module + tests).
 - Phase 5 Portfolio Scaling: COMPLETE (engine.py allocation weights/turnover cap; tests/test_portfolio_scaling.py 14 tests; PORTFOLIO_SCALING_*.json artifacts).
-- Phase 5 Hedging Robustness: COMPLETE (options_hedging.py PnL decomposition delta/gamma/vega/theta/residual, sum_attribution==total_pnl; tests/test_options_hedging.py extended; HEDGING_ROBUSTNESS_*.json artifact).
-- Phase 5 Campaign Resume Hardening: COMPLETE (`src/campaign/core.py` atomic checkpoints + state tracking + resume; `scripts/run_campaign.py` CLI run/resume/status/abort; `tests/test_campaign_resume.py` strengthened; research_state/CAMPAIGN_RESUME_20261031T175208Z.json; RESULTS_SUMMARY.md section).
-- Phase 5 Telemetry/Serialization hardening: COMPLETE THIS SESSION — `src/backtest/engine.py` profit_factor no longer emits `inf` when wins exist with zero losses (now finite total_wins; never collapses to 0); `tests/test_backtest_numeric.py::test_profit_factor_inf_when_no_losses` realigned to assert finite + strict `allow_nan=False` serialization. Gate restored GREEN (was 403 passed / 2 failed on test_artifact_serialization trending+ranging).
-- Priority A (crypto options pricing/Greeks/IV): VERIFIED GREEN + hardened (safe_divide/safe_sqrt/safe_log/validate_finite guards, arbitrage guards, strict serialization; adversarial tests pass).
+- Phase 5 Hedging Robustness: COMPLETE (options_hedging.py PnL decomposition delta/gamma/vega/theta/residual; tests/test_options_hedging.py extended; HEDGING_ROBUSTNESS_*.json artifact).
+- Phase 5 Campaign Resume Hardening: COMPLETE (`src/campaign/core.py` atomic checkpoints + state tracking + resume; `scripts/run_campaign.py` CLI run/resume/status/abort; `tests/test_campaign_resume.py` strengthened; research_state/CAMPAIGN_RESUME_20261031T175208Z.json).
+- Phase 5 Telemetry/Serialization hardening: COMPLETE (profit_factor inf source fix in `src/backtest/engine.py`; tests aligned; gate restored GREEN).
+- Phase 5 Options Pricing/Greeks/IV Adversarial Audit: COMPLETE (audit + adversarial tests pass; `research_state/OPTIONS_ADVERSARIAL_AUDIT_20261031T185310Z.json`; RESULTS_SUMMARY updated). All functions verified finite/deterministic/strict-serializable under extremes.
 
-BOTTLENECKS REMOVED (THIS SESSION):
-- [x] Gate was RED: `test_artifact_serialization.py::test_real_regime_artifact_is_strict[trending/ranging]` raised SerializationError because regime walk-forward payloads contained non-finite `profit_factor` (Inf when gross_loss==0). Fixed at source in `src/backtest/engine.py` (finite profit_factor) and realigned `tests/test_backtest_numeric.py` (was asserting `isinf`, i.e. demanding non-serializable output). Gate now GREEN (405 passed, 0 failed).
-- [x] No active bottlenecks. Next agent starts from a clean green baseline (405/405).
+BOTTLENECKS REMOVED (THIS SESSION): None. Clean green baseline (405/405). All prior bottlenecks eliminated.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC WORK SESSION - EXECUTE IMMEDIATELY, NO DEVIATION)
 
 **BY REPO NAME - CRYPTO OPTIONS + ORDERFLOW IS THE DOMAIN. HEAVY QUANT IMPLEMENTATION ONLY. NO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY. SHIP CODE/TESTS/ARTIFACTS EVERY SESSION.**
 
 You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign.
-STATE: Phases 1-4b + Phase 5 (regime OOS + portfolio scaling + hedging robustness + campaign resume hardening + telemetry/serialization hardening) complete. Priority A green. Gate GREEN (405 passed, 0 failed). Bottlenecks: none. Previous agent left clean, verified state.
+STATE: All Phase 1-5 core items complete. Gate GREEN (405 passed, 0 failed). Clean baseline. Previous agent verified full adversarial audit of options pricing/Greeks/IV.
 
-### MANDATORY INITIAL TASK: Phase 5 item A — Crypto options pricing/Greeks/IV adversarial audit (PRIORITY 1 NOW)
-Repo = crypto options+orderflow. The remaining heavy implementation item is the adversarial audit of the options pricing/Greeks/IV surface. `src/features/options_pricing.py` and `src/features/iv_surface.py` are Priority A (green + hardened) but lack an explicit adversarial audit document with findings + verdict. Implement and validate:
+### MANDATORY INITIAL TASK: Phase 6 — Full End-to-End Integrated Campaign (CRYPTO OPTIONS + ORDERFLOW)
+Repo = crypto options+orderflow. Build a production-grade integrated campaign that wires EVERYTHING together into one deterministic, resumable, fully-validated pipeline that exercises the full stack under crypto-realistic conditions. This is HEAVY implementation - no analysis-only work.
 
-1) Write an explicit adversarial audit for `src/features/options_pricing.py` and `src/features/iv_surface.py`: probe extreme inputs (spot/strike/rate/volatility = 0, inf, nan, negative, deep ITM/OTP, near-expiry, put-call parity, gamma/vanna/charm sign conventions, IV surface arbitrage bounds, calendar butterfly constraints). Record every input that breaks or misbehaves, the root cause, and a verdict (PASS/FIX-NEEDED) per function.
-2) Strengthen/extend the adversarial test targets: `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`. Every adversarial case must assert finite, deterministic, strictly serializable (`allow_nan=False`) outputs; no NaN/Inf may reach any artifact.
-3) Produce `research_state/OPTIONS_ADVERSARIAL_AUDIT_{YYYYMMDDTHHMMSSZ}.json` covering: audited functions, adversarial cases tried, failures found, fixes applied, verdict per function, timestamps.
-4) Update `research_state/RESULTS_SUMMARY.md` with a 'Phase 5: Options Pricing/Greeks/IV Adversarial Audit' section.
-5) Gate: `python -m pytest tests/ -q` green (>=405 passed, 0 failures). Fail-forward: extend APIs if awkward; fix bugs found. Do not skip implementation for discussion.
+Implement and validate:
 
-## NEXT FOCUS CAMPAIGN (EXECUTE AFTER THE INITIAL TASK)
-### Phase 5: Production hardening, validation rigor, campaign automation
-1. Campaign resume hardening — DONE.
-2. Telemetry/serialization hardening — DONE (profit_factor inf source fix).
-3. **A) Crypto options pricing/Greeks/IV adversarial audit — ACTIVE NOW** = current initial task above. Build the audit + tests + artifact + RESULTS_SUMMARY section.
-4. Portfolio scaling — DONE (do not redo).
-5. Hedging robustness — DONE (do not redo).
+1) **Integrated Campaign Orchestrator Extension** (`src/campaign/integrated.py` new module): Create `IntegratedCampaign` that composes in order with strict no-lookahead: (a) data ingestion/validation, (b) feature engineering (orderflow/gamma/IV/liquidity/vol/pricing), (c) regime classification, (d) walk-forward/OOS with purge/embargo, (e) portfolio construction with allocation modes + turnover caps, (f) options hedging with PnL attribution/reconciliation, (g) strict serialization + artifact emission. All steps checkpointed atomically via existing CampaignOrchestrator.
+
+2) **Crypto-Realistic Integrated Scenario** (`scripts/run_integrated_campaign.py` new CLI): Deterministic end-to-end run producing comprehensive artifacts. Must use crypto-realistic parameters (BTC/ETH style), multi-expiry options chains, orderflow signals, gamma exposure, IV surface construction/calibration, regime stratification. Support `run/resume/status` consistent with existing campaign CLI.
+
+3) **Comprehensive Validation Suite** (`tests/test_integrated_campaign.py` new): Tests must cover full pipeline integration, no-lookahead enforcement across components, purge/embargo propagation, portfolio+hedging composition, strict serialization (`allow_nan=False`) for ALL artifacts, determinism (byte-identical reruns), checkpoint/resume mid-pipeline, atomicity on interruption simulation, finite-guard enforcement end-to-end. Minimum 15 substantive tests.
+
+4) **Production Artifacts**: Emit timestamped integrated artifacts to `research_state/` including:
+   - `INTEGRATED_CAMPAIGN_{YYYYMMDDTHHMMSSZ}.json` (full pipeline results with per-step metrics)
+   - `INTEGRATED_CAMPAIGN_SUMMARY_{YYYYMMDDTHHMMSSZ}.json` (executive summary with all key metrics)
+   - `INTEGRATED_CAMPAIGN_REGIMES_{YYYYMMDDTHHMMSSZ}.json` (regime-stratified integrated results)
+
+5) **Documentation**: Update `research_state/RESULTS_SUMMARY.md` with a 'Phase 6: Full End-to-End Integrated Campaign (Crypto Options + Orderflow)' section with concrete metrics from the run.
 
 ## IMMEDIATE FIRST ACTIONS
 ```bash
 # 1) Confirm green baseline
 python -m pytest tests/ -q   # must be 405 passing, 0 failures
 
-# 2) Confirm adversarial-audit test targets exist
-ls tests/test_options_pricing_greeks_adversarial.py tests/test_iv_surface.py tests/test_phase1_gamma_invariants.py tests/test_numerical_guards.py
+# 2) Review existing campaign/orchestrator patterns
+cat src/campaign/core.py | head -80
+cat scripts/run_campaign.py | head -60
 
-# 3) Run options/numerical tests
-python -m pytest tests/test_options_pricing_greeks_adversarial.py tests/test_iv_surface.py tests/test_phase1_gamma_invariants.py tests/test_numerical_guards.py -q
+# 3) Understand full stack to integrate
+ls src/backtest/ src/features/ src/portfolio/ 2>&1 | head -15
 
-# 4) Implement the adversarial audit per the initial task; write OPTIONS_ADVERSARIAL_AUDIT_*.json; update RESULTS_SUMMARY.md
+# 4) BUILD THE INTEGRATED CAMPAIGN - HEAVY IMPLEMENTATION REQUIRED
+# Create src/campaign/integrated.py, scripts/run_integrated_campaign.py, tests/test_integrated_campaign.py
+# Run full integrated campaign, produce artifacts, update RESULTS_SUMMARY.md
 ```
 
 ## HARD CONSTRAINTS
-- **Heavy implementation required**: code/tests/artifacts, not just analysis/reports.
-- **No checkpoint spam**: commit only when adding executable code/tests/data/artifacts or passing validation.
-- **Deterministic & reproducible**: headless, `research_state/` artifacts, explicit configs.
-- **Fail-forward**: extend APIs if awkward; fix bugs found.
-- **Ship every session**: new code/tests/artifacts or concrete fixes with passing tests.
-- **Don't redo completed phases**: 1-4b done + regime OOS done + portfolio scaling done + hedging robustness done + campaign resume done + telemetry/serialization done + Priority A green - build on them.
-- **Single handoff**: update THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work.
+- **Heavy implementation required**: Full integrated pipeline wiring all components - substantial code, not just stubs.
+- **No placeholders/TODOs/FIXMEs**: Production-grade, complete implementations.
+- **Deterministic & reproducible**: Fixed seeds, purge/embargo enforced, no lookahead, strict serialization.
+- **Fail-forward**: Extend existing APIs if needed; fix any integration issues found.
+- **Ship every session**: New modules + CLI + tests + artifacts + RESULTS_SUMMARY update.
+- **Don't redo completed phases**: All prior work is done - compose and integrate, don't reimplement from scratch.
+- **Single handoff**: Update THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work.
 
 ## SUCCESS CRITERIA (MUST HIT BEFORE NEXT HANDOFF)
-- [ ] Gate GREEN: `python -m pytest tests/ -q` (>=405 passing, 0 failures)
-- [ ] Options adversarial audit: explicit findings + verdict for `src/features/options_pricing.py` + `src/features/iv_surface.py`.
-- [ ] Adversarial tests strengthened and passing (finite/deterministic/strict-serializable outputs under extreme inputs).
-- [ ] `research_state/OPTIONS_ADVERSARIAL_AUDIT_*.json` artifact with cases, failures, fixes, verdicts, timing.
-- [ ] `research_state/RESULTS_SUMMARY.md` updated with Phase 5: Options Pricing/Greeks/IV Adversarial Audit section.
+- [ ] Gate GREEN: `python -m pytest tests/ -q` (>=405 passing, 0 failures; new tests all passing)
+- [ ] `src/campaign/integrated.py` implemented with full pipeline composition
+- [ ] `scripts/run_integrated_campaign.py` CLI working (run/resume/status)
+- [ ] `tests/test_integrated_campaign.py` with >=15 tests all passing
+- [ ] Integrated artifacts emitted to `research_state/` (INTEGRATED_CAMPAIGN_*.json, summaries, regimes)
+- [ ] `research_state/RESULTS_SUMMARY.md` updated with Phase 6 section
+- [ ] Determinism verified (rerun produces identical key metrics)
+- [ ] Full pipeline exercises: data/features/regimes/walkforward/portfolio/hedging with purge/embargo + strict serialization
 
 ## NEXT AGENT INSTRUCTION (CLEAR, TIMESTAMPED, NON-DEFERRABLE)
 **EXECUTE NOW - NO QUESTIONS - NO DELAY**
-- Timestamp: 2026-10-31T18:49:48Z
-- Read this file first. Do NOT re-run portfolio scaling, hedging robustness, campaign resume, or telemetry/serialization hardening (DONE). Do NOT treat Priority A as blocking (already green) — proceed to the adversarial audit.
-- Start on the Phase 5 item A adversarial audit immediately. Produce code/tests/artifacts every turn.
-- Verify gate at start and end. Keep >=405 green.
-- Update this handoff before finishing with concrete evidence.
+- Timestamp: 2026-10-31T18:56:47Z
+- Read this file first. All prior phases complete - compose/integrate, don't redo.
+- **START IMMEDIATELY** on Phase 6 Full End-to-End Integrated Campaign. This is heavy implementation - build the full integrated pipeline wiring crypto options + orderflow stack together with campaign orchestration, checkpointing, validation, and comprehensive artifacts.
+- Verify gate at start and end. Keep all tests green.
+- Update this handoff before finishing with concrete evidence (files, commands, results, next focus).
