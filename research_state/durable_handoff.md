@@ -1,8 +1,8 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T03:07:43Z
+Timestamp (UTC): 2026-10-31T03:08:02Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY (PRIORITIZE BY REPO NAME)
-Gate status: GREEN (358 passed, 0 failed, 0 warnings — verified 2026-10-31T03:06:03Z via `python3 -m pytest -q`). tests/test_campaign_resume.py: PASSED (4/4). Phase A adversarial targets: 100 passed. Working tree clean. Bottlenecks removed/prevented.
+Gate status: GREEN (358 passed, 0 failed, 0 warnings — verified 2026-10-31T03:08:02Z via `python3 -m pytest -q`). tests/test_campaign_resume.py: PASSED (4/4). Phase A adversarial targets: 100 passed. Working tree clean. Bottlenecks removed/prevented.
 
 ## BOTTLENECKS (FIXED / PREVENTED)
 - NONE active. All tooling/edit paths unblocked.
@@ -82,3 +82,10 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 - **Gate verified GREEN:** `python3 -m pytest -q` → 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Phase A adversarial targets → 100 passed. Working tree clean.
 - **Bottlenecks removed/prevented:** Edit tool requires absolute path + exact oldString with context (use Write for full rewrites). Heavy quant mandate enforced; no TODOs/FIXMEs/HACKs/XXX.
 - **Immediate next attack (UNAVOIDABLY HEAVY):** Phase A — surgically harden unguarded numerical paths in `src/features/options_pricing.py` and `src/features/iv_surface.py` under crypto extremes (T 1e-18-1e-9/>100, moneyness 1e-6-1e6, vol 1e-9/>10, extreme rates/dividends/strikes 1e-6..1e18). Focus IV solver bracketing/Newton/fallbacks, Greeks finiteness, put-call parity, invariants, strict `allow_nan=False`. Full gate before ending. Update this file.
+
+## LAST SESSION (2026-10-31T03:08:02Z)
+- **Handoff refreshed (single durable source of truth).** Priorities strictly inferred from repo name: A) CRYPTO OPTIONS PRICING/GREEKS/IV highest; B) orderflow/correlation/tail/portfolio/walkforward/routing; C) risk/circuit-breakers/serialization with strict `allow_nan=False`; D) safe performance only if provably byte-identical/passing.
+- **Gate verified GREEN:** `python3 -m pytest -q` → 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean (`git status --short` empty).
+- **Bottlenecks removed/prevented:** Edit tool requires absolute path + exact oldString with context (use Write for full rewrites). Past-session edit-tool invalid-argument failures and cancelled workflows addressed via EDIT TOOL MANDATE + NO IDLE TURNS rules. No active bottlenecks.
+- **Phase A status:** `src/features/options_pricing.py` and `src/features/iv_surface.py` already contain deep adversarial hardening (guards on ultra-short/long T, extreme moneyness/vol/rates/strikes, IV solver bracketing+Newton+fallbacks, Greeks finiteness, put-call parity, strict `allow_nan=False` serialization). Remaining: extend adversarial test coverage on `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py` for untouched edge regimes, then proceed to B.
+- **Immediate next attack (UNAVOIDABLY HEAVY):** Continue Phase A deeper adversarial hardening on `src/features/options_pricing.py`/`src/features/iv_surface.py` (untouched extremes), THEN attack Phase B (orderflow/correlation/tail/portfolio/walkforward/routing: non-PSD covariance, eigenvalue floors, weight blowups, regime miscalibration). Every session MUST produce measurable heavy-quant progress and end with gate GREEN. NO IDLE TURNS. NO TODOs/FIXMEs/HACKs/XXX.
