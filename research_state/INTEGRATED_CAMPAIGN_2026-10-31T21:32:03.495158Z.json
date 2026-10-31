@@ -1,0 +1,1131 @@
+{
+  "campaign_id": "test_finite",
+  "seed": 71,
+  "timestamp": "2026-10-31T21:32:03.495158Z",
+  "state": "in_progress",
+  "config": {
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "spot_prices": {
+      "BTC": 65000.0,
+      "ETH": 3400.0,
+      "SOL": 145.0
+    },
+    "initial_capital": 100000.0,
+    "train_window": 45,
+    "test_window": 20,
+    "step_size": 20,
+    "purge": 10,
+    "embargo": 5,
+    "allocation_mode": "risk_parity",
+    "vol_target": 0.1,
+    "turnover_cap": 0.05,
+    "risk_parity": true
+  },
+  "steps": [
+    {
+      "step_id": "data_ingestion",
+      "name": "Data ingestion and validation",
+      "status": "completed",
+      "started_at": "2026-10-31T21:32:03.498002Z",
+      "completed_at": "2026-10-31T21:32:03.522011Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_data_ingestion_2026-10-31T21:32:03.520889Z.json"
+    },
+    {
+      "step_id": "feature_engineering",
+      "name": "Feature engineering (orderflow/gamma/IV/liquidity/vol/pricing)",
+      "status": "completed",
+      "started_at": "2026-10-31T21:32:03.523693Z",
+      "completed_at": "2026-10-31T21:32:03.556414Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_feature_engineering_2026-10-31T21:32:03.555602Z.json"
+    },
+    {
+      "step_id": "regime_classification",
+      "name": "Regime classification (composite signal)",
+      "status": "completed",
+      "started_at": "2026-10-31T21:32:03.558163Z",
+      "completed_at": "2026-10-31T21:32:03.560158Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_regime_classification_2026-10-31T21:32:03.559749Z.json"
+    },
+    {
+      "step_id": "walkforward_oos",
+      "name": "Walk-forward/OOS with purge/embargo",
+      "status": "completed",
+      "started_at": "2026-10-31T21:32:03.561763Z",
+      "completed_at": "2026-10-31T21:32:03.567895Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_walkforward_oos_2026-10-31T21:32:03.566547Z.json"
+    },
+    {
+      "step_id": "portfolio_scaling",
+      "name": "Portfolio scaling (allocation modes + turnover caps)",
+      "status": "completed",
+      "started_at": "2026-10-31T21:32:03.569576Z",
+      "completed_at": "2026-10-31T21:32:03.574188Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_portfolio_scaling_2026-10-31T21:32:03.573409Z.json"
+    },
+    {
+      "step_id": "options_hedging",
+      "name": "Options hedging with PnL attribution/reconciliation",
+      "status": "completed",
+      "started_at": "2026-10-31T21:32:03.575915Z",
+      "completed_at": "2026-10-31T21:32:03.595626Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_options_hedging_2026-10-31T21:32:03.593652Z.json"
+    },
+    {
+      "step_id": "artifacts",
+      "name": "Strict serialization + artifact emission",
+      "status": "in_progress",
+      "started_at": "2026-10-31T21:32:03.597541Z",
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    }
+  ],
+  "data_ingestion": {
+    "campaign_id": "test_finite",
+    "step": "data_ingestion",
+    "status": "completed",
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "venue": "synthetic",
+    "n_points": 160,
+    "start_timestamp": "2026-10-31T12:00:00Z",
+    "end_timestamp": "2026-11-07T03:00:00Z",
+    "spot_prices": {
+      "BTC": 65000.0,
+      "ETH": 3400.0,
+      "SOL": 145.0
+    },
+    "orderflow_loaded": {
+      "BTC": {
+        "trades": 1000,
+        "liquidations": 20,
+        "funding_rates": 8
+      },
+      "ETH": {
+        "trades": 300,
+        "liquidations": 0,
+        "funding_rates": 0
+      },
+      "SOL": {
+        "trades": 300,
+        "liquidations": 0,
+        "funding_rates": 0
+      }
+    },
+    "options_chain_loaded": {
+      "BTC": {
+        "quotes": 40,
+        "underlying": "BTC",
+        "venue": "synthetic"
+      },
+      "ETH": {
+        "quotes": 40,
+        "underlying": "ETH",
+        "venue": "synthetic"
+      },
+      "SOL": {
+        "quotes": 40,
+        "underlying": "SOL",
+        "venue": "synthetic"
+      }
+    }
+  },
+  "feature_engineering": {
+    "campaign_id": "test_finite",
+    "step": "feature_engineering",
+    "status": "completed",
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "features": {
+      "BTC": {
+        "total_gex": 0.0,
+        "cumulative_delta": -5.492112000000005,
+        "orderflow_imbalance": 0.08676154146287361,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.0041000527056654,
+        "max_pain": 65000.0,
+        "gamma_flip": 65000.0,
+        "direction": "neutral",
+        "strength": 0.07872489878050566,
+        "confidence": 0.4417716725229394,
+        "components": {
+          "gamma": 0.11141480805266156,
+          "orderflow": 0.11364428751535537,
+          "vol_skew": 0.08,
+          "iv_greeks": 0.05060405661350773,
+          "put_call": -0.00205002635283269
+        },
+        "regime": "neutral",
+        "liquidity": {
+          "avg_bid_ask_spread": 120.96248961900952,
+          "avg_relative_spread": 0.02,
+          "avg_effective_spread": 60.48124480950476,
+          "avg_liquidity_score": 0.1876717623102998,
+          "total_oi": 41876.90502797571,
+          "total_volume": 8535.324516743898
+        }
+      },
+      "ETH": {
+        "total_gex": 0.0,
+        "cumulative_delta": 5.7082039506346405,
+        "orderflow_imbalance": -0.06782228366393135,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.1085539081610802,
+        "max_pain": 3400.0,
+        "gamma_flip": 3400.0,
+        "direction": "neutral",
+        "strength": 0.06300830032926191,
+        "confidence": 0.4399564867151366,
+        "components": {
+          "gamma": 0.14693970038088108,
+          "orderflow": 0.057809386236672575,
+          "vol_skew": 0.08,
+          "iv_greeks": 0.060867802120740895,
+          "put_call": -0.05427695408054012
+        },
+        "regime": "neutral",
+        "liquidity": {
+          "avg_bid_ask_spread": 6.13816273882274,
+          "avg_relative_spread": 0.020000000000000028,
+          "avg_effective_spread": 3.06908136941137,
+          "avg_liquidity_score": 0.18952692063642823,
+          "total_oi": 43757.78058056538,
+          "total_volume": 11106.828946862795
+        }
+      },
+      "SOL": {
+        "total_gex": 0.0,
+        "cumulative_delta": 21.94089861558587,
+        "orderflow_imbalance": -0.0010032330472689345,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.4100435529166828,
+        "max_pain": 145.0,
+        "gamma_flip": 145.0,
+        "direction": "neutral",
+        "strength": 0.10715687413395193,
+        "confidence": 0.4407810594026725,
+        "components": {
+          "gamma": 0.2792298676026057,
+          "orderflow": 0.20382538859298005,
+          "vol_skew": 0.06397709689018481,
+          "iv_greeks": 0.11927559137923772,
+          "put_call": -0.2050217764583414
+        },
+        "regime": "neutral",
+        "liquidity": {
+          "avg_bid_ask_spread": 0.25535606585901294,
+          "avg_relative_spread": 0.020000000000000035,
+          "avg_effective_spread": 0.12767803292950647,
+          "avg_liquidity_score": 0.18751886807338408,
+          "total_oi": 40686.00149738668,
+          "total_volume": 9359.281878735615
+        }
+      }
+    }
+  },
+  "regime_classification": {
+    "campaign_id": "test_finite",
+    "step": "regime_classification",
+    "status": "completed",
+    "regimes": {
+      "BTC": {
+        "regime": "neutral",
+        "confidence": 0.4417716725229394,
+        "strength": 0.07872489878050566,
+        "components": {
+          "gamma": 0.11141480805266156,
+          "orderflow": 0.11364428751535537,
+          "vol_skew": 0.08,
+          "iv_greeks": 0.05060405661350773,
+          "put_call": -0.00205002635283269
+        },
+        "total_gex": 0.0,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.0041000527056654
+      },
+      "ETH": {
+        "regime": "neutral",
+        "confidence": 0.4399564867151366,
+        "strength": 0.06300830032926191,
+        "components": {
+          "gamma": 0.14693970038088108,
+          "orderflow": 0.057809386236672575,
+          "vol_skew": 0.08,
+          "iv_greeks": 0.060867802120740895,
+          "put_call": -0.05427695408054012
+        },
+        "total_gex": 0.0,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.1085539081610802
+      },
+      "SOL": {
+        "regime": "neutral",
+        "confidence": 0.4407810594026725,
+        "strength": 0.10715687413395193,
+        "components": {
+          "gamma": 0.2792298676026057,
+          "orderflow": 0.20382538859298005,
+          "vol_skew": 0.06397709689018481,
+          "iv_greeks": 0.11927559137923772,
+          "put_call": -0.2050217764583414
+        },
+        "total_gex": 0.0,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.4100435529166828
+      }
+    },
+    "regime_count": 3
+  },
+  "walkforward_oos": {
+    "campaign_id": "test_finite",
+    "step": "walkforward_oos",
+    "status": "completed",
+    "purge": 10,
+    "embargo": 5,
+    "train_window": 45,
+    "test_window": 20,
+    "step_size": 20,
+    "symbols": {
+      "BTC": {
+        "symbol": "BTC",
+        "purge": 10,
+        "embargo": 5,
+        "num_windows": 6,
+        "overall_out_of_sample_return": 0.0,
+        "overall_out_of_sample_sharpe": 0.0,
+        "overall_out_of_sample_max_drawdown": 0.0,
+        "stability_ratio": 0.0,
+        "degradation": 0.0,
+        "purge_embargo_enforced": true,
+        "oos_trade_count": 0,
+        "windows": [
+          {
+            "train_start": 0,
+            "train_end": 45,
+            "test_start": 45,
+            "test_end": 65,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 20,
+            "train_end": 65,
+            "test_start": 65,
+            "test_end": 85,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 40,
+            "train_end": 85,
+            "test_start": 85,
+            "test_end": 105,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 60,
+            "train_end": 105,
+            "test_start": 105,
+            "test_end": 125,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 80,
+            "train_end": 125,
+            "test_start": 125,
+            "test_end": 145,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 100,
+            "train_end": 145,
+            "test_start": 145,
+            "test_end": 160,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          }
+        ]
+      },
+      "ETH": {
+        "symbol": "ETH",
+        "purge": 10,
+        "embargo": 5,
+        "num_windows": 6,
+        "overall_out_of_sample_return": 0.0,
+        "overall_out_of_sample_sharpe": 0.0,
+        "overall_out_of_sample_max_drawdown": 0.0,
+        "stability_ratio": 0.0,
+        "degradation": 0.0,
+        "purge_embargo_enforced": true,
+        "oos_trade_count": 0,
+        "windows": [
+          {
+            "train_start": 0,
+            "train_end": 45,
+            "test_start": 45,
+            "test_end": 65,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 20,
+            "train_end": 65,
+            "test_start": 65,
+            "test_end": 85,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 40,
+            "train_end": 85,
+            "test_start": 85,
+            "test_end": 105,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 60,
+            "train_end": 105,
+            "test_start": 105,
+            "test_end": 125,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 80,
+            "train_end": 125,
+            "test_start": 125,
+            "test_end": 145,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 100,
+            "train_end": 145,
+            "test_start": 145,
+            "test_end": 160,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          }
+        ]
+      },
+      "SOL": {
+        "symbol": "SOL",
+        "purge": 10,
+        "embargo": 5,
+        "num_windows": 6,
+        "overall_out_of_sample_return": 0.0,
+        "overall_out_of_sample_sharpe": 0.0,
+        "overall_out_of_sample_max_drawdown": 0.0,
+        "stability_ratio": 0.0,
+        "degradation": 0.0,
+        "purge_embargo_enforced": true,
+        "oos_trade_count": 0,
+        "windows": [
+          {
+            "train_start": 0,
+            "train_end": 45,
+            "test_start": 45,
+            "test_end": 65,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 20,
+            "train_end": 65,
+            "test_start": 65,
+            "test_end": 85,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 40,
+            "train_end": 85,
+            "test_start": 85,
+            "test_end": 105,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 60,
+            "train_end": 105,
+            "test_start": 105,
+            "test_end": 125,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 80,
+            "train_end": 125,
+            "test_start": 125,
+            "test_end": 145,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 100,
+            "train_end": 145,
+            "test_start": 145,
+            "test_end": 160,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          }
+        ]
+      }
+    }
+  },
+  "portfolio_scaling": {
+    "campaign_id": "test_finite",
+    "step": "portfolio_scaling",
+    "status": "completed",
+    "allocation_mode": "risk_parity",
+    "vol_target": 0.1,
+    "turnover_cap": 0.05,
+    "risk_parity": true,
+    "purge": 10,
+    "embargo": 5,
+    "num_windows": 6,
+    "overall_out_of_sample_return": 0.0,
+    "overall_out_of_sample_sharpe": 0.0,
+    "overall_out_of_sample_max_drawdown": 0.0,
+    "stability_ratio": 0.0,
+    "degradation": 0.0,
+    "oos_trade_count": 0,
+    "windows": [
+      {
+        "train_start": 0,
+        "train_end": 45,
+        "test_start": 45,
+        "test_end": 65,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.25,
+          "ETH": 0.5,
+          "SOL": 0.25
+        },
+        "turnover": 0.0,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 20,
+        "train_end": 65,
+        "test_start": 65,
+        "test_end": 85,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.2818390756567866,
+          "ETH": 0.45,
+          "SOL": 0.26816092434321337
+        },
+        "turnover": 0.04999999999999999,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 40,
+        "train_end": 85,
+        "test_start": 85,
+        "test_end": 105,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.30487906904204737,
+          "ETH": 0.4,
+          "SOL": 0.29512093095795267
+        },
+        "turnover": 0.05000000000000002,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 60,
+        "train_end": 105,
+        "test_start": 105,
+        "test_end": 125,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.33433677116076,
+          "ETH": 0.35000000000000003,
+          "SOL": 0.3156632288392401
+        },
+        "turnover": 0.05000000000000002,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 80,
+        "train_end": 125,
+        "test_start": 125,
+        "test_end": 145,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.3350727232940063,
+          "ETH": 0.33475375074456193,
+          "SOL": 0.3301735259614319
+        },
+        "turnover": 0.015246249255438105,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 100,
+        "train_end": 145,
+        "test_start": 145,
+        "test_end": 160,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.32886720068652414,
+          "ETH": 0.33361626653794524,
+          "SOL": 0.3375165327755307
+        },
+        "turnover": 0.007343006814098801,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      }
+    ]
+  },
+  "options_hedging": {
+    "campaign_id": "test_finite",
+    "step": "options_hedging",
+    "status": "completed",
+    "transaction_cost_bps": 1.0,
+    "rebalance_every_step": true,
+    "symbols": {
+      "BTC": {
+        "total_pnl": -5163.7621772696,
+        "final_portfolio_value": 375.547551286465,
+        "initial_option_premium": 5539.309728556065,
+        "initial_investment": 5539.309728556065,
+        "attribution": {
+          "delta_pnl": -795.9552136907989,
+          "gamma_pnl": 184.05134627988767,
+          "theta_pnl": -650.4146060279616,
+          "vega_pnl": 0.0,
+          "residual": -3901.4437038307274,
+          "total_pnl": -5163.7621772696,
+          "sum_attribution": -5163.7621772696
+        },
+        "hedge_steps": 8,
+        "transaction_cost_bps": 1.0,
+        "rebalance_threshold": 0.05,
+        "rebalance_every_step": true,
+        "num_rebalances": 7,
+        "num_blocked": 0,
+        "num_holds": 1,
+        "risk_integrated": true,
+        "actions": [
+          {
+            "time": 0.019178082191780823,
+            "spot": 63050.0,
+            "action": "rebalance",
+            "target_delta": 0.7687136972341237,
+            "current_delta": 0.7687136972341237,
+            "hedge_trade": 0.7687136972341237,
+            "hedge_cost": 4.846739861061151,
+            "portfolio_value": -4.846739861059177,
+            "risk_approved": true
+          },
+          {
+            "time": 0.01678082191780822,
+            "spot": 64025.0,
+            "action": "rebalance",
+            "target_delta": 0.8229849404582366,
+            "current_delta": 0.8229849404582366,
+            "hedge_trade": 0.05427124322411281,
+            "hedge_cost": 0.3474716347423823,
+            "portfolio_value": 96.11785710128606,
+            "risk_approved": true
+          },
+          {
+            "time": 0.014383561643835616,
+            "spot": 65000.0,
+            "action": "rebalance",
+            "target_delta": 0.8752213596016681,
+            "current_delta": 0.8752213596016681,
+            "hedge_trade": 0.05223641914343158,
+            "hedge_cost": 0.33953672443230526,
+            "portfolio_value": 184.9885199782002,
+            "risk_approved": true
+          },
+          {
+            "time": 0.011986301369863015,
+            "spot": 65975.0,
+            "action": "rebalance",
+            "target_delta": 0.9226984628554342,
+            "current_delta": 0.9226984628554342,
+            "hedge_trade": 0.047477103253766084,
+            "hedge_cost": 0.31323018871672176,
+            "portfolio_value": 256.37380465096066,
+            "risk_approved": true
+          },
+          {
+            "time": 0.009589041095890411,
+            "spot": 66950.0,
+            "action": "rebalance",
+            "target_delta": 0.9616320125588561,
+            "current_delta": 0.9616320125588561,
+            "hedge_trade": 0.03893354970342189,
+            "hedge_cost": 0.2606601152644095,
+            "portfolio_value": 305.4380195782651,
+            "risk_approved": true
+          },
+          {
+            "time": 0.007191780821917808,
+            "spot": 66300.0,
+            "action": "rebalance",
+            "target_delta": 0.9704854093015325,
+            "current_delta": 0.9704854093015325,
+            "hedge_trade": 0.008853396742676378,
+            "hedge_cost": 0.05869802040394439,
+            "portfolio_value": 360.68905340562924,
+            "risk_approved": true
+          },
+          {
+            "time": 0.004794520547945207,
+            "spot": 63700.0,
+            "action": "rebalance",
+            "target_delta": 0.9421007176322675,
+            "current_delta": 0.9421007176322675,
+            "hedge_trade": -0.02838469166926494,
+            "hedge_cost": 0.18081048593321766,
+            "portfolio_value": 400.6441811153927,
+            "risk_approved": true
+          },
+          {
+            "time": 0.0023972602739726033,
+            "spot": 65650.0,
+            "action": "hold",
+            "target_delta": 0.9985507113976188,
+            "current_delta": 0.9421007176322675,
+            "hedge_trade": 0.0,
+            "hedge_cost": 0.0,
+            "portfolio_value": 375.547551286465,
+            "risk_approved": true
+          }
+        ],
+        "underlying": "BTC",
+        "strike": 58500.0,
+        "expiry": "2026-11-07T12:00:00+00:00",
+        "time_to_expiry": 0.019178082191780823
+      },
+      "ETH": {
+        "total_pnl": -277.08535402852476,
+        "final_portfolio_value": 36.886587644431074,
+        "initial_option_premium": 313.97194167295584,
+        "initial_investment": 313.97194167295584,
+        "attribution": {
+          "delta_pnl": -38.05718209264825,
+          "gamma_pnl": 11.377376129988624,
+          "theta_pnl": -53.43163256877696,
+          "vega_pnl": 0.0,
+          "residual": -196.97391549708817,
+          "total_pnl": -277.08535402852476,
+          "sum_attribution": -277.08535402852476
+        },
+        "hedge_steps": 8,
+        "transaction_cost_bps": 1.0,
+        "rebalance_threshold": 0.05,
+        "rebalance_every_step": true,
+        "num_rebalances": 7,
+        "num_blocked": 0,
+        "num_holds": 1,
+        "risk_integrated": true,
+        "actions": [
+          {
+            "time": 0.019178082191780823,
+            "spot": 3298.0,
+            "action": "rebalance",
+            "target_delta": 0.7350586960289792,
+            "current_delta": 0.7350586960289792,
+            "hedge_trade": 0.7350586960289792,
+            "hedge_cost": 0.24242235795035735,
+            "portfolio_value": -0.24242235795054512,
+            "risk_approved": true
+          },
+          {
+            "time": 0.01678082191780822,
+            "spot": 3349.0,
+            "action": "rebalance",
+            "target_delta": 0.7839559605044752,
+            "current_delta": 0.7839559605044752,
+            "hedge_trade": 0.04889726447549603,
+            "hedge_cost": 0.01637569387284362,
+            "portfolio_value": 7.399572707350217,
+            "risk_approved": true
+          },
+          {
+            "time": 0.014383561643835616,
+            "spot": 3400.0,
+            "action": "rebalance",
+            "target_delta": 0.833918765332297,
+            "current_delta": 0.833918765332297,
+            "hedge_trade": 0.04996280482782178,
+            "hedge_cost": 0.016987353641459407,
+            "portfolio_value": 14.595752893445479,
+            "risk_approved": true
+          },
+          {
+            "time": 0.011986301369863015,
+            "spot": 3450.9999999999995,
+            "action": "rebalance",
+            "target_delta": 0.8835570483076707,
+            "current_delta": 0.8835570483076707,
+            "hedge_trade": 0.04963828297537365,
+            "hedge_cost": 0.017130171454801446,
+            "portfolio_value": 20.993002357674413,
+            "risk_approved": true
+          },
+          {
+            "time": 0.009589041095890411,
+            "spot": 3502.0,
+            "action": "rebalance",
+            "target_delta": 0.9302293761862063,
+            "current_delta": 0.9302293761862063,
+            "hedge_trade": 0.04667232787853559,
+            "hedge_cost": 0.016344649223063164,
+            "portfolio_value": 26.145104918599372,
+            "risk_approved": true
+          },
+          {
+            "time": 0.007191780821917808,
+            "spot": 3468.0,
+            "action": "rebalance",
+            "target_delta": 0.9421437030189,
+            "current_delta": 0.9421437030189,
+            "hedge_trade": 0.011914326832693778,
+            "hedge_cost": 0.004131888545578203,
+            "portfolio_value": 31.851818755876593,
+            "risk_approved": true
+          },
+          {
+            "time": 0.004794520547945207,
+            "spot": 3332.0,
+            "action": "rebalance",
+            "target_delta": 0.9049180189607984,
+            "current_delta": 0.9049180189607984,
+            "hedge_trade": -0.03722568405810167,
+            "hedge_cost": 0.012403597928159477,
+            "portfolio_value": 36.76587152217371,
+            "risk_approved": true
+          },
+          {
+            "time": 0.0023972602739726033,
+            "spot": 3434.0,
+            "action": "hold",
+            "target_delta": 0.9932160076707428,
+            "current_delta": 0.9049180189607984,
+            "hedge_trade": 0.0,
+            "hedge_cost": 0.0,
+            "portfolio_value": 36.886587644431074,
+            "risk_approved": true
+          }
+        ],
+        "underlying": "ETH",
+        "strike": 3060.0,
+        "expiry": "2026-11-07T12:00:00+00:00",
+        "time_to_expiry": 0.019178082191780823
+      },
+      "SOL": {
+        "total_pnl": -11.619077802540346,
+        "final_portfolio_value": 1.0420885125726755,
+        "initial_option_premium": 12.661166315113022,
+        "initial_investment": 12.661166315113022,
+        "attribution": {
+          "delta_pnl": -1.7243721263793077,
+          "gamma_pnl": 0.43863593325692374,
+          "theta_pnl": -1.6925691131853602,
+          "vega_pnl": 0.0,
+          "residual": -8.640772496232602,
+          "total_pnl": -11.619077802540346,
+          "sum_attribution": -11.619077802540346
+        },
+        "hedge_steps": 8,
+        "transaction_cost_bps": 1.0,
+        "rebalance_threshold": 0.05,
+        "rebalance_every_step": true,
+        "num_rebalances": 7,
+        "num_blocked": 0,
+        "num_holds": 1,
+        "risk_integrated": true,
+        "actions": [
+          {
+            "time": 0.019178082191780823,
+            "spot": 140.65,
+            "action": "rebalance",
+            "target_delta": 0.7572609537239092,
+            "current_delta": 0.7572609537239092,
+            "hedge_trade": 0.7572609537239092,
+            "hedge_cost": 0.010650875314126784,
+            "portfolio_value": -0.010650875314127006,
+            "risk_approved": true
+          },
+          {
+            "time": 0.01678082191780822,
+            "spot": 142.825,
+            "action": "rebalance",
+            "target_delta": 0.8099684869843528,
+            "current_delta": 0.8099684869843528,
+            "hedge_trade": 0.05270753326044353,
+            "hedge_cost": 0.0007527953437922847,
+            "portfolio_value": 0.24531648371338122,
+            "risk_approved": true
+          },
+          {
+            "time": 0.014383561643835616,
+            "spot": 145.0,
+            "action": "rebalance",
+            "target_delta": 0.861815427672846,
+            "current_delta": 0.861815427672846,
+            "hedge_trade": 0.05184694068849327,
+            "hedge_cost": 0.0007517806399831525,
+            "portfolio_value": 0.4763025033852273,
+            "risk_approved": true
+          },
+          {
+            "time": 0.011986301369863015,
+            "spot": 147.17499999999998,
+            "action": "rebalance",
+            "target_delta": 0.9104900456123413,
+            "current_delta": 0.9104900456123413,
+            "hedge_trade": 0.048674617939495235,
+            "hedge_cost": 0.0007163686895245211,
+            "portfolio_value": 0.6689257115850893,
+            "risk_approved": true
+          },
+          {
+            "time": 0.009589041095890411,
+            "spot": 149.35,
+            "action": "rebalance",
+            "target_delta": 0.95244096595956,
+            "current_delta": 0.95244096595956,
+            "hedge_trade": 0.0419509203472187,
+            "hedge_cost": 0.0006265369953857114,
+            "portfolio_value": 0.809326850277472,
+            "risk_approved": true
+          },
+          {
+            "time": 0.007191780821917808,
+            "spot": 147.9,
+            "action": "rebalance",
+            "target_delta": 0.9624071129031446,
+            "current_delta": 0.9624071129031446,
+            "hedge_trade": 0.009966146943584664,
+            "hedge_cost": 0.0001473993132956172,
+            "portfolio_value": 0.9660933215942862,
+            "risk_approved": true
+          },
+          {
+            "time": 0.004794520547945207,
+            "spot": 142.1,
+            "action": "rebalance",
+            "target_delta": 0.9308413115120493,
+            "current_delta": 0.9308413115120493,
+            "hedge_trade": -0.03156580139109533,
+            "hedge_cost": 0.00044855003776746454,
+            "portfolio_value": 1.0873416568550596,
+            "risk_approved": true
+          },
+          {
+            "time": 0.0023972602739726033,
+            "spot": 146.45,
+            "action": "hold",
+            "target_delta": 0.9974664860562272,
+            "current_delta": 0.9308413115120493,
+            "hedge_trade": 0.0,
+            "hedge_cost": 0.0,
+            "portfolio_value": 1.0420885125726755,
+            "risk_approved": true
+          }
+        ],
+        "underlying": "SOL",
+        "strike": 130.5,
+        "expiry": "2026-11-07T12:00:00+00:00",
+        "time_to_expiry": 0.019178082191780823
+      }
+    }
+  },
+  "integrated_metrics": {
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "seed": 71,
+    "purge": 10,
+    "embargo": 5,
+    "allocation_mode": "risk_parity",
+    "vol_target": 0.1,
+    "turnover_cap": 0.05,
+    "initial_capital": 100000.0,
+    "portfolio_overall_out_of_sample_return": 0.0,
+    "portfolio_overall_out_of_sample_sharpe": 0.0,
+    "portfolio_stability_ratio": 0.0,
+    "portfolio_num_windows": 6,
+    "options_hedging_total_pnl": -5452.466609100665,
+    "options_hedging_symbols": 3,
+    "artifacts_emitted": 6
+  }
+}

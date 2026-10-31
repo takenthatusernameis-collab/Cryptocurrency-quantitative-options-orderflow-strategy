@@ -654,11 +654,11 @@ class IntegratedCampaign:
             spot = float(self.config.spot_prices.get(sym, DEFAULT_SPOT[sym]))
             chain = _load_options_chain(sym, spot, now, DEFAULT_VENUE)
             of = _load_orderflow(sym, DEFAULT_VENUE)
-        try:
-            iv_surface = build_iv_surface_from_chain(chain, spot=spot, rate=0.0, now=now, seed=self.seed)
-        except Exception as _e:
-            print(f"DBG IV surface build failed for {sym}: {type(_e).__name__}: {_e}")
-            iv_surface = None
+            try:
+                iv_surface = build_iv_surface_from_chain(chain, spot=spot, rate=0.0, now=now, seed=self.seed)
+            except Exception as _e:
+                import sys; print("DBG IV", sym, type(_e).__name__, _e, file=sys.stderr, flush=True)
+                iv_surface = None
             # Greeks summary from the ATM quote (current-step only, no lookahead).
             greeks_summary: Optional[Dict[str, Any]] = None
             if chain.quotes:
@@ -713,6 +713,8 @@ class IntegratedCampaign:
                     "components": f["components"],
                     "regime": f["regime"],
                     "liquidity": f["liquidity"],
+                    "iv_surface": f.get("iv_surface"),
+                    "greeks_summary": f.get("greeks_summary", {}),
                 }
                 for sym, f in features_per_symbol.items()
             },
