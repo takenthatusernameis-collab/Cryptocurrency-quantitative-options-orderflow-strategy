@@ -2,6 +2,7 @@
 
 import json
 import os
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, Any
@@ -10,6 +11,28 @@ from ..data.loader import DataLoader
 from ..features.orderflow import calculate_cumulative_delta, calculate_orderflow_imbalance
 from ..features.volatility import calculate_put_call_ratio, calculate_iv_skew, calculate_max_pain
 from ..features.liquidity import calculate_bid_ask_spread, calculate_liquidity_score
+from ..telemetry import SerializationError, serialize_metrics_strict
+
+
+def _atomic_write_json(path: Path, data: Dict[str, Any]) -> None:
+    """Write JSON with ``allow_nan=False`` atomically (write-to-temp-then-rename)."""
+    payload = serialize_metrics_strict(data)
+    content = json.dumps(payload, indent=2, allow_nan=False)
+    fd, tmp_path = tempfile.mkstemp(prefix=f".{path.name}.", dir=str(path.parent), suffix=".tmp")
+    try:
+        os.write(fd, content.encode("utf-8"))
+        os.close(fd)
+        fd = None
+        os.replace(tmp_path, path)
+        tmp_path = None
+    finally:
+        if fd is not None:
+            os.close(fd)
+        if tmp_path is not None and os.path.exists(tmp_path):
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
 
 
 def build_features(
@@ -44,13 +67,11 @@ def build_features(
 
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     manifest_path = Path(output_dir) / f"features_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.json"
-    with open(manifest_path, "w") as f:
-        json.dump(features, f, indent=2)
+    _atomic_write_json(manifest_path, features)
 
     # Also write latest
     latest_path = Path(output_dir) / "features_latest.json"
-    with open(latest_path, "w") as f:
-        json.dump(features, f, indent=2)
+    _atomic_write_json(latest_path, features)
 
     features["manifest_path"] = str(manifest_path)
     return features

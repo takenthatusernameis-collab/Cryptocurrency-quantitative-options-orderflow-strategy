@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import math
+import os
+import tempfile
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional, Tuple
@@ -247,16 +249,33 @@ def run_regime_stress_walkforward(
 
 
 def save_regime_artifact(payload: Dict[str, Any], regime: str) -> str:
+    """Persist a regime walk-forward artifact with strict ``allow_nan=False`` serialization.
+
+    Raises :class:`SerializationError` (via :func:`serialize_metrics_strict`) if the
+    payload contains any non-finite value, so NaN/Inf can never leak into a file.
+    """
     from pathlib import Path
     import json
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     path = Path("research_state") / f"WALKFORWARD_regime_{regime}_{ts}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
+    # Strict: raises SerializationError on non-finite; never silently writes NaN/Inf.
+    payload_clean = serialize_metrics_strict(payload)
+    content = json.dumps(payload_clean, indent=2, allow_nan=False)
+    fd, tmp_path = tempfile.mkstemp(prefix=f".{path.name}.", dir=str(path.parent), suffix=".tmp")
     try:
-        payload_clean = serialize_metrics_strict(payload)
-    except Exception:
-        payload_clean = payload
-    with open(path, "w") as f:
-        json.dump(payload_clean, f, indent=2)
+        os.write(fd, content.encode("utf-8"))
+        os.close(fd)
+        fd = None
+        os.replace(tmp_path, path)
+        tmp_path = None
+    finally:
+        if fd is not None:
+            os.close(fd)
+        if tmp_path is not None and os.path.exists(tmp_path):
+            try:
+                os.unlink(tmp_path)
+            except OSError:
+                pass
     return str(path)
