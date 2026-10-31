@@ -1,54 +1,60 @@
-# DURABLE HANDOFF - 2026-10-31T07:12:41Z
+# DURABLE HANDOFF - 2026-10-31T09:09:13Z
 Repo: Cryptocurrency-quantitative-options-orderflow-strategy
-Goal: Stop checkpoint-only loops. Force heavy, measurable implementation work.
+Goal: Stop checkpoint-only loops. Force heavy, measurable implementation work on the crypto options orderflow strategy.
 
-## PRIORITY 1: Remove bottlenecks (do first)
-- [ ] **Inventory reality**: Enumerate `data/` fully (formats, sizes, coverage). If empty/missing critical feeds, do not wait - generate realistic synthetic fixtures and log assumptions.
-- [ ] **Schema lock-in**: Define canonical schemas for options trades/orderbook, perps/spot, funding/liquidations in `src/data/schema.py` (or equivalent). Validate on load.
-- [ ] **Kill passivity**: Any session that ends with only "chore(kilo): checkpoint" is wasteful. Every session must produce at least one of: new module, tests, data loader, features, backtest artifact, or passing checks.
+## STATUS (verified 2026-10-31T09:09:13Z)
+- 360 tests pass (`python -m pytest tests/ -q`). No failing tests — code is green.
+- Phase 1 (data ingestion): DONE — `src/data/loader.py`, `schemas.py`, `validators.py`, `tests/test_data_loader_and_validation.py`, synthetic raw data (`data/raw/orderflow_btcusdt_synthetic.json` 1000 trades, `data/raw/options_btc_synthetic.json` 30 quotes), `research_state/DATA_INVENTORY.md`.
+- Phase 2 (orderflow features): DONE — `src/features/orderflow.py` (+ liquidity, gamma_exposure, iv_surface, volatility, options_pricing), `src/pipelines/build_features.py`, `tests/test_features.py`, `data/processed/features_latest.json` materialized.
+- Phase 3 (strategy + backtest): PARTIAL — `src/backtest/engine.py`, `src/strategy/orderflow_signal.py`, `scripts/run_backtest.py`, `scripts/run_backtest_synthetic.py`, `research_state/BACKTEST_*.json` + `RESULTS_SUMMARY.md` exist, BUT metrics are TRIVIAL: 1 trade, `win_rate=0.0`, `sharpe_ratio=0.0`, `total_return≈0`. Single-snapshot signal (`of_imb > 0.01` required) fires at most once. DATA IS NOT MISSING — do NOT redo Phase 1; the bottleneck is the single-bar signal/backtest driver.
 
-## NEXT FOCUS CAMPAIGN (execute in strict order)
-### Phase 1: Data ingestion (BLOCKING, heavy)
-1. **Audit**: `find data -type f | sort` and inspect headers/samples for each file. Document in `research_state/DATA_INVENTORY.md`.
-2. **Loader**: Implement a robust loader in `src/data/loader.py` with timestamp normalization (UTC), exchange normalization, validation, and caching.
-3. **Contracts**: Add `src/data/validators.py` + unit tests in `tests/test_data_*.py`. Fail fast on schema drift.
-4. **Fixture**: If no usable options orderflow exists, write `scripts/generate_synthetic_orderflow.py` to produce realistic trades/orderbook snapshots and wire it to tests.
+## BOTTLENECK REMOVED / IDENTIFIED
+Blocker: backtest runs one trade on one snapshot → trivial, non-publishable metrics. Fix: convert the backtest into a time-ordered walk through the orderflow (multiple bars/windows, multiple trades, position sizing, SL/TP exits, equity curve, flow-correlation) so `BACKTEST_*.json` contains real metrics (multiple trades, non-zero win rate/sharpe/drawdown).
 
-### Phase 2: Orderflow features (CORE ALPHA, heavy)
-1. **Microstructure**: Implement signed volume, trade aggression (aggressive/passive), VWAP, orderflow imbalance, delta/flow toxicity in `src/features/orderflow.py`.
-2. **Options-aware**: Add delta/gamma/vega exposure proxies, OI change, liquidity, spread/impact in `src/features/options_flow.py`.
-3. **Pipeline**: Create `src/pipelines/build_features.py` that materializes features to `data/processed/` with deterministic keys and manifest.
-4. **Tests**: Cover edge cases (crossing, partial fills) in `tests/test_features_*.py`.
+## NEXT FOCUS CAMPAIGN (execute in strict order — heavy work, no skipping)
+### Phase 3 completion: Time-series backtest with real metrics
+1. **Time-ordered backtest driver**: Modify/extend `scripts/run_backtest.py` (or add `scripts/run_backtest_timeseries.py`) to iterate the orderflow trades sorted by timestamp in windows (e.g. 50-trade tumbling windows), compute orderflow signal per window, size position via `engine.calculate_position_size`, execute buy/sell with SL/TP, call `update_equity_curve` per window, then `calculate_metrics`. Must produce multiple trades (>1) and a non-degenerate equity curve.
+2. **Flow-correlation metric**: Compute correlation between orderflow imbalance / cumulative delta and forward returns; add to backtest output. If uncomputable, fix the driver, not the data.
+3. **Run baseline**: Execute the time-series backtest headlessly. Write `research_state/BACKTEST_TIMESERIES_<UTC>.json` with real metrics and update `research_state/RESULTS_SUMMARY.md` (signal + metrics blocks).
+4. **Tests**: Add `tests/test_backtest_timeseries.py` covering multi-trade execution, SL/TP exits, determinism (same seed → same result), and non-trivial metrics (total_trades > 1).
+5. **Feature materialization (optional but recommended)**: `src/pipelines/build_features.py` already materializes `data/processed/`; ensure a features manifest accompanies the backset run.
 
-### Phase 3: Strategy + backtest (VALIDATION, heavy)
-1. **Signal**: Implement a first-pass signal in `src/strategy/orderflow_signal.py` (hypothesis-driven, simple first, extensible). Must read only processed features.
-2. **Engine**: Build/extend backtester in `src/backtest/` with fees/slippage, position sizing, risk limits, and PnL attribution.
-3. **Run**: Execute a baseline backtest via `scripts/run_backtest.py`. Write results to `research_state/BACKTEST_*.json` + summary to `research_state/RESULTS_SUMMARY.md`.
-4. **Metrics**: Compute Sharpe, drawdown, hit rate, turnover, flow-correlation. If metrics are trivial/uncomputable due to missing data, fix Phase 1 first.
-
-## FIRST ACTION (do this immediately, no debate)
+### FIRST ACTION (do this immediately, no debate)
 ```bash
-# 1) See what actually exists
-find . -type f \( -path "./data/*" -o -path "./src/*" -o -path "./scripts/*" -o -path "./config/*" \) | sort | head -80
+# 1) Confirm green baseline
+python -m pytest tests/ -q
 
-# 2) Inspect data reality
-find data -type f 2>&1 | head -40
-ls -la data/ 2>&1
+# 2) Inspect current trivial metrics
+cat research_state/RESULTS_SUMMARY.md
 
-# 3) Understand existing code entrypoints
-grep -rn "def main\|if __name__" src scripts 2>&1 | head -30
+# 3) Implement time-ordered backtest driver (edit scripts/run_backtest.py or add run_backtest_timeseries.py)
+#    - sort of.trades by timestamp
+#    - tumbling windows of ~50 trades
+#    - generate_orderflow_signal per window -> execute_trade with SL/TP
+#    - update_equity_curve per window -> calculate_metrics
+#    - add flow-correlation (of_imb vs forward price change)
+#    - write research_state/BACKTEST_TIMESERIES_<UTC>.json + update RESULTS_SUMMARY.md
+
+# 4) Add tests/test_backtest_timeseries.py (multi-trade, determinism, non-trivial metrics)
+
+# 5) Verify
+python -m pytest tests/ -q
+python scripts/run_backtest_timeseries.py   # or run_backtest.py
+cat research_state/RESULTS_SUMMARY.md
 ```
-After inventory, write `research_state/DATA_INVENTORY.md` with concrete paths/sizes/formats. Then implement the loader. Do not stop at inventory.
+After the time-series backtest produces real metrics, do NOT declare done until `total_trades > 1` and metrics are non-degenerate (win_rate/sharpe/drawdown computable and non-trivial).
 
 ## HARD CONSTRAINTS
 - **No more checkpoint spam**: Do not commit unless you added executable code, tests, data artifacts, or passing validation.
 - **Heavy work required**: Prefer implementing over summarizing. If tempted to write another status update, write code instead.
 - **Deterministic**: All scripts must be runnable headlessly with clear args; write artifacts to disk.
 - **Fail-forward**: Missing data is a task to create fixtures/loaders, not an excuse to stop.
-- **Single focus**: Complete Phase 1 fully before moving to Phase 2. Do not jump ahead speculatively.
+- **Single focus**: Complete Phase 3 (time-series backtest with real metrics) fully before any speculative new phase. Do not jump ahead.
+- **Every session must ship**: new module, tests, data loader, features, backtest artifact, or passing checks.
 
-## SUCCESS CRITERIA (must hit)
-- [ ] `research_state/DATA_INVENTORY.md` exists with actionable findings
-- [ ] Working data loader + validators with >=1 passing test
-- [ ] At least one processed feature set materialized OR synthetic fixtures generated and used
-- [ ] A baseline backtest runs and produces `research_state/BACKTEST_*.json` with real metrics
+## SUCCESS CRITERIA (must hit before next handoff)
+- [ ] `research_state/BACKTEST_TIMESERIES_<UTC>.json` exists with real metrics (total_trades > 1)
+- [ ] `research_state/RESULTS_SUMMARY.md` updated with signal + non-trivial metrics (win_rate, sharpe_ratio, max_drawdown computable)
+- [ ] `tests/test_backtest_timeseries.py` added with >=1 passing test (multi-trade + determinism)
+- [ ] `python -m pytest tests/ -q` fully green
+- [ ] Flow-correlation (orderflow vs forward return) computed and reported
