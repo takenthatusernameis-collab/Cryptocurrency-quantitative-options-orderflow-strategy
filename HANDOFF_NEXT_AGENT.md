@@ -1,46 +1,56 @@
-# DURABLE HANDOFF - 2026-10-31T13:59:56Z
+# DURABLE HANDOFF - 2026-10-31T14:00:41Z
 Repo: Cryptocurrency-quantitative-options-orderflow-strategy
 Goal: Build a robust, production-grade crypto options/orderflow strategy with out-of-sample validation and portfolio capabilities.
 
-## STATUS (verified 2026-10-31T13:59:56Z)
+## STATUS (verified 2026-10-31T14:00:41Z)
 - **Tests**: 364 passed, 0 failed (`python -m pytest tests/ -q`). Codebase is GREEN.
 - **Phase 1 (Data)**: DONE - loaders, schemas, validators, synthetic fixtures present.
 - **Phase 2 (Features)**: DONE - orderflow, gamma exposure, IV surface, liquidity, volatility, pricing features materialized.
 - **Phase 3 (Time-series backtest)**: DONE - `scripts/run_backtest_timeseries.py` produces real metrics.
   - Latest: `research_state/BACKTEST_TIMESERIES_20261031T095347Z.json` (20 trades, win_rate 71.4%, sharpe 2.93, max_dd 0.35%, flow corr -0.458)
   - `research_state/RESULTS_SUMMARY.md` updated with non-trivial metrics.
+- **Phase 4 (Walk-forward/OOS, Portfolio, Options Hedging)**: DONE - walk-forward with purge/embargo, portfolio walk-forward (BTC/ETH/SOL), options hedging integrated into backtest path.
+  - `research_state/WALKFORWARD_purge_embargo_20261031T130538Z.json` (rolling windows with purge/embargo)
+  - `research_state/PORTFOLIO_WALKFORWARD_20261031T130553Z.json` (correlation-aware multi-symbol)
+  - `research_state/OPTIONS_HEDGING_INTEGRATED_20261031T130606Z.json`
+  - Artifacts in `research_state/`, tests all green.
 
 ## BOTTLENECKS REMOVED
 - Single-snapshot backtest triviality fixed via windowed time-series execution (50-trade windows).
 - Flow-correlation added between orderflow imbalance and forward returns.
-- Tests added for multi-trade execution and determinism.
+- Walk-forward leakage addressed with purge/embargo guards; regime tracking added.
+- Portfolio walk-forward extended with correlation-aware constraints.
+- Options hedging integrated into backtest path with invariant coverage.
 
 ## NEXT FOCUS CAMPAIGN (execute in strict order - heavy implementation required)
-### Phase 4: Walk-forward/OOS robustness & portfolio scaling
-1. **Harden walk-forward validation** - The codebase has `WalkForwardBacktest`, `run_walk_forward`, `run_rolling_window_backtest` in `src/backtest/engine.py` and tests like `test_oos_walkforward.py`, `test_walkforward_robustness_adversarial.py`. Run existing walk-forward on the synthetic data, identify leakage/lookahead issues, fix them. Ensure out-of-sample performance is reported separately.
-2. **Portfolio-level backtesting** - `PortfolioWalkForwardBacktest` exists. Extend to handle multi-symbol or multi-strategy allocation, correlation-aware sizing, and realistic constraints (margin, liquidity). Add tests for correlation effects.
-3. **Options hedging integration** - `src/backtest/options_hedging.py` and `tests/test_options_hedging.py`, `test_phase1_gamma_invariants.py` exist. Wire options hedging into the live backtest path (delta/gamma hedging based on gamma exposure/IV surface). Make it configurable and test invariants.
-4. **Adversarial robustness hardening** - Many adversarial tests exist (routing, stress, correlation). Fix any remaining brittleness: numerical guards, serialization of non-finite results, circuit breakers. Ensure all adversarial tests remain green.
-5. **Campaign resume & state management** - `tests/test_campaign_resume.py` exists. Verify resumability for long-running backtests/campaigns with checkpoints.
+### Phase 5: Production hardening, validation rigor, and campaign automation
+1. **Strengthen walk-forward robustness** - Review `src/backtest/engine.py` WalkForward/PortfolioWalkForward implementations against current artifacts. Check for proper temporal separation, leakage in regime info, and ensure embargo/purge are applied correctly in all code paths. Add explicit assertions/guards if gaps found.
+2. **Expand OOS validation** - Run walk-forward on multiple synthetic regimes (trending/ranging/volatile) to stress-test stability. Generate new artifacts in `research_state/` (e.g., `WALKFORWARD_regime_*_*.json`) and update `RESULTS_SUMMARY.md` with regime-specific OOS metrics.
+3. **Portfolio scaling** - Extend portfolio walk-forward to support dynamic correlation estimation, turnover constraints, and capital allocation rules (risk parity / volatility targeting). Add tests if needed and validate with correlation-aware sizing.
+4. **Hedging strategy refinement** - Review options hedging integration - ensure delta/gamma hedging hooks are exercised with realistic rebalance costs/slippage. Add/adapt tests for hedging PnL decomposition and invariants under stress.
+5. **Campaign orchestration & resume** - Harden `tests/test_campaign_resume.py` coverage; ensure checkpoints are atomic and resumable across long campaigns. Consider adding a script/CLI path for campaign runs with state tracking.
+6. **Telemetry/serialization robustness** - Leverage existing telemetry/serialization non-finite guards. Add edge case tests if gaps remain and ensure all artifacts are JSON-serializable safely.
 
-### IMMEDIATE FIRST ACTIONS (do NOT defer)
+## IMMEDIATE FIRST ACTIONS (do NOT defer)
 ```bash
 # 1) Confirm green baseline
 python -m pytest tests/ -q
 
-# 2) Run walk-forward validation on existing data
+# 2) Inspect walk-forward implementation
+grep -rn "class .*WalkForward\|run_walk_forward\|PortfolioWalkForward" src/backtest/engine.py | head -40
+
+# 3) Review purge/embargo and regime logic
+grep -rn "purge\|embargo\|regime_info" src/backtest/engine.py | head -30
+
+# 4) Exercise walk-forward/portfolio on current synthetic data
 python -c "
-# quick check - use existing APIs
-from src.backtest import run_walk_forward
-# see how to call it
-" 2>&1 | tail -30
+# Try to call walk-forward APIs
+from src.backtest import engine
+# see available functions
+" 2>&1 | tail -40
 
-# 3) Explore walk-forward implementation
-grep -n "class WalkForward" src/backtest/engine.py | head -5
-grep -rn "run_walk_forward" src | head -10
-
-# 4) Run OOS/walkforward tests to see current state
-python -m pytest tests/test_oos_walkforward.py tests/test_walkforward_robustness_adversarial.py -v 2>&1 | tail -20
+# 5) Run OOS/walkforward/portfolio/hedging related tests
+python -m pytest tests/test_oos_walkforward.py tests/test_walkforward_robustness_adversarial.py tests/test_portfolio_walkforward_correlation_adversarial.py tests/test_campaign_resume.py tests/test_options_hedging.py -v 2>&1 | tail -25
 ```
 
 ## HARD CONSTRAINTS
@@ -49,12 +59,12 @@ python -m pytest tests/test_oos_walkforward.py tests/test_walkforward_robustness
 - **Deterministic & reproducible**: All runs headless, artifacts to `research_state/`, configs explicit.
 - **Fail-forward**: If APIs are awkward, extend them. If tests reveal bugs, fix them.
 - **Ship every session**: New code/tests/artifacts or concrete fixes with passing tests.
-- **Don't redo completed phases**: Time-series backtest is DONE. Build on it.
+- **Don't redo completed phases**: Phases 1-4 are DONE. Build on them.
 
 ## SUCCESS CRITERIA (before next handoff)
-- [ ] Walk-forward/OOS results written to `research_state/WALKFORWARD_*.json` with train/test split, IS/OOS metrics reported separately
-- [ ] At least one concrete robustness fix (leakage guard, purged CV, or proper embargo) if issues found
-- [ ] Portfolio walk-forward exercised with correlation-aware logic OR meaningful extension to it
-- [ ] Options hedging integrated into backtest path with tests passing (or new tests added)
+- [ ] At least one new regime-based OOS artifact in `research_state/` (e.g., `WALKFORWARD_regime_trending_*.json`) with train/test split and IS/OOS metrics reported separately
+- [ ] Portfolio walk-forward extended with at least one new constraint (dynamic correlation OR turnover/capital allocation) with validation
+- [ ] Options hedging path exercised with rebalance costs/slippage or hedging decomposition; related tests pass
+- [ ] Concrete robustness improvement (code change + test/artifact) showing leak prevention or stability gain
 - [ ] All tests green: `python -m pytest tests/ -q` still passes
-- [ ] `research_state/RESULTS_SUMMARY.md` updated with Phase 4 findings/metrics
+- [ ] `research_state/RESULTS_SUMMARY.md` updated with Phase 5 findings/metrics
