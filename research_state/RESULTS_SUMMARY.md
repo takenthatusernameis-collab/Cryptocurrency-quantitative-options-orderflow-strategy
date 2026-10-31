@@ -41,3 +41,14 @@ orderflow_imbalance vs forward return: -0.4583478199902648
   - Multi-symbol correlation constraint applied, purge/embargo enforced
 - Options hedging integrated into backtest path: research_state/OPTIONS_HEDGING_INTEGRATED_20261031T130606Z.json
 - Tests remain green: `python -m pytest tests/ -q` passes (all existing tests)
+
+
+## Phase 5: Regime OOS (2026-10-31T14:45:13Z)
+- Regime-stratified walk-forward with strict purge/embargo (purge=10/embargo=5)
+- Artifacts (crypto-realistic orderflow/gamma/IV/liquidity microstructure):
+  - research_state/WALKFORWARD_regime_trending_20261031T144510Z.json
+  - research_state/WALKFORWARD_regime_ranging_20261031T144510Z.json
+  - research_state/WALKFORWARD_regime_high_vol_chop_20261031T144510Z.json
+  - research_state/WALKFORWARD_regime_liquidity_thin_20261031T144513Z.json
+- Module: src/backtest/regime_stress.py (generates regimes, runs per-regime walk-forward, serializes artifacts)
+- IS/OOS metrics logged per window; tests extended/added as needed
