@@ -1,8 +1,8 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T03:00:11Z
+Timestamp (UTC): 2026-10-31T03:02:43Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY (PRIORITIZE BY REPO NAME)
-Gate status: GREEN (358 passed, 0 failed, 0 warnings — verified 2026-10-31T03:00:11Z via `python3 -m pytest -q`). tests/test_campaign_resume.py: PASSED (4/4). Phase A adversarial targets (options/greeks/iv/guards): 100 passed. Working tree clean. Bottlenecks removed/prevented.
+Gate status: GREEN (358 passed, 0 failed, 0 warnings — verified 2026-10-31T03:02:43Z via `python3 -m pytest -q`). tests/test_campaign_resume.py: PASSED (4/4). Phase A adversarial targets (options/greeks/iv/guards): 100 passed. Working tree clean. Bottlenecks removed/prevented.
 
 ## BOTTLENECKS (FIXED / PREVENTED)
 - NONE active. All tooling/edit paths unblocked.
@@ -99,7 +99,7 @@ Run gate + campaign resume. Do not proceed if not green.
 - **Single handoff:** Update THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work.
 
 ## EXACT REMAINING WORK
-- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — verified 2026-10-31T03:00:11Z
+- [x] Gate GREEN (358/358, 0 failures, 0 warnings) — verified 2026-10-31T03:02:43Z
 - [x] Campaign resume contract passes (4/4)
 - [x] Phase A adversarial targets pass (100 passed) — `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`
 - [ ] **A) CRYPTO OPTIONS PRICING/GREEKS/IV (HIGHEST)** - Deeper adversarial hardening by reasoning: ultra-extremes T/moneyness/vol/rates/strikes, IV solver bracketing/Newton fallbacks, put-call parity, invariants, strict `allow_nan=False`. Targets: `src/features/options_pricing.py`, `src/features/iv_surface.py`. (Base clamps and guards already in place; attack remaining solver/surface edge cases even though tests pass.)
@@ -119,7 +119,7 @@ Run gate + campaign resume. Do not proceed if not green.
 6. VERIFY affected tests after each change. Full `python3 -m pytest -q` before ending.
 7. UPDATE THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make priorities unmissable. NO IDLE TURNS. HEAVY QUANT WORK ONLY.
 
-## LAST SESSION (2026-10-31T03:00:11Z)
+## LAST SESSION (2026-10-31T03:02:43Z)
 - **Handoff re-timestamped as single durable source of truth (requested).** Priorities strictly inferred from repo name (crypto options + orderflow): A) CRYPTO OPTIONS PRICING/GREEKS/IV highest; B) orderflow/correlation/tail/portfolio/walkforward/routing; C) risk/circuit-breakers/serialization with strict `allow_nan=False`; D) safe performance only if provably byte-identical/passing.
 - **Gate verified GREEN:** `python3 -m pytest -q` → 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Phase A adversarial targets → 100 passed. Working tree clean (`git status --short` empty).
 - **Bottlenecks identified/removed:** Idle exploration blocked by directive; edit calls require absolute path + exact oldString with context (use Write for full rewrites) — eliminates the repeated `kilo_edit_tool_invalid_arguments` / `kilo_invalid_argument_turn_abort` turn-aborts recorded in research_state/workflow_run_diagnostics.jsonl; no TODOs/FIXMEs/HACKs/XXX placeholders; pytest not installed in base image — use a venv or CI venv for gate verification.
