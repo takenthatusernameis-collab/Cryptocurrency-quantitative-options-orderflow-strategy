@@ -1959,10 +1959,18 @@ class PortfolioWalkForwardBacktest:
             for i in range(w_start + 1, end):
                 if i < 1:
                     continue
-                p0 = prices[i - 1]
-                p1 = prices[i]
+                try:
+                    p0 = prices[i - 1]
+                    p1 = prices[i]
+                except Exception:
+                    continue
                 if isfinite(p0) and p0 != 0 and isfinite(p1):
-                    window_returns[s].append((p1 / p0) - 1.0)
+                    try:
+                        ret = (p1 / p0) - 1.0
+                        if isfinite(ret):
+                            window_returns[s].append(ret)
+                    except Exception:
+                        continue
         # If different lengths, align to min
         min_len = min((len(v) for v in window_returns.values()), default=0)
         if min_len < 5:
@@ -1985,17 +1993,25 @@ class PortfolioWalkForwardBacktest:
                 try:
                     # Project to PSD (nearest PSD via eigenvalue clipping) for numerical stability
                     w_e, V_e = _np.linalg.eigh(C_arr)  # type: ignore
+                    # Ensure eigenvalues are finite
+                    w_e = _np.where(_np.isfinite(w_e), w_e, 1e-12)  # type: ignore
                     w_clipped = _np.maximum(w_e, 1e-12)  # type: ignore
                     C_psd = V_e @ _np.diag(w_clipped) @ V_e.T  # type: ignore
                     # Ensure symmetry
                     C_psd = 0.5 * (C_psd + C_psd.T)  # type: ignore
+                    # Replace any non-finite
+                    C_psd = _np.where(_np.isfinite(C_psd), C_psd, 0.0)  # type: ignore
                     d_arr = _np.sqrt(_np.diag(C_psd))  # type: ignore
-                    d_arr = _np.where(d_arr < 1e-18, 1e-18, d_arr)  # type: ignore
+                    d_arr = _np.where((_np.isfinite(d_arr)) & (d_arr >= 1e-18), d_arr, 1.0)  # type: ignore
                     C_psd = C_psd / (d_arr[:, None] * d_arr[None, :])  # type: ignore
+                    C_psd = _np.where(_np.isfinite(C_psd), C_psd, 0.0)  # type: ignore
                     C_out_list: List[List[float]] = [[0.0] * n_syms for _ in range(n_syms)]
                     for _i in range(n_syms):
                         for _j in range(n_syms):
-                            val_c = float(C_psd[_i, _j])  # type: ignore[index]
+                            try:
+                                val_c = float(C_psd[_i, _j])  # type: ignore[index]
+                            except Exception:
+                                val_c = float('nan')
                             if not isfinite(val_c):
                                 val_c = 1.0 if _i == _j else 0.0
                             # clip
@@ -2008,7 +2024,10 @@ class PortfolioWalkForwardBacktest:
                                 val_c = 1.0
                             C_out_list[_i][_j] = val_c
                 except Exception:
-                    C_out_list = [[float(C_arr[_i, _j]) for _j in range(n_syms)] for _i in range(n_syms)]  # type: ignore[index]
+                    try:
+                        C_out_list = [[float(C_arr[_i, _j]) for _j in range(n_syms)] for _i in range(n_syms)]  # type: ignore[index]
+                    except Exception:
+                        C_out_list = [[1.0 if i == j else 0.0 for j in range(n_syms)] for i in range(n_syms)]
                 for i in range(n_syms):
                     C_out_list[i][i] = 1.0
                     for j in range(n_syms):
@@ -2343,6 +2362,8 @@ class PortfolioWalkForwardBacktest:
                                     qty = qty * 0.5  # conservative scaling to prevent over-concentration
                                     if qty < 1e-18:
                                         qty = 0.0
+                            if not isfinite(qty):
+                                qty = 0.0
                             if qty > 0 and isfinite(qty):
                                 engine.execute_trade(sym, qty, price, "buy", ts)
                         except Exception:
@@ -2358,6 +2379,8 @@ class PortfolioWalkForwardBacktest:
                                     qty = qty * 0.5
                                     if qty < 1e-18:
                                         qty = 0.0
+                                if not isfinite(qty):
+                                    qty = 0.0
                                 if qty > 0 and isfinite(qty):
                                     engine.execute_trade(sym, qty, price, "sell", ts)
                         except Exception:

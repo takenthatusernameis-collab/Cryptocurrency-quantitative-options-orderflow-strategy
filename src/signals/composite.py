@@ -442,7 +442,16 @@ class CompositeSignalGenerator:
 
         composite = 0.0
         for k in sorted(weights.keys()):
-            composite += weights[k] * components.get(k, 0.0)
+            try:
+                w_k = float(weights[k])
+                c_k = float(components.get(k, 0.0))
+                if not isfinite(w_k):
+                    w_k = 0.0
+                if not isfinite(c_k):
+                    c_k = 0.0
+                composite += w_k * c_k
+            except Exception:
+                continue
         composite = _clamp(composite, -1.0, 1.0)
 
         comp_values = list(components.values())

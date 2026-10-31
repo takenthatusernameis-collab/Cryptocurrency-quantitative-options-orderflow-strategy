@@ -369,9 +369,37 @@ class SmartOrderRouter:
         total_alloc = sum(allocations.values())
         if total_alloc > 0 and abs(total_alloc - qty) > 1e-10:
             # Scale to match
-            scale = qty / total_alloc
-            for v in allocations:
-                allocations[v] *= scale
+            if not isfinite(total_alloc) or total_alloc <= 0:
+                # Fallback to single best venue
+                try:
+                    best_venue = self.get_best_venue(order)
+                    allocations = {best_venue: qty}
+                except Exception:
+                    allocations = {list(self.venue_configs.keys())[0]: qty} if self.venue_configs else {}
+            else:
+                scale = qty / total_alloc
+                if not isfinite(scale):
+                    scale = 1.0
+                new_alloc = {}
+                for v, a in allocations.items():
+                    na = a * scale
+                    if isfinite(na) and na > 1e-18:
+                        new_alloc[v] = na
+                allocations = new_alloc if new_alloc else allocations
+
+        # Ensure all allocations are finite and positive
+        clean_alloc = {}
+        for v, a in allocations.items():
+            fa = float(a)
+            if isfinite(fa) and fa > 0:
+                clean_alloc[v] = fa
+        allocations = clean_alloc
+        if not allocations:
+            try:
+                best_venue = self.get_best_venue(order)
+                allocations = {best_venue: qty}
+            except Exception:
+                raise OrderError("Unable to compute finite venue allocations")
 
         # Calculate estimated costs
         total_cost_bps = 0.0
