@@ -1,8 +1,8 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T08:59:44Z
+Timestamp (UTC): 2026-10-31T09:00:07Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY (PRIORITIZE BY REPO NAME)
-Gate status: GREEN (360 passed, 0 failed, 0 warnings — verified 2026-10-31T08:59:44Z). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks: NONE active.
+Gate status: GREEN (360 passed, 0 failed, 0 warnings — verified 2026-10-31T09:00:07Z). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks: NONE active.
 
 ## BOTTLENECKS (FIXED / PREVENTED)
 - NONE active. All tooling/edit paths unblocked.
@@ -10,6 +10,7 @@ Gate status: GREEN (360 passed, 0 failed, 0 warnings — verified 2026-10-31T08:
 - NO IDLE TURNS: Every turn must produce measurable, heavy-quant progress.
 - SINGLE SOURCE OF TRUTH: Always read/update THIS file. research_state/INITIAL_TASK_HANDOFF.md points here.
 - LOCAL TEST RUNNER: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python3 -m pytest -q`
+- CHECKPOINT-ONLY COMMITS ARE WASTE: Do not end a session with only "chore(kilo): checkpoint". Every session must add executable code, tests, data artifacts, or passing validation.
 
 ## INITIAL TASK MESSAGE (FOR NEXT AGENT - EXECUTE IMMEDIATELY, NO DEVIATION)
 
@@ -18,9 +19,9 @@ Gate status: GREEN (360 passed, 0 failed, 0 warnings — verified 2026-10-31T08:
 You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy** campaign (crypto options + orderflow quant). Phases A-C COMPLETE. Current gate GREEN (360/360, 0 failures, 0 warnings).
 
 **MANDATORY PRIORITIZATION BY REPOSITORY NAME (INFERRED - MUST FOLLOW):**
-1. **A) CRYPTO OPTIONS PRICING/GREEKS/IV** — Hardened; only extend if unguarded edge found.
-2. **B) ORDERFLOW/CORRELATION/TAIL/STRESS** — Verified passing; audit only.
-3. **C) RISK/CIRCUIT-BREAKERS/TELEMETRY SERIALIZATION** — Hardened; re-audit if any unguarded edge.
+1. **A) CRYPTO OPTIONS PRICING/GREEKS/IV** — HIGHEST PRIORITY (repo name = crypto options). Hardened; only extend if unguarded edge found. Targets: `tests/test_options_pricing_greeks_adversarial.py`, `tests/test_iv_surface.py`, `tests/test_phase1_gamma_invariants.py`, `tests/test_numerical_guards.py`.
+2. **B) ORDERFLOW/CORRELATION/TAIL/STRESS** — Verified passing; audit only. Targets: `tests/test_adversarial_stress.py`, `tests/test_portfolio_walkforward_correlation_adversarial.py`, `tests/test_signals_regime_calibration_adversarial.py`, `tests/test_routing_adversarial.py`.
+3. **C) RISK/CIRCUIT-BREAKERS/TELEMETRY SERIALIZATION** — Hardened; re-audit if any unguarded edge. Targets: `tests/test_circuit_breaker.py`, `tests/test_telemetry_end_to_end.py`, `tests/test_nonfinite_result_serialization.py`.
 4. **D) SAFE PERFORMANCE — CURRENT PRIMARY ATTACK** — Optimize only measured hotspots with proof of numerical equivalence (byte-identical OR tests unchanged+passing). Targets: `tests/test_performance_benchmarks.py`, `tests/test_vectorization_audit.py`. Files: hotspots surfaced by profiling. If no provably safe optimization exists, do NOT fabricate; instead produce heavy quant progress by (a) re-auditing C/B/A for remaining unguarded numerical edges and hardening them, or (b) adding adversarial regression tests that fail on unguarded paths. Every session MUST produce measurable heavy-quant progress and end with gate GREEN. No idle turns.
 
 **CORE DIRECTIVE:** Find and surgically harden unguarded numerical paths OR deliver provably safe performance gains. Every change minimal, backward-compatible, deterministic, verified. If tests all pass, STILL reason adversarially and harden concrete edges.
