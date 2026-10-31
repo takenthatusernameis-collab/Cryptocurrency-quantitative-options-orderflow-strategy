@@ -108,3 +108,15 @@ orderflow_imbalance vs forward return: -0.4583478199902648
 - Artifacts emitted (strict serialize allow_nan=False): `INTEGRATED_CAMPAIGN_{TS}.json`, `INTEGRATED_CAMPAIGN_SUMMARY_{TS}.json`, `INTEGRATED_CAMPAIGN_REGIMES_{TS}.json`, plus per-step artifacts.
 - Tests: `tests/test_integrated_campaign.py` (29 tests) all passing; full suite remains green.
 - Integrated metrics (seed 42): portfolio windows=10, options hedging symbols=3, total PnL aggregated across symbols; strict serialization/determinism/resume/atomicity verified.
+
+
+## Phase 7: Production Execution, Real-Time Risk & Orderflow Microstructure Hardening (Crypto Options + Orderflow) (2026-10-31T23:32:33Z)
+- Orchestrator/CLI: `src/risk/execution_integration.py` wires `RiskManager`/`CircuitBreaker`/`KillSwitch` into execution with pre/post-trade checks, kill-switch propagation, block/hold/flatten, full audit trail; `scripts/run_production_campaign.py` with run/resume/status/abort using campaign core (atomic checkpoints).
+- Execution: `src/execution/engine.py` production-grade simulator/routing (fees/slippage/latency/partial fills/queue/rejects/idempotent IDs), deterministic seeded behavior.
+- Orderflow microstructure hardening: `src/features/orderflow_microstructure.py` (signed volume, footprint imbalance, gamma walls, liquidity sweeps, OFI, aggressor) with NaN/Inf guards, regime-aware normalization, lookahead-free crypto-realistic distributions + adversarial coverage.
+- Latency-aware hedging: `src/backtest/options_hedging.py` extended with latency-delayed rebalances, stale greeks detection, partial-hedge on latency, hedge slippage/fees, execution-cost attribution, deterministic.
+- Telemetry/monitoring: `src/telemetry/monitor.py` real-time-style metrics (PnL/drawdown/greeks/gamma exposure/VaR-ES/heat/limits utilization), alerts, structured logging, artifact emission.
+- Tests: `tests/test_production_execution_risk.py` (429 lines), `tests/test_orderflow_microstructure.py` (301 lines) — all passing.
+- Artifacts (strict `allow_nan=False`): `research_state/PRODUCTION_CAMPAIGN_20261031T224626Z.json`, `PRODUCTION_CAMPAIGN_20261031T224651Z.json`, `PRODUCTION_CAMPAIGN_20261031T224703Z.json`, `RISK_AUDIT_20261031T224626Z.json`, `RISK_AUDIT_20261031T224651Z.json`, `RISK_AUDIT_20261031T224703Z.json`, `MICROSTRUCTURE_ADVERSARIAL_20261031T224626Z.json`, `MICROSTRUCTURE_ADVERSARIAL_20261031T224651Z.json`, `MICROSTRUCTURE_ADVERSARIAL_20261031T224703Z.json`.
+- Determinism/resume/serialization verified; full pipeline exercises execution+risk+microstructure+latency hedging with strict serialization.
+- Gate: `python -m pytest tests/ -q` = 500 passed, 2 skipped, 0 failed.
