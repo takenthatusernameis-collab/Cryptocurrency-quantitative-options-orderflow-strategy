@@ -67,3 +67,10 @@ orderflow_imbalance vs forward return: -0.4583478199902648
 - Extended `tests/test_options_hedging.py` with risk-integrated loop tests: attribution reconciliation, transaction costs reduce PnL, rebalance threshold vs every-step behavior, determinism (byte-identical), strict serialization `allow_nan=False`, RiskManager/CircuitBreaker blocking paths.
 - Artifact: research_state/HEDGING_ROBUSTNESS_20261031T164724Z.json (4 modes: 0bps every-step vs 50bps every-step vs 10bps band vs put case; per-step decomposition totals, rebalances/blocks/holds, reconciliation verified).
 - Gate: `python -m pytest tests/ -q` = 380 passed, 0 failed.
+
+## Phase 5: Portfolio Scaling
+- **Status**: COMPLETE (2026-10-31T16:52:22Z)
+- **Module/impl**: Extended `src/backtest/engine.py` `PortfolioWalkForwardBacktest` with `allocation_mode` (`equal_weight|risk_parity|vol_target`), `vol_target`, `turnover_cap`, risk-parity/inverse-vol allocation computed on in-sample/train data only (purge-aware), correlation-aware PSD projection retained, turnover = 0.5*sum|Δw| with blending enforcement when cap breached (cash buffer allowed for vol-target), weights stored per window and applied OOS.
+- **Tests**: `tests/test_portfolio_scaling.py` (14 tests) - weight sums, vol-target cash buffer (sum<=1), turnover cap enforcement (breach scaled to cap), no-lookahead verified, allocation stability across regimes, strict serialization `allow_nan=False`, determinism. All passing.
+- **Artifacts**: `research_state/PORTFOLIO_SCALING_20261031T165222Z.json` (modes: risk_parity no cap, risk_parity with turnover_cap 0.02, vol_target 0.05).
+- **Result**: Risk-aware allocation integrated with existing correlation constraint + purge/embargo; deterministic, finite-guarded, serialized strictly. Baseline remains green.
