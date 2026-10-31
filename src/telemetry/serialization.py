@@ -24,20 +24,50 @@ _NumpyFloatLike = Any  # numpy scalars duck-typed via float()/isnan
 def _is_nonfinite(value: Any) -> bool:
     """Return True if ``value`` is a non-finite float (NaN or Inf)."""
     try:
-        # Check for numpy scalars
+        # Check for numpy arrays/scalars
+        try:
+            import numpy as _np  # type: ignore
+
+            if isinstance(value, _np.ndarray):
+                if value.size == 0:
+                    return False
+                # Check all elements
+                try:
+                    if _np.isnan(value).any() or _np.isinf(value).any():
+                        return True
+                except Exception:
+                    pass
+                # Try to convert elementwise
+                try:
+                    flat = value.ravel()
+                    for v in flat:
+                        try:
+                            if not math.isfinite(float(v)):
+                                return True
+                        except Exception:
+                            pass
+                    return False
+                except Exception:
+                    return False
+        except Exception:
+            pass
         if hasattr(value, 'dtype') and hasattr(value, 'item'):
             try:
-                f = float(value.item())
+                # For scalar
+                f = float(value)
             except Exception:
                 try:
-                    f = float(value)
+                    f = float(value.item())
                 except Exception:
                     return False
         else:
             f = float(value)
     except (TypeError, ValueError):
         return False
-    return not math.isfinite(f)
+    try:
+        return not math.isfinite(f)
+    except Exception:
+        return False
 
 
 def _sanitize_value(value: Any) -> Any:
@@ -47,6 +77,60 @@ def _sanitize_value(value: Any) -> Any:
     are returned unchanged. This is the non-strict path used when callers prefer
     a best-effort payload over an exception.
     """
+    # Handle numpy arrays
+    try:
+        import numpy as _np  # type: ignore
+
+        if isinstance(value, _np.ndarray):
+            try:
+                if value.size == 0:
+                    return []
+                # If contains non-finite, sanitize to list with None
+                try:
+                    arr = value.astype(float)
+                    if _np.isnan(arr).any() or _np.isinf(arr).any():
+                        res = []
+                        for v in arr.ravel():
+                            if _np.isnan(v) or _np.isinf(v):
+                                res.append(None)
+                            else:
+                                # keep as python float
+                                try:
+                                    res.append(float(v))
+                                except Exception:
+                                    res.append(None)
+                        # try to reshape back? keep as list
+                        return res
+                    # all finite
+                    res = []
+                    for v in arr.ravel():
+                        res.append(float(v))
+                    if arr.ndim == 1 and len(res) == value.size:
+                        # return list of floats
+                        return res
+                    return res
+                except Exception:
+                    pass
+                # fallback
+                res = []
+                try:
+                    for v in value.ravel():
+                        try:
+                            fv = float(v)
+                            if not math.isfinite(fv):
+                                res.append(None)
+                            else:
+                                res.append(fv)
+                        except Exception:
+                            res.append(str(v))
+                except Exception:
+                    return str(value)
+                return res
+            except Exception:
+                return value
+    except Exception:
+        pass
+
     if isinstance(value, Mapping):
         return {k: _sanitize_value(v) for k, v in value.items()}
     if isinstance(value, (list, tuple)):
@@ -69,11 +153,21 @@ def _sanitize_value(value: Any) -> Any:
             try:
                 f = float(value)
             except Exception:
-                return value
+                # try item
+                try:
+                    if hasattr(value, 'item'):
+                        f = float(value.item())
+                    else:
+                        return value
+                except Exception:
+                    return value
             # Avoid treating ints as floats
             if isinstance(value, (int, bool)) or value is None:
                 return value
-            if not math.isfinite(f):
+            try:
+                if not math.isfinite(f):
+                    return None
+            except Exception:
                 return None
             # Keep as python float for JSON serialization cleanliness
             return f
@@ -83,8 +177,11 @@ def _sanitize_value(value: Any) -> Any:
     # Only treat as numeric if the original was not a bool/str/etc.
     if isinstance(value, (str, bytes, bool)) or value is None:
         return value
-    if not math.isfinite(f):
-        return None
+    try:
+        if not math.isfinite(f):
+            return None
+    except Exception:
+        return value
     return f
 
 
@@ -102,6 +199,22 @@ def _collect_nonfinite_paths(
 ) -> List[str]:
     """Walk ``value`` and return JSON-pointer-like paths to non-finite floats."""
     bad: List[str] = []
+    # Handle numpy arrays
+    try:
+        import numpy as _np  # type: ignore
+
+        if isinstance(value, _np.ndarray):
+            try:
+                if value.size == 0:
+                    return bad
+                arr = value.astype(float)
+                if _np.isnan(arr).any() or _np.isinf(arr).any():
+                    bad.append(path)
+                return bad
+            except Exception:
+                pass
+    except Exception:
+        pass
     if isinstance(value, Mapping):
         for k, v in value.items():
             bad.extend(_collect_nonfinite_paths(v, f"{path}/{k}"))
@@ -118,6 +231,20 @@ def _collect_nonfinite_paths(
         # Check for numpy/scalar floats
         if hasattr(value, 'dtype'):
             try:
+                # For 0-d arrays
+                try:
+                    import numpy as _np  # type: ignore
+
+                    if isinstance(value, _np.ndarray):
+                        try:
+                            arr = value.astype(float)
+                            if _np.isnan(arr).any() or _np.isinf(arr).any():
+                                bad.append(path)
+                            return bad
+                        except Exception:
+                            pass
+                except Exception:
+                    pass
                 f = float(value)
                 if not math.isfinite(f):
                     bad.append(path)
@@ -130,8 +257,11 @@ def _collect_nonfinite_paths(
             return bad
         if isinstance(value, (str, bytes, bool)) or value is None:
             return bad
-        if not math.isfinite(f):
-            bad.append(path)
+        try:
+            if not math.isfinite(f):
+                bad.append(path)
+        except Exception:
+            pass
     return bad
 
 
@@ -162,7 +292,35 @@ def serialize_metrics(metrics: Mapping[str, Any]) -> Dict[str, Any]:
         )
     # Deep-copy through JSON round-trip to normalize numpy types and ensure a plain dict.
     try:
-        return dict(json.loads(json.dumps(dict(metrics), default=str)))  # type: ignore[no-any-return]
+        # Sanitize first to handle numpy arrays safely
+        sanitized = _sanitize_value(dict(metrics))
+        bad_paths2 = _collect_nonfinite_paths(sanitized)
+        if bad_paths2:
+            raise SerializationError(
+                "Non-finite values detected in metrics; refusing to serialize with allow_nan=False",
+                context={
+                    "operation": "serialize_metrics",
+                    "nonfinite_paths": bad_paths2,
+                    "allow_nan": False,
+                },
+            )
+        # Ensure no NaN/Inf in sanitized structure
+        s = json.dumps(sanitized, default=str, allow_nan=False)
+        res = dict(json.loads(s))
+        # Final check
+        bad_paths3 = _collect_nonfinite_paths(res)
+        if bad_paths3:
+            raise SerializationError(
+                "Non-finite values detected in metrics; refusing to serialize with allow_nan=False",
+                context={
+                    "operation": "serialize_metrics",
+                    "nonfinite_paths": bad_paths3,
+                    "allow_nan": False,
+                },
+            )
+        return res  # type: ignore[no-any-return]
+    except SerializationError:
+        raise
     except (TypeError, ValueError) as e:
         raise SerializationError(
             "Failed to JSON-round-trip metrics",
