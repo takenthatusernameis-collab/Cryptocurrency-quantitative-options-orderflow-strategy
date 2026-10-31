@@ -24,3 +24,11 @@ orderflow_imbalance vs forward return: -0.4583478199902648
   "equity_final": 100852.81156006506
 }
 ```
+
+
+## Phase 4 - Walk-forward/OOS & Portfolio/Options Hedging (2026-10-31T12:06:26Z)
+- Walk-forward (rolling, purge=10/embargo=5): research_state/WALKFORWARD_rolling_20261031T120626Z.json (10 windows, OOS Sharpe ~0.047 overall, mean OOS Sharpe ~0.627)
+- Walk-forward (anchored): research_state/WALKFORWARD_anchored_20261031T120626Z.json
+- Portfolio walk-forward (BTC/ETH): research_state/PORTFOLIO_WALKFORWARD_20261031T120626Z.json
+- Options hedging demo/integration artifacts: research_state/OPTIONS_HEDGING_DEMO_20261031T120626Z.json, research_state/OPTIONS_HEDGING_INTEGRATED_20261031T120626Z.json
+- All tests green: 364 passed
