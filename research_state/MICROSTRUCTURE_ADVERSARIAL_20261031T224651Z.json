@@ -1,0 +1,42 @@
+{
+  "campaign_id": "prod_phase7",
+  "seed": 42,
+  "timestamp": "2026-10-31T22:46:51.597360Z",
+  "symbol": "BTCUSDT",
+  "regime": "high_vol_chop",
+  "microstructure": {
+    "symbol": "BTCUSDT",
+    "timestamp": "2026-10-31T22:46:51.531553+00:00",
+    "signed_volume": 42.17672538668742,
+    "footprint_imbalance": 0.0646756465377468,
+    "gamma_wall_proximity": 0.0,
+    "liquidity_sweep_score": 0.08533333333333333,
+    "oft_score": 0.1100995034790059,
+    "trade_aggressor_score": 0.0646756465377468,
+    "vpin_toxicity": 0.1100995034790059,
+    "absorption_ratio": 0.11,
+    "regime": "high_vol_chop",
+    "regime_normalized": true,
+    "lookahead_free": true,
+    "metadata": {
+      "trade_count": 2000,
+      "liquidation_count": 50,
+      "window": 500,
+      "spot": 105000.0,
+      "volatility": 0.65
+    }
+  },
+  "adversarial_checks": {
+    "signed_volume_finite": true,
+    "footprint_imbalance_bounded": true,
+    "gamma_wall_proximity_bounded": true,
+    "liquidity_sweep_bounded": true,
+    "oft_bounded": true,
+    "trade_aggressor_bounded": true,
+    "absorption_bounded": true,
+    "lookahead_free": true,
+    "strict_serialization": true
+  },
+  "trade_count": 2000,
+  "liquidation_count": 50
+}

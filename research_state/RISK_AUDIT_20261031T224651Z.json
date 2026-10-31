@@ -1,0 +1,221 @@
+{
+  "campaign_id": "prod_phase7",
+  "seed": 42,
+  "timestamp": "2026-10-31T22:46:51.594565Z",
+  "integrator_state": "armed",
+  "flatten_queued": false,
+  "audit_trail": [
+    {
+      "audit_id": "eri_42_audit_318289f98a6a",
+      "event_type": "pre_trade",
+      "symbol": "BTCUSDT",
+      "side": "buy",
+      "quantity": 0.1,
+      "price": 105000.0,
+      "action": "hold",
+      "approved": false,
+      "risk_state": "armed",
+      "violations": [
+        {
+          "violation_id": "viol_000001",
+          "violation_type": "stale_greeks",
+          "severity": "medium",
+          "symbol": "BTCUSDT",
+          "message": "Greeks stale - order held until refreshed",
+          "current_value": 300.0,
+          "limit_value": 300.0,
+          "timestamp": "2026-10-31T22:46:51.545566+00:00",
+          "action_taken": "ORDER_HELD"
+        }
+      ],
+      "portfolio_greeks": {
+        "delta": 0.0,
+        "gamma": 0.0,
+        "vega": 0.0,
+        "theta": 0.0
+      },
+      "latency_ms": 50.0,
+      "timestamp": "2026-10-31T22:46:51.545701+00:00"
+    }
+  ],
+  "risk_report": {
+    "integrator_state": "armed",
+    "flatten_queued": false,
+    "seed": 42,
+    "daily_pnl": -3270.7286093648363,
+    "daily_turnover": 0.0,
+    "current_equity": 96729.27139063517,
+    "peak_equity": 96729.27139063517,
+    "portfolio_greeks": {
+      "delta": 64.6756465377468,
+      "gamma": 32.3378232688734,
+      "vega": 220.1990069580118,
+      "theta": -10.0
+    },
+    "stale_greeks": false,
+    "num_violations": 0,
+    "num_audits": 1,
+    "recent_audits": [
+      {
+        "audit_id": "eri_42_audit_318289f98a6a",
+        "event_type": "pre_trade",
+        "symbol": "BTCUSDT",
+        "side": "buy",
+        "quantity": 0.1,
+        "price": 105000.0,
+        "action": "hold",
+        "approved": false,
+        "risk_state": "armed",
+        "violations": [
+          {
+            "violation_id": "viol_000001",
+            "violation_type": "stale_greeks",
+            "severity": "medium",
+            "symbol": "BTCUSDT",
+            "message": "Greeks stale - order held until refreshed",
+            "current_value": 300.0,
+            "limit_value": 300.0,
+            "timestamp": "2026-10-31T22:46:51.545566+00:00",
+            "action_taken": "ORDER_HELD"
+          }
+        ],
+        "portfolio_greeks": {
+          "delta": 0.0,
+          "gamma": 0.0,
+          "vega": 0.0,
+          "theta": 0.0
+        },
+        "latency_ms": 50.0,
+        "timestamp": "2026-10-31T22:46:51.545701+00:00"
+      }
+    ],
+    "risk_manager": {
+      "kill_switch_state": "armed",
+      "limits": {
+        "max_delta": 100000.0,
+        "max_gamma": 10000.0,
+        "max_vega": 50000.0,
+        "max_theta": 10000.0,
+        "max_notional_per_symbol": 1000000.0,
+        "max_position_qty_per_symbol": 1000.0,
+        "max_portfolio_delta": 500000.0,
+        "max_portfolio_gamma": 50000.0,
+        "max_portfolio_vega": 200000.0,
+        "max_portfolio_notional": 5000000.0,
+        "max_leverage": 3.0,
+        "max_daily_loss": 50000.0,
+        "max_drawdown_pct": 0.15,
+        "max_drawdown_absolute": 150000.0,
+        "max_turnover_daily": 10000000.0,
+        "max_turnover_pct": 2.0,
+        "max_single_symbol_pct": 0.25,
+        "max_correlation_exposure": 0.7
+      },
+      "daily_pnl": -3270.7286093648363,
+      "daily_turnover": 0.0,
+      "current_equity": 96729.27139063517,
+      "peak_equity": 96729.27139063517,
+      "drawdown_pct": 0.0,
+      "num_violations": 1,
+      "recent_violations": [
+        {
+          "violation_id": "viol_000001",
+          "violation_type": "stale_greeks",
+          "severity": "medium",
+          "symbol": "BTCUSDT",
+          "message": "Greeks stale - order held until refreshed",
+          "current_value": 300.0,
+          "limit_value": 300.0,
+          "timestamp": "2026-10-31T22:46:51.545566+00:00",
+          "action_taken": "ORDER_HELD"
+        }
+      ]
+    },
+    "circuit_breaker": {
+      "state": "closed",
+      "failure_count": 0,
+      "success_count": 0,
+      "last_failure_time": null,
+      "half_open_calls": 0,
+      "config": {
+        "failure_threshold": 5,
+        "timeout_seconds": 300,
+        "half_open_max_calls": 3,
+        "error_rate_threshold": 0.5
+      }
+    }
+  },
+  "pre_trade_check": {
+    "action": "hold",
+    "approved": false,
+    "violations": [
+      {
+        "violation_id": "viol_000001",
+        "violation_type": "stale_greeks",
+        "severity": "medium",
+        "symbol": "BTCUSDT",
+        "message": "Greeks stale - order held until refreshed",
+        "current_value": 300.0,
+        "limit_value": 300.0,
+        "timestamp": "2026-10-31T22:46:51.545566+00:00",
+        "action_taken": "ORDER_HELD"
+      }
+    ],
+    "adjusted_quantity": null,
+    "adjusted_price": null,
+    "reason": "stale_greeks",
+    "audit_id": "eri_42_audit_318289f98a6a",
+    "timestamp": "2026-10-31T22:46:51.545708+00:00",
+    "metadata": {
+      "stale_greeks": true,
+      "latency_ms": 50.0
+    }
+  },
+  "post_trade_check": {
+    "audit_id": "eri_42_audit_318289f98a6a",
+    "event_type": "pre_trade",
+    "symbol": "BTCUSDT",
+    "side": "buy",
+    "quantity": 0.1,
+    "price": 105000.0,
+    "action": "hold",
+    "approved": false,
+    "risk_state": "armed",
+    "violations": [
+      {
+        "violation_id": "viol_000001",
+        "violation_type": "stale_greeks",
+        "severity": "medium",
+        "symbol": "BTCUSDT",
+        "message": "Greeks stale - order held until refreshed",
+        "current_value": 300.0,
+        "limit_value": 300.0,
+        "timestamp": "2026-10-31T22:46:51.545566+00:00",
+        "action_taken": "ORDER_HELD"
+      }
+    ],
+    "portfolio_greeks": {
+      "delta": 0.0,
+      "gamma": 0.0,
+      "vega": 0.0,
+      "theta": 0.0
+    },
+    "latency_ms": 50.0,
+    "timestamp": "2026-10-31T22:46:51.545701+00:00"
+  },
+  "kill_switch_state": "armed",
+  "circuit_breaker": {
+    "state": "closed",
+    "failure_count": 0,
+    "success_count": 0,
+    "last_failure_time": null,
+    "half_open_calls": 0,
+    "config": {
+      "failure_threshold": 5,
+      "timeout_seconds": 300,
+      "half_open_max_calls": 3,
+      "error_rate_threshold": 0.5
+    }
+  },
+  "num_violations": 0
+}
