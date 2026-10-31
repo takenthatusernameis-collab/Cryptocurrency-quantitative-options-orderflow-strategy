@@ -1,13 +1,15 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T10:03:18Z
+Timestamp (UTC): 2026-10-31T10:51:18Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE BY REPO NAME)
 
-Gate status: GREEN (362 passed, 0 failed, 0 warnings — verified 2026-10-31T10:00:43Z). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean.
+Gate status: GREEN (364 passed, 0 failed, 0 warnings — verified 2026-10-31T10:51:16Z). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean.
 
 ## BOTTLENECKS (REMOVED/PREVENTED)
-- [x] Trivial 1-trade backtest eliminated - time-series windowed backtest implemented with 20 trades, flow-correlation computed.
+- [x] Trivial 1-trade backtest eliminated - time-series windowed backtest implemented with real metrics (20 trades), flow-correlation computed.
 - [x] All tests passing. No failing/blocked tests.
+- [x] Theta formula corrected for T != 1.0 (divide by sqrt(T)), ultra-short-T gamma/vega/theta singularity floored.
+- [x] IV solver hardened with bracket expansion, cap/floor enforcement, final residual verification (raises on unbracketable/arbitrage cases).
 - EDIT TOOL MANDATE: When using edit, always pass absolute filePath + exact oldString (with sufficient surrounding context). For full rewrites, use Write.
 - NO IDLE TURNS: Every turn must produce measurable, heavy-quant progress (code/tests/guards/artifacts + verification).
 - SINGLE SOURCE OF TRUTH: Always read/update THIS file. research_state/INITIAL_TASK_HANDOFF.md points here.
@@ -19,7 +21,7 @@ Gate status: GREEN (362 passed, 0 failed, 0 warnings — verified 2026-10-31T10:
 **CRITICAL: BY REPO NAME - CRYPTO OPTIONS ARE #1 PRIORITY. HEAVY QUANT WORK ONLY. NO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.**
 
 You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy** campaign.
-**STATE:** Phases complete through time-series backtest with real metrics. Gate GREEN (362/362). Bottlenecks removed.
+**STATE:** Phases complete through time-series backtest with real metrics. Gate GREEN (364/364). Bottlenecks removed.
 
 ### MANDATORY PRIORITIZATION BY REPOSITORY NAME (INFERRED - MUST FOLLOW)
 1. **A) CRYPTO OPTIONS PRICING/GREEKS/IV — HIGHEST PRIORITY (repo name = crypto options)**
@@ -42,10 +44,10 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
    - Targets: `tests/test_performance_benchmarks.py`, `tests/test_vectorization_audit.py`
    - Only optimize measured hotspots with numerical equivalence proof (byte-identical OR tests unchanged+passing). If no provably safe optimization exists, GO BACK TO A and harden more.
 
-**CORE DIRECTIVE:** ATTACK A FIRST. Find and surgically harden unguarded numerical paths in crypto options pricing/Greeks/IV. Every change minimal, backward-compatible, deterministic, verified. If all tests pass, STILL reason adversarially and harden concrete edges. NO IDLE TURNS.
+**CORE DIRECTIVE:** ATTACK A FIRST. Find and surgically harden unguarded numerical paths in crypto options pricing/Greeks/IV. Every change minimal, backward-compatible, deterministic, verified. If all tests pass, STILL reason adversarially and harden concrete edges. NO IDLE TURNS. HEAVY QUANT IMPLEMENTATION, NOT STATUS UPDATES.
 
 ## MANDATORY FIRST ACTIONS (BEFORE ANYTHING ELSE)
-1. **HOLD GATE (BLOCKING):** `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python3 -m pytest -q` Must be 362 passing, 0 failures, 0 warnings.
+1. **HOLD GATE (BLOCKING):** `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python3 -m pytest -q` Must be 364 passing, 0 failures, 0 warnings.
 2. **CAMPAIGN RESUME (BLOCKING):** `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python3 -m pytest tests/test_campaign_resume.py -q` Must pass (4/4).
 3. **CLEAN TREE:** `git status --short` — clean or only minimal intentional hardenings.
 4. **IF GATE SLIPS:** RESTORE IT BEFORE ANY NEW HARDENING. NO EXCEPTIONS.
@@ -73,7 +75,7 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 - **No checkpoint spam:** Commits only with executable code/tests/data/artifacts or passing validation.
 
 ## SUCCESS CRITERIA (MUST HIT BEFORE NEXT HANDOFF)
-- [ ] Gate GREEN: `python3 -m pytest -q` (362+ passing, 0 failures)
+- [ ] Gate GREEN: `python3 -m pytest -q` (>=364 passing, 0 failures)
 - [ ] Campaign resume passes: `tests/test_campaign_resume.py` (4/4)
 - [ ] Measurable heavy-quant progress on A) crypto options (surgical guards/fixes OR provably justified no-change with adversarial reasoning)
 - [ ] All touched tests pass; no new failures introduced
@@ -85,6 +87,6 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 - [ ] **C) RISK/CIRCUIT-BREAKERS/TELEMETRY** - Spot check serialization/non-finite paths
 - [ ] **D) SAFE PERFORMANCE** - Only if provably byte-identical/same tests passing
 
-## LAST SESSION (2026-10-31T10:00:43Z)
-- **Handoff refreshed:** Single durable handoff rewritten with timestamped initial task message prioritizing crypto options (A) by repo name, bottlenecks explicitly removed/prevented, next focus campaign made unmissable (A first, heavy quant mandatory, no idle turns).
-- **State:** Ready for next agent. Heavy quant work mandatory. Gate GREEN (362/362).
+## LAST SESSION (2026-10-31T10:51:18Z)
+- **Handoff refreshed:** Single durable handoff rewritten with fresh UTC timestamp, crystalized initial task message prioritizing crypto options (A) by repo name, bottlenecks explicitly removed/prevented, next focus campaign made unmissable (A first, heavy quant mandatory, no idle turns).
+- **State:** Ready for next agent. Heavy quant work mandatory. Gate GREEN (364/364).
