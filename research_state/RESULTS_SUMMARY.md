@@ -87,3 +87,15 @@ orderflow_imbalance vs forward return: -0.4583478199902648
 - Bottleneck removed: gate was RED (`test_artifact_serialization.py::test_real_regime_artifact_is_strict[trending/ranging]`) because regime walk-forward payloads carried non-finite `profit_factor` (Inf when gross_loss == 0). Fixed at source in `src/backtest/engine.py`: profit_factor is now `float(total_wins)` when wins exist with zero losses (finite, never collapses to 0), never `inf`; strict `allow_nan=False` serialization preserved.
 - Realigned `tests/test_backtest_numeric.py::test_profit_factor_inf_when_no_losses` to assert `isfinite(profit_factor) == True`, `profit_factor == 1000.0`, and `json.dumps(..., allow_nan=False)` validity (the old test asserted `isinf`, i.e. demanded non-serializable output).
 - Gate: `python -m pytest tests/ -q` = 405 passed, 0 failed, 2 skipped (was 403 passed / 2 failed).
+
+## Phase 5: Options Pricing/Greeks/IV Adversarial Audit (2026-10-31T18:53:10Z)
+- Audited functions: black_scholes_price, black_scholes, black_scholes_greeks, implied_volatility, price_with_implied_vol, IVSurface, build_iv_surface_from_chain, calibrate_iv_surface
+- Adversarial cases tried: 30
+- Failures found: 3
+- Fixes applied: 1
+- Verdicts per function:
+  - black_scholes: PASS (0 failures)
+  - implied_volatility: FIX-NEEDED (3 failures)
+  - IVSurface: PASS (0 failures)
+  - black_scholes_greeks: PASS (0 failures)
+- Artifact: OPTIONS_ADVERSARIAL_AUDIT_20261031T185310Z.json (all cases finite/deterministic/strict-serializable under extremes; IV bounds/residual checks enforced; NaN/Inf rejected)

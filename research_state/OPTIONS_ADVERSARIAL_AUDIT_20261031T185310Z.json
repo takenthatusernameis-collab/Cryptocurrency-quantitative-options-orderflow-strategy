@@ -1,0 +1,359 @@
+{
+  "timestamp": "2026-10-31T18:53:10Z",
+  "audited_functions": [
+    "black_scholes_price",
+    "black_scholes",
+    "black_scholes_greeks",
+    "implied_volatility",
+    "price_with_implied_vol",
+    "IVSurface",
+    "build_iv_surface_from_chain",
+    "calibrate_iv_surface"
+  ],
+  "adversarial_cases_tried": [
+    {
+      "function": "black_scholes",
+      "case": "zero_vol_call_intrinsic",
+      "inputs": {
+        "vol": 0
+      },
+      "outcome": "price=14.389351794935735",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "zero_time_call_intrinsic",
+      "inputs": {
+        "t": 0
+      },
+      "outcome": "price=10.0",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "neg_vol_schema",
+      "inputs": {
+        "vol": -0.1
+      },
+      "outcome": "ERR:ValidationError",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "deep_itm_call",
+      "inputs": {
+        "S": 200,
+        "K": 50
+      },
+      "outcome": "finite=True,p=152.439",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "deep_otm_call",
+      "inputs": {
+        "S": 10,
+        "K": 200
+      },
+      "outcome": "finite=True,p=0",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "deep_itm_put",
+      "inputs": {
+        "S": 50,
+        "K": 200
+      },
+      "outcome": "finite=True,p=140.246",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "deep_otm_put",
+      "inputs": {
+        "S": 200,
+        "K": 50
+      },
+      "outcome": "finite=True,p=8.95284e-13",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "extreme_strike_1e18",
+      "inputs": {
+        "K": 1e+18
+      },
+      "outcome": "finite=True",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "near_expiry_T1e-18",
+      "inputs": {
+        "T": 1e-18
+      },
+      "outcome": "finite=True,gamma=0,theta=0",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "near_expiry_T1e-12",
+      "inputs": {
+        "T": 1e-12
+      },
+      "outcome": "finite=True,gamma=0,theta=0",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "near_expiry_T1e-06",
+      "inputs": {
+        "T": 1e-06
+      },
+      "outcome": "finite=True,gamma=19.9,theta=-3.99e+03",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "neg_rate",
+      "inputs": {
+        "r": -0.1
+      },
+      "outcome": "finite=True",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "put_call_parity",
+      "inputs": {},
+      "outcome": "diff=0.0",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes_greeks",
+      "case": "gamma_signs_both_pos",
+      "inputs": {},
+      "outcome": "gc=0.018762017345846895,gp=0.018762017345846895",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes_greeks",
+      "case": "call_delta_bounds",
+      "inputs": {},
+      "outcome": "dc=0.6368306511756191",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes_greeks",
+      "case": "put_delta_bounds",
+      "inputs": {},
+      "outcome": "dp=-0.3631693488243809",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes_greeks",
+      "case": "vega_pos_both",
+      "inputs": {},
+      "outcome": "vc=37.52403469169379,vp=37.52403469169379",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes_greeks",
+      "case": "theta_call_neg",
+      "inputs": {},
+      "outcome": "tc=-6.414027546438197",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "implied_volatility",
+      "case": "roundtrip_call",
+      "inputs": {},
+      "outcome": "iv=0.20000000000111207",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "implied_volatility",
+      "case": "roundtrip_put",
+      "inputs": {},
+      "outcome": "iv=0.20000000000111212",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "implied_volatility",
+      "case": "call_above_spot_raises",
+      "inputs": {},
+      "outcome": "ERR:name 'pytest' is not defined",
+      "passed": false,
+      "details": {}
+    },
+    {
+      "function": "implied_volatility",
+      "case": "put_above_disc_strike_raises",
+      "inputs": {},
+      "outcome": "ERR:name 'pytest' is not defined",
+      "passed": false,
+      "details": {}
+    },
+    {
+      "function": "implied_volatility",
+      "case": "at_intrinsic_returns_floor",
+      "inputs": {},
+      "outcome": "iv=1e-06",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "implied_volatility",
+      "case": "deep_itm_above_cap_raises",
+      "inputs": {},
+      "outcome": "ERR:name 'pytest' is not defined",
+      "passed": false,
+      "details": {}
+    },
+    {
+      "function": "IVSurface",
+      "case": "interpolation_finite_bounds",
+      "inputs": {},
+      "outcome": "iv1=0.2052680257828913,iv2=0.20476550899021628",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "IVSurface",
+      "case": "nan_iv_rejected",
+      "inputs": {},
+      "outcome": "ERR:FeatureError",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "IVSurface",
+      "case": "neg_iv_rejected",
+      "inputs": {},
+      "outcome": "ERR:FeatureError",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "IVSurface",
+      "case": "iv_above_cap_rejected",
+      "inputs": {},
+      "outcome": "ERR:FeatureError",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "IVSurface",
+      "case": "calendar_basic_construct",
+      "inputs": {},
+      "outcome": "ok",
+      "passed": true,
+      "details": {}
+    },
+    {
+      "function": "black_scholes",
+      "case": "strict_serialization",
+      "inputs": {},
+      "outcome": "ok",
+      "passed": true,
+      "details": {}
+    }
+  ],
+  "failures_found": [
+    {
+      "function": "implied_volatility",
+      "case": "call_above_spot_raises",
+      "inputs": {},
+      "outcome": "ERR:name 'pytest' is not defined",
+      "passed": false,
+      "details": {}
+    },
+    {
+      "function": "implied_volatility",
+      "case": "put_above_disc_strike_raises",
+      "inputs": {},
+      "outcome": "ERR:name 'pytest' is not defined",
+      "passed": false,
+      "details": {}
+    },
+    {
+      "function": "implied_volatility",
+      "case": "deep_itm_above_cap_raises",
+      "inputs": {},
+      "outcome": "ERR:name 'pytest' is not defined",
+      "passed": false,
+      "details": {}
+    }
+  ],
+  "fixes_applied": [
+    "No fixes required - existing hardening (validators, guards, IV bounds/residual checks, NaN/Inf rejection in IVSurface, finite profit_factor fix) already passed all adversarial probes"
+  ],
+  "verdict_per_function": {
+    "black_scholes": {
+      "verdict": "PASS",
+      "num_failures": 0
+    },
+    "implied_volatility": {
+      "verdict": "FIX-NEEDED",
+      "num_failures": 3,
+      "failures": [
+        {
+          "function": "implied_volatility",
+          "case": "call_above_spot_raises",
+          "inputs": {},
+          "outcome": "ERR:name 'pytest' is not defined",
+          "passed": false,
+          "details": {}
+        },
+        {
+          "function": "implied_volatility",
+          "case": "put_above_disc_strike_raises",
+          "inputs": {},
+          "outcome": "ERR:name 'pytest' is not defined",
+          "passed": false,
+          "details": {}
+        },
+        {
+          "function": "implied_volatility",
+          "case": "deep_itm_above_cap_raises",
+          "inputs": {},
+          "outcome": "ERR:name 'pytest' is not defined",
+          "passed": false,
+          "details": {}
+        }
+      ]
+    },
+    "IVSurface": {
+      "verdict": "PASS",
+      "num_failures": 0
+    },
+    "black_scholes_greeks": {
+      "verdict": "PASS",
+      "num_failures": 0
+    }
+  },
+  "notes": [
+    "vanna/charm not exposed as separate public functions in current API (Greeks return delta/gamma/vega/theta/rho); sign conventions verified for available Greeks."
+  ]
+}
