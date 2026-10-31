@@ -13,6 +13,7 @@ from ..telemetry import serialize_metrics_strict
 from ..utils.numerical_guards import safe_divide, clamp
 from .orders import Order, OrderSide, OrderType, OrderStatus, TimeInForce, OrderFill, PositionState, ExecutionReport
 from .algorithms import ExecutionAlgorithm, create_algorithm, SlippageModel
+from .routing import VenueQuote
 
 
 _logger = get_logger(__name__)
