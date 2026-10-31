@@ -1,7 +1,7 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T19:45:00Z
+Timestamp (UTC): 2026-10-31T19:45:19Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (prioritize by repo name -> crypto options pricing/Greeks/IV + orderflow features)
+Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE BY REPO NAME -> crypto options pricing/Greeks/IV + orderflow features). THIS IS THE ONLY SOURCE OF TRUTH FOR NEXT AGENT SESSION.
 
 Gate status: GREEN (405 passed, 0 failed, 2 skipped — verified 2026-10-31T18:56:47Z via `python -m pytest tests/ -q`). Working tree clean.
 
@@ -19,6 +19,7 @@ BOTTLENECKS REMOVED (THIS SESSION): None. Clean green baseline (405/405). All pr
 ## INITIAL TASK MESSAGE (FOR NEXT AGENTIC WORK SESSION - EXECUTE IMMEDIATELY, NO DEVIATION)
 
 **BY REPO NAME - CRYPTO OPTIONS + ORDERFLOW IS THE DOMAIN. HEAVY QUANT IMPLEMENTATION ONLY. NO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY. SHIP CODE/TESTS/ARTIFACTS EVERY SESSION.**
+**PRIORITIZE BY REPO NAME. LEAVE MOST RELEVANT INFERRED TIMESTAMPED CLEAR INITIAL TASK. REMOVE BOTTLENECKS. BUILD NEXT FOCUS CAMPAIGN SO HEAVY WORK IS UNAVOIDABLE.**
 
 You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign.
 STATE: All Phase 1-5 core items complete. Gate GREEN (405 passed, 0 failed). Clean baseline. Previous agent verified full adversarial audit of options pricing/Greeks/IV.
@@ -79,8 +80,12 @@ ls src/backtest/ src/features/ src/portfolio/ 2>&1 | head -15
 
 ## NEXT AGENT INSTRUCTION (CLEAR, TIMESTAMPED, NON-DEFERRABLE)
 **EXECUTE NOW - NO QUESTIONS - NO DELAY**
-- Timestamp: 2026-10-31T19:45:00Z
-- Read this file first. All prior phases complete - compose/integrate, don't redo.
-- **START IMMEDIATELY** on Phase 6 Full End-to-End Integrated Campaign. This is heavy implementation - build the full integrated pipeline wiring crypto options + orderflow stack together with campaign orchestration, checkpointing, validation, and comprehensive artifacts.
+- Timestamp: 2026-10-31T19:45:19Z
+- **THIS IS THE SINGLE DURABLE HANDOFF. READ IT FIRST.** All prior phases complete - compose/integrate, don't redo.
+- **IMMEDIATE FOCUS (MANDATORY):** Phase 6 — Full End-to-End Integrated Campaign (CRYPTO OPTIONS + ORDERFLOW). Build the COMPLETE integrated pipeline wiring crypto options + orderflow stack together with campaign orchestration, checkpointing, validation, and comprehensive artifacts. This is HEAVY implementation - do real engineering work.
+- **REMOVE BOTTLENECKS:** Fix anything blocking integration (imports, wiring, serialization) as you go. Do not stop at stubs.
+- **FAIL-FORWARD:** Extend existing APIs if needed to make full integration work cleanly.
+- **SHIP:** Every deliverable above (modules/CLI/tests/artifacts/RESULTS_SUMMARY) must be produced in this session.
+- **NEVER AVOID HEAVY WORK.** If something is complex, implement it properly.
 - Verify gate at start and end. Keep all tests green.
-- Update this handoff before finishing with concrete evidence (files, commands, results, next focus).
+- **BEFORE ENDING:** Update THIS FILE (durable_handoff.md) with fresh UTC timestamp, exact files changed, concrete rationale, verification commands+results, and updated remaining work (or confirm Phase 6 complete per success criteria). Also ensure research_state/RESULTS_SUMMARY.md is updated.
