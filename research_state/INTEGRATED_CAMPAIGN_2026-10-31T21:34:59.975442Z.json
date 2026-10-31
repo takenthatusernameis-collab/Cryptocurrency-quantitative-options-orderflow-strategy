@@ -1,0 +1,2139 @@
+{
+  "campaign_id": "test_finite",
+  "seed": 71,
+  "timestamp": "2026-10-31T21:34:59.975442Z",
+  "state": "in_progress",
+  "config": {
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "spot_prices": {
+      "BTC": 65000.0,
+      "ETH": 3400.0,
+      "SOL": 145.0
+    },
+    "initial_capital": 100000.0,
+    "train_window": 45,
+    "test_window": 20,
+    "step_size": 20,
+    "purge": 10,
+    "embargo": 5,
+    "allocation_mode": "risk_parity",
+    "vol_target": 0.1,
+    "turnover_cap": 0.05,
+    "risk_parity": true
+  },
+  "steps": [
+    {
+      "step_id": "data_ingestion",
+      "name": "Data ingestion and validation",
+      "status": "completed",
+      "started_at": "2026-10-31T21:34:59.978441Z",
+      "completed_at": "2026-10-31T21:35:00.003262Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_data_ingestion_2026-10-31T21:35:00.001889Z.json"
+    },
+    {
+      "step_id": "feature_engineering",
+      "name": "Feature engineering (orderflow/gamma/IV/liquidity/vol/pricing)",
+      "status": "completed",
+      "started_at": "2026-10-31T21:35:00.005054Z",
+      "completed_at": "2026-10-31T21:35:00.043152Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_feature_engineering_2026-10-31T21:35:00.037504Z.json"
+    },
+    {
+      "step_id": "regime_classification",
+      "name": "Regime classification (composite signal)",
+      "status": "completed",
+      "started_at": "2026-10-31T21:35:00.044928Z",
+      "completed_at": "2026-10-31T21:35:00.046958Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_regime_classification_2026-10-31T21:35:00.046527Z.json"
+    },
+    {
+      "step_id": "walkforward_oos",
+      "name": "Walk-forward/OOS with purge/embargo",
+      "status": "completed",
+      "started_at": "2026-10-31T21:35:00.048572Z",
+      "completed_at": "2026-10-31T21:35:00.054696Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_walkforward_oos_2026-10-31T21:35:00.053345Z.json"
+    },
+    {
+      "step_id": "portfolio_scaling",
+      "name": "Portfolio scaling (allocation modes + turnover caps)",
+      "status": "completed",
+      "started_at": "2026-10-31T21:35:00.056413Z",
+      "completed_at": "2026-10-31T21:35:00.060969Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_portfolio_scaling_2026-10-31T21:35:00.060175Z.json"
+    },
+    {
+      "step_id": "options_hedging",
+      "name": "Options hedging with PnL attribution/reconciliation",
+      "status": "completed",
+      "started_at": "2026-10-31T21:35:00.062676Z",
+      "completed_at": "2026-10-31T21:35:00.082397Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_options_hedging_2026-10-31T21:35:00.080454Z.json"
+    },
+    {
+      "step_id": "artifacts",
+      "name": "Strict serialization + artifact emission",
+      "status": "in_progress",
+      "started_at": "2026-10-31T21:35:00.084297Z",
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    }
+  ],
+  "data_ingestion": {
+    "campaign_id": "test_finite",
+    "step": "data_ingestion",
+    "status": "completed",
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "venue": "synthetic",
+    "n_points": 160,
+    "start_timestamp": "2026-10-31T12:00:00Z",
+    "end_timestamp": "2026-11-07T03:00:00Z",
+    "spot_prices": {
+      "BTC": 65000.0,
+      "ETH": 3400.0,
+      "SOL": 145.0
+    },
+    "orderflow_loaded": {
+      "BTC": {
+        "trades": 1000,
+        "liquidations": 20,
+        "funding_rates": 8
+      },
+      "ETH": {
+        "trades": 300,
+        "liquidations": 0,
+        "funding_rates": 0
+      },
+      "SOL": {
+        "trades": 300,
+        "liquidations": 0,
+        "funding_rates": 0
+      }
+    },
+    "options_chain_loaded": {
+      "BTC": {
+        "quotes": 40,
+        "underlying": "BTC",
+        "venue": "synthetic"
+      },
+      "ETH": {
+        "quotes": 40,
+        "underlying": "ETH",
+        "venue": "synthetic"
+      },
+      "SOL": {
+        "quotes": 40,
+        "underlying": "SOL",
+        "venue": "synthetic"
+      }
+    }
+  },
+  "feature_engineering": {
+    "campaign_id": "test_finite",
+    "step": "feature_engineering",
+    "status": "completed",
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "features": {
+      "BTC": {
+        "total_gex": 0.0,
+        "cumulative_delta": -5.492112000000005,
+        "orderflow_imbalance": 0.08676154146287361,
+        "iv_skew": 0.0,
+        "put_call_ratio": 0.8695279194704489,
+        "max_pain": 65000.0,
+        "gamma_flip": 65000.0,
+        "direction": "neutral",
+        "strength": 0.1028130119764325,
+        "confidence": 0.5056164308336057,
+        "components": {
+          "gamma": 0.1113996025852828,
+          "orderflow": 0.11363534312277963,
+          "vol_skew": 0.08,
+          "iv_greeks": 0.05059393485010936,
+          "put_call": 0.13047208052955106
+        },
+        "regime": "neutral",
+        "liquidity": {
+          "avg_bid_ask_spread": 115.90514419441156,
+          "avg_relative_spread": 0.02,
+          "avg_effective_spread": 57.95257209720578,
+          "avg_liquidity_score": 0.18887490254603229,
+          "total_oi": 42377.02935295954,
+          "total_volume": 10922.73675751808
+        },
+        "iv_surface": {
+          "underlying": "BTC",
+          "venue": "synthetic",
+          "spot": 65000.0,
+          "rate": 0.0,
+          "seed": 71,
+          "points": [
+            {
+              "strike": 58500.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7563384539518324,
+              "price": 7031.627158560608
+            },
+            {
+              "strike": 58500.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7563384539518324,
+              "price": 531.6271585606082
+            },
+            {
+              "strike": 61750.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7563384539518324,
+              "price": 4582.798515286493
+            },
+            {
+              "strike": 61750.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7563384539518324,
+              "price": 1332.798515286493
+            },
+            {
+              "strike": 65000.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7563384539518324,
+              "price": 2714.8366601292328
+            },
+            {
+              "strike": 65000.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7563384539518324,
+              "price": 2714.8366601292364
+            },
+            {
+              "strike": 68250.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7563384539518324,
+              "price": 1453.9215175215431
+            },
+            {
+              "strike": 68250.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7563384539518324,
+              "price": 4703.921517521543
+            },
+            {
+              "strike": 71500.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7563384539518324,
+              "price": 703.5429199837581
+            },
+            {
+              "strike": 71500.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7563384539518324,
+              "price": 7203.54291998376
+            },
+            {
+              "strike": 58500.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7060883320529252,
+              "price": 7594.152485725572
+            },
+            {
+              "strike": 58500.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7060883320529252,
+              "price": 1094.1524857255718
+            },
+            {
+              "strike": 61750.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7060883320529252,
+              "price": 5355.646251904065
+            },
+            {
+              "strike": 61750.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7060883320529252,
+              "price": 2105.646251904065
+            },
+            {
+              "strike": 65000.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7060883320529252,
+              "price": 3583.060268865225
+            },
+            {
+              "strike": 65000.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7060883320529252,
+              "price": 3583.060268865229
+            },
+            {
+              "strike": 68250.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7060883320529252,
+              "price": 2273.469500579369
+            },
+            {
+              "strike": 68250.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7060883320529252,
+              "price": 5523.469500579369
+            },
+            {
+              "strike": 71500.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7060883320529252,
+              "price": 1369.8648557317465
+            },
+            {
+              "strike": 71500.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7060883320529252,
+              "price": 7869.86485573175
+            },
+            {
+              "strike": 58500.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.788615110037204,
+              "price": 9397.38878433648
+            },
+            {
+              "strike": 58500.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.788615110037204,
+              "price": 2897.388784336479
+            },
+            {
+              "strike": 61750.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.788615110037204,
+              "price": 7474.556199043705
+            },
+            {
+              "strike": 61750.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.788615110037204,
+              "price": 4224.556199043705
+            },
+            {
+              "strike": 65000.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.788615110037204,
+              "price": 5850.30516941164
+            },
+            {
+              "strike": 65000.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.788615110037204,
+              "price": 5850.305169411644
+            },
+            {
+              "strike": 68250.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.788615110037204,
+              "price": 4510.027522222797
+            },
+            {
+              "strike": 68250.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.788615110037204,
+              "price": 7760.027522222794
+            },
+            {
+              "strike": 71500.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.788615110037204,
+              "price": 3427.916129165653
+            },
+            {
+              "strike": 71500.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.788615110037204,
+              "price": 9927.91612916565
+            },
+            {
+              "strike": 58500.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.9130264857620267,
+              "price": 12677.706195831237
+            },
+            {
+              "strike": 58500.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.9130264857620267,
+              "price": 6177.706195831241
+            },
+            {
+              "strike": 61750.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.9130264857620267,
+              "price": 11019.23199179045
+            },
+            {
+              "strike": 61750.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.9130264857620267,
+              "price": 7769.231991790453
+            },
+            {
+              "strike": 65000.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.9130264857620267,
+              "price": 9544.692777654604
+            },
+            {
+              "strike": 65000.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.9130264857620267,
+              "price": 9544.692777654607
+            },
+            {
+              "strike": 68250.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.9130264857620267,
+              "price": 8242.177747619873
+            },
+            {
+              "strike": 68250.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.9130264857620267,
+              "price": 11492.177747619877
+            },
+            {
+              "strike": 71500.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.9130264857620267,
+              "price": 7098.22154304749
+            },
+            {
+              "strike": 71500.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.9130264857620267,
+              "price": 13598.22154304749
+            }
+          ]
+        },
+        "greeks_summary": {
+          "delta": 0.520883358924071,
+          "gamma": 5.85170428814999e-05,
+          "vega": 3586.1664360112327,
+          "theta": -70714.98470762439,
+          "rho": 597.2549909302677
+        }
+      },
+      "ETH": {
+        "total_gex": 0.0,
+        "cumulative_delta": 27.97189900955038,
+        "orderflow_imbalance": -0.10019680219881957,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.2480256251201087,
+        "max_pain": 3400.0,
+        "gamma_flip": 3400.0,
+        "direction": "neutral",
+        "strength": 0.05063495732284937,
+        "confidence": 0.43619739466000673,
+        "components": {
+          "gamma": 0.157618484053355,
+          "orderflow": 0.04901694917657068,
+          "vol_skew": 0.08,
+          "iv_greeks": 0.06391309800835232,
+          "put_call": -0.12401281256005436
+        },
+        "regime": "neutral",
+        "liquidity": {
+          "avg_bid_ask_spread": 5.933719312565033,
+          "avg_relative_spread": 0.02000000000000001,
+          "avg_effective_spread": 2.9668596562825167,
+          "avg_liquidity_score": 0.18815400671822813,
+          "total_oi": 40546.37834325543,
+          "total_volume": 11023.23778049219
+        },
+        "iv_surface": {
+          "underlying": "ETH",
+          "venue": "synthetic",
+          "spot": 3400.0,
+          "rate": 0.0,
+          "seed": 71,
+          "points": [
+            {
+              "strike": 3060.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7373526189578189,
+              "price": 365.7972675464025
+            },
+            {
+              "strike": 3060.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7373526189578189,
+              "price": 25.79726754640251
+            },
+            {
+              "strike": 3230.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7373526189578189,
+              "price": 236.64598419081494
+            },
+            {
+              "strike": 3230.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7373526189578189,
+              "price": 66.64598419081494
+            },
+            {
+              "strike": 3400.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7373526189578189,
+              "price": 138.44527851808652
+            },
+            {
+              "strike": 3400.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7373526189578189,
+              "price": 138.44527851808652
+            },
+            {
+              "strike": 3570.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7373526189578189,
+              "price": 72.78611437735685
+            },
+            {
+              "strike": 3570.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7373526189578189,
+              "price": 242.78611437735708
+            },
+            {
+              "strike": 3740.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7373526189578189,
+              "price": 34.357764104703165
+            },
+            {
+              "strike": 3740.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7373526189578189,
+              "price": 374.35776410470316
+            },
+            {
+              "strike": 3060.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7251515958648002,
+              "price": 400.8452128989329
+            },
+            {
+              "strike": 3060.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7251515958648002,
+              "price": 60.845212898932914
+            },
+            {
+              "strike": 3230.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7251515958648002,
+              "price": 284.7462759347677
+            },
+            {
+              "strike": 3230.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7251515958648002,
+              "price": 114.74627593476771
+            },
+            {
+              "strike": 3400.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7251515958648002,
+              "price": 192.47331261310956
+            },
+            {
+              "strike": 3400.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7251515958648002,
+              "price": 192.47331261310956
+            },
+            {
+              "strike": 3570.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7251515958648002,
+              "price": 123.79199208224895
+            },
+            {
+              "strike": 3570.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7251515958648002,
+              "price": 293.7919920822487
+            },
+            {
+              "strike": 3740.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7251515958648002,
+              "price": 75.85878899613044
+            },
+            {
+              "strike": 3740.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7251515958648002,
+              "price": 415.85878899613044
+            },
+            {
+              "strike": 3060.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.815904268104685,
+              "price": 500.56029125853183
+            },
+            {
+              "strike": 3060.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.815904268104685,
+              "price": 160.56029125853183
+            },
+            {
+              "strike": 3230.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.815904268104685,
+              "price": 400.99937932354715
+            },
+            {
+              "strike": 3230.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.815904268104685,
+              "price": 230.99937932354715
+            },
+            {
+              "strike": 3400.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.815904268104685,
+              "price": 316.55791998417203
+            },
+            {
+              "strike": 3400.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.815904268104685,
+              "price": 316.55791998417226
+            },
+            {
+              "strike": 3570.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.815904268104685,
+              "price": 246.4710211303243
+            },
+            {
+              "strike": 3570.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.815904268104685,
+              "price": 416.4710211303245
+            },
+            {
+              "strike": 3740.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.815904268104685,
+              "price": 189.45294284985857
+            },
+            {
+              "strike": 3740.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.815904268104685,
+              "price": 529.4529428498586
+            },
+            {
+              "strike": 3060.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8424083392494274,
+              "price": 628.4349456722284
+            },
+            {
+              "strike": 3060.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8424083392494274,
+              "price": 288.4349456722284
+            },
+            {
+              "strike": 3230.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8424083392494274,
+              "price": 539.5183930889286
+            },
+            {
+              "strike": 3230.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8424083392494274,
+              "price": 369.51839308892886
+            },
+            {
+              "strike": 3400.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8424083392494274,
+              "price": 461.03509846113275
+            },
+            {
+              "strike": 3400.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8424083392494274,
+              "price": 461.03509846113275
+            },
+            {
+              "strike": 3570.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8424083392494274,
+              "price": 392.3265741738903
+            },
+            {
+              "strike": 3570.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8424083392494274,
+              "price": 562.3265741738905
+            },
+            {
+              "strike": 3740.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8424083392494274,
+              "price": 332.61475535985755
+            },
+            {
+              "strike": 3740.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8424083392494274,
+              "price": 672.6147553598576
+            }
+          ]
+        },
+        "greeks_summary": {
+          "delta": 0.5203595997820716,
+          "gamma": 0.0011475914136739034,
+          "vega": 187.59684361888588,
+          "theta": -3606.3309815693688,
+          "rho": 31.275182260785478
+        }
+      },
+      "SOL": {
+        "total_gex": 0.0,
+        "cumulative_delta": 2.295772432800031,
+        "orderflow_imbalance": -0.09502831339833911,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.0300569152214238,
+        "max_pain": 145.0,
+        "gamma_flip": 145.0,
+        "direction": "neutral",
+        "strength": 0.1284818601244056,
+        "confidence": 0.44209092931424965,
+        "components": {
+          "gamma": 0.2788894317761412,
+          "orderflow": 0.15565404071017563,
+          "vol_skew": 0.06400080186056332,
+          "iv_greeks": 0.11916967036759732,
+          "put_call": -0.01502845761071192
+        },
+        "regime": "neutral",
+        "liquidity": {
+          "avg_bid_ask_spread": 0.25424671978829394,
+          "avg_relative_spread": 0.020000000000000018,
+          "avg_effective_spread": 0.12712335989414697,
+          "avg_liquidity_score": 0.18886774428364167,
+          "total_oi": 42445.66707383812,
+          "total_volume": 10836.919206902216
+        },
+        "iv_surface": {
+          "underlying": "SOL",
+          "venue": "synthetic",
+          "spot": 145.0,
+          "rate": 0.0,
+          "seed": 71,
+          "points": [
+            {
+              "strike": 130.5,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7497433786318488,
+              "price": 15.655892075605948
+            },
+            {
+              "strike": 130.5,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7497433786318488,
+              "price": 1.1558920756059479
+            },
+            {
+              "strike": 137.75,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7497433786318488,
+              "price": 10.17760024648588
+            },
+            {
+              "strike": 137.75,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7497433786318488,
+              "price": 2.927600246485895
+            },
+            {
+              "strike": 145.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7497433786318488,
+              "price": 6.0034134516152164
+            },
+            {
+              "strike": 145.0,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7497433786318488,
+              "price": 6.0034134516152164
+            },
+            {
+              "strike": 152.25,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7497433786318488,
+              "price": 3.1949045610794755
+            },
+            {
+              "strike": 152.25,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7497433786318488,
+              "price": 10.444904561079483
+            },
+            {
+              "strike": 159.5,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "call",
+              "iv": 0.7497433786318488,
+              "price": 1.5329981229592704
+            },
+            {
+              "strike": 159.5,
+              "expiry": "2026-11-07T12:00:00+00:00",
+              "time_to_expiry": 0.019164955509924708,
+              "option_type": "put",
+              "iv": 0.7497433786318488,
+              "price": 16.03299812295927
+            },
+            {
+              "strike": 130.5,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7820678515023752,
+              "price": 17.56756398585405
+            },
+            {
+              "strike": 130.5,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7820678515023752,
+              "price": 3.0675639858540507
+            },
+            {
+              "strike": 137.75,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7820678515023752,
+              "price": 12.733585268347
+            },
+            {
+              "strike": 137.75,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7820678515023752,
+              "price": 5.483585268346985
+            },
+            {
+              "strike": 145.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7820678515023752,
+              "price": 8.851476778415403
+            },
+            {
+              "strike": 145.0,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7820678515023752,
+              "price": 8.851476778415417
+            },
+            {
+              "strike": 152.25,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7820678515023752,
+              "price": 5.90321571802437
+            },
+            {
+              "strike": 152.25,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7820678515023752,
+              "price": 13.15321571802437
+            },
+            {
+              "strike": 159.5,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "call",
+              "iv": 0.7820678515023752,
+              "price": 3.7825230441802447
+            },
+            {
+              "strike": 159.5,
+              "expiry": "2026-11-14T12:00:00+00:00",
+              "time_to_expiry": 0.038329911019849415,
+              "option_type": "put",
+              "iv": 0.7820678515023752,
+              "price": 18.282523044180238
+            },
+            {
+              "strike": 130.5,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.7896649020302734,
+              "price": 20.978130341197854
+            },
+            {
+              "strike": 130.5,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.7896649020302734,
+              "price": 6.478130341197854
+            },
+            {
+              "strike": 137.75,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.7896649020302734,
+              "price": 16.6904429790153
+            },
+            {
+              "strike": 137.75,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.7896649020302734,
+              "price": 9.440442979015302
+            },
+            {
+              "strike": 145.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.7896649020302734,
+              "price": 13.067979598798388
+            },
+            {
+              "strike": 145.0,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.7896649020302734,
+              "price": 13.067979598798388
+            },
+            {
+              "strike": 152.25,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.7896649020302734,
+              "price": 10.078149212888057
+            },
+            {
+              "strike": 152.25,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.7896649020302734,
+              "price": 17.328149212888064
+            },
+            {
+              "strike": 159.5,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "call",
+              "iv": 0.7896649020302734,
+              "price": 7.663492368109814
+            },
+            {
+              "strike": 159.5,
+              "expiry": "2026-11-30T12:00:00+00:00",
+              "time_to_expiry": 0.08213552361396304,
+              "option_type": "put",
+              "iv": 0.7896649020302734,
+              "price": 22.163492368109814
+            },
+            {
+              "strike": 130.5,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8422064173706933,
+              "price": 26.79668015534395
+            },
+            {
+              "strike": 130.5,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8422064173706933,
+              "price": 12.29668015534395
+            },
+            {
+              "strike": 137.75,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8422064173706933,
+              "price": 23.00437461504167
+            },
+            {
+              "strike": 137.75,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8422064173706933,
+              "price": 15.75437461504167
+            },
+            {
+              "strike": 145.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8422064173706933,
+              "price": 19.657123732482845
+            },
+            {
+              "strike": 145.0,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8422064173706933,
+              "price": 19.657123732482845
+            },
+            {
+              "strike": 152.25,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8422064173706933,
+              "price": 16.726840557451297
+            },
+            {
+              "strike": 152.25,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8422064173706933,
+              "price": 23.976840557451283
+            },
+            {
+              "strike": 159.5,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "call",
+              "iv": 0.8422064173706933,
+              "price": 14.180332975397683
+            },
+            {
+              "strike": 159.5,
+              "expiry": "2026-12-30T12:00:00+00:00",
+              "time_to_expiry": 0.16427104722792607,
+              "option_type": "put",
+              "iv": 0.8422064173706933,
+              "price": 28.680332975397675
+            }
+          ]
+        },
+        "greeks_summary": {
+          "delta": 0.5207014256952249,
+          "gamma": 0.02646315431209813,
+          "vega": 8.000100232570414,
+          "theta": -156.37700677733466,
+          "rho": 1.3328439806009498
+        }
+      }
+    }
+  },
+  "regime_classification": {
+    "campaign_id": "test_finite",
+    "step": "regime_classification",
+    "status": "completed",
+    "regimes": {
+      "BTC": {
+        "regime": "neutral",
+        "confidence": 0.5056164308336057,
+        "strength": 0.1028130119764325,
+        "components": {
+          "gamma": 0.1113996025852828,
+          "orderflow": 0.11363534312277963,
+          "vol_skew": 0.08,
+          "iv_greeks": 0.05059393485010936,
+          "put_call": 0.13047208052955106
+        },
+        "total_gex": 0.0,
+        "iv_skew": 0.0,
+        "put_call_ratio": 0.8695279194704489
+      },
+      "ETH": {
+        "regime": "neutral",
+        "confidence": 0.43619739466000673,
+        "strength": 0.05063495732284937,
+        "components": {
+          "gamma": 0.157618484053355,
+          "orderflow": 0.04901694917657068,
+          "vol_skew": 0.08,
+          "iv_greeks": 0.06391309800835232,
+          "put_call": -0.12401281256005436
+        },
+        "total_gex": 0.0,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.2480256251201087
+      },
+      "SOL": {
+        "regime": "neutral",
+        "confidence": 0.44209092931424965,
+        "strength": 0.1284818601244056,
+        "components": {
+          "gamma": 0.2788894317761412,
+          "orderflow": 0.15565404071017563,
+          "vol_skew": 0.06400080186056332,
+          "iv_greeks": 0.11916967036759732,
+          "put_call": -0.01502845761071192
+        },
+        "total_gex": 0.0,
+        "iv_skew": 0.0,
+        "put_call_ratio": 1.0300569152214238
+      }
+    },
+    "regime_count": 3
+  },
+  "walkforward_oos": {
+    "campaign_id": "test_finite",
+    "step": "walkforward_oos",
+    "status": "completed",
+    "purge": 10,
+    "embargo": 5,
+    "train_window": 45,
+    "test_window": 20,
+    "step_size": 20,
+    "symbols": {
+      "BTC": {
+        "symbol": "BTC",
+        "purge": 10,
+        "embargo": 5,
+        "num_windows": 6,
+        "overall_out_of_sample_return": 0.0,
+        "overall_out_of_sample_sharpe": 0.0,
+        "overall_out_of_sample_max_drawdown": 0.0,
+        "stability_ratio": 0.0,
+        "degradation": 0.0,
+        "purge_embargo_enforced": true,
+        "oos_trade_count": 0,
+        "windows": [
+          {
+            "train_start": 0,
+            "train_end": 45,
+            "test_start": 45,
+            "test_end": 65,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 20,
+            "train_end": 65,
+            "test_start": 65,
+            "test_end": 85,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 40,
+            "train_end": 85,
+            "test_start": 85,
+            "test_end": 105,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 60,
+            "train_end": 105,
+            "test_start": 105,
+            "test_end": 125,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 80,
+            "train_end": 125,
+            "test_start": 125,
+            "test_end": 145,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 100,
+            "train_end": 145,
+            "test_start": 145,
+            "test_end": 160,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          }
+        ]
+      },
+      "ETH": {
+        "symbol": "ETH",
+        "purge": 10,
+        "embargo": 5,
+        "num_windows": 6,
+        "overall_out_of_sample_return": 0.0,
+        "overall_out_of_sample_sharpe": 0.0,
+        "overall_out_of_sample_max_drawdown": 0.0,
+        "stability_ratio": 0.0,
+        "degradation": 0.0,
+        "purge_embargo_enforced": true,
+        "oos_trade_count": 0,
+        "windows": [
+          {
+            "train_start": 0,
+            "train_end": 45,
+            "test_start": 45,
+            "test_end": 65,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 20,
+            "train_end": 65,
+            "test_start": 65,
+            "test_end": 85,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 40,
+            "train_end": 85,
+            "test_start": 85,
+            "test_end": 105,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 60,
+            "train_end": 105,
+            "test_start": 105,
+            "test_end": 125,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 80,
+            "train_end": 125,
+            "test_start": 125,
+            "test_end": 145,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 100,
+            "train_end": 145,
+            "test_start": 145,
+            "test_end": 160,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          }
+        ]
+      },
+      "SOL": {
+        "symbol": "SOL",
+        "purge": 10,
+        "embargo": 5,
+        "num_windows": 6,
+        "overall_out_of_sample_return": 0.0,
+        "overall_out_of_sample_sharpe": 0.0,
+        "overall_out_of_sample_max_drawdown": 0.0,
+        "stability_ratio": 0.0,
+        "degradation": 0.0,
+        "purge_embargo_enforced": true,
+        "oos_trade_count": 0,
+        "windows": [
+          {
+            "train_start": 0,
+            "train_end": 45,
+            "test_start": 45,
+            "test_end": 65,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 20,
+            "train_end": 65,
+            "test_start": 65,
+            "test_end": 85,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 40,
+            "train_end": 85,
+            "test_start": 85,
+            "test_end": 105,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 60,
+            "train_end": 105,
+            "test_start": 105,
+            "test_end": 125,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 80,
+            "train_end": 125,
+            "test_start": 125,
+            "test_end": 145,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          },
+          {
+            "train_start": 100,
+            "train_end": 145,
+            "test_start": 145,
+            "test_end": 160,
+            "in_sample_return": 0.0,
+            "out_of_sample_return": 0.0,
+            "in_sample_sharpe": 0.0,
+            "out_of_sample_sharpe": 0.0,
+            "in_sample_max_drawdown": 0.0,
+            "out_of_sample_max_drawdown": 0.0,
+            "purge_applied": 10,
+            "embargo_applied": 5
+          }
+        ]
+      }
+    }
+  },
+  "portfolio_scaling": {
+    "campaign_id": "test_finite",
+    "step": "portfolio_scaling",
+    "status": "completed",
+    "allocation_mode": "risk_parity",
+    "vol_target": 0.1,
+    "turnover_cap": 0.05,
+    "risk_parity": true,
+    "purge": 10,
+    "embargo": 5,
+    "num_windows": 6,
+    "overall_out_of_sample_return": 0.0,
+    "overall_out_of_sample_sharpe": 0.0,
+    "overall_out_of_sample_max_drawdown": 0.0,
+    "stability_ratio": 0.0,
+    "degradation": 0.0,
+    "oos_trade_count": 0,
+    "windows": [
+      {
+        "train_start": 0,
+        "train_end": 45,
+        "test_start": 45,
+        "test_end": 65,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.25,
+          "ETH": 0.5,
+          "SOL": 0.25
+        },
+        "turnover": 0.0,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 20,
+        "train_end": 65,
+        "test_start": 65,
+        "test_end": 85,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.2818390756567866,
+          "ETH": 0.45,
+          "SOL": 0.26816092434321337
+        },
+        "turnover": 0.04999999999999999,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 40,
+        "train_end": 85,
+        "test_start": 85,
+        "test_end": 105,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.30487906904204737,
+          "ETH": 0.4,
+          "SOL": 0.29512093095795267
+        },
+        "turnover": 0.05000000000000002,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 60,
+        "train_end": 105,
+        "test_start": 105,
+        "test_end": 125,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.33433677116076,
+          "ETH": 0.35000000000000003,
+          "SOL": 0.3156632288392401
+        },
+        "turnover": 0.05000000000000002,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 80,
+        "train_end": 125,
+        "test_start": 125,
+        "test_end": 145,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.3350727232940063,
+          "ETH": 0.33475375074456193,
+          "SOL": 0.3301735259614319
+        },
+        "turnover": 0.015246249255438105,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      },
+      {
+        "train_start": 100,
+        "train_end": 145,
+        "test_start": 145,
+        "test_end": 160,
+        "in_sample_return": 0.0,
+        "out_of_sample_return": 0.0,
+        "in_sample_sharpe": 0.0,
+        "out_of_sample_sharpe": 0.0,
+        "allocation_mode": "risk_parity",
+        "allocation_weights": {
+          "BTC": 0.32886720068652414,
+          "ETH": 0.33361626653794524,
+          "SOL": 0.3375165327755307
+        },
+        "turnover": 0.007343006814098801,
+        "turnover_cap": 0.05,
+        "turnover_capped": true,
+        "vol_target": 0.1,
+        "weights_train_only": true
+      }
+    ]
+  },
+  "options_hedging": {
+    "campaign_id": "test_finite",
+    "step": "options_hedging",
+    "status": "completed",
+    "transaction_cost_bps": 1.0,
+    "rebalance_every_step": true,
+    "symbols": {
+      "BTC": {
+        "total_pnl": -5125.521039244988,
+        "final_portfolio_value": 309.6471940949923,
+        "initial_option_premium": 5435.16823333998,
+        "initial_investment": 5435.16823333998,
+        "attribution": {
+          "delta_pnl": -815.2139665037519,
+          "gamma_pnl": 172.6128978008507,
+          "theta_pnl": -568.8551352615079,
+          "vega_pnl": 0.0,
+          "residual": -3914.0648352805792,
+          "total_pnl": -5125.521039244988,
+          "sum_attribution": -5125.521039244988
+        },
+        "hedge_steps": 8,
+        "transaction_cost_bps": 1.0,
+        "rebalance_threshold": 0.05,
+        "rebalance_every_step": true,
+        "num_rebalances": 7,
+        "num_blocked": 0,
+        "num_holds": 1,
+        "risk_integrated": true,
+        "actions": [
+          {
+            "time": 0.019178082191780823,
+            "spot": 63050.0,
+            "action": "rebalance",
+            "target_delta": 0.7786010471021434,
+            "current_delta": 0.7786010471021434,
+            "hedge_trade": 0.7786010471021434,
+            "hedge_cost": 4.909079601979014,
+            "portfolio_value": -4.90907960198092,
+            "risk_approved": true
+          },
+          {
+            "time": 0.01678082191780822,
+            "spot": 64025.0,
+            "action": "rebalance",
+            "target_delta": 0.8340001503978869,
+            "current_delta": 0.8340001503978869,
+            "hedge_trade": 0.05539910329574349,
+            "hedge_cost": 0.3546927588509977,
+            "portfolio_value": 85.2055976177071,
+            "risk_approved": true
+          },
+          {
+            "time": 0.014383561643835616,
+            "spot": 65000.0,
+            "action": "rebalance",
+            "target_delta": 0.8862606648029656,
+            "current_delta": 0.8862606648029656,
+            "hedge_trade": 0.05226051440507873,
+            "hedge_cost": 0.33969334363301174,
+            "portfolio_value": 162.693574249417,
+            "risk_approved": true
+          },
+          {
+            "time": 0.011986301369863015,
+            "spot": 65975.0,
+            "action": "rebalance",
+            "target_delta": 0.932358823222964,
+            "current_delta": 0.932358823222964,
+            "hedge_trade": 0.046098158419998425,
+            "hedge_cost": 0.3041326001759396,
+            "portfolio_value": 222.77960933115537,
+            "risk_approved": true
+          },
+          {
+            "time": 0.009589041095890411,
+            "spot": 66950.0,
+            "action": "rebalance",
+            "target_delta": 0.9684654806567062,
+            "current_delta": 0.9684654806567062,
+            "hedge_trade": 0.036106657433742195,
+            "hedge_cost": 0.24173407151890403,
+            "portfolio_value": 261.84807523658674,
+            "risk_approved": true
+          },
+          {
+            "time": 0.007191780821917808,
+            "spot": 66300.0,
+            "action": "rebalance",
+            "target_delta": 0.976341481055272,
+            "current_delta": 0.976341481055272,
+            "hedge_trade": 0.00787600039856573,
+            "hedge_cost": 0.0522178826424908,
+            "portfolio_value": 306.32149435634346,
+            "risk_approved": true
+          },
+          {
+            "time": 0.004794520547945207,
+            "spot": 63700.0,
+            "action": "rebalance",
+            "target_delta": 0.9507574001473564,
+            "current_delta": 0.9507574001473564,
+            "hedge_trade": -0.02558408090791553,
+            "hedge_cost": 0.16297059538342193,
+            "portfolio_value": 336.4138916301745,
+            "risk_approved": true
+          },
+          {
+            "time": 0.0023972602739726033,
+            "spot": 65650.0,
+            "action": "hold",
+            "target_delta": 0.9991329541625711,
+            "current_delta": 0.9507574001473564,
+            "hedge_trade": 0.0,
+            "hedge_cost": 0.0,
+            "portfolio_value": 309.6471940949923,
+            "risk_approved": true
+          }
+        ],
+        "underlying": "BTC",
+        "strike": 58500.0,
+        "expiry": "2026-11-07T12:00:00+00:00",
+        "time_to_expiry": 0.019178082191780823
+      },
+      "ETH": {
+        "total_pnl": -267.0919845848962,
+        "final_portfolio_value": 14.649078733440547,
+        "initial_option_premium": 281.7410633183367,
+        "initial_investment": 281.7410633183367,
+        "attribution": {
+          "delta_pnl": -43.14252641574738,
+          "gamma_pnl": 8.716927880346402,
+          "theta_pnl": -27.77540642875194,
+          "vega_pnl": 0.0,
+          "residual": -204.89097962074328,
+          "total_pnl": -267.0919845848962,
+          "sum_attribution": -267.0919845848962
+        },
+        "hedge_steps": 8,
+        "transaction_cost_bps": 1.0,
+        "rebalance_threshold": 0.05,
+        "rebalance_every_step": true,
+        "num_rebalances": 7,
+        "num_blocked": 0,
+        "num_holds": 1,
+        "risk_integrated": true,
+        "actions": [
+          {
+            "time": 0.019178082191780823,
+            "spot": 3298.0,
+            "action": "rebalance",
+            "target_delta": 0.7836487483991694,
+            "current_delta": 0.7836487483991694,
+            "hedge_trade": 0.7836487483991694,
+            "hedge_cost": 0.2584473572220461,
+            "portfolio_value": -0.25844735722193946,
+            "risk_approved": true
+          },
+          {
+            "time": 0.01678082191780822,
+            "spot": 3349.0,
+            "action": "rebalance",
+            "target_delta": 0.8395429998160792,
+            "current_delta": 0.8395429998160792,
+            "hedge_trade": 0.055894251416909735,
+            "hedge_cost": 0.01871898479952307,
+            "portfolio_value": 4.182887181337719,
+            "risk_approved": true
+          },
+          {
+            "time": 0.014383561643835616,
+            "spot": 3400.0,
+            "action": "rebalance",
+            "target_delta": 0.8917053559748118,
+            "current_delta": 0.8917053559748118,
+            "hedge_trade": 0.05216235615873266,
+            "hedge_cost": 0.017735201093969106,
+            "portfolio_value": 7.953796562250318,
+            "risk_approved": true
+          },
+          {
+            "time": 0.011986301369863015,
+            "spot": 3450.9999999999995,
+            "action": "rebalance",
+            "target_delta": 0.9369847501645203,
+            "current_delta": 0.9369847501645203,
+            "hedge_trade": 0.0452793941897085,
+            "hedge_cost": 0.0156259189348684,
+            "portfolio_value": 10.822354514385097,
+            "risk_approved": true
+          },
+          {
+            "time": 0.009589041095890411,
+            "spot": 3502.0,
+            "action": "rebalance",
+            "target_delta": 0.9715891930321361,
+            "current_delta": 0.9715891930321361,
+            "hedge_trade": 0.03460444286761577,
+            "hedge_cost": 0.012118475892239043,
+            "portfolio_value": 12.631877805016757,
+            "risk_approved": true
+          },
+          {
+            "time": 0.007191780821917808,
+            "spot": 3468.0,
+            "action": "rebalance",
+            "target_delta": 0.978968268101144,
+            "current_delta": 0.978968268101144,
+            "hedge_trade": 0.007379075069007923,
+            "hedge_cost": 0.002559063233931948,
+            "portfolio_value": 14.706417729126315,
+            "risk_approved": true
+          },
+          {
+            "time": 0.004794520547945207,
+            "spot": 3332.0,
+            "action": "rebalance",
+            "target_delta": 0.9548154193191916,
+            "current_delta": 0.9548154193191916,
+            "hedge_trade": -0.024152848781952452,
+            "hedge_cost": 0.008047729214146556,
+            "portfolio_value": 16.058372886424877,
+            "risk_approved": true
+          },
+          {
+            "time": 0.0023972602739726033,
+            "spot": 3434.0,
+            "action": "hold",
+            "target_delta": 0.9993410862049018,
+            "current_delta": 0.9548154193191916,
+            "hedge_trade": 0.0,
+            "hedge_cost": 0.0,
+            "portfolio_value": 14.649078733440547,
+            "risk_approved": true
+          }
+        ],
+        "underlying": "ETH",
+        "strike": 3060.0,
+        "expiry": "2026-11-07T12:00:00+00:00",
+        "time_to_expiry": 0.019178082191780823
+      },
+      "SOL": {
+        "total_pnl": -11.419030732269562,
+        "final_portfolio_value": 0.6674865877027116,
+        "initial_option_premium": 12.086517319972273,
+        "initial_investment": 12.086517319972273,
+        "attribution": {
+          "delta_pnl": -1.8259184651242482,
+          "gamma_pnl": 0.3805148290182363,
+          "theta_pnl": -1.2394374470628655,
+          "vega_pnl": 0.0,
+          "residual": -8.734189649100685,
+          "total_pnl": -11.419030732269562,
+          "sum_attribution": -11.419030732269562
+        },
+        "hedge_steps": 8,
+        "transaction_cost_bps": 1.0,
+        "rebalance_threshold": 0.05,
+        "rebalance_every_step": true,
+        "num_rebalances": 7,
+        "num_blocked": 0,
+        "num_holds": 1,
+        "risk_integrated": true,
+        "actions": [
+          {
+            "time": 0.019178082191780823,
+            "spot": 140.65,
+            "action": "rebalance",
+            "target_delta": 0.7803307758717087,
+            "current_delta": 0.7803307758717087,
+            "hedge_trade": 0.7803307758717087,
+            "hedge_cost": 0.010975352362635585,
+            "portfolio_value": -0.010975352362635249,
+            "risk_approved": true
+          },
+          {
+            "time": 0.01678082191780822,
+            "spot": 142.825,
+            "action": "rebalance",
+            "target_delta": 0.835905748143963,
+            "current_delta": 0.835905748143963,
+            "hedge_trade": 0.055574972272254275,
+            "hedge_cost": 0.0007937495414784716,
+            "portfolio_value": 0.186015693368077,
+            "risk_approved": true
+          },
+          {
+            "time": 0.014383561643835616,
+            "spot": 145.0,
+            "action": "rebalance",
+            "target_delta": 0.888141001811896,
+            "current_delta": 0.888141001811896,
+            "hedge_trade": 0.052235253667933024,
+            "hedge_cost": 0.000757411178185029,
+            "portfolio_value": 0.354680443905778,
+            "risk_approved": true
+          },
+          {
+            "time": 0.011986301369863015,
+            "spot": 147.17499999999998,
+            "action": "rebalance",
+            "target_delta": 0.9339670346054186,
+            "current_delta": 0.9339670346054186,
+            "hedge_trade": 0.0458260327935226,
+            "hedge_cost": 0.0006744446376386687,
+            "portfolio_value": 0.4846232998835376,
+            "risk_approved": true
+          },
+          {
+            "time": 0.009589041095890411,
+            "spot": 149.35,
+            "action": "rebalance",
+            "target_delta": 0.9695627433920195,
+            "current_delta": 0.9695627433920195,
+            "hedge_trade": 0.0355957087866009,
+            "hedge_cost": 0.0005316219107278844,
+            "portfolio_value": 0.5682541893389015,
+            "risk_approved": true
+          },
+          {
+            "time": 0.007191780821917808,
+            "spot": 147.9,
+            "action": "rebalance",
+            "target_delta": 0.9772680515455692,
+            "current_delta": 0.9772680515455692,
+            "hedge_trade": 0.007705308153549639,
+            "hedge_cost": 0.00011396150759099917,
+            "portfolio_value": 0.6636742271177951,
+            "risk_approved": true
+          },
+          {
+            "time": 0.004794520547945207,
+            "spot": 142.1,
+            "action": "rebalance",
+            "target_delta": 0.9521748860027267,
+            "current_delta": 0.9521748860027267,
+            "hedge_trade": -0.025093165542842466,
+            "hedge_cost": 0.00035657388236379146,
+            "portfolio_value": 0.7274322772958755,
+            "risk_approved": true
+          },
+          {
+            "time": 0.0023972602739726033,
+            "spot": 146.45,
+            "action": "hold",
+            "target_delta": 0.999210032082541,
+            "current_delta": 0.9521748860027267,
+            "hedge_trade": 0.0,
+            "hedge_cost": 0.0,
+            "portfolio_value": 0.6674865877027116,
+            "risk_approved": true
+          }
+        ],
+        "underlying": "SOL",
+        "strike": 130.5,
+        "expiry": "2026-11-07T12:00:00+00:00",
+        "time_to_expiry": 0.019178082191780823
+      }
+    }
+  },
+  "integrated_metrics": {
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "seed": 71,
+    "purge": 10,
+    "embargo": 5,
+    "allocation_mode": "risk_parity",
+    "vol_target": 0.1,
+    "turnover_cap": 0.05,
+    "initial_capital": 100000.0,
+    "portfolio_overall_out_of_sample_return": 0.0,
+    "portfolio_overall_out_of_sample_sharpe": 0.0,
+    "portfolio_stability_ratio": 0.0,
+    "portfolio_num_windows": 6,
+    "options_hedging_total_pnl": -5404.032054562154,
+    "options_hedging_symbols": 3,
+    "artifacts_emitted": 6
+  }
+}

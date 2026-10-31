@@ -89,3 +89,18 @@ ls src/backtest/ src/features/ src/portfolio/ 2>&1 | head -15
 - **NEVER AVOID HEAVY WORK.** If something is complex, implement it properly.
 - Verify gate at start and end. Keep all tests green.
 - **BEFORE ENDING:** Update THIS FILE (durable_handoff.md) with fresh UTC timestamp, exact files changed, concrete rationale, verification commands+results, and updated remaining work (or confirm Phase 6 complete per success criteria). Also ensure research_state/RESULTS_SUMMARY.md is updated.
+
+## HANDOFF UPDATE (2026-10-31T21:35:XXZ) - PHASE 6 COMPLETE
+- Timestamp (UTC): 2026-10-31T21:35:10Z
+- Files changed:
+  - `src/campaign/integrated.py` (present, full implementation)
+  - `scripts/run_integrated_campaign.py` (present, full CLI)
+  - `tests/test_integrated_campaign.py` (present, 29 tests passing)
+  - `research_state/INTEGRATED_CAMPAIGN_*.json`, `INTEGRATED_CAMPAIGN_SUMMARY_*.json`, `INTEGRATED_CAMPAIGN_REGIMES_*.json`, step artifacts (emitted)
+  - `research_state/RESULTS_SUMMARY.md` (appended Phase 6 section)
+- Rationale: Composed full crypto options + orderflow stack into deterministic, resumable integrated campaign with purge/embargo, train-only weights, current-step greeks, strict serialization, checkpoints, comprehensive artifacts. All requirements met.
+- Verification:
+  - `python -m pytest tests/ -q` -> 434 passed, 2 skipped, 0 failed
+  - `PYTHONPATH=... python scripts/run_integrated_campaign.py run --campaign-id phase6_e2e --seed 42` -> COMPLETED with artifacts emitted
+  - `python -m pytest tests/test_integrated_campaign.py -v` -> 29 passed
+- Remaining work: None for Phase 6. Baseline remains GREEN. Future work can extend integrated campaign with additional regimes/venues or deeper calibration as needed.

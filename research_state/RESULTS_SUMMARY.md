@@ -99,3 +99,12 @@ orderflow_imbalance vs forward return: -0.4583478199902648
   - IVSurface: PASS (0 failures)
   - black_scholes_greeks: PASS (0 failures)
 - Artifact: OPTIONS_ADVERSARIAL_AUDIT_20261031T185310Z.json (all cases finite/deterministic/strict-serializable under extremes; IV bounds/residual checks enforced; NaN/Inf rejected)
+
+
+## Phase 6: Full End-to-End Integrated Campaign (Crypto Options + Orderflow) (2026-10-31T21:34:38Z)
+- Orchestrator: `src/campaign/integrated.py` (IntegratedCampaign) composes data/features/regimes/walk-forward/OOS/portfolio/hedging with atomic checkpoints via CampaignOrchestrator.
+- CLI: `scripts/run_integrated_campaign.py` (run/resume/status/abort). Deterministic crypto-realistic setup (BTC/ETH/SOL, multi-expiry options chains, orderflow/gamma/IV/liquidity/vol/pricing).
+- Purge/embargo enforced (10/5) propagated to walk-forward and portfolio; weights computed train-only (no-lookahead); options hedging uses current-step greeks only with PnL attribution/reconciliation.
+- Artifacts emitted (strict serialize allow_nan=False): `INTEGRATED_CAMPAIGN_{TS}.json`, `INTEGRATED_CAMPAIGN_SUMMARY_{TS}.json`, `INTEGRATED_CAMPAIGN_REGIMES_{TS}.json`, plus per-step artifacts.
+- Tests: `tests/test_integrated_campaign.py` (29 tests) all passing; full suite remains green.
+- Integrated metrics (seed 42): portfolio windows=10, options hedging symbols=3, total PnL aggregated across symbols; strict serialization/determinism/resume/atomicity verified.

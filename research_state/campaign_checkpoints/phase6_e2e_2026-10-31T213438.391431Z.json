@@ -1,0 +1,124 @@
+{
+  "campaign_id": "phase6_e2e",
+  "state": "in_progress",
+  "created_at": "2026-10-31T21:34:38.316935Z",
+  "updated_at": "2026-10-31T21:34:38.391431Z",
+  "steps": [
+    {
+      "step_id": "data_ingestion",
+      "name": "Data ingestion and validation",
+      "status": "completed",
+      "started_at": "2026-10-31T21:34:38.320152Z",
+      "completed_at": "2026-10-31T21:34:38.349455Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_data_ingestion_2026-10-31T21:34:38.348403Z.json"
+    },
+    {
+      "step_id": "feature_engineering",
+      "name": "Feature engineering (orderflow/gamma/IV/liquidity/vol/pricing)",
+      "status": "completed",
+      "started_at": "2026-10-31T21:34:38.351209Z",
+      "completed_at": "2026-10-31T21:34:38.389658Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_feature_engineering_2026-10-31T21:34:38.384014Z.json"
+    },
+    {
+      "step_id": "regime_classification",
+      "name": "Regime classification (composite signal)",
+      "status": "in_progress",
+      "started_at": "2026-10-31T21:34:38.391424Z",
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "walkforward_oos",
+      "name": "Walk-forward/OOS with purge/embargo",
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "portfolio_scaling",
+      "name": "Portfolio scaling (allocation modes + turnover caps)",
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "options_hedging",
+      "name": "Options hedging with PnL attribution/reconciliation",
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "artifacts",
+      "name": "Strict serialization + artifact emission",
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    }
+  ],
+  "metadata": {
+    "seed": 42,
+    "domain": "crypto_options_orderflow",
+    "config": {
+      "symbols": [
+        "BTC",
+        "ETH",
+        "SOL"
+      ],
+      "spot_prices": {
+        "BTC": 65000.0,
+        "ETH": 3400.0,
+        "SOL": 145.0
+      },
+      "initial_capital": 100000.0,
+      "seed": 42,
+      "fixed_now": null,
+      "n_points": 500,
+      "train_window": 120,
+      "test_window": 40,
+      "step_size": 40,
+      "purge": 10,
+      "embargo": 5,
+      "allocation_mode": "risk_parity",
+      "vol_target": 0.1,
+      "turnover_cap": 0.05,
+      "risk_parity": true,
+      "max_position_pct": 0.2,
+      "correlation_window": 60,
+      "max_correlation": 0.7,
+      "option_strike_pct": 0.05,
+      "option_expiries_days": [
+        7,
+        14,
+        30,
+        60
+      ],
+      "option_iv_base": 0.8,
+      "transaction_cost_bps": 1.0,
+      "rebalance_every_step": true,
+      "regime_costs": {
+        "low_vol": 0.0001,
+        "normal": 0.0002,
+        "high_vol": 0.0005,
+        "stress": 0.001
+      }
+    }
+  },
+  "seed": 42,
+  "artifacts": [
+    "research_state/INTEGRATED_STEP_data_ingestion_2026-10-31T21:34:38.348403Z.json",
+    "research_state/INTEGRATED_STEP_feature_engineering_2026-10-31T21:34:38.384014Z.json"
+  ]
+}
