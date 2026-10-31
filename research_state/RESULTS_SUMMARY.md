@@ -74,3 +74,11 @@ orderflow_imbalance vs forward return: -0.4583478199902648
 - **Tests**: `tests/test_portfolio_scaling.py` (14 tests) - weight sums, vol-target cash buffer (sum<=1), turnover cap enforcement (breach scaled to cap), no-lookahead verified, allocation stability across regimes, strict serialization `allow_nan=False`, determinism. All passing.
 - **Artifacts**: `research_state/PORTFOLIO_SCALING_20261031T165222Z.json` (modes: risk_parity no cap, risk_parity with turnover_cap 0.02, vol_target 0.05).
 - **Result**: Risk-aware allocation integrated with existing correlation constraint + purge/embargo; deterministic, finite-guarded, serialized strictly. Baseline remains green.
+
+
+## Phase 5: Campaign Resume Hardening (2026-10-31T17:52:15Z)
+- Implemented `src/campaign/core.py` with atomic checkpointing (write-to-temp-then-rename), state tracking (started/in-progress/completed/failed/aborted), resume-from-checkpoint (skip completed, replay failed/pending), deterministic seeding, strict JSON serialization (`allow_nan=False`).
+- Added `scripts/run_campaign.py` with CLI verbs `run`, `resume`, `status`, `abort`.
+- Strengthened `tests/test_campaign_resume.py` with atomicity, idempotent resume, failed-step replay, state transitions, CLI behavior, determinism, strict serialization, corruption recovery — all passing.
+- Artifact: research_state/CAMPAIGN_RESUME_20261031T175208Z.json (run->checkpoint->interrupt->resume->complete cycle evidence).
+- Gate: `python -m pytest tests/ -q` remains green.

@@ -1,0 +1,75 @@
+{
+  "campaign_id": "demo_campaign",
+  "state": "in_progress",
+  "created_at": "2026-10-31T17:51:53.758197Z",
+  "updated_at": "2026-10-31T17:51:53.842468Z",
+  "steps": [
+    {
+      "step_id": "data_prep",
+      "name": "Data preparation and validation",
+      "status": "completed",
+      "started_at": "2026-10-31T17:51:53.812445Z",
+      "completed_at": "2026-10-31T17:51:53.815480Z",
+      "error": null,
+      "result_path": "research_state/CAMPAIGN_demo_campaign_data_prep_20261031T175153Z.json"
+    },
+    {
+      "step_id": "feature_engineering",
+      "name": "Feature engineering (orderflow/gamma/IV/liquidity)",
+      "status": "completed",
+      "started_at": "2026-10-31T17:51:53.817273Z",
+      "completed_at": "2026-10-31T17:51:53.821811Z",
+      "error": null,
+      "result_path": "research_state/CAMPAIGN_demo_campaign_feature_engineering_20261031T175153Z.json"
+    },
+    {
+      "step_id": "walkforward_oos",
+      "name": "Walk-forward/OOS validation",
+      "status": "completed",
+      "started_at": "2026-10-31T17:51:53.823693Z",
+      "completed_at": "2026-10-31T17:51:53.826860Z",
+      "error": null,
+      "result_path": "research_state/CAMPAIGN_demo_campaign_walkforward_oos_20261031T175153Z.json"
+    },
+    {
+      "step_id": "portfolio_scaling",
+      "name": "Portfolio scaling with allocation/turnover controls",
+      "status": "completed",
+      "started_at": "2026-10-31T17:51:53.828774Z",
+      "completed_at": "2026-10-31T17:51:53.831917Z",
+      "error": null,
+      "result_path": "research_state/CAMPAIGN_demo_campaign_portfolio_scaling_20261031T175153Z.json"
+    },
+    {
+      "step_id": "options_hedging",
+      "name": "Options hedging robustness",
+      "status": "completed",
+      "started_at": "2026-10-31T17:51:53.833920Z",
+      "completed_at": "2026-10-31T17:51:53.837137Z",
+      "error": null,
+      "result_path": "research_state/CAMPAIGN_demo_campaign_options_hedging_20261031T175153Z.json"
+    },
+    {
+      "step_id": "campaign_artifacts",
+      "name": "Generate campaign artifacts and summary",
+      "status": "completed",
+      "started_at": "2026-10-31T17:51:53.839200Z",
+      "completed_at": "2026-10-31T17:51:53.842461Z",
+      "error": null,
+      "result_path": "research_state/CAMPAIGN_demo_campaign_campaign_artifacts_20261031T175153Z.json"
+    }
+  ],
+  "metadata": {
+    "command": "run",
+    "seed": 42
+  },
+  "seed": 42,
+  "artifacts": [
+    "research_state/CAMPAIGN_demo_campaign_data_prep_20261031T175153Z.json",
+    "research_state/CAMPAIGN_demo_campaign_feature_engineering_20261031T175153Z.json",
+    "research_state/CAMPAIGN_demo_campaign_walkforward_oos_20261031T175153Z.json",
+    "research_state/CAMPAIGN_demo_campaign_portfolio_scaling_20261031T175153Z.json",
+    "research_state/CAMPAIGN_demo_campaign_options_hedging_20261031T175153Z.json",
+    "research_state/CAMPAIGN_demo_campaign_campaign_artifacts_20261031T175153Z.json"
+  ]
+}

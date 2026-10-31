@@ -1,0 +1,70 @@
+{
+  "campaign_id": "demo_campaign",
+  "state": "in_progress",
+  "created_at": "2026-10-31T17:51:53.758197Z",
+  "updated_at": "2026-10-31T17:51:53.817322Z",
+  "steps": [
+    {
+      "step_id": "data_prep",
+      "name": "Data preparation and validation",
+      "status": "completed",
+      "started_at": "2026-10-31T17:51:53.812445Z",
+      "completed_at": "2026-10-31T17:51:53.815480Z",
+      "error": null,
+      "result_path": "research_state/CAMPAIGN_demo_campaign_data_prep_20261031T175153Z.json"
+    },
+    {
+      "step_id": "feature_engineering",
+      "name": "Feature engineering (orderflow/gamma/IV/liquidity)",
+      "status": "in_progress",
+      "started_at": "2026-10-31T17:51:53.817273Z",
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "walkforward_oos",
+      "name": "Walk-forward/OOS validation",
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "portfolio_scaling",
+      "name": "Portfolio scaling with allocation/turnover controls",
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "options_hedging",
+      "name": "Options hedging robustness",
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "campaign_artifacts",
+      "name": "Generate campaign artifacts and summary",
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    }
+  ],
+  "metadata": {
+    "command": "run",
+    "seed": 42
+  },
+  "seed": 42,
+  "artifacts": [
+    "research_state/CAMPAIGN_demo_campaign_data_prep_20261031T175153Z.json"
+  ]
+}

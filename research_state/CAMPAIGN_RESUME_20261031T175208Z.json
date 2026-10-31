@@ -1,0 +1,26 @@
+{
+  "timestamp": "2026-10-31T17:52:08.309255Z",
+  "cycle": "run->checkpoint->interrupt->resume->complete",
+  "campaign_id": "resume_demo",
+  "state": "completed",
+  "checkpoint_counts": 13,
+  "resume_skip_replay_evidence": {
+    "skipped_completed": [
+      "prep",
+      "train"
+    ],
+    "replayed": [
+      "validate"
+    ]
+  },
+  "state_transitions": [
+    "started",
+    "in_progress",
+    "failed",
+    "in_progress",
+    "completed"
+  ],
+  "timing": {
+    "seed": 123
+  }
+}
