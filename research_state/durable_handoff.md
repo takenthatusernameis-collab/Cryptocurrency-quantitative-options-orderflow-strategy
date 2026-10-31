@@ -1,8 +1,8 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T02:22:14Z
+Timestamp (UTC): 2026-10-31T02:22:39Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY
-Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks removed.
+Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY (PRIORITIZE BY REPO NAME)
+Gate status: GREEN (358 passed, 0 failed, 0 warnings). tests/test_campaign_resume.py: PASSED (4/4). Working tree clean. Bottlenecks removed/prevented.
 
 ## BOTTLENECKS (FIXED / PREVENTED)
 - NONE active. All tooling/edit paths unblocked.
@@ -115,8 +115,9 @@ Run gate + campaign resume. Do not proceed if not green.
 6. VERIFY affected tests after each change. Full `pytest -q` before ending.
 7. UPDATE THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make priorities unmissable. NO IDLE TURNS. HEAVY QUANT WORK ONLY.
 
-## LAST SESSION (2026-10-31T02:22:14Z)
-- **Handoff refreshed to single durable source with fresh timestamp.** Priorities explicitly inferred from repo name (crypto options + orderflow) — A) CRYPTO OPTIONS PRICING/GREEKS/IV highest, B) orderflow/correlation/tail/routing, C) risk/circuit-breakers/serialization (strict `allow_nan=False`), D) safe perf only if provably byte-identical/passing.
-- **Gate verified GREEN:** `python -m pytest -q` → 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean (`git status --short` empty). Bottlenecks documented/prevented (edit-tool invalid-argument mandate in place; no idle turns).
-- **Current state:** All adversarial options/IV/Greeks tests passing (51 passed). Numerical guards and strict serialization in place. Correlation/PSD handling present in backtest engine. Ready for next agent to continue deep hardening as directed above.
-- **Immediate next attack:** Phase A — unguarded numerical paths in `src/features/options_pricing.py`/`src/features/iv_surface.py` under crypto extremes (ultra-short T 1e-18–1e-9, ultra-long T >100, far OTM/ITM moneyness 1e-6–1e6, near-zero vol 1e-9, vol >10, extreme rates/strikes), IV solver bracketing/Newton fallbacks, put-call parity, invariants, strict `allow_nan=False` serialization.
+## LAST SESSION (2026-10-31T02:22:39Z)
+- **Handoff re-timestamped as single durable source of truth (requested).** Priorities strictly inferred from repo name (crypto options + orderflow): A) CRYPTO OPTIONS PRICING/GREEKS/IV highest; B) orderflow/correlation/tail/portfolio/walkforward/routing; C) risk/circuit-breakers/serialization with strict `allow_nan=False`; D) safe performance only if provably byte-identical/passing.
+- **Gate verified GREEN:** `python -m pytest -q` → 358 passed, 0 failed, 0 warnings (PYTHONPATH set). `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean (`git status --short` empty). Bottlenecks documented/prevented (edit-tool invalid-argument mandate in place; no idle turns).
+- **Current state:** All adversarial options/IV/Greeks/tests passing. Numerical guards and strict serialization in place (serialize_metrics_strict/allow_nan enforced). Correlation/PSD handling present in backtest engine; risk/telemetry paths guarded. No failing tests.
+- **Bottlenecks identified/removed:** Idle exploration blocked by directive; edit calls require absolute path + exact oldString with context (use Write for full rewrites); no TODOs/FIXMEs/HACKs/XXX placeholders.
+- **Immediate next attack (UNAVOIDABLY HEAVY):** Phase A — surgically harden unguarded numerical paths in `src/features/options_pricing.py` and `src/features/iv_surface.py` under crypto extremes: T in [1e-18, 1e-9] ∪ (>100), moneyness in [1e-6, 1e6], vol in [1e-9, >10], extreme rates/dividends/strikes (1e-6..1e18). Focus IV solver (bracketing/expansion, no-root, Newton fallback safety, convergence/iteration caps), Greeks finiteness (delta/vega/gamma/theta/rho), put-call parity, invariants, and enforce strict `allow_nan=False` via serialize_metrics_strict on all outputs. Prove finiteness; minimal diffs only. Do not weaken assertions. After A, attack B (covariance/PSD/eigenvalue floors/weight blowups/routing) then C (risk/circuit-breakers/serialization). Full gate before ending. Update this file with changes/verification.
