@@ -1,4 +1,4 @@
-# DURABLE HANDOFF - 2026-10-31T10:58:43Z
+# DURABLE HANDOFF - 2026-10-31T12:02:13Z
 Repo: Cryptocurrency-quantitative-options-orderflow-strategy
 Goal: Build a robust, production-grade crypto options/orderflow strategy with out-of-sample validation and portfolio capabilities.
 
