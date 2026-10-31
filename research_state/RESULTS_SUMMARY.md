@@ -32,3 +32,12 @@ orderflow_imbalance vs forward return: -0.4583478199902648
 - Portfolio walk-forward (BTC/ETH): research_state/PORTFOLIO_WALKFORWARD_20261031T120626Z.json
 - Options hedging demo/integration artifacts: research_state/OPTIONS_HEDGING_DEMO_20261031T120626Z.json, research_state/OPTIONS_HEDGING_INTEGRATED_20261031T120626Z.json
 - All tests green: 364 passed
+
+
+## Phase 4b - Walk-forward/OOS with purge/embargo (2026-10-31T13:05:38Z)
+- Walk-forward (rolling, purge=10/embargo=5): research_state/WALKFORWARD_purge_embargo_20261031T130538Z.json
+  - Windows: 5, OOS return: 4.13e-05, OOS Sharpe: 0.437, OOS maxDD: 0.00010, stability_ratio: inf? reported in file, degradation computed
+- Portfolio walk-forward (BTC/ETH/SOL, correlation-aware): research_state/PORTFOLIO_WALKFORWARD_20261031T130553Z.json
+  - Multi-symbol correlation constraint applied, purge/embargo enforced
+- Options hedging integrated into backtest path: research_state/OPTIONS_HEDGING_INTEGRATED_20261031T130606Z.json
+- Tests remain green: `python -m pytest tests/ -q` passes (all existing tests)
