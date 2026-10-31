@@ -1,60 +1,60 @@
-# DURABLE HANDOFF - 2026-10-31T09:09:13Z
+# DURABLE HANDOFF - 2026-10-31T10:58:43Z
 Repo: Cryptocurrency-quantitative-options-orderflow-strategy
-Goal: Stop checkpoint-only loops. Force heavy, measurable implementation work on the crypto options orderflow strategy.
+Goal: Build a robust, production-grade crypto options/orderflow strategy with out-of-sample validation and portfolio capabilities.
 
-## STATUS (verified 2026-10-31T09:09:13Z)
-- 360 tests pass (`python -m pytest tests/ -q`). No failing tests — code is green.
-- Phase 1 (data ingestion): DONE — `src/data/loader.py`, `schemas.py`, `validators.py`, `tests/test_data_loader_and_validation.py`, synthetic raw data (`data/raw/orderflow_btcusdt_synthetic.json` 1000 trades, `data/raw/options_btc_synthetic.json` 30 quotes), `research_state/DATA_INVENTORY.md`.
-- Phase 2 (orderflow features): DONE — `src/features/orderflow.py` (+ liquidity, gamma_exposure, iv_surface, volatility, options_pricing), `src/pipelines/build_features.py`, `tests/test_features.py`, `data/processed/features_latest.json` materialized.
-- Phase 3 (strategy + backtest): PARTIAL — `src/backtest/engine.py`, `src/strategy/orderflow_signal.py`, `scripts/run_backtest.py`, `scripts/run_backtest_synthetic.py`, `research_state/BACKTEST_*.json` + `RESULTS_SUMMARY.md` exist, BUT metrics are TRIVIAL: 1 trade, `win_rate=0.0`, `sharpe_ratio=0.0`, `total_return≈0`. Single-snapshot signal (`of_imb > 0.01` required) fires at most once. DATA IS NOT MISSING — do NOT redo Phase 1; the bottleneck is the single-bar signal/backtest driver.
+## STATUS (verified 2026-10-31T10:58:43Z)
+- **Tests**: 364 passed, 0 failed (`python -m pytest tests/ -q`). Codebase is GREEN.
+- **Phase 1 (Data)**: DONE - loaders, schemas, validators, synthetic fixtures present.
+- **Phase 2 (Features)**: DONE - orderflow, gamma exposure, IV surface, liquidity, volatility, pricing features materialized.
+- **Phase 3 (Time-series backtest)**: DONE - `scripts/run_backtest_timeseries.py` produces real metrics.
+  - Latest: `research_state/BACKTEST_TIMESERIES_20261031T095347Z.json` (20 trades, win_rate 71.4%, sharpe 2.93, max_dd 0.35%, flow corr -0.458)
+  - `research_state/RESULTS_SUMMARY.md` updated with non-trivial metrics.
 
-## BOTTLENECK REMOVED / IDENTIFIED
-Blocker: backtest runs one trade on one snapshot → trivial, non-publishable metrics. Fix: convert the backtest into a time-ordered walk through the orderflow (multiple bars/windows, multiple trades, position sizing, SL/TP exits, equity curve, flow-correlation) so `BACKTEST_*.json` contains real metrics (multiple trades, non-zero win rate/sharpe/drawdown).
+## BOTTLENECKS REMOVED
+- Single-snapshot backtest triviality fixed via windowed time-series execution (50-trade windows).
+- Flow-correlation added between orderflow imbalance and forward returns.
+- Tests added for multi-trade execution and determinism.
 
-## NEXT FOCUS CAMPAIGN (execute in strict order — heavy work, no skipping)
-### Phase 3 completion: Time-series backtest with real metrics
-1. **Time-ordered backtest driver**: Modify/extend `scripts/run_backtest.py` (or add `scripts/run_backtest_timeseries.py`) to iterate the orderflow trades sorted by timestamp in windows (e.g. 50-trade tumbling windows), compute orderflow signal per window, size position via `engine.calculate_position_size`, execute buy/sell with SL/TP, call `update_equity_curve` per window, then `calculate_metrics`. Must produce multiple trades (>1) and a non-degenerate equity curve.
-2. **Flow-correlation metric**: Compute correlation between orderflow imbalance / cumulative delta and forward returns; add to backtest output. If uncomputable, fix the driver, not the data.
-3. **Run baseline**: Execute the time-series backtest headlessly. Write `research_state/BACKTEST_TIMESERIES_<UTC>.json` with real metrics and update `research_state/RESULTS_SUMMARY.md` (signal + metrics blocks).
-4. **Tests**: Add `tests/test_backtest_timeseries.py` covering multi-trade execution, SL/TP exits, determinism (same seed → same result), and non-trivial metrics (total_trades > 1).
-5. **Feature materialization (optional but recommended)**: `src/pipelines/build_features.py` already materializes `data/processed/`; ensure a features manifest accompanies the backset run.
+## NEXT FOCUS CAMPAIGN (execute in strict order - heavy implementation required)
+### Phase 4: Walk-forward/OOS robustness & portfolio scaling
+1. **Harden walk-forward validation** - The codebase has `WalkForwardBacktest`, `run_walk_forward`, `run_rolling_window_backtest` in `src/backtest/engine.py` and tests like `test_oos_walkforward.py`, `test_walkforward_robustness_adversarial.py`. Run existing walk-forward on the synthetic data, identify leakage/lookahead issues, fix them. Ensure out-of-sample performance is reported separately.
+2. **Portfolio-level backtesting** - `PortfolioWalkForwardBacktest` exists. Extend to handle multi-symbol or multi-strategy allocation, correlation-aware sizing, and realistic constraints (margin, liquidity). Add tests for correlation effects.
+3. **Options hedging integration** - `src/backtest/options_hedging.py` and `tests/test_options_hedging.py`, `test_phase1_gamma_invariants.py` exist. Wire options hedging into the live backtest path (delta/gamma hedging based on gamma exposure/IV surface). Make it configurable and test invariants.
+4. **Adversarial robustness hardening** - Many adversarial tests exist (routing, stress, correlation). Fix any remaining brittleness: numerical guards, serialization of non-finite results, circuit breakers. Ensure all adversarial tests remain green.
+5. **Campaign resume & state management** - `tests/test_campaign_resume.py` exists. Verify resumability for long-running backtests/campaigns with checkpoints.
 
-### FIRST ACTION (do this immediately, no debate)
+### IMMEDIATE FIRST ACTIONS (do NOT defer)
 ```bash
 # 1) Confirm green baseline
 python -m pytest tests/ -q
 
-# 2) Inspect current trivial metrics
-cat research_state/RESULTS_SUMMARY.md
+# 2) Run walk-forward validation on existing data
+python -c "
+# quick check - use existing APIs
+from src.backtest import run_walk_forward
+# see how to call it
+" 2>&1 | tail -30
 
-# 3) Implement time-ordered backtest driver (edit scripts/run_backtest.py or add run_backtest_timeseries.py)
-#    - sort of.trades by timestamp
-#    - tumbling windows of ~50 trades
-#    - generate_orderflow_signal per window -> execute_trade with SL/TP
-#    - update_equity_curve per window -> calculate_metrics
-#    - add flow-correlation (of_imb vs forward price change)
-#    - write research_state/BACKTEST_TIMESERIES_<UTC>.json + update RESULTS_SUMMARY.md
+# 3) Explore walk-forward implementation
+grep -n "class WalkForward" src/backtest/engine.py | head -5
+grep -rn "run_walk_forward" src | head -10
 
-# 4) Add tests/test_backtest_timeseries.py (multi-trade, determinism, non-trivial metrics)
-
-# 5) Verify
-python -m pytest tests/ -q
-python scripts/run_backtest_timeseries.py   # or run_backtest.py
-cat research_state/RESULTS_SUMMARY.md
+# 4) Run OOS/walkforward tests to see current state
+python -m pytest tests/test_oos_walkforward.py tests/test_walkforward_robustness_adversarial.py -v 2>&1 | tail -20
 ```
-After the time-series backtest produces real metrics, do NOT declare done until `total_trades > 1` and metrics are non-degenerate (win_rate/sharpe/drawdown computable and non-trivial).
 
 ## HARD CONSTRAINTS
-- **No more checkpoint spam**: Do not commit unless you added executable code, tests, data artifacts, or passing validation.
-- **Heavy work required**: Prefer implementing over summarizing. If tempted to write another status update, write code instead.
-- **Deterministic**: All scripts must be runnable headlessly with clear args; write artifacts to disk.
-- **Fail-forward**: Missing data is a task to create fixtures/loaders, not an excuse to stop.
-- **Single focus**: Complete Phase 3 (time-series backtest with real metrics) fully before any speculative new phase. Do not jump ahead.
-- **Every session must ship**: new module, tests, data loader, features, backtest artifact, or passing checks.
+- **No checkpoint spam**: Only commit when adding executable code, tests, data artifacts, or passing validation.
+- **Heavy work required**: Implement, don't just analyze. Fix issues found, don't paper over them.
+- **Deterministic & reproducible**: All runs headless, artifacts to `research_state/`, configs explicit.
+- **Fail-forward**: If APIs are awkward, extend them. If tests reveal bugs, fix them.
+- **Ship every session**: New code/tests/artifacts or concrete fixes with passing tests.
+- **Don't redo completed phases**: Time-series backtest is DONE. Build on it.
 
-## SUCCESS CRITERIA (must hit before next handoff)
-- [ ] `research_state/BACKTEST_TIMESERIES_<UTC>.json` exists with real metrics (total_trades > 1)
-- [ ] `research_state/RESULTS_SUMMARY.md` updated with signal + non-trivial metrics (win_rate, sharpe_ratio, max_drawdown computable)
-- [ ] `tests/test_backtest_timeseries.py` added with >=1 passing test (multi-trade + determinism)
-- [ ] `python -m pytest tests/ -q` fully green
-- [ ] Flow-correlation (orderflow vs forward return) computed and reported
+## SUCCESS CRITERIA (before next handoff)
+- [ ] Walk-forward/OOS results written to `research_state/WALKFORWARD_*.json` with train/test split, IS/OOS metrics reported separately
+- [ ] At least one concrete robustness fix (leakage guard, purged CV, or proper embargo) if issues found
+- [ ] Portfolio walk-forward exercised with correlation-aware logic OR meaningful extension to it
+- [ ] Options hedging integrated into backtest path with tests passing (or new tests added)
+- [ ] All tests green: `python -m pytest tests/ -q` still passes
+- [ ] `research_state/RESULTS_SUMMARY.md` updated with Phase 4 findings/metrics
