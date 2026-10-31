@@ -30,6 +30,23 @@ _IV_FLOOR = 1e-6
 _IV_CAP = 5.0
 
 
+def _is_finite_iv(value: Any) -> bool:
+    """Return True only when ``value`` is a finite, in-range IV.
+
+    NaN and Inf comparisons against numeric bounds return False, so a bare
+    ``_IV_FLOOR <= v <= _IV_CAP`` check would silently ACCEPT non-finite IVs.
+    This helper short-circuits on finiteness first so NaN/Inf can never enter
+    a surface, get stored, and later crash strict serialization.
+    """
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
+        return False
+    if not math.isfinite(v):
+        return False
+    return _IV_FLOOR <= v <= _IV_CAP
+
+
 def _to_float(v: Optional[float]) -> Optional[float]:
     if v is None:
         return None
@@ -108,6 +125,15 @@ class IVSurface:
         self.spot = float(spot)
         self.rate = float(rate)
         self.seed = int(seed)
+        # Reject non-finite / out-of-range IVs up front. A NaN/Inf IV point
+        # would otherwise pass the in-range comparisons below (NaN < x is
+        # False) and silently poison interpolation + strict serialization.
+        for p in points:
+            if not _is_finite_iv(p.iv):
+                raise FeatureError(
+                    "IV surface point has non-finite or out-of-range IV",
+                    context={"strike": p.strike, "iv": p.iv, "option_type": p.option_type},
+                )
         # Sort by time to expiry, then strike for deterministic behavior
         self.points = sorted(points, key=lambda p: (p.time_to_expiry, p.strike, p.option_type))
         self._validate_arbitrage_free()
@@ -153,7 +179,7 @@ class IVSurface:
             pts_t = sorted(pts, key=lambda x: x.time_to_expiry)
             # Calendar spread arbitrage is more complex; enforce basic finiteness and reasonable ranges
             for p in pts_t:
-                if p.iv < _IV_FLOOR or p.iv > _IV_CAP:
+                if not _is_finite_iv(p.iv):
                     raise FeatureError("IV surface violates arbitrage/IV bounds",
                                        context={"strike": p.strike, "iv": p.iv})
 
@@ -255,13 +281,13 @@ class IVSurface:
                 iv = (1 - w_t) * iv1 + w_t * iv2
         try:
             iv = max(_IV_FLOOR, min(_IV_CAP, float(iv)))
-            if not math.isfinite(iv):
+            if not _is_finite_iv(iv):
                 raise NonFiniteResultError("Non-finite IV from surface interpolation")
             return iv
         except Exception:
             try:
                 iv_f = max(_IV_FLOOR, min(_IV_CAP, 0.2))
-                if not math.isfinite(iv_f):
+                if not _is_finite_iv(iv_f):
                     iv_f = 0.2
                 return float(iv_f)
             except Exception:
@@ -345,6 +371,9 @@ def calibrate_iv_surface(points: List[SurfacePoint], spot: float, rate: float = 
     smoothed_points: List[SurfacePoint] = []
     for tkey, pts in by_exp.items():
         pts_s = sorted(pts, key=lambda x: x.strike)
+        # Filter out non-finite IVs before smoothing so NaN/Inf can never
+        # enter the weighted moving average and propagate into the surface.
+        pts_s = [p for p in pts_s if _is_finite_iv(p.iv)]
         ivs = [p.iv for p in pts_s]
         if len(ivs) >= 3 and smoothing > 0.0:
             smoothed_ivs = list(ivs)
@@ -355,6 +384,8 @@ def calibrate_iv_surface(points: List[SurfacePoint], spot: float, rate: float = 
             ivs_use = ivs
         for i, p in enumerate(pts_s):
             iv_c = max(_IV_FLOOR, min(_IV_CAP, float(ivs_use[i])))
+            if not _is_finite_iv(iv_c):
+                iv_c = 0.2
             smoothed_points.append(SurfacePoint(
                 strike=p.strike, expiry=p.expiry, time_to_expiry=p.time_to_expiry,
                 option_type=p.option_type, iv=iv_c, price=p.price,
