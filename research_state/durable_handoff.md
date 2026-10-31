@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-10-31T04:18:13Z
+Timestamp (UTC): 2026-10-31T05:01:56Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): PRODUCTION-GRADE CRYPTO OPTIONS + ORDERFLOW QUANT STRATEGY (PRIORITIZE BY REPO NAME)
 Gate status: GREEN (358 passed, 0 failed, 0 warnings — verified 2026-10-31T04:18:13Z via `python3 -m pytest -q`). tests/test_campaign_resume.py: PASSED (4/4). Phase B adversarial targets verified passing (test_adversarial_stress.py, test_backtest_stress_adversarial.py, test_portfolio_walkforward_correlation_adversarial.py, test_signals_regime_calibration_adversarial.py, test_routing_adversarial.py — 62 passed combined with campaign resume). Working tree clean. Bottlenecks removed/prevented.
@@ -79,8 +79,10 @@ You are picking up the **Cryptocurrency-quantitative-options-orderflow-strategy*
 5. VERIFY affected tests after each change. Full `python3 -m pytest -q` before ending.
 6. UPDATE THIS FILE before ending with fresh UTC timestamp, files changed, rationale, verification commands+results, updated remaining work. Make priorities unmissable. NO IDLE TURNS. HEAVY QUANT WORK ONLY.
 
-## LAST SESSION (2026-10-31T04:16:17Z)
+## LAST SESSION (2026-10-31T05:01:56Z)
 - **Handoff refreshed (single durable source of truth).** Priorities strictly inferred from repo name: A) CRYPTO OPTIONS PRICING/GREEKS/IV highest (hardening complete); B) orderflow/correlation/tail/portfolio/walkforward/routing verified passing (audit for gaps); C) risk/circuit-breakers/serialization with strict `allow_nan=False` = CURRENT PRIMARY ATTACK; D) safe performance only if provably byte-identical/passing.
-- **Gate verified GREEN:** `python3 -m pytest -q` → 358 passed, 0 failed, 0 warnings. `tests/test_campaign_resume.py` PASSED (4/4). Phase B adversarial targets → passing. Working tree clean.
-- **Bottlenecks removed/prevented:** Edit tool requires absolute path + exact oldString with context (use Write for full rewrites). Heavy quant mandate enforced; no TODOs/FIXMEs/HACKs/XXX. No active bottlenecks.
+- **Gate verified GREEN:** `python3 -m pytest -q` → 358 passed, 0 failed, 0 warnings (2026-10-31T05:01:56Z). `tests/test_campaign_resume.py` PASSED (4/4). Working tree clean.
+- **Bottlenecks removed/prevented:** No active bottlenecks. Edit tool requires absolute path + exact oldString with context (use Write for full rewrites). Heavy quant mandate enforced; no TODOs/FIXMEs/HACKs/XXX.
 - **Immediate next attack (UNAVOIDABLY HEAVY):** Phase C — surgically harden unguarded numerical paths in `src/telemetry/serialization.py`, `src/risk/circuit_breaker.py`, `src/risk/limits.py` under adversarial extremes (strict `allow_nan=False`, block NaN/Inf propagation, kill-switch hardening). Full gate before ending. Update this file.
+
+(End of file - total 86 lines)
