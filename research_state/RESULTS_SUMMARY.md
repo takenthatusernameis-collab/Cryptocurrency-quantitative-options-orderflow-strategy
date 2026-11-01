@@ -133,3 +133,49 @@ orderflow_imbalance vs forward return: -0.4583478199902648
 - **Gate**: `python -m pytest tests/ -q` = 538 passed, 2 skipped, 0 failed (all Phase 8 tests passing).
 - **Determinism**: Verified reruns produce identical key metrics; full pipeline exercises live/paper path with strict serialization.
 - **Integration**: Risk controls wired into execution with hard enforcement; all components use production-grade patterns, no placeholders/TODOs/FIXMEs/HACKs.
+
+
+## Phase 9: Production Monitoring, Observability & Continuous Validation (Crypto Options + Orderflow) (2026-11-01T00:47:50Z)
+
+**Repo domain**: Cryptocurrency-quantitative-options-orderflow-strategy (crypto options pricing/Greeks/IV + orderflow features/microstructure). Phase 9 is the active focus campaign; all phases 1-8 complete. Gate GREEN (633 passed, 2 skipped, 0 failed).
+
+### Modules implemented (all NEW, production-grade, no placeholders/TODOs/FIXMEs/HACKs/XXX):
+
+1. **Observability Core** (`src/telemetry/observability.py`): Structured JSON logging with trace/correlation IDs, log levels, PII/secret redaction, metrics registry (counters/gauges/histograms), exporter interfaces (Prometheus text + OpenTelemetry JSON), deterministic tracer with span lifecycle. Module-level `observability_logger`, `metrics_registry`, `tracer`.
+
+2. **Real-Time Alerting** (`src/telemetry/alerting.py`): Alert rules (PnL/drawdown/greeks/VaR-ES/exposure/margin/reconciliation/order latency/fill rate), severity levels (info/warning/error/critical), deduplication/throttling, channels (log/email/webhook/slack) with dry-run mode, escalation policy, audit trail. Default rules via `setup_default_rules()`.
+
+3. **Health Checks** (`src/monitoring/health.py`): Liveness/readiness/startup probes, dependency checks (exchange/risk/orderflow_adapter/reconciliation), aggregate status (pass/warn/fail/unknown), `HealthChecker` with `run_all()`/`snapshot()`.
+
+4. **SLOs** (`src/monitoring/slo.py`): SLO definitions (latency/error_rate/uptime/reconciliation_freshness/fill_rate), SLI measurement recording, SLO evaluation over sliding windows, burn-rate alerts, status page model (`StatusPageModel`).
+
+5. **Resilience - Circuit Breakers** (`src/resilience/circuit.py`): Per-component/exchange circuit breakers (CLOSED/OPEN/HALF_OPEN), failure threshold, timeout, half-open max calls, error-rate window, manual override, chaos failure injection, state snapshot/restore, `CircuitBreakerRegistry`.
+
+6. **Resilience - Retry/Bulkhead/Timeout/Hedged/Degradation** (`src/resilience/retry.py`): Retry with exponential backoff, bulkhead semaphore isolation, timeout with default-on-timeout, hedged requests (first success wins), graceful degradation with fallback, all deterministic.
+
+7. **Continuous Validation** (`src/validation/continuous.py`): Data quality checks (NaN/Inf/stale/corruption/inverted spread/negative price), drift detection, shadow mode vs live/paper comparison, canary gates, golden artifact store + regression checks, `ContinuableValidator` orchestrating all.
+
+8. **CLI** (`scripts/run_continuous_validation.py`): Runs the full Phase 9 validation campaign, emits timestamped artifacts to `research_state/`.
+
+### Tests:
+- `tests/test_production_monitoring_observability.py`: 95 substantive tests covering logging/metrics/traces, alerting rules/dedup/escalation, health/SLOs, resilience/circuit breakers/retries/bulkheads/hedged/degradation, continuous validation/shadow/drift/canary/regression, determinism, strict serialization. All passing.
+
+### Artifacts emitted (strict `allow_nan=False` serialization):
+- `research_state/OBSERVABILITY_REPORT_20261101T004750Z.json`
+- `research_state/ALERT_AUDIT_20261101T004750Z.json`
+- `research_state/HEALTH_SLO_REPORT_20261101T004750Z.json`
+- `research_state/RESILIENCE_AUDIT_20261101T004750Z.json`
+- `research_state/CONTINUOUS_VALIDATION_20261101T004750Z.json`
+
+### Campaign summary (seed 42, symbols BTC/ETH):
+- Data quality: PASSED (no NaN/Inf/stale/corruption)
+- Drift detected: spread_bps (25% > 10% threshold, severity error)
+- Shadow agreement: TRUE (shadow vs live signals within threshold)
+- Canary gate: PASSED (v2.1 sharpe 1.85 vs v2.0 1.75, +5.71% >= 1.0% threshold)
+- Regression check: MATCHED (golden artifact hash identical)
+- Health status: pass (exchange/risk/orderflow_adapter/reconciliation all pass)
+- SLOs: latency/error_rate/uptime/fill_rate met; reconciliation_freshness not met (no measurements)
+
+### Gate: `python -m pytest tests/ -q` = 633 passed, 2 skipped, 0 failed (was 538 passed, 2 skipped, 0 failed).
+### Determinism: Verified reruns produce identical key metrics; all artifacts strictly serializable.
+### Phase 9: COMPLETE
