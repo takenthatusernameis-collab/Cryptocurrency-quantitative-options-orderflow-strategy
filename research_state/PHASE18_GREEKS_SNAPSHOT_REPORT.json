@@ -1,0 +1,98 @@
+{
+  "report": "PHASE18_GREEKS_SNAPSHOT_REPORT",
+  "campaign": "phase18_observability_attribution",
+  "timestamp": "2026-11-01T12:36:39.718168Z",
+  "seed": 42,
+  "paper_only": true,
+  "count": 3,
+  "greeks": [
+    {
+      "intent_id": "synth_g0",
+      "symbol": "BTC",
+      "expiry": "2026-12-01",
+      "option_type": "call",
+      "delta": 0.3072080576310577,
+      "gamma": 0.00967869548796471,
+      "vega": 0.20449014432425253,
+      "theta": -0.0042533950019444525,
+      "rho": 0.0,
+      "notional_usd": 10000.0,
+      "dte_days": 30.0
+    },
+    {
+      "intent_id": "synth_g1",
+      "symbol": "ETH",
+      "expiry": "2026-12-01",
+      "option_type": "call",
+      "delta": 0.30721196213683966,
+      "gamma": 0.010347191898644916,
+      "vega": 0.20582767448306824,
+      "theta": -0.004281215629247819,
+      "rho": 0.0,
+      "notional_usd": 10000.0,
+      "dte_days": 30.0
+    },
+    {
+      "intent_id": "synth_g2",
+      "symbol": "SOL",
+      "expiry": "2026-12-01",
+      "option_type": "call",
+      "delta": 0.3072415721509003,
+      "gamma": 0.00993049078137541,
+      "vega": 0.20125755739597412,
+      "theta": -0.0041861571938362615,
+      "rho": 0.0,
+      "notional_usd": 10000.0,
+      "dte_days": 30.0
+    }
+  ],
+  "portfolio_greeks_by_symbol": {
+    "BTC": {
+      "delta_net": 3072.080576310577,
+      "gamma_net": 96.7869548796471,
+      "vega_net": 2044.9014432425254,
+      "theta_net": -42.533950019444525,
+      "notional_usd": 10000.0,
+      "count": 1
+    },
+    "ETH": {
+      "delta_net": 3072.1196213683966,
+      "gamma_net": 103.47191898644915,
+      "vega_net": 2058.276744830682,
+      "theta_net": -42.81215629247819,
+      "notional_usd": 10000.0,
+      "count": 1
+    },
+    "SOL": {
+      "delta_net": 3072.415721509003,
+      "gamma_net": 99.30490781375411,
+      "vega_net": 2012.5755739597412,
+      "theta_net": -41.861571938362616,
+      "notional_usd": 10000.0,
+      "count": 1
+    }
+  },
+  "portfolio_totals": {
+    "delta_net": 9216.615919187976,
+    "gamma_net": 299.56378167985036,
+    "vega_net": 6115.7537620329485,
+    "theta_net": -127.20767825028534,
+    "notional_usd": 30000.0
+  },
+  "git_sha": "5972de1ac19a2da7de743b198059f7d4d758e45f",
+  "campaign_id": "phase17_42",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ]
+}

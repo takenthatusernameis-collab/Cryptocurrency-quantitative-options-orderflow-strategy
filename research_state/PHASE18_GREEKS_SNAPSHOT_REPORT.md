@@ -1,0 +1,7 @@
+# PHASE18_GREEKS_SNAPSHOT_REPORT
+Timestamp (UTC): 2026-11-01T12:36:39.718168Z
+Campaign ID: phase17_42
+Seed: 42
+Symbols: BTC, ETH, SOL, XRP, ADA
+Paper-only: True
+Git SHA: 5972de1ac19a2da7de743b198059f7d4d758e45f

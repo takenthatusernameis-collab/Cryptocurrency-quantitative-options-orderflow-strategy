@@ -221,6 +221,10 @@ class Phase17Campaign:
         self.venues = tuple(str(v).lower() for v in venues)
         self.paper_only = True
         self.outdir = outdir or Path("research_state")
+        self.intents = []
+        self.confirmations = []
+        self.signals = []
+        self.artifacts = []
         self.outdir.mkdir(parents=True, exist_ok=True)
         self.cycles = int(cycles)
         self.spot = dict(_DEFAULT_SPOTS)
@@ -620,6 +624,9 @@ class Phase17Campaign:
             if not r.exists():
                 raise RuntimeError(f"Missing required artifact: {r}")
 
+        self.intents = list(all_intents)
+        self.confirmations = list(all_confirms)
+        self.signals = list(all_signals)
         self.artifacts = paths
         return {
             "status": "completed",

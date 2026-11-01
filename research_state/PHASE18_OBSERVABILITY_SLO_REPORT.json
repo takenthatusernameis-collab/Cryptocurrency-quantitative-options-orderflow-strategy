@@ -1,0 +1,105 @@
+{
+  "report": "PHASE18_OBSERVABILITY_SLO_REPORT",
+  "campaign": "phase18_observability_attribution",
+  "timestamp": "2026-11-01T12:36:39.718100Z",
+  "seed": 42,
+  "paper_only": true,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "latency": [
+    {
+      "venue": "deribit",
+      "p50_ms": 44.590771735378546,
+      "p95_ms": 65.12734176419937,
+      "p99_ms": 76.08833569542756,
+      "count": 200
+    },
+    {
+      "venue": "okx",
+      "p50_ms": 60.83367742692966,
+      "p95_ms": 94.71019196946114,
+      "p99_ms": 105.21587929269135,
+      "count": 200
+    },
+    {
+      "venue": "binance",
+      "p50_ms": 68.66591354323961,
+      "p95_ms": 102.27988981013272,
+      "p99_ms": 119.88784172709545,
+      "count": 200
+    },
+    {
+      "venue": "bybit",
+      "p50_ms": 62.997563054884,
+      "p95_ms": 98.46958630857301,
+      "p99_ms": 106.35451455896307,
+      "count": 200
+    },
+    {
+      "venue": "bitget",
+      "p50_ms": 71.80897792222089,
+      "p95_ms": 108.91543479090127,
+      "p99_ms": 124.33673462631698,
+      "count": 200
+    }
+  ],
+  "slos": [
+    {
+      "name": "latency_p95_ms",
+      "target": 150.0,
+      "actual": 108.91543479090127,
+      "ok": true,
+      "unit": "ms"
+    },
+    {
+      "name": "fill_rate",
+      "target": 0.85,
+      "actual": 0.0,
+      "ok": false,
+      "unit": "ratio"
+    },
+    {
+      "name": "orderflow_confirmation_reject_rate",
+      "target": 0.7,
+      "actual": 0.0,
+      "ok": true,
+      "unit": "ratio"
+    },
+    {
+      "name": "kill_switch_trigger_count",
+      "target": 0.0,
+      "actual": 0.0,
+      "ok": true,
+      "unit": "count"
+    }
+  ],
+  "summary": {
+    "all_ok": false,
+    "fill_rate": 0.0,
+    "confirm_reject_rate": 0.0,
+    "confirmed_intents": 0,
+    "filled_intents": 0,
+    "total_confirmations": 25,
+    "rejected_confirmations": 0,
+    "kill_switch_triggered": false,
+    "kill_switch_trigger_count": 0,
+    "latency_p95_max_ms": 108.91543479090127,
+    "alerts": [
+      "fill_rate"
+    ]
+  },
+  "git_sha": "5972de1ac19a2da7de743b198059f7d4d758e45f",
+  "campaign_id": "phase17_42",
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ]
+}

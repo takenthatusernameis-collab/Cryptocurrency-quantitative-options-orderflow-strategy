@@ -1,0 +1,160 @@
+{
+  "report": "PHASE18_PNL_ATTRIBUTION_REPORT",
+  "campaign": "phase18_observability_attribution",
+  "timestamp": "2026-11-01T12:36:39.717972Z",
+  "seed": 42,
+  "paper_only": true,
+  "count_intents": 0,
+  "count_greeks_snapshots": 3,
+  "count_attribution_lines": 3,
+  "greeks_snapshot": [
+    {
+      "intent_id": "synth_g0",
+      "symbol": "BTC",
+      "expiry": "2026-12-01",
+      "option_type": "call",
+      "delta": 0.3072080576310577,
+      "gamma": 0.00967869548796471,
+      "vega": 0.20449014432425253,
+      "theta": -0.0042533950019444525,
+      "rho": 0.0,
+      "notional_usd": 10000.0,
+      "dte_days": 30.0
+    },
+    {
+      "intent_id": "synth_g1",
+      "symbol": "ETH",
+      "expiry": "2026-12-01",
+      "option_type": "call",
+      "delta": 0.30721196213683966,
+      "gamma": 0.010347191898644916,
+      "vega": 0.20582767448306824,
+      "theta": -0.004281215629247819,
+      "rho": 0.0,
+      "notional_usd": 10000.0,
+      "dte_days": 30.0
+    },
+    {
+      "intent_id": "synth_g2",
+      "symbol": "SOL",
+      "expiry": "2026-12-01",
+      "option_type": "call",
+      "delta": 0.3072415721509003,
+      "gamma": 0.00993049078137541,
+      "vega": 0.20125755739597412,
+      "theta": -0.0041861571938362615,
+      "rho": 0.0,
+      "notional_usd": 10000.0,
+      "dte_days": 30.0
+    }
+  ],
+  "attribution_lines": [
+    {
+      "line_id": "attr_synth_a0_0000",
+      "symbol": "BTC",
+      "expiry": "2026-12-01",
+      "option_type": "call",
+      "side": "buy",
+      "qty": 1.0,
+      "rv_edge_usd": 16.878103485227925,
+      "realized_pnl_usd": 15.124545371100586,
+      "slippage_usd": 1.5,
+      "fees_usd": 2.0,
+      "net_pnl_usd": 11.953042710862807,
+      "delta_contribution": 0.3072080576310577,
+      "gamma_contribution": 0.000967869548796471,
+      "vega_contribution": 0.020449014432425253,
+      "theta_contribution": -0.0001276018500583336,
+      "unexplained_pnl": -4.440892098500626e-16,
+      "greek_hedge_adjustment": 0.32849733976222106
+    },
+    {
+      "line_id": "attr_synth_a1_0001",
+      "symbol": "ETH",
+      "expiry": "2026-12-01",
+      "option_type": "call",
+      "side": "sell",
+      "qty": 1.0,
+      "rv_edge_usd": 15.718070337958792,
+      "realized_pnl_usd": 17.606639607906587,
+      "slippage_usd": 1.5,
+      "fees_usd": 2.0,
+      "net_pnl_usd": 14.43534062021272,
+      "delta_contribution": 0.30721196213683966,
+      "gamma_contribution": 0.0010347191898644917,
+      "vega_contribution": 0.020582767448306824,
+      "theta_contribution": -0.00012843646887743457,
+      "unexplained_pnl": 5.551115123125783e-17,
+      "greek_hedge_adjustment": 0.3287010123061335
+    },
+    {
+      "line_id": "attr_synth_a2_0002",
+      "symbol": "SOL",
+      "expiry": "2026-12-01",
+      "option_type": "call",
+      "side": "buy",
+      "qty": 1.0,
+      "rv_edge_usd": 19.130191144571548,
+      "realized_pnl_usd": 21.436915490108593,
+      "slippage_usd": 1.5,
+      "fees_usd": 2.0,
+      "net_pnl_usd": 18.265150282361414,
+      "delta_contribution": 0.3072415721509003,
+      "gamma_contribution": 0.0009930490781375411,
+      "vega_contribution": 0.020125755739597413,
+      "theta_contribution": -0.00012558471581508785,
+      "unexplained_pnl": 1.5543122344752192e-15,
+      "greek_hedge_adjustment": 0.32823479225282015
+    }
+  ],
+  "summary": {
+    "total_lines": 3,
+    "total_rv_edge_usd": 51.726364967758265,
+    "total_realized_pnl_usd": 54.16810046911577,
+    "total_fees_usd": 6.0,
+    "total_slippage_usd": 4.5,
+    "total_net_pnl_usd": 44.65353361343694,
+    "rv_vs_realized_ratio": 1.0472048539053436,
+    "by_symbol": {
+      "BTC": {
+        "count": 1,
+        "net_pnl_usd": 11.953042710862807,
+        "rv_edge_usd": 16.878103485227925
+      },
+      "ETH": {
+        "count": 1,
+        "net_pnl_usd": 14.43534062021272,
+        "rv_edge_usd": 15.718070337958792
+      },
+      "SOL": {
+        "count": 1,
+        "net_pnl_usd": 18.265150282361414,
+        "rv_edge_usd": 19.130191144571548
+      }
+    }
+  },
+  "artifacts_in": [
+    "research_state/CROSS_ASSET_VOL_SURFACE_REPORT.json",
+    "research_state/CROSS_ASSET_VOL_SURFACE_REPORT.md",
+    "research_state/ORDERFLOW_CONFIRMATION_REPORT.json",
+    "research_state/ORDERFLOW_CONFIRMATION_REPORT.md",
+    "research_state/PHASE17_CROSS_ASSET_VOL_ARB_REPORT.json",
+    "research_state/PHASE17_CROSS_ASSET_VOL_ARB_REPORT.md"
+  ],
+  "git_sha": "5972de1ac19a2da7de743b198059f7d4d758e45f",
+  "campaign_id": "phase17_42",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ]
+}
