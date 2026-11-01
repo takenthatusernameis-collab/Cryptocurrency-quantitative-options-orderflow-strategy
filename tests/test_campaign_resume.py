@@ -23,8 +23,8 @@ def test_durable_handoff_is_source_of_truth():
     text = HANDOFF_DURABLE.read_text(encoding="utf-8")
     assert "SINGLE DURABLE HANDOFF" in text
     assert "INITIAL TASK MESSAGE" in text
-    # Case-insensitive: the authoritative handoff uses title case ("Campaign Resume Hardening").
-    assert "campaign resume hardening" in text.lower()
+    # Case-insensitive: the authoritative handoff carries the active focus campaign.
+    assert "phase 15" in text.lower()
 
 
 def test_root_handoff_retired():
