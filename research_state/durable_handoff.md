@@ -74,7 +74,35 @@ Goal: Convert Phase 10 alpha intents into production live execution with determi
 - Update THIS FILE before ending the session with: fresh timestamp (UTC), files changed (code/tests/scripts/artifacts), rationale, verification results (`python -m pytest tests/ -q` must be GREEN).
 - No analysis-only sessions. Every turn must advance code/tests/artifacts.
 
-## SESSION UPDATE (UTC): 2026-11-01T01:46:45Z
-- Repo name priority: CRYPTO OPTIONS + ORDERFLOW. Gate GREEN (640 passed, 2 skipped, 0 failed). Working tree clean. SHA 07b0e98588258f876dbd331833fe115cb9cfd23e.
-- Bottlenecks: NONE. Phase 10 COMPLETE. Advanced next focus to Phase 11 (Production Live Execution, Continuous Alpha Optimization & Performance Attribution). No blocked/inefficient sessions remain.
-- Next initial task: Implement Phase 11 mandatory deliverables. Heavy quant implementation only. Keep gate GREEN.
+## SESSION UPDATE (UTC): 2026-11-01T02:20:23Z
+- Repo name priority: CRYPTO OPTIONS + ORDERFLOW (vol surface RV, orderflow microstructure, options pricing/Greeks/IV). Gate GREEN (640 passed, 2 skipped, 0 failed). Working tree clean. SHA 07b0e98588258f876dbd331833fe115cb9cfd23e.
+- Bottlenecks: NONE. Phases 1-10 COMPLETE. All prior inefficiencies removed. No blocked sessions.
+- Focus locked: PHASE 11 — PRODUCTION LIVE EXECUTION, CONTINUOUS ALPHA OPTIMIZATION & PERFORMANCE ATTRIBUTION (CRYPTO OPTIONS + ORDERFLOW). Implementation required NOW. No analysis-only session.
+
+## INITIAL TASK MESSAGE (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp: 2026-11-01T02:20:23Z
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
+SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
+
+### ACTIVE FOCUS CAMPAIGN: PHASE 11 — PRODUCTION LIVE EXECUTION, CONTINUOUS ALPHA OPTIMIZATION & PERFORMANCE ATTRIBUTION (CRYPTO OPTIONS + ORDERFLOW)
+Goal: Convert Phase 10 alpha intents into production live execution with deterministic routing, continuous alpha optimization, and full performance attribution. Validate with rigorous walk-forward OOS + live paper replay. Emit auditable artifacts. This is unskippable heavy work.
+
+#### MANDATORY DELIVERABLES (SHIP ALL):
+1. **Live Execution Engine** (`src/execution/live_execution.py`): deterministic order routing, smart order splitting, slippage model, fill reconciliation, partial-fill handling, retry/idempotency, strict schema validation.
+2. **Continuous Alpha Optimizer** (`src/alpha/continuous_optimizer.py`): rolling parameter re-estimation, regime-adaptive weighting updates, overfit guards, deterministic seeds, bounded search.
+3. **Performance Attribution** (`src/analytics/performance_attribution.py`): PnL by alpha source (vol RV vs orderflow), by regime, by symbol/expiry, transaction cost attribution, risk factor attribution, deterministic aggregation.
+4. **Live Risk Gatekeeper** (`src/risk/live_risk_gate.py`): real-time pre-trade checks (max delta/vega/gamma, drawdown kill-switch, liquidity min, DTE range, concentration), fail-fast on breach.
+5. **Walk-Forward Live Replay** (`src/execution/walkforward_live_replay.py`): anchored + rolling replay of historical intents through live execution model, purge/embargo, regime-stratified metrics, bootstrap significance, deterministic seeds.
+6. **Campaign Orchestrator + CLI** (`src/execution/phase11_campaign.py`, `scripts/run_phase11_live_alpha_campaign.py`): end-to-end run with seed 42, symbols BTC/ETH, emit all artifacts, validate numerics, fail fast on NaN/Inf.
+7. **Artifacts** (under `research_state/`, strict `allow_nan=False`): `PHASE11_LIVE_ALPHA_REPORT.json/md`, `LIVE_EXECUTION_REPORT.json/md`, `ATTRIBUTION_REPORT.json/md`, `CONTINUOUS_OPTIMIZER_REPORT.json/md`, `LIVE_REPLAY_OOS_REPORT.json/md`. Every artifact must include timestamp, git SHA, seed, symbols, counts.
+8. **Tests** (`tests/test_phase11_live_alpha_execution.py`): >= 80 substantive tests covering invariants, determinism (byte-identical rerun), edge cases, risk gates, execution bounds, OOS finite/valid, schema, artifact validity. All must pass.
+
+#### CONSTRAINTS (NON-NEGOTIABLE):
+- No placeholders/TODOs/FIXMEs/HACKs/XXX. Implement fully.
+- Keep ALL existing tests passing. Add only (gate >=640 passing minimum).
+- Determinism: same inputs + seed -> byte-identical artifacts and results.
+- Correctness: finite numerics. No NaN/Inf in any artifact (`allow_nan=False`). Validate.
+- Use existing project patterns/configs. Integrate cleanly with Phase 10 alpha and Phase 9 monitoring/observability.
+- Update THIS FILE before ending the session with: fresh timestamp (UTC), files changed (code/tests/scripts/artifacts), rationale, verification results (`python -m pytest tests/ -q` must be GREEN).
+- No analysis-only sessions. Every turn must advance code/tests/artifacts. Do not stop until all deliverables shipped and gate is GREEN.
