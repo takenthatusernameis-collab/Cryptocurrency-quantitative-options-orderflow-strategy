@@ -1,7 +1,8 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-11-01T01:34:30Z
+Timestamp (UTC): 2026-11-01T01:35:12Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
-Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE BY REPO NAME -> crypto options pricing/Greeks/IV + orderflow features/microstructure). THIS IS THE ONLY SOURCE OF TRUTH FOR NEXT AGENT SESSION.
+Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow features/microstructure).
+THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION.
 
 Gate status: GREEN (633 passed, 2 skipped, 0 failed) — verified 2026-11-01T01:34:30Z via `python -m pytest tests/ -q`. Working tree clean.
 
@@ -12,30 +13,34 @@ COMPLETED (DO NOT REDO):
 - Phase 7: Production Execution, Real-Time Risk & Orderflow Microstructure Hardening (Crypto Options + Orderflow) — COMPLETE.
 - Phase 8: Live Trading Readiness, Paper Trading & Deployment Hardening (Crypto Options + Orderflow) — COMPLETE.
 - Phase 9: Production Monitoring, Observability & Continuous Validation (Crypto Options + Orderflow) — COMPLETE.
+- Phase 10: Alpha Generation, Volatility Surface Relative Value & Orderflow Signal Fusion (Crypto Options + Orderflow) — SPEC READY (IMPLEMENT NOW).
 
-BOTTLENECKS: NONE IDENTIFIED. Clean green baseline. All prior bottlenecks eliminated. No blockers. Keep gate GREEN at all times. Do not create analysis-only sessions.
+BOTTLENECKS: NONE. Clean green baseline. All historical bottlenecks eliminated. No blockers. Do NOT create analysis-only or documentation-only sessions. Keep gate GREEN at all times.
 
-## INITIAL TASK MESSAGE (FOR NEXT AGENTIC WORK SESSION - EXECUTE IMMEDIATELY, NO DEVIATION)
-Timestamp: 2026-11-01T01:34:30Z
-BY REPO NAME - CRYPTO OPTIONS + ORDERFLOW IS THE DOMAIN. HEAVY QUANT IMPLEMENTATION ONLY. NO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY. SHIP CODE/TESTS/ARTIFACTS EVERY SESSION.
-PRIORITIZE BY REPO NAME. LEAVE MOST RELEVANT INFERRED TIMESTAMPED CLEAR INITIAL TASK. REMOVE BOTTLENECKS. BUILD NEXT FOCUS CAMPAIGN SO HEAVY WORK IS UNAVOIDABLE.
+## INITIAL TASK MESSAGE (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp: 2026-11-01T01:35:12Z
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
+SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
 
 ## ACTIVE FOCUS CAMPAIGN: PHASE 10 — ALPHA GENERATION, VOLATILITY SURFACE RELATIVE VALUE & ORDERFLOW SIGNAL FUSION (CRYPTO OPTIONS + ORDERFLOW)
-Domain priority (from repo name): crypto options pricing/Greeks/IV + orderflow features/microstructure. Build a heavy, production-grade alpha layer that fuses options volatility-surface signals with orderflow microstructure into deterministic, risk-aware trade intents, with walk-forward OOS validation and artifact emission. Keep Phase 9 infra intact. Gate must stay GREEN (>=633 passed). Ship code + tests + artifacts. Update THIS FILE before ending with fresh timestamp, files changed, rationale, verification results.
+Goal: Fuse crypto options volatility-surface relative value with orderflow microstructure into deterministic, risk-aware trade intents. Validate with rigorous walk-forward OOS. Emit auditable artifacts. Must be unskippable heavy work.
 
-### Scope (heavy, non-avoidable):
-1. Volatility surface relative-value engine: IV skew/term-structure dislocation detector, vega-weighted residual scoring, deterministic no-arbitrage checks (butterfly/calendar), output ranked opportunity list.
-2. Orderflow alpha features: cumulative delta divergence, absorption/sweep detection, VPIN-lite imbalance, liquidity vacuum detector, deterministic feature pipeline with schema validation.
-3. Signal fusion + gating: combine vol-surface and orderflow alphas with regime-aware weights, confidence scoring, hard risk gates (max vega, delta band, liquidity min), emit trade intents (symbol, side, size, expiry, strike band, limit price).
-4. Position sizing & portfolio construction: Kelly-lite fractional sizing with drawdown penalty, correlation-aware de-dup, max exposure caps, deterministic.
-5. Walk-forward OOS evaluation: anchored + rolling windows, purge/embargo, regime-stratified metrics (Sharpe, Sortino, max DD, hit rate, turnover), bootstrap significance, deterministic.
-6. Artifacts: PHASE10_ALPHA_REPORT, VOL_SURFACE_RV_REPORT, ORDERFLOW_ALPHA_REPORT, SIGNAL_FUSION_REPORT, WALKFORWARD_OOS_REPORT, SIZING_REPORT (strict allow_nan=False, timestamped) under research_state/.
-7. Tests: >=80 substantive tests in tests/test_phase10_alpha_vol_orderflow.py covering invariants, determinism (byte-identical rerun), edge cases, no-arbitrage, risk gates, sizing bounds, OOS metrics finite, schema, artifact validity.
-8. CLI: scripts/run_phase10_alpha_campaign.py emitting artifacts with seed 42, symbols BTC/ETH.
+### MANDATORY DELIVERABLES (SHIP ALL):
+1. **Vol Surface RV Engine** (`src/alpha/vol_surface_rv.py`): IV skew/term-structure dislocation detector, vega-weighted residual scoring vs fitted surface (SABR/param or robust spline), butterfly/calendar no-arbitrage checks, liquidity-aware filters, ranked opportunity list with deterministic sorting.
+2. **Orderflow Alpha Features** (`src/alpha/orderflow_alpha.py`): cumulative delta divergence, absorption/sweep detection, VPIN-lite imbalance, liquidity vacuum detector, footprint-aware rollups, strict schema validation, deterministic feature pipeline.
+3. **Signal Fusion + Gating** (`src/alpha/signal_fusion.py`): regime-aware weighting (tie to existing regime), confidence scoring, hard risk gates (max |delta|, max |vega|, gamma band, liquidity min, DTE range), emit TradeIntent objects (symbol, side, qty/size, expiry, strike band, order type/limit logic, rationale hash).
+4. **Sizing & Portfolio Construction** (`src/alpha/position_sizing.py`): Kelly-lite fractional with drawdown penalty, correlation-aware de-duplication, per-symbol/expiry/vega caps, concentration limits, deterministic rounding.
+5. **Walk-Forward OOS** (`src/alpha/walkforward_oos.py`): anchored + rolling, purge/embargo, regime-stratified metrics (Sharpe, Sortino, Calmar, max DD, hit rate, turnover, win/loss, PnL by regime), bootstrap significance (block/bootstrap), deterministic seeds.
+6. **Campaign Orchestrator + CLI** (`src/alpha/phase10_campaign.py`, `scripts/run_phase10_alpha_campaign.py`): end-to-end run with seed 42, symbols BTC/ETH, emit all artifacts, validate numerics, fail fast on NaN/Inf.
+7. **Artifacts** (under `research_state/`, strict `allow_nan=False`): `PHASE10_ALPHA_REPORT.json/md`, `VOL_SURFACE_RV_REPORT.json/md`, `ORDERFLOW_ALPHA_REPORT.json/md`, `SIGNAL_FUSION_REPORT.json/md`, `WALKFORWARD_OOS_REPORT.json/md`, `SIZING_REPORT.json/md`. Every artifact must include timestamp, git SHA (if available), seed, symbols, counts.
+8. **Tests** (`tests/test_phase10_alpha_vol_orderflow.py`): >= 80 substantive tests covering invariants, determinism (byte-identical rerun), edge cases, no-arbitrage, risk gates, sizing bounds, OOS finite/valid, schema, artifact validity. All must pass.
 
-### Constraints:
-- No placeholders/TODOs/FIXMEs/HACKs/XXX. No analysis-only sessions.
-- Keep all existing tests passing; add only.
-- Determinism: same inputs -> byte-identical outputs/artifacts.
-- Correctness: finite numerics, no NaN/Inf in artifacts (allow_nan=False).
-- Update this handoff on completion with fresh timestamp + verification.
+### CONSTRAINTS (NON-NEGOTIABLE):
+- No placeholders/TODOs/FIXMEs/HACKs/XXX. Implement fully.
+- Keep ALL existing tests passing. Add only (gate >=633 passing minimum).
+- Determinism: same inputs + seed -> byte-identical artifacts and results.
+- Correctness: finite numerics. No NaN/Inf in any artifact (`allow_nan=False`). Validate.
+- Use existing project patterns/configs. Integrate cleanly with Phase 9 monitoring/observability where relevant.
+- Update THIS FILE before ending the session with: fresh timestamp (UTC), files changed (code/tests/scripts/artifacts), rationale, verification results (`python -m pytest tests/ -q` must be GREEN).
+- No analysis-only sessions. Every turn must advance code/tests/artifacts.
