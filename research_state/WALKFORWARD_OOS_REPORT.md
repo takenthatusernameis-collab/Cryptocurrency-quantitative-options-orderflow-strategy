@@ -1,7 +1,7 @@
 # WALKFORWARD_OOS_REPORT
 
-- Timestamp: 2026-11-01T17:21:44.258444Z
+- Timestamp: 2026-11-01T18:09:24.889563Z
 - Seed: 42
-- Git SHA: 0c60829b0bdd4b0c61a4fa420496593684ab4e58
+- Git SHA: 0be199bff84abbcd07448678e0cd13167c11ad43
 - Symbols: ['BTC', 'ETH']
 - Count: 18
