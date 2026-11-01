@@ -152,6 +152,8 @@ class LatencyAwareRouter:
         self.paper_only = True
         self.enable_live = False
         self._counter = 0
+        self.halted = False
+        self.halt_reason = None
         self.quotes: Dict[str, Dict[str, Any]] = {}  # venue -> symbol -> quote
         self.latency_ewma: Dict[str, float] = {v: 0.0 for v in self.config.venues}
         self.latency_samples: Dict[str, List[float]] = {v: [] for v in self.config.venues}
@@ -409,6 +411,7 @@ class LatencyAwareRouter:
         quantity: Optional[float] = None,
         commission: float = 0.0,
         symbol: Optional[str] = None,
+        mid_price: Optional[float] = None,
     ) -> FillRecord:
         order = self.orders.get(order_id)
         if order is None:
@@ -424,8 +427,12 @@ class LatencyAwareRouter:
         sym = str(symbol if symbol is not None else order["symbol"])
         side = str(order["side"])
         quote = self.quotes.get(venue, {}).get(sym)
-        mid = quote["mid_price"] if quote else fill_price
-        slippage_bps = safe_divide(abs(fill_price - mid), mid, 0.0) * 10000.0
+        mid = mid_price if mid_price is not None else (quote["mid_price"] if quote else fill_price)
+        mid = float(mid)
+        if side == "buy":
+            slippage_bps = safe_divide(fill_price - mid, mid, 0.0) * 10000.0
+        else:
+            slippage_bps = safe_divide(mid - fill_price, mid, 0.0) * 10000.0
         self._counter += 1
         record = FillRecord(
             fill_id=_rid("fill", self.seed, self._counter),
@@ -446,6 +453,7 @@ class LatencyAwareRouter:
         order["filled_quantity"] = float(qty)
         self.fills.append(record)
         self.last_report = None
+        return record
         _logger.info("router.fill_tracked", order_id=order_id, fill_id=record.fill_id, slippage_bps=slippage_bps, seed=self.seed)
         return record
 
@@ -465,7 +473,17 @@ class LatencyAwareRouter:
             "paper_only": True,
         }
 
-    def generate_report(self) -> Dict[str, Any]:
+    def halt(self, reason: str = "halt") -> None:
+        self.halted = True
+        self.halt_reason = str(reason)
+        _logger.error("router.halt", reason=reason, seed=self.seed)
+
+    @property
+    def kill_switch_triggered(self) -> bool:
+        return bool(getattr(self, "halted", False))
+
+    def trigger_kill_switch(self, reason: str = "halt", source: str = "orchestrator") -> None:
+        self.halt(str(reason))
         route_costs = [o["total_cost_bps"] for o in self.orders.values()]
         route_latencies = [o["latency_ms"] for o in self.orders.values()]
         slips = [f.slippage_bps for f in self.fills]

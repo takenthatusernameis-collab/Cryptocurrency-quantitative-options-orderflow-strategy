@@ -262,8 +262,16 @@ class CrossVenueOrchestrator:
         self.halted = True
         self.halt_reason = str(reason)
         self.halted_at = _det_ts(self.seed)
-        self.mm.trigger_kill_switch(reason, source=source)
+        try:
+            self.mm.trigger_kill_switch(reason, source=source)
+        except Exception:
+            pass
         _logger.error("orchestrator.kill_switch", reason=reason, source=source, seed=self.seed)
+        _logger.error("orchestrator.kill_switch_triggered", reason=str(reason), source=source, seed=self.seed)
+
+    @property
+    def kill_switch_triggered(self) -> bool:
+        return bool(self.halted or getattr(self.mm, "halted", False))
 
     def is_halted(self) -> bool:
         return bool(self.halted or self.mm.halted)
@@ -418,6 +426,59 @@ class CrossVenueOrchestrator:
 
     # -- reporting / state --------------------------------------------------
     def generate_report(self) -> Dict[str, Any]:
+        total_realized = self.realized_pnl_usd
+        total_unrealized = sum(getattr(p, "unrealized_pnl_usd", 0.0) for p in self.mm.positions.values())
+        net_pnl = total_realized + total_unrealized + getattr(self, "cash_usd", 0.0)
+        arbitrage_report = None
+        mm_report = None
+        router_report = None
+        try:
+            arbitrage_report = self.detector.generate_report()
+        except Exception:
+            arbitrage_report = getattr(self.detector, "last_report", None)
+        try:
+            mm_report = self.mm.generate_report()
+        except Exception:
+            mm_report = getattr(self.mm, "last_report", None)
+        try:
+            router_report = self.router.generate_report()
+        except Exception:
+            router_report = getattr(self.router, "last_report", None)
+
+        report: Dict[str, Any] = {
+            "report": "CROSSVENUE_ORCHESTRATION_REPORT",
+            "orchestrator": "CrossVenueOrchestrator",
+            "campaign": "phase15_crossvenue",
+            "seed": self.seed,
+            "symbols": list(self.config.symbols),
+            "venues": list(self.config.venues),
+            "paper_only": True,
+            "timestamp": _det_ts(self.seed),
+            "config": asdict(self.config),
+            "pnl": {
+                "realized_pnl_usd": float(total_realized),
+                "unrealized_pnl_usd": float(total_unrealized),
+                "net_pnl_usd": float(net_pnl),
+            },
+            "counts": {
+                "cycles": self.cycle_counter,
+                "arb_opportunities": len(getattr(self.detector, "last_opportunities", []) or []),
+                "mm_positions": len(getattr(self.mm, "positions", {})),
+                "router_fills": len(getattr(self.router, "fills", [])),
+            },
+            "halted": bool(self.is_halted()),
+            "halt_reason": self.halt_reason,
+            "components": {
+                "arbitrage": arbitrage_report,
+                "market_making": mm_report,
+                "latency_routing": router_report,
+            },
+            "cycle_results": self.cycle_results[-10:],
+        }
+        serialized = serialize_metrics_strict(report)
+        assert_json_valid(serialized)
+        self.last_report = serialized
+        return serialized
         mm_report = self.mm.generate_report()
         rtr_report = self.router.generate_report()
         arb_report = self.detector.generate_report()
@@ -520,7 +581,7 @@ class CrossVenueOrchestrator:
             "paper_only_enforced": True,
         }
 
-    def save_state(self, path: Path) -> str:
+    def save_state(self, path: str | Path) -> str:
         state = {
             "orchestrator": "CrossVenueOrchestrator",
             "campaign": "phase15_crossvenue",
@@ -542,7 +603,8 @@ class CrossVenueOrchestrator:
             "router_fills": [f.to_dict() for f in self.router.fills],
         }
         serialized = serialize_metrics_strict(state)
-        content = __import__("json").dumps(serialized, ensure_ascii=False, indent=2, allow_nan=False)
+        import json as _json
+        content = _json.dumps(serialized, ensure_ascii=False, indent=2, allow_nan=False)
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")

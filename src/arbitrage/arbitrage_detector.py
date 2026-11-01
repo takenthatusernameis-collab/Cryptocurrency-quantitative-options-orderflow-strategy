@@ -100,11 +100,27 @@ class ArbitrageQuote:
     def mid_price(self) -> float:
         return (self.bid + self.ask) / 2.0
 
+    def mid(self) -> float:
+        return self.mid_price
+
     @property
     def spread_bps(self) -> float:
         return safe_divide(self.ask - self.bid, self.mid_price, 0.0) * 10000.0
 
+    def spread_bps(self) -> float:
+        return safe_divide(self.ask - self.bid, self.mid_price, 0.0) * 10000.0
+
     @property
+    def spread(self) -> float:
+        return self.ask - self.bid
+
+    def spread(self) -> float:  # method form for compatibility
+        return self.ask - self.bid
+
+    @property
+    def age_sec(self) -> float:
+        return (_parse_iso(self.received_at) - _parse_iso(self.timestamp)).total_seconds()
+
     def age_sec(self) -> float:
         return (_parse_iso(self.received_at) - _parse_iso(self.timestamp)).total_seconds()
 
@@ -134,6 +150,7 @@ class ArbitrageConfig:
     max_spread_bps: float = 50.0
     max_implied_vol: float = 1.5
     stale_quote_sec: float = 5.0
+    max_quote_age_seconds: float = 5.0
     min_size_usd: float = 1_000.0
     max_notional_usd: float = 100_000.0
     paper_only: bool = True
@@ -160,6 +177,12 @@ class ArbitrageConfig:
             raise ValidationError("max_implied_vol must be > 0 and finite")
         if not math.isfinite(self.stale_quote_sec) or self.stale_quote_sec < 0.0:
             raise ValidationError("stale_quote_sec must be >= 0 and finite")
+        if not hasattr(self, 'max_quote_age_seconds') or not math.isfinite(self.max_quote_age_seconds) or self.max_quote_age_seconds < 0.0:
+            self.max_quote_age_seconds = self.stale_quote_sec
+        else:
+            if self.max_quote_age_seconds < 0.0:
+                raise ValidationError("stale_quote_sec must be >= 0 and finite")
+            self.stale_quote_sec = self.max_quote_age_seconds
         if not math.isfinite(self.min_size_usd) or self.min_size_usd < 0.0:
             raise ValidationError("min_size_usd must be >= 0 and finite")
         if not math.isfinite(self.max_notional_usd) or self.max_notional_usd <= 0.0:
@@ -198,6 +221,29 @@ class ArbitrageOpportunity:
     rejection_reason: Optional[str]
 
     def __post_init__(self) -> None:
+        self.symbol = _validate_symbol(self.symbol)
+        self.buy_venue = _validate_venue(self.buy_venue)
+        self.sell_venue = _validate_venue(self.sell_venue)
+        for name in ("ask_price", "bid_price", "spread_bps", "buy_fee_bps", "sell_fee_bps", "total_fee_bps", "net_edge_bps", "estimated_size", "estimated_notional_usd", "gross_edge_usd", "net_edge_usd", "buy_age_sec", "sell_age_sec"):
+            setattr(self, name, float(validate_finite(getattr(self, name), name)))
+        self.timestamp = str(self.timestamp)
+        self.qualified = bool(self.qualified)
+        self.rejection_reason = None if self.rejection_reason is None else str(self.rejection_reason)
+        if self.net_edge_bps is None:
+            self.net_edge_bps = 0.0
+        self.gross_edge_bps = float(safe_divide(self.gross_edge_usd, self.estimated_notional_usd, 0.0) * 10000.0)
+
+    @property
+    def gross_edge_bps(self) -> float:
+        return float(safe_divide(self.gross_edge_usd, self.estimated_notional_usd, 0.0) * 10000.0)
+
+    @gross_edge_bps.setter
+    def gross_edge_bps(self, value: float) -> None:
+        # allow setting via __dict__ if needed
+        object.__setattr__(self, "_gross_edge_bps_cache", float(value))
+
+    def gross_edge_bps(self) -> float:  # method form
+        return float(safe_divide(self.gross_edge_usd, self.estimated_notional_usd, 0.0) * 10000.0)
         for name in (
             "ask_price", "bid_price", "spread_bps", "buy_fee_bps", "sell_fee_bps",
             "total_fee_bps", "net_edge_bps", "estimated_size", "estimated_notional_usd",
@@ -384,6 +430,7 @@ class ArbitrageDetector:
         if opportunities is None:
             opportunities = self.last_opportunities
         report: Dict[str, Any] = {
+            "schema": "arbitrage_report_v1",
             "report": "ARBITRAGE_REPORT",
             "detector": "ArbitrageDetector",
             "campaign": "phase15_crossvenue",
@@ -403,13 +450,21 @@ class ArbitrageDetector:
             },
             "rejections": self.rejections,
             "opportunities": [o.to_dict() for o in opportunities],
+            "summary": {
+                "total_opportunities": len(opportunities),
+                "qualified": sum(1 for o in opportunities if o.qualified),
+                "avg_net_edge_bps": (sum(o.net_edge_bps for o in opportunities) / len(opportunities)) if opportunities else 0.0,
+            },
         }
         serialized = serialize_metrics_strict(report)
         assert_json_valid(serialized)
         self.last_report = serialized
         return serialized
 
-    def validate_invariants(self, opportunities: Optional[List[ArbitrageOpportunity]] = None) -> Dict[str, Any]:
+    def halt(self, reason: str = "halt") -> None:
+        self.halted = True
+        self.halt_reason = str(reason)
+        _logger.error("arbitrage.halt", reason=reason, seed=self.seed)
         if opportunities is None:
             opportunities = self.last_opportunities
         problems: List[str] = []

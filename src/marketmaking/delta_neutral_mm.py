@@ -93,6 +93,7 @@ def black_scholes_greeks(
             "delta": float(delta),
             "gamma": 0.0,
             "vega": 0.0,
+            "theta": 0.0,
             "d1": 0.0,
             "d2": 0.0,
         }
@@ -109,7 +110,12 @@ def black_scholes_greeks(
         delta = _norm_cdf(d1) - 1.0
     gamma = _norm_pdf(d1) / (spot * vol_sqrt_t)
     vega = spot * _norm_pdf(d1) * math.sqrt(time_to_expiry) / 100.0
-    for name, value in (("price", price), ("delta", delta), ("gamma", gamma), ("vega", vega), ("d1", d1), ("d2", d2)):
+    theta = (-spot * _norm_pdf(d1) * implied_vol / (2.0 * math.sqrt(time_to_expiry)) - risk_free_rate * strike * discount * (_norm_cdf(d2) if kind == "call" else -_norm_cdf(-d2)))
+    if kind == "put":
+        theta = (-spot * _norm_pdf(d1) * implied_vol / (2.0 * math.sqrt(time_to_expiry)) + risk_free_rate * strike * discount * _norm_cdf(-d2))
+    else:
+        theta = (-spot * _norm_pdf(d1) * implied_vol / (2.0 * math.sqrt(time_to_expiry)) - risk_free_rate * strike * discount * _norm_cdf(d2))
+    for name, value in (("price", price), ("delta", delta), ("gamma", gamma), ("vega", vega), ("theta", theta), ("d1", d1), ("d2", d2)):
         if not math.isfinite(value):
             raise DataError(f"non-finite {name}", context={"spot": spot, "strike": strike, "time_to_expiry": time_to_expiry, "implied_vol": implied_vol})
     return {
@@ -117,6 +123,7 @@ def black_scholes_greeks(
         "delta": float(delta),
         "gamma": float(gamma),
         "vega": float(vega),
+        "theta": float(theta),
         "d1": float(d1),
         "d2": float(d2),
     }
@@ -523,14 +530,54 @@ class DeltaNeutralMM:
         })
         return position
 
-    def close_position(self, position_id: str, exit_price: float) -> float:
+    def hedge(self, symbol: str, spot: float, qty: Optional[float] = None, side: str = "sell") -> Dict[str, Any]:
+        symbol = _validate_symbol(symbol)
+        spot = float(validate_finite(spot, "spot"))
+        needed = 0.0
+        if qty is None:
+            summary = self._portfolio_summary(symbol, spot)
+            needed = float(summary.get("net_delta_usd", 0.0))
+            hedge_qty = abs(needed) / max(spot, 1e-12)
+            hedge_side = "short" if needed > 0.0 else "buy"
+        else:
+            hedge_qty = float(validate_finite(qty, "qty"))
+            if hedge_qty < 0.0:
+                raise ValidationError("qty must be >= 0")
+            hedge_side = str(side).lower()
+            if hedge_side not in ("buy", "sell"):
+                raise ValidationError("side must be 'buy' or 'sell'")
+        self._counter += 1
+        pid = _pid("hedge", self.seed, self._counter)
+        self.open_position(
+            symbol=symbol,
+            venue=self.config.venues[0],
+            instrument=f"{symbol}-PERP",
+            kind="perp",
+            side=hedge_side,
+            quantity=max(self.config.min_hedge_size, hedge_qty),
+            strike=0.0,
+            expiry="perpetual",
+            option_type=None,
+            entry_price=spot,
+            mark_price=spot,
+            spot=spot,
+            implied_vol=0.0,
+        )
+        return {"hedged": True, "hedge_quantity": float(max(self.config.min_hedge_size, hedge_qty)), "position_id": pid, "side": hedge_side, "timestamp": _det_ts(self.seed)}
+
+    def close_position(self, position_id: str, exit_price: Optional[float] = None, close_price: Optional[float] = None) -> Any:
+        if position_id not in self.positions:
+            raise DataError("unknown position", context={"position_id": position_id})
         position = self.positions.get(position_id)
         if position is None:
             raise DataError("unknown position", context={"position_id": position_id})
-        exit_price = float(validate_finite(exit_price, "exit_price"))
-        if exit_price <= 0.0:
-            raise DataError("exit price must be positive", context={"exit_price": exit_price})
-        realized = position.quantity * position.side_sign() * (exit_price - position.entry_price)
+        px = exit_price if exit_price is not None else close_price
+        if px is None:
+            px = position.mark_price
+        exit_price_val = float(validate_finite(px, "exit_price"))
+        if exit_price_val <= 0.0:
+            raise DataError("exit price must be positive", context={"exit_price": exit_price_val})
+        realized = position.quantity * position.side_sign() * (exit_price_val - position.entry_price)
         if not math.isfinite(realized):
             raise DataError("non-finite realized pnl")
         position.realized_pnl_usd = float(realized)
@@ -545,7 +592,7 @@ class DeltaNeutralMM:
             "symbol": position.symbol,
             "side": position.side,
             "quantity": position.quantity,
-            "exit_price": float(exit_price),
+            "exit_price": float(exit_price_val),
             "realized_pnl_usd": float(realized),
             "timestamp": _det_ts(self.seed),
             "paper_only": True,
@@ -564,6 +611,11 @@ class DeltaNeutralMM:
             "paper_only": True,
         })
         _logger.warning("mm.kill_switch", reason=reason, source=source, seed=self.seed)
+        _logger.error("mm.kill_switch_triggered", reason=str(reason), source=source, seed=self.seed)
+
+    @property
+    def kill_switch_triggered(self) -> bool:
+        return bool(self.halted)
 
     def reset(self, source: str = "orchestrator") -> None:
         if not self.halted:
@@ -579,7 +631,24 @@ class DeltaNeutralMM:
         _logger.info("mm.kill_switch_reset", source=source, seed=self.seed)
 
     # -- reporting ----------------------------------------------------------
-    def generate_report(self) -> Dict[str, Any]:
+    def inventory(self, symbol: Optional[str] = None) -> Dict[str, Any]:
+        if symbol is not None:
+            s = _validate_symbol(symbol)
+            return {
+                "symbol": s,
+                "net_delta_usd": float(self.net_delta_usd(s)),
+                "inventory_skew": float(self.inventory_skew(s)),
+                "gross_notional_usd": float(self.gross_notional_usd(s)),
+                "perp_inventory": float(self.perp_inventory.get(s, 0.0)),
+                "positions": len([p for p in self.positions.values() if p.symbol == s]),
+            }
+        return {
+            "net_delta_usd": float(sum(self.net_delta_usd(s) for s in self.config.symbols)),
+            "inventory_skew": float(sum(self.inventory_skew(s) for s in self.config.symbols)),
+            "gross_notional_usd": float(sum(self.gross_notional_usd(s) for s in self.config.symbols)),
+            "perp_inventory": dict(self.perp_inventory),
+            "positions": len(self.positions),
+        }
         risk = self.risk_check()
         unrealized = sum(p.unrealized_pnl_usd for p in self.positions.values())
         report: Dict[str, Any] = {
@@ -606,6 +675,10 @@ class DeltaNeutralMM:
                 "drawdown_pct": float(self.drawdown_pct),
             },
             "risk": risk,
+            "risk_metrics": {
+                "max_drawdown_pct": float(self.drawdown_pct),
+                "within_limits": bool(risk.get("within_limits", True)),
+            },
             "per_symbol": {
                 symbol: {
                     "net_delta_usd": float(self.net_delta_usd(symbol)),
