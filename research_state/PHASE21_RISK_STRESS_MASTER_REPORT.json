@@ -1,0 +1,64 @@
+{
+  "report": "PHASE21_RISK_STRESS_MASTER_REPORT",
+  "timestamp": "2026-11-01T14:21:11.160256Z",
+  "campaign_id": "p21_camp_303d76c9",
+  "seed": 42,
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ],
+  "paper_only": true,
+  "git_sha": "303d76c9e1995b004a91785e361b552ce110544a",
+  "components": {
+    "risk_aggregator": "src/risk/phase21_risk_aggregator.py",
+    "stress_tester": "src/risk/phase21_stress_tester.py",
+    "pre_trade_validator": "src/risk/phase21_pre_trade_validator.py",
+    "risk_monitor": "src/monitoring/phase21_risk_monitor.py",
+    "risk_attribution": "src/analytics/phase21_risk_attribution.py",
+    "campaign_script": "scripts/run_phase21_risk_stress_campaign.py",
+    "tests": "tests/test_phase21_risk_stress.py"
+  },
+  "reports": [
+    "PHASE21_RISK_AGGREGATION_REPORT",
+    "PHASE21_STRESS_TESTING_REPORT",
+    "PHASE21_PRE_TRADE_VALIDATION_REPORT",
+    "PHASE21_RISK_MONITORING_REPORT",
+    "PHASE21_RISK_ATTRIBUTION_REPORT"
+  ],
+  "artifacts": [
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_RISK_AGGREGATION_REPORT.json",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_RISK_AGGREGATION_REPORT.md",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_STRESS_TESTING_REPORT.json",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_STRESS_TESTING_REPORT.md",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_PRE_TRADE_VALIDATION_REPORT.json",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_PRE_TRADE_VALIDATION_REPORT.md",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_RISK_MONITORING_REPORT.json",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_RISK_MONITORING_REPORT.md",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_RISK_ATTRIBUTION_REPORT.json",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE21_RISK_ATTRIBUTION_REPORT.md"
+  ],
+  "summary": {
+    "agg_passed": false,
+    "stress_breaches": 0,
+    "pretrade_blocked": 6,
+    "monitor_healthy": false,
+    "attr_lines": 100
+  },
+  "gate_status": "YELLOW"
+}

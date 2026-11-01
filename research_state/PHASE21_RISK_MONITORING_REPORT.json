@@ -1,0 +1,368 @@
+{
+  "report": "PHASE21_RISK_MONITORING_REPORT",
+  "timestamp": "2026-11-01T14:21:11.031088Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "alert_threshold_util": 0.8,
+    "breach_escalation": true,
+    "drift_integration_enabled": true
+  },
+  "monitoring": {
+    "timestamp": "2026-11-01T14:21:11.031032Z",
+    "utilization": {
+      "notional_usd": 2.189997555905379,
+      "delta": 0.0004627166132620241,
+      "gamma": 0.0023848456351311317,
+      "vega": 9.350917888154596
+    },
+    "alerts": [
+      {
+        "type": "limit_utilization_high",
+        "metric": "notional_usd",
+        "utilization": 2.189997555905379,
+        "threshold": 0.8,
+        "severity": "critical"
+      },
+      {
+        "type": "limit_utilization_high",
+        "metric": "vega",
+        "utilization": 9.350917888154596,
+        "threshold": 0.8,
+        "severity": "critical"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "total_notional",
+          "value": 10949987.779526895,
+          "limit": 5000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "total_vega",
+          "value": 467545.8944077298,
+          "limit": 50000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "total_theta",
+          "value": -748063.9567826177,
+          "limit": -150000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "symbol_notional",
+          "symbol": "BTC",
+          "value": 2728961.637414703,
+          "limit": 1000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "symbol_notional",
+          "symbol": "ETH",
+          "value": 2075735.4338031185,
+          "limit": 1000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "symbol_notional",
+          "symbol": "SOL",
+          "value": 1790830.2836500949,
+          "limit": 1000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "symbol_notional",
+          "symbol": "XRP",
+          "value": 2013445.263655939,
+          "limit": 1000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "symbol_notional",
+          "symbol": "ADA",
+          "value": 2341015.161003039,
+          "limit": 1000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "venue_notional",
+          "venue": "deribit",
+          "value": 2216099.9346272275,
+          "limit": 2000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "venue_notional",
+          "venue": "okx",
+          "value": 2265697.056656489,
+          "limit": 2000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "venue_notional",
+          "venue": "bybit",
+          "value": 2315226.0603290815,
+          "limit": 2000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "aggregation_breach",
+        "detail": {
+          "type": "venue_notional",
+          "venue": "bitget",
+          "value": 2282774.0026934426,
+          "limit": 2000000.0,
+          "severity": "block"
+        },
+        "severity": "block"
+      },
+      {
+        "type": "pretrade_blocks",
+        "count": 6,
+        "severity": "warn"
+      },
+      {
+        "type": "escalation",
+        "action": "engage_risk_escalation",
+        "severity": "critical"
+      }
+    ],
+    "alert_count": 16,
+    "critical_count": 3,
+    "warn_count": 1,
+    "drift_integration_enabled": true,
+    "breach_escalation": true,
+    "healthy": false,
+    "paper_only": true
+  },
+  "alerts_history": [
+    {
+      "type": "limit_utilization_high",
+      "metric": "notional_usd",
+      "utilization": 2.189997555905379,
+      "threshold": 0.8,
+      "severity": "critical"
+    },
+    {
+      "type": "limit_utilization_high",
+      "metric": "vega",
+      "utilization": 9.350917888154596,
+      "threshold": 0.8,
+      "severity": "critical"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "total_notional",
+        "value": 10949987.779526895,
+        "limit": 5000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "total_vega",
+        "value": 467545.8944077298,
+        "limit": 50000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "total_theta",
+        "value": -748063.9567826177,
+        "limit": -150000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "symbol_notional",
+        "symbol": "BTC",
+        "value": 2728961.637414703,
+        "limit": 1000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "symbol_notional",
+        "symbol": "ETH",
+        "value": 2075735.4338031185,
+        "limit": 1000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "symbol_notional",
+        "symbol": "SOL",
+        "value": 1790830.2836500949,
+        "limit": 1000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "symbol_notional",
+        "symbol": "XRP",
+        "value": 2013445.263655939,
+        "limit": 1000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "symbol_notional",
+        "symbol": "ADA",
+        "value": 2341015.161003039,
+        "limit": 1000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "venue_notional",
+        "venue": "deribit",
+        "value": 2216099.9346272275,
+        "limit": 2000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "venue_notional",
+        "venue": "okx",
+        "value": 2265697.056656489,
+        "limit": 2000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "venue_notional",
+        "venue": "bybit",
+        "value": 2315226.0603290815,
+        "limit": 2000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "aggregation_breach",
+      "detail": {
+        "type": "venue_notional",
+        "venue": "bitget",
+        "value": 2282774.0026934426,
+        "limit": 2000000.0,
+        "severity": "block"
+      },
+      "severity": "block"
+    },
+    {
+      "type": "pretrade_blocks",
+      "count": 6,
+      "severity": "warn"
+    },
+    {
+      "type": "escalation",
+      "action": "engage_risk_escalation",
+      "severity": "critical"
+    }
+  ],
+  "audit": [
+    {
+      "timestamp": "2026-11-01T14:21:11.031009Z",
+      "action": "monitor",
+      "details": {}
+    }
+  ],
+  "git_sha": "303d76c9e1995b004a91785e361b552ce110544a",
+  "paper_only": true,
+  "campaign_id": "p21_camp_303d76c9",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ]
+}

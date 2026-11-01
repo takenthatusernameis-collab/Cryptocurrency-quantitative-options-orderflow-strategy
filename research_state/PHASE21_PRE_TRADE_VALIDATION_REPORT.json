@@ -1,0 +1,1192 @@
+{
+  "report": "PHASE21_PRE_TRADE_VALIDATION_REPORT",
+  "timestamp": "2026-11-01T14:21:11.024481Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "max_order_notional": 500000.0,
+    "max_delta_add": 500.0,
+    "max_vega_add": 10000.0,
+    "require_orderflow_confirm": true,
+    "enforce_hard_blocks": true
+  },
+  "intent_count": 40,
+  "decision_count": 40,
+  "intents": [
+    {
+      "intent_id": "p21_int_0000",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 2.627169874382874,
+      "notional_usd": 131358.4937191437,
+      "delta_est": 22.73372920751288,
+      "vega_est": -455.7122137620388,
+      "gamma_est": 0.001978951914481521,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0001",
+      "symbol": "ETH",
+      "venue": "okx",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 0.19424309872723658,
+      "notional_usd": 9712.154936361829,
+      "delta_est": -147.6867650547707,
+      "vega_est": 1126.618850772034,
+      "gamma_est": 0.0032462957696065393,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0002",
+      "symbol": "SOL",
+      "venue": "binance",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 1.760909309919041,
+      "notional_usd": 88045.46549595204,
+      "delta_est": 78.3124843299014,
+      "vega_est": -441.5182884745698,
+      "gamma_est": 0.008571049745785785,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0003",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 3.240320447061718,
+      "notional_usd": 162016.0223530859,
+      "delta_est": -133.95330695644577,
+      "vega_est": -614.976020167127,
+      "gamma_est": 0.008556213203747439,
+      "orderflow_confirmed": false,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0004",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 1.3859578069870273,
+      "notional_usd": 69297.89034935136,
+      "delta_est": 29.54855180896999,
+      "vega_est": 1481.9247853260622,
+      "gamma_est": 0.0069284363270436175,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0005",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 3.924864549175102,
+      "notional_usd": 196243.2274587551,
+      "delta_est": 111.48704277386184,
+      "vega_est": -692.6463293162203,
+      "gamma_est": 0.004281198882351401,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0006",
+      "symbol": "ETH",
+      "venue": "okx",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 1.0564292348535826,
+      "notional_usd": 52821.46174267914,
+      "delta_est": 51.13524206573595,
+      "vega_est": 1121.1091819702046,
+      "gamma_est": 0.0037463937614127234,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0007",
+      "symbol": "SOL",
+      "venue": "binance",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 3.602934878537888,
+      "notional_usd": 180146.7439268944,
+      "delta_est": -82.14650013587689,
+      "vega_est": 590.2791559973275,
+      "gamma_est": 0.00999932343696133,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0008",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 3.7738780546686814,
+      "notional_usd": 188693.90273343408,
+      "delta_est": 45.57810339500011,
+      "vega_est": 1124.4433051066444,
+      "gamma_est": 0.004542278834026797,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0009",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 0.5510431530108637,
+      "notional_usd": 27552.157650543188,
+      "delta_est": 18.80652373613816,
+      "vega_est": -393.9237316316619,
+      "gamma_est": 0.009331629416654826,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0010",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 2.674785982238877,
+      "notional_usd": 133739.29911194384,
+      "delta_est": -86.30955617192475,
+      "vega_est": -1490.8438127943823,
+      "gamma_est": 0.007899741261598845,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0011",
+      "symbol": "ETH",
+      "venue": "okx",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 1.3314640208589663,
+      "notional_usd": 66573.20104294832,
+      "delta_est": 142.70155672207255,
+      "vega_est": 1035.1848068369386,
+      "gamma_est": 0.006704454207042331,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0012",
+      "symbol": "SOL",
+      "venue": "binance",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 3.971843437033763,
+      "notional_usd": 198592.17185168815,
+      "delta_est": 94.3100427039933,
+      "vega_est": -162.59062558620667,
+      "gamma_est": 0.009211071281150694,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0013",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 2.3284162069098464,
+      "notional_usd": 116420.81034549233,
+      "delta_est": 14.314240903384615,
+      "vega_est": -361.407322789654,
+      "gamma_est": 0.0006369817423914287,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0014",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 0.9716388444014428,
+      "notional_usd": 48581.94222007214,
+      "delta_est": -55.14878062767997,
+      "vega_est": -1499.0093253857247,
+      "gamma_est": 0.009655796640462459,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0015",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 1.1076301893354306,
+      "notional_usd": 55381.509466771524,
+      "delta_est": -68.13963478917793,
+      "vega_est": 696.9857789005332,
+      "gamma_est": 0.0033957552702924615,
+      "orderflow_confirmed": false,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0016",
+      "symbol": "ETH",
+      "venue": "okx",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 3.5416415227148343,
+      "notional_usd": 177082.07613574172,
+      "delta_est": 9.202074017388782,
+      "vega_est": 265.2230476502341,
+      "gamma_est": 0.004788489747942029,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0017",
+      "symbol": "SOL",
+      "venue": "binance",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 3.2633837400513688,
+      "notional_usd": 163169.18700256845,
+      "delta_est": 3.9202871752714543,
+      "vega_est": -958.9126295802898,
+      "gamma_est": 0.00017035710384321674,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0018",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 3.45811938087337,
+      "notional_usd": 172905.9690436685,
+      "delta_est": 28.42290883447467,
+      "vega_est": -793.668602823625,
+      "gamma_est": 0.0036004623931557536,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0019",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 1.8461545294020194,
+      "notional_usd": 92307.72647010097,
+      "delta_est": -103.35629386444282,
+      "vega_est": -985.1782288338482,
+      "gamma_est": 0.003576257744360311,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0020",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 1.5600739803045938,
+      "notional_usd": 78003.6990152297,
+      "delta_est": -147.4087540508295,
+      "vega_est": 897.7510286406614,
+      "gamma_est": 0.00353695133765493,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0021",
+      "symbol": "ETH",
+      "venue": "okx",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 1.2960174632615231,
+      "notional_usd": 64800.87316307616,
+      "delta_est": -117.36193537429459,
+      "vega_est": -1117.4944131340978,
+      "gamma_est": 0.0019836144941510147,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0022",
+      "symbol": "SOL",
+      "venue": "binance",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 1.8143240283849438,
+      "notional_usd": 90716.20141924718,
+      "delta_est": 70.56641289235102,
+      "vega_est": -1880.5209793836011,
+      "gamma_est": 0.006434849187084968,
+      "orderflow_confirmed": false,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0023",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 1.4027570198287356,
+      "notional_usd": 70137.85099143678,
+      "delta_est": 46.826368623327454,
+      "vega_est": 189.1327002097023,
+      "gamma_est": 0.0002972290528737313,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0024",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 3.0987730980184294,
+      "notional_usd": 154938.65490092148,
+      "delta_est": 142.14575948412096,
+      "vega_est": -1623.29571689407,
+      "gamma_est": 0.00355171021293951,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0025",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 2.9019514960226025,
+      "notional_usd": 145097.57480113013,
+      "delta_est": -37.75683269664245,
+      "vega_est": -658.1588175766915,
+      "gamma_est": 0.003468090931575101,
+      "orderflow_confirmed": false,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0026",
+      "symbol": "ETH",
+      "venue": "okx",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 0.8440619586601804,
+      "notional_usd": 42203.09793300902,
+      "delta_est": 123.99275248466148,
+      "vega_est": 735.2511164179614,
+      "gamma_est": 0.004892991417160047,
+      "orderflow_confirmed": false,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0027",
+      "symbol": "SOL",
+      "venue": "binance",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 1.348695256991141,
+      "notional_usd": 67434.76284955705,
+      "delta_est": -20.296408102783033,
+      "vega_est": -1517.8331990034103,
+      "gamma_est": 0.002086125030239194,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0028",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 1.7518223114349367,
+      "notional_usd": 87591.11557174684,
+      "delta_est": 76.39722371502299,
+      "vega_est": 598.8536123118824,
+      "gamma_est": 0.005108726262895839,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0029",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 2.8014222389645123,
+      "notional_usd": 140071.11194822562,
+      "delta_est": -142.25358215056988,
+      "vega_est": 1287.778702185221,
+      "gamma_est": 0.008242824902309678,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0030",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 2.4235939230089953,
+      "notional_usd": 121179.69615044977,
+      "delta_est": -81.47173300381503,
+      "vega_est": -1475.156512362641,
+      "gamma_est": 0.0041011734354416286,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0031",
+      "symbol": "ETH",
+      "venue": "okx",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 1.9383573813269048,
+      "notional_usd": 96917.86906634524,
+      "delta_est": -123.34988585670553,
+      "vega_est": -1545.8653474469086,
+      "gamma_est": 0.00311493318894756,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0032",
+      "symbol": "SOL",
+      "venue": "binance",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 0.3447249953370406,
+      "notional_usd": 17236.24976685203,
+      "delta_est": 8.109767435445889,
+      "vega_est": -1448.2052066984702,
+      "gamma_est": 0.00786797368074596,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0033",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 1.4487724281426164,
+      "notional_usd": 72438.62140713082,
+      "delta_est": 55.344921575988536,
+      "vega_est": 1343.9992709306794,
+      "gamma_est": 0.006062686405150691,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0034",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 3.223222671024141,
+      "notional_usd": 161161.13355120705,
+      "delta_est": -10.623840771899978,
+      "vega_est": -508.1112206970163,
+      "gamma_est": 0.0031627301580455873,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0035",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 1.506750419502584,
+      "notional_usd": 75337.5209751292,
+      "delta_est": 131.8169085772206,
+      "vega_est": -1735.361058232551,
+      "gamma_est": 0.0015472282671352387,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0036",
+      "symbol": "ETH",
+      "venue": "okx",
+      "strategy": "vol_arb",
+      "side": "buy",
+      "qty": 2.2853707667284673,
+      "notional_usd": 114268.53833642336,
+      "delta_est": 131.22209318158775,
+      "vega_est": -444.3045974808281,
+      "gamma_est": 0.005268196682981279,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0037",
+      "symbol": "SOL",
+      "venue": "binance",
+      "strategy": "cross_asset_vol",
+      "side": "sell",
+      "qty": 0.6263199786760189,
+      "notional_usd": 31315.998933800944,
+      "delta_est": 79.14706406197993,
+      "vega_est": -1207.6288645701325,
+      "gamma_est": 0.0021244835626454263,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0038",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "strategy": "orderflow_momentum",
+      "side": "buy",
+      "qty": 0.18877947987549393,
+      "notional_usd": 9438.973993774696,
+      "delta_est": 121.18292058672307,
+      "vega_est": 659.9502950417027,
+      "gamma_est": 0.002394837570621407,
+      "orderflow_confirmed": false,
+      "paper_only": true
+    },
+    {
+      "intent_id": "p21_int_0039",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "strategy": "delta_neutral_mm",
+      "side": "sell",
+      "qty": 1.292258193045219,
+      "notional_usd": 64612.909652260954,
+      "delta_est": 7.755410572310467,
+      "vega_est": -948.0426995652631,
+      "gamma_est": 0.0037229270789264192,
+      "orderflow_confirmed": true,
+      "paper_only": true
+    }
+  ],
+  "decisions": [
+    {
+      "decision_id": "p21_dec_db7705f99126",
+      "intent_id": "p21_int_0000",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e8:72Z"
+    },
+    {
+      "decision_id": "p21_dec_b92723037e7d",
+      "intent_id": "p21_int_0001",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1d:caZ"
+    },
+    {
+      "decision_id": "p21_dec_f41be17251d1",
+      "intent_id": "p21_int_0002",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7d:94Z"
+    },
+    {
+      "decision_id": "p21_dec_3a97461d7767",
+      "intent_id": "p21_int_0003",
+      "approved": false,
+      "blocked": true,
+      "block_reasons": [
+        "orderflow_not_confirmed"
+      ],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f7:f8Z"
+    },
+    {
+      "decision_id": "p21_dec_dd82c96580ec",
+      "intent_id": "p21_int_0004",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:25:51Z"
+    },
+    {
+      "decision_id": "p21_dec_66084d3c5ee9",
+      "intent_id": "p21_int_0005",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ec:8fZ"
+    },
+    {
+      "decision_id": "p21_dec_1434c92a2084",
+      "intent_id": "p21_int_0006",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:da:64Z"
+    },
+    {
+      "decision_id": "p21_dec_df8747a16fdd",
+      "intent_id": "p21_int_0007",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:68:86Z"
+    },
+    {
+      "decision_id": "p21_dec_aca17ec84928",
+      "intent_id": "p21_int_0008",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a7:24Z"
+    },
+    {
+      "decision_id": "p21_dec_c88bfed9e308",
+      "intent_id": "p21_int_0009",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:46:2bZ"
+    },
+    {
+      "decision_id": "p21_dec_6952a00be068",
+      "intent_id": "p21_int_0010",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f1:42Z"
+    },
+    {
+      "decision_id": "p21_dec_57afdaca8fcc",
+      "intent_id": "p21_int_0011",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:dd:4bZ"
+    },
+    {
+      "decision_id": "p21_dec_b8495f48207d",
+      "intent_id": "p21_int_0012",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e0:31Z"
+    },
+    {
+      "decision_id": "p21_dec_c032b0924c59",
+      "intent_id": "p21_int_0013",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:07:95Z"
+    },
+    {
+      "decision_id": "p21_dec_6274c29dad34",
+      "intent_id": "p21_int_0014",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a3:7fZ"
+    },
+    {
+      "decision_id": "p21_dec_a8bb964f00dc",
+      "intent_id": "p21_int_0015",
+      "approved": false,
+      "blocked": true,
+      "block_reasons": [
+        "orderflow_not_confirmed"
+      ],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:bd:2fZ"
+    },
+    {
+      "decision_id": "p21_dec_98c67bdb1384",
+      "intent_id": "p21_int_0016",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0c:f6Z"
+    },
+    {
+      "decision_id": "p21_dec_894d4a785342",
+      "intent_id": "p21_int_0017",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:df:77Z"
+    },
+    {
+      "decision_id": "p21_dec_bf992eb52574",
+      "intent_id": "p21_int_0018",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:16:03Z"
+    },
+    {
+      "decision_id": "p21_dec_d1ebf7ce9457",
+      "intent_id": "p21_int_0019",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1d:32Z"
+    },
+    {
+      "decision_id": "p21_dec_85f7820bdbb0",
+      "intent_id": "p21_int_0020",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:52:beZ"
+    },
+    {
+      "decision_id": "p21_dec_f898b1a3ad7c",
+      "intent_id": "p21_int_0021",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:4c:6bZ"
+    },
+    {
+      "decision_id": "p21_dec_12f89193a4d1",
+      "intent_id": "p21_int_0022",
+      "approved": false,
+      "blocked": true,
+      "block_reasons": [
+        "orderflow_not_confirmed"
+      ],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:39:f8Z"
+    },
+    {
+      "decision_id": "p21_dec_5e593e835c92",
+      "intent_id": "p21_int_0023",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ef:b7Z"
+    },
+    {
+      "decision_id": "p21_dec_56225e1286eb",
+      "intent_id": "p21_int_0024",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:16:a8Z"
+    },
+    {
+      "decision_id": "p21_dec_381f085809db",
+      "intent_id": "p21_int_0025",
+      "approved": false,
+      "blocked": true,
+      "block_reasons": [
+        "orderflow_not_confirmed"
+      ],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:95:b3Z"
+    },
+    {
+      "decision_id": "p21_dec_97d582ba447b",
+      "intent_id": "p21_int_0026",
+      "approved": false,
+      "blocked": true,
+      "block_reasons": [
+        "orderflow_not_confirmed"
+      ],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7d:dbZ"
+    },
+    {
+      "decision_id": "p21_dec_d87e74c437cf",
+      "intent_id": "p21_int_0027",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:39:5cZ"
+    },
+    {
+      "decision_id": "p21_dec_7e5dbbf29ae5",
+      "intent_id": "p21_int_0028",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fb:04Z"
+    },
+    {
+      "decision_id": "p21_dec_b9611059bf2f",
+      "intent_id": "p21_int_0029",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b4:21Z"
+    },
+    {
+      "decision_id": "p21_dec_73241c99ec94",
+      "intent_id": "p21_int_0030",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a8:80Z"
+    },
+    {
+      "decision_id": "p21_dec_8edfc63ba4d6",
+      "intent_id": "p21_int_0031",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:79:e7Z"
+    },
+    {
+      "decision_id": "p21_dec_5ccef5c45086",
+      "intent_id": "p21_int_0032",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ce:54Z"
+    },
+    {
+      "decision_id": "p21_dec_28ea5fee3b4a",
+      "intent_id": "p21_int_0033",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:22:acZ"
+    },
+    {
+      "decision_id": "p21_dec_ee0ee88522ca",
+      "intent_id": "p21_int_0034",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:54:34Z"
+    },
+    {
+      "decision_id": "p21_dec_6d9d8322a3f7",
+      "intent_id": "p21_int_0035",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:8c:beZ"
+    },
+    {
+      "decision_id": "p21_dec_e1c236184a78",
+      "intent_id": "p21_int_0036",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1a:72Z"
+    },
+    {
+      "decision_id": "p21_dec_c7fab4275373",
+      "intent_id": "p21_int_0037",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:82:44Z"
+    },
+    {
+      "decision_id": "p21_dec_8f1fbf09793f",
+      "intent_id": "p21_int_0038",
+      "approved": false,
+      "blocked": true,
+      "block_reasons": [
+        "orderflow_not_confirmed"
+      ],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fd:13Z"
+    },
+    {
+      "decision_id": "p21_dec_ea40d1036fef",
+      "intent_id": "p21_int_0039",
+      "approved": true,
+      "blocked": false,
+      "block_reasons": [],
+      "warnings": [
+        "would_increase_agg_notional",
+        "would_increase_agg_vega"
+      ],
+      "override_audit_id": null,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2b:c6Z"
+    }
+  ],
+  "summary": {
+    "blocked_count": 6,
+    "approved_count": 34,
+    "override_audit_count": 0,
+    "all_hard_blocks_enforced": true,
+    "paper_only": true
+  },
+  "override_audit": [],
+  "audit": [
+    {
+      "timestamp": "2026-11-01T14:21:11.023911Z",
+      "action": "validate",
+      "details": {
+        "count": 40
+      }
+    }
+  ],
+  "git_sha": "303d76c9e1995b004a91785e361b552ce110544a",
+  "paper_only": true,
+  "campaign_id": "p21_camp_303d76c9",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ]
+}
