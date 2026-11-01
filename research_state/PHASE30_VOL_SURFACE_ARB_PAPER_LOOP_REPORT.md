@@ -1,0 +1,7 @@
+# PHASE30_VOL_SURFACE_ARB_PAPER_LOOP_REPORT
+
+Timestamp: 2026-11-01T21:02:51.121521Z
+Status: ok
+Paper-only: true
+Cycles: 2
+Total PnL: 398843.14

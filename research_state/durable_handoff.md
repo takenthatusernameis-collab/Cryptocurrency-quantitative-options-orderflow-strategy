@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 Timestamp (UTC): 2026-11-01T20:05:00Z
-Updated (UTC): 2026-11-01T20:08:40Z
+Updated (UTC): 2026-11-01T21:03:11Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution)
 
@@ -26,6 +26,17 @@ COMPLETED (DO NOT REDO):
   6. Artifacts under research_state/: PHASE28_CROSS_VENUE_MM_REPORT.json/md, PHASE28_INVENTORY_REBALANCE_REPORT.json/md, PHASE28_CV_MM_PAPER_LOOP_REPORT.json/md, PHASE28_CV_MM_MASTER_REPORT.json/md.
 
 PHASE 29 (COMPLETE 2026-11-01T20:05:00Z): Crypto Options Vol Surface Arbitrage Hedging & Delta-Neutral Market Making. All deliverables shipped (vol arb engine, delta-neutral hedge engine, vol arb paper loop, campaign script, >=80 tests, master/loop/hedge reports). No placeholders/TODOs. Deterministic, finite numerics, paper-only safe. DO NOT REDO.
+
+PHASE 30 (COMPLETE 2026-11-01T21:03:11Z): Crypto Options Vol Surface Arbitrage Hedging & Delta-Neutral Market Making (cross-asset). All deliverables shipped:
+1. `src/options/phase30_vol_surface_arb.py` — OptionsVolSurfaceArbEngine: cross-venue vol surface arbitrage detection, IV skew/risk-reversal dislocations, vol-spread legs, deterministic.
+2. `src/risk/phase30_vol_risk_budget.py` — VolRiskBudgetManager: per-underlying/cross-asset budgets, regime limits, stress cuts, kill-switch, deterministic.
+3. `src/capital/phase30_dynamic_capital_allocator.py` — DynamicCapitalAllocator: regime-aware allocation, Kelly/fractional caps, drawdown scaling.
+4. `src/execution/phase30_cross_asset_hedge_router.py` — CrossAssetHedgeRouter: cross-asset hedge routing (perp/future/spot), fill prediction + TCA, paper-only gated.
+5. `src/execution/phase30_vol_arb_paper_loop.py` — VolSurfaceArbPaperLoop: integrates engine+risk+allocator+router+Phase18+Phase24, per-cycle TCA/fill-quality.
+6. `scripts/run_phase30_vol_surface_arb_campaign.py` — CLI (--symbols/--venues/--underlyings/--expiries/--modes paper/live gated/--cycles/--seed/--enforce-gates/--outdir).
+7. `tests/test_phase30_vol_surface_arb.py` — 203 substantive deterministic tests.
+8. Artifacts under research_state/: PHASE30_VOL_SURFACE_ARB_REPORT.*, PHASE30_VOL_RISK_BUDGET_REPORT.*, PHASE30_DYNAMIC_CAPITAL_ALLOCATOR_REPORT.*, PHASE30_CROSS_ASSET_HEDGE_ROUTER_REPORT.*, PHASE30_VOL_SURFACE_ARB_PAPER_LOOP_REPORT.*, PHASE30_VOL_SURFACE_ARB_MASTER_REPORT.*, PHASE30_CAMPAIGN_SUMMARY.*
+Gate: 2093 passed, 2 skipped, 0 failed. No placeholders/TODOs. Deterministic, finite numerics, paper-only safe.
 
 BOTTLENECKS REMOVED: NONE. Any inefficiencies must be removed by direct implementation.
 

@@ -1,0 +1,6 @@
+# PHASE30_CROSS_ASSET_HEDGE_ROUTER_REPORT
+
+Timestamp: 2026-11-01T21:02:51.140796Z
+Status: ok
+Paper-only: true
+Routes: 2
