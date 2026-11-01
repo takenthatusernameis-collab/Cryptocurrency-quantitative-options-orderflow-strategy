@@ -1,12 +1,12 @@
 # PHASE23_SIGNAL_FUSION_REPORT
-Timestamp (UTC): 2026-11-01T16:08:25.620414Z
-Campaign ID: p23_camp_3d35cfe5
-Seed: 42
-Symbols: BTC, ETH, SOL, XRP, ADA
-Venues: deribit, okx, binance, bybit, bitget
-Strategies: vol_arb, cross_asset_vol, orderflow_momentum, delta_neutral_mm
-Cycles: 4
+Timestamp (UTC): 2026-11-01T16:19:14.829203Z
+Campaign ID: p23_camp_9c3c0b76
+Seed: 12345
+Symbols: BTCUSDT, ETHUSDT
+Venues: binance, bybit
+Strategies: ofi_vpin
+Cycles: 3
 Paper-only: True
-Git SHA: 3d35cfe5b9e73dd9655ccc24bcb7e470caabb135
+Git SHA: 9c3c0b7676e3be15c13213a8162d0683b8169ad8
 
-## Fused: 100 | Avg Score: 0.13610383152049907 | L/S/N: 39/0/61
+## Fused: 12 | Avg Score: 0.05531730635638873 | L/S/N: 0/0/12

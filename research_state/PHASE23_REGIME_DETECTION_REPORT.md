@@ -1,12 +1,12 @@
 # PHASE23_REGIME_DETECTION_REPORT
-Timestamp (UTC): 2026-11-01T16:08:25.619440Z
-Campaign ID: p23_camp_3d35cfe5
-Seed: 42
-Symbols: BTC, ETH, SOL, XRP, ADA
-Venues: deribit, okx, binance, bybit, bitget
-Strategies: vol_arb, cross_asset_vol, orderflow_momentum, delta_neutral_mm
-Cycles: 4
+Timestamp (UTC): 2026-11-01T16:19:14.829060Z
+Campaign ID: p23_camp_9c3c0b76
+Seed: 12345
+Symbols: BTCUSDT, ETHUSDT
+Venues: binance, bybit
+Strategies: ofi_vpin
+Cycles: 3
 Paper-only: True
-Git SHA: 3d35cfe5b9e73dd9655ccc24bcb7e470caabb135
+Git SHA: 9c3c0b7676e3be15c13213a8162d0683b8169ad8
 
-## States: 100 | Trend: 88 | MR: 0 | Avg Conf: 0.2616849263130889
+## States: 12 | Trend: 9 | MR: 0 | Avg Conf: 0.2571092782916967

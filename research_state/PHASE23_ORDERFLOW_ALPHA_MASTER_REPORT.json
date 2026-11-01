@@ -1,31 +1,22 @@
 {
   "report": "PHASE23_ORDERFLOW_ALPHA_MASTER_REPORT",
-  "timestamp": "2026-11-01T16:08:25.749549Z",
-  "campaign_id": "p23_camp_3d35cfe5",
-  "seed": 42,
+  "timestamp": "2026-11-01T16:19:14.897740Z",
+  "campaign_id": "p23_camp_9c3c0b76",
+  "seed": 12345,
   "symbols": [
-    "BTC",
-    "ETH",
-    "SOL",
-    "XRP",
-    "ADA"
+    "BTCUSDT",
+    "ETHUSDT"
   ],
   "venues": [
-    "deribit",
-    "okx",
     "binance",
-    "bybit",
-    "bitget"
+    "bybit"
   ],
   "strategies": [
-    "vol_arb",
-    "cross_asset_vol",
-    "orderflow_momentum",
-    "delta_neutral_mm"
+    "ofi_vpin"
   ],
-  "cycles": 4,
+  "cycles": 3,
   "paper_only": true,
-  "git_sha": "3d35cfe5b9e73dd9655ccc24bcb7e470caabb135",
+  "git_sha": "9c3c0b7676e3be15c13213a8162d0683b8169ad8",
   "components": {
     "orderflow_alpha": "src/signals/phase23_orderflow_alpha.py",
     "regime_detector": "src/signals/phase23_regime_detector.py",
@@ -51,14 +42,14 @@
     "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE23_ALPHA_DECAY_REPORT.md"
   ],
   "summary": {
-    "orderflow_signals": 100,
-    "avg_alpha": 0.2937473336583014,
-    "toxic_rate": 0.01,
-    "regime_states": 100,
-    "fused_signals": 100,
-    "avg_fused": 0.13610383152049907,
-    "decay_states": 100,
-    "avg_half_life": 13.548949320224743,
+    "orderflow_signals": 12,
+    "avg_alpha": 0.1593476673751868,
+    "toxic_rate": 0.0,
+    "regime_states": 12,
+    "fused_signals": 12,
+    "avg_fused": 0.05531730635638873,
+    "decay_states": 12,
+    "avg_half_life": 13.687869806833405,
     "good_alpha": 0
   },
   "gate_status": "GREEN",

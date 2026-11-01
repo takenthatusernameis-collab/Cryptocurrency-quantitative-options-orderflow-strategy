@@ -1,10 +1,10 @@
 # PHASE23_ORDERFLOW_ALPHA_MASTER_REPORT
-Timestamp (UTC): 2026-11-01T16:08:25.749549Z
-Campaign ID: p23_camp_3d35cfe5
+Timestamp (UTC): 2026-11-01T16:19:14.897740Z
+Campaign ID: p23_camp_9c3c0b76
 Gate: GREEN
 Status: COMPLETE
 Paper-only: True
-Git SHA: 3d35cfe5b9e73dd9655ccc24bcb7e470caabb135
+Git SHA: 9c3c0b7676e3be15c13213a8162d0683b8169ad8
 
-## Summary: OF=100 AlphaAvg=0.2937473336583014 ToxicRate=0.01 | Fused=100 AvgFused=0.13610383152049907 | Decay=100 HalfLife=13.548949320224743 Good=0
+## Summary: OF=12 AlphaAvg=0.1593476673751868 ToxicRate=0.0 | Fused=12 AvgFused=0.05531730635638873 | Decay=12 HalfLife=13.687869806833405 Good=0
 ## Artifacts: 8

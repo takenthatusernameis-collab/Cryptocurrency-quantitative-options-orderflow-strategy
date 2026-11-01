@@ -1,12 +1,12 @@
 # PHASE23_ALPHA_DECAY_REPORT
-Timestamp (UTC): 2026-11-01T16:08:25.622196Z
-Campaign ID: p23_camp_3d35cfe5
-Seed: 42
-Symbols: BTC, ETH, SOL, XRP, ADA
-Venues: deribit, okx, binance, bybit, bitget
-Strategies: vol_arb, cross_asset_vol, orderflow_momentum, delta_neutral_mm
-Cycles: 4
+Timestamp (UTC): 2026-11-01T16:19:14.829391Z
+Campaign ID: p23_camp_9c3c0b76
+Seed: 12345
+Symbols: BTCUSDT, ETHUSDT
+Venues: binance, bybit
+Strategies: ofi_vpin
+Cycles: 3
 Paper-only: True
-Git SHA: 3d35cfe5b9e73dd9655ccc24bcb7e470caabb135
+Git SHA: 9c3c0b7676e3be15c13213a8162d0683b8169ad8
 
-## Decay: 100 | Avg Half-Life: 13.548949320224743 | Good/Degraded/Poor: 0/0/100
+## Decay: 12 | Avg Half-Life: 13.687869806833405 | Good/Degraded/Poor: 0/0/12

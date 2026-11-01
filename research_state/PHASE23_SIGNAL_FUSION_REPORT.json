@@ -1,9 +1,9 @@
 {
   "report": "PHASE23_SIGNAL_FUSION_REPORT",
-  "timestamp": "2026-11-01T16:08:25.620414Z",
-  "seed": 42,
+  "timestamp": "2026-11-01T16:19:14.829203Z",
+  "seed": 12345,
   "config": {
-    "seed": 42,
+    "seed": 12345,
     "paper_only": true,
     "base_weights": [
       0.4,
@@ -15,18 +15,18 @@
     "normalize_weights": true,
     "enforce_hard_limits": true
   },
-  "fused_count": 100,
+  "fused_count": 12,
   "fused_signals": [
     {
-      "fusion_id": "p23_fus_72b54a64053d",
-      "symbol": "BTC",
+      "fusion_id": "p23_fus_3a2f59c58dc6",
+      "symbol": "BTCUSDT",
       "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.597534Z",
+      "timestamp": "2026-11-01T16:19:14.825912Z",
       "raw_signals": {
-        "orderflow": 0.15381546196607088,
-        "vol": -0.17328929728302095,
-        "cross_asset": -0.19265777267841766,
-        "other": 0.09724476689109215
+        "orderflow": 0.12678323464444696,
+        "vol": 0.14807912592628303,
+        "cross_asset": 0.12661379528772304,
+        "other": -0.07183140523469403
       },
       "weights": {
         "orderflow": 0.5,
@@ -34,22 +34,114 @@
         "cross_asset": 0.2,
         "other": 0.1
       },
-      "fused_score": 0.01344279367985693,
+      "fused_score": 0.11114706104155529,
       "direction": "neutral",
-      "conviction": 0.020164190519785394,
-      "risk_adjusted": 0.01338879882180215,
+      "conviction": 0.16672059156233293,
+      "risk_adjusted": 0.10756054935800798,
       "paper_only": true
     },
     {
-      "fusion_id": "p23_fus_6d8ad7a6e069",
-      "symbol": "BTC",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.597832Z",
+      "fusion_id": "p23_fus_cae34d1b7ccd",
+      "symbol": "BTCUSDT",
+      "regime": "trend",
+      "timestamp": "2026-11-01T16:19:14.826184Z",
       "raw_signals": {
-        "orderflow": 0.2068351897521912,
-        "vol": 0.1706012411840982,
-        "cross_asset": -0.13611003680207548,
-        "other": 0.048634694476435314
+        "orderflow": 0.03000581122676014,
+        "vol": -0.04710740546043246,
+        "cross_asset": -0.10153871572073676,
+        "other": 0.030625214475192897
+      },
+      "weights": {
+        "orderflow": 0.5,
+        "vol": 0.2,
+        "cross_asset": 0.2,
+        "other": 0.1
+      },
+      "fused_score": -0.011663797175334488,
+      "direction": "neutral",
+      "conviction": 0.017495695763001733,
+      "risk_adjusted": -0.011623126239235166,
+      "paper_only": true
+    },
+    {
+      "fusion_id": "p23_fus_81fe18cee77b",
+      "symbol": "ETHUSDT",
+      "regime": "trend",
+      "timestamp": "2026-11-01T16:19:14.826446Z",
+      "raw_signals": {
+        "orderflow": 0.29570616716476394,
+        "vol": -0.1110377976194048,
+        "cross_asset": -0.10148309806156042,
+        "other": 0.07859958721979135
+      },
+      "weights": {
+        "orderflow": 0.5,
+        "vol": 0.2,
+        "cross_asset": 0.2,
+        "other": 0.1
+      },
+      "fused_score": 0.11320886316816807,
+      "direction": "neutral",
+      "conviction": 0.1698132947522521,
+      "risk_adjusted": 0.10949028206016989,
+      "paper_only": true
+    },
+    {
+      "fusion_id": "p23_fus_0096f813dece",
+      "symbol": "ETHUSDT",
+      "regime": "trend",
+      "timestamp": "2026-11-01T16:19:14.826916Z",
+      "raw_signals": {
+        "orderflow": 0.04430020512941328,
+        "vol": -0.20781201117177822,
+        "cross_asset": -0.062232951515050455,
+        "other": 0.05631842152756886
+      },
+      "weights": {
+        "orderflow": 0.5,
+        "vol": 0.2,
+        "cross_asset": 0.2,
+        "other": 0.1
+      },
+      "fused_score": -0.02622704781990221,
+      "direction": "neutral",
+      "conviction": 0.039340571729853314,
+      "risk_adjusted": -0.026022301377121703,
+      "paper_only": true
+    },
+    {
+      "fusion_id": "p23_fus_60e750354e43",
+      "symbol": "BTCUSDT",
+      "regime": "trend",
+      "timestamp": "2026-11-01T16:19:14.827174Z",
+      "raw_signals": {
+        "orderflow": 0.08814393251013038,
+        "vol": 0.25464918556625643,
+        "cross_asset": 0.1905634123158188,
+        "other": 0.03632168953831108
+      },
+      "weights": {
+        "orderflow": 0.5,
+        "vol": 0.2,
+        "cross_asset": 0.2,
+        "other": 0.1
+      },
+      "fused_score": 0.13674665478531137,
+      "direction": "neutral",
+      "conviction": 0.20511998217796706,
+      "risk_adjusted": 0.13135783157114925,
+      "paper_only": true
+    },
+    {
+      "fusion_id": "p23_fus_6d8939eb979b",
+      "symbol": "BTCUSDT",
+      "regime": "vol",
+      "timestamp": "2026-11-01T16:19:14.827394Z",
+      "raw_signals": {
+        "orderflow": 0.29831940169555643,
+        "vol": -0.23871503252126852,
+        "cross_asset": -0.023091409582256972,
+        "other": -0.012583355379963496
       },
       "weights": {
         "orderflow": 0.25,
@@ -57,22 +149,22 @@
         "cross_asset": 0.25,
         "other": 0.1
       },
-      "fused_score": 0.09078525415881174,
+      "fused_score": -0.027937350518178895,
       "direction": "neutral",
-      "conviction": 0.1361778812382176,
-      "risk_adjusted": 0.08837822234548995,
+      "conviction": 0.041906025777268346,
+      "risk_adjusted": -0.02770514798902071,
       "paper_only": true
     },
     {
-      "fusion_id": "p23_fus_c1c07dd8cbef",
-      "symbol": "BTC",
+      "fusion_id": "p23_fus_12af4c8492f5",
+      "symbol": "ETHUSDT",
       "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.598081Z",
+      "timestamp": "2026-11-01T16:19:14.827607Z",
       "raw_signals": {
-        "orderflow": 0.0913824426054634,
-        "vol": -0.06077143182071729,
-        "cross_asset": -0.13358428017971086,
-        "other": -0.08777135321740295
+        "orderflow": 0.22445207979927245,
+        "vol": -0.2664366493464901,
+        "cross_asset": -0.023591480327148334,
+        "other": -0.05910724553834526
       },
       "weights": {
         "orderflow": 0.5,
@@ -80,22 +172,22 @@
         "cross_asset": 0.2,
         "other": 0.1
       },
-      "fused_score": -0.0019570564190942302,
+      "fused_score": 0.04830968941107402,
       "direction": "neutral",
-      "conviction": 0.0029355846286413453,
-      "risk_adjusted": -0.0019559080723597793,
+      "conviction": 0.07246453411661102,
+      "risk_adjusted": 0.0476195437998142,
       "paper_only": true
     },
     {
-      "fusion_id": "p23_fus_cf8025d0e329",
-      "symbol": "BTC",
+      "fusion_id": "p23_fus_96dc2d2bf42f",
+      "symbol": "ETHUSDT",
       "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.598297Z",
+      "timestamp": "2026-11-01T16:19:14.827927Z",
       "raw_signals": {
-        "orderflow": -0.18940408383672602,
-        "vol": 0.17123941000091886,
-        "cross_asset": -0.030788548923872533,
-        "other": -0.02828526313889504
+        "orderflow": 0.07736851978863811,
+        "vol": -0.20408476609943493,
+        "cross_asset": -0.03015687491938962,
+        "other": 0.09888067234058348
       },
       "weights": {
         "orderflow": 0.5,
@@ -103,229 +195,22 @@
         "cross_asset": 0.2,
         "other": 0.1
       },
-      "fused_score": -0.06944039601684325,
+      "fused_score": 0.0017239989246124934,
       "direction": "neutral",
-      "conviction": 0.10416059402526487,
-      "risk_adjusted": -0.06802332600793118,
+      "conviction": 0.00258599838691874,
+      "risk_adjusted": 0.0017231077338484494,
       "paper_only": true
     },
     {
-      "fusion_id": "p23_fus_b969c27f4a61",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.598506Z",
-      "raw_signals": {
-        "orderflow": 0.27076789437067816,
-        "vol": -0.2750201513543479,
-        "cross_asset": 0.13073368259275653,
-        "other": -0.09094546421544798
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.097432107011476,
-      "direction": "neutral",
-      "conviction": 0.14614816051721402,
-      "risk_adjusted": 0.09466508150601281,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_0db36e83082a",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.598718Z",
-      "raw_signals": {
-        "orderflow": 0.5545974788654315,
-        "vol": 0.26781981401494376,
-        "cross_asset": 0.07542132480901864,
-        "other": -0.0514326891817581
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.34080369827933243,
-      "direction": "long",
-      "conviction": 0.5112055474189987,
-      "risk_adjusted": 0.30919160549086866,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_16cf3536c284",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.598971Z",
-      "raw_signals": {
-        "orderflow": 0.2710203810782803,
-        "vol": -0.23366917665207548,
-        "cross_asset": -0.15608746967589623,
-        "other": 0.09226274608311255
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.06678513588185706,
-      "direction": "neutral",
-      "conviction": 0.10017770382278558,
-      "risk_adjusted": 0.06547334206786457,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_07ec922e2d89",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.599247Z",
-      "raw_signals": {
-        "orderflow": 0.3015493160797507,
-        "vol": 0.2061797245918014,
-        "cross_asset": 0.10605817031641457,
-        "other": -0.031847605260200945
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.21003747649549845,
-      "direction": "long",
-      "conviction": 0.3150562147432477,
-      "risk_adjusted": 0.19758725779125616,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_d5145466b5d4",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.599474Z",
-      "raw_signals": {
-        "orderflow": 0.49290904980524464,
-        "vol": 0.12115483347421685,
-        "cross_asset": -0.13994210606385163,
-        "other": -0.05187472259420833
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.2375095981252745,
-      "direction": "long",
-      "conviction": 0.35626439718791175,
-      "risk_adjusted": 0.22171198106834422,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_8ff08a8add9b",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.599675Z",
-      "raw_signals": {
-        "orderflow": 0.39377499901656615,
-        "vol": 0.2939369236744554,
-        "cross_asset": 0.01719750552801691,
-        "other": 0.04560163799782907
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.2636745491485604,
-      "direction": "long",
-      "conviction": 0.39551182372284066,
-      "risk_adjusted": 0.24434618787159662,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_64ed3041a96a",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.599905Z",
-      "raw_signals": {
-        "orderflow": 0.01960095603402223,
-        "vol": -0.1381429800203665,
-        "cross_asset": -0.00978055048670562,
-        "other": -0.016849271651112135
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": -0.021469155249514524,
-      "direction": "neutral",
-      "conviction": 0.032203732874271786,
-      "risk_adjusted": -0.021331762771508327,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_9a9a4def6405",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.600108Z",
-      "raw_signals": {
-        "orderflow": 0.6616612858606409,
-        "vol": 0.12266312380297928,
-        "cross_asset": 0.029806589584453924,
-        "other": 0.07466556466704241
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.36879114207451136,
-      "direction": "long",
-      "conviction": 0.553186713111767,
-      "risk_adjusted": 0.33205361275153006,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_6a0d63147d0c",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.600319Z",
-      "raw_signals": {
-        "orderflow": 0.1586318363583951,
-        "vol": 0.17420695051873414,
-        "cross_asset": -0.04164167005760455,
-        "other": 0.020705546005675604
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.10789952887199102,
-      "direction": "neutral",
-      "conviction": 0.16184929330798653,
-      "risk_adjusted": 0.10451634941364521,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_d9a57c38472e",
-      "symbol": "SOL",
+      "fusion_id": "p23_fus_b2b21e4ab71e",
+      "symbol": "BTCUSDT",
       "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.600520Z",
+      "timestamp": "2026-11-01T16:19:14.828136Z",
       "raw_signals": {
-        "orderflow": 0.20346932018416672,
-        "vol": -0.09059506253873342,
-        "cross_asset": -0.07687061329518344,
-        "other": 0.0864347690865217
+        "orderflow": 0.19950127432668027,
+        "vol": 0.15398452922195738,
+        "cross_asset": 0.08596631102664187,
+        "other": -0.06548713824858282
       },
       "weights": {
         "orderflow": 0.25,
@@ -333,22 +218,22 @@
         "cross_asset": 0.25,
         "other": 0.1
       },
-      "fused_score": 0.0040551286154046195,
+      "fused_score": 0.1264119942022552,
       "direction": "neutral",
-      "conviction": 0.006082692923106929,
-      "risk_adjusted": 0.004050201389139244,
+      "conviction": 0.1896179913033828,
+      "risk_adjusted": 0.12179315935594191,
       "paper_only": true
     },
     {
-      "fusion_id": "p23_fus_7156d8012efd",
-      "symbol": "SOL",
+      "fusion_id": "p23_fus_fa327bf9232e",
+      "symbol": "BTCUSDT",
       "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.600724Z",
+      "timestamp": "2026-11-01T16:19:14.828349Z",
       "raw_signals": {
-        "orderflow": 0.0943516622885962,
-        "vol": 0.11733310867015356,
-        "cross_asset": 0.10211904169978148,
-        "other": -0.04935012630341578
+        "orderflow": 0.24621719513156679,
+        "vol": -0.03891332537975267,
+        "cross_asset": 0.01899390085376429,
+        "other": 0.02677998994911507
       },
       "weights": {
         "orderflow": 0.5,
@@ -356,22 +241,22 @@
         "cross_asset": 0.2,
         "other": 0.1
       },
-      "fused_score": 0.08613124858794355,
+      "fused_score": 0.12180271165549722,
       "direction": "neutral",
-      "conviction": 0.12919687288191534,
-      "risk_adjusted": 0.08396172999648328,
+      "conviction": 0.18270406748324583,
+      "risk_adjusted": 0.1175088429413696,
       "paper_only": true
     },
     {
-      "fusion_id": "p23_fus_c1fe4cff4672",
-      "symbol": "XRP",
+      "fusion_id": "p23_fus_c544e0ff3f7f",
+      "symbol": "ETHUSDT",
       "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.600968Z",
+      "timestamp": "2026-11-01T16:19:14.828551Z",
       "raw_signals": {
-        "orderflow": 0.43957865310440686,
-        "vol": 0.0007920393177395235,
-        "cross_asset": 0.11230173941980404,
-        "other": 0.06883294157681746
+        "orderflow": 0.12308669788988374,
+        "vol": -0.08153549017700829,
+        "cross_asset": -0.008538188618226,
+        "other": 0.06898192052541027
       },
       "weights": {
         "orderflow": 0.5,
@@ -379,68 +264,22 @@
         "cross_asset": 0.2,
         "other": 0.1
       },
-      "fused_score": 0.24929137645739388,
-      "direction": "long",
-      "conviction": 0.37393706468609084,
-      "risk_adjusted": 0.23194482318705364,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_bc34e5ee45ea",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.601170Z",
-      "raw_signals": {
-        "orderflow": 0.7561956786667267,
-        "vol": -0.1553142482863579,
-        "cross_asset": 0.16306339576217682,
-        "other": 0.04623797543057223
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.3842714663715844,
-      "direction": "long",
-      "conviction": 0.5764071995573765,
-      "risk_adjusted": 0.34455111743102773,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_a196655d803e",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.601376Z",
-      "raw_signals": {
-        "orderflow": 0.17949712445596128,
-        "vol": -0.13054349172568133,
-        "cross_asset": 0.08131029764355374,
-        "other": -0.0060836190408812135
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.079293561507467,
+      "fused_score": 0.05042680523843604,
       "direction": "neutral",
-      "conviction": 0.1189403422612005,
-      "risk_adjusted": 0.0774511482902343,
+      "conviction": 0.07564020785765406,
+      "risk_adjusted": 0.04967531500791737,
       "paper_only": true
     },
     {
-      "fusion_id": "p23_fus_ec7058690125",
-      "symbol": "XRP",
+      "fusion_id": "p23_fus_e57502fe9276",
+      "symbol": "ETHUSDT",
       "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.601573Z",
+      "timestamp": "2026-11-01T16:19:14.828801Z",
       "raw_signals": {
-        "orderflow": 0.4569426069784711,
-        "vol": -0.018469733924758813,
-        "cross_asset": 0.16326553282375517,
-        "other": -0.030609910523973882
+        "orderflow": 0.15828748919512897,
+        "vol": 0.043724736670403885,
+        "cross_asset": -0.11688860365454215,
+        "other": -0.07981522690137632
       },
       "weights": {
         "orderflow": 0.25,
@@ -448,1909 +287,37 @@
         "cross_asset": 0.25,
         "other": 0.1
       },
-      "fused_score": 0.14460315032825566,
+      "fused_score": 0.019858093363170633,
       "direction": "neutral",
-      "conviction": 0.2169047254923835,
-      "risk_adjusted": 0.1385909441873195,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_7969067b6a9e",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.601798Z",
-      "raw_signals": {
-        "orderflow": 0.5186738861066573,
-        "vol": 0.26729536012865535,
-        "cross_asset": -0.03715069053073233,
-        "other": 0.04176805083714008
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.30954268205662727,
-      "direction": "long",
-      "conviction": 0.4643140230849409,
-      "risk_adjusted": 0.2832402024745564,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_36dcc560da7b",
-      "symbol": "ADA",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.602020Z",
-      "raw_signals": {
-        "orderflow": 0.19465884989499357,
-        "vol": -0.1753975091816034,
-        "cross_asset": -0.10412780134465574,
-        "other": 0.05039527788630818
-      },
-      "weights": {
-        "orderflow": 0.25,
-        "vol": 0.4,
-        "cross_asset": 0.25,
-        "other": 0.1
-      },
-      "fused_score": -0.0424867137464261,
-      "direction": "neutral",
-      "conviction": 0.06373007061963915,
-      "risk_adjusted": -0.04195199305047779,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_32dd71938573",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.602218Z",
-      "raw_signals": {
-        "orderflow": 0.4471238916343983,
-        "vol": 0.2266966249329742,
-        "cross_asset": -0.03076704188898552,
-        "other": -0.042120366502753664
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.25853582577572154,
-      "direction": "long",
-      "conviction": 0.3878037386635823,
-      "risk_adjusted": 0.23992691485812181,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_79ba5bab79d9",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.602412Z",
-      "raw_signals": {
-        "orderflow": 0.38645921045164056,
-        "vol": -0.1190123774749747,
-        "cross_asset": 0.06699153490564619,
-        "other": 0.00398708686231064
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.18322414539818563,
-      "direction": "long",
-      "conviction": 0.27483621809727843,
-      "risk_adjusted": 0.17367756819592556,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_cbcd92901de7",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.602612Z",
-      "raw_signals": {
-        "orderflow": 0.2822060709872148,
-        "vol": 0.20421762154591422,
-        "cross_asset": -0.10268127201185413,
-        "other": -0.031449313644197785
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.1582653740359996,
-      "direction": "long",
-      "conviction": 0.2373980610539994,
-      "risk_adjusted": 0.15109160330287127,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_862baeff0a57",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.602873Z",
-      "raw_signals": {
-        "orderflow": 0.20531310836394653,
-        "vol": -0.1588644004636562,
-        "cross_asset": -0.07410600885534424,
-        "other": 0.08175597196762721
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.0642380695149359,
-      "direction": "neutral",
-      "conviction": 0.09635710427240385,
-      "risk_adjusted": 0.06302351679897343,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_dca0bca07d5f",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.603084Z",
-      "raw_signals": {
-        "orderflow": 0.8003251356360921,
-        "vol": -0.0947955212213546,
-        "cross_asset": -0.08054361092357604,
-        "other": 0.05255810576895886
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.3703505519659558,
-      "direction": "long",
-      "conviction": 0.5555258279489337,
-      "risk_adjusted": 0.3333172803398584,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_3e539237a2de",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.603279Z",
-      "raw_signals": {
-        "orderflow": 0.4777355104136667,
-        "vol": 0.02326498808536681,
-        "cross_asset": 0.09447017469449143,
-        "other": 0.003824893547648034
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.2627972771175698,
-      "direction": "long",
-      "conviction": 0.3941959156763547,
-      "risk_adjusted": 0.24359263292035882,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_f354679889c4",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.603478Z",
-      "raw_signals": {
-        "orderflow": 0.1340169659811985,
-        "vol": -0.1388174610683304,
-        "cross_asset": 0.13290416168274266,
-        "other": 0.06378041454217101
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.0722038645676988,
-      "direction": "neutral",
-      "conviction": 0.1083057968515482,
-      "risk_adjusted": 0.0706730053359383,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_06c14c1d0fdf",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.603673Z",
-      "raw_signals": {
-        "orderflow": 0.6483177809398858,
-        "vol": -0.16634356530338532,
-        "cross_asset": 0.09225893293046028,
-        "other": -0.006991545927378745
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.30864280940261996,
-      "direction": "long",
-      "conviction": 0.46296421410392996,
-      "risk_adjusted": 0.28248657441850505,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_ae8648af9f11",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.603906Z",
-      "raw_signals": {
-        "orderflow": 0.10983016254325469,
-        "vol": 0.15117070946900507,
-        "cross_asset": 0.15582747121820723,
-        "other": 0.04134426787170489
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.1204491441962403,
-      "direction": "neutral",
-      "conviction": 0.18067371629436044,
-      "risk_adjusted": 0.1162485332915304,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_03464248b442",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.604107Z",
-      "raw_signals": {
-        "orderflow": 0.15807187224272398,
-        "vol": -0.22512700679241746,
-        "cross_asset": -0.15694247518808202,
-        "other": 0.015102390822295447
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.0041322788074916374,
-      "direction": "neutral",
-      "conviction": 0.006198418211237456,
-      "risk_adjusted": 0.004127162431736116,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_7f4153356620",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.604297Z",
-      "raw_signals": {
-        "orderflow": 0.269561917139979,
-        "vol": -0.05051152062216274,
-        "cross_asset": -0.1541564632003865,
-        "other": 0.0457553906647547
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.09842290087195511,
-      "direction": "neutral",
-      "conviction": 0.14763435130793268,
-      "risk_adjusted": 0.09560012828703286,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_022e84f7f3c0",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.604504Z",
-      "raw_signals": {
-        "orderflow": 0.11136528118582278,
-        "vol": -0.2605106648009123,
-        "cross_asset": 0.1184992213683661,
-        "other": -0.07649720788385356
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.0196306311180168,
-      "direction": "neutral",
-      "conviction": 0.0294459466770252,
-      "risk_adjusted": 0.019515699468831988,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_00cbbb967f52",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.604704Z",
-      "raw_signals": {
-        "orderflow": 0.7618187623869633,
-        "vol": 0.28601967417393664,
-        "cross_asset": 0.14469795033658595,
-        "other": -0.04248599649322156
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.46280430644626397,
-      "direction": "long",
-      "conviction": 0.694206459669396,
-      "risk_adjusted": 0.4063817405675297,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_c4f0c7af494d",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.604923Z",
-      "raw_signals": {
-        "orderflow": 0.22583214653042635,
-        "vol": -0.19481379055862358,
-        "cross_asset": 0.027783696441244482,
-        "other": 0.06669482723388229
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.0861795371651256,
-      "direction": "neutral",
-      "conviction": 0.12926930574768838,
-      "risk_adjusted": 0.08400761592743403,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_9bf36fa626d8",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.605131Z",
-      "raw_signals": {
-        "orderflow": 0.1023447055744201,
-        "vol": 0.22963752889563133,
-        "cross_asset": 0.08802648173136801,
-        "other": 0.06329406442666996
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.12103456135527692,
-      "direction": "neutral",
-      "conviction": 0.18155184203291538,
-      "risk_adjusted": 0.11679373771139435,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_64cd76d40099",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.605326Z",
-      "raw_signals": {
-        "orderflow": 0.042343073485035895,
-        "vol": 0.1116327745519109,
-        "cross_asset": 0.07708779213633576,
-        "other": 0.09500785419002017
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.06841643549916929,
-      "direction": "neutral",
-      "conviction": 0.10262465324875393,
-      "risk_adjusted": 0.06704043521563918,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_159a3175e4c2",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.605527Z",
-      "raw_signals": {
-        "orderflow": 0.17335462703861682,
-        "vol": -0.23881319485202093,
-        "cross_asset": 0.16953834116553018,
-        "other": 0.055689540947238325
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.07839129687673407,
-      "direction": "neutral",
-      "conviction": 0.11758694531510111,
-      "risk_adjusted": 0.07659009774958239,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_abe2c762f5a8",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.605721Z",
-      "raw_signals": {
-        "orderflow": 0.18493773327816493,
-        "vol": -0.18151422936052825,
-        "cross_asset": -0.06598260825680119,
-        "other": -0.09246375020709255
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.03372312409490732,
-      "direction": "neutral",
-      "conviction": 0.050584686142360974,
-      "risk_adjusted": 0.03338536643830148,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_9cded089cd3e",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.605948Z",
-      "raw_signals": {
-        "orderflow": 0.018948721683665203,
-        "vol": -0.2910100086791267,
-        "cross_asset": 0.07812454211165687,
-        "other": -0.08476020482734044
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": -0.04157875295439542,
-      "direction": "neutral",
-      "conviction": 0.06236812943159313,
-      "risk_adjusted": -0.041066504737836906,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_37f3f0a750f5",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.606155Z",
-      "raw_signals": {
-        "orderflow": 0.22997715231423405,
-        "vol": -0.16947832586217654,
-        "cross_asset": -0.0028000062557763383,
-        "other": 0.09502262553008975
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.09003517228653543,
-      "direction": "neutral",
-      "conviction": 0.13505275842980313,
-      "risk_adjusted": 0.08766723198581741,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_2a16c87fa6a7",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.606356Z",
-      "raw_signals": {
-        "orderflow": 0.17953060937684057,
-        "vol": -0.0031597833940115727,
-        "cross_asset": 0.025608851416409284,
-        "other": 0.07621147803545289
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.10187626609644512,
-      "direction": "neutral",
-      "conviction": 0.15281439914466768,
-      "risk_adjusted": 0.09885497342321888,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_e5977dc4b644",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.606611Z",
-      "raw_signals": {
-        "orderflow": 0.443189082648079,
-        "vol": 0.19349171898032236,
-        "cross_asset": -0.03467710486225109,
-        "other": 0.04077493527635617
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.25743495767528934,
-      "direction": "long",
-      "conviction": 0.386152436512934,
-      "risk_adjusted": 0.23897852939523942,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_5b6f7227f745",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.606843Z",
-      "raw_signals": {
-        "orderflow": 0.45845364320249493,
-        "vol": -0.24470457124548003,
-        "cross_asset": -0.1134089039108046,
-        "other": -0.03688494837380547
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.15391563173260997,
-      "direction": "long",
-      "conviction": 0.23087344759891495,
-      "risk_adjusted": 0.14712230497877998,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_87db5556e95e",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.607041Z",
-      "raw_signals": {
-        "orderflow": 0.5492850509117123,
-        "vol": 0.10481824963043884,
-        "cross_asset": -0.06878266888394988,
-        "other": -0.05818644368845958
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.27603099723630803,
-      "direction": "long",
-      "conviction": 0.41404649585446207,
-      "risk_adjusted": 0.25492115504333507,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_a13277511a27",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.607242Z",
-      "raw_signals": {
-        "orderflow": 0.8357298071364013,
-        "vol": 0.26114637629368814,
-        "cross_asset": -0.04117100176470717,
-        "other": 0.05826502554948071
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.46768648102894494,
-      "direction": "long",
-      "conviction": 0.7015297215434174,
-      "risk_adjusted": 0.4101412286441095,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_b174831b4556",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.607439Z",
-      "raw_signals": {
-        "orderflow": 0.6303863850404774,
-        "vol": -0.07577012327605862,
-        "cross_asset": -0.19868329909467125,
-        "other": -0.05959341915675958
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.25434316613041674,
-      "direction": "long",
-      "conviction": 0.3815147491956251,
-      "risk_adjusted": 0.23631187312868873,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_9c07d1b9cba5",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.607636Z",
-      "raw_signals": {
-        "orderflow": 0.0671941709536442,
-        "vol": -0.11491902582273161,
-        "cross_asset": 0.09301633985954816,
-        "other": 0.02699278629013288
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.0319158269131987,
-      "direction": "neutral",
-      "conviction": 0.04787374036979805,
-      "risk_adjusted": 0.031613139070769035,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_73d2331f7c52",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.607852Z",
-      "raw_signals": {
-        "orderflow": 0.7682003913694285,
-        "vol": 0.11982689020020193,
-        "cross_asset": -0.19102412002828154,
-        "other": 0.0447405047237443
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.37433480019147275,
-      "direction": "long",
-      "conviction": 0.5615022002872091,
-      "risk_adjusted": 0.33654108792058124,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_364a7c9b6327",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.608053Z",
-      "raw_signals": {
-        "orderflow": 0.3928411768998481,
-        "vol": 0.12885654356481574,
-        "cross_asset": -0.09265548467878443,
-        "other": -0.09766800514987611
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.19389399971214272,
-      "direction": "long",
-      "conviction": 0.2908409995682141,
-      "risk_adjusted": 0.18323551938904084,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_5e9caa41bbf3",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.608250Z",
-      "raw_signals": {
-        "orderflow": 0.15720567243724676,
-        "vol": 0.27466664639514166,
-        "cross_asset": 0.05002629745790299,
-        "other": -0.028387695951349004
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.1407026553940974,
-      "direction": "neutral",
-      "conviction": 0.2110539830911461,
-      "risk_adjusted": 0.1350040278326132,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_03fbf41406ba",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.608448Z",
-      "raw_signals": {
-        "orderflow": 0.47789650074547063,
-        "vol": 0.0715410197549205,
-        "cross_asset": 0.015169929906196256,
-        "other": 0.07891930145372358
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.26418237045033105,
-      "direction": "long",
-      "conviction": 0.3962735556754966,
-      "risk_adjusted": 0.2447822258496133,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_064190748cb3",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.608648Z",
-      "raw_signals": {
-        "orderflow": 0.2806089857036301,
-        "vol": -0.2315250394111864,
-        "cross_asset": -0.07816720078825448,
-        "other": -0.034978985933367415
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.07486814621859011,
-      "direction": "neutral",
-      "conviction": 0.11230221932788517,
-      "risk_adjusted": 0.07322351360169883,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_54f77d7012db",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.608864Z",
-      "raw_signals": {
-        "orderflow": 0.12462851997229049,
-        "vol": 0.23620331595877792,
-        "cross_asset": -0.06124782441099971,
-        "other": -0.051506155664765976
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.09215474272922429,
-      "direction": "neutral",
-      "conviction": 0.13823211409383643,
-      "risk_adjusted": 0.08967553497286529,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_80b433feae2a",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.609066Z",
-      "raw_signals": {
-        "orderflow": 0.67342697453059,
-        "vol": 0.04981291662887327,
-        "cross_asset": 0.026056847682270318,
-        "other": 0.09612661794415803
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.3615001019219395,
-      "direction": "long",
-      "conviction": 0.5422501528829092,
-      "risk_adjusted": 0.3261311668996916,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_39c43c4c8e4a",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.609269Z",
-      "raw_signals": {
-        "orderflow": 0.21588343130068682,
-        "vol": 0.09485284909418923,
-        "cross_asset": -0.0880825760233242,
-        "other": -0.04148709984413497
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.10514706028010293,
-      "direction": "neutral",
-      "conviction": 0.1577205904201544,
-      "risk_adjusted": 0.10193171424931485,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_437d147912a2",
-      "symbol": "ETH",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.609469Z",
-      "raw_signals": {
-        "orderflow": 0.054990354195797515,
-        "vol": -0.1428574861965534,
-        "cross_asset": -0.09049871836335469,
-        "other": -0.06510874246990223
-      },
-      "weights": {
-        "orderflow": 0.25,
-        "vol": 0.4,
-        "cross_asset": 0.25,
-        "other": 0.1
-      },
-      "fused_score": -0.07253095976750087,
-      "direction": "neutral",
-      "conviction": 0.10879643965125131,
-      "risk_adjusted": -0.07098634739540743,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_027dad9be072",
-      "symbol": "ETH",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.609672Z",
-      "raw_signals": {
-        "orderflow": 0.21293968021315363,
-        "vol": 0.019509537626601292,
-        "cross_asset": 0.17607399620325243,
-        "other": 0.0066312284081918305
-      },
-      "weights": {
-        "orderflow": 0.25,
-        "vol": 0.4,
-        "cross_asset": 0.25,
-        "other": 0.1
-      },
-      "fused_score": 0.1057203569955612,
-      "direction": "neutral",
-      "conviction": 0.1585805354933418,
-      "risk_adjusted": 0.10247039497411918,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_69f713098a93",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.609900Z",
-      "raw_signals": {
-        "orderflow": 0.040979989353447197,
-        "vol": -0.2980849312768709,
-        "cross_asset": -0.10278412956142043,
-        "other": 0.05540698133513752
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": -0.054143119357420916,
-      "direction": "neutral",
-      "conviction": 0.08121467903613137,
-      "risk_adjusted": -0.05327773256737448,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_15af4fe96f5d",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.610118Z",
-      "raw_signals": {
-        "orderflow": 0.31528423625696933,
-        "vol": 0.2069163871635748,
-        "cross_asset": 0.09095605267363177,
-        "other": 0.07805714407890166
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.22502232050381615,
-      "direction": "long",
-      "conviction": 0.3375334807557242,
-      "risk_adjusted": 0.2107924206144333,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_5fa52297675a",
-      "symbol": "SOL",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.610373Z",
-      "raw_signals": {
-        "orderflow": 0.3156759838895786,
-        "vol": -0.1269282082954434,
-        "cross_asset": 0.0443066910653343,
-        "other": -0.004163287485315775
-      },
-      "weights": {
-        "orderflow": 0.25,
-        "vol": 0.4,
-        "cross_asset": 0.25,
-        "other": 0.1
-      },
-      "fused_score": 0.03880805667201929,
-      "direction": "neutral",
-      "conviction": 0.058212085008028935,
-      "risk_adjusted": 0.038361436827690554,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_e8d90112c7b6",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.610571Z",
-      "raw_signals": {
-        "orderflow": 0.7071018345955713,
-        "vol": -0.27076700091102773,
-        "cross_asset": 0.11993539761267996,
-        "other": -0.03826568193935973
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.31955802844418013,
-      "direction": "long",
-      "conviction": 0.4793370426662702,
-      "risk_adjusted": 0.29160282161496837,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_f98a1321d39c",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.610793Z",
-      "raw_signals": {
-        "orderflow": 0.6900676006031758,
-        "vol": 0.07074730528717238,
-        "cross_asset": -0.08301018532599841,
-        "other": 0.0010051814874198206
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.34268174244256466,
-      "direction": "long",
-      "conviction": 0.514022613663847,
-      "risk_adjusted": 0.31073661322442997,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_2e602e6301ab",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.610993Z",
-      "raw_signals": {
-        "orderflow": 0.7283687376123542,
-        "vol": 0.057855001650862714,
-        "cross_asset": 0.19918153752794832,
-        "other": -0.06273188707485386
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.4093184879344539,
-      "direction": "long",
-      "conviction": 0.6139777319016808,
-      "risk_adjusted": 0.36455300277420344,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_9f5dd64d2f9b",
-      "symbol": "SOL",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.611196Z",
-      "raw_signals": {
-        "orderflow": 0.3590778458641435,
-        "vol": -0.1617334051028089,
-        "cross_asset": 0.15623937463673626,
-        "other": -0.06084295080809772
-      },
-      "weights": {
-        "orderflow": 0.25,
-        "vol": 0.4,
-        "cross_asset": 0.25,
-        "other": 0.1
-      },
-      "fused_score": 0.0580516480032866,
-      "direction": "neutral",
-      "conviction": 0.08707747200492989,
-      "risk_adjusted": 0.05705795549876613,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_f490785cd5e6",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.611394Z",
-      "raw_signals": {
-        "orderflow": 0.24791610953127924,
-        "vol": -0.08298511368090464,
-        "cross_asset": -0.02529747373084587,
-        "other": 0.01040757668869996
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.1033422949521595,
-      "direction": "neutral",
-      "conviction": 0.15501344242823925,
-      "risk_adjusted": 0.10023474827592371,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_ccec1a16ad05",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.611596Z",
-      "raw_signals": {
-        "orderflow": 0.015724967503335966,
-        "vol": -0.26960321526977565,
-        "cross_asset": 0.005760207743625012,
-        "other": -0.08105062517245379
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": -0.053011180270807534,
-      "direction": "neutral",
-      "conviction": 0.0795167704062113,
-      "risk_adjusted": -0.052181322227004084,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_7150203b3c5e",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.611808Z",
-      "raw_signals": {
-        "orderflow": 0.5546573304917115,
-        "vol": 0.1246761672955492,
-        "cross_asset": -0.0004040098729506114,
-        "other": -0.08099169174243986
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.2940839275561315,
-      "direction": "long",
-      "conviction": 0.4411258913341972,
-      "risk_adjusted": 0.2702417968535739,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_5ed31e18d709",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.612003Z",
-      "raw_signals": {
-        "orderflow": 0.07252650487897154,
-        "vol": 0.21129301483128676,
-        "cross_asset": -0.1517390567097311,
-        "other": 0.01723347046331962
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.04989739111012887,
-      "direction": "neutral",
-      "conviction": 0.07484608666519331,
-      "risk_adjusted": 0.04916148219868248,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_77ceb09d7cbb",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.612201Z",
-      "raw_signals": {
-        "orderflow": 0.028174325426349366,
-        "vol": 0.2476006787361688,
-        "cross_asset": -0.08981117658346359,
-        "other": -0.06747166482879005
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.03889789666083673,
-      "direction": "neutral",
-      "conviction": 0.05834684499125509,
-      "risk_adjusted": 0.03844921854197601,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_6cb6ece380d6",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.612401Z",
-      "raw_signals": {
-        "orderflow": 0.44586802243519813,
-        "vol": -0.05382356824221052,
-        "cross_asset": 0.17090551271543597,
-        "other": 0.07147606229459877
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.25349800634170405,
-      "direction": "long",
-      "conviction": 0.3802470095125561,
-      "risk_adjusted": 0.23558212652087013,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_32a8a4050959",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.612601Z",
-      "raw_signals": {
-        "orderflow": 0.07096478861830172,
-        "vol": -0.13023159688861305,
-        "cross_asset": -0.16833298326084029,
-        "other": -0.017062838254043505
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": -0.02593680554614416,
-      "direction": "neutral",
-      "conviction": 0.03890520831921624,
-      "risk_adjusted": -0.02573654839083158,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_0b7a6fcbcc3c",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.612823Z",
-      "raw_signals": {
-        "orderflow": 0.30816600247428194,
-        "vol": 0.17991462930490598,
-        "cross_asset": 0.15801292288241436,
-        "other": -0.057383505655970994
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.21593016110900795,
-      "direction": "long",
-      "conviction": 0.3238952416635119,
-      "risk_adjusted": 0.2027933977918939,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_bd745133bac3",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.613014Z",
-      "raw_signals": {
-        "orderflow": 0.2368219814431328,
-        "vol": 0.16568415307202666,
-        "cross_asset": 0.16082458868379357,
-        "other": 0.05533771421912029
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.18924651049464247,
-      "direction": "long",
-      "conviction": 0.2838697657419637,
-      "risk_adjusted": 0.17907946153558194,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_72fd52769c36",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.613216Z",
-      "raw_signals": {
-        "orderflow": 0.8075995482751015,
-        "vol": 0.026150225331576127,
-        "cross_asset": -0.14785993481353274,
-        "other": 0.055545131001853154
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.38501234534134476,
-      "direction": "long",
-      "conviction": 0.5775185180120171,
-      "risk_adjusted": 0.34514663115683736,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_e074c30726ad",
-      "symbol": "BTC",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.613415Z",
-      "raw_signals": {
-        "orderflow": 0.10645032830723333,
-        "vol": -0.24524706261382487,
-        "cross_asset": 0.08375995975249023,
-        "other": 0.055175448684166545
-      },
-      "weights": {
-        "orderflow": 0.25,
-        "vol": 0.4,
-        "cross_asset": 0.25,
-        "other": 0.1
-      },
-      "fused_score": -0.04502870816218241,
-      "direction": "neutral",
-      "conviction": 0.06754306224327361,
-      "risk_adjusted": -0.044428540230548465,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_dff82d75bfbf",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.613610Z",
-      "raw_signals": {
-        "orderflow": 0.24730367994053964,
-        "vol": -0.1567140190452859,
-        "cross_asset": -0.1498924439594912,
-        "other": -0.006905181770670871
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.061640029192247314,
-      "direction": "neutral",
-      "conviction": 0.09246004378837097,
-      "risk_adjusted": 0.06052087661191762,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_b406e8e337cb",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.613837Z",
-      "raw_signals": {
-        "orderflow": 0.5736801406582636,
-        "vol": 0.17291070171689693,
-        "cross_asset": -0.11826488208723451,
-        "other": -0.0301530586331797
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.29475392839174624,
-      "direction": "long",
-      "conviction": 0.4421308925876194,
-      "risk_adjusted": 0.2708074596232258,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_11a80baeeda6",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.614037Z",
-      "raw_signals": {
-        "orderflow": 0.057141684242137857,
-        "vol": 0.29863749779110677,
-        "cross_asset": 0.07417834200585299,
-        "other": 0.03962247990032036
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.10709625807049292,
-      "direction": "neutral",
-      "conviction": 0.16064438710573936,
-      "risk_adjusted": 0.10376248588071775,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_d4a2c754323f",
-      "symbol": "BTC",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.614302Z",
-      "raw_signals": {
-        "orderflow": 0.16952325513631222,
-        "vol": -0.29944041390159004,
-        "cross_asset": -0.08134653841561153,
-        "other": 0.006277171452658825
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.009231954249981675,
-      "direction": "neutral",
-      "conviction": 0.013847931374972512,
-      "risk_adjusted": 0.009206456175317177,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_321184225f25",
-      "symbol": "ETH",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.614493Z",
-      "raw_signals": {
-        "orderflow": 0.2838894995501041,
-        "vol": 0.013271291316319211,
-        "cross_asset": -0.1968294752626079,
-        "other": 0.09057857075964751
-      },
-      "weights": {
-        "orderflow": 0.25,
-        "vol": 0.4,
-        "cross_asset": 0.25,
-        "other": 0.1
-      },
-      "fused_score": 0.036131379674366484,
-      "direction": "neutral",
-      "conviction": 0.05419706951154973,
-      "risk_adjusted": 0.03574393635373057,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_f1db13c83278",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.614692Z",
-      "raw_signals": {
-        "orderflow": 0.43424054439348925,
-        "vol": -0.13179224993563368,
-        "cross_asset": -0.19767922910645513,
-        "other": 0.07365856785782124
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.15859183317410896,
-      "direction": "long",
-      "conviction": 0.23788774976116345,
-      "risk_adjusted": 0.15138911022037502,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_3d3496fc9e80",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.614923Z",
-      "raw_signals": {
-        "orderflow": 0.07677555227281632,
-        "vol": -0.004799317277356274,
-        "cross_asset": -0.09801496271231819,
-        "other": -0.08155646784807176
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.009669273353666089,
-      "direction": "neutral",
-      "conviction": 0.014503910030499133,
-      "risk_adjusted": 0.009641306026628743,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_8c36b530d5ee",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.615111Z",
-      "raw_signals": {
-        "orderflow": 0.22403212827835028,
-        "vol": -0.203594448866775,
-        "cross_asset": -0.11433985185369955,
-        "other": -0.0009747558339263662
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.04833172841168759,
-      "direction": "neutral",
-      "conviction": 0.07249759261753139,
-      "risk_adjusted": 0.04764095746642558,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_6603850438ff",
-      "symbol": "ETH",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.615323Z",
-      "raw_signals": {
-        "orderflow": 0.02973155871816584,
-        "vol": 0.12185999109667445,
-        "cross_asset": -0.0930745908582083,
-        "other": -0.02383684866632088
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.01823917454014406,
-      "direction": "neutral",
-      "conviction": 0.027358761810216087,
-      "risk_adjusted": 0.01813991740424014,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_ce9244521d46",
-      "symbol": "SOL",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.615518Z",
-      "raw_signals": {
-        "orderflow": 0.1792382743144991,
-        "vol": 0.05647417694385348,
-        "cross_asset": 0.021971837677978112,
-        "other": -0.0888565660119073
-      },
-      "weights": {
-        "orderflow": 0.25,
-        "vol": 0.4,
-        "cross_asset": 0.25,
-        "other": 0.1
-      },
-      "fused_score": 0.06400654217446997,
-      "direction": "neutral",
-      "conviction": 0.09600981326170495,
-      "risk_adjusted": 0.06280064650572419,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_a11dbb7506f8",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.615715Z",
-      "raw_signals": {
-        "orderflow": 0.2859750676074024,
-        "vol": 0.23076867519510474,
-        "cross_asset": 0.01486092553025764,
-        "other": 0.031255730016441496
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.1952390269504178,
-      "direction": "long",
-      "conviction": 0.2928585404256267,
-      "risk_adjusted": 0.1844362790533956,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_ff177ed2d45a",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.615937Z",
-      "raw_signals": {
-        "orderflow": 0.41544040006172717,
-        "vol": -0.23424247902530668,
-        "cross_asset": 0.15011783966943687,
-        "other": 0.06138506312127592
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.19703377847181722,
-      "direction": "long",
-      "conviction": 0.2955506677077258,
-      "risk_adjusted": 0.18603710061101808,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_7a4864e4a4c1",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.616152Z",
-      "raw_signals": {
-        "orderflow": 0.22373568769212052,
-        "vol": -0.07182428080293987,
-        "cross_asset": -0.18426339384509088,
-        "other": -0.034500589981725435
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.05720024991828156,
-      "direction": "neutral",
-      "conviction": 0.08580037487742234,
-      "risk_adjusted": 0.0562352488320584,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_d2bc61d59ac3",
-      "symbol": "SOL",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.616354Z",
-      "raw_signals": {
-        "orderflow": 0.1981973532970477,
-        "vol": -0.1401534986509052,
-        "cross_asset": -0.12633757156200776,
-        "other": -0.07965246882765009
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.037835215723176246,
-      "direction": "neutral",
-      "conviction": 0.05675282358476437,
-      "risk_adjusted": 0.03741058446312847,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_8539291b4897",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.616553Z",
-      "raw_signals": {
-        "orderflow": 0.3169839946786181,
-        "vol": 0.12301382626025636,
-        "cross_asset": 0.1510910678190699,
-        "other": -0.020817961699337514
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.21123117998524055,
-      "direction": "long",
-      "conviction": 0.3168467699778608,
-      "risk_adjusted": 0.1986432834382023,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_eb138e40eab8",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.616766Z",
-      "raw_signals": {
-        "orderflow": 0.02258487059369849,
-        "vol": -0.0047455266847435396,
-        "cross_asset": -0.1200293098812376,
-        "other": 0.0338670664139917
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": -0.010275825374947811,
-      "direction": "neutral",
-      "conviction": 0.015413738062421717,
-      "risk_adjusted": -0.010244244953276393,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_87078ec000df",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.616972Z",
-      "raw_signals": {
-        "orderflow": 0.11647107584043949,
-        "vol": -0.11332539212951306,
-        "cross_asset": 0.11186810350982823,
-        "other": -0.016399716444899876
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.05630410855179279,
-      "direction": "neutral",
-      "conviction": 0.08445616282768918,
-      "risk_adjusted": 0.05536886025631461,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_8d73634a59ca",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.617193Z",
-      "raw_signals": {
-        "orderflow": 0.04049420063322922,
-        "vol": 0.012676672820021828,
-        "cross_asset": -0.041055882238132835,
-        "other": 0.06441140923163813
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.021012399356156224,
-      "direction": "neutral",
-      "conviction": 0.03151859903423433,
-      "risk_adjusted": 0.020880772814980162,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_7973ecfa405c",
-      "symbol": "XRP",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.617386Z",
-      "raw_signals": {
-        "orderflow": 0.09431951792708662,
-        "vol": -0.2584368551508282,
-        "cross_asset": 0.03232486113416369,
-        "other": -0.06921827617334636
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": -0.004984467457124231,
-      "direction": "neutral",
-      "conviction": 0.007476701185686347,
-      "risk_adjusted": -0.004977025111214189,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_2c95a032a062",
-      "symbol": "ADA",
-      "regime": "vol",
-      "timestamp": "2026-11-01T16:08:25.617591Z",
-      "raw_signals": {
-        "orderflow": 0.028529719995120335,
-        "vol": -0.07445768874615807,
-        "cross_asset": 0.06298527363463213,
-        "other": -0.03770204266939328
-      },
-      "weights": {
-        "orderflow": 0.25,
-        "vol": 0.4,
-        "cross_asset": 0.25,
-        "other": 0.1
-      },
-      "fused_score": -0.01067453135796444,
-      "direction": "neutral",
-      "conviction": 0.016011797036946662,
-      "risk_adjusted": -0.010640456791060668,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_f27f27754a99",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.617807Z",
-      "raw_signals": {
-        "orderflow": 0.03400416126498209,
-        "vol": -0.2753529183810781,
-        "cross_asset": -0.07156791786179903,
-        "other": -0.03611853442011029
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": -0.055993940058095416,
-      "direction": "neutral",
-      "conviction": 0.08399091008714313,
-      "risk_adjusted": -0.0550688829389898,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_b314df28fbea",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.618052Z",
-      "raw_signals": {
-        "orderflow": 0.22698199271577968,
-        "vol": 0.11978563942605636,
-        "cross_asset": 0.025412180828789932,
-        "other": 0.022302981809256467
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.14476085858978474,
-      "direction": "neutral",
-      "conviction": 0.21714128788467713,
-      "risk_adjusted": 0.13873580434360724,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_fddd9e17422a",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.618257Z",
-      "raw_signals": {
-        "orderflow": 0.18443570205141444,
-        "vol": -0.16097699619974093,
-        "cross_asset": -0.050598186684151475,
-        "other": 0.09303592009210371
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.05920640645813911,
-      "direction": "neutral",
-      "conviction": 0.08880960968720866,
-      "risk_adjusted": 0.058173139692072634,
-      "paper_only": true
-    },
-    {
-      "fusion_id": "p23_fus_9207a45e830a",
-      "symbol": "ADA",
-      "regime": "trend",
-      "timestamp": "2026-11-01T16:08:25.618451Z",
-      "raw_signals": {
-        "orderflow": 0.3368129103215256,
-        "vol": 0.20486238862327782,
-        "cross_asset": 0.13386692563998343,
-        "other": 0.013435381160334936
-      },
-      "weights": {
-        "orderflow": 0.5,
-        "vol": 0.2,
-        "cross_asset": 0.2,
-        "other": 0.1
-      },
-      "fused_score": 0.23749585612944854,
-      "direction": "long",
-      "conviction": 0.3562437841941728,
-      "risk_adjusted": 0.221700006290116,
+      "conviction": 0.02978714004475595,
+      "risk_adjusted": 0.019740490810306866,
       "paper_only": true
     }
   ],
   "paper_only": true,
   "summary": {
-    "avg_fused_score": 0.13610383152049907,
-    "avg_conviction": 0.21944109563290243,
-    "long_count": 39,
+    "avg_fused_score": 0.05531730635638873,
+    "avg_conviction": 0.099433008412937,
+    "long_count": 0,
     "short_count": 0,
-    "neutral_count": 61,
+    "neutral_count": 12,
     "regimes": [
-      "trend",
-      "vol"
+      "vol",
+      "trend"
     ]
   },
-  "git_sha": "3d35cfe5b9e73dd9655ccc24bcb7e470caabb135",
-  "campaign_id": "p23_camp_3d35cfe5",
+  "git_sha": "9c3c0b7676e3be15c13213a8162d0683b8169ad8",
+  "campaign_id": "p23_camp_9c3c0b76",
   "venues": [
-    "deribit",
-    "okx",
     "binance",
-    "bybit",
-    "bitget"
+    "bybit"
   ],
   "symbols": [
-    "BTC",
-    "ETH",
-    "SOL",
-    "XRP",
-    "ADA"
+    "BTCUSDT",
+    "ETHUSDT"
   ],
   "strategies": [
-    "vol_arb",
-    "cross_asset_vol",
-    "orderflow_momentum",
-    "delta_neutral_mm"
+    "ofi_vpin"
   ],
-  "cycles": 4
+  "cycles": 3
 }
