@@ -1,0 +1,103 @@
+{
+  "deployment_id": "deploy_42",
+  "status": "promoted",
+  "timestamp": "2026-11-01T00:00:42Z",
+  "git_sha": "e2aa4e14b855599f3691b09d9a1535ba6ece539a",
+  "seed": 42,
+  "paper_only": true,
+  "env": "paper",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "config": {
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC",
+      "ETH"
+    ],
+    "seed": 42,
+    "paper_only": true,
+    "initial_capital": 100000.0,
+    "health_check_timeout_sec": 10.0,
+    "rollout_replicas": 3,
+    "rollback_on_health_fail": true,
+    "max_health_failures": 3,
+    "env": "paper",
+    "namespace": "crypto-options-orderflow",
+    "secrets": {},
+    "schema_version": "1.0"
+  },
+  "health_checks": [
+    {
+      "name": "exchange",
+      "status": "pass",
+      "latency_ms": 5.4,
+      "message": "exchange reachable",
+      "checked_at": "2026-11-01T00:00:42Z",
+      "details": {
+        "venue": "deribit",
+        "status": "operational"
+      }
+    },
+    {
+      "name": "risk",
+      "status": "pass",
+      "latency_ms": 5.1,
+      "message": "risk reachable",
+      "checked_at": "2026-11-01T00:00:42Z",
+      "details": {
+        "venue": "internal",
+        "status": "operational"
+      }
+    },
+    {
+      "name": "orderflow_adapter",
+      "status": "pass",
+      "latency_ms": 5.7,
+      "message": "orderflow_adapter reachable",
+      "checked_at": "2026-11-01T00:00:42Z",
+      "details": {
+        "venue": "deribit",
+        "status": "operational"
+      }
+    },
+    {
+      "name": "reconciliation",
+      "status": "pass",
+      "latency_ms": 5.1,
+      "message": "reconciliation reachable",
+      "checked_at": "2026-11-01T00:00:42Z",
+      "details": {
+        "venue": "internal",
+        "status": "operational"
+      }
+    }
+  ],
+  "steps": [
+    "DeploymentStep(step_id='validate_environment', name='Environment validation', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
+    "DeploymentStep(step_id='validate_secrets', name='Secret validation', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
+    "DeploymentStep(step_id='rollout', name='Rollout', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
+    "DeploymentStep(step_id='promote', name='Health-gated promotion', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)"
+  ],
+  "artifacts": [],
+  "counts": {
+    "venues": 3,
+    "symbols": 2,
+    "health_checks": 4,
+    "steps": 4,
+    "artifacts": 0
+  },
+  "rollback_performed": false,
+  "promoted": true,
+  "error": null
+}

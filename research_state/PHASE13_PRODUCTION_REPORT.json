@@ -1,0 +1,566 @@
+{
+  "report": "PHASE13_PRODUCTION_REPORT",
+  "campaign_id": "phase13_42",
+  "seed": 42,
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "paper_only": true,
+  "timestamp": "2026-11-01T00:00:42Z",
+  "status": "completed",
+  "counts": {
+    "deployments": 1,
+    "monitor_snapshots": 1,
+    "heal_records": 4,
+    "models_registered": 1,
+    "models_promoted": 1,
+    "artifacts": 4
+  },
+  "artifacts": [
+    "research_state/DEPLOYMENT_REPORT.json",
+    "research_state/CONTINUOUS_MONITOR_REPORT.json",
+    "research_state/AUTO_HEALER_REPORT.json",
+    "research_state/MODEL_GOVERNANCE_REPORT.json"
+  ],
+  "deployment": {
+    "deployment_id": "deploy_42",
+    "status": "promoted",
+    "timestamp": "2026-11-01T00:00:42Z",
+    "git_sha": "e2aa4e14b855599f3691b09d9a1535ba6ece539a",
+    "seed": 42,
+    "paper_only": true,
+    "env": "paper",
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC",
+      "ETH"
+    ],
+    "config": {
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "symbols": [
+        "BTC",
+        "ETH"
+      ],
+      "seed": 42,
+      "paper_only": true,
+      "initial_capital": 100000.0,
+      "health_check_timeout_sec": 10.0,
+      "rollout_replicas": 3,
+      "rollback_on_health_fail": true,
+      "max_health_failures": 3,
+      "env": "paper",
+      "namespace": "crypto-options-orderflow",
+      "secrets": {},
+      "schema_version": "1.0"
+    },
+    "health_checks": [
+      {
+        "name": "exchange",
+        "status": "pass",
+        "latency_ms": 5.4,
+        "message": "exchange reachable",
+        "checked_at": "2026-11-01T00:00:42Z",
+        "details": {
+          "venue": "deribit",
+          "status": "operational"
+        }
+      },
+      {
+        "name": "risk",
+        "status": "pass",
+        "latency_ms": 5.1,
+        "message": "risk reachable",
+        "checked_at": "2026-11-01T00:00:42Z",
+        "details": {
+          "venue": "internal",
+          "status": "operational"
+        }
+      },
+      {
+        "name": "orderflow_adapter",
+        "status": "pass",
+        "latency_ms": 5.7,
+        "message": "orderflow_adapter reachable",
+        "checked_at": "2026-11-01T00:00:42Z",
+        "details": {
+          "venue": "deribit",
+          "status": "operational"
+        }
+      },
+      {
+        "name": "reconciliation",
+        "status": "pass",
+        "latency_ms": 5.1,
+        "message": "reconciliation reachable",
+        "checked_at": "2026-11-01T00:00:42Z",
+        "details": {
+          "venue": "internal",
+          "status": "operational"
+        }
+      }
+    ],
+    "steps": [
+      "DeploymentStep(step_id='validate_environment', name='Environment validation', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
+      "DeploymentStep(step_id='validate_secrets', name='Secret validation', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
+      "DeploymentStep(step_id='rollout', name='Rollout', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
+      "DeploymentStep(step_id='promote', name='Health-gated promotion', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)"
+    ],
+    "artifacts": [],
+    "counts": {
+      "venues": 3,
+      "symbols": 2,
+      "health_checks": 4,
+      "steps": 4,
+      "artifacts": 0
+    },
+    "rollback_performed": false,
+    "promoted": true,
+    "error": null
+  },
+  "continuous_monitor": {
+    "service": "crypto-options-orderflow",
+    "seed": 42,
+    "paper_only": true,
+    "timestamp": "2026-11-01T00:00:42Z",
+    "uptime_sec": 0.000739,
+    "health": {
+      "service": "crypto-options-orderflow",
+      "status": "pass",
+      "checks": [
+        {
+          "name": "exchange",
+          "status": "pass",
+          "latency_ms": 0.0,
+          "message": "exchange reachable",
+          "checked_at": "2026-11-01T04:33:08.146752+00:00",
+          "details": {
+            "venue": "deribit",
+            "latency_ms": 0.0
+          }
+        },
+        {
+          "name": "risk",
+          "status": "pass",
+          "latency_ms": 0.0,
+          "message": "risk engine operational",
+          "checked_at": "2026-11-01T04:33:08.146755+00:00",
+          "details": {
+            "kill_switch": "armed",
+            "circuit_state": "closed"
+          }
+        },
+        {
+          "name": "orderflow_adapter",
+          "status": "pass",
+          "latency_ms": 0.0,
+          "message": "orderflow adapter connected",
+          "checked_at": "2026-11-01T04:33:08.146758+00:00",
+          "details": {
+            "venue": "deribit",
+            "feed": "orderflow"
+          }
+        },
+        {
+          "name": "reconciliation",
+          "status": "pass",
+          "latency_ms": 0.0,
+          "message": "reconciliation in sync",
+          "checked_at": "2026-11-01T04:33:08.146760+00:00",
+          "details": {
+            "matched_orders": 0,
+            "mismatches": 0
+          }
+        }
+      ],
+      "checked_at": "2026-11-01T04:33:08.146764+00:00",
+      "version": null,
+      "uptime_sec": 4.581336498260498
+    },
+    "slo_evaluations": [
+      {
+        "slo_id": "slo_latency_p99",
+        "name": "Order Latency p99",
+        "sli_type": "latency",
+        "target": 100.0,
+        "current_value": 0.0,
+        "met": false,
+        "error_budget_remaining": 1.0,
+        "window_sec": 300.0,
+        "num_measurements": 0,
+        "evaluated_at": "2026-11-01T04:33:08.146826+00:00",
+        "labels": {
+          "component": "execution"
+        }
+      },
+      {
+        "slo_id": "slo_error_rate",
+        "name": "Execution Error Rate",
+        "sli_type": "error_rate",
+        "target": 0.01,
+        "current_value": 0.0,
+        "met": false,
+        "error_budget_remaining": 1.0,
+        "window_sec": 300.0,
+        "num_measurements": 0,
+        "evaluated_at": "2026-11-01T04:33:08.146936+00:00",
+        "labels": {
+          "component": "execution"
+        }
+      },
+      {
+        "slo_id": "slo_uptime",
+        "name": "Service Uptime",
+        "sli_type": "uptime",
+        "target": 0.999,
+        "current_value": 0.0,
+        "met": false,
+        "error_budget_remaining": 1.0,
+        "window_sec": 3600.0,
+        "num_measurements": 0,
+        "evaluated_at": "2026-11-01T04:33:08.147027+00:00",
+        "labels": {
+          "component": "api"
+        }
+      },
+      {
+        "slo_id": "slo_reconciliation_freshness",
+        "name": "Reconciliation Freshness",
+        "sli_type": "reconciliation_freshness",
+        "target": 0.99,
+        "current_value": 0.0,
+        "met": false,
+        "error_budget_remaining": 1.0,
+        "window_sec": 60.0,
+        "num_measurements": 0,
+        "evaluated_at": "2026-11-01T04:33:08.147114+00:00",
+        "labels": {
+          "component": "reconciliation"
+        }
+      },
+      {
+        "slo_id": "slo_fill_rate",
+        "name": "Order Fill Rate",
+        "sli_type": "fill_rate",
+        "target": 0.95,
+        "current_value": 0.0,
+        "met": false,
+        "error_budget_remaining": 1.0,
+        "window_sec": 300.0,
+        "num_measurements": 0,
+        "evaluated_at": "2026-11-01T04:33:08.147197+00:00",
+        "labels": {
+          "component": "execution"
+        }
+      }
+    ],
+    "metrics": {
+      "latency_p99_ms": 78.0,
+      "error_rate": 0.002,
+      "throughput_per_sec": 1250.0,
+      "uptime_pct": 100.0,
+      "fill_rate": 1.0,
+      "reconciliation_freshness": 1.0,
+      "health_status": "pass",
+      "num_alerts": 0,
+      "critical_alerts": 0,
+      "warning_alerts": 0
+    },
+    "alerts": [],
+    "thresholds": {
+      "latency_p99_ms": {
+        "metric": "latency_p99_ms",
+        "operator": "gte",
+        "warning": 100.0,
+        "critical": 500.0,
+        "enabled": true
+      },
+      "error_rate": {
+        "metric": "error_rate",
+        "operator": "gte",
+        "warning": 0.01,
+        "critical": 0.05,
+        "enabled": true
+      },
+      "uptime_pct": {
+        "metric": "uptime_pct",
+        "operator": "lte",
+        "warning": 99.0,
+        "critical": 95.0,
+        "enabled": true
+      },
+      "fill_rate": {
+        "metric": "fill_rate",
+        "operator": "lte",
+        "warning": 0.9,
+        "critical": 0.8,
+        "enabled": true
+      },
+      "reconciliation_freshness": {
+        "metric": "reconciliation_freshness",
+        "operator": "lte",
+        "warning": 0.95,
+        "critical": 0.9,
+        "enabled": true
+      }
+    }
+  },
+  "auto_healer": {
+    "report": "auto_healer",
+    "seed": 42,
+    "timestamp": "2026-11-01T00:00:42Z",
+    "num_components": 4,
+    "num_heal_records": 4,
+    "components": {
+      "exchange": {
+        "component": "exchange",
+        "state": "healthy",
+        "consecutive_failures": 0,
+        "total_failures": 0,
+        "total_heals": 1,
+        "restarts": 0,
+        "reconnects": 0,
+        "retries": 0,
+        "escalations": 0,
+        "last_failure_ts": null,
+        "last_heal_ts": 1793507588.1494071,
+        "last_action": "noop",
+        "last_success_ts": 1793507588.1494074
+      },
+      "risk": {
+        "component": "risk",
+        "state": "healthy",
+        "consecutive_failures": 0,
+        "total_failures": 0,
+        "total_heals": 1,
+        "restarts": 0,
+        "reconnects": 0,
+        "retries": 0,
+        "escalations": 0,
+        "last_failure_ts": null,
+        "last_heal_ts": 1793507588.1495376,
+        "last_action": "noop",
+        "last_success_ts": 1793507588.1495376
+      },
+      "orderflow_adapter": {
+        "component": "orderflow_adapter",
+        "state": "healthy",
+        "consecutive_failures": 0,
+        "total_failures": 0,
+        "total_heals": 1,
+        "restarts": 0,
+        "reconnects": 0,
+        "retries": 0,
+        "escalations": 0,
+        "last_failure_ts": null,
+        "last_heal_ts": 1793507588.1496296,
+        "last_action": "noop",
+        "last_success_ts": 1793507588.1496296
+      },
+      "reconciliation": {
+        "component": "reconciliation",
+        "state": "healthy",
+        "consecutive_failures": 0,
+        "total_failures": 0,
+        "total_heals": 1,
+        "restarts": 0,
+        "reconnects": 0,
+        "retries": 0,
+        "escalations": 0,
+        "last_failure_ts": null,
+        "last_heal_ts": 1793507588.149729,
+        "last_action": "noop",
+        "last_success_ts": 1793507588.149729
+      }
+    },
+    "records": [
+      {
+        "record_id": "heal_157f419e6976",
+        "component": "exchange",
+        "action": "noop",
+        "trigger": "startup_check",
+        "success": true,
+        "latency_ms": 0.002384,
+        "timestamp": "2026-11-01T00:00:42Z",
+        "details": {
+          "circuit_state": "unknown"
+        }
+      },
+      {
+        "record_id": "heal_e39baa6f8721",
+        "component": "risk",
+        "action": "noop",
+        "trigger": "startup_check",
+        "success": true,
+        "latency_ms": 0.001907,
+        "timestamp": "2026-11-01T00:00:42Z",
+        "details": {
+          "circuit_state": "unknown"
+        }
+      },
+      {
+        "record_id": "heal_1fd38cfadd57",
+        "component": "orderflow_adapter",
+        "action": "noop",
+        "trigger": "startup_check",
+        "success": true,
+        "latency_ms": 0.001192,
+        "timestamp": "2026-11-01T00:00:42Z",
+        "details": {
+          "circuit_state": "unknown"
+        }
+      },
+      {
+        "record_id": "heal_7e89ca5a13e5",
+        "component": "reconciliation",
+        "action": "noop",
+        "trigger": "startup_check",
+        "success": true,
+        "latency_ms": 0.001192,
+        "timestamp": "2026-11-01T00:00:42Z",
+        "details": {
+          "circuit_state": "unknown"
+        }
+      }
+    ],
+    "unhealthy_components": []
+  },
+  "model_governance": {
+    "report": "model_governance",
+    "seed": 42,
+    "timestamp": "2026-11-01T00:00:42Z",
+    "paper_only": true,
+    "num_models": 1,
+    "current_model_id": "model_158a6c98c263",
+    "num_promotions": 1,
+    "num_demotions": 0,
+    "num_rejections": 0,
+    "promotion_gates": [
+      "backtest_passed",
+      "oos_passed",
+      "numerics_finite",
+      "determinism_verified",
+      "paper_only_enforced",
+      "schema_valid"
+    ],
+    "registry": {
+      "seed": 42,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "paper_only": true,
+      "num_models": 1,
+      "current_model_id": "model_158a6c98c263",
+      "models": {
+        "model_158a6c98c263": {
+          "name": "options_orderflow_alpha",
+          "version": "1.0.0",
+          "status": "promoted",
+          "seed": 42,
+          "created_at": "2026-11-01T00:00:42Z",
+          "promoted_at": "2026-11-01T00:00:42Z",
+          "demoted_at": null,
+          "metrics": {
+            "sharpe": 1.75,
+            "sortino": 2.1,
+            "calmar": 3.2
+          },
+          "oos_metrics": {
+            "sharpe_oos": 1.6,
+            "sortino_oos": 1.9,
+            "calmar_oos": 2.9
+          },
+          "backtest_metrics": {
+            "sharpe_bt": 1.8,
+            "max_dd_bt": 0.08,
+            "win_rate_bt": 0.55
+          },
+          "validation_gates": {
+            "determinism_verified": true,
+            "numerics_finite": true,
+            "oos_passed": true,
+            "schema_valid": true,
+            "paper_only_enforced": true,
+            "backtest_passed": true
+          },
+          "artifact_path": "research_state/model_v1_0_0.json",
+          "checksum": "sha256:deterministic_checksum_phase13",
+          "paper_only": true,
+          "tags": {
+            "asset_class": "crypto_options",
+            "universe": "BTC,ETH"
+          },
+          "audit_note": null
+        }
+      },
+      "audit": [
+        {
+          "action": "register",
+          "model_id": "model_158a6c98c263",
+          "name": "options_orderflow_alpha",
+          "version": "1.0.0",
+          "timestamp": "2026-11-01T00:00:42Z"
+        },
+        {
+          "action": "set_validation_gates",
+          "model_id": "model_158a6c98c263",
+          "name": "options_orderflow_alpha",
+          "gates": {
+            "determinism_verified": true,
+            "numerics_finite": true,
+            "oos_passed": true,
+            "schema_valid": true,
+            "paper_only_enforced": true,
+            "backtest_passed": true
+          },
+          "timestamp": "2026-11-01T00:00:42Z"
+        },
+        {
+          "action": "set_validation_gates",
+          "model_id": "model_158a6c98c263",
+          "name": "options_orderflow_alpha",
+          "gates": {
+            "determinism_verified": true,
+            "numerics_finite": true,
+            "oos_passed": true,
+            "schema_valid": true,
+            "paper_only_enforced": true,
+            "backtest_passed": true
+          },
+          "timestamp": "2026-11-01T00:00:42Z"
+        },
+        {
+          "action": "set_status",
+          "model_id": "model_158a6c98c263",
+          "name": "options_orderflow_alpha",
+          "from": "draft",
+          "to": "promoted",
+          "note": "Phase 13 production promotion (paper-only)",
+          "timestamp": "2026-11-01T00:00:42Z"
+        }
+      ]
+    },
+    "promotions": [
+      {
+        "model_id": "model_158a6c98c263",
+        "name": "options_orderflow_alpha",
+        "version": "1.0.0",
+        "note": "Phase 13 production promotion (paper-only)",
+        "timestamp": "2026-11-01T00:00:42Z"
+      }
+    ],
+    "demotions": [],
+    "rejections": []
+  }
+}

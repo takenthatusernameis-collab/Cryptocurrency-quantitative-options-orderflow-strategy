@@ -1,4 +1,4 @@
-"""Resilience package: circuit breakers, retry, bulkhead, timeout, hedged requests."""
+"""Resilience package: circuit breakers, retry, bulkhead, timeout, hedged requests, auto-healing."""
 
 from .circuit import (
     CircuitBreaker, CircuitBreakerConfig, CircuitBreakerRegistry,
@@ -10,6 +10,9 @@ from .retry import (
     TimeoutConfig, call_with_timeout, default_bulkheads, default_retry_policy,
     get_bulkhead, hedged_request,
 )
+from .auto_healer import (
+    AutoHealer, HealAction, HealRecord, HealPolicy, ComponentHealth,
+)
 
 __all__ = [
     "CircuitBreaker", "CircuitBreakerConfig", "CircuitBreakerRegistry",
@@ -18,4 +21,5 @@ __all__ = [
     "HedgedRequestResult", "RetryConfig", "RetryPolicy", "RetryResult",
     "TimeoutConfig", "call_with_timeout", "default_bulkheads", "default_retry_policy",
     "get_bulkhead", "hedged_request",
+    "AutoHealer", "HealAction", "HealRecord", "HealPolicy", "ComponentHealth",
 ]
