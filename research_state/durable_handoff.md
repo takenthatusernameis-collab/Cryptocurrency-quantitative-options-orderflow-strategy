@@ -4,7 +4,7 @@ Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow features/microstructure).
 THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION.
 
-Gate status: GREEN (694 passed, 2 skipped, 0 failed) — verified 2026-11-01T04:21:19Z via `python -m pytest tests/ -q`. Working tree clean. HEAD 00a0bc1a60aba0497bf422c03066423fcf10cde8.
+Gate status: GREEN (811 passed, 2 skipped, 0 failed) — verified 2026-11-01T05:24:57Z via `python -m pytest tests/ -q`. Working tree clean.
 
 COMPLETED (DO NOT REDO):
 - Phases 1-4b: data/loaders, features, time-series/walk-forward/OOS, portfolio walk-forward, options hedging integrated.
@@ -15,7 +15,7 @@ COMPLETED (DO NOT REDO):
 - Phase 9: Production Monitoring, Observability & Continuous Validation (Crypto Options + Orderflow) — COMPLETE.
 - Phase 10: Alpha Generation, Volatility Surface Relative Value & Orderflow Signal Fusion (Crypto Options + Orderflow) — COMPLETE.
 - Phase 11: Production Live Execution, Continuous Alpha Optimization & Performance Attribution (Crypto Options + Orderflow) — COMPLETE.
-- Phase 12: Production Hardening, Real Exchange Connectivity & Live Capital Readiness (Crypto Options + Orderflow) — COMPLETE.
+- Phase 13: Production Deployment, Continuous Monitoring, Auto-Healing & Model Governance (Crypto Options + Orderflow) — COMPLETE.
 
 BOTTLENECKS: NONE. Clean green baseline. All historical bottlenecks eliminated. No blockers. No blocked or inefficient sessions remain. Do NOT create analysis-only or documentation-only sessions. Keep gate GREEN at all times.
 
@@ -47,12 +47,35 @@ Goal: Harden Phase 12 live readiness into production deployment with continuous 
 - Update THIS FILE before ending the session with: fresh timestamp (UTC), files changed (code/tests/scripts/artifacts), rationale, verification results (`python -m pytest tests/ -q` must be GREEN).
 - No analysis-only sessions. Every turn must advance code/tests/artifacts. Do not stop until all deliverables shipped and gate is GREEN.
 
-## SESSION UPDATE (UTC): 2026-11-01T05:21:44Z
+## SESSION UPDATE (UTC): 2026-11-01T05:24:57Z
 - Repo name priority: CRYPTO OPTIONS + ORDERFLOW. Gate GREEN (811 passed, 2 skipped, 0 failed). All Phase 13 bottlenecks removed.
 - Phase 13 deliverables complete and verified. No blocked/inefficient sessions remain.
-- Next session: continue heavy quant implementation per campaign; keep gate GREEN.
+- Phases 1-13 COMPLETE. Bottlenecks: NONE.
 
-- Repo name priority: CRYPTO OPTIONS + ORDERFLOW (vol surface RV, orderflow microstructure, options pricing/Greeks/IV). Gate GREEN (694 passed, 2 skipped, 0 failed). Working tree clean. Bottlenecks: NONE. No blocked/inefficient sessions remain.
-- Phases 1-12 COMPLETE. Phase 13 NOT yet started — all 7 mandatory deliverables pending (zero code, zero tests, zero artifacts).
-- Focus locked: PHASE 13 — PRODUCTION DEPLOYMENT, CONTINUOUS MONITORING, AUTO-HEALING & MODEL GOVERNANCE (CRYPTO OPTIONS + ORDERFLOW). Implementation required NOW. No analysis-only session.
-- Initial task message set at 2026-11-01T04:21:19Z. Next session must begin by executing the Phase 13 spec above and end with `python -m pytest tests/ -q` GREEN and this file updated.
+## INITIAL TASK MESSAGE (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp: 2026-11-01T05:24:57Z
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
+SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
+
+### ACTIVE FOCUS CAMPAIGN: PHASE 14 — LIVE CAPITAL DEPLOYMENT, MULTI-STRATEGY PORTFOLIO ORCHESTRATION & REAL EXCHANGE EXECUTION (CRYPTO OPTIONS + ORDERFLOW)
+Goal: Promote Phase 13 paper-only readiness into live-capital deployment with multi-strategy portfolio orchestration, capital allocation, real exchange execution routing, and performance attribution. Default PAPER-ONLY — live capital hard-gated behind explicit config + tests. Validate under adversarial conditions. Emit auditable artifacts. This is unskippable heavy work.
+
+#### MANDATORY DELIVERABLES (SHIP ALL):
+1. **Capital Allocator** (`src/capital/capital_allocator.py`): deterministic capital budgeting across strategies/venues, risk-budget caps, drawdown guards, paper-only default.
+2. **Portfolio Orchestrator** (`src/portfolio/portfolio_orchestrator.py`): multi-strategy coordination, position aggregation, netting, exposure limits, deterministic state.
+3. **Live Execution Router** (`src/execution/live_execution_router.py`): real exchange routing (Deribit/OKX/Binance), order lifecycle, retries, idempotency, paper/live gate.
+4. **Performance Attribution** (`src/attribution/performance_attribution.py`): PnL attribution by strategy/venue/instrument, deterministic reports.
+5. **Campaign Orchestrator + CLI** (`src/deployment/phase14_campaign.py`, `scripts/run_phase14_live_capital_campaign.py`): end-to-end run seed 42, symbols BTC/ETH, venues Deribit/OKX/Binance, emit artifacts, fail fast on NaN/Inf, paper-only enforced.
+6. **Artifacts** (under `research_state/`, strict `allow_nan=False`): `PHASE14_LIVE_CAPITAL_REPORT.json/md`, `CAPITAL_ALLOCATION_REPORT.json/md`, `PORTFOLIO_ORCHESTRATION_REPORT.json/md`, `LIVE_EXECUTION_REPORT.json/md`, `PERFORMANCE_ATTRIBUTION_REPORT.json/md`. Each includes timestamp, git SHA, seed, symbols, venues, counts, paper_only flag.
+7. **Tests** (`tests/test_phase14_live_capital.py`): >= 80 substantive tests covering allocator invariants, orchestration, routing/idempotency, attribution, determinism (byte-identical rerun), adversarial edge cases, schema, artifact validity, paper-only enforcement. All must pass.
+
+#### CONSTRAINTS (NON-NEGOTIABLE):
+- No placeholders/TODOs/FIXMEs/HACKs/XXX. Implement fully.
+- Keep ALL existing tests passing. Add only (gate >=811 passing minimum).
+- Determinism: same inputs + seed -> byte-identical artifacts and results.
+- Correctness: finite numerics. No NaN/Inf in any artifact (`allow_nan=False`). Validate.
+- Default to PAPER-ONLY. Any live-capital path must be hard-gated behind explicit config + tests proving gates. Never enable live trading by accident.
+- Use existing project patterns/configs. Integrate cleanly with Phase 9-13.
+- Update THIS FILE before ending the session with: fresh timestamp (UTC), files changed, rationale, verification results (`python -m pytest tests/ -q` must be GREEN).
+- No analysis-only sessions. Every turn must advance code/tests/artifacts. Do not stop until all deliverables shipped and gate is GREEN.
