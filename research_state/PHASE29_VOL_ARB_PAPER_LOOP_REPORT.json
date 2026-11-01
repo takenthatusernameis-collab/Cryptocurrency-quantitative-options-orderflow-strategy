@@ -1,0 +1,146 @@
+{
+  "phase": "29_vol_arb_paper_loop",
+  "status": "ok",
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "cycles": 3,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "enforce_gates": true
+  },
+  "cycles": [
+    {
+      "cycle": 0,
+      "dislocations": 216,
+      "signals": 18,
+      "hedge_orders": 4,
+      "routed": 2,
+      "fills": 2,
+      "tca_entries": 2,
+      "net_pnl": 260.10000000000025,
+      "paper_only": true,
+      "timestamp": "2026-11-01T20:03:16.474488Z"
+    },
+    {
+      "cycle": 1,
+      "dislocations": 216,
+      "signals": 18,
+      "hedge_orders": 0,
+      "routed": 2,
+      "fills": 2,
+      "tca_entries": 2,
+      "net_pnl": 260.10000000000025,
+      "paper_only": true,
+      "timestamp": "2026-11-01T20:03:16.482388Z"
+    },
+    {
+      "cycle": 2,
+      "dislocations": 216,
+      "signals": 18,
+      "hedge_orders": 4,
+      "routed": 2,
+      "fills": 2,
+      "tca_entries": 2,
+      "net_pnl": 260.10000000000025,
+      "paper_only": true,
+      "timestamp": "2026-11-01T20:03:16.490330Z"
+    }
+  ],
+  "totals": {
+    "cycles": 3,
+    "total_dislocations": 648,
+    "total_signals": 54,
+    "total_fills": 6,
+    "total_tca": 6,
+    "net_pnl": 780.3000000000008,
+    "paper_only": true
+  },
+  "fills": [
+    {
+      "cycle": 0,
+      "signal_id": "p29_signal_f6e6ef46b9e3",
+      "filled": true,
+      "paper_only": true
+    },
+    {
+      "cycle": 0,
+      "signal_id": "p29_signal_44ee215d6525",
+      "filled": true,
+      "paper_only": true
+    },
+    {
+      "cycle": 1,
+      "signal_id": "p29_signal_5c3ba1d7394e",
+      "filled": true,
+      "paper_only": true
+    },
+    {
+      "cycle": 1,
+      "signal_id": "p29_signal_257754f63444",
+      "filled": true,
+      "paper_only": true
+    },
+    {
+      "cycle": 2,
+      "signal_id": "p29_signal_0f26c22ca084",
+      "filled": true,
+      "paper_only": true
+    },
+    {
+      "cycle": 2,
+      "signal_id": "p29_signal_51624f1be8f0",
+      "filled": true,
+      "paper_only": true
+    }
+  ],
+  "tca": [
+    {
+      "cycle": 0,
+      "signal_id": "p29_signal_f6e6ef46b9e3",
+      "slippage_bps": 1.2,
+      "fill_rate": 0.95
+    },
+    {
+      "cycle": 0,
+      "signal_id": "p29_signal_44ee215d6525",
+      "slippage_bps": 1.2,
+      "fill_rate": 0.95
+    },
+    {
+      "cycle": 1,
+      "signal_id": "p29_signal_5c3ba1d7394e",
+      "slippage_bps": 1.2,
+      "fill_rate": 0.95
+    },
+    {
+      "cycle": 1,
+      "signal_id": "p29_signal_257754f63444",
+      "slippage_bps": 1.2,
+      "fill_rate": 0.95
+    },
+    {
+      "cycle": 2,
+      "signal_id": "p29_signal_0f26c22ca084",
+      "slippage_bps": 1.2,
+      "fill_rate": 0.95
+    },
+    {
+      "cycle": 2,
+      "signal_id": "p29_signal_51624f1be8f0",
+      "slippage_bps": 1.2,
+      "fill_rate": 0.95
+    }
+  ],
+  "timestamp": "2026-11-01T20:03:16.490394Z"
+}

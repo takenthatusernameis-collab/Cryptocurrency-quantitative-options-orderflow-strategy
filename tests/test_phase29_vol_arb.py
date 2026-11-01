@@ -176,7 +176,7 @@ class TestPhase29Loop:
 class TestPhase29Integration:
     def test_integration_with_router(self):
         r = CrossVenueRouter(seed=123)
-        rd = r.route(venue_list=["deribit", "okx", "bybit"], symbol="BTC-OPTION", notional_usd=10000.0, urgency="high")
+        rd = r.route(symbol="BTC-OPTION", side="buy", notional_usd=10000.0, venues=["deribit", "okx", "bybit"], idx=0)
         assert rd is not None
 
     def test_integration_with_observability(self):

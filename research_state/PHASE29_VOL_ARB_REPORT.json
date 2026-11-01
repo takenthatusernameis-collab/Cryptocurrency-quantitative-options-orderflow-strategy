@@ -1,0 +1,143 @@
+{
+  "phase": "29_vol_arb",
+  "timestamp": "2026-11-01T20:03:16.491678Z",
+  "config": {
+    "seed": 142,
+    "paper_only": true,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "expiries": [
+      "7D",
+      "30D",
+      "90D"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "iv_dislocation_bps": 15.0,
+    "iv_zscore_threshold": 2.0,
+    "min_arb_notional_usd": 5000.0,
+    "max_arb_notional_usd": 500000.0,
+    "delta_neutral_tol": 0.01,
+    "gamma_neutral_tol": 0.02,
+    "vega_neutral_tol": 0.05,
+    "max_legs": 4,
+    "enforce_gates": true
+  },
+  "counts": {
+    "iv_quotes": 288,
+    "dislocations": 216,
+    "signals": 18
+  },
+  "top_signals": [
+    {
+      "signal_id": "p29_signal_0f26c22ca084",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": 0.3975000000000013,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    },
+    {
+      "signal_id": "p29_signal_51624f1be8f0",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": -0.3525000000000005,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    },
+    {
+      "signal_id": "p29_signal_a69716734219",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": 0.37500000000000044,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    },
+    {
+      "signal_id": "p29_signal_12e5c11b48dd",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": -0.37500000000000044,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    },
+    {
+      "signal_id": "p29_signal_e47da9a22e0d",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": 0.3525000000000005,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    },
+    {
+      "signal_id": "p29_signal_06efb7ab0713",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": -0.3975000000000013,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    },
+    {
+      "signal_id": "p29_signal_60333c91176d",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": 0.3975000000000013,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    },
+    {
+      "signal_id": "p29_signal_c55c93b39146",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": -0.3525000000000005,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    },
+    {
+      "signal_id": "p29_signal_7f21a28bb738",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": 0.37500000000000044,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    },
+    {
+      "signal_id": "p29_signal_9a75c9839590",
+      "underlying": "BTC",
+      "score": 166.89148550549928,
+      "expected_pnl_usd": 87.50000000000007,
+      "net_delta": -0.37500000000000044,
+      "net_gamma": 0.15000000000000002,
+      "net_vega": 750.0,
+      "legs": 2
+    }
+  ],
+  "status": "ok",
+  "paper_only": true
+}

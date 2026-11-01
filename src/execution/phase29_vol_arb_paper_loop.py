@@ -95,8 +95,7 @@ class VolArbPaperLoop:
                     for opt in ("call", "put"):
                         for vi, v in enumerate(self.config.venues):
                             base_iv = 0.6 if und == "BTC" else 0.8 if und == "ETH" else 1.0
-                            # create dislocation
-                            bump = (vi - 1) * 0.015  # some venues richer
+                            bump = (vi - 1) * 0.015
                             bid_iv = base_iv + bump - 0.01
                             ask_iv = base_iv + bump + 0.01
                             quotes.append(
@@ -124,30 +123,30 @@ class VolArbPaperLoop:
         self.vol_arb.ingest_iv_quotes(quotes)
         dislocs = self.vol_arb.detect_dislocations()
         sigs = self.vol_arb.build_signals()
-        # aggregate greeks
         greeks = {}
         for und in self.config.underlyings:
             greeks[und] = {"delta": float((cycle_idx % 3) - 1) * 10.0, "gamma": float(cycle_idx % 2) * 2.0, "vega": float(cycle_idx % 4) * 100.0}
         self.hedge.update_positions(greeks)
         self.hedge.compute_hedge_state()
         hedges = self.hedge.generate_hedge_orders()
-        # route some
         routed = []
-        for s in sigs[:2]:
+        for i, s in enumerate(sigs[:2]):
             rd = self.router.route(
-                venue_list=list(self.config.venues),
                 symbol=f"{s.underlying}-OPTION",
+                side="buy",
                 notional_usd=float(s.expected_pnl_usd * 10),
-                urgency="high",
+                venues=list(self.config.venues),
+                idx=cycle_idx * 10 + i,
             )
             routed.append(rd)
-        # fills/tca
         for s in sigs[:2]:
             self.fills.append({"cycle": cycle_idx, "signal_id": s.signal_id, "filled": True, "paper_only": True})
             self.tca.append({"cycle": cycle_idx, "signal_id": s.signal_id, "slippage_bps": 1.2, "fill_rate": 0.95})
-        self.hedge.attribute_pnl(arb_pnl=float(sum(s.expected_pnl_usd for s in sigs[:3])), hedge_pln=0.0, slippage=float(len(self.tca) * 1.2))
-        # fix typo
-        self.hedge.pnl_attribution = {"arb_pnl": float(sum(s.expected_pnl_usd for s in sigs[:3])), "hedge_pnl": 0.0, "slippage": float(len(self.tca) * 1.2), "net_pnl": float(sum(s.expected_pnl_usd for s in sigs[:3]) - len(self.tca) * 1.2)}
+        arb_pnl = float(sum(s.expected_pnl_usd for s in sigs[:3]))
+        slippage = float(len([t for t in self.tca if t["cycle"] == cycle_idx]) * 1.2)
+        hedge_pnl = 0.0
+        net_pnl = arb_pnl - slippage + hedge_pnl
+        self.hedge.pnl_attribution = {"arb_pnl": arb_pnl, "hedge_pnl": hedge_pnl, "slippage": slippage, "net_pnl": net_pnl}
         for k, v in self.hedge.pnl_attribution.items():
             if not math.isfinite(v):
                 raise ValueError(f"non-finite pnl {k}")
@@ -159,43 +158,65 @@ class VolArbPaperLoop:
             "routed": len(routed),
             "fills": len([f for f in self.fills if f["cycle"] == cycle_idx]),
             "tca_entries": len([t for t in self.tca if t["cycle"] == cycle_idx]),
-            "net_pnl": self.hedge.pnl_attribution["net_pnl"],
+            "net_pnl": net_pnl,
             "paper_only": True,
             "timestamp": _utc_now(),
         }
         _assert_finite(res, f"cycle_{cycle_idx}")
         self.cycles.append(res)
-        self.obs.record_metric("phase29_cycle", res)
+        try:
+            self.obs.record_metric("phase29_cycle", res)
+        except Exception:
+            pass
         return res
 
-    def run(self) -> Dict[str, Any]:
-        results = []
-        for i in range(int(self.config.cycles)):
-            results.append(self.run_cycle(i))
+    def run(self, cycles: Optional[int] = None) -> Dict[str, Any]:
+        c = int(cycles) if cycles is not None else int(self.config.cycles)
+        if c < 0:
+            raise ValueError("cycles must be >=0")
+        for i in range(c):
+            self.run_cycle(i)
+        totals = {
+            "cycles": c,
+            "total_dislocations": sum(x["dislocations"] for x in self.cycles),
+            "total_signals": sum(x["signals"] for x in self.cycles),
+            "total_fills": len(self.fills),
+            "total_tca": len(self.tca),
+            "net_pnl": float(sum(x["net_pnl"] for x in self.cycles)),
+            "paper_only": True,
+        }
+        for k, v in totals.items():
+            if isinstance(v, float) and not math.isfinite(v):
+                raise ValueError(f"non-finite total {k}")
         rep = {
             "phase": "29_vol_arb_paper_loop",
-            "timestamp": _utc_now(),
-            "config": asdict(self.config),
-            "cycles": results,
-            "totals": {
-                "dislocations": sum(r["dislocations"] for r in results),
-                "signals": sum(r["signals"] for r in results),
-                "hedge_orders": sum(r["hedge_orders"] for r in results),
-                "fills": len(self.fills),
-                "tca": len(self.tca),
-                "net_pnl": float(self.hedge.pnl_attribution.get("net_pnl", 0.0)),
-            },
             "status": "ok",
-            "paper_only": True,
+            "config": asdict(self.config),
+            "cycles": list(self.cycles),
+            "totals": totals,
+            "fills": list(self.fills),
+            "tca": list(self.tca),
+            "timestamp": _utc_now(),
         }
         _assert_finite(rep, "loop_report")
         return rep
 
-    def generate_report(self, outdir: str = "research_state") -> Dict[str, Any]:
-        Path(outdir).mkdir(parents=True, exist_ok=True)
+    def generate_report(self, outdir: str) -> Dict[str, Any]:
+        out = Path(outdir)
+        out.mkdir(parents=True, exist_ok=True)
         rep = self.run()
-        pjson = Path(outdir) / "PHASE29_VOL_ARB_PAPER_LOOP_REPORT.json"
-        pmd = Path(outdir) / "PHASE29_VOL_ARB_PAPER_LOOP_REPORT.md"
-        pjson.write_text(json.dumps(rep, indent=2))
-        pmd.write_text(f"# PHASE29_VOL_ARB_PAPER_LOOP_REPORT\n\nTimestamp: {rep['timestamp']}\nCycles: {len(rep['cycles'])}\nSignals: {rep['totals']['signals']}\nFills: {rep['totals']['fills']}\nNet PnL: {rep['totals']['net_pnl']}\nStatus: {rep['status']}\n")
-        return rep
+        rep_s = serialize_metrics_strict(rep)
+        (out / "PHASE29_VOL_ARB_PAPER_LOOP_REPORT.json").write_text(json.dumps(rep_s, indent=2))
+        md = []
+        md.append("# Phase 29 Vol Arb Paper Loop Report")
+        md.append("")
+        md.append(f"- Timestamp: {rep['timestamp']}")
+        md.append(f"- Status: {rep['status']}")
+        md.append(f"- Paper only: true")
+        md.append(f"- Cycles: {rep['totals']['cycles']}")
+        md.append(f"- Total signals: {rep['totals']['total_signals']}")
+        md.append(f"- Total fills: {rep['totals']['total_fills']}")
+        md.append(f"- Net PnL: {rep['totals']['net_pnl']}")
+        md.append("")
+        (out / "PHASE29_VOL_ARB_PAPER_LOOP_REPORT.md").write_text("\n".join(md))
+        return rep_s

@@ -125,4 +125,15 @@ class Phase18Observability:
         return serialize_metrics_strict(report)
 
 
+    def record_metric(self, name: str, payload: Any) -> None:
+        """Record a metric (deterministic, paper-only)."""
+        if not isinstance(name, str):
+            raise ValueError("name must be str")
+        _assert_no_nan_inf(payload, f"metric_{name}")
+        if not hasattr(self, "_metrics"):
+            self._metrics = []
+        self._metrics.append({"name": name, "payload": payload, "timestamp": _utc_now()})
+        return None
+
+
 __all__ = ["Phase18Observability", "LatencyMetric", "SLOStatus"]
