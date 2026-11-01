@@ -1,0 +1,4 @@
+# PHASE26_OPTIONS_ARB_PAPER_LOOP_REPORT
+
+Status: ok
+Cycles: 5
