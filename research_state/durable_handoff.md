@@ -1,10 +1,10 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-11-01T05:27:24Z
+Timestamp (UTC): 2026-11-01T06:22:50Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow features/microstructure).
 THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION.
 
-Gate status: GREEN (811 passed, 2 skipped, 0 failed) — verified 2026-11-01T05:27:24Z via `python -m pytest tests/ -q`. Working tree clean.
+Gate status: GREEN (957 passed, 2 skipped, 0 failed) — verified 2026-11-01T06:22:50Z via `python -m pytest tests/ -q`. Working tree clean.
 
 COMPLETED (DO NOT REDO):
 - Phases 1-4b: data/loaders, features, time-series/walk-forward/OOS, portfolio walk-forward, options hedging integrated.
@@ -17,33 +17,35 @@ COMPLETED (DO NOT REDO):
 - Phase 11: Production Live Execution, Continuous Alpha Optimization & Performance Attribution (Crypto Options + Orderflow) — COMPLETE.
 - Phase 12: Integrated Campaign / Live Readiness (Crypto Options + Orderflow) — COMPLETE.
 - Phase 13: Production Deployment, Continuous Monitoring, Auto-Healing & Model Governance (Crypto Options + Orderflow) — COMPLETE.
+- Phase 14: Live Capital Deployment, Multi-Strategy Portfolio Orchestration & Real Exchange Execution (Crypto Options + Orderflow) — COMPLETE (957 passed, 2 skipped).
 
-BOTTLENECKS: NONE. Clean green baseline. All historical bottlenecks eliminated. No blockers. No blocked or inefficient sessions remain. Do NOT create analysis-only or documentation-only sessions. Keep gate GREEN at all times.
+FILES CHANGED (this session): src/capital/__init__.py, src/capital/capital_allocator.py, src/portfolio/__init__.py, src/portfolio/portfolio_orchestrator.py, src/execution/live_execution_router.py, src/attribution/__init__.py, src/attribution/performance_attribution.py, src/deployment/phase14_campaign.py, scripts/run_phase14_live_capital_campaign.py, tests/test_phase14_live_capital.py (146 tests). All artifacts generated under research_state/ (PHASE14_LIVE_CAPITAL_REPORT.json/md, CAPITAL_ALLOCATION_REPORT.json/md, PORTFOLIO_ORCHESTRATION_REPORT.json/md, LIVE_EXECUTION_REPORT.json/md, PERFORMANCE_ATTRIBUTION_REPORT.json/md).
+
+BOTTLENECKS: NONE. Clean green baseline. No blocked/inefficient sessions. Keep gate GREEN.
 
 ## INITIAL TASK MESSAGE (EXECUTE IMMEDIATELY - NO DEVIATION)
-Timestamp: 2026-11-01T05:25:30Z
+Timestamp: 2026-11-01T06:22:50Z
 PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
 ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
 SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
 
-### ACTIVE FOCUS CAMPAIGN: PHASE 14 — LIVE CAPITAL DEPLOYMENT, MULTI-STRATEGY PORTFOLIO ORCHESTRATION & REAL EXCHANGE EXECUTION (CRYPTO OPTIONS + ORDERFLOW)
-Goal: Promote Phase 13 paper-only readiness into live-capital deployment with multi-strategy portfolio orchestration, capital allocation, real exchange execution routing, and performance attribution. Default PAPER-ONLY — live capital hard-gated behind explicit config + tests. Validate under adversarial conditions. Emit auditable artifacts. This is unskippable heavy work.
+### ACTIVE FOCUS CAMPAIGN: PHASE 15 — CROSS-EXCHANGE ARBITRAGE, DELTA-NEUTRAL MARKET MAKING & LATENCY-OPTIMIZED EXECUTION (CRYPTO OPTIONS + ORDERFLOW)
+Goal: Build production-grade cross-exchange arbitrage detection/execution with delta-neutral market making, inventory/risk controls, latency-aware routing, and deterministic backtesting. Default PAPER-ONLY with hard live gates. Emit auditable artifacts. No placeholders.
 
 #### MANDATORY DELIVERABLES (SHIP ALL):
-1. **Capital Allocator** (`src/capital/capital_allocator.py`): deterministic capital budgeting across strategies/venues, risk-budget caps, drawdown guards, paper-only default.
-2. **Portfolio Orchestrator** (`src/portfolio/portfolio_orchestrator.py`): multi-strategy coordination, position aggregation, netting, exposure limits, deterministic state.
-3. **Live Execution Router** (`src/execution/live_execution_router.py`): real exchange routing (Deribit/OKX/Binance), order lifecycle, retries, idempotency, paper/live gate.
-4. **Performance Attribution** (`src/attribution/performance_attribution.py`): PnL attribution by strategy/venue/instrument, deterministic reports.
-5. **Campaign Orchestrator + CLI** (`src/deployment/phase14_campaign.py`, `scripts/run_phase14_live_capital_campaign.py`): end-to-end run seed 42, symbols BTC/ETH, venues Deribit/OKX/Binance, emit artifacts, fail fast on NaN/Inf, paper-only enforced.
-6. **Artifacts** (under `research_state/`, strict `allow_nan=False`): `PHASE14_LIVE_CAPITAL_REPORT.json/md`, `CAPITAL_ALLOCATION_REPORT.json/md`, `PORTFOLIO_ORCHESTRATION_REPORT.json/md`, `LIVE_EXECUTION_REPORT.json/md`, `PERFORMANCE_ATTRIBUTION_REPORT.json/md`. Each includes timestamp, git SHA, seed, symbols, venues, counts, paper_only flag.
-7. **Tests** (`tests/test_phase14_live_capital.py`): >= 80 substantive tests covering allocator invariants, orchestration, routing/idempotency, attribution, determinism (byte-identical rerun), adversarial edge cases, schema, artifact validity, paper-only enforcement. All must pass.
+1. **Arbitrage Detector** (`src/arbitrage/arbitrage_detector.py`): cross-venue spread detection (Deribit/OKX/Binance), fee-adjusted net edge, stale-quote filtering, deterministic.
+2. **Delta-Neutral MM Engine** (`src/marketmaking/delta_neutral_mm.py`): inventory skew, hedge sizing (options+perp), Greeks-aware, risk caps.
+3. **Latency-Aware Router** (`src/execution/latency_aware_router.py`): venue latency models, adaptive routing, cancel/replace, slippage tracking, paper-only.
+4. **Arbitrage+MM Orchestrator** (`src/orchestration/crossvenue_orchestrator.py`): unified coordination, PnL tracking, kill-switch integration.
+5. **Campaign + CLI** (`src/deployment/phase15_campaign.py`, `scripts/run_phase15_crossvenue_campaign.py`): seed 42, symbols BTC/ETH, venues Deribit/OKX/Binance, artifacts under research_state, fail fast on NaN/Inf, paper-only enforced.
+6. **Artifacts**: `PHASE15_CROSSVENUE_REPORT.json/md`, `ARBITRAGE_REPORT.json/md`, `DELTA_NEUTRAL_MM_REPORT.json/md`, `LATENCY_ROUTING_REPORT.json/md`, `CROSSVENUE_ORCHESTRATION_REPORT.json/md`. Include timestamp/git SHA/seed/symbols/venues/paper_only.
+7. **Tests** (`tests/test_phase15_crossvenue.py`): >= 80 substantive tests covering edge cases, determinism, schema, finite numerics, paper-only gates. Keep gate GREEN.
 
 #### CONSTRAINTS (NON-NEGOTIABLE):
 - No placeholders/TODOs/FIXMEs/HACKs/XXX. Implement fully.
-- Keep ALL existing tests passing. Add only (gate >=811 passing minimum).
-- Determinism: same inputs + seed -> byte-identical artifacts and results.
-- Correctness: finite numerics. No NaN/Inf in any artifact (`allow_nan=False`). Validate.
-- Default to PAPER-ONLY. Any live-capital path must be hard-gated behind explicit config + tests proving gates. Never enable live trading by accident.
-- Use existing project patterns/configs (telemetry.serialize_metrics_strict, assert_json_valid, campaign + CLI pattern from phase13, monitoring/health.py, resilience/circuit.py). Integrate cleanly with Phase 9-13.
-- Update THIS FILE before ending the session with: fresh timestamp (UTC), files changed (code/tests/scripts/artifacts), rationale, verification results (`python -m pytest tests/ -q` must be GREEN).
-- No analysis-only sessions. Every turn must advance code/tests/artifacts. Do not stop until all deliverables shipped and gate is GREEN.
+- Keep ALL existing tests passing. Add only (gate >=957 passing minimum).
+- Determinism + finite numerics. No NaN/Inf. Validate strictly.
+- Default PAPER-ONLY; live paths hard-gated + tested.
+- Integrate with existing telemetry/serialization, resilience, monitoring, governance patterns.
+- Update THIS FILE before ending session with fresh timestamp, files changed, rationale, `python -m pytest tests/ -q` GREEN.
+- No analysis-only. Ship code/tests/artifacts to completion.
