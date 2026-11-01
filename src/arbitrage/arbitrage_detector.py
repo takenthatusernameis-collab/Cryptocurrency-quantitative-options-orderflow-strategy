@@ -121,9 +121,6 @@ class ArbitrageQuote:
     def age_sec(self) -> float:
         return (_parse_iso(self.received_at) - _parse_iso(self.timestamp)).total_seconds()
 
-    def age_sec(self) -> float:
-        return (_parse_iso(self.received_at) - _parse_iso(self.timestamp)).total_seconds()
-
     def to_dict(self) -> Dict[str, Any]:
         return {
             "venue": self.venue,
@@ -136,7 +133,7 @@ class ArbitrageQuote:
             "received_at": self.received_at,
             "source": self.source,
             "mid_price": float(self.mid_price),
-            "spread_bps": float(self.spread_bps),
+            "spread_bps": float(self.spread_bps()),
             "age_sec": float(self.age_sec),
         }
 
@@ -344,8 +341,8 @@ class ArbitrageDetector:
                 if ask_q.ask_size <= 0.0:
                     self._reject(symbol, buy_venue, "zero_ask_size", ask_q.ask_size)
                     continue
-                if ask_q.spread_bps > self.config.max_spread_bps:
-                    self._reject(symbol, buy_venue, "wide_spread", ask_q.spread_bps)
+                if ask_q.spread_bps() > self.config.max_spread_bps:
+                    self._reject(symbol, buy_venue, "wide_spread", ask_q.spread_bps())
                     continue
 
                 for sell_venue in sorted(freshest):
@@ -358,9 +355,9 @@ class ArbitrageDetector:
                     if bid_q.bid_size <= 0.0:
                         self._reject(symbol, sell_venue, "zero_bid_size", bid_q.bid_size)
                         continue
-                    if bid_q.spread_bps > self.config.max_spread_bps:
-                        self._reject(symbol, sell_venue, "wide_spread", bid_q.spread_bps)
-                        continue
+                if bid_q.spread_bps() > self.config.max_spread_bps:
+                    self._reject(symbol, sell_venue, "wide_spread", bid_q.spread_bps())
+                    continue
 
                     cross_bid = float(bid_q.bid)
                     cross_ask = float(ask_q.ask)
