@@ -1,0 +1,47 @@
+{
+  "status": "ok",
+  "phase": 25,
+  "campaign": "options_vol_skew_hedge",
+  "modes": "paper",
+  "enforce_gates": true,
+  "paper_only": true,
+  "vol_surface": {
+    "status": "ok",
+    "points": 4,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "sabr": {
+      "alpha": 0.6675,
+      "beta": 0.7,
+      "rho": -0.3,
+      "nu": 0.4,
+      "calibrated": true
+    },
+    "surface_hash": 3778965970
+  },
+  "iv_skew_orderflow": {
+    "status": "ok",
+    "count": 1,
+    "orderflow_score": 0.022545454545454542,
+    "skew_hash": 3689245905
+  },
+  "delta_hedge_optimizer": {
+    "status": "ok",
+    "net_delta": 3.0,
+    "notional": 300000.0,
+    "actions": 3,
+    "estimated_cost": 6.388888888888889,
+    "circuit_breaker_tripped": false
+  },
+  "options_paper_loop": {
+    "status": "ok",
+    "cycles": 5,
+    "paper_only": true,
+    "results": 5,
+    "gates_passed": true
+  }
+}
