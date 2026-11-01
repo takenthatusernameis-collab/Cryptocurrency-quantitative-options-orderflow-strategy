@@ -1,12 +1,12 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 # Timestamp (UTC): 2026-11-01T20:05:00Z
-# Updated (UTC): 2026-11-01T23:18:55Z
+# Updated (UTC): 2026-11-01T23:21:13Z
 # Project: Cryptocurrency-quantitative-options-orderflow-strategy
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution)
 
 THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 
-Gate status: GREEN (2256 passed, 2 skipped, 0 failed) — verified 2026-11-01T23:13:21.697709Z via `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q`. Working tree clean of placeholders/TODOs/FIXMEs/HACKs/XXX in new Phase 34 code. NO ACTIVE BOTTLENECKS. ALL SESSIONS UNBLOCKED.
+Gate status: GREEN (2277 passed, 2 skipped, 0 failed) — verified 2026-11-01T23:21:13Z via `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q`. Working tree clean of placeholders/TODOs/FIXMEs/HACKs/XXX in new Phase 34 code. NO ACTIVE BOTTLENECKS. ALL SESSIONS UNBLOCKED.
 
 COMPLETED (DO NOT REDO):
 - Phases 1-30: All complete (see prior entries). Phase 30 cross-asset vol surface arb + delta-neutral MM shipped 2026-11-01T21:03:11Z.
@@ -38,7 +38,29 @@ COMPLETED (DO NOT REDO):
   6. `tests/test_phase35_liquidity_routing.py` — 21 substantive deterministic tests (fixed seeds, mocks, no network, no placeholders).
   7. Artifacts under research_state/: PHASE35_LIQUIDITY_AGGREGATION_REPORT.*, PHASE35_SMART_ROUTING_REPORT.*, PHASE35_ADVERSARIAL_SLIPPAGE_REPORT.*, PHASE35_LIQUIDITY_ROUTING_LOOP_REPORT.*, PHASE35_CAMPAIGN_SUMMARY.*.
   Gate: 2277 passed, 2 skipped, 0 failed (prior 2256 + 21 new Phase 35). Deterministic, finite numerics, paper-only safe.
+
+- PHASE 36 (PLANNED 2026-11-01T23:21:13Z): Adaptive Volatility Surface Calibration, Regime-Aware Options Market Making & Dynamic Hedging Under Orderflow Stress for Crypto Options.
+  Goal: Extend Phase 35 liquidity routing with regime-aware adaptive vol surface calibration, inventory-aware options MM with dynamic hedge sizing under orderflow stress, integrated with portfolio/margin/reallocation. Deterministic artifacts. Extend, do not redo, Phases 1-35.
+  Deliverables (SHIP ALL, NO SCAFFOLDING):
+  1. `src/options/phase36_adaptive_vol_surface_calibration.py` — AdaptiveVolSurfaceCalibrator: regime-aware calibration with stress detection, deterministic.
+  2. `src/mm/phase36_regime_aware_options_mm.py` — RegimeAwareOptionsMM: inventory-aware quoting with regime shifts, deterministic.
+  3. `src/hedging/phase36_dynamic_hedging_under_stress.py` — DynamicHedgingUnderStress: orderflow-stress driven hedge sizing/routing, deterministic.
+  4. `src/integration/phase36_regime_mm_hedge_loop.py` — integrates Phase 31-35 with Phase 36 modules, paper/live gated, per-cycle TCA + regime/MM/hedge/stress report.
+  5. `scripts/run_phase36_regime_mm_hedge_campaign.py` — CLI (--symbols/--venues/--underlyings BTC/ETH/SOL/XRP/--expiries/--modes paper/live gated/--cycles/--seed/--enforce-gates/--outdir).
+  6. `tests/test_phase36_regime_mm_hedge.py` — >=40 substantive deterministic tests (fixed seeds, mocks, no network, no placeholders).
+  7. Artifacts under research_state/: PHASE36_VOL_SURFACE_CALIBRATION_REPORT.*, PHASE36_REGIME_MM_REPORT.*, PHASE36_DYNAMIC_HEDGING_STRESS_REPORT.*, PHASE36_REGIME_MM_HEDGE_LOOP_REPORT.*, PHASE36_CAMPAIGN_SUMMARY.*.
+  Acceptance: gate GREEN (>=2317 passed, 0 failed); no placeholders/TODOs/FIXMEs/HACKs/XXX; deterministic finite numerics; paper-only default with hard-gated live paths; integrate with Phases 17-35. Update THIS FILE with fresh UTC timestamp, files changed, rationale before ending.
+
 - PHASE 34 (COMPLETE 2026-11-01T23:13:21.697722Z): Cross-Underlying Portfolio Greeks Aggregation, Cross-Margin Risk & Adaptive Capital Reallocation for Crypto Options Vol Surface Arbitrage + Orderflow. All deliverables shipped end-to-end, deterministic, paper-only safe, no placeholders/TODOs:
+  1. `src/risk/phase34_portfolio_greeks_aggregator.py` — PortfolioGreeksAggregator: cross-underlying delta/gamma/vega/theta aggregation with netting, deterministic.
+  2. `src/risk/phase34_cross_margin_engine.py` — CrossMarginEngine: cross-margin requirements, stress loss scenarios, margin call detection, deterministic.
+  3. `src/execution/phase34_adaptive_capital_reallocation.py` — AdaptiveCapitalReallocation: reallocate capital across venues/underlyings from execution quality + hedge + rollout signals, deterministic.
+  4. `src/integration/phase34_portfolio_capital_loop.py` — integrates Phase 31 deployment + Phase 32 execution/risk + Phase 33 hedge/rollout/sweep + Phase 34 portfolio/margin/reallocation, paper/live gated, per-cycle TCA + portfolio/margin/capital report.
+  5. `scripts/run_phase34_portfolio_capital_campaign.py` — CLI (--symbols/--venues/--underlyings BTC/ETH/SOL/XRP/--expiries/--modes paper/live gated/--cycles/--seed/--enforce-gates/--outdir).
+  6. `tests/test_phase34_portfolio_capital.py` — 27 substantive deterministic tests (fixed seeds, mocks, no network, no placeholders).
+  7. Artifacts under research_state/: PHASE34_PORTFOLIO_GREEKS_REPORT.*, PHASE34_CROSS_MARGIN_REPORT.*, PHASE34_CAPITAL_REALLOCATION_REPORT.*, PHASE34_PORTFOLIO_CAPITAL_LOOP_REPORT.*, PHASE34_CAMPAIGN_SUMMARY.*.
+  Gate: 2256 passed, 2 skipped, 0 failed (prior 2229 + 27 new Phase 34). Deterministic, finite numerics, paper-only safe.
+- PHASE 34 (COMPLETE 2026-11-01T23:21:13.534369Z): Cross-Underlying Portfolio Greeks Aggregation, Cross-Margin Risk & Adaptive Capital Reallocation for Crypto Options Vol Surface Arbitrage + Orderflow. All deliverables shipped end-to-end, deterministic, paper-only safe, no placeholders/TODOs:
   1. `src/risk/phase34_portfolio_greeks_aggregator.py` — PortfolioGreeksAggregator: cross-underlying delta/gamma/vega/theta aggregation with netting, deterministic.
   2. `src/risk/phase34_cross_margin_engine.py` — CrossMarginEngine: cross-margin requirements, stress loss scenarios, margin call detection, deterministic.
   3. `src/execution/phase34_adaptive_capital_reallocation.py` — AdaptiveCapitalReallocation: reallocate capital across venues/underlyings from execution quality + hedge + rollout signals, deterministic.
@@ -66,9 +88,6 @@ INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFL
 - If beginning a new campaign, it must extend Phase 31/32 crypto options vol arb + orderflow, be production-grade, deterministic, finite numerics, default PAPER-ONLY with hard-gated live paths.
 - ZERO placeholders/TODOs/FIXMEs/HACKs/XXX. SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
 - Future agents cannot avoid this work: it is the mandatory initial task for every session until explicitly superseded. Keep gate GREEN, update THIS FILE with fresh UTC timestamp, files changed, rationale.
-
-### NEXT FOCUS (AUTO-SELECTED BY REPO PRIORITY) — PHASE 35 CAMPAIGN (MANDATORY, NO ESCAPE)
-Status: Phase 34 complete. Phase 35 ACTIVE SPEC (defined 2026-11-01T23:13:21.697765Z). Next campaign MUST prioritize crypto options + orderflow per repo name and follow the standing mandatory initial task above. FUTURE AGENTS CANNOT AVOID THIS HEAVY WORK.
 
 PHASE 35 (ATTACK NOW): Real-Time Cross-Venue Options Liquidity Aggregation, Smart Order Routing & Adversarial Slippage Control for Crypto Options Vol Surface Arbitrage + Orderflow.
 Goal: Aggregate real-time liquidity across venues for options (BTC/ETH/SOL/XRP), build smart order router with adversarial slippage control, and integrate with Phase 34 portfolio/margin/reallocation signals. Deterministic artifacts. Extend, do not redo, Phases 1-34.
