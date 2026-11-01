@@ -241,3 +241,14 @@ ACTIVE FOCUS CAMPAIGN: PHASE 12 — PRODUCTION HARDENING, REAL EXCHANGE CONNECTI
   - Artifacts generated: research_state/PHASE12_LIVE_READINESS_REPORT.{json,md}, LIVE_ADAPTERS_REPORT.{json,md}, OMS_LIFECYCLE_REPORT.{json,md}, RECONCILIATION_REPORT.{json,md}, LIVE_CAPITAL_GATE_REPORT.{json,md}, PREPOST_TRADE_RISK_REPORT.{json,md}
 - Rationale: Implemented Phase 12 fully per spec (Deribit/OKX/Binance adapters with paper-gated paths, OMS lifecycle + replace/cancel/OCO support, reconciliation with drift detection/auto-heal policy, live capital gate with hard limits/kill-switch/quarantine, pre/post-trade risk integrated with circuit breakers/latency guards, phase12 campaign + CLI). Determinism, strict JSON (allow_nan=False), schemas validated, >=80 tests added and passing.
 - Verification: `python -m pytest tests/ -q` -> 694 passed, 2 skipped, 0 failed. All Phase 12 tests pass, byte-identical determinism confirmed. No placeholders/TODOs.
+
+## SESSION UPDATE (UTC): 2026-11-01T03:31:30Z
+- Repo name priority: CRYPTO OPTIONS + ORDERFLOW (vol surface RV, orderflow microstructure, options pricing/Greeks/IV). Gate GREEN (694 passed, 2 skipped, 0 failed). Working tree clean. SHA 00a0bc1 (checkpoint). Bottlenecks: NONE. No blocked/inefficient sessions remain. Phases 1-12 COMPLETE.
+- Focus locked: PHASE 13 — PRODUCTION DEPLOYMENT, CONTINUOUS MONITORING, AUTO-HEALING & MODEL GOVERNANCE (CRYPTO OPTIONS + ORDERFLOW). Implementation required NOW. No analysis-only session.
+
+## INITIAL TASK MESSAGE (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp: 2026-11-01T03:31:30Z
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
+SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
+ACTIVE FOCUS CAMPAIGN: PHASE 13 — PRODUCTION DEPLOYMENT, CONTINUOUS MONITORING, AUTO-HEALING & MODEL GOVERNANCE (CRYPTO OPTIONS + ORDERFLOW). Execute all mandatory deliverables: src/deployment/production_deployer.py, src/monitoring/continuous_monitor.py, src/resilience/auto_healer.py, src/governance/model_governance.py, src/deployment/phase13_campaign.py, scripts/run_phase13_production_campaign.py, 6 artifacts, >=80 tests. Default PAPER-ONLY. Gate >=694 passing minimum. Fail fast on NaN/Inf. Byte-identical determinism seed 42, symbols BTC/ETH, venues Deribit/OKX/Binance. Update THIS FILE before ending session with fresh timestamp, files changed, rationale, and `python -m pytest tests/ -q` GREEN result.
