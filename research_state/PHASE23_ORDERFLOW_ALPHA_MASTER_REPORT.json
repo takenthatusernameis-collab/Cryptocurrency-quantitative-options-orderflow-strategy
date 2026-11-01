@@ -1,0 +1,66 @@
+{
+  "report": "PHASE23_ORDERFLOW_ALPHA_MASTER_REPORT",
+  "timestamp": "2026-11-01T16:08:25.749549Z",
+  "campaign_id": "p23_camp_3d35cfe5",
+  "seed": 42,
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ],
+  "cycles": 4,
+  "paper_only": true,
+  "git_sha": "3d35cfe5b9e73dd9655ccc24bcb7e470caabb135",
+  "components": {
+    "orderflow_alpha": "src/signals/phase23_orderflow_alpha.py",
+    "regime_detector": "src/signals/phase23_regime_detector.py",
+    "signal_fusion": "src/signals/phase23_signal_fusion.py",
+    "alpha_decay": "src/analytics/phase23_alpha_decay.py",
+    "campaign_script": "scripts/run_phase23_orderflow_alpha_campaign.py",
+    "tests": "tests/test_phase23_orderflow_alpha.py"
+  },
+  "reports": [
+    "PHASE23_ORDERFLOW_ALPHA_REPORT",
+    "PHASE23_REGIME_DETECTION_REPORT",
+    "PHASE23_SIGNAL_FUSION_REPORT",
+    "PHASE23_ALPHA_DECAY_REPORT"
+  ],
+  "artifacts": [
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE23_ORDERFLOW_ALPHA_REPORT.json",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE23_ORDERFLOW_ALPHA_REPORT.md",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE23_REGIME_DETECTION_REPORT.json",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE23_REGIME_DETECTION_REPORT.md",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE23_SIGNAL_FUSION_REPORT.json",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE23_SIGNAL_FUSION_REPORT.md",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE23_ALPHA_DECAY_REPORT.json",
+    "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/PHASE23_ALPHA_DECAY_REPORT.md"
+  ],
+  "summary": {
+    "orderflow_signals": 100,
+    "avg_alpha": 0.2937473336583014,
+    "toxic_rate": 0.01,
+    "regime_states": 100,
+    "fused_signals": 100,
+    "avg_fused": 0.13610383152049907,
+    "decay_states": 100,
+    "avg_half_life": 13.548949320224743,
+    "good_alpha": 0
+  },
+  "gate_status": "GREEN",
+  "status": "COMPLETE"
+}
