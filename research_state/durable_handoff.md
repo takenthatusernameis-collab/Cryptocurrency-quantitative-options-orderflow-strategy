@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 Timestamp (UTC): 2026-11-01T20:05:00Z
-Updated (UTC): 2026-11-01T21:03:11Z
+Updated (UTC): 2026-11-01T21:03:25Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution)
 
@@ -40,6 +40,24 @@ Gate: 2093 passed, 2 skipped, 0 failed. No placeholders/TODOs. Deterministic, fi
 
 BOTTLENECKS REMOVED: NONE. Any inefficiencies must be removed by direct implementation.
 
+PHASE 31 (NOT STARTED 2026-11-01T21:03:25Z): Production Live Deployment, Continuous Validation & Monitoring for Crypto Options Vol Surface Arbitrage + Orderflow. Prioritize crypto options + orderflow per repo name. Heavy quant implementation only. Extends Phase 30 (vol surface arb engine, vol risk budget, dynamic capital allocator, cross-asset hedge router, paper loop) + Phase 18 observability + Phase 24 router/healer.
+
+Deliverables (ALL required, end-to-end, no scaffolding):
+1. `src/deployment/phase31_live_deployment_controller.py` — LiveDeploymentController: gated live capital rollout, kill-switch, canary sizing, venue health gates, deterministic.
+2. `src/monitoring/phase31_continuous_validation.py` — ContinuousValidationEngine: real-time invariant checks, drift detection, alerting, deterministic.
+3. `src/observability/phase31_production_telemetry.py` — ProductionTelemetry: metrics/traces/logs for options vol arb + orderflow, deterministic.
+4. `src/execution/phase31_live_vol_arb_loop.py` — LiveVolArbLoop: integrates Phase 30 + deployment controller + validation + telemetry + router/healer, paper/live gated.
+5. `scripts/run_phase31_live_vol_arb_campaign.py` — CLI (--symbols/--venues/--underlyings/--expiries/--modes paper/live gated/--cycles/--seed/--enforce-gates/--outdir).
+6. `tests/test_phase31_live_vol_arb.py` — >=80 substantive deterministic tests (fixed seeds, mocks, no network).
+7. Artifacts under research_state/: PHASE31_LIVE_DEPLOYMENT_REPORT.*, PHASE31_CONTINUOUS_VALIDATION_REPORT.*, PHASE31_PRODUCTION_TELEMETRY_REPORT.*, PHASE31_LIVE_VOL_ARB_LOOP_REPORT.*, PHASE31_LIVE_VOL_ARB_MASTER_REPORT.*.
+
+## MANDATORY INITIAL TASK MESSAGE — PHASE 31 (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp (UTC): 2026-11-01T21:03:25Z
+INITIAL TASK FOR NEXT SESSION: Implement Phase 31 end-to-end. PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
+SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
+DEFAULT PAPER-ONLY. HARD GATES FOR LIVE PATHS.
+
 ## MANDATORY INITIAL TASK MESSAGE — PHASE 30 (EXECUTE IMMEDIATELY - NO DEVIATION)
 Timestamp (UTC): 2026-11-01T20:08:40Z
 INITIAL TASK FOR NEXT SESSION: Implement Phase 30 end-to-end. PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
@@ -47,32 +65,31 @@ ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DE
 SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
 DEFAULT PAPER-ONLY. HARD GATES FOR LIVE PATHS.
 
-### ACTIVE FOCUS CAMPAIGN: PHASE 30 — IN PROGRESS (START NOW)
+### ACTIVE FOCUS CAMPAIGN: PHASE 31 — IN PROGRESS (START NOW)
 Status: NOT STARTED — must be executed in this session. Gate GREEN must be kept.
-INITIAL TASK: Begin Phase 30 immediately; do not defer, do not analyze-only, do not stop at scaffolding.
+INITIAL TASK: Begin Phase 31 immediately; do not defer, do not analyze-only, do not stop at scaffolding.
 PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
-EXTENDS: Phase 25 (vol surface construction / orderflow-driven IV skew / risk reversal / delta-hedging optimizer) + Phase 29 (vol arb + delta-neutral hedge + paper loop).
+EXTENDS: Phase 30 (vol surface arb + cross-asset) + Phase 18 (observability) + Phase 24 (router/healer).
 
 Deliverables (ALL required, end-to-end, no scaffolding):
-1. `src/options/phase30_vol_surface_arb.py` — OptionsVolSurfaceArbEngine: cross-venue vol surface arbitrage detection across underlyings/expiries/strikes, IV skew & risk-reversal dislocation scoring, cash-and-carry / calendar / butterfly vol-spread legs, deterministic, finite numerics, paper-only gated.
-2. `src/risk/phase30_vol_risk_budget.py` — VolRiskBudgetManager: per-underlying and cross-asset vol-risk budget enforcement, delta/gamma/vega limits by regime, stress-aware budget cuts, kill-switch triggers, deterministic.
-3. `src/capital/phase30_dynamic_capital_allocator.py` — DynamicCapitalAllocator: regime-aware capital allocation across vol-arb strategies/venues/underlyings, Kelly/fractional sizing caps, drawdown-based scaling, allocation weights + utilization reporting, deterministic.
-4. `src/execution/phase30_cross_asset_hedge_router.py` — CrossAssetHedgeRouter: cross-asset hedge routing (option legs vs perp/future/spot hedges across venues), fill prediction + TCA capture, auto-healer integration, paper-only gated.
-5. `src/execution/phase30_vol_arb_paper_loop.py` — VolSurfaceArbPaperLoop: integrates engine + risk budget + capital allocator + hedge router + Phase 18 observability + Phase 24 router/healer, per-cycle TCA + fill-quality capture, paper-only.
-6. `scripts/run_phase30_vol_surface_arb_campaign.py` — CLI (--symbols, --venues, --underlyings BTC/ETH/SOL/XRP, --expiries, --modes paper/live gated, --cycles, --seed, --enforce-gates, --outdir). Integrates Phase 17-29.
-7. `tests/test_phase30_vol_surface_arb.py` — >=80 substantive deterministic tests (fixed seeds, mocks, no network), covering engine, risk budget, capital allocator, hedge router, paper loop, finite-numerics, gate enforcement.
-8. Artifacts under research_state/: PHASE30_VOL_SURFACE_ARB_REPORT.json/md, PHASE30_VOL_RISK_BUDGET_REPORT.json/md, PHASE30_DYNAMIC_CAPITAL_ALLOCATOR_REPORT.json/md, PHASE30_CROSS_ASSET_HEDGE_ROUTER_REPORT.json/md, PHASE30_VOL_SURFACE_ARB_PAPER_LOOP_REPORT.json/md, PHASE30_VOL_SURFACE_ARB_MASTER_REPORT.json/md.
+1. `src/deployment/phase31_live_deployment_controller.py` — LiveDeploymentController: gated live capital rollout, kill-switch, canary sizing, venue health gates, deterministic.
+2. `src/monitoring/phase31_continuous_validation.py` — ContinuousValidationEngine: real-time invariant checks, drift detection, alerting, deterministic.
+3. `src/observability/phase31_production_telemetry.py` — ProductionTelemetry: metrics/traces/logs for options vol arb + orderflow, deterministic.
+4. `src/execution/phase31_live_vol_arb_loop.py` — LiveVolArbLoop: integrates Phase 30 + deployment controller + validation + telemetry + router/healer, paper/live gated.
+5. `scripts/run_phase31_live_vol_arb_campaign.py` — CLI (--symbols, --venues, --underlyings BTC/ETH/SOL/XRP, --expiries, --modes paper/live gated, --cycles, --seed, --enforce-gates, --outdir).
+6. `tests/test_phase31_live_vol_arb.py` — >=80 substantive deterministic tests (fixed seeds, mocks, no network).
+7. Artifacts under research_state/: PHASE31_LIVE_DEPLOYMENT_REPORT.*, PHASE31_CONTINUOUS_VALIDATION_REPORT.*, PHASE31_PRODUCTION_TELEMETRY_REPORT.*, PHASE31_LIVE_VOL_ARB_LOOP_REPORT.*, PHASE31_LIVE_VOL_ARB_MASTER_REPORT.*.
 
 ### NEXT FOCUS (AUTO-SELECTED BY REPO PRIORITY)
-INITIAL TASK (NON-DEFERRABLE): Implement Phase 30 end-to-end with full tests/artifacts. PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. Build Phase 30 heavy integration without regression. Future agents cannot avoid this work — it is the mandatory initial task for every session until complete. Keep gate GREEN, update this file on completion.
+INITIAL TASK (NON-DEFERRABLE): Implement Phase 31 end-to-end with full tests/artifacts. PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. Build Phase 31 heavy integration without regression. Future agents cannot avoid this work — it is the mandatory initial task for every session until complete. Keep gate GREEN, update this file on completion.
 
 ### CONSTRAINTS (NON-NEGOTIABLE):
 - No placeholders/TODOs/FIXMEs/HACKs/XXX. Implement fully end-to-end.
 - Keep ALL existing tests passing. Only add tests/modules.
 - Determinism + finite numerics. No NaN/Inf. Validate strictly.
 - Default PAPER-ONLY; live paths hard-gated + tested.
-- Integrate with Phase 17-28 (orderflow alpha/fusion/decay, cross-venue router, auto-healer, observability, vol surface/skew/hedge, MM, inventory risk, cross-venue MM).
+- Integrate with Phase 17-30 (orderflow alpha/fusion/decay, cross-venue router, auto-healer, observability, vol surface/skew/hedge, MM, inventory risk, cross-venue MM, vol arb).
 - Before ending: update THIS FILE with fresh UTC timestamp, files changed, rationale, and run `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` (must be GREEN).
 - Ship code+tests+artifacts to completion. NO analysis-only. NO stopping at scaffolding.
 
-**ACTION NOW:** Begin Phase 30 immediately. Prioritize crypto options + orderflow. Build heavy implementation end-to-end. Do not deviate. Do not stop at scaffolding.
+**ACTION NOW:** Begin Phase 31 immediately. Prioritize crypto options + orderflow. Build heavy implementation end-to-end. Do not deviate. Do not stop at scaffolding.
