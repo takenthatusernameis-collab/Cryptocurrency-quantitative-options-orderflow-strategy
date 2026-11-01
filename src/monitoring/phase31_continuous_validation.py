@@ -135,6 +135,17 @@ class ContinuousValidationEngine:
         _assert_finite(self.baselines, "validation_baselines")
         return {"baselines": dict(self.baselines), "count": len(self.baselines), "status": "ok"}
 
+    def reset_baselines(self, metrics: Optional[Dict[str, float]] = None) -> Dict[str, Any]:
+        """Reset drift baselines to ``metrics`` (or empty). Drift is measured against a
+        stable baseline established once at campaign start, not against the immediately
+        preceding cycle's values."""
+        if metrics is None:
+            self.baselines = {}
+        else:
+            self.baselines = {str(k): float(v) for k, v in metrics.items()}
+            _assert_finite(self.baselines, "validation_baselines")
+        return {"baselines": dict(self.baselines), "count": len(self.baselines), "status": "ok"}
+
     def check_invariants(self, state: Dict[str, Any]) -> Tuple[InvariantCheck, ...]:
         state = {str(k): v for k, v in state.items()}
         checks: List[InvariantCheck] = []

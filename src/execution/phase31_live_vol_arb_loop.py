@@ -130,6 +130,23 @@ class LiveVolArbLoop:
         self.equity = float(self.config.min_equity_usd)
         self.drawdown_pct = 0.0
         self.pnl_usd = 0.0
+        self._baseline_set = False
+
+    def _ensure_baseline(self) -> None:
+        """Establish drift baselines once at campaign start. Never reset per cycle."""
+        if self._baseline_set:
+            return
+        self.validation.set_baseline(
+            {
+                "drawdown_pct": 0.02,
+                "var_pct": 0.02,
+                "iv_skew_bps": 10.0,
+                "sharpe": 1.0,
+                "fill_reject_rate": 0.05,
+                "latency_p95_ms": 80.0,
+            }
+        )
+        self._baseline_set = True
 
     def _next_id(self, tag: str) -> str:
         self._counter += 1
@@ -176,6 +193,7 @@ class LiveVolArbLoop:
         pnl = float(state.get("pnl_usd", self.pnl_usd))
 
         # 1. Deployment gate + venue health
+        self._ensure_baseline()
         deploy = self.deployment.deploy_cycle(cycle, [], state)
         if not deploy["deploy_allowed"]:
             self.equity = equity
@@ -251,24 +269,15 @@ class LiveVolArbLoop:
             venue_routed += 1
 
         # 7. Continuous validation
+        iv_skew = self.engine.max_iv_skew_bps()
         state_metrics = {
             "drawdown_pct": drawdown,
             "var_pct": min(drawdown * 1.2, 0.1),
-            "iv_skew_bps": float(signals[0].dislocation.iv_diff_bps) if signals else 0.0,
+            "iv_skew_bps": iv_skew,
             "sharpe": 1.2,
             "fill_reject_rate": 0.05,
             "latency_p95_ms": 90.0,
         }
-        self.validation.set_baseline(
-            {
-                "drawdown_pct": 0.02,
-                "var_pct": 0.02,
-                "iv_skew_bps": 10.0,
-                "sharpe": 1.0,
-                "fill_reject_rate": 0.05,
-                "latency_p95_ms": 80.0,
-            }
-        )
         validation = self.validation.validate_cycle(cycle, state_metrics, state_metrics)
 
         # 8. Telemetry: metrics, traces, logs
@@ -348,6 +357,7 @@ class LiveVolArbLoop:
 
     def run_campaign(self, cycles: Optional[int] = None) -> Dict[str, Any]:
         cycles = int(cycles if cycles is not None else self.config.cycles)
+        self._ensure_baseline()
         reports: List[Dict[str, Any]] = []
         for c in range(1, cycles + 1):
             res = self.run_cycle(c)

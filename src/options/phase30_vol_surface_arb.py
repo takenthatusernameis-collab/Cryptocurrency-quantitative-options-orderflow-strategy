@@ -263,6 +263,52 @@ class OptionsVolSurfaceArbEngine:
                 self.dislocations.append(d2)
         return self.dislocations
 
+    def compute_iv_skew_bps(self) -> Dict[str, float]:
+        """Compute per-underlying IV skew (risk-reversal) in bps from ingested quotes.
+
+        Skew = (OTM put IV - OTM call IV) averaged across venues, in bps. This is the
+        cross-strike vol skew that the continuous-validation ``max_iv_skew`` invariant
+        guards. Deterministic, finite, paper-only.
+        """
+        if not self.iv_quotes:
+            return {u: 0.0 for u in self.config.underlyings}
+        spots = {"BTC": 65000.0, "ETH": 3500.0, "SOL": 150.0, "XRP": 0.6}
+        out: Dict[str, float] = {}
+        for und in self.config.underlyings:
+            spot = spots.get(und, 1000.0)
+            und_quotes = [q for q in self.iv_quotes if q.underlying == und]
+            if not und_quotes:
+                out[und] = 0.0
+                continue
+            strikes = sorted({q.strike for q in und_quotes})
+            if len(strikes) < 2:
+                out[und] = 0.0
+                continue
+            low_strike = strikes[0]   # OTM calls
+            high_strike = strikes[-1]  # OTM puts
+            put_ivs = [
+                q.mid_iv for q in und_quotes
+                if q.option_type == "put" and q.strike == high_strike
+            ]
+            call_ivs = [
+                q.mid_iv for q in und_quotes
+                if q.option_type == "call" and q.strike == low_strike
+            ]
+            if not put_ivs or not call_ivs:
+                out[und] = 0.0
+                continue
+            skew = (sum(put_ivs) / len(put_ivs)) - (sum(call_ivs) / len(call_ivs))
+            out[und] = float(skew * 10000.0)
+        _assert_finite(out, "iv_skew_bps")
+        return out
+
+    def max_iv_skew_bps(self) -> float:
+        """Scalar max absolute IV skew (bps) across underlyings for invariant checks."""
+        skews = self.compute_iv_skew_bps()
+        if not skews:
+            return 0.0
+        return float(max(abs(v) for v in skews.values()))
+
     def build_signals(self) -> List[VolSurfaceArbSignal]:
         self.signals = []
         if not self.dislocations:
