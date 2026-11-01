@@ -1,0 +1,70 @@
+{
+  "report": "PHASE22_EXECUTION_OPTIMIZATION_MASTER_REPORT",
+  "timestamp": "2026-11-01T15:15:02.552276Z",
+  "campaign_id": "p22_camp_d15ffe11",
+  "seed": 42,
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ],
+  "cycles": 6,
+  "paper_only": true,
+  "git_sha": "d15ffe1131d52701fe2a2bd613cbbce1b3855654",
+  "components": {
+    "smart_router": "src/execution/phase22_smart_router.py",
+    "fill_predictor": "src/execution/phase22_fill_predictor.py",
+    "slippage_model": "src/execution/phase22_slippage_model.py",
+    "order_slicer": "src/execution/phase22_order_slicer.py",
+    "tca": "src/analytics/phase22_tca.py",
+    "campaign_script": "scripts/run_phase22_execution_optimization_campaign.py",
+    "tests": "tests/test_phase22_execution_optimization.py"
+  },
+  "reports": [
+    "PHASE22_SMART_ROUTING_REPORT",
+    "PHASE22_FILL_PREDICTION_REPORT",
+    "PHASE22_SLIPPAGE_REPORT",
+    "PHASE22_ORDER_SLICING_REPORT",
+    "PHASE22_TCA_REPORT"
+  ],
+  "artifacts": [
+    "research_state/PHASE22_SMART_ROUTING_REPORT.json",
+    "research_state/PHASE22_SMART_ROUTING_REPORT.md",
+    "research_state/PHASE22_FILL_PREDICTION_REPORT.json",
+    "research_state/PHASE22_FILL_PREDICTION_REPORT.md",
+    "research_state/PHASE22_SLIPPAGE_REPORT.json",
+    "research_state/PHASE22_SLIPPAGE_REPORT.md",
+    "research_state/PHASE22_ORDER_SLICING_REPORT.json",
+    "research_state/PHASE22_ORDER_SLICING_REPORT.md",
+    "research_state/PHASE22_TCA_REPORT.json",
+    "research_state/PHASE22_TCA_REPORT.md"
+  ],
+  "summary": {
+    "router_decisions": 150,
+    "router_routed": 150,
+    "fill_predictions": 150,
+    "avg_fill_prob": 0.926018068674357,
+    "slippage_results": 150,
+    "avg_slippage_bps": 9.752410867358607,
+    "slice_plans": 25,
+    "total_slices": 167,
+    "tca_results": 150,
+    "avg_tca_cost_bps": 1.077183805492203
+  },
+  "gate_status": "GREEN"
+}

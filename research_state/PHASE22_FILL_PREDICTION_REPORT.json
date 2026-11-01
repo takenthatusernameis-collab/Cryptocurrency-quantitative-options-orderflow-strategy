@@ -1,0 +1,5303 @@
+{
+  "report": "PHASE22_FILL_PREDICTION_REPORT",
+  "timestamp": "2026-11-01T15:15:02.296031Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "base_fill_prob": 0.85,
+    "spread_sensitivity": 0.04,
+    "depth_sensitivity": 0.03,
+    "latency_sensitivity": 0.02,
+    "orderflow_weight": 0.25,
+    "enforce_hard_limits": true,
+    "min_fill_prob": 0.05
+  },
+  "signal_count": 150,
+  "prediction_count": 150,
+  "signals": [
+    {
+      "signal_id": "p22_sig_887d8481ac56",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 17.210696528749374,
+      "notional_usd": 860534.8264374686,
+      "spread_bps": 2.6943877706254566,
+      "depth_usd": 1667180.790735142,
+      "latency_ms": 14.312175941988619,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:18:5cZ"
+    },
+    {
+      "signal_id": "p22_sig_d196d64e2c4d",
+      "symbol": "BTC",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 19.941961642536608,
+      "notional_usd": 997098.0821268304,
+      "spread_bps": 0.7851615583943596,
+      "depth_usd": 4311937.479384164,
+      "latency_ms": 31.232385801424947,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:5a:29Z"
+    },
+    {
+      "signal_id": "p22_sig_c561e14d7f9c",
+      "symbol": "BTC",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 13.956192902151358,
+      "notional_usd": 697809.6451075679,
+      "spread_bps": 3.066809919420735,
+      "depth_usd": 435498.573946733,
+      "latency_ms": 10.817673671324691,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2d:b6Z"
+    },
+    {
+      "signal_id": "p22_sig_5dbbe52e41fe",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 2.725040884363969,
+      "notional_usd": 136252.04421819845,
+      "spread_bps": 1.197142075948865,
+      "depth_usd": 4019296.122433231,
+      "latency_ms": 21.396198108413145,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e2:5bZ"
+    },
+    {
+      "signal_id": "p22_sig_3823f71b8e42",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 14.232295385644779,
+      "notional_usd": 711614.7692822389,
+      "spread_bps": 1.0638108989111577,
+      "depth_usd": 1297161.9365251916,
+      "latency_ms": 42.78304972819752,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d8:62Z"
+    },
+    {
+      "signal_id": "p22_sig_6ce6761eeea0",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 17.369884121027244,
+      "notional_usd": 868494.2060513622,
+      "spread_bps": 3.561511964598836,
+      "depth_usd": 2021348.522189223,
+      "latency_ms": 44.5657418943177,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:92:a7Z"
+    },
+    {
+      "signal_id": "p22_sig_5f03ef636938",
+      "symbol": "ETH",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 16.04054244444246,
+      "notional_usd": 802027.1222221229,
+      "spread_bps": 3.2315528260886843,
+      "depth_usd": 3758420.0679891338,
+      "latency_ms": 15.63320376583401,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:23:f0Z"
+    },
+    {
+      "signal_id": "p22_sig_2fede518f27f",
+      "symbol": "ETH",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 10.689676372695189,
+      "notional_usd": 534483.8186347594,
+      "spread_bps": 2.087225290048914,
+      "depth_usd": 3634054.1609202367,
+      "latency_ms": 14.657611546325073,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7c:03Z"
+    },
+    {
+      "signal_id": "p22_sig_7cbefeaee428",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 6.964396345256182,
+      "notional_usd": 348219.8172628091,
+      "spread_bps": 3.7712847491467785,
+      "depth_usd": 4729252.616796148,
+      "latency_ms": 34.79453941460963,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:66:15Z"
+    },
+    {
+      "signal_id": "p22_sig_ef459e4daa67",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 7.495748746668574,
+      "notional_usd": 374787.4373334287,
+      "spread_bps": 2.04250185094479,
+      "depth_usd": 2098607.951075523,
+      "latency_ms": 5.175833792526698,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:09:c9Z"
+    },
+    {
+      "signal_id": "p22_sig_6a4d840b3519",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 7.951108158959626,
+      "notional_usd": 397555.4079479813,
+      "spread_bps": 3.1128909584771463,
+      "depth_usd": 1873424.795145638,
+      "latency_ms": 7.105543029107149,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:46:35Z"
+    },
+    {
+      "signal_id": "p22_sig_33d4ba14703a",
+      "symbol": "SOL",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 17.528411245740823,
+      "notional_usd": 876420.5622870412,
+      "spread_bps": 1.423290293349939,
+      "depth_usd": 3198426.818917098,
+      "latency_ms": 28.784810094560168,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:47:3bZ"
+    },
+    {
+      "signal_id": "p22_sig_9545531b7ac9",
+      "symbol": "SOL",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 11.324146523846773,
+      "notional_usd": 566207.3261923386,
+      "spread_bps": 2.995498042125216,
+      "depth_usd": 4011698.297861624,
+      "latency_ms": 8.304937152157201,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:45:caZ"
+    },
+    {
+      "signal_id": "p22_sig_264bbd9164bd",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 4.941229889786258,
+      "notional_usd": 247061.4944893129,
+      "spread_bps": 2.427246914314599,
+      "depth_usd": 3449558.663323632,
+      "latency_ms": 6.677988088124538,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:32:a7Z"
+    },
+    {
+      "signal_id": "p22_sig_044977d01a0c",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 17.242983066442342,
+      "notional_usd": 862149.1533221172,
+      "spread_bps": 1.1386353777752583,
+      "depth_usd": 4632105.771130577,
+      "latency_ms": 30.95987126708229,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:17:33Z"
+    },
+    {
+      "signal_id": "p22_sig_c110b1d1bdb1",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 9.978045547054812,
+      "notional_usd": 498902.27735274064,
+      "spread_bps": 3.197572051057151,
+      "depth_usd": 3444642.4065998155,
+      "latency_ms": 14.627780129291263,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2f:12Z"
+    },
+    {
+      "signal_id": "p22_sig_eb4ebfebc2c3",
+      "symbol": "XRP",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 14.907008674029806,
+      "notional_usd": 745350.4337014903,
+      "spread_bps": 2.518859213940285,
+      "depth_usd": 1278934.5243399157,
+      "latency_ms": 39.8983685995044,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ed:e2Z"
+    },
+    {
+      "signal_id": "p22_sig_a098900645b1",
+      "symbol": "XRP",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 5.450188179117865,
+      "notional_usd": 272509.40895589325,
+      "spread_bps": 2.697676304944467,
+      "depth_usd": 3834922.1323525575,
+      "latency_ms": 15.459652750845905,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:18:a7Z"
+    },
+    {
+      "signal_id": "p22_sig_39a788df19a9",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 3.185029247832265,
+      "notional_usd": 159251.46239161326,
+      "spread_bps": 0.7033803361785591,
+      "depth_usd": 4383361.879252224,
+      "latency_ms": 8.890585585453504,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:62:2bZ"
+    },
+    {
+      "signal_id": "p22_sig_3125ea4fae65",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 15.427087618389805,
+      "notional_usd": 771354.3809194902,
+      "spread_bps": 0.607270434960657,
+      "depth_usd": 2634783.8438376,
+      "latency_ms": 11.433472918736687,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ed:6fZ"
+    },
+    {
+      "signal_id": "p22_sig_ca9e156c9b51",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 11.158793558949922,
+      "notional_usd": 557939.6779474961,
+      "spread_bps": 1.207858221807728,
+      "depth_usd": 746342.1197623007,
+      "latency_ms": 14.22967953366828,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:23:c4Z"
+    },
+    {
+      "signal_id": "p22_sig_4b8e95d2e9d8",
+      "symbol": "ADA",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 12.142126746740457,
+      "notional_usd": 607106.3373370229,
+      "spread_bps": 2.5431658453403867,
+      "depth_usd": 4596123.562048858,
+      "latency_ms": 24.632980561887422,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d3:0cZ"
+    },
+    {
+      "signal_id": "p22_sig_af935b8c9ab1",
+      "symbol": "ADA",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 2.0957683259009348,
+      "notional_usd": 104788.41629504674,
+      "spread_bps": 2.6944693455283697,
+      "depth_usd": 744909.6793852135,
+      "latency_ms": 17.414819169809633,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:75:baZ"
+    },
+    {
+      "signal_id": "p22_sig_695028443359",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 11.609103901475226,
+      "notional_usd": 580455.1950737613,
+      "spread_bps": 2.211809449245197,
+      "depth_usd": 4382947.184262998,
+      "latency_ms": 19.631153990867322,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:72:d0Z"
+    },
+    {
+      "signal_id": "p22_sig_4851eb60d265",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 10.48249127299628,
+      "notional_usd": 524124.56364981394,
+      "spread_bps": 3.327452994104274,
+      "depth_usd": 2562508.884665933,
+      "latency_ms": 44.689006611521684,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:df:e3Z"
+    },
+    {
+      "signal_id": "p22_sig_94a8d1bcce1a",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 11.421341992409475,
+      "notional_usd": 571067.0996204738,
+      "spread_bps": 0.6967110470404521,
+      "depth_usd": 3089363.8604036006,
+      "latency_ms": 11.560113856401433,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:93:cbZ"
+    },
+    {
+      "signal_id": "p22_sig_4efc62d9fe86",
+      "symbol": "BTC",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 8.435138792466855,
+      "notional_usd": 421756.93962334277,
+      "spread_bps": 2.3221572302021123,
+      "depth_usd": 113968.38484317283,
+      "latency_ms": 29.340452985191916,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1f:c7Z"
+    },
+    {
+      "signal_id": "p22_sig_f619c86819e1",
+      "symbol": "BTC",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 4.911372031591356,
+      "notional_usd": 245568.60157956782,
+      "spread_bps": 1.3441142737228162,
+      "depth_usd": 681653.1028211407,
+      "latency_ms": 8.213949255094771,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f7:41Z"
+    },
+    {
+      "signal_id": "p22_sig_b835cb1d5792",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 1.4086913772548835,
+      "notional_usd": 70434.56886274417,
+      "spread_bps": 2.1063888339783117,
+      "depth_usd": 4099192.6757450006,
+      "latency_ms": 8.830934990529009,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1d:c2Z"
+    },
+    {
+      "signal_id": "p22_sig_cc03d84752e2",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 19.301382158358813,
+      "notional_usd": 965069.1079179407,
+      "spread_bps": 2.204447117898529,
+      "depth_usd": 877257.4057258886,
+      "latency_ms": 35.36298617655743,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:83:03Z"
+    },
+    {
+      "signal_id": "p22_sig_e4e2b7d5cde2",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 11.826294236882406,
+      "notional_usd": 591314.7118441203,
+      "spread_bps": 3.779816651425701,
+      "depth_usd": 4379309.825556188,
+      "latency_ms": 9.511369983038476,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:67Z"
+    },
+    {
+      "signal_id": "p22_sig_19905529c664",
+      "symbol": "ETH",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 12.502048221496718,
+      "notional_usd": 625102.4110748359,
+      "spread_bps": 2.4747253461128658,
+      "depth_usd": 333125.37095855514,
+      "latency_ms": 7.159615918936351,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:94:2cZ"
+    },
+    {
+      "signal_id": "p22_sig_8b970b1a56b0",
+      "symbol": "ETH",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 15.468906183230867,
+      "notional_usd": 773445.3091615434,
+      "spread_bps": 2.209279212928163,
+      "depth_usd": 2521706.367887115,
+      "latency_ms": 26.429357789075105,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c7:71Z"
+    },
+    {
+      "signal_id": "p22_sig_a4e9aed2caac",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 8.072486390667757,
+      "notional_usd": 403624.3195333879,
+      "spread_bps": 1.8015999299032464,
+      "depth_usd": 299197.9887962293,
+      "latency_ms": 10.831218707512512,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:89:2aZ"
+    },
+    {
+      "signal_id": "p22_sig_971946629aad",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 1.3592854124952427,
+      "notional_usd": 67964.27062476214,
+      "spread_bps": 3.0968136928349,
+      "depth_usd": 2730563.454585505,
+      "latency_ms": 13.190635187250335,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:00:20Z"
+    },
+    {
+      "signal_id": "p22_sig_8e2006b56c61",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 3.8170350769224757,
+      "notional_usd": 190851.7538461238,
+      "spread_bps": 2.5892959570577045,
+      "depth_usd": 541235.7260116201,
+      "latency_ms": 31.3383886762244,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:05:9aZ"
+    },
+    {
+      "signal_id": "p22_sig_ba7cf829805f",
+      "symbol": "SOL",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 2.8468929841031616,
+      "notional_usd": 142344.6492051581,
+      "spread_bps": 0.7182362632253276,
+      "depth_usd": 1190870.8850785482,
+      "latency_ms": 26.42662316658397,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ba:e8Z"
+    },
+    {
+      "signal_id": "p22_sig_f09c17bcea2c",
+      "symbol": "SOL",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 18.93655827456171,
+      "notional_usd": 946827.9137280853,
+      "spread_bps": 0.76292265802802,
+      "depth_usd": 636762.6755638992,
+      "latency_ms": 29.32501701025393,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1f:95Z"
+    },
+    {
+      "signal_id": "p22_sig_5598fe45f217",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 12.096204427919542,
+      "notional_usd": 604810.2213959771,
+      "spread_bps": 3.1669323557051583,
+      "depth_usd": 4475724.375589165,
+      "latency_ms": 10.054995401311299,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a4:39Z"
+    },
+    {
+      "signal_id": "p22_sig_8e2e554e4d52",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 2.002207048656159,
+      "notional_usd": 100110.35243280795,
+      "spread_bps": 3.1160534136206173,
+      "depth_usd": 3547456.9202192617,
+      "latency_ms": 34.55902010221965,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:94:afZ"
+    },
+    {
+      "signal_id": "p22_sig_b3c86223c41d",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 18.31456406189777,
+      "notional_usd": 915728.2030948885,
+      "spread_bps": 2.580577637160257,
+      "depth_usd": 4428741.907471302,
+      "latency_ms": 24.58692135848213,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ec:8aZ"
+    },
+    {
+      "signal_id": "p22_sig_09c06e0fd7e0",
+      "symbol": "XRP",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 5.234946511241429,
+      "notional_usd": 261747.32556207143,
+      "spread_bps": 3.243974274325389,
+      "depth_usd": 1571404.1334228904,
+      "latency_ms": 27.93531132657527,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:69:e3Z"
+    },
+    {
+      "signal_id": "p22_sig_1fd5a7457cb9",
+      "symbol": "XRP",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 18.908502375212677,
+      "notional_usd": 945425.1187606339,
+      "spread_bps": 1.6402657079173375,
+      "depth_usd": 1441283.0690766862,
+      "latency_ms": 20.64619005298094,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:92Z"
+    },
+    {
+      "signal_id": "p22_sig_a14e9b8c8b85",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 3.2623134411187587,
+      "notional_usd": 163115.67205593793,
+      "spread_bps": 2.370615438971193,
+      "depth_usd": 3373988.0172723685,
+      "latency_ms": 31.445628994182137,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a4:25Z"
+    },
+    {
+      "signal_id": "p22_sig_02537a234604",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 6.678957079107633,
+      "notional_usd": 333947.85395538167,
+      "spread_bps": 2.708029904371531,
+      "depth_usd": 2159986.6658966294,
+      "latency_ms": 27.807116547687652,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:aa:37Z"
+    },
+    {
+      "signal_id": "p22_sig_ff59d4d925cf",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 8.402776594370465,
+      "notional_usd": 420138.82971852325,
+      "spread_bps": 1.7900277452028595,
+      "depth_usd": 3069634.0382226524,
+      "latency_ms": 44.449303300142965,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f4:9cZ"
+    },
+    {
+      "signal_id": "p22_sig_fabc8ca98158",
+      "symbol": "ADA",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 15.461215060427191,
+      "notional_usd": 773060.7530213596,
+      "spread_bps": 2.596385254043536,
+      "depth_usd": 2802440.085399665,
+      "latency_ms": 20.911729497227697,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:9b:60Z"
+    },
+    {
+      "signal_id": "p22_sig_c24655b582f6",
+      "symbol": "ADA",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 2.590132174073591,
+      "notional_usd": 129506.60870367957,
+      "spread_bps": 3.8088617730501944,
+      "depth_usd": 4874494.872183606,
+      "latency_ms": 38.25393856491369,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:51:20Z"
+    },
+    {
+      "signal_id": "p22_sig_eae450c9fd89",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 5.966946879719356,
+      "notional_usd": 298347.3439859678,
+      "spread_bps": 2.395746138984332,
+      "depth_usd": 396451.3974496701,
+      "latency_ms": 38.57803920814042,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c2:f6Z"
+    },
+    {
+      "signal_id": "p22_sig_7619be551d5a",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 9.006382155192416,
+      "notional_usd": 450319.1077596208,
+      "spread_bps": 3.076828920556363,
+      "depth_usd": 129243.73973931119,
+      "latency_ms": 11.903443285889207,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cd:ecZ"
+    },
+    {
+      "signal_id": "p22_sig_c8b4b80c83b8",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 5.85068615715953,
+      "notional_usd": 292534.3078579765,
+      "spread_bps": 0.7572298500049521,
+      "depth_usd": 2027354.8794921732,
+      "latency_ms": 6.0272457562728965,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:9d:ccZ"
+    },
+    {
+      "signal_id": "p22_sig_2cb069c69464",
+      "symbol": "BTC",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 10.2775423261375,
+      "notional_usd": 513877.116306875,
+      "spread_bps": 1.4463280601043556,
+      "depth_usd": 3174739.0715619875,
+      "latency_ms": 36.51655937759199,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a0:a1Z"
+    },
+    {
+      "signal_id": "p22_sig_9d0414478c22",
+      "symbol": "BTC",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 14.694349617503978,
+      "notional_usd": 734717.4808751988,
+      "spread_bps": 0.9386510865866575,
+      "depth_usd": 2436409.3154694517,
+      "latency_ms": 32.788528230089796,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0e:baZ"
+    },
+    {
+      "signal_id": "p22_sig_7d34588b089a",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 19.18431218588342,
+      "notional_usd": 959215.6092941711,
+      "spread_bps": 1.1498238149062692,
+      "depth_usd": 1905484.507242133,
+      "latency_ms": 19.21917236749751,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c1:a3Z"
+    },
+    {
+      "signal_id": "p22_sig_8f6206ee169f",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 9.005636168402367,
+      "notional_usd": 450281.80842011835,
+      "spread_bps": 3.468130076754442,
+      "depth_usd": 3858073.792812262,
+      "latency_ms": 27.565797068113977,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ed:3eZ"
+    },
+    {
+      "signal_id": "p22_sig_38d4a729bbf9",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 6.642078464051642,
+      "notional_usd": 332103.9232025821,
+      "spread_bps": 2.1086760955574655,
+      "depth_usd": 2866262.0457798135,
+      "latency_ms": 14.222626185830961,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:8d:4cZ"
+    },
+    {
+      "signal_id": "p22_sig_638f61c0a4ac",
+      "symbol": "ETH",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 13.849517540761472,
+      "notional_usd": 692475.8770380736,
+      "spread_bps": 0.5493723271255299,
+      "depth_usd": 4543427.175762798,
+      "latency_ms": 15.758512622291052,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0e:59Z"
+    },
+    {
+      "signal_id": "p22_sig_44bc60f0ec83",
+      "symbol": "ETH",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 1.6682602136495948,
+      "notional_usd": 83413.01068247974,
+      "spread_bps": 3.360405664715087,
+      "depth_usd": 951984.0828568479,
+      "latency_ms": 36.81202193107823,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b8:45Z"
+    },
+    {
+      "signal_id": "p22_sig_3991828d1e61",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 12.247465250879761,
+      "notional_usd": 612373.2625439881,
+      "spread_bps": 0.6338411390708589,
+      "depth_usd": 3974486.358983642,
+      "latency_ms": 16.572494896012824,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:29:57Z"
+    },
+    {
+      "signal_id": "p22_sig_38b507d7a88f",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 3.4510241661163117,
+      "notional_usd": 172551.20830581558,
+      "spread_bps": 1.310092289127557,
+      "depth_usd": 4643336.72250319,
+      "latency_ms": 24.363062991791892,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1a:2dZ"
+    },
+    {
+      "signal_id": "p22_sig_236a13d1fa7a",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 18.299077609387563,
+      "notional_usd": 914953.8804693781,
+      "spread_bps": 2.88326154979982,
+      "depth_usd": 851686.9096485036,
+      "latency_ms": 17.96317171003475,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b4:33Z"
+    },
+    {
+      "signal_id": "p22_sig_683f5876b0c9",
+      "symbol": "SOL",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 3.279017023671612,
+      "notional_usd": 163950.85118358058,
+      "spread_bps": 3.9048575422628846,
+      "depth_usd": 4918221.840810808,
+      "latency_ms": 29.135279529859247,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:df:0fZ"
+    },
+    {
+      "signal_id": "p22_sig_288fe6eef968",
+      "symbol": "SOL",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 1.6031424902160236,
+      "notional_usd": 80157.12451080118,
+      "spread_bps": 2.3596508445764144,
+      "depth_usd": 3143891.942561043,
+      "latency_ms": 30.728492195622373,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:8c:34Z"
+    },
+    {
+      "signal_id": "p22_sig_3a68ec03c487",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 16.54416673807214,
+      "notional_usd": 827208.336903607,
+      "spread_bps": 0.9949499891805242,
+      "depth_usd": 1933284.7180171155,
+      "latency_ms": 29.535002649143905,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:76:9fZ"
+    },
+    {
+      "signal_id": "p22_sig_de2686e11b79",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 7.19585928361928,
+      "notional_usd": 359792.964180964,
+      "spread_bps": 1.4378110330474787,
+      "depth_usd": 3633732.6817234736,
+      "latency_ms": 44.09360255219696,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:82:43Z"
+    },
+    {
+      "signal_id": "p22_sig_ac048228a6cb",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 19.288159345200217,
+      "notional_usd": 964407.9672600109,
+      "spread_bps": 3.0228277745129675,
+      "depth_usd": 4421850.2999430625,
+      "latency_ms": 10.198442067716451,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:5f:e3Z"
+    },
+    {
+      "signal_id": "p22_sig_f2f2cb5dff80",
+      "symbol": "XRP",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 19.756016105693114,
+      "notional_usd": 987800.8052846558,
+      "spread_bps": 1.8910064263674569,
+      "depth_usd": 316178.3536988641,
+      "latency_ms": 27.49022327845588,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:bf:e0Z"
+    },
+    {
+      "signal_id": "p22_sig_7e92d3ee8f4e",
+      "symbol": "XRP",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 8.361877176973737,
+      "notional_usd": 418093.8588486868,
+      "spread_bps": 2.8803273624523222,
+      "depth_usd": 1475121.7042162386,
+      "latency_ms": 40.20597589742225,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:93:6cZ"
+    },
+    {
+      "signal_id": "p22_sig_bb4af19f65bc",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 2.234344590756341,
+      "notional_usd": 111717.22953781705,
+      "spread_bps": 2.2291878485082313,
+      "depth_usd": 2154732.349769011,
+      "latency_ms": 23.417605219915902,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f4:52Z"
+    },
+    {
+      "signal_id": "p22_sig_6bb025de77e2",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 2.3489505258114463,
+      "notional_usd": 117447.52629057232,
+      "spread_bps": 3.729772285666345,
+      "depth_usd": 1573198.7594536233,
+      "latency_ms": 32.906905140812306,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1e:aeZ"
+    },
+    {
+      "signal_id": "p22_sig_00798bf201bc",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 8.37575234763164,
+      "notional_usd": 418787.617381582,
+      "spread_bps": 2.9467790981312376,
+      "depth_usd": 2326435.9155733204,
+      "latency_ms": 35.70747904865812,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c0:aeZ"
+    },
+    {
+      "signal_id": "p22_sig_77ea5efb8203",
+      "symbol": "ADA",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 16.665798275658837,
+      "notional_usd": 833289.9137829418,
+      "spread_bps": 1.9243699924496758,
+      "depth_usd": 4406022.261424063,
+      "latency_ms": 32.23479118980735,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c5:a7Z"
+    },
+    {
+      "signal_id": "p22_sig_976e00ed5e86",
+      "symbol": "ADA",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 4.462692480960775,
+      "notional_usd": 223134.62404803876,
+      "spread_bps": 3.582451022810866,
+      "depth_usd": 2621640.4037664006,
+      "latency_ms": 30.979772966526106,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cb:adZ"
+    },
+    {
+      "signal_id": "p22_sig_31a61c0e97f8",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 9.534604522931778,
+      "notional_usd": 476730.2261465889,
+      "spread_bps": 2.829653750896226,
+      "depth_usd": 3836107.034938468,
+      "latency_ms": 11.924459600586736,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:82:07Z"
+    },
+    {
+      "signal_id": "p22_sig_0709a1f6e7b8",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 1.4078231177982752,
+      "notional_usd": 70391.15588991376,
+      "spread_bps": 2.7337052759718965,
+      "depth_usd": 1906033.5415906967,
+      "latency_ms": 41.07687239891336,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:04:33Z"
+    },
+    {
+      "signal_id": "p22_sig_41f24c059149",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 17.00464568679528,
+      "notional_usd": 850232.2843397639,
+      "spread_bps": 0.7352720375702053,
+      "depth_usd": 2452854.1787501154,
+      "latency_ms": 41.41047850984529,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0d:54Z"
+    },
+    {
+      "signal_id": "p22_sig_b236c1402a61",
+      "symbol": "BTC",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 12.568443250255616,
+      "notional_usd": 628422.1625127807,
+      "spread_bps": 1.6324329196110887,
+      "depth_usd": 3809606.6779497187,
+      "latency_ms": 35.29911321196837,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:ccZ"
+    },
+    {
+      "signal_id": "p22_sig_2acba115ba5f",
+      "symbol": "BTC",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 18.506216048504413,
+      "notional_usd": 925310.8024252207,
+      "spread_bps": 2.407918778654902,
+      "depth_usd": 3255282.639141332,
+      "latency_ms": 44.08571142325453,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fc:70Z"
+    },
+    {
+      "signal_id": "p22_sig_a0a7c83c2d0d",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 7.343557436224055,
+      "notional_usd": 367177.8718112027,
+      "spread_bps": 0.7518038553969506,
+      "depth_usd": 212077.25610537676,
+      "latency_ms": 32.6960551910293,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:4e:56Z"
+    },
+    {
+      "signal_id": "p22_sig_387ebeca1135",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 2.1320292523720092,
+      "notional_usd": 106601.46261860046,
+      "spread_bps": 3.680056564422998,
+      "depth_usd": 360696.0149482281,
+      "latency_ms": 25.853511536204575,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c0:d9Z"
+    },
+    {
+      "signal_id": "p22_sig_8a6c34004ca1",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 6.095054348682058,
+      "notional_usd": 304752.7174341029,
+      "spread_bps": 3.602390645816091,
+      "depth_usd": 4847465.979921434,
+      "latency_ms": 27.074072880506982,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cb:0fZ"
+    },
+    {
+      "signal_id": "p22_sig_65eccc37ebb2",
+      "symbol": "ETH",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 10.543581973876078,
+      "notional_usd": 527179.0986938039,
+      "spread_bps": 3.390706207011946,
+      "depth_usd": 4758523.210610929,
+      "latency_ms": 34.63796843580098,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ee:cbZ"
+    },
+    {
+      "signal_id": "p22_sig_086496e458fb",
+      "symbol": "ETH",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 1.5454682989725697,
+      "notional_usd": 77273.41494862849,
+      "spread_bps": 3.0637125913910026,
+      "depth_usd": 2982164.3233402856,
+      "latency_ms": 9.982424841095678,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d3:5fZ"
+    },
+    {
+      "signal_id": "p22_sig_71da0a8e0939",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 15.202000594995683,
+      "notional_usd": 760100.0297497842,
+      "spread_bps": 0.6848185626807,
+      "depth_usd": 2970677.2421534243,
+      "latency_ms": 30.597348771549772,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:32:7dZ"
+    },
+    {
+      "signal_id": "p22_sig_d871aea2dc60",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 12.78567891822938,
+      "notional_usd": 639283.9459114689,
+      "spread_bps": 0.88551941212675,
+      "depth_usd": 4350379.387147049,
+      "latency_ms": 33.64769978830908,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:52:41Z"
+    },
+    {
+      "signal_id": "p22_sig_6d71c3629034",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 3.636584082669243,
+      "notional_usd": 181829.20413346216,
+      "spread_bps": 2.5379806658390036,
+      "depth_usd": 4795456.083118161,
+      "latency_ms": 23.23242863502208,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a1:3aZ"
+    },
+    {
+      "signal_id": "p22_sig_9002897ad88f",
+      "symbol": "SOL",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 16.888429416643348,
+      "notional_usd": 844421.4708321674,
+      "spread_bps": 2.342888876603592,
+      "depth_usd": 1008527.7064934886,
+      "latency_ms": 7.645165673399341,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c5:09Z"
+    },
+    {
+      "signal_id": "p22_sig_14971d649c35",
+      "symbol": "SOL",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 16.358088739361424,
+      "notional_usd": 817904.4369680713,
+      "spread_bps": 0.5076114079295775,
+      "depth_usd": 1469023.3244950585,
+      "latency_ms": 37.34434591445703,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:bb:43Z"
+    },
+    {
+      "signal_id": "p22_sig_50729899d602",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 3.105002904591631,
+      "notional_usd": 155250.14522958157,
+      "spread_bps": 1.6432108358479764,
+      "depth_usd": 4612932.235094566,
+      "latency_ms": 31.98779850846781,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0f:a6Z"
+    },
+    {
+      "signal_id": "p22_sig_d6c844b35d06",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 5.653123841001196,
+      "notional_usd": 282656.1920500598,
+      "spread_bps": 3.879233840537823,
+      "depth_usd": 4394408.23621372,
+      "latency_ms": 13.261397332729805,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c7:d4Z"
+    },
+    {
+      "signal_id": "p22_sig_0887432341ec",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 12.886337282818493,
+      "notional_usd": 644316.8641409246,
+      "spread_bps": 0.6599734794771965,
+      "depth_usd": 4229621.705774099,
+      "latency_ms": 15.470864466911433,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3b:87Z"
+    },
+    {
+      "signal_id": "p22_sig_a012ce93408f",
+      "symbol": "XRP",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 15.977461848907712,
+      "notional_usd": 798873.0924453856,
+      "spread_bps": 0.6612108904219836,
+      "depth_usd": 1331775.9725198606,
+      "latency_ms": 5.586032461332628,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f5:43Z"
+    },
+    {
+      "signal_id": "p22_sig_88fba4dc47be",
+      "symbol": "XRP",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 8.82192029715411,
+      "notional_usd": 441096.01485770545,
+      "spread_bps": 2.0557933167872005,
+      "depth_usd": 3814074.078384948,
+      "latency_ms": 42.21652688255543,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ed:88Z"
+    },
+    {
+      "signal_id": "p22_sig_f4d10c63a2e3",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 2.199110165483938,
+      "notional_usd": 109955.50827419688,
+      "spread_bps": 1.9177833317150788,
+      "depth_usd": 4330716.846265506,
+      "latency_ms": 33.63996447187283,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:17:d3Z"
+    },
+    {
+      "signal_id": "p22_sig_7756387765a8",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 16.57534180208644,
+      "notional_usd": 828767.0901043221,
+      "spread_bps": 0.7707483193966049,
+      "depth_usd": 4954210.481341541,
+      "latency_ms": 36.604729086690966,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:11:c0Z"
+    },
+    {
+      "signal_id": "p22_sig_3d2688c75962",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 2.697542052719977,
+      "notional_usd": 134877.10263599886,
+      "spread_bps": 3.3943629196401677,
+      "depth_usd": 3047419.791008282,
+      "latency_ms": 13.01210852022379,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e7:08Z"
+    },
+    {
+      "signal_id": "p22_sig_6a46cd08bdce",
+      "symbol": "ADA",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 3.9076307797412206,
+      "notional_usd": 195381.53898706104,
+      "spread_bps": 1.0294924516647033,
+      "depth_usd": 1312481.417736527,
+      "latency_ms": 20.9808819416339,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:98:84Z"
+    },
+    {
+      "signal_id": "p22_sig_c8b1eea4b7c3",
+      "symbol": "ADA",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 2.136511275033659,
+      "notional_usd": 106825.56375168296,
+      "spread_bps": 2.7490435160872466,
+      "depth_usd": 3773743.2577972845,
+      "latency_ms": 42.486615061379915,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f6:49Z"
+    },
+    {
+      "signal_id": "p22_sig_80aef16e43e3",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 1.7633740405756724,
+      "notional_usd": 88168.70202878362,
+      "spread_bps": 1.9151388303242391,
+      "depth_usd": 4318292.552255595,
+      "latency_ms": 36.41269931686995,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a7:aeZ"
+    },
+    {
+      "signal_id": "p22_sig_52c006bb6abd",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 15.059267088445953,
+      "notional_usd": 752963.3544222977,
+      "spread_bps": 3.252910111683342,
+      "depth_usd": 4426852.676214307,
+      "latency_ms": 27.792056424540824,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:60Z"
+    },
+    {
+      "signal_id": "p22_sig_5b4c26bcc91a",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 13.663333154789731,
+      "notional_usd": 683166.6577394865,
+      "spread_bps": 3.5708729487467847,
+      "depth_usd": 2908798.374505745,
+      "latency_ms": 42.74245341457577,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:05:cbZ"
+    },
+    {
+      "signal_id": "p22_sig_44a69ae773fd",
+      "symbol": "BTC",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 13.866114124991684,
+      "notional_usd": 693305.7062495842,
+      "spread_bps": 3.560621119774977,
+      "depth_usd": 4362896.137399745,
+      "latency_ms": 8.564191701876055,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ce:18Z"
+    },
+    {
+      "signal_id": "p22_sig_733374c25687",
+      "symbol": "BTC",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 10.040117452816231,
+      "notional_usd": 502005.87264081155,
+      "spread_bps": 2.307119830976947,
+      "depth_usd": 3749401.4594045207,
+      "latency_ms": 20.501593698788433,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:61:7cZ"
+    },
+    {
+      "signal_id": "p22_sig_bc1493834142",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 9.876001827055985,
+      "notional_usd": 493800.0913527992,
+      "spread_bps": 3.0536362180646845,
+      "depth_usd": 535055.2438698909,
+      "latency_ms": 34.685725366029445,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:97:80Z"
+    },
+    {
+      "signal_id": "p22_sig_c235ff28c4bc",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 19.37881972771821,
+      "notional_usd": 968940.9863859105,
+      "spread_bps": 2.4352574363994473,
+      "depth_usd": 2064427.043040155,
+      "latency_ms": 43.49518370811197,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:4d:04Z"
+    },
+    {
+      "signal_id": "p22_sig_f7fb3e9179a3",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 15.355673200465374,
+      "notional_usd": 767783.6600232687,
+      "spread_bps": 3.913449968682687,
+      "depth_usd": 3331994.671745061,
+      "latency_ms": 33.41716250326064,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:71:2dZ"
+    },
+    {
+      "signal_id": "p22_sig_c72a61a644b6",
+      "symbol": "ETH",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 14.000587593988248,
+      "notional_usd": 700029.3796994124,
+      "spread_bps": 1.9296555817513348,
+      "depth_usd": 1001404.6630405694,
+      "latency_ms": 41.61048904244629,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6a:44Z"
+    },
+    {
+      "signal_id": "p22_sig_bc5d0413a478",
+      "symbol": "ETH",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 17.202009276222746,
+      "notional_usd": 860100.4638111374,
+      "spread_bps": 2.1694807544749715,
+      "depth_usd": 1284042.0595404094,
+      "latency_ms": 23.911230202244976,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d2:d0Z"
+    },
+    {
+      "signal_id": "p22_sig_f43ad36d3e19",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 1.112302460642516,
+      "notional_usd": 55615.1230321258,
+      "spread_bps": 0.7148681069563307,
+      "depth_usd": 2712753.735043499,
+      "latency_ms": 14.536731403217198,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f3:bfZ"
+    },
+    {
+      "signal_id": "p22_sig_242ae4b2fcae",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 1.572366697981285,
+      "notional_usd": 78618.33489906424,
+      "spread_bps": 2.4311244752399563,
+      "depth_usd": 4387707.994401026,
+      "latency_ms": 11.94929659624567,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0e:83Z"
+    },
+    {
+      "signal_id": "p22_sig_5f96f949c3c7",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 16.90791737107438,
+      "notional_usd": 845395.868553719,
+      "spread_bps": 1.5468472527786976,
+      "depth_usd": 514176.14952714107,
+      "latency_ms": 29.37971016331394,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2a:39Z"
+    },
+    {
+      "signal_id": "p22_sig_2c7c6176217f",
+      "symbol": "SOL",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 2.103536351624572,
+      "notional_usd": 105176.81758122862,
+      "spread_bps": 2.069555326137736,
+      "depth_usd": 4841820.248705176,
+      "latency_ms": 17.000020478779724,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:22:98Z"
+    },
+    {
+      "signal_id": "p22_sig_162c8b31b799",
+      "symbol": "SOL",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 7.325441496410375,
+      "notional_usd": 366272.0748205187,
+      "spread_bps": 0.676761890495601,
+      "depth_usd": 4859174.795134246,
+      "latency_ms": 13.73718810975111,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b5:eeZ"
+    },
+    {
+      "signal_id": "p22_sig_fa32a2fbfc08",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 13.201820003412662,
+      "notional_usd": 660091.0001706331,
+      "spread_bps": 0.7205842554603659,
+      "depth_usd": 1502985.3908782962,
+      "latency_ms": 38.86884428302963,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3b:95Z"
+    },
+    {
+      "signal_id": "p22_sig_ef8589881a10",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 4.070323382654208,
+      "notional_usd": 203516.1691327104,
+      "spread_bps": 0.72239467103815,
+      "depth_usd": 2544898.897990865,
+      "latency_ms": 35.429879178850165,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:48:aeZ"
+    },
+    {
+      "signal_id": "p22_sig_3f4beabefca8",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 14.618244919363422,
+      "notional_usd": 730912.245968171,
+      "spread_bps": 0.677704533294788,
+      "depth_usd": 4988454.959226174,
+      "latency_ms": 37.3493317438337,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d2:64Z"
+    },
+    {
+      "signal_id": "p22_sig_99bfd2996e6f",
+      "symbol": "XRP",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 7.039392393175288,
+      "notional_usd": 351969.6196587644,
+      "spread_bps": 3.611522634235903,
+      "depth_usd": 3054767.2848268664,
+      "latency_ms": 28.002734271180678,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:34:c7Z"
+    },
+    {
+      "signal_id": "p22_sig_5a80b495f611",
+      "symbol": "XRP",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 10.93649543280141,
+      "notional_usd": 546824.7716400705,
+      "spread_bps": 1.4533842192169306,
+      "depth_usd": 554384.4815327667,
+      "latency_ms": 22.483411480650997,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:53:e3Z"
+    },
+    {
+      "signal_id": "p22_sig_81132fee6ca2",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 5.296575656884448,
+      "notional_usd": 264828.7828442224,
+      "spread_bps": 3.734694264729726,
+      "depth_usd": 251099.17095002733,
+      "latency_ms": 11.77715912284449,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0a:afZ"
+    },
+    {
+      "signal_id": "p22_sig_fb64b14d071a",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 13.221596407441984,
+      "notional_usd": 661079.8203720992,
+      "spread_bps": 1.0510286693576283,
+      "depth_usd": 958689.789615539,
+      "latency_ms": 44.67099136323935,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:25:b8Z"
+    },
+    {
+      "signal_id": "p22_sig_45bf58ca5eaf",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 15.729647942935845,
+      "notional_usd": 786482.3971467923,
+      "spread_bps": 1.8016855963462888,
+      "depth_usd": 3609657.238921404,
+      "latency_ms": 30.014500980485295,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:aa:3fZ"
+    },
+    {
+      "signal_id": "p22_sig_c879bc0165bd",
+      "symbol": "ADA",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 10.005579717215879,
+      "notional_usd": 500278.9858607939,
+      "spread_bps": 3.5707853368245854,
+      "depth_usd": 1236725.6511456445,
+      "latency_ms": 40.59302939976477,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:98:3dZ"
+    },
+    {
+      "signal_id": "p22_sig_6abfa3868f50",
+      "symbol": "ADA",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 8.61746853953531,
+      "notional_usd": 430873.4269767655,
+      "spread_bps": 1.054193187353605,
+      "depth_usd": 4789021.712502883,
+      "latency_ms": 8.763348096983336,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1f:6fZ"
+    },
+    {
+      "signal_id": "p22_sig_61547298a83b",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 14.844885280099469,
+      "notional_usd": 742244.2640049735,
+      "spread_bps": 1.0504703015367303,
+      "depth_usd": 2831864.0018010032,
+      "latency_ms": 31.692187798370455,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:69:e6Z"
+    },
+    {
+      "signal_id": "p22_sig_02ae74f0c4b9",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 10.205935693430307,
+      "notional_usd": 510296.78467151534,
+      "spread_bps": 2.7362226420222377,
+      "depth_usd": 2541187.865728893,
+      "latency_ms": 33.092181873058216,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:25:15Z"
+    },
+    {
+      "signal_id": "p22_sig_0549d636a843",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 15.50444338245246,
+      "notional_usd": 775222.1691226229,
+      "spread_bps": 2.6692340890601898,
+      "depth_usd": 3541283.5738953343,
+      "latency_ms": 19.45309304524509,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:92:ffZ"
+    },
+    {
+      "signal_id": "p22_sig_a00ed054a7ef",
+      "symbol": "BTC",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 5.607124862274714,
+      "notional_usd": 280356.2431137357,
+      "spread_bps": 1.5235456796460713,
+      "depth_usd": 2446872.974910239,
+      "latency_ms": 25.742363489912737,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fb:9fZ"
+    },
+    {
+      "signal_id": "p22_sig_5268fa8aba46",
+      "symbol": "BTC",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 15.929225593155122,
+      "notional_usd": 796461.2796577561,
+      "spread_bps": 2.0458095947970305,
+      "depth_usd": 4366018.150305553,
+      "latency_ms": 25.62755926699777,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:59:04Z"
+    },
+    {
+      "signal_id": "p22_sig_96f0a25a56a8",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 7.125021163664219,
+      "notional_usd": 356251.05818321096,
+      "spread_bps": 2.08467567588433,
+      "depth_usd": 2609049.147880922,
+      "latency_ms": 33.350998978514006,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:37:c2Z"
+    },
+    {
+      "signal_id": "p22_sig_b605f1b8c16a",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 6.265274087350212,
+      "notional_usd": 313263.7043675106,
+      "spread_bps": 1.3672967811813812,
+      "depth_usd": 4933963.7533836225,
+      "latency_ms": 18.921859604344387,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3b:59Z"
+    },
+    {
+      "signal_id": "p22_sig_fe46882dbd63",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 1.0475044413329273,
+      "notional_usd": 52375.22206664636,
+      "spread_bps": 3.6747932313849816,
+      "depth_usd": 1839740.3252789893,
+      "latency_ms": 32.70582369400763,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:19:19Z"
+    },
+    {
+      "signal_id": "p22_sig_14d0f4d06245",
+      "symbol": "ETH",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 19.72686227058746,
+      "notional_usd": 986343.113529373,
+      "spread_bps": 0.530708249089967,
+      "depth_usd": 1212303.3233787387,
+      "latency_ms": 22.31268283881728,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d2:34Z"
+    },
+    {
+      "signal_id": "p22_sig_f273c71e4321",
+      "symbol": "ETH",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 19.15457449938416,
+      "notional_usd": 957728.7249692081,
+      "spread_bps": 1.8351225611139037,
+      "depth_usd": 1348624.3351435019,
+      "latency_ms": 34.899436411003535,
+      "orderflow_confirmed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:80:43Z"
+    },
+    {
+      "signal_id": "p22_sig_a4c376e2ba9e",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 17.482478481967014,
+      "notional_usd": 874123.9240983507,
+      "spread_bps": 1.6089229111356234,
+      "depth_usd": 2639406.250558908,
+      "latency_ms": 31.69429560801541,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ac:66Z"
+    },
+    {
+      "signal_id": "p22_sig_231668e3b9d0",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 5.030729456625021,
+      "notional_usd": 251536.47283125107,
+      "spread_bps": 2.441231679181929,
+      "depth_usd": 4142110.5421831156,
+      "latency_ms": 12.36650457014932,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:94:82Z"
+    },
+    {
+      "signal_id": "p22_sig_ed87187796c3",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 11.294896189026959,
+      "notional_usd": 564744.8094513479,
+      "spread_bps": 2.3835812985387506,
+      "depth_usd": 1132558.029830168,
+      "latency_ms": 43.298818559802896,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:69:ccZ"
+    },
+    {
+      "signal_id": "p22_sig_1f26c624cdec",
+      "symbol": "SOL",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 16.658128542060098,
+      "notional_usd": 832906.4271030049,
+      "spread_bps": 3.253156696212227,
+      "depth_usd": 1338578.464798675,
+      "latency_ms": 20.95550195237373,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6c:aeZ"
+    },
+    {
+      "signal_id": "p22_sig_dc4c065cd40e",
+      "symbol": "SOL",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 15.448227170731338,
+      "notional_usd": 772411.3585365668,
+      "spread_bps": 0.8721266712221638,
+      "depth_usd": 2916807.12942784,
+      "latency_ms": 37.33865755734752,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a0:ebZ"
+    },
+    {
+      "signal_id": "p22_sig_1ab42e38a78c",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 19.174467159344243,
+      "notional_usd": 958723.3579672121,
+      "spread_bps": 1.2762288092413092,
+      "depth_usd": 1431725.4795355203,
+      "latency_ms": 8.49141184853275,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0e:2bZ"
+    },
+    {
+      "signal_id": "p22_sig_a7d482a56540",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 5.880237037108194,
+      "notional_usd": 294011.8518554097,
+      "spread_bps": 3.423122700659309,
+      "depth_usd": 1154490.9442500842,
+      "latency_ms": 23.32611051559428,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:04:51Z"
+    },
+    {
+      "signal_id": "p22_sig_b430586bbcfd",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "side": "buy",
+      "qty": 2.120135619377439,
+      "notional_usd": 106006.78096887196,
+      "spread_bps": 1.5368912742989402,
+      "depth_usd": 913664.5298260233,
+      "latency_ms": 30.943707081564867,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cd:d6Z"
+    },
+    {
+      "signal_id": "p22_sig_9014f831ebe4",
+      "symbol": "XRP",
+      "venue": "okx",
+      "side": "sell",
+      "qty": 5.754791172455085,
+      "notional_usd": 287739.55862275424,
+      "spread_bps": 1.1645786373168763,
+      "depth_usd": 3186505.941811657,
+      "latency_ms": 20.87793888996267,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fb:a2Z"
+    },
+    {
+      "signal_id": "p22_sig_b7aad691319d",
+      "symbol": "XRP",
+      "venue": "binance",
+      "side": "buy",
+      "qty": 7.118968780796387,
+      "notional_usd": 355948.43903981935,
+      "spread_bps": 1.2814720772000041,
+      "depth_usd": 3923741.086007638,
+      "latency_ms": 37.35329162348273,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a7:bdZ"
+    },
+    {
+      "signal_id": "p22_sig_a8f85840cc14",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "side": "sell",
+      "qty": 16.176903700589698,
+      "notional_usd": 808845.1850294848,
+      "spread_bps": 3.9099748998710786,
+      "depth_usd": 4146308.550810139,
+      "latency_ms": 34.11069021412128,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:54:1fZ"
+    },
+    {
+      "signal_id": "p22_sig_3575420ce630",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "side": "buy",
+      "qty": 18.356149490877478,
+      "notional_usd": 917807.4745438739,
+      "spread_bps": 0.5030274229970206,
+      "depth_usd": 4182612.6458123988,
+      "latency_ms": 16.85441365452774,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:5c:0fZ"
+    },
+    {
+      "signal_id": "p22_sig_9ccad80501fc",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "side": "sell",
+      "qty": 12.05961007926874,
+      "notional_usd": 602980.503963437,
+      "spread_bps": 1.5827670081001763,
+      "depth_usd": 3863226.645223923,
+      "latency_ms": 35.64730239712517,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:68:6dZ"
+    },
+    {
+      "signal_id": "p22_sig_0cf0f9f07d3b",
+      "symbol": "ADA",
+      "venue": "okx",
+      "side": "buy",
+      "qty": 19.709894295425162,
+      "notional_usd": 985494.7147712581,
+      "spread_bps": 1.288562045405005,
+      "depth_usd": 1875035.9865131,
+      "latency_ms": 37.483936239302494,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3e:b4Z"
+    },
+    {
+      "signal_id": "p22_sig_f64e1764a96e",
+      "symbol": "ADA",
+      "venue": "binance",
+      "side": "sell",
+      "qty": 17.823875813700965,
+      "notional_usd": 891193.7906850483,
+      "spread_bps": 2.8589793171173157,
+      "depth_usd": 1586921.5774167394,
+      "latency_ms": 41.9201685964362,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d5:68Z"
+    },
+    {
+      "signal_id": "p22_sig_b4063720ddaf",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "side": "buy",
+      "qty": 14.59961202872421,
+      "notional_usd": 729980.6014362104,
+      "spread_bps": 2.8210360713702327,
+      "depth_usd": 2510243.2308615395,
+      "latency_ms": 40.15649986744818,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:70:dbZ"
+    },
+    {
+      "signal_id": "p22_sig_3a9c18440f3d",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "side": "sell",
+      "qty": 18.072621528929137,
+      "notional_usd": 903631.0764464568,
+      "spread_bps": 2.51992700896735,
+      "depth_usd": 4811270.262781221,
+      "latency_ms": 17.652547318422755,
+      "orderflow_confirmed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7a:c0Z"
+    }
+  ],
+  "predictions": [
+    {
+      "prediction_id": "p22_pred_fcb29405a2bb",
+      "signal_id": "p22_sig_887d8481ac56",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 90012.12474496782,
+      "expected_fill_qty": 17.03858956346188,
+      "expected_time_ms": 14.45674337574608,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:18:5cZ"
+    },
+    {
+      "prediction_id": "p22_pred_1a032bf4400a",
+      "signal_id": "p22_sig_d196d64e2c4d",
+      "symbol": "BTC",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89996.46677298723,
+      "expected_fill_qty": 19.74254202611124,
+      "expected_time_ms": 31.547864445883786,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:5a:29Z"
+    },
+    {
+      "prediction_id": "p22_pred_0d56018c755d",
+      "signal_id": "p22_sig_c561e14d7f9c",
+      "symbol": "BTC",
+      "venue": "binance",
+      "fill_probability": 0.9601762069681461,
+      "expected_fill_price": 90013.80064463739,
+      "expected_fill_qty": 13.400404364503453,
+      "expected_time_ms": 11.26634214930465,
+      "confidence": 0.5398237930318539,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2d:b6Z"
+    },
+    {
+      "prediction_id": "p22_pred_135004fd0eb6",
+      "signal_id": "p22_sig_5dbbe52e41fe",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89994.61286065824,
+      "expected_fill_qty": 2.6977904755203292,
+      "expected_time_ms": 21.61232132162944,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e2:5bZ"
+    },
+    {
+      "prediction_id": "p22_pred_eb6aee15bd59",
+      "signal_id": "p22_sig_3823f71b8e42",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 90004.78714904509,
+      "expected_fill_qty": 14.08997243178833,
+      "expected_time_ms": 43.21520174565406,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d8:62Z"
+    },
+    {
+      "prediction_id": "p22_pred_22321b2be087",
+      "signal_id": "p22_sig_6ce6761eeea0",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "fill_probability": 0.9566482065781601,
+      "expected_fill_price": 2999.46577320531,
+      "expected_fill_qty": 16.616868492851175,
+      "expected_time_ms": 46.58529811468014,
+      "confidence": 0.5433517934218399,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:92:a7Z"
+    },
+    {
+      "prediction_id": "p22_pred_cb49ece8dd16",
+      "signal_id": "p22_sig_5f03ef636938",
+      "symbol": "ETH",
+      "venue": "okx",
+      "fill_probability": 0.9704252228811359,
+      "expected_fill_price": 3000.4847329239133,
+      "expected_fill_qty": 15.566146976782392,
+      "expected_time_ms": 16.109642862970873,
+      "confidence": 0.5295747771188641,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:23:f0Z"
+    },
+    {
+      "prediction_id": "p22_pred_af64aba64321",
+      "signal_id": "p22_sig_2fede518f27f",
+      "symbol": "ETH",
+      "venue": "binance",
+      "fill_probability": 0.5162178361671169,
+      "expected_fill_price": 2999.6869162064927,
+      "expected_fill_qty": 5.518201606439465,
+      "expected_time_ms": 28.394236927489494,
+      "confidence": 0.9837821638328831,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7c:03Z"
+    },
+    {
+      "prediction_id": "p22_pred_6b514e8c1448",
+      "signal_id": "p22_sig_7cbefeaee428",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "fill_probability": 0.9484527192458366,
+      "expected_fill_price": 3000.565692712372,
+      "expected_fill_qty": 6.605400651563992,
+      "expected_time_ms": 36.68558137750562,
+      "confidence": 0.5515472807541634,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:66:15Z"
+    },
+    {
+      "prediction_id": "p22_pred_30a8d6535416",
+      "signal_id": "p22_sig_ef459e4daa67",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.6936247223584,
+      "expected_fill_qty": 7.420791259201888,
+      "expected_time_ms": 5.228114941946161,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:09:c9Z"
+    },
+    {
+      "prediction_id": "p22_pred_173c246bb473",
+      "signal_id": "p22_sig_6a4d840b3519",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "fill_probability": 0.975342250800332,
+      "expected_fill_price": 3000.4669336437714,
+      "expected_fill_qty": 7.755051728116566,
+      "expected_time_ms": 7.285179149448911,
+      "confidence": 0.524657749199668,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:46:35Z"
+    },
+    {
+      "prediction_id": "p22_pred_6a97e508e889",
+      "signal_id": "p22_sig_33d4ba14703a",
+      "symbol": "SOL",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.7865064559974,
+      "expected_fill_qty": 17.353127133283415,
+      "expected_time_ms": 29.07556575208098,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:47:3bZ"
+    },
+    {
+      "prediction_id": "p22_pred_d111651a7651",
+      "signal_id": "p22_sig_9545531b7ac9",
+      "symbol": "SOL",
+      "venue": "binance",
+      "fill_probability": 0.9800139795719481,
+      "expected_fill_price": 3000.4493247063187,
+      "expected_fill_qty": 11.097821900090919,
+      "expected_time_ms": 8.474304780616134,
+      "confidence": 0.5199860204280519,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:45:caZ"
+    },
+    {
+      "prediction_id": "p22_pred_205da30d8126",
+      "signal_id": "p22_sig_264bbd9164bd",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.635912962853,
+      "expected_fill_qty": 4.891817590888396,
+      "expected_time_ms": 6.745442513257109,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:32:a7Z"
+    },
+    {
+      "prediction_id": "p22_pred_380c12ea6451",
+      "signal_id": "p22_sig_044977d01a0c",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.170795306666,
+      "expected_fill_qty": 17.07055323577792,
+      "expected_time_ms": 31.27259723947706,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:17:33Z"
+    },
+    {
+      "prediction_id": "p22_pred_774430424359",
+      "signal_id": "p22_sig_c110b1d1bdb1",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "fill_probability": 0.9718045623551281,
+      "expected_fill_price": 2999.5203641923413,
+      "expected_fill_qty": 9.696710186015137,
+      "expected_time_ms": 15.052183016965307,
+      "confidence": 0.5281954376448719,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2f:12Z"
+    },
+    {
+      "prediction_id": "p22_pred_f4e2b7d990a8",
+      "signal_id": "p22_sig_eb4ebfebc2c3",
+      "symbol": "XRP",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.377828882091,
+      "expected_fill_qty": 14.757938587289507,
+      "expected_time_ms": 40.30138242374182,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ed:e2Z"
+    },
+    {
+      "prediction_id": "p22_pred_f6278ee70be1",
+      "signal_id": "p22_sig_a098900645b1",
+      "symbol": "XRP",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.5953485542586,
+      "expected_fill_qty": 5.395686297326686,
+      "expected_time_ms": 15.615810859440309,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:18:a7Z"
+    },
+    {
+      "prediction_id": "p22_pred_c800cfe0d55c",
+      "signal_id": "p22_sig_39a788df19a9",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.105507050427,
+      "expected_fill_qty": 3.153178955353942,
+      "expected_time_ms": 8.980389480256065,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:62:2bZ"
+    },
+    {
+      "prediction_id": "p22_pred_d03e0c724ea8",
+      "signal_id": "p22_sig_3125ea4fae65",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.908909434756,
+      "expected_fill_qty": 15.272816742205908,
+      "expected_time_ms": 11.548962544178472,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ed:6fZ"
+    },
+    {
+      "prediction_id": "p22_pred_97627b26f38b",
+      "signal_id": "p22_sig_ca9e156c9b51",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.181178733271,
+      "expected_fill_qty": 11.047205623360423,
+      "expected_time_ms": 14.373413670372,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:23:c4Z"
+    },
+    {
+      "prediction_id": "p22_pred_a27f78c7f38e",
+      "signal_id": "p22_sig_4b8e95d2e9d8",
+      "symbol": "ADA",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.6185251231987,
+      "expected_fill_qty": 12.020705479273053,
+      "expected_time_ms": 24.881798547361033,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d3:0cZ"
+    },
+    {
+      "prediction_id": "p22_pred_e9d780b75908",
+      "signal_id": "p22_sig_af935b8c9ab1",
+      "symbol": "ADA",
+      "venue": "binance",
+      "fill_probability": 0.4842202201770255,
+      "expected_fill_price": 3000.404170401829,
+      "expected_fill_qty": 1.0148134002077867,
+      "expected_time_ms": 35.96466740575801,
+      "confidence": 0.9842202201770255,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:75:baZ"
+    },
+    {
+      "prediction_id": "p22_pred_15f4e8bb4171",
+      "signal_id": "p22_sig_695028443359",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.668228582613,
+      "expected_fill_qty": 11.493012862460473,
+      "expected_time_ms": 19.829448475623558,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:72:d0Z"
+    },
+    {
+      "prediction_id": "p22_pred_b47c04773c40",
+      "signal_id": "p22_sig_4851eb60d265",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "fill_probability": 0.9660081001035986,
+      "expected_fill_price": 3000.4991179491158,
+      "expected_fill_qty": 10.126171478979689,
+      "expected_time_ms": 46.26152369398255,
+      "confidence": 0.5339918998964014,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:df:e3Z"
+    },
+    {
+      "prediction_id": "p22_pred_c6b420f612bf",
+      "signal_id": "p22_sig_94a8d1bcce1a",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89996.86480028831,
+      "expected_fill_qty": 11.30712857248538,
+      "expected_time_ms": 11.67688268323377,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:93:cbZ"
+    },
+    {
+      "prediction_id": "p22_pred_16db89407342",
+      "signal_id": "p22_sig_4efc62d9fe86",
+      "symbol": "BTC",
+      "venue": "okx",
+      "fill_probability": 0.9799459532775068,
+      "expected_fill_price": 90010.44970753591,
+      "expected_fill_qty": 8.26598012501201,
+      "expected_time_ms": 29.94088897154017,
+      "confidence": 0.5200540467224932,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1f:c7Z"
+    },
+    {
+      "prediction_id": "p22_pred_709212529473",
+      "signal_id": "p22_sig_f619c86819e1",
+      "symbol": "BTC",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89993.95148576825,
+      "expected_fill_qty": 4.8622583112754425,
+      "expected_time_ms": 8.29691843948967,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f7:41Z"
+    },
+    {
+      "prediction_id": "p22_pred_103acc3ec7db",
+      "signal_id": "p22_sig_b835cb1d5792",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 90009.4787497529,
+      "expected_fill_qty": 1.3946044634823347,
+      "expected_time_ms": 8.920136354069706,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1d:c2Z"
+    },
+    {
+      "prediction_id": "p22_pred_e19b7de56ad2",
+      "signal_id": "p22_sig_cc03d84752e2",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89990.07998796945,
+      "expected_fill_qty": 19.108368336775225,
+      "expected_time_ms": 35.720188057128716,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:83:03Z"
+    },
+    {
+      "prediction_id": "p22_pred_95c655381b4b",
+      "signal_id": "p22_sig_e4e2b7d5cde2",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "fill_probability": 0.9486171065433111,
+      "expected_fill_price": 3000.5669724977133,
+      "expected_fill_qty": 11.218625020121223,
+      "expected_time_ms": 10.0265638448132,
+      "confidence": 0.5513828934566889,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:67Z"
+    },
+    {
+      "prediction_id": "p22_pred_802fa8787d0f",
+      "signal_id": "p22_sig_19905529c664",
+      "symbol": "ETH",
+      "venue": "okx",
+      "fill_probability": 0.9808615549658632,
+      "expected_fill_price": 2999.628791198083,
+      "expected_fill_qty": 12.262778458795475,
+      "expected_time_ms": 7.299313427760481,
+      "confidence": 0.5191384450341368,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:94:2cZ"
+    },
+    {
+      "prediction_id": "p22_pred_047a27e837c5",
+      "signal_id": "p22_sig_8b970b1a56b0",
+      "symbol": "ETH",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.331391881939,
+      "expected_fill_qty": 15.314217121398558,
+      "expected_time_ms": 26.696320999065765,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c7:71Z"
+    },
+    {
+      "prediction_id": "p22_pred_f1cc64db85a3",
+      "signal_id": "p22_sig_a4e9aed2caac",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.729760010515,
+      "expected_fill_qty": 7.9917615267610795,
+      "expected_time_ms": 10.940624957083347,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:89:2aZ"
+    },
+    {
+      "prediction_id": "p22_pred_fd497202a2f8",
+      "signal_id": "p22_sig_971946629aad",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "fill_probability": 0.9758636395828589,
+      "expected_fill_price": 3000.464522053925,
+      "expected_fill_qty": 1.3264772098694952,
+      "expected_time_ms": 13.516883560585148,
+      "confidence": 0.5241363604171411,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:00:20Z"
+    },
+    {
+      "prediction_id": "p22_pred_dd08a48ac757",
+      "signal_id": "p22_sig_8e2006b56c61",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "fill_probability": 0.4820384657245159,
+      "expected_fill_price": 2999.611605606441,
+      "expected_fill_qty": 1.8399577320963698,
+      "expected_time_ms": 65.01221563121942,
+      "confidence": 0.9820384657245159,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:05:9aZ"
+    },
+    {
+      "prediction_id": "p22_pred_35d889e44a97",
+      "signal_id": "p22_sig_ba7cf829805f",
+      "symbol": "SOL",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.107735439484,
+      "expected_fill_qty": 2.81842405426213,
+      "expected_time_ms": 26.693558754125224,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ba:e8Z"
+    },
+    {
+      "prediction_id": "p22_pred_2825c61a7319",
+      "signal_id": "p22_sig_f09c17bcea2c",
+      "symbol": "SOL",
+      "venue": "binance",
+      "fill_probability": 0.557999473605591,
+      "expected_fill_price": 2999.8855616012956,
+      "expected_fill_qty": 10.566589549107032,
+      "expected_time_ms": 52.5538435023357,
+      "confidence": 0.942000526394409,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1f:95Z"
+    },
+    {
+      "prediction_id": "p22_pred_93e524aa5ba0",
+      "signal_id": "p22_sig_5598fe45f217",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "fill_probability": 0.9731216058637675,
+      "expected_fill_price": 3000.4750398533556,
+      "expected_fill_qty": 11.771077877753479,
+      "expected_time_ms": 10.33272238610531,
+      "confidence": 0.5268783941362325,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a4:39Z"
+    },
+    {
+      "prediction_id": "p22_pred_ca1755d11e5d",
+      "signal_id": "p22_sig_8e2e554e4d52",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "fill_probability": 0.9746666830531309,
+      "expected_fill_price": 2999.532591987957,
+      "expected_fill_qty": 1.951484502899297,
+      "expected_time_ms": 35.457270370588596,
+      "confidence": 0.5253333169468691,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:94:afZ"
+    },
+    {
+      "prediction_id": "p22_pred_f4d6214975b0",
+      "signal_id": "p22_sig_b3c86223c41d",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.387086645574,
+      "expected_fill_qty": 18.13141842127879,
+      "expected_time_ms": 24.8352740994769,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ec:8aZ"
+    },
+    {
+      "prediction_id": "p22_pred_95fc17992597",
+      "signal_id": "p22_sig_09c06e0fd7e0",
+      "symbol": "XRP",
+      "venue": "okx",
+      "fill_probability": 0.9696823228004529,
+      "expected_fill_price": 2999.5134038588512,
+      "expected_fill_qty": 5.076235092756716,
+      "expected_time_ms": 28.808724950144285,
+      "confidence": 0.5303176771995471,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:69:e3Z"
+    },
+    {
+      "prediction_id": "p22_pred_4aa13c12a67b",
+      "signal_id": "p22_sig_1fd5a7457cb9",
+      "symbol": "XRP",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.2460398561875,
+      "expected_fill_qty": 18.71941735146055,
+      "expected_time_ms": 20.85473742725348,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:92Z"
+    },
+    {
+      "prediction_id": "p22_pred_c9588bdf3517",
+      "signal_id": "p22_sig_a14e9b8c8b85",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.6444076841544,
+      "expected_fill_qty": 3.229690306707571,
+      "expected_time_ms": 31.76326161028499,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a4:25Z"
+    },
+    {
+      "prediction_id": "p22_pred_e3bc89f93962",
+      "signal_id": "p22_sig_02537a234604",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.406204485656,
+      "expected_fill_qty": 6.612167508316556,
+      "expected_time_ms": 28.087996512815813,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:aa:37Z"
+    },
+    {
+      "prediction_id": "p22_pred_dba4b55fed54",
+      "signal_id": "p22_sig_ff59d4d925cf",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.7314958382194,
+      "expected_fill_qty": 8.318748828426761,
+      "expected_time_ms": 44.89828616176057,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f4:9cZ"
+    },
+    {
+      "prediction_id": "p22_pred_f99b447b83ec",
+      "signal_id": "p22_sig_fabc8ca98158",
+      "symbol": "ADA",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.3894577881065,
+      "expected_fill_qty": 15.306602909822919,
+      "expected_time_ms": 21.122959088108786,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:9b:60Z"
+    },
+    {
+      "prediction_id": "p22_pred_d2ffa6717d5f",
+      "signal_id": "p22_sig_c24655b582f6",
+      "symbol": "ADA",
+      "venue": "binance",
+      "fill_probability": 0.4468804503066939,
+      "expected_fill_price": 2999.4286707340425,
+      "expected_fill_qty": 1.1574794323038624,
+      "expected_time_ms": 85.60217512012446,
+      "confidence": 0.9468804503066939,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:51:20Z"
+    },
+    {
+      "prediction_id": "p22_pred_dd1b80d7857a",
+      "signal_id": "p22_sig_eae450c9fd89",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "fill_probability": 0.985292135579954,
+      "expected_fill_price": 3000.3593619208477,
+      "expected_fill_qty": 5.879185834010827,
+      "expected_time_ms": 39.153909602082585,
+      "confidence": 0.514707864420046,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c2:f6Z"
+    },
+    {
+      "prediction_id": "p22_pred_a089bf3561d2",
+      "signal_id": "p22_sig_7619be551d5a",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "fill_probability": 0.950566086504207,
+      "expected_fill_price": 2999.5384756619164,
+      "expected_fill_qty": 8.56116143882258,
+      "expected_time_ms": 12.522478399860866,
+      "confidence": 0.549433913495793,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cd:ecZ"
+    },
+    {
+      "prediction_id": "p22_pred_d8123e51dbbb",
+      "signal_id": "p22_sig_c8b4b80c83b8",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 90003.40753432503,
+      "expected_fill_qty": 5.7921792955879345,
+      "expected_time_ms": 6.08812702653828,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:9d:ccZ"
+    },
+    {
+      "prediction_id": "p22_pred_b32ff4218b99",
+      "signal_id": "p22_sig_2cb069c69464",
+      "symbol": "BTC",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89993.49152372954,
+      "expected_fill_qty": 10.174766902876124,
+      "expected_time_ms": 36.88541351271918,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a0:a1Z"
+    },
+    {
+      "prediction_id": "p22_pred_d55a02a19ff6",
+      "signal_id": "p22_sig_9d0414478c22",
+      "symbol": "BTC",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 90004.22392988963,
+      "expected_fill_qty": 14.547406121328939,
+      "expected_time_ms": 33.11972548493919,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0e:baZ"
+    },
+    {
+      "prediction_id": "p22_pred_63f2be8a3b1f",
+      "signal_id": "p22_sig_7d34588b089a",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89994.82579283293,
+      "expected_fill_qty": 18.992469064024586,
+      "expected_time_ms": 19.413305421714657,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c1:a3Z"
+    },
+    {
+      "prediction_id": "p22_pred_49168898edf1",
+      "signal_id": "p22_sig_8f6206ee169f",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "fill_probability": 0.96072348098846,
+      "expected_fill_price": 90015.60658534539,
+      "expected_fill_qty": 8.6519261282231,
+      "expected_time_ms": 28.692748343937986,
+      "confidence": 0.53927651901154,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ed:3eZ"
+    },
+    {
+      "prediction_id": "p22_pred_bd417bfe4af8",
+      "signal_id": "p22_sig_38d4a729bbf9",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.683698585666,
+      "expected_fill_qty": 6.575657679411126,
+      "expected_time_ms": 14.366289076596932,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:8d:4cZ"
+    },
+    {
+      "prediction_id": "p22_pred_e3970b9d5d08",
+      "signal_id": "p22_sig_638f61c0a4ac",
+      "symbol": "ETH",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.0824058490693,
+      "expected_fill_qty": 13.711022365353857,
+      "expected_time_ms": 15.91768951746571,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0e:59Z"
+    },
+    {
+      "prediction_id": "p22_pred_cd8ecedc9639",
+      "signal_id": "p22_sig_44bc60f0ec83",
+      "symbol": "ETH",
+      "venue": "binance",
+      "fill_probability": 0.9634070554584804,
+      "expected_fill_price": 2999.495939150293,
+      "expected_fill_qty": 1.6072136601706914,
+      "expected_time_ms": 38.21024739491822,
+      "confidence": 0.5365929445415196,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b8:45Z"
+    },
+    {
+      "prediction_id": "p22_pred_303ef8a43d26",
+      "signal_id": "p22_sig_3991828d1e61",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.095076170861,
+      "expected_fill_qty": 12.124990598370964,
+      "expected_time_ms": 16.739893834356387,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:29:57Z"
+    },
+    {
+      "prediction_id": "p22_pred_cee2b5bde79b",
+      "signal_id": "p22_sig_38b507d7a88f",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "fill_probability": 0.5471090471750618,
+      "expected_fill_price": 2999.8034861566307,
+      "expected_fill_qty": 1.8880865433020075,
+      "expected_time_ms": 44.53054307470864,
+      "confidence": 0.9528909528249382,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1a:2dZ"
+    },
+    {
+      "prediction_id": "p22_pred_e8d69d3eda9e",
+      "signal_id": "p22_sig_236a13d1fa7a",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "fill_probability": 0.9798608818632616,
+      "expected_fill_price": 3000.4324892324703,
+      "expected_fill_qty": 17.930550323618764,
+      "expected_time_ms": 18.33236946440473,
+      "confidence": 0.5201391181367384,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b4:33Z"
+    },
+    {
+      "prediction_id": "p22_pred_19e649f1c9c1",
+      "signal_id": "p22_sig_683f5876b0c9",
+      "symbol": "SOL",
+      "venue": "okx",
+      "fill_probability": 0.9432229927188874,
+      "expected_fill_price": 2999.4142713686606,
+      "expected_fill_qty": 3.092844250243717,
+      "expected_time_ms": 30.88906839078991,
+      "confidence": 0.5567770072811126,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:df:0fZ"
+    },
+    {
+      "prediction_id": "p22_pred_4ae8d1e3c757",
+      "signal_id": "p22_sig_288fe6eef968",
+      "symbol": "SOL",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.3539476266865,
+      "expected_fill_qty": 1.5871110653138634,
+      "expected_time_ms": 31.038881005679166,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:8c:34Z"
+    },
+    {
+      "prediction_id": "p22_pred_58d3461083ca",
+      "signal_id": "p22_sig_3a68ec03c487",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "fill_probability": 0.5596113003797961,
+      "expected_fill_price": 2999.850757501623,
+      "expected_fill_qty": 9.258302661992719,
+      "expected_time_ms": 52.77770950854484,
+      "confidence": 0.9403886996202039,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:76:9fZ"
+    },
+    {
+      "prediction_id": "p22_pred_91bdd5da5269",
+      "signal_id": "p22_sig_de2686e11b79",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.215671654957,
+      "expected_fill_qty": 7.123900690783087,
+      "expected_time_ms": 44.538992476966634,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:82:43Z"
+    },
+    {
+      "prediction_id": "p22_pred_4982f2d8dd8f",
+      "signal_id": "p22_sig_ac048228a6cb",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "fill_probability": 0.978882920178127,
+      "expected_fill_price": 2999.546575833823,
+      "expected_fill_qty": 18.880849744690618,
+      "expected_time_ms": 10.418449293058096,
+      "confidence": 0.521117079821873,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:5f:e3Z"
+    },
+    {
+      "prediction_id": "p22_pred_e5c7e2dc691b",
+      "signal_id": "p22_sig_f2f2cb5dff80",
+      "symbol": "XRP",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.283650963955,
+      "expected_fill_qty": 19.558455944636183,
+      "expected_time_ms": 27.76790230147059,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:bf:e0Z"
+    },
+    {
+      "prediction_id": "p22_pred_ecf96fce27e5",
+      "signal_id": "p22_sig_7e92d3ee8f4e",
+      "symbol": "XRP",
+      "venue": "binance",
+      "fill_probability": 0.9839827859839586,
+      "expected_fill_price": 2999.567950895632,
+      "expected_fill_qty": 8.227943200654297,
+      "expected_time_ms": 40.860446412400655,
+      "confidence": 0.5160172140160414,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:93:6cZ"
+    },
+    {
+      "prediction_id": "p22_pred_fabdd9a8a2b1",
+      "signal_id": "p22_sig_bb4af19f65bc",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.334378177276,
+      "expected_fill_qty": 2.2120011448487773,
+      "expected_time_ms": 23.65414668678374,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f4:52Z"
+    },
+    {
+      "prediction_id": "p22_pred_839247e996ba",
+      "signal_id": "p22_sig_6bb025de77e2",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "fill_probability": 0.95015097047053,
+      "expected_fill_price": 2999.44053415715,
+      "expected_fill_qty": 2.2318576216870074,
+      "expected_time_ms": 34.63334371433235,
+      "confidence": 0.54984902952947,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1e:aeZ"
+    },
+    {
+      "prediction_id": "p22_pred_09396682ca1e",
+      "signal_id": "p22_sig_00798bf201bc",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "fill_probability": 0.9814146864937773,
+      "expected_fill_price": 3000.4420168647193,
+      "expected_fill_qty": 8.220086364400425,
+      "expected_time_ms": 36.383681169707586,
+      "confidence": 0.5185853135062227,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c0:aeZ"
+    },
+    {
+      "prediction_id": "p22_pred_7fe7b88d2577",
+      "signal_id": "p22_sig_77ea5efb8203",
+      "symbol": "ADA",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.7113445011323,
+      "expected_fill_qty": 16.499140292902247,
+      "expected_time_ms": 32.56039514121955,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c5:a7Z"
+    },
+    {
+      "prediction_id": "p22_pred_0015040b1787",
+      "signal_id": "p22_sig_976e00ed5e86",
+      "symbol": "ADA",
+      "venue": "binance",
+      "fill_probability": 0.9560823636282348,
+      "expected_fill_price": 3000.5373676534214,
+      "expected_fill_qty": 4.266701575342929,
+      "expected_time_ms": 32.40282861087515,
+      "confidence": 0.5439176363717652,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cb:adZ"
+    },
+    {
+      "prediction_id": "p22_pred_f70f9af7475b",
+      "signal_id": "p22_sig_31a61c0e97f8",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "fill_probability": 0.9865753607721391,
+      "expected_fill_price": 2999.5755519373656,
+      "expected_fill_qty": 9.406605897031088,
+      "expected_time_ms": 12.086719448633003,
+      "confidence": 0.5134246392278609,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:82:07Z"
+    },
+    {
+      "prediction_id": "p22_pred_428109208301",
+      "signal_id": "p22_sig_0709a1f6e7b8",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "fill_probability": 0.48983025151314585,
+      "expected_fill_price": 3000.4100557913957,
+      "expected_fill_qty": 0.6895943518771503,
+      "expected_time_ms": 83.85940286869145,
+      "confidence": 0.9898302515131459,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:04:33Z"
+    },
+    {
+      "prediction_id": "p22_pred_a48e22c73d4d",
+      "signal_id": "p22_sig_41f24c059149",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89996.69127583093,
+      "expected_fill_qty": 16.834599229927324,
+      "expected_time_ms": 41.8287661715609,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0d:54Z"
+    },
+    {
+      "prediction_id": "p22_pred_97a3a59aae56",
+      "signal_id": "p22_sig_b236c1402a61",
+      "symbol": "BTC",
+      "venue": "okx",
+      "fill_probability": 0.5339967009513171,
+      "expected_fill_price": 90007.34594813825,
+      "expected_fill_qty": 6.711507231730348,
+      "expected_time_ms": 66.10361664984609,
+      "confidence": 0.9660032990486829,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:ccZ"
+    },
+    {
+      "prediction_id": "p22_pred_b69f7c394442",
+      "signal_id": "p22_sig_2acba115ba5f",
+      "symbol": "BTC",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89989.16436549605,
+      "expected_fill_qty": 18.321153888019367,
+      "expected_time_ms": 44.531021639651044,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fc:70Z"
+    },
+    {
+      "prediction_id": "p22_pred_7c7b0a2bcbcb",
+      "signal_id": "p22_sig_a0a7c83c2d0d",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "fill_probability": 0.5456362423634626,
+      "expected_fill_price": 90003.38311734928,
+      "expected_fill_qty": 4.006911085081557,
+      "expected_time_ms": 59.92280690410884,
+      "confidence": 0.9543637576365374,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:4e:56Z"
+    },
+    {
+      "prediction_id": "p22_pred_449f94ee0666",
+      "signal_id": "p22_sig_387ebeca1135",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "fill_probability": 0.9331015476408028,
+      "expected_fill_price": 89983.4397454601,
+      "expected_fill_qty": 1.9893997950037856,
+      "expected_time_ms": 27.70707175609238,
+      "confidence": 0.5668984523591972,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c0:d9Z"
+    },
+    {
+      "prediction_id": "p22_pred_cda832b201a6",
+      "signal_id": "p22_sig_8a6c34004ca1",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "fill_probability": 0.9553628927097462,
+      "expected_fill_price": 3000.5403585968725,
+      "expected_fill_qty": 5.822988753780009,
+      "expected_time_ms": 28.339045913449034,
+      "confidence": 0.5446371072902538,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cb:0fZ"
+    },
+    {
+      "prediction_id": "p22_pred_838a16be85de",
+      "signal_id": "p22_sig_65eccc37ebb2",
+      "symbol": "ETH",
+      "venue": "okx",
+      "fill_probability": 0.9636789923508061,
+      "expected_fill_price": 2999.4913940689485,
+      "expected_fill_qty": 10.160628452353022,
+      "expected_time_ms": 35.9434715405644,
+      "confidence": 0.5363210076491939,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ee:cbZ"
+    },
+    {
+      "prediction_id": "p22_pred_177fc1974f27",
+      "signal_id": "p22_sig_086496e458fb",
+      "symbol": "ETH",
+      "venue": "binance",
+      "fill_probability": 0.977251847847538,
+      "expected_fill_price": 3000.459556888709,
+      "expected_fill_qty": 1.510311750960735,
+      "expected_time_ms": 10.214792494977248,
+      "confidence": 0.522748152152462,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d3:5fZ"
+    },
+    {
+      "prediction_id": "p22_pred_4a867dc26e90",
+      "signal_id": "p22_sig_71da0a8e0939",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "fill_probability": 0.571995310517341,
+      "expected_fill_price": 2999.8972772155976,
+      "expected_fill_qty": 8.695473050819357,
+      "expected_time_ms": 53.49230703286013,
+      "confidence": 0.928004689482659,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:32:7dZ"
+    },
+    {
+      "prediction_id": "p22_pred_91582b4ed0c0",
+      "signal_id": "p22_sig_d871aea2dc60",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.132827911819,
+      "expected_fill_qty": 12.657822129047085,
+      "expected_time_ms": 33.98757554374655,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:52:41Z"
+    },
+    {
+      "prediction_id": "p22_pred_2ee5429ce1ec",
+      "signal_id": "p22_sig_6d71c3629034",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.6193029001242,
+      "expected_fill_qty": 3.600218241842551,
+      "expected_time_ms": 23.467099631335437,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a1:3aZ"
+    },
+    {
+      "prediction_id": "p22_pred_b961db955f32",
+      "signal_id": "p22_sig_9002897ad88f",
+      "symbol": "SOL",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.3514333314906,
+      "expected_fill_qty": 16.719545122476916,
+      "expected_time_ms": 7.722389569090244,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c5:09Z"
+    },
+    {
+      "prediction_id": "p22_pred_5e9648cfd887",
+      "signal_id": "p22_sig_14971d649c35",
+      "symbol": "SOL",
+      "venue": "binance",
+      "fill_probability": 0.5789486567645277,
+      "expected_fill_price": 2999.9238582888106,
+      "expected_fill_qty": 9.470493502888242,
+      "expected_time_ms": 64.50372667441195,
+      "confidence": 0.9210513432354723,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:bb:43Z"
+    },
+    {
+      "prediction_id": "p22_pred_4e499eae96b6",
+      "signal_id": "p22_sig_50729899d602",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "fill_probability": 0.5336318105959115,
+      "expected_fill_price": 3000.2464816253773,
+      "expected_fill_qty": 1.6569283218827964,
+      "expected_time_ms": 59.943575089248796,
+      "confidence": 0.9663681894040885,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0f:a6Z"
+    },
+    {
+      "prediction_id": "p22_pred_e4fa5e07bf08",
+      "signal_id": "p22_sig_d6c844b35d06",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "fill_probability": 0.9445654184318324,
+      "expected_fill_price": 2999.4181149239193,
+      "expected_fill_qty": 5.339745286322262,
+      "expected_time_ms": 14.039681184545566,
+      "confidence": 0.5554345815681676,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c7:d4Z"
+    },
+    {
+      "prediction_id": "p22_pred_636703716f19",
+      "signal_id": "p22_sig_0887432341ec",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.0989960219213,
+      "expected_fill_qty": 12.757473909990308,
+      "expected_time_ms": 15.627135825163064,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3b:87Z"
+    },
+    {
+      "prediction_id": "p22_pred_c11e9340b60e",
+      "signal_id": "p22_sig_a012ce93408f",
+      "symbol": "XRP",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.900818366437,
+      "expected_fill_qty": 15.817687230418635,
+      "expected_time_ms": 5.64245703164912,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f5:43Z"
+    },
+    {
+      "prediction_id": "p22_pred_4b5fa3355cbd",
+      "signal_id": "p22_sig_88fba4dc47be",
+      "symbol": "XRP",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.3083689975183,
+      "expected_fill_qty": 8.73370109418257,
+      "expected_time_ms": 42.64295644702569,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ed:88Z"
+    },
+    {
+      "prediction_id": "p22_pred_8e6f285873c1",
+      "signal_id": "p22_sig_f4d10c63a2e3",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "fill_probability": 0.5226158674419594,
+      "expected_fill_price": 2999.7123325002426,
+      "expected_fill_qty": 1.149289866734819,
+      "expected_time_ms": 64.36843304534533,
+      "confidence": 0.9773841325580406,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:17:d3Z"
+    },
+    {
+      "prediction_id": "p22_pred_ac4ce7ac7b9f",
+      "signal_id": "p22_sig_7756387765a8",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.1156122479097,
+      "expected_fill_qty": 16.40958838406558,
+      "expected_time_ms": 36.974473824940375,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:11:c0Z"
+    },
+    {
+      "prediction_id": "p22_pred_2bdb905a7565",
+      "signal_id": "p22_sig_3d2688c75962",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "fill_probability": 0.9639652410439888,
+      "expected_fill_price": 2999.490845562054,
+      "expected_fill_qty": 2.600336775076509,
+      "expected_time_ms": 13.49852460046327,
+      "confidence": 0.5360347589560112,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e7:08Z"
+    },
+    {
+      "prediction_id": "p22_pred_bcce8db271a4",
+      "signal_id": "p22_sig_6a46cd08bdce",
+      "symbol": "ADA",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.1544238677498,
+      "expected_fill_qty": 3.8685544719438085,
+      "expected_time_ms": 21.192810042054447,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:98:84Z"
+    },
+    {
+      "prediction_id": "p22_pred_313ab2c4be40",
+      "signal_id": "p22_sig_c8b1eea4b7c3",
+      "symbol": "ADA",
+      "venue": "binance",
+      "fill_probability": 0.9891885270552825,
+      "expected_fill_price": 2999.587643472587,
+      "expected_fill_qty": 2.1134124411875486,
+      "expected_time_ms": 42.95097840232581,
+      "confidence": 0.5108114729447175,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f6:49Z"
+    },
+    {
+      "prediction_id": "p22_pred_051af531a1b5",
+      "signal_id": "p22_sig_80aef16e43e3",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.287270824549,
+      "expected_fill_qty": 1.7457403001699157,
+      "expected_time_ms": 36.780504360474694,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a7:aeZ"
+    },
+    {
+      "prediction_id": "p22_pred_763edede3683",
+      "signal_id": "p22_sig_52c006bb6abd",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "fill_probability": 0.4693277544041755,
+      "expected_fill_price": 2999.5120634832474,
+      "expected_fill_qty": 7.0677320055930455,
+      "expected_time_ms": 59.21673321839575,
+      "confidence": 0.9693277544041755,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:60Z"
+    },
+    {
+      "prediction_id": "p22_pred_917ceb7ab60b",
+      "signal_id": "p22_sig_5b4c26bcc91a",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "fill_probability": 0.9563102329818371,
+      "expected_fill_price": 90016.06892826936,
+      "expected_fill_qty": 13.066385312565428,
+      "expected_time_ms": 44.695175206169274,
+      "confidence": 0.5436897670181629,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:05:cbZ"
+    },
+    {
+      "prediction_id": "p22_pred_866d66a5aabc",
+      "signal_id": "p22_sig_44a69ae773fd",
+      "symbol": "BTC",
+      "venue": "okx",
+      "fill_probability": 0.9574038713749634,
+      "expected_fill_price": 89983.977204961,
+      "expected_fill_qty": 13.275471344194102,
+      "expected_time_ms": 8.945223596784395,
+      "confidence": 0.5425961286250366,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ce:18Z"
+    },
+    {
+      "prediction_id": "p22_pred_0b8f85db54e2",
+      "signal_id": "p22_sig_733374c25687",
+      "symbol": "BTC",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 90010.38203923938,
+      "expected_fill_qty": 9.939716278288069,
+      "expected_time_ms": 20.708680503826702,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:61:7cZ"
+    },
+    {
+      "prediction_id": "p22_pred_f47048ee562b",
+      "signal_id": "p22_sig_bc1493834142",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "fill_probability": 0.9632124940861887,
+      "expected_fill_price": 89986.2586370187,
+      "expected_fill_qty": 9.512688351438351,
+      "expected_time_ms": 36.010460390608,
+      "confidence": 0.5367875059138113,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:97:80Z"
+    },
+    {
+      "prediction_id": "p22_pred_c3345808828e",
+      "signal_id": "p22_sig_c235ff28c4bc",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 90010.9586584638,
+      "expected_fill_qty": 19.185031530441027,
+      "expected_time_ms": 43.93452899809291,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:4d:04Z"
+    },
+    {
+      "prediction_id": "p22_pred_b0a9090e5694",
+      "signal_id": "p22_sig_f7fb3e9179a3",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "fill_probability": 0.9427936580026273,
+      "expected_fill_price": 2999.4129825046975,
+      "expected_fill_qty": 14.477231307759661,
+      "expected_time_ms": 35.444831665559974,
+      "confidence": 0.5572063419973727,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:71:2dZ"
+    },
+    {
+      "prediction_id": "p22_pred_7894c797f99a",
+      "signal_id": "p22_sig_c72a61a644b6",
+      "symbol": "ETH",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.2894483372625,
+      "expected_fill_qty": 13.860581718048365,
+      "expected_time_ms": 42.03079701257201,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6a:44Z"
+    },
+    {
+      "prediction_id": "p22_pred_edda508652b7",
+      "signal_id": "p22_sig_bc5d0413a478",
+      "symbol": "ETH",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.674577886829,
+      "expected_fill_qty": 17.02998918346052,
+      "expected_time_ms": 24.15275778004543,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d2:d0Z"
+    },
+    {
+      "prediction_id": "p22_pred_acf2534a271c",
+      "signal_id": "p22_sig_f43ad36d3e19",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.1072302160433,
+      "expected_fill_qty": 1.101179436036091,
+      "expected_time_ms": 14.683567073956766,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f3:bfZ"
+    },
+    {
+      "prediction_id": "p22_pred_8b9a4f623333",
+      "signal_id": "p22_sig_242ae4b2fcae",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.635331328714,
+      "expected_fill_qty": 1.556643031001472,
+      "expected_time_ms": 12.069996561864315,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0e:83Z"
+    },
+    {
+      "prediction_id": "p22_pred_a947bfda43d4",
+      "signal_id": "p22_sig_5f96f949c3c7",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.2320270879172,
+      "expected_fill_qty": 16.738838197363634,
+      "expected_time_ms": 29.676474912438326,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2a:39Z"
+    },
+    {
+      "prediction_id": "p22_pred_447ae7601823",
+      "signal_id": "p22_sig_2c7c6176217f",
+      "symbol": "SOL",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.689566701079,
+      "expected_fill_qty": 2.0825009881083263,
+      "expected_time_ms": 17.171737857353257,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:22:98Z"
+    },
+    {
+      "prediction_id": "p22_pred_1c7a7269669d",
+      "signal_id": "p22_sig_162c8b31b799",
+      "symbol": "SOL",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.1015142835745,
+      "expected_fill_qty": 7.252187081446271,
+      "expected_time_ms": 13.875947585607182,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b5:eeZ"
+    },
+    {
+      "prediction_id": "p22_pred_c4f7eb272bc0",
+      "signal_id": "p22_sig_fa32a2fbfc08",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.891912361681,
+      "expected_fill_qty": 13.069801803378535,
+      "expected_time_ms": 39.2614588717471,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3b:95Z"
+    },
+    {
+      "prediction_id": "p22_pred_d4dbbfb34d2e",
+      "signal_id": "p22_sig_ef8589881a10",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.1083592006557,
+      "expected_fill_qty": 4.029620148827666,
+      "expected_time_ms": 35.7877567463133,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:48:aeZ"
+    },
+    {
+      "prediction_id": "p22_pred_26d468c661ec",
+      "signal_id": "p22_sig_3f4beabefca8",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.898344320006,
+      "expected_fill_qty": 14.472062470169787,
+      "expected_time_ms": 37.72659772104414,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d2:64Z"
+    },
+    {
+      "prediction_id": "p22_pred_433e2f5c6d10",
+      "signal_id": "p22_sig_99bfd2996e6f",
+      "symbol": "XRP",
+      "venue": "okx",
+      "fill_probability": 0.9549790399451402,
+      "expected_fill_price": 3000.541728395135,
+      "expected_fill_qty": 6.7224721894316595,
+      "expected_time_ms": 29.32287840871285,
+      "confidence": 0.5450209600548598,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:34:c7Z"
+    },
+    {
+      "prediction_id": "p22_pred_83d8505ee311",
+      "signal_id": "p22_sig_5a80b495f611",
+      "symbol": "XRP",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.7819923671177,
+      "expected_fill_qty": 10.827130478473395,
+      "expected_time_ms": 22.71051664712222,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:53:e3Z"
+    },
+    {
+      "prediction_id": "p22_pred_3fe6b19497e4",
+      "signal_id": "p22_sig_81132fee6ca2",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "fill_probability": 0.9279096613568548,
+      "expected_fill_price": 3000.5602041397096,
+      "expected_fill_qty": 4.914743724130609,
+      "expected_time_ms": 12.692139777511422,
+      "confidence": 0.5720903386431452,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0a:afZ"
+    },
+    {
+      "prediction_id": "p22_pred_a9aa47f33255",
+      "signal_id": "p22_sig_fb64b14d071a",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.8423456995965,
+      "expected_fill_qty": 13.089380443367563,
+      "expected_time_ms": 45.12221349822157,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:25:b8Z"
+    },
+    {
+      "prediction_id": "p22_pred_6804dc54b03d",
+      "signal_id": "p22_sig_45bf58ca5eaf",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.2702528394516,
+      "expected_fill_qty": 15.572351463506486,
+      "expected_time_ms": 30.317677758065955,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:aa:3fZ"
+    },
+    {
+      "prediction_id": "p22_pred_c65091ca6ba9",
+      "signal_id": "p22_sig_c879bc0165bd",
+      "symbol": "ADA",
+      "venue": "okx",
+      "fill_probability": 0.9563567259390212,
+      "expected_fill_price": 2999.4643821994764,
+      "expected_fill_qty": 9.568903459478456,
+      "expected_time_ms": 42.44548953206509,
+      "confidence": 0.5436432740609788,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:98:3dZ"
+    },
+    {
+      "prediction_id": "p22_pred_23a034d9787a",
+      "signal_id": "p22_sig_6abfa3868f50",
+      "symbol": "ADA",
+      "venue": "binance",
+      "fill_probability": 0.5576570055439161,
+      "expected_fill_price": 3000.158128978103,
+      "expected_fill_qty": 4.805591701126164,
+      "expected_time_ms": 15.714584430685886,
+      "confidence": 0.9423429944560839,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1f:6fZ"
+    },
+    {
+      "prediction_id": "p22_pred_ce4399ab0f4c",
+      "signal_id": "p22_sig_61547298a83b",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.8424294547694,
+      "expected_fill_qty": 14.696436427298474,
+      "expected_time_ms": 32.012310907444906,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:69:e6Z"
+    },
+    {
+      "prediction_id": "p22_pred_dc54e57afe07",
+      "signal_id": "p22_sig_02ae74f0c4b9",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "fill_probability": 0.9898892506816493,
+      "expected_fill_price": 3000.4104333963037,
+      "expected_fill_qty": 10.102746036074826,
+      "expected_time_ms": 33.43018610442588,
+      "confidence": 0.5101107493183507,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:25:15Z"
+    },
+    {
+      "prediction_id": "p22_pred_4aa72baa57a1",
+      "signal_id": "p22_sig_0549d636a843",
+      "symbol": "BTC",
+      "venue": "deribit",
+      "fill_probability": 0.4928415745766874,
+      "expected_fill_price": 89987.98844659922,
+      "expected_fill_qty": 7.641234289542972,
+      "expected_time_ms": 39.47129067176158,
+      "confidence": 0.9928415745766874,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:92:ffZ"
+    },
+    {
+      "prediction_id": "p22_pred_74ed25aa82e6",
+      "signal_id": "p22_sig_a00ed054a7ef",
+      "symbol": "BTC",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 90006.8559555584,
+      "expected_fill_qty": 5.551053613651966,
+      "expected_time_ms": 26.00238736354822,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fb:9fZ"
+    },
+    {
+      "prediction_id": "p22_pred_7f9412fa3a9a",
+      "signal_id": "p22_sig_5268fa8aba46",
+      "symbol": "BTC",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89990.79385682341,
+      "expected_fill_qty": 15.76993333722357,
+      "expected_time_ms": 25.88642350201795,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:59:04Z"
+    },
+    {
+      "prediction_id": "p22_pred_b545cc5e2aba",
+      "signal_id": "p22_sig_96f0a25a56a8",
+      "symbol": "BTC",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 90009.38104054148,
+      "expected_fill_qty": 7.053770952027577,
+      "expected_time_ms": 33.687877756074755,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:37:c2Z"
+    },
+    {
+      "prediction_id": "p22_pred_b6deb7a54fdd",
+      "signal_id": "p22_sig_b605f1b8c16a",
+      "symbol": "BTC",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 89993.84716448469,
+      "expected_fill_qty": 6.20262134647671,
+      "expected_time_ms": 19.112989499337765,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3b:59Z"
+    },
+    {
+      "prediction_id": "p22_pred_b76018c6e7ff",
+      "signal_id": "p22_sig_fe46882dbd63",
+      "symbol": "ETH",
+      "venue": "deribit",
+      "fill_probability": 0.9523541542707206,
+      "expected_fill_price": 3000.5512189847072,
+      "expected_fill_qty": 0.9975952063204436,
+      "expected_time_ms": 34.34208119672938,
+      "confidence": 0.5476458457292794,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:19:19Z"
+    },
+    {
+      "prediction_id": "p22_pred_a38f5f08b9f1",
+      "signal_id": "p22_sig_14d0f4d06245",
+      "symbol": "ETH",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.9203937626366,
+      "expected_fill_qty": 19.529593647881587,
+      "expected_time_ms": 22.53806347355281,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d2:34Z"
+    },
+    {
+      "prediction_id": "p22_pred_fa28e2a72fb6",
+      "signal_id": "p22_sig_f273c71e4321",
+      "symbol": "ETH",
+      "venue": "binance",
+      "fill_probability": 0.5258971088272238,
+      "expected_fill_price": 3000.2752683841672,
+      "expected_fill_qty": 10.073335350041798,
+      "expected_time_ms": 66.36171947936921,
+      "confidence": 0.9741028911727762,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:80:43Z"
+    },
+    {
+      "prediction_id": "p22_pred_38bb2e074582",
+      "signal_id": "p22_sig_a4c376e2ba9e",
+      "symbol": "ETH",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.7586615633295,
+      "expected_fill_qty": 17.307653697147344,
+      "expected_time_ms": 32.01444000809637,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ac:66Z"
+    },
+    {
+      "prediction_id": "p22_pred_3b532f00d043",
+      "signal_id": "p22_sig_231668e3b9d0",
+      "symbol": "ETH",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.366184751877,
+      "expected_fill_qty": 4.980422162058771,
+      "expected_time_ms": 12.491418757726587,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:94:82Z"
+    },
+    {
+      "prediction_id": "p22_pred_25a180277715",
+      "signal_id": "p22_sig_ed87187796c3",
+      "symbol": "SOL",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.642462805219,
+      "expected_fill_qty": 11.181947227136689,
+      "expected_time_ms": 43.73618036343727,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:69:ccZ"
+    },
+    {
+      "prediction_id": "p22_pred_cf4a9e07d951",
+      "signal_id": "p22_sig_1f26c624cdec",
+      "symbol": "SOL",
+      "venue": "okx",
+      "fill_probability": 0.9694546221124635,
+      "expected_fill_price": 3000.487973504432,
+      "expected_fill_qty": 16.149299710843714,
+      "expected_time_ms": 21.61576362048924,
+      "confidence": 0.5305453778875365,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6c:aeZ"
+    },
+    {
+      "prediction_id": "p22_pred_dbbd02645506",
+      "signal_id": "p22_sig_dc4c065cd40e",
+      "symbol": "SOL",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.8691809993165,
+      "expected_fill_qty": 15.293744899024023,
+      "expected_time_ms": 37.71581571449244,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a0:ebZ"
+    },
+    {
+      "prediction_id": "p22_pred_394e11d0c08d",
+      "signal_id": "p22_sig_1ab42e38a78c",
+      "symbol": "SOL",
+      "venue": "bybit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.191434321386,
+      "expected_fill_qty": 18.9827224877508,
+      "expected_time_ms": 8.577183685386617,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0e:2bZ"
+    },
+    {
+      "prediction_id": "p22_pred_e61de9f9165e",
+      "signal_id": "p22_sig_a7d482a56540",
+      "symbol": "SOL",
+      "venue": "bitget",
+      "fill_probability": 0.9626085697633158,
+      "expected_fill_price": 2999.4865315949014,
+      "expected_fill_qty": 5.660366564159996,
+      "expected_time_ms": 24.232186631508647,
+      "confidence": 0.5373914302366842,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:04:51Z"
+    },
+    {
+      "prediction_id": "p22_pred_4f247f50e390",
+      "signal_id": "p22_sig_b430586bbcfd",
+      "symbol": "XRP",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.230533691145,
+      "expected_fill_qty": 2.0989342631836645,
+      "expected_time_ms": 31.256269779358455,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cd:d6Z"
+    },
+    {
+      "prediction_id": "p22_pred_4fa7b702c805",
+      "signal_id": "p22_sig_9014f831ebe4",
+      "symbol": "XRP",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.8253132044024,
+      "expected_fill_qty": 5.697243260730534,
+      "expected_time_ms": 21.088827161578457,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fb:a2Z"
+    },
+    {
+      "prediction_id": "p22_pred_cd46bf5b0d17",
+      "signal_id": "p22_sig_b7aad691319d",
+      "symbol": "XRP",
+      "venue": "binance",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.19222081158,
+      "expected_fill_qty": 7.047779092988423,
+      "expected_time_ms": 37.73059759947751,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a7:bdZ"
+    },
+    {
+      "prediction_id": "p22_pred_58ea91dbb2a8",
+      "signal_id": "p22_sig_a8f85840cc14",
+      "symbol": "XRP",
+      "venue": "bybit",
+      "fill_probability": 0.9429187902008743,
+      "expected_fill_price": 2999.4135037650194,
+      "expected_fill_qty": 15.253506466556084,
+      "expected_time_ms": 36.17563948095097,
+      "confidence": 0.5570812097991257,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:54:1fZ"
+    },
+    {
+      "prediction_id": "p22_pred_8976d93a2a2c",
+      "signal_id": "p22_sig_3575420ce630",
+      "symbol": "XRP",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.0754541134493,
+      "expected_fill_qty": 18.1725879959687,
+      "expected_time_ms": 17.024660257098727,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:5c:0fZ"
+    },
+    {
+      "prediction_id": "p22_pred_5e4542323b49",
+      "signal_id": "p22_sig_9ccad80501fc",
+      "symbol": "ADA",
+      "venue": "deribit",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.762584948785,
+      "expected_fill_qty": 11.939013978476053,
+      "expected_time_ms": 36.0073761587123,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:68:6dZ"
+    },
+    {
+      "prediction_id": "p22_pred_4ca49895ba89",
+      "signal_id": "p22_sig_0cf0f9f07d3b",
+      "symbol": "ADA",
+      "venue": "okx",
+      "fill_probability": 0.99,
+      "expected_fill_price": 3000.1932843068103,
+      "expected_fill_qty": 19.51279535247091,
+      "expected_time_ms": 37.86256185788131,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3e:b4Z"
+    },
+    {
+      "prediction_id": "p22_pred_bc4285c683bf",
+      "signal_id": "p22_sig_f64e1764a96e",
+      "symbol": "ADA",
+      "venue": "binance",
+      "fill_probability": 0.9848024239433786,
+      "expected_fill_price": 2999.571153102432,
+      "expected_fill_qty": 17.55299610539847,
+      "expected_time_ms": 42.56708510990262,
+      "confidence": 0.5151975760566214,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d5:68Z"
+    },
+    {
+      "prediction_id": "p22_pred_31a98cd150fd",
+      "signal_id": "p22_sig_b4063720ddaf",
+      "symbol": "ADA",
+      "venue": "bybit",
+      "fill_probability": 0.9863554271478416,
+      "expected_fill_price": 3000.4231554107055,
+      "expected_fill_qty": 14.400406558785035,
+      "expected_time_ms": 40.71199768582938,
+      "confidence": 0.5136445728521584,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:70:dbZ"
+    },
+    {
+      "prediction_id": "p22_pred_d418cfa6eea4",
+      "signal_id": "p22_sig_3a9c18440f3d",
+      "symbol": "ADA",
+      "venue": "bitget",
+      "fill_probability": 0.99,
+      "expected_fill_price": 2999.622010948655,
+      "expected_fill_qty": 17.891895313639846,
+      "expected_time_ms": 17.830855877194704,
+      "confidence": 0.51,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7a:c0Z"
+    }
+  ],
+  "summary": {
+    "avg_fill_probability": 0.926018068674357,
+    "avg_expected_fill_price": 20400.061803267752,
+    "paper_only": true
+  },
+  "audit": [
+    {
+      "timestamp": "2026-11-01T15:15:02.262802Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_887d8481ac56",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263024Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_d196d64e2c4d",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263299Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_c561e14d7f9c",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263474Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_5dbbe52e41fe",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263644Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_3823f71b8e42",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263842Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_6ce6761eeea0",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264023Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_5f03ef636938",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264193Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_2fede518f27f",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264359Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_7cbefeaee428",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264529Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_ef459e4daa67",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264691Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_6a4d840b3519",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264891Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_33d4ba14703a",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.265072Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_9545531b7ac9",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.265242Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_264bbd9164bd",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.265459Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_044977d01a0c",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.265688Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_c110b1d1bdb1",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.265935Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_eb4ebfebc2c3",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266154Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_a098900645b1",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266348Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_39a788df19a9",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266549Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_3125ea4fae65",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266718Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_ca9e156c9b51",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266982Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_4b8e95d2e9d8",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267146Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_af935b8c9ab1",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267309Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_695028443359",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267473Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_4851eb60d265",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267636Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_94a8d1bcce1a",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267848Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_4efc62d9fe86",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268024Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_f619c86819e1",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268186Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_b835cb1d5792",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268345Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_cc03d84752e2",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268508Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_e4e2b7d5cde2",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268671Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_19905529c664",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268864Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_8b970b1a56b0",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269026Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_a4e9aed2caac",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269187Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_971946629aad",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269352Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_8e2006b56c61",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269508Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_ba7cf829805f",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269670Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_f09c17bcea2c",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269849Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_5598fe45f217",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270018Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_8e2e554e4d52",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270179Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_b3c86223c41d",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270342Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_09c06e0fd7e0",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270501Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_1fd5a7457cb9",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270727Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_a14e9b8c8b85",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270922Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_02537a234604",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271098Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_ff59d4d925cf",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271262Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_fabc8ca98158",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271426Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_c24655b582f6",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271589Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_eae450c9fd89",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271767Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_7619be551d5a",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271931Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_c8b4b80c83b8",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272111Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_2cb069c69464",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272273Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_9d0414478c22",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272436Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_7d34588b089a",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272597Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_8f6206ee169f",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272782Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_38d4a729bbf9",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272946Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_638f61c0a4ac",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273118Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_44bc60f0ec83",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273282Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_3991828d1e61",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273448Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_38b507d7a88f",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273607Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_236a13d1fa7a",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273785Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_683f5876b0c9",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273953Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_288fe6eef968",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274112Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_3a68ec03c487",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274269Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_de2686e11b79",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274430Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_ac048228a6cb",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274651Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_f2f2cb5dff80",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274832Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_7e92d3ee8f4e",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274989Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_bb4af19f65bc",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275156Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_6bb025de77e2",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275320Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_00798bf201bc",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275480Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_77ea5efb8203",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275640Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_976e00ed5e86",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275820Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_31a61c0e97f8",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275983Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_0709a1f6e7b8",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276140Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_41f24c059149",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276304Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_b236c1402a61",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276462Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_2acba115ba5f",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276631Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_a0a7c83c2d0d",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276809Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_387ebeca1135",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276971Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_8a6c34004ca1",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277132Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_65eccc37ebb2",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277291Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_086496e458fb",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277453Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_71da0a8e0939",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277611Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_d871aea2dc60",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277787Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_6d71c3629034",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277955Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_9002897ad88f",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.278115Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_14971d649c35",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.278276Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_50729899d602",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.278437Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_d6c844b35d06",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279300Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_0887432341ec",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279461Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_a012ce93408f",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279628Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_88fba4dc47be",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279806Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_f4d10c63a2e3",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279974Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_7756387765a8",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280131Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_3d2688c75962",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280294Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_6a46cd08bdce",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280476Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_c8b1eea4b7c3",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280640Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_80aef16e43e3",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280818Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_52c006bb6abd",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280983Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_5b4c26bcc91a",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281142Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_44a69ae773fd",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281303Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_733374c25687",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281464Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_bc1493834142",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281628Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_c235ff28c4bc",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281809Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_f7fb3e9179a3",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281979Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_c72a61a644b6",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282146Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_bc5d0413a478",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282312Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_f43ad36d3e19",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282476Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_242ae4b2fcae",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282636Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_5f96f949c3c7",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282816Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_2c7c6176217f",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282977Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_162c8b31b799",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283209Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_fa32a2fbfc08",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283368Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_ef8589881a10",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283524Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_3f4beabefca8",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283685Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_99bfd2996e6f",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283866Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_5a80b495f611",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284026Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_81132fee6ca2",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284189Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_fb64b14d071a",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284346Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_45bf58ca5eaf",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284516Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_c879bc0165bd",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284676Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_6abfa3868f50",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284859Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_61547298a83b",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285015Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_02ae74f0c4b9",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285178Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_0549d636a843",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285337Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_a00ed054a7ef",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285494Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_5268fa8aba46",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285659Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_96f0a25a56a8",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285839Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_b605f1b8c16a",
+        "symbol": "BTC"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286012Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_fe46882dbd63",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286168Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_14d0f4d06245",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286324Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_f273c71e4321",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286488Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_a4c376e2ba9e",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286646Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_231668e3b9d0",
+        "symbol": "ETH"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286832Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_ed87187796c3",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287056Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_1f26c624cdec",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287222Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_dc4c065cd40e",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287376Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_1ab42e38a78c",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287536Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_a7d482a56540",
+        "symbol": "SOL"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287699Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_b430586bbcfd",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287912Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_9014f831ebe4",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288179Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_b7aad691319d",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288417Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_a8f85840cc14",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288602Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_3575420ce630",
+        "symbol": "XRP"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288801Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_9ccad80501fc",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288977Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_0cf0f9f07d3b",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.289142Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_f64e1764a96e",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.289303Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_b4063720ddaf",
+        "symbol": "ADA"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.289471Z",
+      "action": "predict",
+      "details": {
+        "signal_id": "p22_sig_3a9c18440f3d",
+        "symbol": "ADA"
+      }
+    }
+  ],
+  "git_sha": "d15ffe1131d52701fe2a2bd613cbbce1b3855654",
+  "paper_only": true,
+  "campaign_id": "p22_camp_d15ffe11",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ],
+  "cycles": 6
+}

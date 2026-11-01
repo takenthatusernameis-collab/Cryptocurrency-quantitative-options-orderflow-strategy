@@ -1,0 +1,4554 @@
+{
+  "report": "PHASE22_SMART_ROUTING_REPORT",
+  "timestamp": "2026-11-01T15:15:02.291851Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance",
+      "bybit",
+      "bitget"
+    ],
+    "max_latency_ms": 50.0,
+    "max_spread_bps": 5.0,
+    "min_depth_usd": 100000.0,
+    "cost_weight": 0.4,
+    "latency_weight": 0.3,
+    "liquidity_weight": 0.3,
+    "enforce_hard_limits": true,
+    "default_venue": "deribit"
+  },
+  "decision_count": 150,
+  "decisions": [
+    {
+      "decision_id": "p22_dec_21947d91e27a",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 860534.8264374686,
+      "selected_venue": "binance",
+      "score": 0.7894188576571073,
+      "venue_scores": {
+        "deribit": 0.7629921007331482,
+        "okx": 0.7576585450276874,
+        "binance": 0.7894188576571073,
+        "bybit": 0.7324800103540703,
+        "bitget": 0.6661664521975205
+      },
+      "expected_slippage_bps": 1.3745438943395212,
+      "expected_latency_ms": 22.852712212561087,
+      "expected_fee_bps": 2.3590661251528204,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:44:27Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_9ccea4252f61",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 997098.0821268304,
+      "selected_venue": "bitget",
+      "score": 0.8058226717307557,
+      "venue_scores": {
+        "deribit": 0.7576585450276874,
+        "okx": 0.7894188576571073,
+        "binance": 0.7324800103540703,
+        "bybit": 0.6427787459843078,
+        "bitget": 0.8058226717307557
+      },
+      "expected_slippage_bps": 1.406381314275341,
+      "expected_latency_ms": 23.782081957317068,
+      "expected_fee_bps": 1.409447754629506,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d5:52Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_cce176755325",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 697809.6451075679,
+      "selected_venue": "bitget",
+      "score": 0.8095254227887787,
+      "venue_scores": {
+        "deribit": 0.7894188576571073,
+        "okx": 0.7324800103540703,
+        "binance": 0.705987203073963,
+        "bybit": 0.8058226717307557,
+        "bitget": 0.8095254227887787
+      },
+      "expected_slippage_bps": 1.0300958947667418,
+      "expected_latency_ms": 31.329114758210636,
+      "expected_fee_bps": 1.2441072947750262,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:25:55Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_271eb17bbb34",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 136252.04421819845,
+      "selected_venue": "bybit",
+      "score": 0.8095254227887787,
+      "venue_scores": {
+        "deribit": 0.7324800103540703,
+        "okx": 0.7954042885919217,
+        "binance": 0.8058226717307557,
+        "bybit": 0.8095254227887787,
+        "bitget": 0.7691386455016365
+      },
+      "expected_slippage_bps": 1.0300958947667418,
+      "expected_latency_ms": 31.329114758210636,
+      "expected_fee_bps": 1.2441072947750262,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b0:1dZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_769d4831db10",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 711614.7692822389,
+      "selected_venue": "binance",
+      "score": 0.8095254227887787,
+      "venue_scores": {
+        "deribit": 0.7019019544127794,
+        "okx": 0.8058226717307557,
+        "binance": 0.8095254227887787,
+        "bybit": 0.7691386455016365,
+        "bitget": 0.7808552902659749
+      },
+      "expected_slippage_bps": 1.0300958947667418,
+      "expected_latency_ms": 31.329114758210636,
+      "expected_fee_bps": 1.2441072947750262,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:94Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_ab07ca0f7d9d",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 868494.2060513622,
+      "selected_venue": "bitget",
+      "score": 0.8185510272947172,
+      "venue_scores": {
+        "deribit": 0.8058226717307557,
+        "okx": 0.8095254227887787,
+        "binance": 0.7691386455016365,
+        "bybit": 0.7808552902659749,
+        "bitget": 0.8185510272947172
+      },
+      "expected_slippage_bps": 0.952873028555287,
+      "expected_latency_ms": 30.316908397707273,
+      "expected_fee_bps": 1.15004147342784,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e0:1dZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_310331f59a41",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 802027.1222221229,
+      "selected_venue": "bybit",
+      "score": 0.8185510272947172,
+      "venue_scores": {
+        "deribit": 0.8095254227887787,
+        "okx": 0.7691386455016365,
+        "binance": 0.7808552902659749,
+        "bybit": 0.8185510272947172,
+        "bitget": 0.7735772331685778
+      },
+      "expected_slippage_bps": 0.952873028555287,
+      "expected_latency_ms": 30.316908397707273,
+      "expected_fee_bps": 1.15004147342784,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c7:85Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_b72bda16efca",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 534483.8186347594,
+      "selected_venue": "bybit",
+      "score": 0.8282776076445006,
+      "venue_scores": {
+        "deribit": 0.7691386455016365,
+        "okx": 0.7808552902659749,
+        "binance": 0.8185510272947172,
+        "bybit": 0.8282776076445006,
+        "bitget": 0.8003928282465105
+      },
+      "expected_slippage_bps": 1.8646975337734848,
+      "expected_latency_ms": 10.029036547339647,
+      "expected_fee_bps": 1.6384966448990566,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e5:74Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_8dbe4b154a34",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 348219.8172628091,
+      "selected_venue": "binance",
+      "score": 0.8282776076445006,
+      "venue_scores": {
+        "deribit": 0.7808552902659749,
+        "okx": 0.8185510272947172,
+        "binance": 0.8282776076445006,
+        "bybit": 0.8003928282465105,
+        "bitget": 0.5023613145093383
+      },
+      "expected_slippage_bps": 1.8646975337734848,
+      "expected_latency_ms": 10.029036547339647,
+      "expected_fee_bps": 1.6384966448990566,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b4:94Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_1e9ec6f695e5",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 374787.4373334287,
+      "selected_venue": "bitget",
+      "score": 0.8371728709661883,
+      "venue_scores": {
+        "deribit": 0.8185510272947172,
+        "okx": 0.8282776076445006,
+        "binance": 0.8003928282465105,
+        "bybit": 0.49839338675356654,
+        "bitget": 0.8371728709661883
+      },
+      "expected_slippage_bps": 1.3592057424675485,
+      "expected_latency_ms": 13.309981059173266,
+      "expected_fee_bps": 1.6041126165889994,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ed:dfZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_dd34ae6e99d1",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 397555.4079479813,
+      "selected_venue": "bybit",
+      "score": 0.8371728709661883,
+      "venue_scores": {
+        "deribit": 0.8282776076445006,
+        "okx": 0.8003928282465105,
+        "binance": 0.49541493037287737,
+        "bybit": 0.8371728709661883,
+        "bitget": 0.7276017734793845
+      },
+      "expected_slippage_bps": 1.3592057424675485,
+      "expected_latency_ms": 13.309981059173266,
+      "expected_fee_bps": 1.6041126165889994,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cb:7bZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_79d1d708e609",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 876420.5622870412,
+      "selected_venue": "binance",
+      "score": 0.8371728709661883,
+      "venue_scores": {
+        "deribit": 0.8003928282465105,
+        "okx": 0.4686261695519407,
+        "binance": 0.8371728709661883,
+        "bybit": 0.7276017734793845,
+        "bitget": 0.8024241209456069
+      },
+      "expected_slippage_bps": 1.3592057424675485,
+      "expected_latency_ms": 13.309981059173266,
+      "expected_fee_bps": 1.6041126165889994,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b8:faZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_06e645fa7d42",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 566207.3261923386,
+      "selected_venue": "okx",
+      "score": 0.8371728709661883,
+      "venue_scores": {
+        "deribit": 0.48081106744572233,
+        "okx": 0.8371728709661883,
+        "binance": 0.7276017734793845,
+        "bybit": 0.812454266243982,
+        "bitget": 0.8096372698062437
+      },
+      "expected_slippage_bps": 1.3592057424675485,
+      "expected_latency_ms": 13.309981059173266,
+      "expected_fee_bps": 1.6041126165889994,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:98:deZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_38c766db3c93",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 247061.4944893129,
+      "selected_venue": "deribit",
+      "score": 0.8371728709661883,
+      "venue_scores": {
+        "deribit": 0.8371728709661883,
+        "okx": 0.7276017734793845,
+        "binance": 0.812454266243982,
+        "bybit": 0.8096372698062437,
+        "bitget": 0.7468717308104931
+      },
+      "expected_slippage_bps": 1.3592057424675485,
+      "expected_latency_ms": 13.309981059173266,
+      "expected_fee_bps": 1.6041126165889994,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3b:ccZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_d3c0a0a2abca",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 862149.1533221172,
+      "selected_venue": "bitget",
+      "score": 0.8507744024404023,
+      "venue_scores": {
+        "deribit": 0.7276017734793845,
+        "okx": 0.8072240773893388,
+        "binance": 0.8096372698062437,
+        "bybit": 0.7468717308104931,
+        "bitget": 0.8507744024404023
+      },
+      "expected_slippage_bps": 0.7791569516441774,
+      "expected_latency_ms": 10.511334580583247,
+      "expected_fee_bps": 2.6479330973073556,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:96:4dZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_39e028ec4558",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 498902.27735274064,
+      "selected_venue": "bybit",
+      "score": 0.8507744024404023,
+      "venue_scores": {
+        "deribit": 0.812454266243982,
+        "okx": 0.8096372698062437,
+        "binance": 0.7468717308104931,
+        "bybit": 0.8507744024404023,
+        "bitget": 0.840490360383435
+      },
+      "expected_slippage_bps": 0.7791569516441774,
+      "expected_latency_ms": 10.511334580583247,
+      "expected_fee_bps": 2.6479330973073556,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:49:beZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_7a42dce7baf9",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 745350.4337014903,
+      "selected_venue": "binance",
+      "score": 0.8507744024404023,
+      "venue_scores": {
+        "deribit": 0.8096372698062437,
+        "okx": 0.7468717308104931,
+        "binance": 0.8507744024404023,
+        "bybit": 0.840490360383435,
+        "bitget": 0.794594922410558
+      },
+      "expected_slippage_bps": 0.7791569516441774,
+      "expected_latency_ms": 10.511334580583247,
+      "expected_fee_bps": 2.6479330973073556,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:bb:acZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_b5c2a9bd498d",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 272509.40895589325,
+      "selected_venue": "okx",
+      "score": 0.8507744024404023,
+      "venue_scores": {
+        "deribit": 0.7468717308104931,
+        "okx": 0.8507744024404023,
+        "binance": 0.840490360383435,
+        "bybit": 0.794594922410558,
+        "bitget": 0.712803825093042
+      },
+      "expected_slippage_bps": 0.7791569516441774,
+      "expected_latency_ms": 10.511334580583247,
+      "expected_fee_bps": 2.6479330973073556,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:79:06Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_37eae158c89c",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 159251.46239161326,
+      "selected_venue": "deribit",
+      "score": 0.8507744024404023,
+      "venue_scores": {
+        "deribit": 0.8507744024404023,
+        "okx": 0.840490360383435,
+        "binance": 0.794594922410558,
+        "bybit": 0.712803825093042,
+        "bitget": 0.8487832127383936
+      },
+      "expected_slippage_bps": 0.7791569516441774,
+      "expected_latency_ms": 10.511334580583247,
+      "expected_fee_bps": 2.6479330973073556,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:39:f3Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_85dca26c546f",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 771354.3809194902,
+      "selected_venue": "bitget",
+      "score": 0.8503816410742935,
+      "venue_scores": {
+        "deribit": 0.840490360383435,
+        "okx": 0.794594922410558,
+        "binance": 0.712803825093042,
+        "bybit": 0.8487832127383936,
+        "bitget": 0.8503816410742935
+      },
+      "expected_slippage_bps": 0.9656020311114664,
+      "expected_latency_ms": 19.77618304020119,
+      "expected_fee_bps": 0.9945494722067048,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:df:bcZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_29e5ae52d766",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 557939.6779474961,
+      "selected_venue": "bybit",
+      "score": 0.8503816410742935,
+      "venue_scores": {
+        "deribit": 0.794594922410558,
+        "okx": 0.712803825093042,
+        "binance": 0.8487832127383936,
+        "bybit": 0.8503816410742935,
+        "bitget": 0.7955601323784419
+      },
+      "expected_slippage_bps": 0.9656020311114664,
+      "expected_latency_ms": 19.77618304020119,
+      "expected_fee_bps": 0.9945494722067048,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c8:50Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_8425fda0e05d",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 607106.3373370229,
+      "selected_venue": "binance",
+      "score": 0.8503816410742935,
+      "venue_scores": {
+        "deribit": 0.712803825093042,
+        "okx": 0.8487832127383936,
+        "binance": 0.8503816410742935,
+        "bybit": 0.7955601323784419,
+        "bitget": 0.7492448328404275
+      },
+      "expected_slippage_bps": 0.9656020311114664,
+      "expected_latency_ms": 19.77618304020119,
+      "expected_fee_bps": 0.9945494722067048,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:5e:02Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_70f8783065ef",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 104788.41629504674,
+      "selected_venue": "okx",
+      "score": 0.8503816410742935,
+      "venue_scores": {
+        "deribit": 0.8487832127383936,
+        "okx": 0.8503816410742935,
+        "binance": 0.7955601323784419,
+        "bybit": 0.7492448328404275,
+        "bitget": 0.8097729645597891
+      },
+      "expected_slippage_bps": 0.9656020311114664,
+      "expected_latency_ms": 19.77618304020119,
+      "expected_fee_bps": 0.9945494722067048,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f3:34Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_42371e1518dd",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 580455.1950737613,
+      "selected_venue": "deribit",
+      "score": 0.8503816410742935,
+      "venue_scores": {
+        "deribit": 0.8503816410742935,
+        "okx": 0.7955601323784419,
+        "binance": 0.7492448328404275,
+        "bybit": 0.8097729645597891,
+        "bitget": 0.7618846749855797
+      },
+      "expected_slippage_bps": 0.9656020311114664,
+      "expected_latency_ms": 19.77618304020119,
+      "expected_fee_bps": 0.9945494722067048,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:22:beZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_7fb50c748fdd",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 524124.56364981394,
+      "selected_venue": "binance",
+      "score": 0.8097729645597891,
+      "venue_scores": {
+        "deribit": 0.7955601323784419,
+        "okx": 0.7492448328404275,
+        "binance": 0.8097729645597891,
+        "bybit": 0.7618846749855797,
+        "bitget": 0.5841049934476636
+      },
+      "expected_slippage_bps": 1.112259697182271,
+      "expected_latency_ms": 19.973423324026275,
+      "expected_fee_bps": 2.316173299335835,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:52:0dZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0c9478f7336b",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 571067.0996204738,
+      "selected_venue": "bitget",
+      "score": 0.8240032092566631,
+      "venue_scores": {
+        "deribit": 0.7492448328404275,
+        "okx": 0.8097729645597891,
+        "binance": 0.7618846749855797,
+        "bybit": 0.5784824677102289,
+        "bitget": 0.8240032092566631
+      },
+      "expected_slippage_bps": 2.15847541404799,
+      "expected_latency_ms": 6.557342292058332,
+      "expected_fee_bps": 2.1398564688866775,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:67:03Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_52c4eadff7eb",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 421756.93962334277,
+      "selected_venue": "bybit",
+      "score": 0.8240032092566631,
+      "venue_scores": {
+        "deribit": 0.8097729645597891,
+        "okx": 0.7618846749855797,
+        "binance": 0.6007066884419395,
+        "bybit": 0.8240032092566631,
+        "bitget": 0.7809929612662998
+      },
+      "expected_slippage_bps": 2.15847541404799,
+      "expected_latency_ms": 6.557342292058332,
+      "expected_fee_bps": 2.1398564688866775,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:78:4fZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_3007a4911daf",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 245568.60157956782,
+      "selected_venue": "binance",
+      "score": 0.8240032092566631,
+      "venue_scores": {
+        "deribit": 0.7618846749855797,
+        "okx": 0.661692476918831,
+        "binance": 0.8240032092566631,
+        "bybit": 0.7809929612662998,
+        "bitget": 0.8095070622159819
+      },
+      "expected_slippage_bps": 2.15847541404799,
+      "expected_latency_ms": 6.557342292058332,
+      "expected_fee_bps": 2.1398564688866775,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:24:fbZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_d6dff98b6dcd",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 70434.56886274417,
+      "selected_venue": "bitget",
+      "score": 0.8460183498317262,
+      "venue_scores": {
+        "deribit": 0.8157056324198511,
+        "okx": 0.8240032092566631,
+        "binance": 0.7809929612662998,
+        "bybit": 0.8095070622159819,
+        "bitget": 0.8460183498317262
+      },
+      "expected_slippage_bps": 1.4176927622776687,
+      "expected_latency_ms": 6.9145395953521005,
+      "expected_fee_bps": 2.325645504924317,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3b:f1Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_ca230826758b",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 965069.1079179407,
+      "selected_venue": "bybit",
+      "score": 0.8460183498317262,
+      "venue_scores": {
+        "deribit": 0.8240032092566631,
+        "okx": 0.7809929612662998,
+        "binance": 0.8095070622159819,
+        "bybit": 0.8460183498317262,
+        "bitget": 0.5294758245708319
+      },
+      "expected_slippage_bps": 1.4176927622776687,
+      "expected_latency_ms": 6.9145395953521005,
+      "expected_fee_bps": 2.325645504924317,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a4:85Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_9f705f191caa",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 591314.7118441203,
+      "selected_venue": "binance",
+      "score": 0.8460183498317262,
+      "venue_scores": {
+        "deribit": 0.7809929612662998,
+        "okx": 0.8095070622159819,
+        "binance": 0.8460183498317262,
+        "bybit": 0.5832125022082321,
+        "bitget": 0.8097513547507851
+      },
+      "expected_slippage_bps": 1.4176927622776687,
+      "expected_latency_ms": 6.9145395953521005,
+      "expected_fee_bps": 2.325645504924317,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1f:02Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_df24d21f7fad",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 625102.4110748359,
+      "selected_venue": "okx",
+      "score": 0.8460183498317262,
+      "venue_scores": {
+        "deribit": 0.8095070622159819,
+        "okx": 0.8460183498317262,
+        "binance": 0.5757126904674266,
+        "bybit": 0.8097513547507851,
+        "bitget": 0.7918051116258391
+      },
+      "expected_slippage_bps": 1.4176927622776687,
+      "expected_latency_ms": 6.9145395953521005,
+      "expected_fee_bps": 2.325645504924317,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:db:f7Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_cbbcc0ea0212",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 773445.3091615434,
+      "selected_venue": "bitget",
+      "score": 0.8528228742398165,
+      "venue_scores": {
+        "deribit": 0.8460183498317262,
+        "okx": 0.550538960103339,
+        "binance": 0.8097513547507851,
+        "bybit": 0.7918051116258391,
+        "bitget": 0.8528228742398165
+      },
+      "expected_slippage_bps": 1.5284187619945302,
+      "expected_latency_ms": 7.024153845086407,
+      "expected_fee_bps": 1.7469069040600034,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c9:c4Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_19812e9c02d0",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 403624.3195333879,
+      "selected_venue": "bybit",
+      "score": 0.8528228742398165,
+      "venue_scores": {
+        "deribit": 0.6477344742466451,
+        "okx": 0.8097513547507851,
+        "binance": 0.7918051116258391,
+        "bybit": 0.8528228742398165,
+        "bitget": 0.8242942163506921
+      },
+      "expected_slippage_bps": 1.5284187619945302,
+      "expected_latency_ms": 7.024153845086407,
+      "expected_fee_bps": 1.7469069040600034,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7a:c8Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_1c011766ed79",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 67964.27062476214,
+      "selected_venue": "binance",
+      "score": 0.8528228742398165,
+      "venue_scores": {
+        "deribit": 0.8097513547507851,
+        "okx": 0.7918051116258391,
+        "binance": 0.8528228742398165,
+        "bybit": 0.8242942163506921,
+        "bitget": 0.809864545022724
+      },
+      "expected_slippage_bps": 1.5284187619945302,
+      "expected_latency_ms": 7.024153845086407,
+      "expected_fee_bps": 1.7469069040600034,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fb:6bZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_39132aa858ff",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 190851.7538461238,
+      "selected_venue": "bitget",
+      "score": 0.8789924814441044,
+      "venue_scores": {
+        "deribit": 0.7918051116258391,
+        "okx": 0.8528228742398165,
+        "binance": 0.8242942163506921,
+        "bybit": 0.809864545022724,
+        "bitget": 0.8789924814441044
+      },
+      "expected_slippage_bps": 1.2724571314348625,
+      "expected_latency_ms": 7.672025435195309,
+      "expected_fee_bps": 0.998161641653506,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:8d:56Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_83c582251148",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 142344.6492051581,
+      "selected_venue": "bybit",
+      "score": 0.8789924814441044,
+      "venue_scores": {
+        "deribit": 0.8528228742398165,
+        "okx": 0.8242942163506921,
+        "binance": 0.809864545022724,
+        "bybit": 0.8789924814441044,
+        "bitget": 0.7526426429908739
+      },
+      "expected_slippage_bps": 1.2724571314348625,
+      "expected_latency_ms": 7.672025435195309,
+      "expected_fee_bps": 0.998161641653506,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e5:a3Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_bf9f56eede65",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 946827.9137280853,
+      "selected_venue": "binance",
+      "score": 0.8789924814441044,
+      "venue_scores": {
+        "deribit": 0.8242942163506921,
+        "okx": 0.809864545022724,
+        "binance": 0.8789924814441044,
+        "bybit": 0.7526426429908739,
+        "bitget": 0.8388927787250697
+      },
+      "expected_slippage_bps": 1.2724571314348625,
+      "expected_latency_ms": 7.672025435195309,
+      "expected_fee_bps": 0.998161641653506,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:5b:1dZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_1efc791d9171",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 604810.2213959771,
+      "selected_venue": "okx",
+      "score": 0.8789924814441044,
+      "venue_scores": {
+        "deribit": 0.809864545022724,
+        "okx": 0.8789924814441044,
+        "binance": 0.7526426429908739,
+        "bybit": 0.8388927787250697,
+        "bitget": 0.7239496525640188
+      },
+      "expected_slippage_bps": 1.2724571314348625,
+      "expected_latency_ms": 7.672025435195309,
+      "expected_fee_bps": 0.998161641653506,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:33:f7Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_da6ddf6ca7bf",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 100110.35243280795,
+      "selected_venue": "deribit",
+      "score": 0.8789924814441044,
+      "venue_scores": {
+        "deribit": 0.8789924814441044,
+        "okx": 0.7526426429908739,
+        "binance": 0.8388927787250697,
+        "bybit": 0.7239496525640188,
+        "bitget": 0.7365375275554
+      },
+      "expected_slippage_bps": 1.2724571314348625,
+      "expected_latency_ms": 7.672025435195309,
+      "expected_fee_bps": 0.998161641653506,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2c:80Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_f9b7e87ff66f",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 915728.2030948885,
+      "selected_venue": "okx",
+      "score": 0.8388927787250697,
+      "venue_scores": {
+        "deribit": 0.7526426429908739,
+        "okx": 0.8388927787250697,
+        "binance": 0.7239496525640188,
+        "bybit": 0.7365375275554,
+        "bitget": 0.774055535716947
+      },
+      "expected_slippage_bps": 1.5860950414734059,
+      "expected_latency_ms": 13.629170706154788,
+      "expected_fee_bps": 1.0225175932432944,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7d:c4Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_fd75008f4eae",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 261747.32556207143,
+      "selected_venue": "deribit",
+      "score": 0.8388927787250697,
+      "venue_scores": {
+        "deribit": 0.8388927787250697,
+        "okx": 0.7239496525640188,
+        "binance": 0.7365375275554,
+        "bybit": 0.774055535716947,
+        "bitget": 0.7914994662284571
+      },
+      "expected_slippage_bps": 1.5860950414734059,
+      "expected_latency_ms": 13.629170706154788,
+      "expected_fee_bps": 1.0225175932432944,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e2:20Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_fea4eda3ffb5",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 945425.1187606339,
+      "selected_venue": "bybit",
+      "score": 0.7914994662284571,
+      "venue_scores": {
+        "deribit": 0.7239496525640188,
+        "okx": 0.7365375275554,
+        "binance": 0.774055535716947,
+        "bybit": 0.7914994662284571,
+        "bitget": 0.7644153748346494
+      },
+      "expected_slippage_bps": 2.2537947956649167,
+      "expected_latency_ms": 16.96509295457112,
+      "expected_fee_bps": 1.4455603319302015,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:93:8aZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_43ce9e053ccd",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 163115.67205593793,
+      "selected_venue": "binance",
+      "score": 0.7914994662284571,
+      "venue_scores": {
+        "deribit": 0.7365375275554,
+        "okx": 0.774055535716947,
+        "binance": 0.7914994662284571,
+        "bybit": 0.7644153748346494,
+        "bitget": 0.7549940317865897
+      },
+      "expected_slippage_bps": 2.2537947956649167,
+      "expected_latency_ms": 16.96509295457112,
+      "expected_fee_bps": 1.4455603319302015,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:df:fcZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_2d8b733daa82",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 333947.85395538167,
+      "selected_venue": "okx",
+      "score": 0.7914994662284571,
+      "venue_scores": {
+        "deribit": 0.774055535716947,
+        "okx": 0.7914994662284571,
+        "binance": 0.7644153748346494,
+        "bybit": 0.7549940317865897,
+        "bitget": 0.743910156773792
+      },
+      "expected_slippage_bps": 2.2537947956649167,
+      "expected_latency_ms": 16.96509295457112,
+      "expected_fee_bps": 1.4455603319302015,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ff:94Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_18c7db634e5f",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 420138.82971852325,
+      "selected_venue": "deribit",
+      "score": 0.7914994662284571,
+      "venue_scores": {
+        "deribit": 0.7914994662284571,
+        "okx": 0.7644153748346494,
+        "binance": 0.7549940317865897,
+        "bybit": 0.743910156773792,
+        "bitget": 0.6382016057469981
+      },
+      "expected_slippage_bps": 2.2537947956649167,
+      "expected_latency_ms": 16.96509295457112,
+      "expected_fee_bps": 1.4455603319302015,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:27:19Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_5088a34c8c2c",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 773060.7530213596,
+      "selected_venue": "bitget",
+      "score": 0.8094127473335515,
+      "venue_scores": {
+        "deribit": 0.7644153748346494,
+        "okx": 0.7549940317865897,
+        "binance": 0.743910156773792,
+        "bybit": 0.5648347605045625,
+        "bitget": 0.8094127473335515
+      },
+      "expected_slippage_bps": 1.6284301268320436,
+      "expected_latency_ms": 10.70825018311898,
+      "expected_fee_bps": 2.9911469701758966,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:66:04Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_f5e2a42fa34a",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 129506.60870367957,
+      "selected_venue": "bitget",
+      "score": 0.8111029370794889,
+      "venue_scores": {
+        "deribit": 0.7549940317865897,
+        "okx": 0.743910156773792,
+        "binance": 0.7774945912914213,
+        "bybit": 0.8094127473335515,
+        "bitget": 0.8111029370794889
+      },
+      "expected_slippage_bps": 1.7939051925117604,
+      "expected_latency_ms": 19.967572382895522,
+      "expected_fee_bps": 0.893007201176633,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:94:f2Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0c3849c067a0",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 298347.3439859678,
+      "selected_venue": "bybit",
+      "score": 0.8111029370794889,
+      "venue_scores": {
+        "deribit": 0.743910156773792,
+        "okx": 0.7038054948136578,
+        "binance": 0.8094127473335515,
+        "bybit": 0.8111029370794889,
+        "bitget": 0.7594244391001603
+      },
+      "expected_slippage_bps": 1.7939051925117604,
+      "expected_latency_ms": 19.967572382895522,
+      "expected_fee_bps": 0.893007201176633,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:76:90Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_1b389254ab7f",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 450319.1077596208,
+      "selected_venue": "binance",
+      "score": 0.8111029370794889,
+      "venue_scores": {
+        "deribit": 0.6274310603807265,
+        "okx": 0.8094127473335515,
+        "binance": 0.8111029370794889,
+        "bybit": 0.7594244391001603,
+        "bitget": 0.7924035043427877
+      },
+      "expected_slippage_bps": 1.7939051925117604,
+      "expected_latency_ms": 19.967572382895522,
+      "expected_fee_bps": 0.893007201176633,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b5:7dZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_93f8a23a85f2",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 292534.3078579765,
+      "selected_venue": "okx",
+      "score": 0.8111029370794889,
+      "venue_scores": {
+        "deribit": 0.8094127473335515,
+        "okx": 0.8111029370794889,
+        "binance": 0.7594244391001603,
+        "bybit": 0.7924035043427877,
+        "bitget": 0.7794565671211051
+      },
+      "expected_slippage_bps": 1.7939051925117604,
+      "expected_latency_ms": 19.967572382895522,
+      "expected_fee_bps": 0.893007201176633,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:80:69Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_16d8415d2c7c",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 513877.116306875,
+      "selected_venue": "bitget",
+      "score": 0.8131889266495622,
+      "venue_scores": {
+        "deribit": 0.8111029370794889,
+        "okx": 0.7594244391001603,
+        "binance": 0.7924035043427877,
+        "bybit": 0.7794565671211051,
+        "bitget": 0.8131889266495622
+      },
+      "expected_slippage_bps": 0.788783897852027,
+      "expected_latency_ms": 29.662144455631942,
+      "expected_fee_bps": 1.7341506559587632,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6e:cdZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_1465babcbefa",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 734717.4808751988,
+      "selected_venue": "bybit",
+      "score": 0.8131889266495622,
+      "venue_scores": {
+        "deribit": 0.7594244391001603,
+        "okx": 0.7586651242989552,
+        "binance": 0.7450033689085818,
+        "bybit": 0.8131889266495622,
+        "bitget": 0.7219457669534755
+      },
+      "expected_slippage_bps": 0.788783897852027,
+      "expected_latency_ms": 29.662144455631942,
+      "expected_fee_bps": 1.7341506559587632,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3e:e2Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_c70e69a379b5",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 959215.6092941711,
+      "selected_venue": "binance",
+      "score": 0.8131889266495622,
+      "venue_scores": {
+        "deribit": 0.6963483367375557,
+        "okx": 0.6828538798559597,
+        "binance": 0.8131889266495622,
+        "bybit": 0.7219457669534755,
+        "bitget": 0.7868247006535625
+      },
+      "expected_slippage_bps": 0.788783897852027,
+      "expected_latency_ms": 29.662144455631942,
+      "expected_fee_bps": 1.7341506559587632,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6f:24Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_f78e34227abf",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 450281.80842011835,
+      "selected_venue": "okx",
+      "score": 0.8131889266495622,
+      "venue_scores": {
+        "deribit": 0.7794565671211051,
+        "okx": 0.8131889266495622,
+        "binance": 0.7219457669534755,
+        "bybit": 0.7868247006535625,
+        "bitget": 0.7574109125294202
+      },
+      "expected_slippage_bps": 0.788783897852027,
+      "expected_latency_ms": 29.662144455631942,
+      "expected_fee_bps": 1.7341506559587632,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:36:f0Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_01a4145d1bef",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 332103.9232025821,
+      "selected_venue": "deribit",
+      "score": 0.8131889266495622,
+      "venue_scores": {
+        "deribit": 0.8131889266495622,
+        "okx": 0.7219457669534755,
+        "binance": 0.7868247006535625,
+        "bybit": 0.7574109125294202,
+        "bitget": 0.7785954007887201
+      },
+      "expected_slippage_bps": 0.788783897852027,
+      "expected_latency_ms": 29.662144455631942,
+      "expected_fee_bps": 1.7341506559587632,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d7:ebZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_98285ed9a669",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 692475.8770380736,
+      "selected_venue": "okx",
+      "score": 0.7868247006535625,
+      "venue_scores": {
+        "deribit": 0.7219457669534755,
+        "okx": 0.7868247006535625,
+        "binance": 0.7574109125294202,
+        "bybit": 0.7785954007887201,
+        "bitget": 0.7642753832023814
+      },
+      "expected_slippage_bps": 1.182187022003127,
+      "expected_latency_ms": 32.889995923528595,
+      "expected_fee_bps": 1.7134204886853088,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:18:a5Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_c9fc87de0a75",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 83413.01068247974,
+      "selected_venue": "deribit",
+      "score": 0.7868247006535625,
+      "venue_scores": {
+        "deribit": 0.7868247006535625,
+        "okx": 0.7574109125294202,
+        "binance": 0.7785954007887201,
+        "bybit": 0.7642753832023814,
+        "bitget": 0.7411045003325435
+      },
+      "expected_slippage_bps": 1.182187022003127,
+      "expected_latency_ms": 32.889995923528595,
+      "expected_fee_bps": 1.7134204886853088,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ef:beZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_fc8c9ed14f68",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 612373.2625439881,
+      "selected_venue": "okx",
+      "score": 0.7785954007887201,
+      "venue_scores": {
+        "deribit": 0.7574109125294202,
+        "okx": 0.7785954007887201,
+        "binance": 0.7642753832023814,
+        "bybit": 0.7411045003325435,
+        "bitget": 0.7128146713717267
+      },
+      "expected_slippage_bps": 2.4987939295281434,
+      "expected_latency_ms": 12.02523742840369,
+      "expected_fee_bps": 2.8972750482015446,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:60:edZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_ca04d97f529b",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 172551.20830581558,
+      "selected_venue": "bitget",
+      "score": 0.8929649280681919,
+      "venue_scores": {
+        "deribit": 0.7785954007887201,
+        "okx": 0.7642753832023814,
+        "binance": 0.7411045003325435,
+        "bybit": 0.735247340314853,
+        "bitget": 0.8929649280681919
+      },
+      "expected_slippage_bps": 0.903394246342953,
+      "expected_latency_ms": 9.808626772459515,
+      "expected_fee_bps": 0.8834783034804834,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:cc:c6Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_f0f566bb9be0",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 914953.8804693781,
+      "selected_venue": "bybit",
+      "score": 0.8929649280681919,
+      "venue_scores": {
+        "deribit": 0.7642753832023814,
+        "okx": 0.7411045003325435,
+        "binance": 0.6210215260123076,
+        "bybit": 0.8929649280681919,
+        "bitget": 0.7752206646610533
+      },
+      "expected_slippage_bps": 0.903394246342953,
+      "expected_latency_ms": 9.808626772459515,
+      "expected_fee_bps": 0.8834783034804834,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:77:82Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_bd71539c0c47",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 163950.85118358058,
+      "selected_venue": "binance",
+      "score": 0.8929649280681919,
+      "venue_scores": {
+        "deribit": 0.7411045003325435,
+        "okx": 0.735247340314853,
+        "binance": 0.8929649280681919,
+        "bybit": 0.7752206646610533,
+        "bitget": 0.7400372121096059
+      },
+      "expected_slippage_bps": 0.903394246342953,
+      "expected_latency_ms": 9.808626772459515,
+      "expected_fee_bps": 0.8834783034804834,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0e:5fZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_d953d98b93e5",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 80157.12451080118,
+      "selected_venue": "okx",
+      "score": 0.8929649280681919,
+      "venue_scores": {
+        "deribit": 0.735247340314853,
+        "okx": 0.8929649280681919,
+        "binance": 0.7752206646610533,
+        "bybit": 0.7400372121096059,
+        "bitget": 0.7482225180653237
+      },
+      "expected_slippage_bps": 0.903394246342953,
+      "expected_latency_ms": 9.808626772459515,
+      "expected_fee_bps": 0.8834783034804834,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c7:44Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_36e96b768317",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 827208.336903607,
+      "selected_venue": "deribit",
+      "score": 0.8929649280681919,
+      "venue_scores": {
+        "deribit": 0.8929649280681919,
+        "okx": 0.7752206646610533,
+        "binance": 0.7400372121096059,
+        "bybit": 0.7482225180653237,
+        "bitget": 0.7302163279522715
+      },
+      "expected_slippage_bps": 0.903394246342953,
+      "expected_latency_ms": 9.808626772459515,
+      "expected_fee_bps": 0.8834783034804834,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e2:5eZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_f449ff91cda6",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 359792.964180964,
+      "selected_venue": "deribit",
+      "score": 0.7752206646610533,
+      "venue_scores": {
+        "deribit": 0.7752206646610533,
+        "okx": 0.7400372121096059,
+        "binance": 0.7482225180653237,
+        "bybit": 0.7302163279522715,
+        "bitget": 0.7646512362324762
+      },
+      "expected_slippage_bps": 1.332355162915453,
+      "expected_latency_ms": 43.53564604228517,
+      "expected_fee_bps": 1.0395908952954522,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ef:7eZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_d0a2c6455789",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 964407.9672600109,
+      "selected_venue": "bitget",
+      "score": 0.8378337209542084,
+      "venue_scores": {
+        "deribit": 0.7400372121096059,
+        "okx": 0.7482225180653237,
+        "binance": 0.7302163279522715,
+        "bybit": 0.6125824671318161,
+        "bitget": 0.8378337209542084
+      },
+      "expected_slippage_bps": 1.3526662855553941,
+      "expected_latency_ms": 19.565282597301284,
+      "expected_fee_bps": 0.7089729109460325,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:28:9fZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_87911da40c9f",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 987800.8052846558,
+      "selected_venue": "bitget",
+      "score": 0.8532334426065857,
+      "venue_scores": {
+        "deribit": 0.7482225180653237,
+        "okx": 0.7302163279522715,
+        "binance": 0.6090791987555392,
+        "bybit": 0.8378337209542084,
+        "bitget": 0.8532334426065857
+      },
+      "expected_slippage_bps": 1.1952396998307164,
+      "expected_latency_ms": 6.262160369686995,
+      "expected_fee_bps": 2.565065988676743,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c0:15Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0b6d9e72d785",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 418093.8588486868,
+      "selected_venue": "bitget",
+      "score": 0.8917556681825236,
+      "venue_scores": {
+        "deribit": 0.7302163279522715,
+        "okx": 0.7646512362324762,
+        "binance": 0.8378337209542084,
+        "bybit": 0.8532334426065857,
+        "bitget": 0.8917556681825236
+      },
+      "expected_slippage_bps": 1.1067454302321347,
+      "expected_latency_ms": 9.630880880120198,
+      "expected_fee_bps": 0.5440169528407943,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:56:8fZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_7657f21e47a9",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 111717.22953781705,
+      "selected_venue": "bybit",
+      "score": 0.8917556681825236,
+      "venue_scores": {
+        "deribit": 0.7646512362324762,
+        "okx": 0.8378337209542084,
+        "binance": 0.8532334426065857,
+        "bybit": 0.8917556681825236,
+        "bitget": 0.7519407148552599
+      },
+      "expected_slippage_bps": 1.1067454302321347,
+      "expected_latency_ms": 9.630880880120198,
+      "expected_fee_bps": 0.5440169528407943,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:69:dcZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0ef77c451364",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 117447.52629057232,
+      "selected_venue": "binance",
+      "score": 0.8917556681825236,
+      "venue_scores": {
+        "deribit": 0.8378337209542084,
+        "okx": 0.8532334426065857,
+        "binance": 0.8917556681825236,
+        "bybit": 0.7519407148552599,
+        "bitget": 0.7959808174954208
+      },
+      "expected_slippage_bps": 1.1067454302321347,
+      "expected_latency_ms": 9.630880880120198,
+      "expected_fee_bps": 0.5440169528407943,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:19:1bZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_a5467fd33a45",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 418787.617381582,
+      "selected_venue": "okx",
+      "score": 0.8917556681825236,
+      "venue_scores": {
+        "deribit": 0.8532334426065857,
+        "okx": 0.8917556681825236,
+        "binance": 0.7519407148552599,
+        "bybit": 0.7959808174954208,
+        "bitget": 0.8823274668718548
+      },
+      "expected_slippage_bps": 1.1067454302321347,
+      "expected_latency_ms": 9.630880880120198,
+      "expected_fee_bps": 0.5440169528407943,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:91:c3Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_ae012fd8daa4",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 833289.9137829418,
+      "selected_venue": "deribit",
+      "score": 0.8917556681825236,
+      "venue_scores": {
+        "deribit": 0.8917556681825236,
+        "okx": 0.7519407148552599,
+        "binance": 0.7959808174954208,
+        "bybit": 0.8823274668718548,
+        "bitget": 0.8123583687122335
+      },
+      "expected_slippage_bps": 1.1067454302321347,
+      "expected_latency_ms": 9.630880880120198,
+      "expected_fee_bps": 0.5440169528407943,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2c:11Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_91015b0c287b",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 223134.62404803876,
+      "selected_venue": "binance",
+      "score": 0.8823274668718548,
+      "venue_scores": {
+        "deribit": 0.7519407148552599,
+        "okx": 0.7959808174954208,
+        "binance": 0.8823274668718548,
+        "bybit": 0.8123583687122335,
+        "bitget": 0.7897001110208741
+      },
+      "expected_slippage_bps": 1.5109158570850507,
+      "expected_latency_ms": 5.212073652664686,
+      "expected_fee_bps": 0.8544884090617886,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:24:8bZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_28c2bd0292d0",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 476730.2261465889,
+      "selected_venue": "okx",
+      "score": 0.8823274668718548,
+      "venue_scores": {
+        "deribit": 0.7959808174954208,
+        "okx": 0.8823274668718548,
+        "binance": 0.8123583687122335,
+        "bybit": 0.7897001110208741,
+        "bitget": 0.7741609342421194
+      },
+      "expected_slippage_bps": 1.5109158570850507,
+      "expected_latency_ms": 5.212073652664686,
+      "expected_fee_bps": 0.8544884090617886,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fd:eaZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_a0cf86f9a8c1",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 70391.15588991376,
+      "selected_venue": "deribit",
+      "score": 0.8823274668718548,
+      "venue_scores": {
+        "deribit": 0.8823274668718548,
+        "okx": 0.8123583687122335,
+        "binance": 0.7897001110208741,
+        "bybit": 0.7741609342421194,
+        "bitget": 0.8704598321768382
+      },
+      "expected_slippage_bps": 1.5109158570850507,
+      "expected_latency_ms": 5.212073652664686,
+      "expected_fee_bps": 0.8544884090617886,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:eb:7cZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0736e85624ea",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 850232.2843397639,
+      "selected_venue": "bitget",
+      "score": 0.8616457906180905,
+      "venue_scores": {
+        "deribit": 0.8123583687122335,
+        "okx": 0.7897001110208741,
+        "binance": 0.7741609342421194,
+        "bybit": 0.6369085025479525,
+        "bitget": 0.8616457906180905
+      },
+      "expected_slippage_bps": 1.1756180493153128,
+      "expected_latency_ms": 6.453087413170802,
+      "expected_fee_bps": 2.1650882098415853,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:51:2bZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_fd3b25347e51",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 628422.1625127807,
+      "selected_venue": "bybit",
+      "score": 0.8616457906180905,
+      "venue_scores": {
+        "deribit": 0.7897001110208741,
+        "okx": 0.7741609342421194,
+        "binance": 0.6603624616052258,
+        "bybit": 0.8616457906180905,
+        "bitget": 0.790624731722827
+      },
+      "expected_slippage_bps": 1.1756180493153128,
+      "expected_latency_ms": 6.453087413170802,
+      "expected_fee_bps": 2.1650882098415853,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:58:22Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0bd58b2432ee",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 925310.8024252207,
+      "selected_venue": "binance",
+      "score": 0.8616457906180905,
+      "venue_scores": {
+        "deribit": 0.7741609342421194,
+        "okx": 0.6315169436391659,
+        "binance": 0.8616457906180905,
+        "bybit": 0.790624731722827,
+        "bitget": 0.78090688541094
+      },
+      "expected_slippage_bps": 1.1756180493153128,
+      "expected_latency_ms": 6.453087413170802,
+      "expected_fee_bps": 2.1650882098415853,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:28:e5Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_c5ce5f56dc73",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 367177.8718112027,
+      "selected_venue": "okx",
+      "score": 0.8616457906180905,
+      "venue_scores": {
+        "deribit": 0.7243275054172952,
+        "okx": 0.8616457906180905,
+        "binance": 0.790624731722827,
+        "bybit": 0.78090688541094,
+        "bitget": 0.7857011771500193
+      },
+      "expected_slippage_bps": 1.1756180493153128,
+      "expected_latency_ms": 6.453087413170802,
+      "expected_fee_bps": 2.1650882098415853,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:8f:51Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_6a06819f29c3",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 106601.46261860046,
+      "selected_venue": "deribit",
+      "score": 0.8616457906180905,
+      "venue_scores": {
+        "deribit": 0.8616457906180905,
+        "okx": 0.790624731722827,
+        "binance": 0.78090688541094,
+        "bybit": 0.7857011771500193,
+        "bitget": 0.8551729104654413
+      },
+      "expected_slippage_bps": 1.1756180493153128,
+      "expected_latency_ms": 6.453087413170802,
+      "expected_fee_bps": 2.1650882098415853,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a4:1fZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_26d3d96ecd88",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 304752.7174341029,
+      "selected_venue": "bybit",
+      "score": 0.8551729104654413,
+      "venue_scores": {
+        "deribit": 0.790624731722827,
+        "okx": 0.78090688541094,
+        "binance": 0.7857011771500193,
+        "bybit": 0.8551729104654413,
+        "bitget": 0.8015669666110048
+      },
+      "expected_slippage_bps": 1.3576861886285134,
+      "expected_latency_ms": 8.95566483273515,
+      "expected_fee_bps": 1.5849569115322049,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:90:acZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_5b6f8e3e8c2d",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 527179.0986938039,
+      "selected_venue": "binance",
+      "score": 0.8551729104654413,
+      "venue_scores": {
+        "deribit": 0.78090688541094,
+        "okx": 0.7857011771500193,
+        "binance": 0.8551729104654413,
+        "bybit": 0.8015669666110048,
+        "bitget": 0.8088966329105196
+      },
+      "expected_slippage_bps": 1.3576861886285134,
+      "expected_latency_ms": 8.95566483273515,
+      "expected_fee_bps": 1.5849569115322049,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e1:68Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_88d9b52f34bf",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 77273.41494862849,
+      "selected_venue": "okx",
+      "score": 0.8551729104654413,
+      "venue_scores": {
+        "deribit": 0.7857011771500193,
+        "okx": 0.8551729104654413,
+        "binance": 0.8015669666110048,
+        "bybit": 0.8111721560341627,
+        "bitget": 0.8322311573235326
+      },
+      "expected_slippage_bps": 1.3576861886285134,
+      "expected_latency_ms": 8.95566483273515,
+      "expected_fee_bps": 1.5849569115322049,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f0:a7Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_021bb7d4baee",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 760100.0297497842,
+      "selected_venue": "deribit",
+      "score": 0.8551729104654413,
+      "venue_scores": {
+        "deribit": 0.8551729104654413,
+        "okx": 0.8015669666110048,
+        "binance": 0.7176635587912833,
+        "bybit": 0.7789207106385997,
+        "bitget": 0.7513998294603759
+      },
+      "expected_slippage_bps": 1.3576861886285134,
+      "expected_latency_ms": 8.95566483273515,
+      "expected_fee_bps": 1.5849569115322049,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:15:b3Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_88a1ccec591f",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 639283.9459114689,
+      "selected_venue": "binance",
+      "score": 0.8255417245807786,
+      "venue_scores": {
+        "deribit": 0.8015669666110048,
+        "okx": 0.7566876619100099,
+        "binance": 0.8255417245807786,
+        "bybit": 0.7513998294603759,
+        "bitget": 0.7779383257626569
+      },
+      "expected_slippage_bps": 0.9745619892850103,
+      "expected_latency_ms": 28.31042869001513,
+      "expected_fee_bps": 0.7918999886580925,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:27:c3Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_d5ac691c3809",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 181829.20413346216,
+      "selected_venue": "okx",
+      "score": 0.8322311573235326,
+      "venue_scores": {
+        "deribit": 0.8111721560341627,
+        "okx": 0.8322311573235326,
+        "binance": 0.7513998294603759,
+        "bybit": 0.7779383257626569,
+        "bitget": 0.7687434524580856
+      },
+      "expected_slippage_bps": 0.9745619892850103,
+      "expected_latency_ms": 28.31042869001513,
+      "expected_fee_bps": 0.7918999886580925,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b2:16Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_eee4e2bbaf07",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 844421.4708321674,
+      "selected_venue": "bitget",
+      "score": 0.8089125845925438,
+      "venue_scores": {
+        "deribit": 0.7542870183960321,
+        "okx": 0.7513998294603759,
+        "binance": 0.7779383257626569,
+        "bybit": 0.5415251813420334,
+        "bitget": 0.8089125845925438
+      },
+      "expected_slippage_bps": 2.3646227287031536,
+      "expected_latency_ms": 9.048457543424039,
+      "expected_fee_bps": 1.96417209176158,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2c:0eZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0e4c7d945666",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 817904.4369680713,
+      "selected_venue": "bitget",
+      "score": 0.8315377578546714,
+      "venue_scores": {
+        "deribit": 0.7513998294603759,
+        "okx": 0.7779383257626569,
+        "binance": 0.5438848158937878,
+        "bybit": 0.8089125845925438,
+        "bitget": 0.8315377578546714
+      },
+      "expected_slippage_bps": 1.2220758916352619,
+      "expected_latency_ms": 11.218388864397784,
+      "expected_fee_bps": 2.5168036775718106,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1b:01Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_802e92ea3b44",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 155250.14522958157,
+      "selected_venue": "bybit",
+      "score": 0.8315377578546714,
+      "venue_scores": {
+        "deribit": 0.7779383257626569,
+        "okx": 0.7687434524580856,
+        "binance": 0.8089125845925438,
+        "bybit": 0.8315377578546714,
+        "bitget": 0.7830219052920246
+      },
+      "expected_slippage_bps": 1.2220758916352619,
+      "expected_latency_ms": 11.218388864397784,
+      "expected_fee_bps": 2.5168036775718106,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:47:7cZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_22e650d3367e",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 282656.1920500598,
+      "selected_venue": "bitget",
+      "score": 0.8538427050883295,
+      "venue_scores": {
+        "deribit": 0.686175287607859,
+        "okx": 0.8089125845925438,
+        "binance": 0.8315377578546714,
+        "bybit": 0.7830219052920246,
+        "bitget": 0.8538427050883295
+      },
+      "expected_slippage_bps": 1.0069814088467939,
+      "expected_latency_ms": 12.710039101115886,
+      "expected_fee_bps": 1.6987141579985514,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b3:57Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_94756ed2f536",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 644316.8641409246,
+      "selected_venue": "bybit",
+      "score": 0.8538427050883295,
+      "venue_scores": {
+        "deribit": 0.8089125845925438,
+        "okx": 0.8315377578546714,
+        "binance": 0.7830219052920246,
+        "bybit": 0.8538427050883295,
+        "bitget": 0.8475992182317613
+      },
+      "expected_slippage_bps": 1.0069814088467939,
+      "expected_latency_ms": 12.710039101115886,
+      "expected_fee_bps": 1.6987141579985514,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ca:b5Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_094a9f7c3be0",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 798873.0924453856,
+      "selected_venue": "binance",
+      "score": 0.8538427050883295,
+      "venue_scores": {
+        "deribit": 0.8315377578546714,
+        "okx": 0.7830219052920246,
+        "binance": 0.8538427050883295,
+        "bybit": 0.8475992182317613,
+        "bitget": 0.8239426166416002
+      },
+      "expected_slippage_bps": 1.0069814088467939,
+      "expected_latency_ms": 12.710039101115886,
+      "expected_fee_bps": 1.6987141579985514,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:07:e3Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_516ff272b8b3",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 441096.01485770545,
+      "selected_venue": "okx",
+      "score": 0.8538427050883295,
+      "venue_scores": {
+        "deribit": 0.7830219052920246,
+        "okx": 0.8538427050883295,
+        "binance": 0.8475992182317613,
+        "bybit": 0.8239426166416002,
+        "bitget": 0.8246708472805204
+      },
+      "expected_slippage_bps": 1.0069814088467939,
+      "expected_latency_ms": 12.710039101115886,
+      "expected_fee_bps": 1.6987141579985514,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6b:a8Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_2ad04aecf4f1",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 109955.50827419688,
+      "selected_venue": "deribit",
+      "score": 0.8538427050883295,
+      "venue_scores": {
+        "deribit": 0.8538427050883295,
+        "okx": 0.8475992182317613,
+        "binance": 0.8239426166416002,
+        "bybit": 0.8246708472805204,
+        "bitget": 0.7704455957033067
+      },
+      "expected_slippage_bps": 1.0069814088467939,
+      "expected_latency_ms": 12.710039101115886,
+      "expected_fee_bps": 1.6987141579985514,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:41:55Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_a43418ecb81f",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 828767.0901043221,
+      "selected_venue": "deribit",
+      "score": 0.8475992182317613,
+      "venue_scores": {
+        "deribit": 0.8475992182317613,
+        "okx": 0.8239426166416002,
+        "binance": 0.8246708472805204,
+        "bybit": 0.7704455957033067,
+        "bitget": 0.7776844103997232
+      },
+      "expected_slippage_bps": 1.2518658906529305,
+      "expected_latency_ms": 17.68777052175019,
+      "expected_fee_bps": 0.766453187013985,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fb:3bZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0fae9100ee6b",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 134877.10263599886,
+      "selected_venue": "okx",
+      "score": 0.8246708472805204,
+      "venue_scores": {
+        "deribit": 0.8239426166416002,
+        "okx": 0.8246708472805204,
+        "binance": 0.7704455957033067,
+        "bybit": 0.7776844103997232,
+        "bitget": 0.8075441236301149
+      },
+      "expected_slippage_bps": 1.7023300117013203,
+      "expected_latency_ms": 10.062199962970544,
+      "expected_fee_bps": 2.1445114172909228,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ae:adZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_28de8c5be65d",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 195381.53898706104,
+      "selected_venue": "bitget",
+      "score": 0.8404403920183172,
+      "venue_scores": {
+        "deribit": 0.8246708472805204,
+        "okx": 0.7704455957033067,
+        "binance": 0.7776844103997232,
+        "bybit": 0.8075441236301149,
+        "bitget": 0.8404403920183172
+      },
+      "expected_slippage_bps": 1.1225222203179723,
+      "expected_latency_ms": 13.542060454234708,
+      "expected_fee_bps": 1.896584020316366,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ce:74Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_a46446da9abc",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 106825.56375168296,
+      "selected_venue": "bybit",
+      "score": 0.8404403920183172,
+      "venue_scores": {
+        "deribit": 0.7704455957033067,
+        "okx": 0.7776844103997232,
+        "binance": 0.8075441236301149,
+        "bybit": 0.8404403920183172,
+        "bitget": 0.7880126047254621
+      },
+      "expected_slippage_bps": 1.1225222203179723,
+      "expected_latency_ms": 13.542060454234708,
+      "expected_fee_bps": 1.896584020316366,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d0:50Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_50702d1e3f73",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 88168.70202878362,
+      "selected_venue": "binance",
+      "score": 0.8404403920183172,
+      "venue_scores": {
+        "deribit": 0.7776844103997232,
+        "okx": 0.8075441236301149,
+        "binance": 0.8404403920183172,
+        "bybit": 0.7880126047254621,
+        "bitget": 0.7855015647210126
+      },
+      "expected_slippage_bps": 1.1225222203179723,
+      "expected_latency_ms": 13.542060454234708,
+      "expected_fee_bps": 1.896584020316366,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:1e:88Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_b9d727fdaddd",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 752963.3544222977,
+      "selected_venue": "okx",
+      "score": 0.8404403920183172,
+      "venue_scores": {
+        "deribit": 0.8075441236301149,
+        "okx": 0.8404403920183172,
+        "binance": 0.7880126047254621,
+        "bybit": 0.7855015647210126,
+        "bitget": 0.7532040856183344
+      },
+      "expected_slippage_bps": 1.1225222203179723,
+      "expected_latency_ms": 13.542060454234708,
+      "expected_fee_bps": 1.896584020316366,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b9:a9Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_141106ab8320",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 683166.6577394865,
+      "selected_venue": "deribit",
+      "score": 0.8404403920183172,
+      "venue_scores": {
+        "deribit": 0.8404403920183172,
+        "okx": 0.7880126047254621,
+        "binance": 0.7855015647210126,
+        "bybit": 0.7532040856183344,
+        "bitget": 0.7473495694133483
+      },
+      "expected_slippage_bps": 1.1225222203179723,
+      "expected_latency_ms": 13.542060454234708,
+      "expected_fee_bps": 1.896584020316366,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0f:63Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_c467e9abc1f9",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 693305.7062495842,
+      "selected_venue": "deribit",
+      "score": 0.7880126047254621,
+      "venue_scores": {
+        "deribit": 0.7880126047254621,
+        "okx": 0.7855015647210126,
+        "binance": 0.7532040856183344,
+        "bybit": 0.7473495694133483,
+        "bitget": 0.7831615220670983
+      },
+      "expected_slippage_bps": 2.3671222876813265,
+      "expected_latency_ms": 12.618764437708286,
+      "expected_fee_bps": 2.364421236812171,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:50:20Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_9b635be4ab3d",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 502005.87264081155,
+      "selected_venue": "bitget",
+      "score": 0.7898297286812228,
+      "venue_scores": {
+        "deribit": 0.7855015647210126,
+        "okx": 0.7532040856183344,
+        "binance": 0.7473495694133483,
+        "bybit": 0.7831615220670983,
+        "bitget": 0.7898297286812228
+      },
+      "expected_slippage_bps": 1.957403348343671,
+      "expected_latency_ms": 25.5227904032799,
+      "expected_fee_bps": 0.820787900562177,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:89:e7Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_dc2c0c0ebe19",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 493800.0913527992,
+      "selected_venue": "bybit",
+      "score": 0.7898297286812228,
+      "venue_scores": {
+        "deribit": 0.7532040856183344,
+        "okx": 0.7473495694133483,
+        "binance": 0.7831615220670983,
+        "bybit": 0.7898297286812228,
+        "bitget": 0.7764139899465965
+      },
+      "expected_slippage_bps": 1.957403348343671,
+      "expected_latency_ms": 25.5227904032799,
+      "expected_fee_bps": 0.820787900562177,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a3:e9Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_b0ea1c48560c",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 968940.9863859105,
+      "selected_venue": "bitget",
+      "score": 0.8416245380358476,
+      "venue_scores": {
+        "deribit": 0.7473495694133483,
+        "okx": 0.7831615220670983,
+        "binance": 0.7686420689654574,
+        "bybit": 0.7764139899465965,
+        "bitget": 0.8416245380358476
+      },
+      "expected_slippage_bps": 1.6860561774729734,
+      "expected_latency_ms": 14.739150391066559,
+      "expected_fee_bps": 0.5342158610325227,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3d:97Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_d885e9536bd4",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 767783.6600232687,
+      "selected_venue": "bybit",
+      "score": 0.8416245380358476,
+      "venue_scores": {
+        "deribit": 0.7831615220670983,
+        "okx": 0.7898297286812228,
+        "binance": 0.7764139899465965,
+        "bybit": 0.8416245380358476,
+        "bitget": 0.7576564214162542
+      },
+      "expected_slippage_bps": 1.6860561774729734,
+      "expected_latency_ms": 14.739150391066559,
+      "expected_fee_bps": 0.5342158610325227,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:18:c0Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_08a5fa2fe2cd",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 700029.3796994124,
+      "selected_venue": "binance",
+      "score": 0.8416245380358476,
+      "venue_scores": {
+        "deribit": 0.7898297286812228,
+        "okx": 0.7764139899465965,
+        "binance": 0.8416245380358476,
+        "bybit": 0.7576564214162542,
+        "bitget": 0.7676794349151193
+      },
+      "expected_slippage_bps": 1.6860561774729734,
+      "expected_latency_ms": 14.739150391066559,
+      "expected_fee_bps": 0.5342158610325227,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e7:4bZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_fa35aa214b06",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 860100.4638111374,
+      "selected_venue": "okx",
+      "score": 0.8416245380358476,
+      "venue_scores": {
+        "deribit": 0.7764139899465965,
+        "okx": 0.8416245380358476,
+        "binance": 0.7576564214162542,
+        "bybit": 0.7676794349151193,
+        "bitget": 0.7257208346035624
+      },
+      "expected_slippage_bps": 1.6860561774729734,
+      "expected_latency_ms": 14.739150391066559,
+      "expected_fee_bps": 0.5342158610325227,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:42:6aZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_2193c96b66c5",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 55615.1230321258,
+      "selected_venue": "deribit",
+      "score": 0.8416245380358476,
+      "venue_scores": {
+        "deribit": 0.8416245380358476,
+        "okx": 0.7576564214162542,
+        "binance": 0.7676794349151193,
+        "bybit": 0.7257208346035624,
+        "bitget": 0.7451036122537513
+      },
+      "expected_slippage_bps": 1.6860561774729734,
+      "expected_latency_ms": 14.739150391066559,
+      "expected_fee_bps": 0.5342158610325227,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:16:fbZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_f936d0d1c1c5",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 78618.33489906424,
+      "selected_venue": "okx",
+      "score": 0.7676794349151193,
+      "venue_scores": {
+        "deribit": 0.7576564214162542,
+        "okx": 0.7676794349151193,
+        "binance": 0.7257208346035624,
+        "bybit": 0.7451036122537513,
+        "bitget": 0.7446460124939462
+      },
+      "expected_slippage_bps": 1.8393258892213116,
+      "expected_latency_ms": 24.88969894082974,
+      "expected_fee_bps": 2.2810580462873244,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:13:08Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_4d0e35a8b853",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 845395.868553719,
+      "selected_venue": "bitget",
+      "score": 0.8221858975732934,
+      "venue_scores": {
+        "deribit": 0.7676794349151193,
+        "okx": 0.7257208346035624,
+        "binance": 0.509124311483235,
+        "bybit": 0.7446460124939462,
+        "bitget": 0.8221858975732934
+      },
+      "expected_slippage_bps": 1.4292047888807622,
+      "expected_latency_ms": 23.294578018643364,
+      "expected_fee_bps": 0.7387345840419584,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:ce:d6Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_297aa7b7a2e7",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 105176.81758122862,
+      "selected_venue": "bitget",
+      "score": 0.8502812255636067,
+      "venue_scores": {
+        "deribit": 0.7257208346035624,
+        "okx": 0.7451036122537513,
+        "binance": 0.7446460124939462,
+        "bybit": 0.8221858975732934,
+        "bitget": 0.8502812255636067
+      },
+      "expected_slippage_bps": 1.4279045848178642,
+      "expected_latency_ms": 8.680843667686492,
+      "expected_fee_bps": 1.71910428085805,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:79:0cZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_81153777cff2",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 366272.0748205187,
+      "selected_venue": "bitget",
+      "score": 0.8574343273070444,
+      "venue_scores": {
+        "deribit": 0.5928703636694774,
+        "okx": 0.7446460124939462,
+        "binance": 0.8221858975732934,
+        "bybit": 0.8502812255636067,
+        "bitget": 0.8574343273070444
+      },
+      "expected_slippage_bps": 0.8772960762361218,
+      "expected_latency_ms": 19.176671172688767,
+      "expected_fee_bps": 0.9894503857386989,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:d3:56Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_9a04fc1fc3aa",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 660091.0001706331,
+      "selected_venue": "bybit",
+      "score": 0.8574343273070444,
+      "venue_scores": {
+        "deribit": 0.7446460124939462,
+        "okx": 0.8221858975732934,
+        "binance": 0.8502812255636067,
+        "bybit": 0.8574343273070444,
+        "bitget": 0.7219902971692784
+      },
+      "expected_slippage_bps": 0.8772960762361218,
+      "expected_latency_ms": 19.176671172688767,
+      "expected_fee_bps": 0.9894503857386989,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c8:2fZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_9e320680f24d",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 203516.1691327104,
+      "selected_venue": "binance",
+      "score": 0.8574343273070444,
+      "venue_scores": {
+        "deribit": 0.8221858975732934,
+        "okx": 0.8502812255636067,
+        "binance": 0.8574343273070444,
+        "bybit": 0.7219902971692784,
+        "bitget": 0.7663233763547466
+      },
+      "expected_slippage_bps": 0.8772960762361218,
+      "expected_latency_ms": 19.176671172688767,
+      "expected_fee_bps": 0.9894503857386989,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:f1:c9Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_7114eac21352",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 730912.245968171,
+      "selected_venue": "okx",
+      "score": 0.8574343273070444,
+      "venue_scores": {
+        "deribit": 0.8502812255636067,
+        "okx": 0.8574343273070444,
+        "binance": 0.7219902971692784,
+        "bybit": 0.7663233763547466,
+        "bitget": 0.7600889526456074
+      },
+      "expected_slippage_bps": 0.8772960762361218,
+      "expected_latency_ms": 19.176671172688767,
+      "expected_fee_bps": 0.9894503857386989,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:fa:38Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_52768e097dee",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 351969.6196587644,
+      "selected_venue": "deribit",
+      "score": 0.8574343273070444,
+      "venue_scores": {
+        "deribit": 0.8574343273070444,
+        "okx": 0.7219902971692784,
+        "binance": 0.7663233763547466,
+        "bybit": 0.7600889526456074,
+        "bitget": 0.6416032046357323
+      },
+      "expected_slippage_bps": 0.8772960762361218,
+      "expected_latency_ms": 19.176671172688767,
+      "expected_fee_bps": 0.9894503857386989,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:76:41Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_a7c166ccf606",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 546824.7716400705,
+      "selected_venue": "bitget",
+      "score": 0.8431185703485236,
+      "venue_scores": {
+        "deribit": 0.7219902971692784,
+        "okx": 0.7663233763547466,
+        "binance": 0.7600889526456074,
+        "bybit": 0.5952315302723671,
+        "bitget": 0.8431185703485236
+      },
+      "expected_slippage_bps": 1.5156423637419931,
+      "expected_latency_ms": 16.951795833891868,
+      "expected_fee_bps": 0.5048827789364425,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:32:58Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_7b6b9e0722b7",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 264828.7828442224,
+      "selected_venue": "bybit",
+      "score": 0.8431185703485236,
+      "venue_scores": {
+        "deribit": 0.7663233763547466,
+        "okx": 0.7600889526456074,
+        "binance": 0.6844231004531984,
+        "bybit": 0.8431185703485236,
+        "bitget": 0.8024615932509893
+      },
+      "expected_slippage_bps": 1.5156423637419931,
+      "expected_latency_ms": 16.951795833891868,
+      "expected_fee_bps": 0.5048827789364425,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:41:2dZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_396106458593",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 661079.8203720992,
+      "selected_venue": "binance",
+      "score": 0.8431185703485236,
+      "venue_scores": {
+        "deribit": 0.7600889526456074,
+        "okx": 0.5807548973364407,
+        "binance": 0.8431185703485236,
+        "bybit": 0.8024615932509893,
+        "bitget": 0.8352583743925899
+      },
+      "expected_slippage_bps": 1.5156423637419931,
+      "expected_latency_ms": 16.951795833891868,
+      "expected_fee_bps": 0.5048827789364425,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:19:f3Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_ba5a8ea33e2a",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 786482.3971467923,
+      "selected_venue": "okx",
+      "score": 0.8431185703485236,
+      "venue_scores": {
+        "deribit": 0.5697075553917217,
+        "okx": 0.8431185703485236,
+        "binance": 0.8024615932509893,
+        "bybit": 0.8352583743925899,
+        "bitget": 0.8303674024179746
+      },
+      "expected_slippage_bps": 1.5156423637419931,
+      "expected_latency_ms": 16.951795833891868,
+      "expected_fee_bps": 0.5048827789364425,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:5a:efZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_30f5b0f403b2",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 500278.9858607939,
+      "selected_venue": "deribit",
+      "score": 0.8431185703485236,
+      "venue_scores": {
+        "deribit": 0.8431185703485236,
+        "okx": 0.8024615932509893,
+        "binance": 0.8352583743925899,
+        "bybit": 0.8303674024179746,
+        "bitget": 0.71399042683079
+      },
+      "expected_slippage_bps": 1.5156423637419931,
+      "expected_latency_ms": 16.951795833891868,
+      "expected_fee_bps": 0.5048827789364425,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:39:faZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_371c0429d023",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 430873.4269767655,
+      "selected_venue": "okx",
+      "score": 0.8352583743925899,
+      "venue_scores": {
+        "deribit": 0.8024615932509893,
+        "okx": 0.8352583743925899,
+        "binance": 0.8303674024179746,
+        "bybit": 0.71399042683079,
+        "bitget": 0.7513917886584347
+      },
+      "expected_slippage_bps": 0.9985440594369511,
+      "expected_latency_ms": 11.015261610502982,
+      "expected_fee_bps": 2.8237407760282816,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7d:71Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_43569dacd42e",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 742244.2640049735,
+      "selected_venue": "deribit",
+      "score": 0.8352583743925899,
+      "venue_scores": {
+        "deribit": 0.8352583743925899,
+        "okx": 0.8303674024179746,
+        "binance": 0.71399042683079,
+        "bybit": 0.6652873653385982,
+        "bitget": 0.7075595893962305
+      },
+      "expected_slippage_bps": 0.9985440594369511,
+      "expected_latency_ms": 11.015261610502982,
+      "expected_fee_bps": 2.8237407760282816,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:0b:a9Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_5b61202242aa",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 510296.78467151534,
+      "selected_venue": "deribit",
+      "score": 0.8303674024179746,
+      "venue_scores": {
+        "deribit": 0.8303674024179746,
+        "okx": 0.71399042683079,
+        "binance": 0.7513917886584347,
+        "bybit": 0.7711540491167288,
+        "bitget": 0.8180801946257812
+      },
+      "expected_slippage_bps": 2.4152068401855225,
+      "expected_latency_ms": 6.220035398702901,
+      "expected_fee_bps": 1.3464764477662792,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:55:8fZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_57c94cc15e79",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 775222.1691226229,
+      "selected_venue": "bybit",
+      "score": 0.8180801946257812,
+      "venue_scores": {
+        "deribit": 0.71399042683079,
+        "okx": 0.656188260186811,
+        "binance": 0.6975029117273661,
+        "bybit": 0.8180801946257812,
+        "bitget": 0.7659599642376567
+      },
+      "expected_slippage_bps": 0.9944898199886992,
+      "expected_latency_ms": 20.25738496853348,
+      "expected_fee_bps": 2.143880279276191,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c5:92Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_2b068b6e439e",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 280356.2431137357,
+      "selected_venue": "binance",
+      "score": 0.8180801946257812,
+      "venue_scores": {
+        "deribit": 0.7513917886584347,
+        "okx": 0.7711540491167288,
+        "binance": 0.8180801946257812,
+        "bybit": 0.7659599642376567,
+        "bitget": 0.7869949640881713
+      },
+      "expected_slippage_bps": 0.9944898199886992,
+      "expected_latency_ms": 20.25738496853348,
+      "expected_fee_bps": 2.143880279276191,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:40:a0Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_c62d88679e55",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 796461.2796577561,
+      "selected_venue": "okx",
+      "score": 0.8180801946257812,
+      "venue_scores": {
+        "deribit": 0.6914669013960733,
+        "okx": 0.8180801946257812,
+        "binance": 0.7659599642376567,
+        "bybit": 0.7869949640881713,
+        "bitget": 0.8091051559879414
+      },
+      "expected_slippage_bps": 0.9944898199886992,
+      "expected_latency_ms": 20.25738496853348,
+      "expected_fee_bps": 2.143880279276191,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e3:b8Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_f6629785fcaa",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 356251.05818321096,
+      "selected_venue": "bitget",
+      "score": 0.8471126023951216,
+      "venue_scores": {
+        "deribit": 0.8180801946257812,
+        "okx": 0.7659599642376567,
+        "binance": 0.7869949640881713,
+        "bybit": 0.8091051559879414,
+        "bitget": 0.8471126023951216
+      },
+      "expected_slippage_bps": 1.288029706561865,
+      "expected_latency_ms": 16.95270814753938,
+      "expected_fee_bps": 0.8050100468958485,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:69:f7Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_ebf749cc64b9",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 313263.7043675106,
+      "selected_venue": "bybit",
+      "score": 0.8471126023951216,
+      "venue_scores": {
+        "deribit": 0.7659599642376567,
+        "okx": 0.7869949640881713,
+        "binance": 0.8091051559879414,
+        "bybit": 0.8471126023951216,
+        "bitget": 0.7556661864980134
+      },
+      "expected_slippage_bps": 1.288029706561865,
+      "expected_latency_ms": 16.95270814753938,
+      "expected_fee_bps": 0.8050100468958485,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:a5:a0Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_bdf1fe448e3e",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 52375.22206664636,
+      "selected_venue": "bitget",
+      "score": 0.8857221913525799,
+      "venue_scores": {
+        "deribit": 0.7869949640881713,
+        "okx": 0.8091051559879414,
+        "binance": 0.8471126023951216,
+        "bybit": 0.7556661864980134,
+        "bitget": 0.8857221913525799
+      },
+      "expected_slippage_bps": 1.1520433610606282,
+      "expected_latency_ms": 8.401300544544767,
+      "expected_fee_bps": 0.8584560750760518,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b8:3bZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_a57ec2ef0020",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 986343.113529373,
+      "selected_venue": "bybit",
+      "score": 0.8857221913525799,
+      "venue_scores": {
+        "deribit": 0.8091051559879414,
+        "okx": 0.8471126023951216,
+        "binance": 0.7556661864980134,
+        "bybit": 0.8857221913525799,
+        "bitget": 0.7386746371676858
+      },
+      "expected_slippage_bps": 1.1520433610606282,
+      "expected_latency_ms": 8.401300544544767,
+      "expected_fee_bps": 0.8584560750760518,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:e9:cbZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0ee500b8749e",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 957728.7249692081,
+      "selected_venue": "binance",
+      "score": 0.8857221913525799,
+      "venue_scores": {
+        "deribit": 0.8471126023951216,
+        "okx": 0.7556661864980134,
+        "binance": 0.8857221913525799,
+        "bybit": 0.7386746371676858,
+        "bitget": 0.78229310062466
+      },
+      "expected_slippage_bps": 1.1520433610606282,
+      "expected_latency_ms": 8.401300544544767,
+      "expected_fee_bps": 0.8584560750760518,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:8b:68Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_9bee7a9e94aa",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 874123.9240983507,
+      "selected_venue": "okx",
+      "score": 0.8857221913525799,
+      "venue_scores": {
+        "deribit": 0.7556661864980134,
+        "okx": 0.8857221913525799,
+        "binance": 0.7386746371676858,
+        "bybit": 0.78229310062466,
+        "bitget": 0.8005741331609515
+      },
+      "expected_slippage_bps": 1.1520433610606282,
+      "expected_latency_ms": 8.401300544544767,
+      "expected_fee_bps": 0.8584560750760518,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b7:25Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_f24abe614563",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 251536.47283125107,
+      "selected_venue": "deribit",
+      "score": 0.8857221913525799,
+      "venue_scores": {
+        "deribit": 0.8857221913525799,
+        "okx": 0.7386746371676858,
+        "binance": 0.78229310062466,
+        "bybit": 0.8005741331609515,
+        "bitget": 0.7767074349452712
+      },
+      "expected_slippage_bps": 1.1520433610606282,
+      "expected_latency_ms": 8.401300544544767,
+      "expected_fee_bps": 0.8584560750760518,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3a:b1Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_e37be0097c3b",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 564744.8094513479,
+      "selected_venue": "bitget",
+      "score": 0.8407956911882186,
+      "venue_scores": {
+        "deribit": 0.7386746371676858,
+        "okx": 0.78229310062466,
+        "binance": 0.8005741331609515,
+        "bybit": 0.7767074349452712,
+        "bitget": 0.8407956911882186
+      },
+      "expected_slippage_bps": 1.3985708981308,
+      "expected_latency_ms": 18.67424267973718,
+      "expected_fee_bps": 0.6108379941883658,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:6d:01Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_d1488dcc8408",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 832906.4271030049,
+      "selected_venue": "bybit",
+      "score": 0.8407956911882186,
+      "venue_scores": {
+        "deribit": 0.78229310062466,
+        "okx": 0.8005741331609515,
+        "binance": 0.7767074349452712,
+        "bybit": 0.8407956911882186,
+        "bitget": 0.6765959089740505
+      },
+      "expected_slippage_bps": 1.3985708981308,
+      "expected_latency_ms": 18.67424267973718,
+      "expected_fee_bps": 0.6108379941883658,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:10:0dZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_aeb9919042e6",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 772411.3585365668,
+      "selected_venue": "binance",
+      "score": 0.8407956911882186,
+      "venue_scores": {
+        "deribit": 0.8005741331609515,
+        "okx": 0.7767074349452712,
+        "binance": 0.8407956911882186,
+        "bybit": 0.6845732346755833,
+        "bitget": 0.8046095710139198
+      },
+      "expected_slippage_bps": 1.3985708981308,
+      "expected_latency_ms": 18.67424267973718,
+      "expected_fee_bps": 0.6108379941883658,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:c9:17Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_53b5fd9887e8",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 958723.3579672121,
+      "selected_venue": "okx",
+      "score": 0.8407956911882186,
+      "venue_scores": {
+        "deribit": 0.7767074349452712,
+        "okx": 0.8407956911882186,
+        "binance": 0.6632289756818093,
+        "bybit": 0.8046095710139198,
+        "bitget": 0.6196444563643131
+      },
+      "expected_slippage_bps": 1.3985708981308,
+      "expected_latency_ms": 18.67424267973718,
+      "expected_fee_bps": 0.6108379941883658,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:45:36Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0305614de7c7",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 294011.8518554097,
+      "selected_venue": "okx",
+      "score": 0.8632875944285572,
+      "venue_scores": {
+        "deribit": 0.8407956911882186,
+        "okx": 0.8632875944285572,
+        "binance": 0.8046095710139198,
+        "bybit": 0.8118077005059119,
+        "bitget": 0.79985430447883
+      },
+      "expected_slippage_bps": 1.1724695995400183,
+      "expected_latency_ms": 8.881266693693227,
+      "expected_fee_bps": 1.1554475774075934,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b0:ddZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_f72c4350a4a2",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 106006.78096887196,
+      "selected_venue": "deribit",
+      "score": 0.8747400531394132,
+      "venue_scores": {
+        "deribit": 0.8747400531394132,
+        "okx": 0.8046095710139198,
+        "binance": 0.8346477762269426,
+        "bybit": 0.79985430447883,
+        "bitget": 0.8327750507697245
+      },
+      "expected_slippage_bps": 1.1724695995400183,
+      "expected_latency_ms": 8.881266693693227,
+      "expected_fee_bps": 1.1554475774075934,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:b7:30Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0884bab48637",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 287739.55862275424,
+      "selected_venue": "bybit",
+      "score": 0.8327750507697245,
+      "venue_scores": {
+        "deribit": 0.8046095710139198,
+        "okx": 0.8178493734887271,
+        "binance": 0.79985430447883,
+        "bybit": 0.8327750507697245,
+        "bitget": 0.7361183770119999
+      },
+      "expected_slippage_bps": 1.8938021910220877,
+      "expected_latency_ms": 8.9459230059019,
+      "expected_fee_bps": 1.585140708232978,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:2b:71Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_2ed6120dff54",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 355948.43903981935,
+      "selected_venue": "binance",
+      "score": 0.8327750507697245,
+      "venue_scores": {
+        "deribit": 0.7635806599254407,
+        "okx": 0.79985430447883,
+        "binance": 0.8327750507697245,
+        "bybit": 0.7361183770119999,
+        "bitget": 0.7813312476640948
+      },
+      "expected_slippage_bps": 1.8938021910220877,
+      "expected_latency_ms": 8.9459230059019,
+      "expected_fee_bps": 1.585140708232978,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:50:a6Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_d6526c485b71",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 808845.1850294848,
+      "selected_venue": "okx",
+      "score": 0.8327750507697245,
+      "venue_scores": {
+        "deribit": 0.79985430447883,
+        "okx": 0.8327750507697245,
+        "binance": 0.7361183770119999,
+        "bybit": 0.7813312476640948,
+        "bitget": 0.7548784065012946
+      },
+      "expected_slippage_bps": 1.8938021910220877,
+      "expected_latency_ms": 8.9459230059019,
+      "expected_fee_bps": 1.585140708232978,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:8f:86Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_379bc0ff8d86",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 917807.4745438739,
+      "selected_venue": "deribit",
+      "score": 0.8327750507697245,
+      "venue_scores": {
+        "deribit": 0.8327750507697245,
+        "okx": 0.7361183770119999,
+        "binance": 0.7813312476640948,
+        "bybit": 0.7548784065012946,
+        "bitget": 0.7286409434973442
+      },
+      "expected_slippage_bps": 1.8938021910220877,
+      "expected_latency_ms": 8.9459230059019,
+      "expected_fee_bps": 1.585140708232978,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3d:27Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_45a08ee7f43e",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 602980.503963437,
+      "selected_venue": "bitget",
+      "score": 0.7947561910162898,
+      "venue_scores": {
+        "deribit": 0.7361183770119999,
+        "okx": 0.7813312476640948,
+        "binance": 0.7548784065012946,
+        "bybit": 0.7286409434973442,
+        "bitget": 0.7947561910162898
+      },
+      "expected_slippage_bps": 1.252608877400268,
+      "expected_latency_ms": 39.598600553789055,
+      "expected_fee_bps": 0.7143858021283485,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:26:7dZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_9c60e9d7f89f",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 985494.7147712581,
+      "selected_venue": "bitget",
+      "score": 0.8369190529987796,
+      "venue_scores": {
+        "deribit": 0.7813312476640948,
+        "okx": 0.7548784065012946,
+        "binance": 0.7286409434973442,
+        "bybit": 0.7947561910162898,
+        "bitget": 0.8369190529987796
+      },
+      "expected_slippage_bps": 1.2428239401401804,
+      "expected_latency_ms": 10.635227402679504,
+      "expected_fee_bps": 2.329459432004999,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:bd:7cZ",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_0ffd16b62196",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 891193.7906850483,
+      "selected_venue": "bybit",
+      "score": 0.8369190529987796,
+      "venue_scores": {
+        "deribit": 0.7548784065012946,
+        "okx": 0.7286409434973442,
+        "binance": 0.7947561910162898,
+        "bybit": 0.8369190529987796,
+        "bitget": 0.7699098434220848
+      },
+      "expected_slippage_bps": 1.2428239401401804,
+      "expected_latency_ms": 10.635227402679504,
+      "expected_fee_bps": 2.329459432004999,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:49:b9Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_dadd7a4986e6",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 729980.6014362104,
+      "selected_venue": "binance",
+      "score": 0.8369190529987796,
+      "venue_scores": {
+        "deribit": 0.7286409434973442,
+        "okx": 0.7947561910162898,
+        "binance": 0.8369190529987796,
+        "bybit": 0.7699098434220848,
+        "bitget": 0.5617027671831528
+      },
+      "expected_slippage_bps": 1.2428239401401804,
+      "expected_latency_ms": 10.635227402679504,
+      "expected_fee_bps": 2.329459432004999,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:7d:75Z",
+      "routed": true
+    },
+    {
+      "decision_id": "p22_dec_9b8cf622579b",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 903631.0764464568,
+      "selected_venue": "bitget",
+      "score": 0.8457711200968745,
+      "venue_scores": {
+        "deribit": 0.7947561910162898,
+        "okx": 0.8369190529987796,
+        "binance": 0.7699098434220848,
+        "bybit": 0.5422276676434461,
+        "bitget": 0.8457711200968745
+      },
+      "expected_slippage_bps": 1.2883694821661666,
+      "expected_latency_ms": 11.2356855948928,
+      "expected_fee_bps": 1.7204298921484902,
+      "paper_only": true,
+      "timestamp": "2026-11-01T14:3d:90Z",
+      "routed": true
+    }
+  ],
+  "routed_count": 150,
+  "audit": [
+    {
+      "timestamp": "2026-11-01T15:15:02.262600Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 860534.8264374686
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.262916Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 997098.0821268304
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263189Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 697809.6451075679
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263377Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 136252.04421819845
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263550Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 711614.7692822389
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263724Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 868494.2060513622
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.263922Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 802027.1222221229
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264099Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 534483.8186347594
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264265Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 348219.8172628091
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264434Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 374787.4373334287
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264601Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 397555.4079479813
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264788Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 876420.5622870412
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.264980Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 566207.3261923386
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.265150Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 247061.4944893129
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.265313Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 862149.1533221172
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.265569Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 498902.27735274064
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.265812Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 745350.4337014903
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266032Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 272509.40895589325
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266232Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 159251.46239161326
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266450Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 771354.3809194902
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266622Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 557939.6779474961
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.266883Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 607106.3373370229
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267053Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 104788.41629504674
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267217Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 580455.1950737613
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267382Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 524124.56364981394
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267546Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 571067.0996204738
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267708Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 421756.93962334277
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.267925Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 245568.60157956782
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268098Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 70434.56886274417
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268254Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 965069.1079179407
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268417Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 591314.7118441203
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268576Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 625102.4110748359
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268763Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 773445.3091615434
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.268938Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 403624.3195333879
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269094Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 67964.27062476214
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269259Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 190851.7538461238
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269421Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 142344.6492051581
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269582Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 946827.9137280853
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269740Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 604810.2213959771
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.269923Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 100110.35243280795
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270087Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 915728.2030948885
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270250Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 261747.32556207143
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270413Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 945425.1187606339
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270572Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 163115.67205593793
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270832Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 333947.85395538167
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.270995Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 420138.82971852325
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271173Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 773060.7530213596
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271333Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 129506.60870367957
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271495Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 298347.3439859678
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271657Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 450319.1077596208
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.271842Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 292534.3078579765
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272014Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 513877.116306875
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272183Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 734717.4808751988
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272347Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 959215.6092941711
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272507Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 450281.80842011835
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272666Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 332103.9232025821
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.272853Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 692475.8770380736
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273019Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 83413.01068247974
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273193Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 612373.2625439881
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273354Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 172551.20830581558
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273520Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 914953.8804693781
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273679Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 163950.85118358058
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.273858Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 80157.12451080118
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274021Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 827208.336903607
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274179Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 359792.964180964
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274342Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 964407.9672600109
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274497Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 987800.8052846558
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274725Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 418093.8588486868
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.274902Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 111717.22953781705
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275061Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 117447.52629057232
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275225Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 418787.617381582
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275392Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 833289.9137829418
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275552Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 223134.62404803876
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275709Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 476730.2261465889
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.275891Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 70391.15588991376
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276052Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 850232.2843397639
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276213Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 628422.1625127807
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276374Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 925310.8024252207
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276536Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 367177.8718112027
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276703Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 106601.46261860046
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.276883Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 304752.7174341029
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277039Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 527179.0986938039
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277199Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 77273.41494862849
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277362Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 760100.0297497842
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277524Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 639283.9459114689
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277682Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 181829.20413346216
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.277861Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 844421.4708321674
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.278026Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 817904.4369680713
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.278182Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 155250.14522958157
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.278343Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 282656.1920500598
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279202Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 644316.8641409246
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279371Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 798873.0924453856
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279535Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 441096.01485770545
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279698Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 109955.50827419688
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.279880Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 828767.0901043221
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280043Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 134877.10263599886
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280206Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 195381.53898706104
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280386Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 106825.56375168296
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280548Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 88168.70202878362
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280707Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 752963.3544222977
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.280889Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 683166.6577394865
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281055Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 693305.7062495842
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281213Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 502005.87264081155
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281374Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 493800.0913527992
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281533Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 968940.9863859105
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281700Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 767783.6600232687
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.281884Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 700029.3796994124
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282052Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 860100.4638111374
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282214Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 55615.1230321258
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282383Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 78618.33489906424
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282548Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 845395.868553719
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282704Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 105176.81758122862
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.282889Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 366272.0748205187
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283114Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 660091.0001706331
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283278Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 203516.1691327104
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283436Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 730912.245968171
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283594Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 351969.6196587644
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283770Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 546824.7716400705
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.283935Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 264828.7828442224
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284098Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 661079.8203720992
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284258Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 786482.3971467923
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284424Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 500278.9858607939
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284585Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 430873.4269767655
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284760Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 742244.2640049735
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.284928Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 510296.78467151534
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285086Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 775222.1691226229
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285250Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 280356.2431137357
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285405Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 796461.2796577561
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285570Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "buy",
+        "notional_usd": 356251.05818321096
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285729Z",
+      "action": "route",
+      "details": {
+        "symbol": "BTC",
+        "side": "sell",
+        "notional_usd": 313263.7043675106
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.285914Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 52375.22206664636
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286080Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 986343.113529373
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286234Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 957728.7249692081
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286398Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "sell",
+        "notional_usd": 874123.9240983507
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286559Z",
+      "action": "route",
+      "details": {
+        "symbol": "ETH",
+        "side": "buy",
+        "notional_usd": 251536.47283125107
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286720Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 564744.8094513479
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.286903Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 832906.4271030049
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287130Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 772411.3585365668
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287289Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "buy",
+        "notional_usd": 958723.3579672121
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287446Z",
+      "action": "route",
+      "details": {
+        "symbol": "SOL",
+        "side": "sell",
+        "notional_usd": 294011.8518554097
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287604Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 106006.78096887196
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.287783Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 287739.55862275424
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288048Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 355948.43903981935
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288286Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "sell",
+        "notional_usd": 808845.1850294848
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288509Z",
+      "action": "route",
+      "details": {
+        "symbol": "XRP",
+        "side": "buy",
+        "notional_usd": 917807.4745438739
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288671Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 602980.503963437
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.288882Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 985494.7147712581
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.289052Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 891193.7906850483
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.289211Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "buy",
+        "notional_usd": 729980.6014362104
+      }
+    },
+    {
+      "timestamp": "2026-11-01T15:15:02.289373Z",
+      "action": "route",
+      "details": {
+        "symbol": "ADA",
+        "side": "sell",
+        "notional_usd": 903631.0764464568
+      }
+    }
+  ],
+  "git_sha": "d15ffe1131d52701fe2a2bd613cbbce1b3855654",
+  "paper_only": true,
+  "campaign_id": "p22_camp_d15ffe11",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ],
+  "cycles": 6
+}
