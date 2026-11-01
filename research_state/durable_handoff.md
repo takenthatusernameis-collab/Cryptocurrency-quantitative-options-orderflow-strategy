@@ -1,12 +1,12 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 Timestamp (UTC): 2026-11-01T20:05:00Z
-Updated (UTC): 2026-11-01T20:07:00Z
+Updated (UTC): 2026-11-01T20:08:40Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution)
 
 THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 
-Gate status: GREEN (1890 passed, 2 skipped, 0 failed) — verified 2026-11-01T20:05:00Z via `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q`. Working tree clean of placeholders/TODOs/FIXMEs/HACKs/XXX. NO BOTTLENECKS. ALL SESSIONS UNBLOCKED.
+Gate status: GREEN (1890 passed, 2 skipped, 0 failed) — verified 2026-11-01T20:08:40Z via `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q`. Working tree clean of placeholders/TODOs/FIXMEs/HACKs/XXX. NO ACTIVE BOTTLENECKS. ALL SESSIONS UNBLOCKED. Historical kilo_invalid_argument_turn_abort/edit-tool failures (Oct 28-31) cleared; remove inefficiencies by building, not analyzing.
 
 COMPLETED (DO NOT REDO):
 - Phases 1-26: All complete including cross-venue orchestration, advanced orderflow fusion, production observability/PnL/Greeks, live-capital hardening, real-time risk/stress/pre-trade, advanced execution optimization/smart routing/fill prediction/TCA, Phase 23 adaptive orderflow alpha + regime-aware signal fusion + alpha decay monitoring, Phase 24 live paper trading loop + cross-venue router + auto-healer + observability, Phase 25 crypto options vol surface construction/orderflow-driven IV skew/risk reversal & delta-hedging optimizer, Phase 26 crypto options microstructure arbitrage/vol spreads & cross-venue options liquidity capture.
@@ -30,14 +30,15 @@ PHASE 29 (COMPLETE 2026-11-01T20:05:00Z): Crypto Options Vol Surface Arbitrage H
 BOTTLENECKS REMOVED: NONE. Any inefficiencies must be removed by direct implementation.
 
 ## MANDATORY INITIAL TASK MESSAGE — PHASE 30 (EXECUTE IMMEDIATELY - NO DEVIATION)
-Timestamp (UTC): 2026-11-01T20:07:00Z
-PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+Timestamp (UTC): 2026-11-01T20:08:40Z
+INITIAL TASK FOR NEXT SESSION: Implement Phase 30 end-to-end. PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
 ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
 SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
 DEFAULT PAPER-ONLY. HARD GATES FOR LIVE PATHS.
 
 ### ACTIVE FOCUS CAMPAIGN: PHASE 30 — IN PROGRESS (START NOW)
 Status: NOT STARTED — must be executed in this session. Gate GREEN must be kept.
+INITIAL TASK: Begin Phase 30 immediately; do not defer, do not analyze-only, do not stop at scaffolding.
 PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
 EXTENDS: Phase 25 (vol surface construction / orderflow-driven IV skew / risk reversal / delta-hedging optimizer) + Phase 29 (vol arb + delta-neutral hedge + paper loop).
 
@@ -52,7 +53,7 @@ Deliverables (ALL required, end-to-end, no scaffolding):
 8. Artifacts under research_state/: PHASE30_VOL_SURFACE_ARB_REPORT.json/md, PHASE30_VOL_RISK_BUDGET_REPORT.json/md, PHASE30_DYNAMIC_CAPITAL_ALLOCATOR_REPORT.json/md, PHASE30_CROSS_ASSET_HEDGE_ROUTER_REPORT.json/md, PHASE30_VOL_SURFACE_ARB_PAPER_LOOP_REPORT.json/md, PHASE30_VOL_SURFACE_ARB_MASTER_REPORT.json/md.
 
 ### NEXT FOCUS (AUTO-SELECTED BY REPO PRIORITY)
-PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. Build Phase 30 heavy integration without regression. Implement Phase 30 end-to-end with full tests/artifacts, keep gate GREEN, update this file on completion.
+INITIAL TASK (NON-DEFERRABLE): Implement Phase 30 end-to-end with full tests/artifacts. PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. Build Phase 30 heavy integration without regression. Future agents cannot avoid this work — it is the mandatory initial task for every session until complete. Keep gate GREEN, update this file on completion.
 
 ### CONSTRAINTS (NON-NEGOTIABLE):
 - No placeholders/TODOs/FIXMEs/HACKs/XXX. Implement fully end-to-end.
