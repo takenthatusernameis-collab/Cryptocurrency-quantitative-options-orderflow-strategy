@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-11-01T01:46:45Z
+Timestamp (UTC): 2026-11-01T02:33:58Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow features/microstructure).
 THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION.
@@ -118,7 +118,17 @@ Goal: Convert Phase 10 alpha intents into production live execution with determi
 - Verification: `python -m pytest tests/ -q` -> 647 passed, 2 skipped, 0 failed. All Phase 11 tests pass, byte-identical determinism confirmed. No placeholders/TODOs.
 
 
-## SESSION UPDATE (UTC): 2026-11-01T02:28:45Z
+## SESSION UPDATE (UTC): 2026-11-01T02:33:58Z
+- Repo name priority: CRYPTO OPTIONS + ORDERFLOW (vol surface RV, orderflow microstructure, options pricing/Greeks/IV). Gate GREEN (647 passed, 2 skipped, 0 failed). Working tree clean.
+- Bottlenecks: NONE. Phases 1-11 COMPLETE. All prior inefficiencies removed. No blocked sessions.
+- Focus locked: PHASE 12 — PRODUCTION HARDENING, REAL EXCHANGE CONNECTIVITY & LIVE CAPITAL READINESS (CRYPTO OPTIONS + ORDERFLOW). Implementation required NOW. No analysis-only session.
+
+## INITIAL TASK MESSAGE (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp: 2026-11-01T02:33:58Z
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
+SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
+(End of file - total 153 lines)
 - Repo name priority: CRYPTO OPTIONS + ORDERFLOW (vol surface RV, orderflow microstructure, options pricing/Greeks/IV). Gate GREEN (647 passed, 2 skipped, 0 failed). Working tree clean.
 - Bottlenecks: NONE. Phases 1-11 COMPLETE. All prior inefficiencies removed. No blocked sessions.
 - Focus locked: PHASE 12 — PRODUCTION HARDENING, REAL EXCHANGE CONNECTIVITY & LIVE CAPITAL READINESS (CRYPTO OPTIONS + ORDERFLOW). Implementation required NOW. No analysis-only session.
