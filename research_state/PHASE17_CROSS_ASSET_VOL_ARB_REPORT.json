@@ -1,0 +1,69 @@
+{
+  "report": "PHASE17_CROSS_ASSET_VOL_ARB_REPORT",
+  "campaign": "phase17_cross_asset_vol_arb",
+  "campaign_id": "phase17_42",
+  "timestamp": "2026-11-01T00:00:42Z",
+  "seed": 42,
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "paper_only": true,
+  "cycles": 5,
+  "status": "completed",
+  "kill_switch_triggered": false,
+  "kill_reason": null,
+  "git_sha": "00708c4a67257af7c40d214d1cc466f4c8a2ca50",
+  "counts": {
+    "rv_signals": 0,
+    "orderflow_confirmations": 15,
+    "confirmed_orderflow": 15,
+    "fused_intents": 0,
+    "gated_out_intents": 0,
+    "executed_intents": 0,
+    "artifacts": 6
+  },
+  "artifacts": [
+    "PHASE17_CROSS_ASSET_VOL_ARB_REPORT.json",
+    "PHASE17_CROSS_ASSET_VOL_ARB_REPORT.md",
+    "CROSS_ASSET_VOL_SURFACE_REPORT.json",
+    "CROSS_ASSET_VOL_SURFACE_REPORT.md",
+    "ORDERFLOW_CONFIRMATION_REPORT.json",
+    "ORDERFLOW_CONFIRMATION_REPORT.md"
+  ],
+  "components": {
+    "cross_asset_vol_surface": {
+      "count": 0
+    },
+    "orderflow_confirmation": {
+      "count": 15,
+      "confirmed": 15
+    },
+    "backtest": {
+      "report": "PHASE17_BACKTEST",
+      "campaign": "phase17_cross_asset_vol_arb",
+      "timestamp": "2026-11-01T00:00:42Z",
+      "git_sha": null,
+      "seed": 42,
+      "total_intents": 0,
+      "confirmed_intents": 0,
+      "trades": 0,
+      "win_rate": 0.0,
+      "gross_profit": 0.0,
+      "gross_loss": 0.0,
+      "net_pnl": 0.0,
+      "max_drawdown": 0.0,
+      "kill_switch_triggered": false,
+      "kill_reason": null,
+      "returns": []
+    }
+  }
+}
