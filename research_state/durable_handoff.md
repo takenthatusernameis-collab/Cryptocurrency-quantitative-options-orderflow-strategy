@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-Timestamp (UTC): 2026-11-01T17:12:33Z
-Updated (UTC): 2026-11-01T17:12:33Z
+Timestamp (UTC): 2026-11-01T17:12:58Z
+Updated (UTC): 2026-11-01T17:12:58Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution)
 
