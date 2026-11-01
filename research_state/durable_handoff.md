@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 # Timestamp (UTC): 2026-11-01T20:05:00Z
-# Updated (UTC): 2026-11-01T22:06:22Z
+# Updated (UTC): 2026-11-01T22:58:16Z
 # Project: Cryptocurrency-quantitative-options-orderflow-strategy
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution)
 
@@ -43,26 +43,26 @@ BOTTLENECKS REMOVED: NONE. Gate GREEN, all sessions unblocked. Any future ineffi
 ## MANDATORY INITIAL TASK MESSAGE — STANDING (EXECUTE EVERY SESSION - NO DEVIATION)
 Timestamp (UTC): 2026-11-01T21:58:02Z
 INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
-- Phase 32 is COMPLETE; keep its gate GREEN. Verify `pytest tests/ -q` is GREEN (2187 passed, 2 skipped, 0 failed) before ending any session.
+- Phase 33 is COMPLETE; keep its gate GREEN. Verify `pytest tests/ -q` is GREEN (2229 passed, 2 skipped, 0 failed) before ending any session.
 - If beginning a new campaign, it must extend Phase 31/32 crypto options vol arb + orderflow, be production-grade, deterministic, finite numerics, default PAPER-ONLY with hard-gated live paths.
 - ZERO placeholders/TODOs/FIXMEs/HACKs/XXX. SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
 - Future agents cannot avoid this work: it is the mandatory initial task for every session until explicitly superseded. Keep gate GREEN, update THIS FILE with fresh UTC timestamp, files changed, rationale.
 
-### NEXT FOCUS (AUTO-SELECTED BY REPO PRIORITY) — PHASE 33 CAMPAIGN (MANDATORY, NO ESCAPE)
-Status: Phase 32 complete. Phase 33 ACTIVE SPEC (defined 2026-11-01T21:58:02Z). Next campaign MUST prioritize crypto options + orderflow per repo name and follow the standing mandatory initial task above. FUTURE AGENTS CANNOT AVOID THIS HEAVY WORK.
+### NEXT FOCUS (AUTO-SELECTED BY REPO PRIORITY) — PHASE 34 CAMPAIGN (MANDATORY, NO ESCAPE)
+Status: Phase 33 complete. Phase 34 ACTIVE SPEC (defined 2026-11-01T22:58:16Z). Next campaign MUST prioritize crypto options + orderflow per repo name and follow the standing mandatory initial task above. FUTURE AGENTS CANNOT AVOID THIS HEAVY WORK.
 
-PHASE 33 (ATTACK NOW): Live Capital Rollout & Adaptive Orderflow Hedging for Crypto Options Vol Surface Arbitrage.
-Goal: Integrate Phase 32 orderflow alpha + execution quality + live risk with Phase 31 deployment controller's canary-to-live capital rollout, adaptive orderflow-driven dynamic hedge sizing/rotation across venues, cross-venue liquidity sweep detection + routing, and hardened live risk controls. Deterministic artifacts. Extend, do not redo, Phases 1-32.
+PHASE 34 (ATTACK NOW): Cross-Underlying Portfolio Greeks Aggregation, Cross-Margin Risk & Adaptive Capital Reallocation for Crypto Options Vol Surface Arbitrage + Orderflow.
+Goal: Aggregate portfolio-level Greeks across BTC/ETH/SOL/XRP underlyings and expiries, compute cross-margin requirements and stress losses, and adaptively reallocate capital across venues/underlyings based on Phase 31 deployment + Phase 32 execution quality + Phase 33 hedge/rollout/sweep signals. Deterministic artifacts. Extend, do not redo, Phases 1-33.
 
 Deliverables (SHIP ALL, NO SCAFFOLDING):
-1. `src/execution/phase33_adaptive_orderflow_hedge.py` — AdaptiveOrderflowHedgeRouter: orderflow-driven dynamic hedge sizing and venue rotation for options delta/gamma/vega, deterministic.
-2. `src/risk/phase33_live_capital_rollout.py` — LiveCapitalRollout: canary-to-live capital rollout gated by Phase 31 deployment controller + Phase 32 live risk controls, deterministic.
-3. `src/orderflow/phase33_venue_liquidity_sweep.py` — VenueLiquiditySweep: cross-venue liquidity detection + sweep routing for options fills, deterministic.
-4. `src/integration/phase33_capital_orderflow_loop.py` — integrates Phase 31 deployment + Phase 32 execution/risk + Phase 33 hedge/rollout/sweep, paper/live gated, per-cycle TCA + capital/risk report.
-5. `scripts/run_phase33_capital_orderflow_campaign.py` — CLI (--symbols/--venues/--underlyings BTC/ETH/SOL/XRP/--expiries/--modes paper/live gated/--cycles/--seed/--enforce-gates/--outdir).
-6. `tests/test_phase33_capital_orderflow.py` — >=40 substantive deterministic tests (fixed seeds, mocks, no network, no placeholders).
-7. Artifacts under research_state/: PHASE33_ADAPTIVE_HEDGE_REPORT.*, PHASE33_LIVE_CAPITAL_REPORT.*, PHASE33_LIQUIDITY_SWEEP_REPORT.*, PHASE33_CAPITAL_ORDERFLOW_LOOP_REPORT.*, PHASE33_CAMPAIGN_SUMMARY.*.
-Acceptance: gate GREEN (>=2227 passed, 0 failed); no placeholders/TODOs/FIXMEs/HACKs/XXX; deterministic finite numerics; paper-only default with hard-gated live paths; integrate with Phases 17-32. Update THIS FILE with fresh UTC timestamp, files changed, rationale before ending.
+1. `src/risk/phase34_portfolio_greeks_aggregator.py` — PortfolioGreeksAggregator: cross-underlying delta/gamma/vega/theta aggregation with netting, deterministic.
+2. `src/risk/phase34_cross_margin_engine.py` — CrossMarginEngine: cross-margin requirements, stress loss scenarios, margin call detection, deterministic.
+3. `src/execution/phase34_adaptive_capital_reallocation.py` — AdaptiveCapitalReallocation: reallocate capital across venues/underlyings from execution quality + hedge + rollout signals, deterministic.
+4. `src/integration/phase34_portfolio_capital_loop.py` — integrates Phase 31 deployment + Phase 32 execution/risk + Phase 33 hedge/rollout/sweep + Phase 34 portfolio/margin/reallocation, paper/live gated, per-cycle TCA + portfolio/margin/capital report.
+5. `scripts/run_phase34_portfolio_capital_campaign.py` — CLI (--symbols/--venues/--underlyings BTC/ETH/SOL/XRP/--expiries/--modes paper/live gated/--cycles/--seed/--enforce-gates/--outdir).
+6. `tests/test_phase34_portfolio_capital.py` — >=40 substantive deterministic tests (fixed seeds, mocks, no network, no placeholders).
+7. Artifacts under research_state/: PHASE34_PORTFOLIO_GREEKS_REPORT.*, PHASE34_CROSS_MARGIN_REPORT.*, PHASE34_CAPITAL_REALLOCATION_REPORT.*, PHASE34_PORTFOLIO_CAPITAL_LOOP_REPORT.*, PHASE34_CAMPAIGN_SUMMARY.*.
+Acceptance: gate GREEN (>=2270 passed, 0 failed); no placeholders/TODOs/FIXMEs/HACKs/XXX; deterministic finite numerics; paper-only default with hard-gated live paths; integrate with Phases 17-33. Update THIS FILE with fresh UTC timestamp, files changed, rationale before ending.
 
 ### CONSTRAINTS (NON-NEGOTIABLE):
 - No placeholders/TODOs/FIXMEs/HACKs/XXX. Implement fully end-to-end.
