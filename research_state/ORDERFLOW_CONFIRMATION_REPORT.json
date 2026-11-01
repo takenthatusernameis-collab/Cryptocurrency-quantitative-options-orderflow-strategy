@@ -2,7 +2,7 @@
   "report": "ORDERFLOW_CONFIRMATION_REPORT",
   "campaign": "phase17_cross_asset_vol_arb",
   "timestamp": "2026-11-01T00:00:42Z",
-  "git_sha": "19df83047c023829178ada70db16f29edcf58d55",
+  "git_sha": "3dae2c90e9e5f44da93f9c463a093645c0098d56",
   "seed": 42,
   "symbols": [
     "BTC",
@@ -11,13 +11,103 @@
     "XRP",
     "ADA"
   ],
-  "count": 25,
-  "confirmed_count": 25,
+  "count": 30,
+  "confirmed_count": 30,
   "min_confirmation_score": 0.3,
   "max_vpin": 0.6,
   "min_absorption": 0.1,
   "max_imbalance": 0.9,
   "confirmations": [
+    {
+      "symbol": "BTC",
+      "confirmed": true,
+      "confirmation_score": 0.5193774790031386,
+      "cumulative_delta": 151.86634942397166,
+      "imbalance": 0.5004009143724589,
+      "absorption_score": 0.1525,
+      "vpin_lite": 0.47499008399139625,
+      "aggressive_flow": 0.08,
+      "delta_divergence": 151.86634942397166,
+      "hard_gates": {
+        "vpin_ok": true,
+        "absorption_ok": true,
+        "imbalance_ok": true,
+        "finite_cum_delta": true
+      },
+      "reasons": []
+    },
+    {
+      "symbol": "ETH",
+      "confirmed": true,
+      "confirmation_score": 0.554607074541898,
+      "cumulative_delta": 102.83044262598929,
+      "imbalance": 0.32649018104722016,
+      "absorption_score": 0.15,
+      "vpin_lite": 0.33157170183824275,
+      "aggressive_flow": 0.08,
+      "delta_divergence": 102.83044262598929,
+      "hard_gates": {
+        "vpin_ok": true,
+        "absorption_ok": true,
+        "imbalance_ok": true,
+        "finite_cum_delta": true
+      },
+      "reasons": []
+    },
+    {
+      "symbol": "SOL",
+      "confirmed": true,
+      "confirmation_score": 0.49560066930942526,
+      "cumulative_delta": -191.07444772958496,
+      "imbalance": -0.5603406748622941,
+      "absorption_score": 0.1425,
+      "vpin_lite": 0.5600973227654391,
+      "aggressive_flow": -0.08,
+      "delta_divergence": -191.07444772958496,
+      "hard_gates": {
+        "vpin_ok": true,
+        "absorption_ok": true,
+        "imbalance_ok": true,
+        "finite_cum_delta": true
+      },
+      "reasons": []
+    },
+    {
+      "symbol": "XRP",
+      "confirmed": true,
+      "confirmation_score": 0.5217379787201065,
+      "cumulative_delta": -144.11424843478207,
+      "imbalance": -0.42325304710645284,
+      "absorption_score": 0.145,
+      "vpin_lite": 0.4580480851237372,
+      "aggressive_flow": -0.08,
+      "delta_divergence": -144.11424843478207,
+      "hard_gates": {
+        "vpin_ok": true,
+        "absorption_ok": true,
+        "imbalance_ok": true,
+        "finite_cum_delta": true
+      },
+      "reasons": []
+    },
+    {
+      "symbol": "ADA",
+      "confirmed": true,
+      "confirmation_score": 0.5817802397851374,
+      "cumulative_delta": -56.54356422721438,
+      "imbalance": -0.17784623285620255,
+      "absorption_score": 0.13,
+      "vpin_lite": 0.20287904087006137,
+      "aggressive_flow": -0.04,
+      "delta_divergence": -56.54356422721438,
+      "hard_gates": {
+        "vpin_ok": true,
+        "absorption_ok": true,
+        "imbalance_ok": true,
+        "finite_cum_delta": true
+      },
+      "reasons": []
+    },
     {
       "symbol": "BTC",
       "confirmed": true,
@@ -640,5 +730,5 @@
     "bybit",
     "bitget"
   ],
-  "cycles": 5
+  "cycles": 6
 }

@@ -1,0 +1,52 @@
+{
+  "report": "PHASE20_AUTO_RECOVERY_REPORT",
+  "timestamp": "2026-11-01T13:35:37.170187Z",
+  "seed": 42,
+  "config": {
+    "max_retries": 3,
+    "backoff_base_ms": 100,
+    "escalation_threshold": 2,
+    "safe_mode_on_escalation": true,
+    "paper_only": true
+  },
+  "failure_counts": {
+    "oms": 0,
+    "router": 0
+  },
+  "escalations": [],
+  "recovery": {
+    "timestamp": "2026-11-01T13:35:37.170182Z",
+    "recovered_components": [
+      "oms",
+      "router"
+    ],
+    "recovered_count": 2,
+    "safe_mode": false,
+    "escalations_count": 0,
+    "paper_only": true
+  },
+  "safe_mode": false,
+  "paper_only": true,
+  "git_sha": "3dae2c90e9e5f44da93f9c463a093645c0098d56",
+  "campaign_id": "phase17_42",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "report": "PHASE20_DRIFT_DETECTION_REPORT",
+  "timestamp": "2026-11-01T13:35:37.169785Z",
+  "seed": 42,
+  "config": {
+    "pnl_drift_threshold": 0.05,
+    "greeks_drift_threshold": 0.08,
+    "fills_drift_threshold": 0.1,
+    "latency_drift_ms_threshold": 50.0,
+    "anomaly_threshold": 0.7,
+    "paper_only": true
+  },
+  "baseline": {
+    "pnl": 10000.0,
+    "greeks": {
+      "delta": 0.1,
+      "gamma": 0.01,
+      "vega": 0.05,
+      "theta": -0.02
+    },
+    "fills_rate": 0.98,
+    "latency_ms": 15.0
+  },
+  "current": {
+    "pnl": 10250.0,
+    "greeks": {
+      "delta": 0.105,
+      "gamma": 0.0105,
+      "vega": 0.052,
+      "theta": -0.021
+    },
+    "fills_rate": 0.97,
+    "latency_ms": 18.0
+  },
+  "detection": {
+    "timestamp": "2026-11-01T13:35:37.169700Z",
+    "seed": 42,
+    "anomalies": [],
+    "anomaly_count": 0,
+    "anomaly_score": 0.0,
+    "within_bounds": true,
+    "alerts_triggered": true,
+    "alerts_count": 0,
+    "paper_only": true
+  },
+  "alerts": [],
+  "paper_only": true,
+  "git_sha": "3dae2c90e9e5f44da93f9c463a093645c0098d56",
+  "campaign_id": "phase17_42",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "report": "PHASE20_LIVE_READINESS_REPORT",
+  "timestamp": "2026-11-01T13:35:37.170397Z",
+  "seed": 42,
+  "git_sha": "3dae2c90e9e5f44da93f9c463a093645c0098d56",
+  "paper_only": true,
+  "decision": {
+    "allowed": true,
+    "live_allowed": false,
+    "approval_state": "APPROVED",
+    "blocked_reasons": [
+      "reconciliation_clean"
+    ],
+    "timestamp": "2026-11-01T13:35:37.170384Z"
+  },
+  "checks": [
+    {
+      "name": "paper_only_enforced",
+      "passed": true,
+      "required": true,
+      "reason": "paper_only remains True",
+      "severity": "info"
+    },
+    {
+      "name": "capital_allocation_valid",
+      "passed": true,
+      "required": true,
+      "reason": "capital allocation valid",
+      "severity": "info"
+    },
+    {
+      "name": "connectivity_ok",
+      "passed": true,
+      "required": true,
+      "reason": "connectivity verified",
+      "severity": "info"
+    },
+    {
+      "name": "risk_limits_ok",
+      "passed": true,
+      "required": true,
+      "reason": "risk limits ok",
+      "severity": "info"
+    },
+    {
+      "name": "compliance_ok",
+      "passed": true,
+      "required": true,
+      "reason": "compliance verified",
+      "severity": "info"
+    },
+    {
+      "name": "drift_within_bounds",
+      "passed": true,
+      "required": true,
+      "reason": "drift within bounds",
+      "severity": "info"
+    },
+    {
+      "name": "reconciliation_clean",
+      "passed": false,
+      "required": true,
+      "reason": "reconciliation discrepancies",
+      "severity": "block"
+    },
+    {
+      "name": "auto_recovery_ready",
+      "passed": true,
+      "required": true,
+      "reason": "auto-recovery ready",
+      "severity": "info"
+    },
+    {
+      "name": "min_equity",
+      "passed": true,
+      "required": true,
+      "reason": "equity 2000000.0 >= 100000",
+      "severity": "info"
+    },
+    {
+      "name": "max_drawdown",
+      "passed": true,
+      "required": true,
+      "reason": "drawdown within cap",
+      "severity": "info"
+    }
+  ],
+  "audit_log": [
+    {
+      "timestamp": "2026-11-01T13:35:37.155098Z",
+      "action": "init",
+      "details": {
+        "paper_only": true
+      }
+    },
+    {
+      "timestamp": "2026-11-01T13:35:37.170358Z",
+      "action": "grant_approval",
+      "details": {
+        "state": "APPROVED"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T13:35:37.170392Z",
+      "action": "evaluate",
+      "details": {
+        "live_allowed": false,
+        "blocked": [
+          "reconciliation_clean"
+        ]
+      }
+    }
+  ],
+  "campaign_id": "phase17_42",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ]
+}

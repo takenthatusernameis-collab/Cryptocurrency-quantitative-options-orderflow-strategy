@@ -1,0 +1,385 @@
+{
+  "report": "PHASE20_STRATEGY_ORCHESTRATION_REPORT",
+  "timestamp": "2026-11-01T13:35:37.165362Z",
+  "seed": 42,
+  "config": {
+    "strategies": [
+      "vol_arb",
+      "cross_asset_vol",
+      "orderflow_momentum",
+      "delta_neutral_mm"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "binance",
+      "bybit"
+    ],
+    "max_concurrent": 3,
+    "priority_weights": [
+      1.0,
+      0.9,
+      0.8,
+      0.7
+    ],
+    "paper_only": true
+  },
+  "plan": [
+    {
+      "task_id": "p20_task_55af69aa1df3",
+      "strategy": "vol_arb",
+      "venue": "deribit",
+      "priority": 1.0,
+      "dependencies": [],
+      "resource_lock": "lock:deribit:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:43Z"
+    },
+    {
+      "task_id": "p20_task_ffccac3b2449",
+      "strategy": "vol_arb",
+      "venue": "okx",
+      "priority": 1.0,
+      "dependencies": [],
+      "resource_lock": "lock:okx:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:44Z"
+    },
+    {
+      "task_id": "p20_task_6457d3d0cc87",
+      "strategy": "vol_arb",
+      "venue": "binance",
+      "priority": 1.0,
+      "dependencies": [],
+      "resource_lock": "lock:binance:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:45Z"
+    },
+    {
+      "task_id": "p20_task_cb84c8223f85",
+      "strategy": "vol_arb",
+      "venue": "bybit",
+      "priority": 1.0,
+      "dependencies": [],
+      "resource_lock": "lock:bybit:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:46Z"
+    },
+    {
+      "task_id": "p20_task_79c10a0b08a4",
+      "strategy": "cross_asset_vol",
+      "venue": "deribit",
+      "priority": 0.9,
+      "dependencies": [
+        "dep_0"
+      ],
+      "resource_lock": "lock:deribit:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:47Z"
+    },
+    {
+      "task_id": "p20_task_9960b77d985a",
+      "strategy": "cross_asset_vol",
+      "venue": "okx",
+      "priority": 0.9,
+      "dependencies": [],
+      "resource_lock": "lock:okx:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:48Z"
+    },
+    {
+      "task_id": "p20_task_1a7f69c46421",
+      "strategy": "cross_asset_vol",
+      "venue": "binance",
+      "priority": 0.9,
+      "dependencies": [],
+      "resource_lock": "lock:binance:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:49Z"
+    },
+    {
+      "task_id": "p20_task_37b96aa4be14",
+      "strategy": "cross_asset_vol",
+      "venue": "bybit",
+      "priority": 0.9,
+      "dependencies": [],
+      "resource_lock": "lock:bybit:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:50Z"
+    },
+    {
+      "task_id": "p20_task_b93351ae7f6f",
+      "strategy": "orderflow_momentum",
+      "venue": "deribit",
+      "priority": 0.8,
+      "dependencies": [
+        "dep_1"
+      ],
+      "resource_lock": "lock:deribit:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:51Z"
+    },
+    {
+      "task_id": "p20_task_1c67918b05ab",
+      "strategy": "orderflow_momentum",
+      "venue": "okx",
+      "priority": 0.8,
+      "dependencies": [],
+      "resource_lock": "lock:okx:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:52Z"
+    },
+    {
+      "task_id": "p20_task_9aa9c9158ecc",
+      "strategy": "orderflow_momentum",
+      "venue": "binance",
+      "priority": 0.8,
+      "dependencies": [],
+      "resource_lock": "lock:binance:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:53Z"
+    },
+    {
+      "task_id": "p20_task_f6cf37c8e019",
+      "strategy": "orderflow_momentum",
+      "venue": "bybit",
+      "priority": 0.8,
+      "dependencies": [],
+      "resource_lock": "lock:bybit:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:54Z"
+    },
+    {
+      "task_id": "p20_task_8dbb091eee5d",
+      "strategy": "delta_neutral_mm",
+      "venue": "deribit",
+      "priority": 0.7,
+      "dependencies": [
+        "dep_2"
+      ],
+      "resource_lock": "lock:deribit:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:55Z"
+    },
+    {
+      "task_id": "p20_task_53512c7b9d85",
+      "strategy": "delta_neutral_mm",
+      "venue": "okx",
+      "priority": 0.7,
+      "dependencies": [],
+      "resource_lock": "lock:okx:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:56Z"
+    },
+    {
+      "task_id": "p20_task_5359e44b7455",
+      "strategy": "delta_neutral_mm",
+      "venue": "binance",
+      "priority": 0.7,
+      "dependencies": [],
+      "resource_lock": "lock:binance:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:57Z"
+    },
+    {
+      "task_id": "p20_task_5ecdbf518b89",
+      "strategy": "delta_neutral_mm",
+      "venue": "bybit",
+      "priority": 0.7,
+      "dependencies": [],
+      "resource_lock": "lock:bybit:options",
+      "status": "pending",
+      "scheduled_at": "2026-11-01T00:00:58Z"
+    }
+  ],
+  "schedule": {
+    "timestamp": "2026-11-01T13:35:37.165350Z",
+    "seed": 42,
+    "max_concurrent": 3,
+    "scheduled": [
+      {
+        "task_id": "p20_task_55af69aa1df3",
+        "strategy": "vol_arb",
+        "venue": "deribit",
+        "priority": 1.0,
+        "dependencies": [],
+        "resource_lock": "lock:deribit:options",
+        "status": "completed"
+      },
+      {
+        "task_id": "p20_task_ffccac3b2449",
+        "strategy": "vol_arb",
+        "venue": "okx",
+        "priority": 1.0,
+        "dependencies": [],
+        "resource_lock": "lock:okx:options",
+        "status": "running"
+      },
+      {
+        "task_id": "p20_task_6457d3d0cc87",
+        "strategy": "vol_arb",
+        "venue": "binance",
+        "priority": 1.0,
+        "dependencies": [],
+        "resource_lock": "lock:binance:options",
+        "status": "completed"
+      },
+      {
+        "task_id": "p20_task_cb84c8223f85",
+        "strategy": "vol_arb",
+        "venue": "bybit",
+        "priority": 1.0,
+        "dependencies": [],
+        "resource_lock": "lock:bybit:options",
+        "status": "pending"
+      },
+      {
+        "task_id": "p20_task_79c10a0b08a4",
+        "strategy": "cross_asset_vol",
+        "venue": "deribit",
+        "priority": 0.9,
+        "dependencies": [
+          "dep_0"
+        ],
+        "resource_lock": "lock:deribit:options",
+        "status": "blocked"
+      },
+      {
+        "task_id": "p20_task_9960b77d985a",
+        "strategy": "cross_asset_vol",
+        "venue": "okx",
+        "priority": 0.9,
+        "dependencies": [],
+        "resource_lock": "lock:okx:options",
+        "status": "pending"
+      },
+      {
+        "task_id": "p20_task_1a7f69c46421",
+        "strategy": "cross_asset_vol",
+        "venue": "binance",
+        "priority": 0.9,
+        "dependencies": [],
+        "resource_lock": "lock:binance:options",
+        "status": "pending"
+      },
+      {
+        "task_id": "p20_task_37b96aa4be14",
+        "strategy": "cross_asset_vol",
+        "venue": "bybit",
+        "priority": 0.9,
+        "dependencies": [],
+        "resource_lock": "lock:bybit:options",
+        "status": "pending"
+      },
+      {
+        "task_id": "p20_task_b93351ae7f6f",
+        "strategy": "orderflow_momentum",
+        "venue": "deribit",
+        "priority": 0.8,
+        "dependencies": [
+          "dep_1"
+        ],
+        "resource_lock": "lock:deribit:options",
+        "status": "blocked"
+      },
+      {
+        "task_id": "p20_task_1c67918b05ab",
+        "strategy": "orderflow_momentum",
+        "venue": "okx",
+        "priority": 0.8,
+        "dependencies": [],
+        "resource_lock": "lock:okx:options",
+        "status": "pending"
+      },
+      {
+        "task_id": "p20_task_9aa9c9158ecc",
+        "strategy": "orderflow_momentum",
+        "venue": "binance",
+        "priority": 0.8,
+        "dependencies": [],
+        "resource_lock": "lock:binance:options",
+        "status": "pending"
+      },
+      {
+        "task_id": "p20_task_f6cf37c8e019",
+        "strategy": "orderflow_momentum",
+        "venue": "bybit",
+        "priority": 0.8,
+        "dependencies": [],
+        "resource_lock": "lock:bybit:options",
+        "status": "pending"
+      },
+      {
+        "task_id": "p20_task_8dbb091eee5d",
+        "strategy": "delta_neutral_mm",
+        "venue": "deribit",
+        "priority": 0.7,
+        "dependencies": [
+          "dep_2"
+        ],
+        "resource_lock": "lock:deribit:options",
+        "status": "blocked"
+      },
+      {
+        "task_id": "p20_task_53512c7b9d85",
+        "strategy": "delta_neutral_mm",
+        "venue": "okx",
+        "priority": 0.7,
+        "dependencies": [],
+        "resource_lock": "lock:okx:options",
+        "status": "pending"
+      },
+      {
+        "task_id": "p20_task_5359e44b7455",
+        "strategy": "delta_neutral_mm",
+        "venue": "binance",
+        "priority": 0.7,
+        "dependencies": [],
+        "resource_lock": "lock:binance:options",
+        "status": "pending"
+      },
+      {
+        "task_id": "p20_task_5ecdbf518b89",
+        "strategy": "delta_neutral_mm",
+        "venue": "bybit",
+        "priority": 0.7,
+        "dependencies": [],
+        "resource_lock": "lock:bybit:options",
+        "status": "pending"
+      }
+    ],
+    "locks_held": {
+      "lock:okx:options": "p20_task_ffccac3b2449"
+    },
+    "counts": {
+      "total": 16,
+      "running": 1,
+      "completed": 2,
+      "blocked": 3,
+      "pending": 10
+    }
+  },
+  "paper_only": true,
+  "git_sha": "3dae2c90e9e5f44da93f9c463a093645c0098d56",
+  "campaign_id": "phase17_42",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "strategies": [
+    "vol_arb",
+    "cross_asset_vol",
+    "orderflow_momentum",
+    "delta_neutral_mm"
+  ]
+}

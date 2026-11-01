@@ -5,8 +5,8 @@ Seed: 42
 Symbols: BTC, ETH, SOL, XRP, ADA
 Venues: deribit, okx, binance, bybit, bitget
 Paper-only: True
-Cycles: 5
-Git SHA: 19df83047c023829178ada70db16f29edcf58d55
+Cycles: 6
+Git SHA: 3dae2c90e9e5f44da93f9c463a093645c0098d56
 Count: 0
 
 ## Artifacts
