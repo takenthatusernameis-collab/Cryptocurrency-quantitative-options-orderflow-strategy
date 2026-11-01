@@ -1,0 +1,692 @@
+{
+  "report": "PHASE33_LIQUIDITY_SWEEP_REPORT",
+  "timestamp": "2026-11-01T22:11:49.692933Z",
+  "seed": 33446,
+  "paper_only": true,
+  "cycles": 10,
+  "total_venues_scanned": 40,
+  "total_sweeps_routed": 30,
+  "total_swept_notional_usd": 500000.0,
+  "final_avg_slippage_bps": 3.7744129704923517,
+  "final_avg_fill_rate": 0.8506356187025593,
+  "config": {
+    "seed": 33446,
+    "paper_only": true,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "expiries": [
+      "7D",
+      "30D",
+      "90D"
+    ],
+    "cycles": 10,
+    "liquidity_threshold_usd": 1000000.0,
+    "sweep_size_pct": 0.25,
+    "max_slippage_bps": 25.0,
+    "fill_rate_min": 0.8,
+    "max_venue_allocation_pct": 0.4,
+    "min_venues_per_sweep": 2,
+    "total_capital_usd": 150000.0
+  },
+  "last_cycle": 10,
+  "last_venues_scanned": 4,
+  "last_liquidity_venues": 4,
+  "last_sweeps_routed": 3,
+  "last_avg_slippage_bps": 3.7744129704923517,
+  "last_avg_fill_rate": 0.8506356187025593,
+  "best_venue": "deribit",
+  "cycle_results": [
+    {
+      "cycle": 1,
+      "venues_scanned": 4,
+      "liquidity_venues": 3,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 4.907857746041073,
+      "max_slippage_bps": 6.093827451342109,
+      "avg_fill_rate": 0.8493875439747374,
+      "best_venue": "deribit",
+      "risk_ok": true,
+      "blocked_reasons": []
+    },
+    {
+      "cycle": 2,
+      "venues_scanned": 4,
+      "liquidity_venues": 1,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 4.887792576571384,
+      "max_slippage_bps": 6.38989517508557,
+      "avg_fill_rate": 0.852872701701838,
+      "best_venue": "okx",
+      "risk_ok": false,
+      "blocked_reasons": [
+        "insufficient_liquidity_venues"
+      ]
+    },
+    {
+      "cycle": 3,
+      "venues_scanned": 4,
+      "liquidity_venues": 3,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 3.9223294878184123,
+      "max_slippage_bps": 5.856206061918135,
+      "avg_fill_rate": 0.8460494410361049,
+      "best_venue": "deribit",
+      "risk_ok": true,
+      "blocked_reasons": []
+    },
+    {
+      "cycle": 4,
+      "venues_scanned": 4,
+      "liquidity_venues": 1,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 4.1079738994302035,
+      "max_slippage_bps": 6.561591885086847,
+      "avg_fill_rate": 0.8454929628792748,
+      "best_venue": "deribit",
+      "risk_ok": false,
+      "blocked_reasons": [
+        "insufficient_liquidity_venues"
+      ]
+    },
+    {
+      "cycle": 5,
+      "venues_scanned": 4,
+      "liquidity_venues": 2,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 3.237160788815863,
+      "max_slippage_bps": 4.051089982662282,
+      "avg_fill_rate": 0.846918585606035,
+      "best_venue": "deribit",
+      "risk_ok": true,
+      "blocked_reasons": []
+    },
+    {
+      "cycle": 6,
+      "venues_scanned": 4,
+      "liquidity_venues": 3,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 5.041599478662316,
+      "max_slippage_bps": 5.798901403609527,
+      "avg_fill_rate": 0.8495211360990851,
+      "best_venue": "deribit",
+      "risk_ok": true,
+      "blocked_reasons": []
+    },
+    {
+      "cycle": 7,
+      "venues_scanned": 4,
+      "liquidity_venues": 2,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 4.728375714284975,
+      "max_slippage_bps": 5.735442599084699,
+      "avg_fill_rate": 0.8465303284367215,
+      "best_venue": "deribit",
+      "risk_ok": true,
+      "blocked_reasons": []
+    },
+    {
+      "cycle": 8,
+      "venues_scanned": 4,
+      "liquidity_venues": 1,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 4.944879123075779,
+      "max_slippage_bps": 5.165817207452992,
+      "avg_fill_rate": 0.8537081482907934,
+      "best_venue": "okx",
+      "risk_ok": false,
+      "blocked_reasons": [
+        "insufficient_liquidity_venues"
+      ]
+    },
+    {
+      "cycle": 9,
+      "venues_scanned": 4,
+      "liquidity_venues": 1,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 3.814447470827248,
+      "max_slippage_bps": 5.2570591513562865,
+      "avg_fill_rate": 0.8532380187805266,
+      "best_venue": "deribit",
+      "risk_ok": false,
+      "blocked_reasons": [
+        "insufficient_liquidity_venues"
+      ]
+    },
+    {
+      "cycle": 10,
+      "venues_scanned": 4,
+      "liquidity_venues": 4,
+      "sweeps_routed": 3,
+      "total_swept_notional_usd": 50000.0,
+      "avg_slippage_bps": 3.7744129704923517,
+      "max_slippage_bps": 4.6637931829084565,
+      "avg_fill_rate": 0.8506356187025593,
+      "best_venue": "deribit",
+      "risk_ok": true,
+      "blocked_reasons": []
+    }
+  ],
+  "liquidity_snapshots": [
+    {
+      "venue": "deribit",
+      "symbol": "ETH",
+      "bid_size_usd": 2563845.795117962,
+      "ask_size_usd": 3077232.684960743,
+      "liquidity_score": 0.7501122407619414,
+      "fill_rate": 0.8465439540158319,
+      "latency_ms": 38.2396523855013,
+      "slippage_bps": 4.271248836271374,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "ETH",
+      "bid_size_usd": 4790979.91673777,
+      "ask_size_usd": 827338.8775188612,
+      "liquidity_score": 0.7505868031869041,
+      "fill_rate": 0.8532427282116765,
+      "latency_ms": 51.437064730436525,
+      "slippage_bps": 5.054648196106047,
+      "paper_only": true
+    },
+    {
+      "venue": "bybit",
+      "symbol": "ETH",
+      "bid_size_usd": 2717028.858149306,
+      "ask_size_usd": 4140774.730648671,
+      "liquidity_score": 0.37824114987518187,
+      "fill_rate": 0.8485689272212518,
+      "latency_ms": 58.182058559707414,
+      "slippage_bps": 5.986898316107632,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "ETH",
+      "bid_size_usd": 2646927.04142459,
+      "ask_size_usd": 248014.73011481378,
+      "liquidity_score": 0.816736815952812,
+      "fill_rate": 0.8487767260697469,
+      "latency_ms": 58.31379864099352,
+      "slippage_bps": 5.798901403609527,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "symbol": "SOL",
+      "bid_size_usd": 4816076.671748658,
+      "ask_size_usd": 2014991.143891095,
+      "liquidity_score": 0.2568844542090829,
+      "fill_rate": 0.8484695758400569,
+      "latency_ms": 38.313722695753306,
+      "slippage_bps": 3.508235205794203,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "SOL",
+      "bid_size_usd": 634039.7702842987,
+      "ask_size_usd": 1989433.0274715158,
+      "liquidity_score": 0.8818027249542517,
+      "fill_rate": 0.8416690721266973,
+      "latency_ms": 50.545170802595976,
+      "slippage_bps": 5.735442599084699,
+      "paper_only": true
+    },
+    {
+      "venue": "bybit",
+      "symbol": "SOL",
+      "bid_size_usd": 4390160.172224611,
+      "ask_size_usd": 4873906.893722284,
+      "liquidity_score": 0.5121273965935907,
+      "fill_rate": 0.8494523373434103,
+      "latency_ms": 56.98948759696809,
+      "slippage_bps": 4.941449337976021,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "SOL",
+      "bid_size_usd": 2648411.6964478604,
+      "ask_size_usd": 1899259.6542583995,
+      "liquidity_score": 0.22465799116056187,
+      "fill_rate": 0.8436882079686598,
+      "latency_ms": 65.91793376382176,
+      "slippage_bps": 6.9852596604670225,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "symbol": "XRP",
+      "bid_size_usd": 2173010.6483683838,
+      "ask_size_usd": 2840489.9712787773,
+      "liquidity_score": 0.4773629526768493,
+      "fill_rate": 0.8579672783860889,
+      "latency_ms": 37.54534360657275,
+      "slippage_bps": 5.002878037405123,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "XRP",
+      "bid_size_usd": 1694383.2698681788,
+      "ask_size_usd": 2285858.0241449443,
+      "liquidity_score": 0.5080470747718243,
+      "fill_rate": 0.8493758942379753,
+      "latency_ms": 48.548553838518956,
+      "slippage_bps": 4.665942124369222,
+      "paper_only": true
+    },
+    {
+      "venue": "bybit",
+      "symbol": "XRP",
+      "bid_size_usd": 2427768.360646115,
+      "ask_size_usd": 1709702.073095323,
+      "liquidity_score": 0.3642635757558158,
+      "fill_rate": 0.8491147500837429,
+      "latency_ms": 58.76760908803525,
+      "slippage_bps": 6.58042801802206,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "XRP",
+      "bid_size_usd": 3793324.279300542,
+      "ask_size_usd": 2778378.754342954,
+      "liquidity_score": 0.0,
+      "fill_rate": 0.8537812722483159,
+      "latency_ms": 64.4894129239898,
+      "slippage_bps": 5.165817207452992,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "symbol": "BTC",
+      "bid_size_usd": 1328174.919670608,
+      "ask_size_usd": 2951604.084112893,
+      "liquidity_score": 1.0,
+      "fill_rate": 0.8577193732825762,
+      "latency_ms": 39.26354534420056,
+      "slippage_bps": 2.9934813434178063,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "BTC",
+      "bid_size_usd": 2656668.6788570136,
+      "ask_size_usd": 4761735.135481694,
+      "liquidity_score": 0.30739202445358893,
+      "fill_rate": 0.8530601069359754,
+      "latency_ms": 52.59842507424502,
+      "slippage_bps": 3.1928019177076523,
+      "paper_only": true
+    },
+    {
+      "venue": "bybit",
+      "symbol": "BTC",
+      "bid_size_usd": 3911824.564744257,
+      "ask_size_usd": 1896634.6043173773,
+      "liquidity_score": 0.40869394193958364,
+      "fill_rate": 0.8471894071953607,
+      "latency_ms": 55.655762131630425,
+      "slippage_bps": 8.026127004959305,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "BTC",
+      "bid_size_usd": 3727132.08620314,
+      "ask_size_usd": 1057845.7712701508,
+      "liquidity_score": 0.3817928341931309,
+      "fill_rate": 0.8489345761230283,
+      "latency_ms": 66.03965967427727,
+      "slippage_bps": 5.2570591513562865,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "symbol": "ETH",
+      "bid_size_usd": 3549058.732906204,
+      "ask_size_usd": 3820657.077015928,
+      "liquidity_score": 0.580897496792368,
+      "fill_rate": 0.8509149076854957,
+      "latency_ms": 36.241347485481164,
+      "slippage_bps": 2.3640141507304,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "ETH",
+      "bid_size_usd": 2644893.738429698,
+      "ask_size_usd": 4470850.086871536,
+      "liquidity_score": 0.5057035462032343,
+      "fill_rate": 0.8505683987415924,
+      "latency_ms": 50.0408633018098,
+      "slippage_bps": 4.6637931829084565,
+      "paper_only": true
+    },
+    {
+      "venue": "bybit",
+      "symbol": "ETH",
+      "bid_size_usd": 2915461.311099489,
+      "ask_size_usd": 766469.0596490662,
+      "liquidity_score": 0.9196228029394656,
+      "fill_rate": 0.8504235496805895,
+      "latency_ms": 59.48286024134145,
+      "slippage_bps": 4.295431577838199,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "ETH",
+      "bid_size_usd": 295691.28937860555,
+      "ask_size_usd": 1955675.3812941888,
+      "liquidity_score": 1.0,
+      "fill_rate": 0.851408673720622,
+      "latency_ms": 63.27015557660437,
+      "slippage_bps": 7.548267994900748,
+      "paper_only": true
+    }
+  ],
+  "sweep_routes": [
+    {
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "okx",
+      "route_venues": [
+        "okx"
+      ],
+      "slippage_bps": 3.4613796995178703,
+      "fill_rate": 0.8473953024937741,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|XRP|sell|okx|slip=3.46bps|fill=0.847|liq=0.514|alloc=20000.00"
+    },
+    {
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "bybit",
+      "route_venues": [
+        "bybit"
+      ],
+      "slippage_bps": 6.561591885086847,
+      "fill_rate": 0.852675339208038,
+      "allocated_usd": 10000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|XRP|sell|bybit|slip=6.56bps|fill=0.853|liq=0.088|alloc=10000.00"
+    },
+    {
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "venue": "deribit",
+      "route_venues": [
+        "deribit"
+      ],
+      "slippage_bps": 2.0470119107155367,
+      "fill_rate": 0.8494628938565018,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|BTC|buy|deribit|slip=2.05bps|fill=0.849|liq=0.622|alloc=20000.00"
+    },
+    {
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "venue": "okx",
+      "route_venues": [
+        "okx"
+      ],
+      "slippage_bps": 3.6133804730697694,
+      "fill_rate": 0.8429051844717412,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|BTC|buy|okx|slip=3.61bps|fill=0.843|liq=0.395|alloc=20000.00"
+    },
+    {
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "venue": "bybit",
+      "route_venues": [
+        "bybit"
+      ],
+      "slippage_bps": 4.051089982662282,
+      "fill_rate": 0.8483876784898617,
+      "allocated_usd": 10000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|BTC|buy|bybit|slip=4.05bps|fill=0.848|liq=0.511|alloc=10000.00"
+    },
+    {
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "deribit",
+      "route_venues": [
+        "deribit"
+      ],
+      "slippage_bps": 4.271248836271374,
+      "fill_rate": 0.8465439540158319,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|ETH|sell|deribit|slip=4.27bps|fill=0.847|liq=0.750|alloc=20000.00"
+    },
+    {
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "okx",
+      "route_venues": [
+        "okx"
+      ],
+      "slippage_bps": 5.054648196106047,
+      "fill_rate": 0.8532427282116765,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|ETH|sell|okx|slip=5.05bps|fill=0.853|liq=0.751|alloc=20000.00"
+    },
+    {
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "binance",
+      "route_venues": [
+        "binance"
+      ],
+      "slippage_bps": 5.798901403609527,
+      "fill_rate": 0.8487767260697469,
+      "allocated_usd": 10000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|ETH|sell|binance|slip=5.80bps|fill=0.849|liq=0.817|alloc=10000.00"
+    },
+    {
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "venue": "deribit",
+      "route_venues": [
+        "deribit"
+      ],
+      "slippage_bps": 3.508235205794203,
+      "fill_rate": 0.8484695758400569,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|SOL|buy|deribit|slip=3.51bps|fill=0.848|liq=0.257|alloc=20000.00"
+    },
+    {
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "venue": "bybit",
+      "route_venues": [
+        "bybit"
+      ],
+      "slippage_bps": 4.941449337976021,
+      "fill_rate": 0.8494523373434103,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|SOL|buy|bybit|slip=4.94bps|fill=0.849|liq=0.512|alloc=20000.00"
+    },
+    {
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "venue": "okx",
+      "route_venues": [
+        "okx"
+      ],
+      "slippage_bps": 5.735442599084699,
+      "fill_rate": 0.8416690721266973,
+      "allocated_usd": 10000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|SOL|buy|okx|slip=5.74bps|fill=0.842|liq=0.882|alloc=10000.00"
+    },
+    {
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "okx",
+      "route_venues": [
+        "okx"
+      ],
+      "slippage_bps": 4.665942124369222,
+      "fill_rate": 0.8493758942379753,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|XRP|sell|okx|slip=4.67bps|fill=0.849|liq=0.508|alloc=20000.00"
+    },
+    {
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "deribit",
+      "route_venues": [
+        "deribit"
+      ],
+      "slippage_bps": 5.002878037405123,
+      "fill_rate": 0.8579672783860889,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|XRP|sell|deribit|slip=5.00bps|fill=0.858|liq=0.477|alloc=20000.00"
+    },
+    {
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "binance",
+      "route_venues": [
+        "binance"
+      ],
+      "slippage_bps": 5.165817207452992,
+      "fill_rate": 0.8537812722483159,
+      "allocated_usd": 10000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|XRP|sell|binance|slip=5.17bps|fill=0.854|liq=0.000|alloc=10000.00"
+    },
+    {
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "venue": "deribit",
+      "route_venues": [
+        "deribit"
+      ],
+      "slippage_bps": 2.9934813434178063,
+      "fill_rate": 0.8577193732825762,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|BTC|buy|deribit|slip=2.99bps|fill=0.858|liq=1.000|alloc=20000.00"
+    },
+    {
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "venue": "okx",
+      "route_venues": [
+        "okx"
+      ],
+      "slippage_bps": 3.1928019177076523,
+      "fill_rate": 0.8530601069359754,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|BTC|buy|okx|slip=3.19bps|fill=0.853|liq=0.307|alloc=20000.00"
+    },
+    {
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "venue": "binance",
+      "route_venues": [
+        "binance"
+      ],
+      "slippage_bps": 5.2570591513562865,
+      "fill_rate": 0.8489345761230283,
+      "allocated_usd": 10000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|BTC|buy|binance|slip=5.26bps|fill=0.849|liq=0.382|alloc=10000.00"
+    },
+    {
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "deribit",
+      "route_venues": [
+        "deribit"
+      ],
+      "slippage_bps": 2.3640141507304,
+      "fill_rate": 0.8509149076854957,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|ETH|sell|deribit|slip=2.36bps|fill=0.851|liq=0.581|alloc=20000.00"
+    },
+    {
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "bybit",
+      "route_venues": [
+        "bybit"
+      ],
+      "slippage_bps": 4.295431577838199,
+      "fill_rate": 0.8504235496805895,
+      "allocated_usd": 20000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|ETH|sell|bybit|slip=4.30bps|fill=0.850|liq=0.920|alloc=20000.00"
+    },
+    {
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 50000.0,
+      "venue": "okx",
+      "route_venues": [
+        "okx"
+      ],
+      "slippage_bps": 4.6637931829084565,
+      "fill_rate": 0.8505683987415924,
+      "allocated_usd": 10000.0,
+      "paper_only": true,
+      "rationale": "p33sweep|ETH|sell|okx|slip=4.66bps|fill=0.851|liq=0.506|alloc=10000.00"
+    }
+  ]
+}
