@@ -161,7 +161,7 @@ class Phase15Campaign:
                 instrument=f"{symbol}-{int(strike)}-{option_type.upper()[0]}",
                 kind="option",
                 side=side,
-                quantity=0.5 + i,
+                quantity=0.15 + 0.1 * i,
                 strike=strike,
                 expiry="2026-12-31",
                 option_type=option_type,
@@ -228,6 +228,15 @@ class Phase15Campaign:
         routes = []
         for intent in intents:
             route = router.route_intent(intent, spot=spots)
+            routes.append(route)
+
+        # One cancel/replace exercised deterministically on the first route
+        # (before fills, since a filled order is no longer active).
+        replacement_id: Optional[str] = None
+        if routes:
+            replacement_id = router.replace(routes[0].order_id, price=routes[0].price * 0.999)
+
+        for intent, route in zip(intents, routes):
             router.track_fill(
                 route.order_id,
                 route.price,
@@ -235,12 +244,6 @@ class Phase15Campaign:
                 commission=route.total_cost_bps / 10000.0 * route.quantity * route.price,
                 symbol=intent["symbol"],
             )
-            routes.append(route.to_dict())
-
-        # One cancel/replace exercised deterministically.
-        replacement_id: Optional[str] = None
-        if routes:
-            replacement_id = router.replace(routes[0]["order_id"], price=routes[0]["price"] * 0.999)
 
         report = router.generate_report()
         _assert_no_nan_inf(report, "latency_routing_report")
@@ -251,7 +254,7 @@ class Phase15Campaign:
             "report": report,
             "artifact": path,
             "counts": report["counts"],
-            "routes": routes,
+            "routes": [r.to_dict() for r in routes],
             "replacement_id": replacement_id,
             "latency": report["latency"],
         }

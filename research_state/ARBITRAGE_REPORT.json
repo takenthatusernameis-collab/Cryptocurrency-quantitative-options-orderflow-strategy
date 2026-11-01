@@ -1,0 +1,157 @@
+{
+  "report": "ARBITRAGE_REPORT",
+  "detector": "ArbitrageDetector",
+  "campaign": "phase15_crossvenue",
+  "seed": 42,
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "paper_only": true,
+  "timestamp": "2026-11-01T00:00:42Z",
+  "config": {
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC",
+      "ETH"
+    ],
+    "min_edge_bps": 5.0,
+    "taker_fee_bps": {
+      "deribit": 5.0,
+      "okx": 5.0,
+      "binance": 4.0
+    },
+    "max_spread_bps": 50.0,
+    "max_implied_vol": 1.5,
+    "stale_quote_sec": 5.0,
+    "min_size_usd": 1000.0,
+    "max_notional_usd": 100000.0,
+    "paper_only": true,
+    "seed": 42
+  },
+  "counts": {
+    "quotes_submitted": 6,
+    "venues_seen": 3,
+    "symbols_seen": 2,
+    "opportunities_detected": 2,
+    "qualified": 0,
+    "rejections": 10
+  },
+  "rejections": [
+    {
+      "symbol": "BTC",
+      "venue": "binance->deribit",
+      "reason": "negative_spread",
+      "detail": -61.899399999994785
+    },
+    {
+      "symbol": "BTC",
+      "venue": "binance->okx",
+      "reason": "negative_spread",
+      "detail": -13.226399999999558
+    },
+    {
+      "symbol": "BTC",
+      "venue": "okx->binance",
+      "reason": "negative_spread",
+      "detail": -3.5063000000009197
+    },
+    {
+      "symbol": "BTC",
+      "venue": "okx->deribit",
+      "reason": "negative_spread",
+      "detail": -60.19219999999768
+    },
+    {
+      "symbol": "ETH",
+      "venue": "binance->deribit",
+      "reason": "negative_spread",
+      "detail": -36.84700000000885
+    },
+    {
+      "symbol": "ETH",
+      "venue": "binance->okx",
+      "reason": "negative_spread",
+      "detail": -21.60000000000582
+    },
+    {
+      "symbol": "ETH",
+      "venue": "deribit->binance",
+      "reason": "negative_spread",
+      "detail": -14.930000000007567
+    },
+    {
+      "symbol": "ETH",
+      "venue": "deribit->okx",
+      "reason": "negative_spread",
+      "detail": -12.087800000008428
+    },
+    {
+      "symbol": "ETH",
+      "venue": "okx->binance",
+      "reason": "negative_spread",
+      "detail": -25.737699999997858
+    },
+    {
+      "symbol": "ETH",
+      "venue": "okx->deribit",
+      "reason": "negative_spread",
+      "detail": -38.142500000001746
+    }
+  ],
+  "opportunities": [
+    {
+      "opportunity_id": "arb_dc3f4ee02cb8",
+      "symbol": "BTC",
+      "buy_venue": "deribit",
+      "sell_venue": "binance",
+      "ask_price": 64998.6704,
+      "bid_price": 65029.6976,
+      "spread_bps": 4.772373979191496,
+      "buy_fee_bps": 5.0,
+      "sell_fee_bps": 4.0,
+      "total_fee_bps": 9.0,
+      "net_edge_bps": -4.227626020808504,
+      "estimated_size": 1.4543,
+      "estimated_notional_usd": 94550.1277912,
+      "gross_edge_usd": 45.12285695999535,
+      "net_edge_usd": -39.97225805208464,
+      "buy_age_sec": 0.0,
+      "sell_age_sec": 0.0,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "qualified": false,
+      "rejection_reason": "below_min_edge"
+    },
+    {
+      "opportunity_id": "arb_17ca64d04ede",
+      "symbol": "BTC",
+      "buy_venue": "deribit",
+      "sell_venue": "okx",
+      "ask_price": 64998.6704,
+      "bid_price": 65021.6847,
+      "spread_bps": 3.5401072366391766,
+      "buy_fee_bps": 5.0,
+      "sell_fee_bps": 5.0,
+      "total_fee_bps": 10.0,
+      "net_edge_bps": -6.459892763360823,
+      "estimated_size": 1.538220687416043,
+      "estimated_notional_usd": 100000.0,
+      "gross_edge_usd": 35.401072366391766,
+      "net_edge_usd": -64.59892763360823,
+      "buy_age_sec": 0.0,
+      "sell_age_sec": 0.0,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "qualified": false,
+      "rejection_reason": "below_min_edge"
+    }
+  ]
+}

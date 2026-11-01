@@ -1,0 +1,967 @@
+{
+  "report": "PHASE15_CROSSVENUE_REPORT",
+  "campaign": "phase15_crossvenue",
+  "campaign_id": "phase15_42",
+  "timestamp": "2026-11-01T00:00:42Z",
+  "seed": 42,
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "paper_only": true,
+  "status": "completed",
+  "git_sha": "cc24ec71bcb86236b74d17a622b2afe418355143",
+  "cycles": 5,
+  "counts": {
+    "arb_opportunities": 2,
+    "arb_qualified": 0,
+    "mm_positions": 4,
+    "router_routes": 4,
+    "router_fills": 3,
+    "orchestrator_cycles": 5,
+    "artifacts": 5
+  },
+  "artifacts": [
+    "ARBITRAGE_REPORT.json",
+    "DELTA_NEUTRAL_MM_REPORT.json",
+    "LATENCY_ROUTING_REPORT.json",
+    "CROSSVENUE_ORCHESTRATION_REPORT.json",
+    "CROSSVENUE_ORCHESTRATION_STATE.json"
+  ],
+  "components": {
+    "arbitrage": {
+      "report": "ARBITRAGE_REPORT",
+      "detector": "ArbitrageDetector",
+      "campaign": "phase15_crossvenue",
+      "seed": 42,
+      "symbols": [
+        "BTC",
+        "ETH"
+      ],
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "config": {
+        "venues": [
+          "deribit",
+          "okx",
+          "binance"
+        ],
+        "symbols": [
+          "BTC",
+          "ETH"
+        ],
+        "min_edge_bps": 5.0,
+        "taker_fee_bps": {
+          "deribit": 5.0,
+          "okx": 5.0,
+          "binance": 4.0
+        },
+        "max_spread_bps": 50.0,
+        "max_implied_vol": 1.5,
+        "stale_quote_sec": 5.0,
+        "min_size_usd": 1000.0,
+        "max_notional_usd": 100000.0,
+        "paper_only": true,
+        "seed": 42
+      },
+      "counts": {
+        "quotes_submitted": 6,
+        "venues_seen": 3,
+        "symbols_seen": 2,
+        "opportunities_detected": 2,
+        "qualified": 0,
+        "rejections": 10
+      },
+      "rejections": [
+        {
+          "symbol": "BTC",
+          "venue": "binance->deribit",
+          "reason": "negative_spread",
+          "detail": -61.899399999994785
+        },
+        {
+          "symbol": "BTC",
+          "venue": "binance->okx",
+          "reason": "negative_spread",
+          "detail": -13.226399999999558
+        },
+        {
+          "symbol": "BTC",
+          "venue": "okx->binance",
+          "reason": "negative_spread",
+          "detail": -3.5063000000009197
+        },
+        {
+          "symbol": "BTC",
+          "venue": "okx->deribit",
+          "reason": "negative_spread",
+          "detail": -60.19219999999768
+        },
+        {
+          "symbol": "ETH",
+          "venue": "binance->deribit",
+          "reason": "negative_spread",
+          "detail": -36.84700000000885
+        },
+        {
+          "symbol": "ETH",
+          "venue": "binance->okx",
+          "reason": "negative_spread",
+          "detail": -21.60000000000582
+        },
+        {
+          "symbol": "ETH",
+          "venue": "deribit->binance",
+          "reason": "negative_spread",
+          "detail": -14.930000000007567
+        },
+        {
+          "symbol": "ETH",
+          "venue": "deribit->okx",
+          "reason": "negative_spread",
+          "detail": -12.087800000008428
+        },
+        {
+          "symbol": "ETH",
+          "venue": "okx->binance",
+          "reason": "negative_spread",
+          "detail": -25.737699999997858
+        },
+        {
+          "symbol": "ETH",
+          "venue": "okx->deribit",
+          "reason": "negative_spread",
+          "detail": -38.142500000001746
+        }
+      ],
+      "opportunities": [
+        {
+          "opportunity_id": "arb_dc3f4ee02cb8",
+          "symbol": "BTC",
+          "buy_venue": "deribit",
+          "sell_venue": "binance",
+          "ask_price": 64998.6704,
+          "bid_price": 65029.6976,
+          "spread_bps": 4.772373979191496,
+          "buy_fee_bps": 5.0,
+          "sell_fee_bps": 4.0,
+          "total_fee_bps": 9.0,
+          "net_edge_bps": -4.227626020808504,
+          "estimated_size": 1.4543,
+          "estimated_notional_usd": 94550.1277912,
+          "gross_edge_usd": 45.12285695999535,
+          "net_edge_usd": -39.97225805208464,
+          "buy_age_sec": 0.0,
+          "sell_age_sec": 0.0,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "qualified": false,
+          "rejection_reason": "below_min_edge"
+        },
+        {
+          "opportunity_id": "arb_17ca64d04ede",
+          "symbol": "BTC",
+          "buy_venue": "deribit",
+          "sell_venue": "okx",
+          "ask_price": 64998.6704,
+          "bid_price": 65021.6847,
+          "spread_bps": 3.5401072366391766,
+          "buy_fee_bps": 5.0,
+          "sell_fee_bps": 5.0,
+          "total_fee_bps": 10.0,
+          "net_edge_bps": -6.459892763360823,
+          "estimated_size": 1.538220687416043,
+          "estimated_notional_usd": 100000.0,
+          "gross_edge_usd": 35.401072366391766,
+          "net_edge_usd": -64.59892763360823,
+          "buy_age_sec": 0.0,
+          "sell_age_sec": 0.0,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "qualified": false,
+          "rejection_reason": "below_min_edge"
+        }
+      ]
+    },
+    "market_making": {
+      "report": "DELTA_NEUTRAL_MM_REPORT",
+      "engine": "DeltaNeutralMM",
+      "campaign": "phase15_crossvenue",
+      "seed": 42,
+      "symbols": [
+        "BTC",
+        "ETH"
+      ],
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "config": {
+        "symbols": [
+          "BTC",
+          "ETH"
+        ],
+        "venues": [
+          "deribit",
+          "okx",
+          "binance"
+        ],
+        "max_inventory_usd": 500000.0,
+        "max_net_delta_usd": 50000.0,
+        "max_gamma_risk_usd": 5000.0,
+        "max_vega_risk_usd": 100000.0,
+        "max_drawdown_pct": 0.1,
+        "hedge_threshold_usd": 5000.0,
+        "min_hedge_size": 0.001,
+        "risk_free_rate": 0.05,
+        "paper_only": true,
+        "seed": 42
+      },
+      "counts": {
+        "positions": 4,
+        "trades": 4,
+        "symbols_traded": 2
+      },
+      "pnl": {
+        "cash_usd": 1000000.0,
+        "realized_pnl_usd": 0.0,
+        "unrealized_pnl_usd": 0.0,
+        "net_pnl_usd": 1000000.0,
+        "peak_equity_usd": 1000000.0,
+        "drawdown_pct": 0.0
+      },
+      "risk": {
+        "within_limits": true,
+        "breaches": [],
+        "per_symbol": {
+          "BTC": {
+            "net_delta_usd": -12442.356954554249,
+            "inventory_skew": -0.9596898182456327,
+            "gross_notional_usd": 16584.257211222783,
+            "breaches": []
+          },
+          "ETH": {
+            "net_delta_usd": 22052.84702738892,
+            "inventory_skew": 0.9265866812627537,
+            "gross_notional_usd": 17128.738779804407,
+            "breaches": []
+          }
+        },
+        "gamma_risk_usd": 0.036924167893436895,
+        "vega_risk_usd": 52512.181495097204,
+        "drawdown_pct": 0.0,
+        "halted": false,
+        "paper_only": true
+      },
+      "per_symbol": {
+        "BTC": {
+          "net_delta_usd": -12442.356954554249,
+          "inventory_skew": -0.9596898182456327,
+          "gross_notional_usd": 16584.257211222783,
+          "perp_inventory": -0.25
+        },
+        "ETH": {
+          "net_delta_usd": 22052.84702738892,
+          "inventory_skew": 0.9265866812627537,
+          "gross_notional_usd": 17128.738779804407,
+          "perp_inventory": 0.25
+        }
+      },
+      "positions": [
+        {
+          "position_id": "pos_c40329fd9cb2",
+          "symbol": "BTC",
+          "venue": "deribit",
+          "instrument": "BTC-68250-C",
+          "kind": "option",
+          "side": "long",
+          "quantity": 0.15,
+          "strike": 68250.0,
+          "expiry": "2026-12-31",
+          "option_type": "call",
+          "entry_price": 2228.381408151894,
+          "mark_price": 2228.381408151894,
+          "delta": 0.39052749184058994,
+          "gamma": 4.4013423692924516e-05,
+          "vega": 55.78701453078182,
+          "notional_usd": 334.25721122278406,
+          "unrealized_pnl_usd": 0.0,
+          "realized_pnl_usd": 0.0,
+          "opened_at": "2026-11-01T00:00:42Z",
+          "updated_at": "2026-11-01T00:00:42Z"
+        },
+        {
+          "position_id": "pos_98309754de2b",
+          "symbol": "BTC",
+          "venue": "okx",
+          "instrument": "BTC-PERP",
+          "kind": "perp",
+          "side": "short",
+          "quantity": 0.25,
+          "strike": 0.0,
+          "expiry": "perpetual",
+          "option_type": null,
+          "entry_price": 65000.0,
+          "mark_price": 65000.0,
+          "delta": -1.0,
+          "gamma": 0.0,
+          "vega": 0.0,
+          "notional_usd": 16250.0,
+          "unrealized_pnl_usd": -0.0,
+          "realized_pnl_usd": 0.0,
+          "opened_at": "2026-11-01T00:00:42Z",
+          "updated_at": "2026-11-01T00:00:42Z"
+        },
+        {
+          "position_id": "pos_17952f289795",
+          "symbol": "ETH",
+          "venue": "okx",
+          "instrument": "ETH-62700-P",
+          "kind": "option",
+          "side": "short",
+          "quantity": 0.25,
+          "strike": 62700.0,
+          "expiry": "2026-12-31",
+          "option_type": "put",
+          "entry_price": 2514.9551192176223,
+          "mark_price": 2514.9551192176223,
+          "delta": -0.3365361834781164,
+          "gamma": 3.532844536865244e-05,
+          "vega": 53.86174780904749,
+          "notional_usd": 628.7387798044056,
+          "unrealized_pnl_usd": -0.0,
+          "realized_pnl_usd": 0.0,
+          "opened_at": "2026-11-01T00:00:42Z",
+          "updated_at": "2026-11-01T00:00:42Z"
+        },
+        {
+          "position_id": "pos_ca09d563d7c4",
+          "symbol": "ETH",
+          "venue": "binance",
+          "instrument": "ETH-PERP",
+          "kind": "perp",
+          "side": "long",
+          "quantity": 0.25,
+          "strike": 0.0,
+          "expiry": "perpetual",
+          "option_type": null,
+          "entry_price": 66000.0,
+          "mark_price": 66000.0,
+          "delta": 1.0,
+          "gamma": 0.0,
+          "vega": 0.0,
+          "notional_usd": 16500.0,
+          "unrealized_pnl_usd": 0.0,
+          "realized_pnl_usd": 0.0,
+          "opened_at": "2026-11-01T00:00:42Z",
+          "updated_at": "2026-11-01T00:00:42Z"
+        }
+      ],
+      "halted": false,
+      "halt_reason": null
+    },
+    "latency_routing": {
+      "report": "LATENCY_ROUTING_REPORT",
+      "router": "LatencyAwareRouter",
+      "campaign": "phase15_crossvenue",
+      "seed": 42,
+      "symbols": [
+        "BTC",
+        "ETH"
+      ],
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "enable_live": false,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "config": {
+        "venues": [
+          "deribit",
+          "okx",
+          "binance"
+        ],
+        "symbols": [
+          "BTC",
+          "ETH"
+        ],
+        "paper_only": true,
+        "enable_live": false,
+        "max_latency_ms": 500.0,
+        "latency_penalty_bps_per_ms": 0.5,
+        "slippage_bps_per_1pct_participation": 2.0,
+        "min_spread_bps": 0.1,
+        "cancel_replace_enabled": true,
+        "max_cancel_replace_per_order": 3,
+        "adv_usd": 1000000000.0,
+        "seed": 42
+      },
+      "counts": {
+        "routes": 4,
+        "fills": 3,
+        "cancels": 1,
+        "replacements": 1,
+        "venues_tracked": 3
+      },
+      "latency": {
+        "deribit": {
+          "ewma_ms": 8.5509,
+          "samples": 2,
+          "max_sample_ms": 24.52,
+          "within_limit": true
+        },
+        "okx": {
+          "ewma_ms": 16.531499999999998,
+          "samples": 2,
+          "max_sample_ms": 39.15,
+          "within_limit": true
+        },
+        "binance": {
+          "ewma_ms": 9.1674,
+          "samples": 2,
+          "max_sample_ms": 18.98,
+          "within_limit": true
+        }
+      },
+      "routing": {
+        "total_routes": 4,
+        "avg_cost_bps": 5.297385198134575,
+        "max_cost_bps": 5.305248484847441,
+        "avg_latency_ms": 8.705025000000001,
+        "paper_only": true
+      },
+      "slippage": {
+        "fills": 3,
+        "total_slippage_bps": 0.0,
+        "avg_slippage_bps": 0.0,
+        "max_slippage_bps": 0.0,
+        "total_commission": 40.17703499999264
+      },
+      "cancels": [
+        {
+          "order_id": "ord_22cbab06077b",
+          "venue": "deribit",
+          "symbol": "BTC",
+          "side": "sell",
+          "quantity": 0.1,
+          "timestamp": "2026-11-01T00:00:42Z"
+        }
+      ],
+      "replacements": [
+        {
+          "original_order_id": "ord_22cbab06077b",
+          "replacement_order_id": "ord_50dc03bc2066",
+          "venue": "deribit",
+          "symbol": "BTC",
+          "old_price": 65000.0,
+          "new_price": 64935.0,
+          "old_quantity": 0.1,
+          "new_quantity": 0.1,
+          "replace_number": 1,
+          "timestamp": "2026-11-01T00:00:42Z"
+        }
+      ],
+      "orders": [
+        {
+          "order_id": "ord_22cbab06077b",
+          "venue": "deribit",
+          "symbol": "BTC",
+          "side": "sell",
+          "quantity": 0.1,
+          "price": 65000.0,
+          "latency_ms": 8.5509,
+          "latency_penalty_bps": 4.27545,
+          "slippage_bps": 0.0013,
+          "total_cost_bps": 5.2949807692302855,
+          "participation_rate": 6.5e-06,
+          "status": "filled",
+          "paper_only": true,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "rationale": "adaptive route to deribit (latency 8.6 ms, spread 2.04 bps, total cost 5.29 bps)",
+          "filled": true,
+          "cancelled": true,
+          "replaces": 0,
+          "cancelled_at": "2026-11-01T00:00:42Z",
+          "fill_price": 65000.0,
+          "filled_quantity": 0.1
+        },
+        {
+          "order_id": "ord_85c27bc2b18f",
+          "venue": "binance",
+          "symbol": "ETH",
+          "side": "buy",
+          "quantity": 1.0,
+          "price": 66000.0,
+          "latency_ms": 9.1674,
+          "latency_penalty_bps": 4.5837,
+          "slippage_bps": 0.013200000000000002,
+          "total_cost_bps": 5.305248484847441,
+          "participation_rate": 6.6e-05,
+          "status": "filled",
+          "paper_only": true,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "rationale": "adaptive route to binance (latency 9.2 ms, spread 1.42 bps, total cost 5.31 bps)",
+          "filled": true,
+          "cancelled": false,
+          "replaces": 0,
+          "fill_price": 66000.0,
+          "filled_quantity": 1.0
+        },
+        {
+          "order_id": "ord_184dcf3b285e",
+          "venue": "deribit",
+          "symbol": "BTC",
+          "side": "buy",
+          "quantity": 0.05,
+          "price": 65000.0,
+          "latency_ms": 8.5509,
+          "latency_penalty_bps": 4.27545,
+          "slippage_bps": 0.00065,
+          "total_cost_bps": 5.294330769230286,
+          "participation_rate": 3.25e-06,
+          "status": "filled",
+          "paper_only": true,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "rationale": "adaptive route to deribit (latency 8.6 ms, spread 2.04 bps, total cost 5.29 bps)",
+          "filled": true,
+          "cancelled": false,
+          "replaces": 0,
+          "fill_price": 65000.0,
+          "filled_quantity": 0.05
+        },
+        {
+          "order_id": "ord_50dc03bc2066",
+          "venue": "deribit",
+          "symbol": "BTC",
+          "side": "sell",
+          "quantity": 0.1,
+          "price": 64935.0,
+          "latency_ms": 8.5509,
+          "latency_penalty_bps": 4.27545,
+          "slippage_bps": 0.0013,
+          "total_cost_bps": 5.2949807692302855,
+          "participation_rate": 6.5e-06,
+          "status": "routed_paper",
+          "paper_only": true,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "rationale": "adaptive route to deribit (latency 8.6 ms, spread 2.04 bps, total cost 5.29 bps)",
+          "filled": false,
+          "cancelled": false,
+          "replaces": 1,
+          "cancelled_at": "2026-11-01T00:00:42Z",
+          "replaced_from": "ord_22cbab06077b"
+        }
+      ]
+    },
+    "orchestration": {
+      "report": "CROSSVENUE_ORCHESTRATION_REPORT",
+      "orchestrator": "CrossVenueOrchestrator",
+      "campaign": "phase15_crossvenue",
+      "campaign_id": "phase15_42",
+      "seed": 42,
+      "symbols": [
+        "BTC",
+        "ETH"
+      ],
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "git_sha": "cc24ec71bcb86236b74d17a622b2afe418355143",
+      "status": "completed",
+      "kill_switch": {
+        "triggered": false,
+        "reason": null,
+        "halted_at": null,
+        "source": "orchestrator"
+      },
+      "counts": {
+        "cycles": 5,
+        "cycles_completed": 5,
+        "cycles_halted": 0,
+        "opportunities": 0,
+        "qualified_opportunities": 0,
+        "arb_fills": 0,
+        "hedges": 0,
+        "mm_positions": 0,
+        "router_routes": 0,
+        "router_fills": 0,
+        "router_cancels": 0,
+        "router_replacements": 0
+      },
+      "pnl": {
+        "realized_pnl_usd": 0.0,
+        "cash_usd": 0.0,
+        "unrealized_pnl_usd": 0.0,
+        "net_pnl_usd": 0.0,
+        "drawdown_pct": 0.0
+      },
+      "arbitrage_summary": {
+        "report": "ARBITRAGE_REPORT",
+        "counts": {
+          "quotes_submitted": 36,
+          "venues_seen": 3,
+          "symbols_seen": 2,
+          "opportunities_detected": 0,
+          "qualified": 0,
+          "rejections": 12
+        },
+        "qualified_net_edges_bps": []
+      },
+      "market_making_summary": {
+        "report": "DELTA_NEUTRAL_MM_REPORT",
+        "counts": {
+          "positions": 0,
+          "trades": 0,
+          "symbols_traded": 0
+        },
+        "pnl": {
+          "cash_usd": 1000000.0,
+          "realized_pnl_usd": 0.0,
+          "unrealized_pnl_usd": 0.0,
+          "net_pnl_usd": 1000000.0,
+          "peak_equity_usd": 1000000.0,
+          "drawdown_pct": 0.0
+        },
+        "risk_within_limits": true,
+        "breaches": [],
+        "per_symbol": {
+          "BTC": {
+            "net_delta_usd": 0.0,
+            "inventory_skew": 0.0,
+            "gross_notional_usd": 0.0,
+            "perp_inventory": 0.0
+          },
+          "ETH": {
+            "net_delta_usd": 0.0,
+            "inventory_skew": 0.0,
+            "gross_notional_usd": 0.0,
+            "perp_inventory": 0.0
+          }
+        }
+      },
+      "latency_routing_summary": {
+        "report": "LATENCY_ROUTING_REPORT",
+        "counts": {
+          "routes": 0,
+          "fills": 0,
+          "cancels": 0,
+          "replacements": 0,
+          "venues_tracked": 3
+        },
+        "routing": {
+          "total_routes": 0,
+          "avg_cost_bps": 0.0,
+          "max_cost_bps": 0.0,
+          "avg_latency_ms": 0.0,
+          "paper_only": true
+        },
+        "slippage": {
+          "fills": 0,
+          "total_slippage_bps": 0.0,
+          "avg_slippage_bps": 0.0,
+          "max_slippage_bps": 0.0,
+          "total_commission": 0.0
+        },
+        "latency": {
+          "deribit": {
+            "ewma_ms": 26.463255330779738,
+            "samples": 10,
+            "max_sample_ms": 46.83038807194083,
+            "within_limit": true
+          },
+          "okx": {
+            "ewma_ms": 23.73728872468208,
+            "samples": 10,
+            "max_sample_ms": 44.91866362728827,
+            "within_limit": true
+          },
+          "binance": {
+            "ewma_ms": 28.460784055498948,
+            "samples": 10,
+            "max_sample_ms": 44.26328464518245,
+            "within_limit": true
+          }
+        }
+      },
+      "cycles": [
+        {
+          "cycle": 1,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "status": "completed",
+          "paper_only": true,
+          "spots": {
+            "BTC": 65019.45196439582,
+            "ETH": 65937.17082580738
+          },
+          "implied_vols": {
+            "BTC": 0.5923498650090742,
+            "ETH": 0.6925470095289551
+          },
+          "arbitrage": {
+            "opportunities": 0,
+            "qualified": 0,
+            "fills": 0,
+            "pnl_usd": 0.0
+          },
+          "fills": [],
+          "market_making": {
+            "positions": 0,
+            "net_pnl_usd": 1000000.0,
+            "unrealized_pnl_usd": 0.0,
+            "realized_pnl_usd": 0.0,
+            "drawdown_pct": 0.0,
+            "inventory_skew": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "net_delta_usd": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "risk_within_limits": true,
+            "risk_breaches": []
+          },
+          "latency_routing": {
+            "routes": 0,
+            "avg_cost_bps": 0.0,
+            "avg_latency_ms": 0.0,
+            "slippage_bps": 0.0
+          },
+          "hedges": [],
+          "hedge_cost_bps_total": 0.0,
+          "pnl_snapshot": {
+            "realized_pnl_usd": 0.0,
+            "cash_usd": 0.0,
+            "unrealized_pnl_usd": 0.0,
+            "net_pnl_usd": 0.0
+          }
+        },
+        {
+          "cycle": 2,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "status": "completed",
+          "paper_only": true,
+          "spots": {
+            "BTC": 65039.19268865857,
+            "ETH": 65942.72341584908
+          },
+          "implied_vols": {
+            "BTC": 0.5939372210532681,
+            "ETH": 0.6913927763667584
+          },
+          "arbitrage": {
+            "opportunities": 0,
+            "qualified": 0,
+            "fills": 0,
+            "pnl_usd": 0.0
+          },
+          "fills": [],
+          "market_making": {
+            "positions": 0,
+            "net_pnl_usd": 1000000.0,
+            "unrealized_pnl_usd": 0.0,
+            "realized_pnl_usd": 0.0,
+            "drawdown_pct": 0.0,
+            "inventory_skew": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "net_delta_usd": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "risk_within_limits": true,
+            "risk_breaches": []
+          },
+          "latency_routing": {
+            "routes": 0,
+            "avg_cost_bps": 0.0,
+            "avg_latency_ms": 0.0,
+            "slippage_bps": 0.0
+          },
+          "hedges": [],
+          "hedge_cost_bps_total": 0.0,
+          "pnl_snapshot": {
+            "realized_pnl_usd": 0.0,
+            "cash_usd": 0.0,
+            "unrealized_pnl_usd": 0.0,
+            "net_pnl_usd": 0.0
+          }
+        },
+        {
+          "cycle": 3,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "status": "completed",
+          "paper_only": true,
+          "spots": {
+            "BTC": 65023.842367809426,
+            "ETH": 65987.67867606679
+          },
+          "implied_vols": {
+            "BTC": 0.59393074015159,
+            "ETH": 0.695972868390759
+          },
+          "arbitrage": {
+            "opportunities": 0,
+            "qualified": 0,
+            "fills": 0,
+            "pnl_usd": 0.0
+          },
+          "fills": [],
+          "market_making": {
+            "positions": 0,
+            "net_pnl_usd": 1000000.0,
+            "unrealized_pnl_usd": 0.0,
+            "realized_pnl_usd": 0.0,
+            "drawdown_pct": 0.0,
+            "inventory_skew": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "net_delta_usd": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "risk_within_limits": true,
+            "risk_breaches": []
+          },
+          "latency_routing": {
+            "routes": 0,
+            "avg_cost_bps": 0.0,
+            "avg_latency_ms": 0.0,
+            "slippage_bps": 0.0
+          },
+          "hedges": [],
+          "hedge_cost_bps_total": 0.0,
+          "pnl_snapshot": {
+            "realized_pnl_usd": 0.0,
+            "cash_usd": 0.0,
+            "unrealized_pnl_usd": 0.0,
+            "net_pnl_usd": 0.0
+          }
+        },
+        {
+          "cycle": 4,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "status": "completed",
+          "paper_only": true,
+          "spots": {
+            "BTC": 64936.47304932648,
+            "ETH": 66026.88563758493
+          },
+          "implied_vols": {
+            "BTC": 0.6061829312872444,
+            "ETH": 0.6996748845539977
+          },
+          "arbitrage": {
+            "opportunities": 0,
+            "qualified": 0,
+            "fills": 0,
+            "pnl_usd": 0.0
+          },
+          "fills": [],
+          "market_making": {
+            "positions": 0,
+            "net_pnl_usd": 1000000.0,
+            "unrealized_pnl_usd": 0.0,
+            "realized_pnl_usd": 0.0,
+            "drawdown_pct": 0.0,
+            "inventory_skew": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "net_delta_usd": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "risk_within_limits": true,
+            "risk_breaches": []
+          },
+          "latency_routing": {
+            "routes": 0,
+            "avg_cost_bps": 0.0,
+            "avg_latency_ms": 0.0,
+            "slippage_bps": 0.0
+          },
+          "hedges": [],
+          "hedge_cost_bps_total": 0.0,
+          "pnl_snapshot": {
+            "realized_pnl_usd": 0.0,
+            "cash_usd": 0.0,
+            "unrealized_pnl_usd": 0.0,
+            "net_pnl_usd": 0.0
+          }
+        },
+        {
+          "cycle": 5,
+          "timestamp": "2026-11-01T00:00:42Z",
+          "status": "completed",
+          "paper_only": true,
+          "spots": {
+            "BTC": 64994.4773822541,
+            "ETH": 65971.73092891181
+          },
+          "implied_vols": {
+            "BTC": 0.609839096360422,
+            "ETH": 0.7003398092355941
+          },
+          "arbitrage": {
+            "opportunities": 0,
+            "qualified": 0,
+            "fills": 0,
+            "pnl_usd": 0.0
+          },
+          "fills": [],
+          "market_making": {
+            "positions": 0,
+            "net_pnl_usd": 1000000.0,
+            "unrealized_pnl_usd": 0.0,
+            "realized_pnl_usd": 0.0,
+            "drawdown_pct": 0.0,
+            "inventory_skew": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "net_delta_usd": {
+              "BTC": 0.0,
+              "ETH": 0.0
+            },
+            "risk_within_limits": true,
+            "risk_breaches": []
+          },
+          "latency_routing": {
+            "routes": 0,
+            "avg_cost_bps": 0.0,
+            "avg_latency_ms": 0.0,
+            "slippage_bps": 0.0
+          },
+          "hedges": [],
+          "hedge_cost_bps_total": 0.0,
+          "pnl_snapshot": {
+            "realized_pnl_usd": 0.0,
+            "cash_usd": 0.0,
+            "unrealized_pnl_usd": 0.0,
+            "net_pnl_usd": 0.0
+          }
+        }
+      ]
+    }
+  }
+}

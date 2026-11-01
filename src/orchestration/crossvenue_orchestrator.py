@@ -126,9 +126,9 @@ class CrossVenueOrchestrator:
     def __post_init__(self) -> None:
         self.config = self.config or default_cross_venue_config()
         self.config.paper_only = True
-        self.seed = int(seed)
+        self.seed = int(self.seed)
         self.paper_only = True
-        self.outdir = outdir or self.config.outdir
+        self.outdir = self.outdir or self.config.outdir
         Path(self.outdir).mkdir(parents=True, exist_ok=True)
 
         arb_cfg = ArbitrageConfig(

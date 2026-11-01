@@ -1,0 +1,195 @@
+{
+  "report": "LATENCY_ROUTING_REPORT",
+  "router": "LatencyAwareRouter",
+  "campaign": "phase15_crossvenue",
+  "seed": 42,
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "paper_only": true,
+  "enable_live": false,
+  "timestamp": "2026-11-01T00:00:42Z",
+  "config": {
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC",
+      "ETH"
+    ],
+    "paper_only": true,
+    "enable_live": false,
+    "max_latency_ms": 500.0,
+    "latency_penalty_bps_per_ms": 0.5,
+    "slippage_bps_per_1pct_participation": 2.0,
+    "min_spread_bps": 0.1,
+    "cancel_replace_enabled": true,
+    "max_cancel_replace_per_order": 3,
+    "adv_usd": 1000000000.0,
+    "seed": 42
+  },
+  "counts": {
+    "routes": 4,
+    "fills": 3,
+    "cancels": 1,
+    "replacements": 1,
+    "venues_tracked": 3
+  },
+  "latency": {
+    "deribit": {
+      "ewma_ms": 8.5509,
+      "samples": 2,
+      "max_sample_ms": 24.52,
+      "within_limit": true
+    },
+    "okx": {
+      "ewma_ms": 16.531499999999998,
+      "samples": 2,
+      "max_sample_ms": 39.15,
+      "within_limit": true
+    },
+    "binance": {
+      "ewma_ms": 9.1674,
+      "samples": 2,
+      "max_sample_ms": 18.98,
+      "within_limit": true
+    }
+  },
+  "routing": {
+    "total_routes": 4,
+    "avg_cost_bps": 5.297385198134575,
+    "max_cost_bps": 5.305248484847441,
+    "avg_latency_ms": 8.705025000000001,
+    "paper_only": true
+  },
+  "slippage": {
+    "fills": 3,
+    "total_slippage_bps": 0.0,
+    "avg_slippage_bps": 0.0,
+    "max_slippage_bps": 0.0,
+    "total_commission": 40.17703499999264
+  },
+  "cancels": [
+    {
+      "order_id": "ord_22cbab06077b",
+      "venue": "deribit",
+      "symbol": "BTC",
+      "side": "sell",
+      "quantity": 0.1,
+      "timestamp": "2026-11-01T00:00:42Z"
+    }
+  ],
+  "replacements": [
+    {
+      "original_order_id": "ord_22cbab06077b",
+      "replacement_order_id": "ord_50dc03bc2066",
+      "venue": "deribit",
+      "symbol": "BTC",
+      "old_price": 65000.0,
+      "new_price": 64935.0,
+      "old_quantity": 0.1,
+      "new_quantity": 0.1,
+      "replace_number": 1,
+      "timestamp": "2026-11-01T00:00:42Z"
+    }
+  ],
+  "orders": [
+    {
+      "order_id": "ord_22cbab06077b",
+      "venue": "deribit",
+      "symbol": "BTC",
+      "side": "sell",
+      "quantity": 0.1,
+      "price": 65000.0,
+      "latency_ms": 8.5509,
+      "latency_penalty_bps": 4.27545,
+      "slippage_bps": 0.0013,
+      "total_cost_bps": 5.2949807692302855,
+      "participation_rate": 6.5e-06,
+      "status": "filled",
+      "paper_only": true,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "rationale": "adaptive route to deribit (latency 8.6 ms, spread 2.04 bps, total cost 5.29 bps)",
+      "filled": true,
+      "cancelled": true,
+      "replaces": 0,
+      "cancelled_at": "2026-11-01T00:00:42Z",
+      "fill_price": 65000.0,
+      "filled_quantity": 0.1
+    },
+    {
+      "order_id": "ord_85c27bc2b18f",
+      "venue": "binance",
+      "symbol": "ETH",
+      "side": "buy",
+      "quantity": 1.0,
+      "price": 66000.0,
+      "latency_ms": 9.1674,
+      "latency_penalty_bps": 4.5837,
+      "slippage_bps": 0.013200000000000002,
+      "total_cost_bps": 5.305248484847441,
+      "participation_rate": 6.6e-05,
+      "status": "filled",
+      "paper_only": true,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "rationale": "adaptive route to binance (latency 9.2 ms, spread 1.42 bps, total cost 5.31 bps)",
+      "filled": true,
+      "cancelled": false,
+      "replaces": 0,
+      "fill_price": 66000.0,
+      "filled_quantity": 1.0
+    },
+    {
+      "order_id": "ord_184dcf3b285e",
+      "venue": "deribit",
+      "symbol": "BTC",
+      "side": "buy",
+      "quantity": 0.05,
+      "price": 65000.0,
+      "latency_ms": 8.5509,
+      "latency_penalty_bps": 4.27545,
+      "slippage_bps": 0.00065,
+      "total_cost_bps": 5.294330769230286,
+      "participation_rate": 3.25e-06,
+      "status": "filled",
+      "paper_only": true,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "rationale": "adaptive route to deribit (latency 8.6 ms, spread 2.04 bps, total cost 5.29 bps)",
+      "filled": true,
+      "cancelled": false,
+      "replaces": 0,
+      "fill_price": 65000.0,
+      "filled_quantity": 0.05
+    },
+    {
+      "order_id": "ord_50dc03bc2066",
+      "venue": "deribit",
+      "symbol": "BTC",
+      "side": "sell",
+      "quantity": 0.1,
+      "price": 64935.0,
+      "latency_ms": 8.5509,
+      "latency_penalty_bps": 4.27545,
+      "slippage_bps": 0.0013,
+      "total_cost_bps": 5.2949807692302855,
+      "participation_rate": 6.5e-06,
+      "status": "routed_paper",
+      "paper_only": true,
+      "timestamp": "2026-11-01T00:00:42Z",
+      "rationale": "adaptive route to deribit (latency 8.6 ms, spread 2.04 bps, total cost 5.29 bps)",
+      "filled": false,
+      "cancelled": false,
+      "replaces": 1,
+      "cancelled_at": "2026-11-01T00:00:42Z",
+      "replaced_from": "ord_22cbab06077b"
+    }
+  ]
+}

@@ -207,9 +207,9 @@ class DeltaNeutralMM:
         self._counter = 0
         self.positions: Dict[str, MMPosition] = {}
         self.perp_inventory: Dict[str, float] = {s: 0.0 for s in self.config.symbols}
-        self.cash_usd: float = 0.0
+        self.cash_usd: float = 1_000_000.0
         self.realized_pnl_usd: float = 0.0
-        self.peak_equity_usd: float = 0.0
+        self.peak_equity_usd: float = 1_000_000.0
         self.drawdown_pct: float = 0.0
         self.halted: bool = False
         self.halt_reason: Optional[str] = None
