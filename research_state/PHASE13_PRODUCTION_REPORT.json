@@ -32,7 +32,7 @@
     "deployment_id": "deploy_42",
     "status": "promoted",
     "timestamp": "2026-11-01T00:00:42Z",
-    "git_sha": "73f35c647e965405ce0c7c7f48b48ed8125b0dc0",
+    "git_sha": "ff2ed9c9a80d82b0a3080dd0044d304bca8055a1",
     "seed": 42,
     "paper_only": true,
     "env": "paper",
@@ -82,7 +82,7 @@
       {
         "name": "risk",
         "status": "pass",
-        "latency_ms": 5.9,
+        "latency_ms": 5.1,
         "message": "risk reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -522,11 +522,11 @@
           },
           "validation_gates": {
             "determinism_verified": true,
+            "numerics_finite": true,
             "paper_only_enforced": true,
-            "oos_passed": true,
             "backtest_passed": true,
-            "schema_valid": true,
-            "numerics_finite": true
+            "oos_passed": true,
+            "schema_valid": true
           },
           "artifact_path": "model_v1_0_0.json",
           "checksum": "sha256:deterministic_checksum_phase13",
@@ -552,11 +552,11 @@
           "name": "options_orderflow_alpha",
           "gates": {
             "determinism_verified": true,
+            "numerics_finite": true,
             "paper_only_enforced": true,
-            "oos_passed": true,
             "backtest_passed": true,
-            "schema_valid": true,
-            "numerics_finite": true
+            "oos_passed": true,
+            "schema_valid": true
           },
           "timestamp": "2026-11-01T00:00:42Z"
         },
@@ -566,11 +566,11 @@
           "name": "options_orderflow_alpha",
           "gates": {
             "determinism_verified": true,
+            "numerics_finite": true,
             "paper_only_enforced": true,
-            "oos_passed": true,
             "backtest_passed": true,
-            "schema_valid": true,
-            "numerics_finite": true
+            "oos_passed": true,
+            "schema_valid": true
           },
           "timestamp": "2026-11-01T00:00:42Z"
         },
