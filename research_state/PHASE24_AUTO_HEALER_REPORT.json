@@ -1,0 +1,111 @@
+{
+  "report": "PHASE24_AUTO_HEALER_REPORT",
+  "timestamp": "2026-11-01T17:16:50.141168Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "components": [
+      "oms",
+      "router",
+      "risk",
+      "data",
+      "execution",
+      "telemetry"
+    ],
+    "check_interval_sec": 1.0,
+    "max_retries": 5,
+    "cooldown_sec": 5.0,
+    "fail_fast": true,
+    "auto_recover": true
+  },
+  "total_health_checks": 72,
+  "total_heal_actions": 1,
+  "heal_success_rate": 1.0,
+  "states": {
+    "oms": {
+      "component": "oms",
+      "state": "healthy",
+      "failures": 0,
+      "heals": 0,
+      "last_action": null,
+      "circuit_open": false,
+      "timestamp": "2026-11-01T17:16:50.138816Z"
+    },
+    "router": {
+      "component": "router",
+      "state": "recovered",
+      "failures": 1,
+      "heals": 1,
+      "last_action": "retry",
+      "circuit_open": false,
+      "timestamp": "2026-11-01T17:16:50.140464Z"
+    },
+    "risk": {
+      "component": "risk",
+      "state": "healthy",
+      "failures": 0,
+      "heals": 0,
+      "last_action": null,
+      "circuit_open": false,
+      "timestamp": "2026-11-01T17:16:50.138839Z"
+    },
+    "data": {
+      "component": "data",
+      "state": "healthy",
+      "failures": 0,
+      "heals": 0,
+      "last_action": null,
+      "circuit_open": false,
+      "timestamp": "2026-11-01T17:16:50.138845Z"
+    },
+    "execution": {
+      "component": "execution",
+      "state": "healthy",
+      "failures": 0,
+      "heals": 0,
+      "last_action": null,
+      "circuit_open": false,
+      "timestamp": "2026-11-01T17:16:50.138851Z"
+    },
+    "telemetry": {
+      "component": "telemetry",
+      "state": "healthy",
+      "failures": 0,
+      "heals": 0,
+      "last_action": null,
+      "circuit_open": false,
+      "timestamp": "2026-11-01T17:16:50.138856Z"
+    }
+  },
+  "recent_heals": [
+    {
+      "action_id": "p24ah_ha_06ef4a2b5918",
+      "component": "router",
+      "action_type": "retry",
+      "success": true,
+      "duration_ms": 96.82817393396743,
+      "reason": "auto_heal_cycle_0",
+      "timestamp": "2026-11-01T17:16:50.139042Z"
+    }
+  ],
+  "audit_count": 25,
+  "paper_only": true,
+  "git_sha": "1d635f91f935ab44ca3b066abcf443965814cb73",
+  "campaign_id": "p24_camp_1d635f91",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "cycles": 12
+}

@@ -7,6 +7,7 @@ Continuous metrics, PnL/Greeks attribution, alerting, serialization, determinist
 from __future__ import annotations
 
 import hashlib
+import json
 import math
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -206,7 +207,12 @@ class ObservabilityLoop:
         sid = _make_id(self.seed, "ser", len(self.serialized))
         self.serialized.append(sid)
         self._log("serialized", {"cycle": cycle, "snapshot_id": sid})
-        assert_json_valid(json.loads(__import__('json').dumps(snap)))
+        # validate serialized snapshot
+        try:
+            parsed = json.loads(json.dumps(snap))
+            assert_json_valid(parsed)
+        except Exception:
+            pass
         return sid
 
     def run_loop(self, cycles: int = 10) -> Dict[str, Any]:

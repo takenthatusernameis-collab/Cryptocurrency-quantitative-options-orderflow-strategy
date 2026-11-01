@@ -1,0 +1,916 @@
+{
+  "report": "PHASE24_CROSS_VENUE_REPORT",
+  "timestamp": "2026-11-01T17:16:50.130184Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance",
+      "bybit",
+      "bitget"
+    ],
+    "cost_weight": 0.35,
+    "latency_weight": 0.25,
+    "liquidity_weight": 0.25,
+    "orderflow_weight": 0.15,
+    "min_depth_usd": 80000.0,
+    "max_latency_ms": 60.0,
+    "enforce_hard_limits": true
+  },
+  "decision_count": 30,
+  "routed_count": 30,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "decisions": [
+    {
+      "decision_id": "p24cv_dec_5d264ffbb89b",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 50000.0,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "bitget",
+        "deribit",
+        "bybit"
+      ],
+      "venue_scores": {
+        "deribit": 0.7270660700218927,
+        "okx": 0.6378204078795914,
+        "binance": 0.8169453665742991,
+        "bybit": 0.7072851528048849,
+        "bitget": 0.7928873178091567
+      },
+      "routed_split": {
+        "binance": 0.6816945366574299,
+        "bitget": 0.25,
+        "deribit": 0.06830546334257015
+      },
+      "expected_cost_bps": 2.679633574903348,
+      "expected_latency_ms": 22.07752091127846,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.125006Z"
+    },
+    {
+      "decision_id": "p24cv_dec_6b22738448f6",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 60000.0,
+      "primary_venue": "bitget",
+      "backup_venues": [
+        "deribit",
+        "binance",
+        "okx"
+      ],
+      "venue_scores": {
+        "deribit": 0.8127328446917268,
+        "okx": 0.7667912811112306,
+        "binance": 0.8010467690736935,
+        "bybit": 0.7456744887604395,
+        "bitget": 0.8253196601816456
+      },
+      "routed_split": {
+        "bitget": 0.6825319660181646,
+        "deribit": 0.25,
+        "binance": 0.06746803398183543
+      },
+      "expected_cost_bps": 2.9061193856292507,
+      "expected_latency_ms": 22.454641807200375,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.125207Z"
+    },
+    {
+      "decision_id": "p24cv_dec_314a34d6d462",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 70000.0,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "venue_scores": {
+        "deribit": 0.8331090667375252,
+        "okx": 0.7451255647395869,
+        "binance": 0.6562768950448061,
+        "bybit": 0.7117214629223696,
+        "bitget": 0.6318967325088263
+      },
+      "routed_split": {
+        "deribit": 0.6833109066737525,
+        "okx": 0.25,
+        "bybit": 0.0666890933262475
+      },
+      "expected_cost_bps": 4.789796545878271,
+      "expected_latency_ms": 12.855305683332373,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.125386Z"
+    },
+    {
+      "decision_id": "p24cv_dec_816c55fd57e9",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 80000.0,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "bitget",
+        "okx"
+      ],
+      "venue_scores": {
+        "deribit": 0.8224118449338487,
+        "okx": 0.7278478362792379,
+        "binance": 0.6912698928009324,
+        "bybit": 0.8185591810543273,
+        "bitget": 0.729827284698643
+      },
+      "routed_split": {
+        "deribit": 0.6822411844933849,
+        "bybit": 0.25,
+        "bitget": 0.06775881550661511
+      },
+      "expected_cost_bps": 3.529257797150489,
+      "expected_latency_ms": 16.649680571795024,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.125625Z"
+    },
+    {
+      "decision_id": "p24cv_dec_861e0ffa2448",
+      "symbol": "BTC",
+      "side": "buy",
+      "notional_usd": 90000.0,
+      "primary_venue": "bitget",
+      "backup_venues": [
+        "binance",
+        "okx",
+        "bybit"
+      ],
+      "venue_scores": {
+        "deribit": 0.6145046405099014,
+        "okx": 0.6929715731084534,
+        "binance": 0.765067482015916,
+        "bybit": 0.6735039264447961,
+        "bitget": 0.818517512796719
+      },
+      "routed_split": {
+        "bitget": 0.6818517512796719,
+        "binance": 0.25,
+        "okx": 0.0681482487203281
+      },
+      "expected_cost_bps": 5.333633629364041,
+      "expected_latency_ms": 19.333456551339797,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.125820Z"
+    },
+    {
+      "decision_id": "p24cv_dec_2a64d9a707a1",
+      "symbol": "BTC",
+      "side": "sell",
+      "notional_usd": 100000.0,
+      "primary_venue": "bitget",
+      "backup_venues": [
+        "binance",
+        "okx",
+        "deribit"
+      ],
+      "venue_scores": {
+        "deribit": 0.6884475416467106,
+        "okx": 0.6943225893079236,
+        "binance": 0.7065822801652719,
+        "bybit": 0.6172323328291569,
+        "bitget": 0.7657085710058805
+      },
+      "routed_split": {
+        "bitget": 0.6765708571005881,
+        "binance": 0.25,
+        "okx": 0.07342914289941194
+      },
+      "expected_cost_bps": 4.775295299327355,
+      "expected_latency_ms": 16.33422372697469,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.125989Z"
+    },
+    {
+      "decision_id": "p24cv_dec_080a9a01d430",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 60000.0,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "bitget",
+        "deribit",
+        "binance"
+      ],
+      "venue_scores": {
+        "deribit": 0.8167407727585768,
+        "okx": 0.7263413089512688,
+        "binance": 0.793708181757045,
+        "bybit": 0.829674689536356,
+        "bitget": 0.8170855771708788
+      },
+      "routed_split": {
+        "bybit": 0.6829674689536356,
+        "bitget": 0.25,
+        "deribit": 0.06703253104636442
+      },
+      "expected_cost_bps": 4.116279835898696,
+      "expected_latency_ms": 6.373649919431097,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.126153Z"
+    },
+    {
+      "decision_id": "p24cv_dec_92461b070704",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 70000.0,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "okx",
+        "deribit",
+        "bitget"
+      ],
+      "venue_scores": {
+        "deribit": 0.7414127820598874,
+        "okx": 0.7530490491769594,
+        "binance": 0.8710771709623609,
+        "bybit": 0.6380660496228603,
+        "bitget": 0.6872234993957821
+      },
+      "routed_split": {
+        "binance": 0.6871077170962361,
+        "okx": 0.25,
+        "deribit": 0.06289228290376392
+      },
+      "expected_cost_bps": 2.1865659979886396,
+      "expected_latency_ms": 9.449962733452418,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.126317Z"
+    },
+    {
+      "decision_id": "p24cv_dec_66c5a329fa49",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 80000.0,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "bitget",
+        "bybit",
+        "binance"
+      ],
+      "venue_scores": {
+        "deribit": 0.6918442569623341,
+        "okx": 0.8251578330043295,
+        "binance": 0.6959080097957696,
+        "bybit": 0.7043729472178542,
+        "bitget": 0.7234483758610778
+      },
+      "routed_split": {
+        "okx": 0.6825157833004329,
+        "bitget": 0.25,
+        "bybit": 0.06748421669956706
+      },
+      "expected_cost_bps": 4.225963909211725,
+      "expected_latency_ms": 12.436613522219151,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.126486Z"
+    },
+    {
+      "decision_id": "p24cv_dec_ce05799b4d9c",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 90000.0,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bitget",
+        "binance",
+        "bybit"
+      ],
+      "venue_scores": {
+        "deribit": 0.8031572124487214,
+        "okx": 0.5542436209606307,
+        "binance": 0.7163866258332424,
+        "bybit": 0.6711914462487076,
+        "bitget": 0.7540760855856843
+      },
+      "routed_split": {
+        "deribit": 0.6803157212448722,
+        "bitget": 0.25,
+        "binance": 0.06968427875512784
+      },
+      "expected_cost_bps": 5.760670483122784,
+      "expected_latency_ms": 8.190299093160625,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.126656Z"
+    },
+    {
+      "decision_id": "p24cv_dec_a0624d72fe63",
+      "symbol": "ETH",
+      "side": "sell",
+      "notional_usd": 100000.0,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "bitget"
+      ],
+      "venue_scores": {
+        "deribit": 0.8453350045372631,
+        "okx": 0.6986662649108648,
+        "binance": 0.4858129335153977,
+        "bybit": 0.8411037012508013,
+        "bitget": 0.6123878614073377
+      },
+      "routed_split": {
+        "deribit": 0.6845335004537263,
+        "bybit": 0.25,
+        "okx": 0.0654664995462737
+      },
+      "expected_cost_bps": 3.5157925497926703,
+      "expected_latency_ms": 15.845008661734134,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.126845Z"
+    },
+    {
+      "decision_id": "p24cv_dec_969d70a9694b",
+      "symbol": "ETH",
+      "side": "buy",
+      "notional_usd": 110000.0,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "bitget",
+        "bybit",
+        "deribit"
+      ],
+      "venue_scores": {
+        "deribit": 0.6647586905365812,
+        "okx": 0.7987323873779315,
+        "binance": 0.5586561440438587,
+        "bybit": 0.6678617730197459,
+        "bitget": 0.7064405524469558
+      },
+      "routed_split": {
+        "okx": 0.6798732387377932,
+        "bitget": 0.25,
+        "bybit": 0.07012676126220685
+      },
+      "expected_cost_bps": 1.6666254400210587,
+      "expected_latency_ms": 32.80612789538523,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.127011Z"
+    },
+    {
+      "decision_id": "p24cv_dec_26ff570a6966",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 70000.0,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "okx",
+        "deribit",
+        "binance"
+      ],
+      "venue_scores": {
+        "deribit": 0.7755439618956911,
+        "okx": 0.7853033033906667,
+        "binance": 0.7387620087162018,
+        "bybit": 0.8647491843494028,
+        "bitget": 0.7250184397458339
+      },
+      "routed_split": {
+        "bybit": 0.6864749184349402,
+        "okx": 0.25,
+        "deribit": 0.06352508156505976
+      },
+      "expected_cost_bps": 2.0658369301258936,
+      "expected_latency_ms": 16.991440019778658,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.127172Z"
+    },
+    {
+      "decision_id": "p24cv_dec_bc193806b132",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 80000.0,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bitget",
+        "binance",
+        "okx"
+      ],
+      "venue_scores": {
+        "deribit": 0.8640737210907197,
+        "okx": 0.6945825544717552,
+        "binance": 0.7615657610404947,
+        "bybit": 0.6786890992230883,
+        "bitget": 0.784970244624362
+      },
+      "routed_split": {
+        "deribit": 0.686407372109072,
+        "bitget": 0.25,
+        "binance": 0.06359262789092801
+      },
+      "expected_cost_bps": 2.2726573408566693,
+      "expected_latency_ms": 15.79144066991634,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.127337Z"
+    },
+    {
+      "decision_id": "p24cv_dec_e6d4c39dd341",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 90000.0,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "binance",
+        "bitget",
+        "deribit"
+      ],
+      "venue_scores": {
+        "deribit": 0.7042020692103433,
+        "okx": 0.447555240882388,
+        "binance": 0.76026357204605,
+        "bybit": 0.819065429825709,
+        "bitget": 0.7193598130253575
+      },
+      "routed_split": {
+        "bybit": 0.6819065429825709,
+        "binance": 0.25,
+        "bitget": 0.06809345701742908
+      },
+      "expected_cost_bps": 2.9894266167970747,
+      "expected_latency_ms": 16.9692914052324,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.127500Z"
+    },
+    {
+      "decision_id": "p24cv_dec_839159809c62",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 100000.0,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "okx",
+        "bybit",
+        "deribit"
+      ],
+      "venue_scores": {
+        "deribit": 0.7321701175999434,
+        "okx": 0.7658486151833503,
+        "binance": 0.8120897325589078,
+        "bybit": 0.7347650891179813,
+        "bitget": 0.7135920370036549
+      },
+      "routed_split": {
+        "binance": 0.6812089732558908,
+        "okx": 0.25,
+        "bybit": 0.0687910267441092
+      },
+      "expected_cost_bps": 3.429644368781219,
+      "expected_latency_ms": 23.94391879086306,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.127667Z"
+    },
+    {
+      "decision_id": "p24cv_dec_8b95c496ad7c",
+      "symbol": "SOL",
+      "side": "buy",
+      "notional_usd": 110000.0,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "binance"
+      ],
+      "venue_scores": {
+        "deribit": 0.8088122131560096,
+        "okx": 0.7684752456626308,
+        "binance": 0.7420254709852216,
+        "bybit": 0.7718172780116879,
+        "bitget": 0.6439282627346878
+      },
+      "routed_split": {
+        "deribit": 0.6808812213156009,
+        "bybit": 0.25,
+        "okx": 0.06911877868439908
+      },
+      "expected_cost_bps": 4.4853748186141145,
+      "expected_latency_ms": 20.29735353120118,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.127854Z"
+    },
+    {
+      "decision_id": "p24cv_dec_39082b481504",
+      "symbol": "SOL",
+      "side": "sell",
+      "notional_usd": 120000.0,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "okx",
+        "deribit",
+        "bitget"
+      ],
+      "venue_scores": {
+        "deribit": 0.824272014651924,
+        "okx": 0.8301499294963364,
+        "binance": 0.8723057065912108,
+        "bybit": 0.6908774261494182,
+        "bitget": 0.8095172222041424
+      },
+      "routed_split": {
+        "binance": 0.6872305706591211,
+        "okx": 0.25,
+        "deribit": 0.06276942934087892
+      },
+      "expected_cost_bps": 3.6051175445675816,
+      "expected_latency_ms": 5.640592639802927,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.128019Z"
+    },
+    {
+      "decision_id": "p24cv_dec_2dd8ec259723",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 80000.0,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "bybit",
+        "binance",
+        "bitget"
+      ],
+      "venue_scores": {
+        "deribit": 0.5479733054942136,
+        "okx": 0.8671210814390979,
+        "binance": 0.6585748297120688,
+        "bybit": 0.7616109272566856,
+        "bitget": 0.610411371135284
+      },
+      "routed_split": {
+        "okx": 0.6867121081439098,
+        "bybit": 0.25,
+        "binance": 0.06328789185609018
+      },
+      "expected_cost_bps": 3.8928420054327755,
+      "expected_latency_ms": 13.545212219916943,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.128193Z"
+    },
+    {
+      "decision_id": "p24cv_dec_db9031110f0f",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 90000.0,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "okx",
+        "bybit",
+        "deribit"
+      ],
+      "venue_scores": {
+        "deribit": 0.7459708944175923,
+        "okx": 0.8402826781209319,
+        "binance": 0.8875126567007173,
+        "bybit": 0.7669979439705694,
+        "bitget": 0.734131757221314
+      },
+      "routed_split": {
+        "binance": 0.6887512656700717,
+        "okx": 0.25,
+        "bybit": 0.06124873432992828
+      },
+      "expected_cost_bps": 3.6854124008650295,
+      "expected_latency_ms": 9.283265545111842,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.128358Z"
+    },
+    {
+      "decision_id": "p24cv_dec_50639f58356f",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 100000.0,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "binance",
+        "okx",
+        "bitget"
+      ],
+      "venue_scores": {
+        "deribit": 0.7688751217247598,
+        "okx": 0.8557028788221589,
+        "binance": 0.8716552141762163,
+        "bybit": 0.8742740446208301,
+        "bitget": 0.7770722225737311
+      },
+      "routed_split": {
+        "bybit": 0.687427404462083,
+        "binance": 0.25,
+        "okx": 0.06257259553791705
+      },
+      "expected_cost_bps": 4.051043391496371,
+      "expected_latency_ms": 4.120143186577572,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.128519Z"
+    },
+    {
+      "decision_id": "p24cv_dec_78eadd8a30b9",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 110000.0,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "okx",
+        "binance",
+        "bitget"
+      ],
+      "venue_scores": {
+        "deribit": 0.804090556460215,
+        "okx": 0.8013365501768038,
+        "binance": 0.7368503964140323,
+        "bybit": 0.6593962783538805,
+        "bitget": 0.7024362201306549
+      },
+      "routed_split": {
+        "deribit": 0.6804090556460215,
+        "okx": 0.25,
+        "binance": 0.0695909443539785
+      },
+      "expected_cost_bps": 2.9614268184120243,
+      "expected_latency_ms": 30.140002222470834,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.128685Z"
+    },
+    {
+      "decision_id": "p24cv_dec_741f130a6613",
+      "symbol": "XRP",
+      "side": "sell",
+      "notional_usd": 120000.0,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "okx",
+        "binance",
+        "bitget"
+      ],
+      "venue_scores": {
+        "deribit": 0.6509378516809314,
+        "okx": 0.7305720636777371,
+        "binance": 0.6646224279624593,
+        "bybit": 0.7891020008626923,
+        "bitget": 0.6592569933320805
+      },
+      "routed_split": {
+        "bybit": 0.6789102000862692,
+        "okx": 0.25,
+        "binance": 0.07108979991373077
+      },
+      "expected_cost_bps": 5.011187831337095,
+      "expected_latency_ms": 24.890920211616372,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.128881Z"
+    },
+    {
+      "decision_id": "p24cv_dec_e752d60a9b57",
+      "symbol": "XRP",
+      "side": "buy",
+      "notional_usd": 130000.0,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bitget",
+        "okx",
+        "bybit"
+      ],
+      "venue_scores": {
+        "deribit": 0.8768084975179142,
+        "okx": 0.7015800678189029,
+        "binance": 0.045273024242068576,
+        "bybit": 0.6866333224606408,
+        "bitget": 0.831356527814612
+      },
+      "routed_split": {
+        "deribit": 0.6876808497517914,
+        "bitget": 0.25,
+        "okx": 0.062319150248208555
+      },
+      "expected_cost_bps": 3.241636015386174,
+      "expected_latency_ms": 6.953722274549202,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.129049Z"
+    },
+    {
+      "decision_id": "p24cv_dec_4b4f4a42eb5c",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 90000.0,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "deribit",
+        "okx",
+        "bitget"
+      ],
+      "venue_scores": {
+        "deribit": 0.8376573689914147,
+        "okx": 0.7948206743249329,
+        "binance": 0.6395461641828863,
+        "bybit": 0.8922202188684895,
+        "bitget": 0.7721872365369846
+      },
+      "routed_split": {
+        "bybit": 0.6892220218868489,
+        "deribit": 0.25,
+        "okx": 0.06077797811315111
+      },
+      "expected_cost_bps": 2.901541543079732,
+      "expected_latency_ms": 9.711938921379797,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.129214Z"
+    },
+    {
+      "decision_id": "p24cv_dec_8e50cf69702e",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 100000.0,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "deribit",
+        "binance",
+        "bybit"
+      ],
+      "venue_scores": {
+        "deribit": 0.7605805462803032,
+        "okx": 0.7610508266765075,
+        "binance": 0.7562984011468351,
+        "bybit": 0.6885131557495237,
+        "bitget": 0.6275898419012561
+      },
+      "routed_split": {
+        "okx": 0.6761050826676507,
+        "deribit": 0.25,
+        "binance": 0.07389491733234932
+      },
+      "expected_cost_bps": 5.090421328439644,
+      "expected_latency_ms": 25.775457056504404,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.129384Z"
+    },
+    {
+      "decision_id": "p24cv_dec_8a32b0a63d81",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 110000.0,
+      "primary_venue": "bitget",
+      "backup_venues": [
+        "bybit",
+        "binance",
+        "deribit"
+      ],
+      "venue_scores": {
+        "deribit": 0.678733632264108,
+        "okx": 0.6112189901787665,
+        "binance": 0.688255116950167,
+        "bybit": 0.7354986802514597,
+        "bitget": 0.8706783047385401
+      },
+      "routed_split": {
+        "bitget": 0.687067830473854,
+        "bybit": 0.25,
+        "binance": 0.062932169526146
+      },
+      "expected_cost_bps": 3.572108549775069,
+      "expected_latency_ms": 6.843768341512836,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.129545Z"
+    },
+    {
+      "decision_id": "p24cv_dec_46b98475618c",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 120000.0,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "bybit",
+        "deribit",
+        "binance"
+      ],
+      "venue_scores": {
+        "deribit": 0.664788133857313,
+        "okx": 0.8704726173185611,
+        "binance": 0.633243024787932,
+        "bybit": 0.673607827891334,
+        "bitget": 0.5539687802960837
+      },
+      "routed_split": {
+        "okx": 0.6870472617318562,
+        "bybit": 0.25,
+        "deribit": 0.06295273826814385
+      },
+      "expected_cost_bps": 2.471825015661474,
+      "expected_latency_ms": 9.190627371651495,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.129810Z"
+    },
+    {
+      "decision_id": "p24cv_dec_d150251806e6",
+      "symbol": "ADA",
+      "side": "buy",
+      "notional_usd": 130000.0,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "deribit",
+        "binance",
+        "bitget"
+      ],
+      "venue_scores": {
+        "deribit": 0.7480474339632366,
+        "okx": 0.8380201879504483,
+        "binance": 0.7102057379007081,
+        "bybit": 0.672575088518773,
+        "bitget": 0.6908170125793999
+      },
+      "routed_split": {
+        "okx": 0.6838020187950449,
+        "deribit": 0.25,
+        "binance": 0.06619798120495513
+      },
+      "expected_cost_bps": 3.312216063220024,
+      "expected_latency_ms": 22.353897395979125,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.129979Z"
+    },
+    {
+      "decision_id": "p24cv_dec_1b6c314cc012",
+      "symbol": "ADA",
+      "side": "sell",
+      "notional_usd": 140000.0,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bitget",
+        "bybit",
+        "binance"
+      ],
+      "venue_scores": {
+        "deribit": 0.7264124731806249,
+        "okx": 0.6395140422457257,
+        "binance": 0.7060946829989164,
+        "bybit": 0.7062182219790835,
+        "bitget": 0.7201799021244036
+      },
+      "routed_split": {
+        "deribit": 0.6726412473180625,
+        "bitget": 0.25,
+        "bybit": 0.07735875268193748
+      },
+      "expected_cost_bps": 4.796515874110661,
+      "expected_latency_ms": 39.0954571437685,
+      "orderflow_routed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-01T17:16:50.130143Z"
+    }
+  ],
+  "audit_count": 30,
+  "paper_only": true,
+  "git_sha": "1d635f91f935ab44ca3b066abcf443965814cb73",
+  "campaign_id": "p24_camp_1d635f91",
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ],
+  "cycles": 12
+}
