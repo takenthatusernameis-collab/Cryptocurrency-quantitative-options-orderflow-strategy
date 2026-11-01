@@ -1,0 +1,142 @@
+{
+  "report": "PHASE19_PAPER_LIVE_GATE_REPORT",
+  "campaign": "phase19_execution_hardening",
+  "timestamp": "2026-11-01T13:29:54.987443Z",
+  "seed": 42,
+  "git_sha": "19df83047c023829178ada70db16f29edcf58d55",
+  "paper_only": true,
+  "hard_gated": true,
+  "approval_state": "PENDING",
+  "limits": {
+    "max_notional_total": 250000.0,
+    "max_drawdown_pct": 0.1,
+    "min_equity": 100000.0
+  },
+  "decision": {
+    "allowed": true,
+    "live_allowed": false,
+    "paper_only": true,
+    "checks": [
+      {
+        "name": "paper_only_enforced",
+        "passed": true,
+        "required": true,
+        "reason": "paper_only remains True",
+        "severity": "info"
+      },
+      {
+        "name": "min_equity",
+        "passed": true,
+        "required": true,
+        "reason": "equity 150000.0 >= 100000.0",
+        "severity": "info"
+      },
+      {
+        "name": "max_notional_total",
+        "passed": true,
+        "required": true,
+        "reason": "within total notional cap",
+        "severity": "info"
+      },
+      {
+        "name": "max_drawdown",
+        "passed": true,
+        "required": true,
+        "reason": "within drawdown cap",
+        "severity": "info"
+      },
+      {
+        "name": "capital_ack",
+        "passed": false,
+        "required": true,
+        "reason": "missing capital_ack",
+        "severity": "block"
+      },
+      {
+        "name": "risk_ack",
+        "passed": false,
+        "required": true,
+        "reason": "missing risk_ack",
+        "severity": "block"
+      },
+      {
+        "name": "manual_approval",
+        "passed": false,
+        "required": true,
+        "reason": "missing manual_approval",
+        "severity": "block"
+      },
+      {
+        "name": "connectivity_ok",
+        "passed": false,
+        "required": true,
+        "reason": "connectivity not verified",
+        "severity": "block"
+      },
+      {
+        "name": "compliance_ok",
+        "passed": false,
+        "required": true,
+        "reason": "compliance not verified",
+        "severity": "block"
+      },
+      {
+        "name": "confirmations_sane",
+        "passed": true,
+        "required": true,
+        "reason": "25 confirmations",
+        "severity": "info"
+      }
+    ],
+    "blocked_reasons": [
+      "capital_ack",
+      "compliance_ok",
+      "connectivity_ok",
+      "manual_approval",
+      "risk_ack"
+    ],
+    "approval_state": "PENDING",
+    "timestamp": "2026-11-01T13:29:54.979695Z"
+  },
+  "breaches": [],
+  "audit_log_count": 2,
+  "audit_log_tail": [
+    {
+      "timestamp": "2026-11-01T13:29:54.979607Z",
+      "action": "init",
+      "details": {
+        "paper_only": true,
+        "seed": 42
+      }
+    },
+    {
+      "timestamp": "2026-11-01T13:29:54.979705Z",
+      "action": "evaluate",
+      "details": {
+        "live_allowed": false,
+        "blocked": [
+          "capital_ack",
+          "compliance_ok",
+          "connectivity_ok",
+          "manual_approval",
+          "risk_ack"
+        ]
+      }
+    }
+  ],
+  "campaign_id": "phase17_42",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ]
+}

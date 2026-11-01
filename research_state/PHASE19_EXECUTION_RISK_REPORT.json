@@ -1,0 +1,48 @@
+{
+  "report": "PHASE19_EXECUTION_RISK_REPORT",
+  "campaign": "phase19_execution_hardening",
+  "timestamp": "2026-11-01T13:29:54.987562Z",
+  "seed": 42,
+  "git_sha": "19df83047c023829178ada70db16f29edcf58d55",
+  "paper_only": true,
+  "hard_gated": true,
+  "kill_switch": false,
+  "limits": {
+    "max_notional_per_symbol": 100000.0,
+    "max_notional_per_venue": 150000.0,
+    "max_notional_total": 250000.0,
+    "max_delta": 500.0,
+    "max_vega": 10000.0,
+    "max_gamma": 200.0,
+    "max_theta": -50000.0,
+    "max_slippage_bps": 15.0,
+    "max_drawdown_pct": 0.1
+  },
+  "breaches": [],
+  "breach_count": 0,
+  "audit_count": 1,
+  "audit_tail": [
+    {
+      "timestamp": "2026-11-01T13:29:54.979660Z",
+      "action": "init",
+      "details": {
+        "paper_only": true
+      }
+    }
+  ],
+  "campaign_id": "phase17_42",
+  "venues": [
+    "deribit",
+    "okx",
+    "binance",
+    "bybit",
+    "bitget"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "XRP",
+    "ADA"
+  ]
+}

@@ -6,7 +6,7 @@ Symbols: BTC, ETH, SOL, XRP, ADA
 Venues: deribit, okx, binance, bybit, bitget
 Paper-only: True
 Cycles: 5
-Git SHA: 5972de1ac19a2da7de743b198059f7d4d758e45f
+Git SHA: 19df83047c023829178ada70db16f29edcf58d55
 Count: 25
 
 ## Artifacts
