@@ -1,0 +1,948 @@
+{
+  "report": "PHASE28_CV_MM_PAPER_LOOP_REPORT",
+  "timestamp": "2026-11-01T19:16:35.158224Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "expiries": [
+      "7D",
+      "30D",
+      "90D"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "cycles": 5,
+    "enforce_gates": true
+  },
+  "cycle_count": 5,
+  "total_quotes_placed": 80,
+  "total_fills": 22,
+  "total_cross_venue_dislocations": 0,
+  "total_rebalance_orders": 0,
+  "overall_risk_passed": false,
+  "avg_tca_fill_quality_bps": 24.110909658137075,
+  "results": [
+    {
+      "cycle": 0,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 16,
+      "fills": 6,
+      "cross_venue_dislocations": 0,
+      "rebalance_orders": 0,
+      "avg_spread_bps": 1.571187559373194,
+      "inventory_utilization": 0.01403375730080034,
+      "risk_passed": true,
+      "tca_fill_quality_bps": 21.29542322377122,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.125670Z"
+    },
+    {
+      "cycle": 1,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 16,
+      "fills": 4,
+      "cross_venue_dislocations": 0,
+      "rebalance_orders": 0,
+      "avg_spread_bps": 1.5752544950771474,
+      "inventory_utilization": 0.017427405721549497,
+      "risk_passed": true,
+      "tca_fill_quality_bps": 30.40098444029372,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.129326Z"
+    },
+    {
+      "cycle": 2,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 16,
+      "fills": 4,
+      "cross_venue_dislocations": 0,
+      "rebalance_orders": 0,
+      "avg_spread_bps": 1.5728103302851677,
+      "inventory_utilization": 0.01811095062651154,
+      "risk_passed": true,
+      "tca_fill_quality_bps": 21.456245208163296,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.132904Z"
+    },
+    {
+      "cycle": 3,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 16,
+      "fills": 4,
+      "cross_venue_dislocations": 0,
+      "rebalance_orders": 0,
+      "avg_spread_bps": 1.5412652097901995,
+      "inventory_utilization": 0.02123580824259753,
+      "risk_passed": true,
+      "tca_fill_quality_bps": 19.336508296445775,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.136329Z"
+    },
+    {
+      "cycle": 4,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 16,
+      "fills": 4,
+      "cross_venue_dislocations": 0,
+      "rebalance_orders": 0,
+      "avg_spread_bps": 1.5695211581615536,
+      "inventory_utilization": 0.0323368414131231,
+      "risk_passed": false,
+      "tca_fill_quality_bps": 28.065387122011362,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.139726Z"
+    }
+  ],
+  "final_risk_state": {
+    "seed": 42,
+    "inventory": {
+      "BTC": 4.945839842684199,
+      "ETH": 4.935952010516829,
+      "SOL": 12.501535549281034,
+      "XRP": 3.4861457280164245
+    },
+    "venue_inventory": {
+      "deribit": {
+        "BTC": 4.945839842684199,
+        "ETH": 4.935952010516829,
+        "SOL": 7.529702202833679,
+        "XRP": 3.7691967408238947
+      },
+      "okx": {
+        "SOL": 4.9718333464473545,
+        "XRP": -0.28305101280746964
+      },
+      "bybit": {},
+      "binance": {}
+    },
+    "greeks": {
+      "BTC": {
+        "delta": -41.683028427670735,
+        "gamma": 0.00237644931128269,
+        "vega": 2615.037422053512,
+        "theta": -611.7796599739067,
+        "rho": 3.612589353453089
+      },
+      "ETH": {
+        "delta": -48.88567739452836,
+        "gamma": 0.047705208981669384,
+        "vega": 1570.8750075719329,
+        "theta": -3167.6865901927904,
+        "rho": -44.372029271611254
+      },
+      "SOL": {
+        "delta": 67.68953183195774,
+        "gamma": 0.02744594524607028,
+        "vega": 2354.886093870891,
+        "theta": -2513.865955096672,
+        "rho": 47.0632369458727
+      },
+      "XRP": {
+        "delta": 2.098251190967204,
+        "gamma": 0.013366773075191133,
+        "vega": 1036.2677425919235,
+        "theta": -9114.733506028086,
+        "rho": 27.314915307167013
+      }
+    },
+    "total_delta": -20.78092279927415,
+    "total_gamma": 0.09089437661421348,
+    "total_vega": 7577.066266088259,
+    "total_position_notional_usd": 2586947.3130498487,
+    "within_limits": false,
+    "venue_count": 4,
+    "quote_count": 20,
+    "dislocation_count": 0,
+    "route_count": 40,
+    "fill_count": 22,
+    "paper_only": true
+  },
+  "inventory_rebalance_report": {
+    "report": "PHASE28_INVENTORY_REBALANCE_REPORT",
+    "timestamp": "2026-11-01T19:16:35.158291Z",
+    "seed": 42,
+    "config": {
+      "seed": 42,
+      "paper_only": true,
+      "underlyings": [
+        "BTC",
+        "ETH",
+        "SOL",
+        "XRP"
+      ],
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "max_inventory_per_venue": 100.0,
+      "max_cross_venue_imbalance": 150.0,
+      "rebalance_threshold_bps": 10.0,
+      "max_transfer_notional_usd": 500000.0,
+      "stress_multiplier": 1.5,
+      "enforce_hard_limits": true
+    },
+    "snapshot_count": 20,
+    "snapshots": [
+      {
+        "venue": "deribit",
+        "underlying": "BTC",
+        "position_qty": 4.840931633685996,
+        "notional_usd": 668497.9875909311,
+        "delta": 20.54405331230666,
+        "gamma": 0.01846159819727801,
+        "vega": 1507.8781298430104,
+        "theta": -736.5676137546561,
+        "rho": -15.156560827931322,
+        "utilization": 0.048409316336859964,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.123282Z"
+      },
+      {
+        "venue": "deribit",
+        "underlying": "ETH",
+        "position_qty": 1.392568167715361,
+        "notional_usd": 965337.6170065332,
+        "delta": -7.540674530208264,
+        "gamma": 0.04217979159790992,
+        "vega": 4098.250934638686,
+        "theta": -4991.524020064619,
+        "rho": 40.269990833779985,
+        "utilization": 0.01392568167715361,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.124041Z"
+      },
+      {
+        "venue": "deribit",
+        "underlying": "SOL",
+        "position_qty": 2.9090373148751563,
+        "notional_usd": 912312.6719302286,
+        "delta": -37.64084958359382,
+        "gamma": 0.014631086248266336,
+        "vega": 1455.2893389263481,
+        "theta": -4529.880052031525,
+        "rho": 19.050569052958963,
+        "utilization": 0.029090373148751562,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.124789Z"
+      },
+      {
+        "venue": "deribit",
+        "underlying": "XRP",
+        "position_qty": -2.084468724363759,
+        "notional_usd": 832982.8354395962,
+        "delta": 85.06932391959364,
+        "gamma": 0.0027831931194475367,
+        "vega": 4152.783577230578,
+        "theta": -3772.155594659813,
+        "rho": 2.0475570589555048,
+        "utilization": 0.02084468724363759,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.125511Z"
+      },
+      {
+        "venue": "okx",
+        "underlying": "BTC",
+        "position_qty": 6.873527373313483,
+        "notional_usd": 377595.5674222183,
+        "delta": -74.91478223155866,
+        "gamma": 0.02251515199404617,
+        "vega": 1777.8671181707602,
+        "theta": -2134.454129311849,
+        "rho": 22.2798080217741,
+        "utilization": 0.06873527373313483,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.127086Z"
+      },
+      {
+        "venue": "okx",
+        "underlying": "ETH",
+        "position_qty": 1.037071447193541,
+        "notional_usd": 983552.3366793727,
+        "delta": 91.9111518697558,
+        "gamma": 0.021196208083688363,
+        "vega": 3689.490755794909,
+        "theta": -6637.678887685878,
+        "rho": 11.637962803033552,
+        "utilization": 0.010370714471935409,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.127783Z"
+      },
+      {
+        "venue": "okx",
+        "underlying": "SOL",
+        "position_qty": 5.304825907478271,
+        "notional_usd": 650387.3540035754,
+        "delta": 87.57787086817146,
+        "gamma": 0.018316668758846587,
+        "vega": 1757.5925469273955,
+        "theta": -5416.564407526155,
+        "rho": -23.429428118000217,
+        "utilization": 0.053048259074782715,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.128503Z"
+      },
+      {
+        "venue": "okx",
+        "underlying": "XRP",
+        "position_qty": -0.7264998492543018,
+        "notional_usd": 186062.73542576726,
+        "delta": -46.03768618086042,
+        "gamma": 0.0305952931061578,
+        "vega": 216.02206162043495,
+        "theta": -1818.3862232117026,
+        "rho": 7.227830122515975,
+        "utilization": 0.007264998492543018,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.129189Z"
+      },
+      {
+        "venue": "bybit",
+        "underlying": "BTC",
+        "position_qty": 2.245527037105137,
+        "notional_usd": 621754.256111847,
+        "delta": -53.71037120067381,
+        "gamma": 0.04932579912627367,
+        "vega": 3243.0972588160803,
+        "theta": -8794.678771746905,
+        "rho": 5.129840692021716,
+        "utilization": 0.02245527037105137,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.130582Z"
+      },
+      {
+        "venue": "bybit",
+        "underlying": "ETH",
+        "position_qty": 2.9942986859426073,
+        "notional_usd": 504981.1890712194,
+        "delta": -46.64493582891056,
+        "gamma": 0.04591747364176994,
+        "vega": 723.6702460130883,
+        "theta": -9061.319757776018,
+        "rho": -49.472288017105214,
+        "utilization": 0.029942986859426073,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.131306Z"
+      },
+      {
+        "venue": "bybit",
+        "underlying": "SOL",
+        "position_qty": 4.51745966969093,
+        "notional_usd": 426753.4893057043,
+        "delta": -52.59399720427995,
+        "gamma": 0.004011190078811705,
+        "vega": 681.624809138473,
+        "theta": -9193.819390143548,
+        "rho": -15.235218659910352,
+        "utilization": 0.0451745966969093,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.132074Z"
+      },
+      {
+        "venue": "bybit",
+        "underlying": "XRP",
+        "position_qty": -4.731475108470559,
+        "notional_usd": 286082.87533056346,
+        "delta": -41.598451820765824,
+        "gamma": 0.02432072375233611,
+        "vega": 3365.4465980742225,
+        "theta": -2700.0823193026035,
+        "rho": 17.30884922325292,
+        "utilization": 0.04731475108470559,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.132735Z"
+      },
+      {
+        "venue": "binance",
+        "underlying": "BTC",
+        "position_qty": 5.713549090218914,
+        "notional_usd": 359278.25901463535,
+        "delta": 91.69279621103826,
+        "gamma": 0.0019631900033607813,
+        "vega": 2710.136139596234,
+        "theta": -3706.4371109452395,
+        "rho": -26.869922023425307,
+        "utilization": 0.05713549090218914,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.134128Z"
+      },
+      {
+        "venue": "binance",
+        "underlying": "ETH",
+        "position_qty": 1.949574797196958,
+        "notional_usd": 111987.1754856623,
+        "delta": 44.593763230438185,
+        "gamma": 0.039311193602341206,
+        "vega": 1983.87357891631,
+        "theta": -1959.5571999029135,
+        "rho": 42.517257452074574,
+        "utilization": 0.01949574797196958,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.134874Z"
+      },
+      {
+        "venue": "binance",
+        "underlying": "SOL",
+        "position_qty": 8.581439681372089,
+        "notional_usd": 675350.9419998393,
+        "delta": -96.81782815146573,
+        "gamma": 0.013628822235659612,
+        "vega": 1847.3540077544556,
+        "theta": -2259.3690294778844,
+        "rho": -12.49865503170733,
+        "utilization": 0.08581439681372088,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.135526Z"
+      },
+      {
+        "venue": "binance",
+        "underlying": "XRP",
+        "position_qty": -0.7440830252900632,
+        "notional_usd": 775386.5145610478,
+        "delta": 39.00291333100253,
+        "gamma": 0.003860822870680106,
+        "vega": 2499.669894074562,
+        "theta": -4772.4830072209625,
+        "rho": -19.120654602026065,
+        "utilization": 0.007440830252900632,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.136208Z"
+      },
+      {
+        "venue": "deribit",
+        "underlying": "BTC",
+        "position_qty": 4.945839842684199,
+        "notional_usd": 132806.68573541834,
+        "delta": -41.683028427670735,
+        "gamma": 0.00237644931128269,
+        "vega": 2615.037422053512,
+        "theta": -611.7796599739067,
+        "rho": 3.612589353453089,
+        "utilization": 0.04945839842684199,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.137530Z"
+      },
+      {
+        "venue": "deribit",
+        "underlying": "ETH",
+        "position_qty": 4.935952010516829,
+        "notional_usd": 828266.5390635283,
+        "delta": -48.88567739452836,
+        "gamma": 0.047705208981669384,
+        "vega": 1570.8750075719329,
+        "theta": -3167.6865901927904,
+        "rho": -44.372029271611254,
+        "utilization": 0.04935952010516829,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.138282Z"
+      },
+      {
+        "venue": "deribit",
+        "underlying": "SOL",
+        "position_qty": 12.501535549281034,
+        "notional_usd": 725125.1064256555,
+        "delta": 67.68953183195774,
+        "gamma": 0.02744594524607028,
+        "vega": 2354.886093870891,
+        "theta": -2513.865955096672,
+        "rho": 47.0632369458727,
+        "utilization": 0.12501535549281034,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.138953Z"
+      },
+      {
+        "venue": "deribit",
+        "underlying": "XRP",
+        "position_qty": 3.4861457280164245,
+        "notional_usd": 760192.3086105698,
+        "delta": 2.098251190967204,
+        "gamma": 0.013366773075191133,
+        "vega": 1036.2677425919235,
+        "theta": -9114.733506028086,
+        "rho": 27.314915307167013,
+        "utilization": 0.034861457280164244,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.139597Z"
+      }
+    ],
+    "imbalances": [
+      {
+        "imbalance_id": "p28inv_imb_8bfe57b588b1",
+        "underlying": "BTC",
+        "venue_positions": {
+          "deribit": -2.084468724363759
+        },
+        "total_net": 7.058068391912755,
+        "mean_position": 1.7645170979781888,
+        "max_imbalance": 3.8489858223419477,
+        "imbalance_bps": 5453.313298511213,
+        "rebalance_required": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.125592Z"
+      },
+      {
+        "imbalance_id": "p28inv_imb_0f0fcd04a9d8",
+        "underlying": "BTC",
+        "venue_positions": {
+          "okx": -0.7264998492543018
+        },
+        "total_net": 12.488924878730995,
+        "mean_position": 3.1222312196827486,
+        "max_imbalance": 3.8487310689370506,
+        "imbalance_bps": 3081.7152847892876,
+        "rebalance_required": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.129257Z"
+      },
+      {
+        "imbalance_id": "p28inv_imb_acc827632304",
+        "underlying": "BTC",
+        "venue_positions": {
+          "bybit": -4.731475108470559
+        },
+        "total_net": 5.025810284268115,
+        "mean_position": 1.2564525710670287,
+        "max_imbalance": 5.987927679537588,
+        "imbalance_bps": 11914.352792585727,
+        "rebalance_required": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.132836Z"
+      },
+      {
+        "imbalance_id": "p28inv_imb_da0a751574a5",
+        "underlying": "BTC",
+        "venue_positions": {
+          "binance": -0.7440830252900632
+        },
+        "total_net": 15.500480543497897,
+        "mean_position": 3.8751201358744742,
+        "max_imbalance": 4.706319545497615,
+        "imbalance_bps": 3036.241058650153,
+        "rebalance_required": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.136268Z"
+      },
+      {
+        "imbalance_id": "p28inv_imb_bfdc877d5239",
+        "underlying": "BTC",
+        "venue_positions": {
+          "deribit": 3.4861457280164245
+        },
+        "total_net": 25.869473130498484,
+        "mean_position": 6.467368282624621,
+        "max_imbalance": 6.034167266656413,
+        "imbalance_bps": 2332.543548999654,
+        "rebalance_required": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T19:16:35.139661Z"
+      }
+    ],
+    "rebalance_orders": [],
+    "applied_rebalances": [],
+    "audit": [
+      {
+        "timestamp": "2026-11-01T19:16:35.123305Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "deribit",
+          "underlying": "BTC",
+          "position_qty": 4.840931633685996,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.124059Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "deribit",
+          "underlying": "ETH",
+          "position_qty": 1.392568167715361,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.124808Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "deribit",
+          "underlying": "SOL",
+          "position_qty": 2.9090373148751563,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.125528Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "deribit",
+          "underlying": "XRP",
+          "position_qty": -2.084468724363759,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.125612Z",
+        "action": "detect_imbalance",
+        "details": {
+          "underlying": "BTC",
+          "total_net": 7.058068391912755,
+          "max_imbalance": 3.8489858223419477,
+          "rebalance_required": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.125620Z",
+        "action": "rebalance_plan",
+        "details": {
+          "underlying": "BTC",
+          "order_count": 0,
+          "total_transfer_qty": 0
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.127103Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "okx",
+          "underlying": "BTC",
+          "position_qty": 6.873527373313483,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.127800Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "okx",
+          "underlying": "ETH",
+          "position_qty": 1.037071447193541,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.128519Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "okx",
+          "underlying": "SOL",
+          "position_qty": 5.304825907478271,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.129206Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "okx",
+          "underlying": "XRP",
+          "position_qty": -0.7264998492543018,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.129275Z",
+        "action": "detect_imbalance",
+        "details": {
+          "underlying": "BTC",
+          "total_net": 12.488924878730995,
+          "max_imbalance": 3.8487310689370506,
+          "rebalance_required": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.129283Z",
+        "action": "rebalance_plan",
+        "details": {
+          "underlying": "BTC",
+          "order_count": 0,
+          "total_transfer_qty": 0
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.130602Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "bybit",
+          "underlying": "BTC",
+          "position_qty": 2.245527037105137,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.131323Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "bybit",
+          "underlying": "ETH",
+          "position_qty": 2.9942986859426073,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.132091Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "bybit",
+          "underlying": "SOL",
+          "position_qty": 4.51745966969093,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.132781Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "bybit",
+          "underlying": "XRP",
+          "position_qty": -4.731475108470559,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.132854Z",
+        "action": "detect_imbalance",
+        "details": {
+          "underlying": "BTC",
+          "total_net": 5.025810284268115,
+          "max_imbalance": 5.987927679537588,
+          "rebalance_required": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.132861Z",
+        "action": "rebalance_plan",
+        "details": {
+          "underlying": "BTC",
+          "order_count": 0,
+          "total_transfer_qty": 0
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.134145Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "binance",
+          "underlying": "BTC",
+          "position_qty": 5.713549090218914,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.134890Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "binance",
+          "underlying": "ETH",
+          "position_qty": 1.949574797196958,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.135543Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "binance",
+          "underlying": "SOL",
+          "position_qty": 8.581439681372089,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.136224Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "binance",
+          "underlying": "XRP",
+          "position_qty": -0.7440830252900632,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.136284Z",
+        "action": "detect_imbalance",
+        "details": {
+          "underlying": "BTC",
+          "total_net": 15.500480543497897,
+          "max_imbalance": 4.706319545497615,
+          "rebalance_required": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.136290Z",
+        "action": "rebalance_plan",
+        "details": {
+          "underlying": "BTC",
+          "order_count": 0,
+          "total_transfer_qty": 0
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.137547Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "deribit",
+          "underlying": "BTC",
+          "position_qty": 4.945839842684199,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.138298Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "deribit",
+          "underlying": "ETH",
+          "position_qty": 4.935952010516829,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.138969Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "deribit",
+          "underlying": "SOL",
+          "position_qty": 12.501535549281034,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.139613Z",
+        "action": "snapshot",
+        "details": {
+          "venue": "deribit",
+          "underlying": "XRP",
+          "position_qty": 3.4861457280164245,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.139678Z",
+        "action": "detect_imbalance",
+        "details": {
+          "underlying": "BTC",
+          "total_net": 25.869473130498484,
+          "max_imbalance": 6.034167266656413,
+          "rebalance_required": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T19:16:35.139684Z",
+        "action": "rebalance_plan",
+        "details": {
+          "underlying": "BTC",
+          "order_count": 0,
+          "total_transfer_qty": 0
+        }
+      }
+    ],
+    "paper_only": true
+  },
+  "audit": [
+    {
+      "timestamp": "2026-11-01T19:16:35.125679Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 0,
+        "quotes_placed": 16,
+        "fills": 6,
+        "dislocations": 0,
+        "rebalance_orders": 0,
+        "risk_passed": true,
+        "tca_fill_quality_bps": 21.29542322377122
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.129333Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 1,
+        "quotes_placed": 16,
+        "fills": 4,
+        "dislocations": 0,
+        "rebalance_orders": 0,
+        "risk_passed": true,
+        "tca_fill_quality_bps": 30.40098444029372
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.132911Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 2,
+        "quotes_placed": 16,
+        "fills": 4,
+        "dislocations": 0,
+        "rebalance_orders": 0,
+        "risk_passed": true,
+        "tca_fill_quality_bps": 21.456245208163296
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.136335Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 3,
+        "quotes_placed": 16,
+        "fills": 4,
+        "dislocations": 0,
+        "rebalance_orders": 0,
+        "risk_passed": true,
+        "tca_fill_quality_bps": 19.336508296445775
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.139733Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 4,
+        "quotes_placed": 16,
+        "fills": 4,
+        "dislocations": 0,
+        "rebalance_orders": 0,
+        "risk_passed": false,
+        "tca_fill_quality_bps": 28.065387122011362
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.140268Z",
+      "action": "run_completed",
+      "details": {
+        "cycles": 5
+      }
+    }
+  ],
+  "paper_only": true
+}

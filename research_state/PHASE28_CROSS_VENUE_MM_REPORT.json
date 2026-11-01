@@ -1,0 +1,2837 @@
+{
+  "report": "PHASE28_CROSS_VENUE_MM_REPORT",
+  "timestamp": "2026-11-01T19:16:35.140275Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "expiries": [
+      "7D",
+      "30D",
+      "90D"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "base_spread_bps": 6.0,
+    "risk_aversion": 0.5,
+    "max_inventory": 200.0,
+    "max_position_notional_usd": 2000000.0,
+    "delta_limit": 500.0,
+    "gamma_limit": 200.0,
+    "vega_limit": 40000.0,
+    "adverse_selection_threshold": 0.15,
+    "min_quote_size": 0.01,
+    "max_quote_size": 50.0,
+    "dislocation_threshold_bps": 0.5,
+    "enforce_gates": true
+  },
+  "risk_state": {
+    "seed": 42,
+    "inventory": {
+      "BTC": 4.945839842684199,
+      "ETH": 4.935952010516829,
+      "SOL": 12.501535549281034,
+      "XRP": 3.4861457280164245
+    },
+    "venue_inventory": {
+      "deribit": {
+        "BTC": 4.945839842684199,
+        "ETH": 4.935952010516829,
+        "SOL": 7.529702202833679,
+        "XRP": 3.7691967408238947
+      },
+      "okx": {
+        "SOL": 4.9718333464473545,
+        "XRP": -0.28305101280746964
+      },
+      "bybit": {},
+      "binance": {}
+    },
+    "greeks": {
+      "BTC": {
+        "delta": -41.683028427670735,
+        "gamma": 0.00237644931128269,
+        "vega": 2615.037422053512,
+        "theta": -611.7796599739067,
+        "rho": 3.612589353453089
+      },
+      "ETH": {
+        "delta": -48.88567739452836,
+        "gamma": 0.047705208981669384,
+        "vega": 1570.8750075719329,
+        "theta": -3167.6865901927904,
+        "rho": -44.372029271611254
+      },
+      "SOL": {
+        "delta": 67.68953183195774,
+        "gamma": 0.02744594524607028,
+        "vega": 2354.886093870891,
+        "theta": -2513.865955096672,
+        "rho": 47.0632369458727
+      },
+      "XRP": {
+        "delta": 2.098251190967204,
+        "gamma": 0.013366773075191133,
+        "vega": 1036.2677425919235,
+        "theta": -9114.733506028086,
+        "rho": 27.314915307167013
+      }
+    },
+    "total_delta": -20.78092279927415,
+    "total_gamma": 0.09089437661421348,
+    "total_vega": 7577.066266088259,
+    "total_position_notional_usd": 2586947.3130498487,
+    "within_limits": false,
+    "venue_count": 4,
+    "quote_count": 20,
+    "dislocation_count": 0,
+    "route_count": 40,
+    "fill_count": 22,
+    "paper_only": true
+  },
+  "venue_quotes": [],
+  "quotes": [
+    {
+      "quote_id": "p28_cv_quote_1c97353722ee",
+      "underlying": "BTC",
+      "expiry": "7D",
+      "strike": 100000.0,
+      "option_type": "call",
+      "best_bid": 105151.4037184748,
+      "best_ask": 105218.80686764272,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 5.0605972870680915,
+      "ask_size": 5.0605972870680915,
+      "mid": 105185.10529305876,
+      "spread_bps": 6.4080507387549055,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.122837Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_19e7405222a7",
+      "underlying": "ETH",
+      "expiry": "7D",
+      "strike": 4000.0,
+      "option_type": "call",
+      "best_bid": 3721.49392682587,
+      "best_ask": 3723.8767538804227,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 7.377421933690244,
+      "ask_size": 7.377421933690244,
+      "mid": 3722.6853403531463,
+      "spread_bps": 6.400828532896418,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.123633Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_bd85fd8466ea",
+      "underlying": "SOL",
+      "expiry": "7D",
+      "strike": 150.0,
+      "option_type": "call",
+      "best_bid": 142.64882890427037,
+      "best_ask": 142.73679989247807,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 9.123126719302286,
+      "ask_size": 9.123126719302286,
+      "mid": 142.69281439837422,
+      "spread_bps": 6.165060839160461,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.124369Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_788b73a25826",
+      "underlying": "XRP",
+      "expiry": "7D",
+      "strike": 50.0,
+      "option_type": "call",
+      "best_bid": 46.2661313270707,
+      "best_ask": 46.29466347363407,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 8.329828354395962,
+      "ask_size": 8.329828354395962,
+      "mid": 46.280397400352385,
+      "spread_bps": 6.165060839159321,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.125098Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_c57c69285126",
+      "underlying": "BTC",
+      "expiry": "30D",
+      "strike": 100000.0,
+      "option_type": "put",
+      "best_bid": 102576.21192917683,
+      "best_ask": 102643.71866877862,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 2.159504338870317,
+      "ask_size": 2.2130709650826192,
+      "mid": 102609.96529897772,
+      "spread_bps": 6.578965250118496,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.126675Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_cd9a4fe3fcea",
+      "underlying": "ETH",
+      "expiry": "30D",
+      "strike": 4000.0,
+      "option_type": "put",
+      "best_bid": 3792.159453240488,
+      "best_ask": 3794.4980634983167,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 9.767040183026639,
+      "ask_size": 9.835523366793726,
+      "mid": 3793.3287583694023,
+      "spread_bps": 6.165060839161429,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.127402Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_231472dba6a4",
+      "underlying": "SOL",
+      "expiry": "30D",
+      "strike": 150.0,
+      "option_type": "put",
+      "best_bid": 141.64306084097066,
+      "best_ask": 141.73225300837115,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 5.576554052871553,
+      "ask_size": 5.658863275005389,
+      "mid": 141.6876569246709,
+      "spread_bps": 6.294984992793196,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.128161Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_ebccb50490e2",
+      "underlying": "XRP",
+      "expiry": "30D",
+      "strike": 50.0,
+      "option_type": "put",
+      "best_bid": 49.86288116804165,
+      "best_ask": 49.893631416500966,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 1.8606273542576726,
+      "ask_size": 1.8412352566194434,
+      "mid": 49.87825629227131,
+      "spread_bps": 6.1650608391612405,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.128835Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_b71bcbe99b76",
+      "underlying": "BTC",
+      "expiry": "90D",
+      "strike": 100000.0,
+      "option_type": "call",
+      "best_bid": 101653.87633464026,
+      "best_ask": 101716.565892101,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 6.003860316175523,
+      "ask_size": 6.21754256111847,
+      "mid": 101685.22111337063,
+      "spread_bps": 6.165060839161101,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.130221Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_515edea2e955",
+      "underlying": "ETH",
+      "expiry": "90D",
+      "strike": 4000.0,
+      "option_type": "call",
+      "best_bid": 3657.1911343770976,
+      "best_ask": 3659.446510187939,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 5.023626812084414,
+      "ask_size": 5.049811890712194,
+      "mid": 3658.3188222825183,
+      "spread_bps": 6.165060839159874,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.130950Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_2048e52a801a",
+      "underlying": "SOL",
+      "expiry": "90D",
+      "strike": 150.0,
+      "option_type": "call",
+      "best_bid": 143.3067800220882,
+      "best_ask": 143.40036449485288,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 2.6456237884653317,
+      "ask_size": 2.717708644599579,
+      "mid": 143.35357225847054,
+      "spread_bps": 6.528227465162435,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.131675Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_8d4a79fd1724",
+      "underlying": "XRP",
+      "expiry": "90D",
+      "strike": 50.0,
+      "option_type": "call",
+      "best_bid": 54.38334319651782,
+      "best_ask": 54.41765150198437,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 2.455863275397615,
+      "ask_size": 2.446942353900787,
+      "mid": 54.4004973492511,
+      "spread_bps": 6.3066161410792745,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.132379Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_b8cdba1abe8d",
+      "underlying": "BTC",
+      "expiry": "7D",
+      "strike": 100000.0,
+      "option_type": "put",
+      "best_bid": 92723.81273191876,
+      "best_ask": 92780.9951532472,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 3.5524441379232816,
+      "ask_size": 3.5927825901463533,
+      "mid": 92752.40394258298,
+      "spread_bps": 6.16506083916053,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.133760Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_050cad378ed9",
+      "underlying": "ETH",
+      "expiry": "7D",
+      "strike": 4000.0,
+      "option_type": "put",
+      "best_bid": 4337.281219907724,
+      "best_ask": 4339.956004677994,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 1.1031056022366659,
+      "ask_size": 1.119871754856623,
+      "mid": 4338.618612292859,
+      "spread_bps": 6.16506083916055,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.134439Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_8456d0a5497b",
+      "underlying": "SOL",
+      "expiry": "7D",
+      "strike": 150.0,
+      "option_type": "put",
+      "best_bid": 137.03218220132555,
+      "best_ask": 137.11668942495373,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 6.6009658878297905,
+      "ask_size": 6.753509419998393,
+      "mid": 137.07443581313964,
+      "spread_bps": 6.165060839161867,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.135181Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_770b9b7fc951",
+      "underlying": "XRP",
+      "expiry": "7D",
+      "strike": 50.0,
+      "option_type": "put",
+      "best_bid": 52.02470654147105,
+      "best_ask": 52.056789979385144,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 7.753865145610478,
+      "ask_size": 7.57042904595601,
+      "mid": 52.040748260428096,
+      "spread_bps": 6.165060839160244,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.135864Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_9c9cea0feca3",
+      "underlying": "BTC",
+      "expiry": "30D",
+      "strike": 100000.0,
+      "option_type": "call",
+      "best_bid": 92572.52190579558,
+      "best_ask": 92630.75996527297,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 1.1301060803602434,
+      "ask_size": 1.163340083745747,
+      "mid": 92601.64093553428,
+      "spread_bps": 6.2890958398813845,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.137174Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_8afe0b7b1b07",
+      "underlying": "ETH",
+      "expiry": "30D",
+      "strike": 4000.0,
+      "option_type": "call",
+      "best_bid": 3696.217692805958,
+      "best_ask": 3698.497136146395,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 8.201927012139294,
+      "ask_size": 8.282665390635284,
+      "mid": 3697.3574144761765,
+      "spread_bps": 6.165060839161248,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.137930Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_2496a85ca96c",
+      "underlying": "SOL",
+      "expiry": "30D",
+      "strike": 150.0,
+      "option_type": "call",
+      "best_bid": 150.6661119483653,
+      "best_ask": 150.76023726533396,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 6.38305827814369,
+      "ask_size": 6.669215636685073,
+      "mid": 150.71317460684963,
+      "spread_bps": 6.24532773688688,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.138585Z"
+    },
+    {
+      "quote_id": "p28_cv_quote_c59cafe99e3e",
+      "underlying": "XRP",
+      "expiry": "30D",
+      "strike": 50.0,
+      "option_type": "call",
+      "best_bid": 50.83458917702806,
+      "best_ask": 50.86719911360343,
+      "best_bid_venue": "deribit",
+      "best_ask_venue": "deribit",
+      "bid_size": 5.7182176645325,
+      "ask_size": 5.696943521037038,
+      "mid": 50.85089414531574,
+      "spread_bps": 6.412854114655345,
+      "dislocation_bps": 0.0,
+      "venues_quoted": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.139259Z"
+    }
+  ],
+  "dislocations": [],
+  "route_decisions": [
+    {
+      "decision_id": "p28_route_06e7b1f3f96c",
+      "underlying": "BTC",
+      "side": "sell",
+      "notional_usd": 668497.9875909311,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "okx",
+        "deribit",
+        "binance"
+      ],
+      "routed_split": {
+        "bybit": 0.6777173864124338,
+        "okx": 0.25,
+        "deribit": 0.07228261358756616
+      },
+      "expected_cost_bps": 4.984529183690281,
+      "expected_latency_ms": 5.08391953345423,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.123063Z"
+    },
+    {
+      "decision_id": "p28_route_c95b1189250e",
+      "underlying": "BTC",
+      "side": "buy",
+      "notional_usd": 668497.9875909311,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.6722982269070565,
+        "bybit": 0.25,
+        "okx": 0.07770177309294346
+      },
+      "expected_cost_bps": 1.0759265851826543,
+      "expected_latency_ms": 19.087467484682904,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.123228Z"
+    },
+    {
+      "decision_id": "p28_route_2cdf98c827f9",
+      "underlying": "ETH",
+      "side": "sell",
+      "notional_usd": 965337.6170065332,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "okx",
+        "deribit",
+        "binance"
+      ],
+      "routed_split": {
+        "bybit": 0.6713015457611266,
+        "okx": 0.25,
+        "deribit": 0.07869845423887345
+      },
+      "expected_cost_bps": 4.984529183690281,
+      "expected_latency_ms": 5.08391953345423,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.123835Z"
+    },
+    {
+      "decision_id": "p28_route_ab359b801340",
+      "underlying": "ETH",
+      "side": "buy",
+      "notional_usd": 965337.6170065332,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.6695674503771213,
+        "bybit": 0.25,
+        "okx": 0.08043254962287871
+      },
+      "expected_cost_bps": 1.0759265851826543,
+      "expected_latency_ms": 19.087467484682904,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.123990Z"
+    },
+    {
+      "decision_id": "p28_route_a8c7a929b365",
+      "underlying": "SOL",
+      "side": "sell",
+      "notional_usd": 912312.6719302286,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "okx",
+        "deribit",
+        "binance"
+      ],
+      "routed_split": {
+        "bybit": 0.6721413311467803,
+        "okx": 0.25,
+        "deribit": 0.07785866885321968
+      },
+      "expected_cost_bps": 4.984529183690281,
+      "expected_latency_ms": 5.08391953345423,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.124543Z"
+    },
+    {
+      "decision_id": "p28_route_db19a74ee541",
+      "underlying": "SOL",
+      "side": "buy",
+      "notional_usd": 912312.6719302286,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.6699248885284037,
+        "bybit": 0.25,
+        "okx": 0.0800751114715963
+      },
+      "expected_cost_bps": 1.0759265851826543,
+      "expected_latency_ms": 19.087467484682904,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.124702Z"
+    },
+    {
+      "decision_id": "p28_route_2f9733e4ee42",
+      "underlying": "XRP",
+      "side": "sell",
+      "notional_usd": 832982.8354395962,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "okx",
+        "deribit",
+        "binance"
+      ],
+      "routed_split": {
+        "bybit": 0.6735973527609729,
+        "okx": 0.25,
+        "deribit": 0.07640264723902712
+      },
+      "expected_cost_bps": 4.984529183690281,
+      "expected_latency_ms": 5.08391953345423,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.125308Z"
+    },
+    {
+      "decision_id": "p28_route_7caff70da5d5",
+      "underlying": "XRP",
+      "side": "buy",
+      "notional_usd": 832982.8354395962,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.6705446155240088,
+        "bybit": 0.25,
+        "okx": 0.07945538447599121
+      },
+      "expected_cost_bps": 1.0759265851826543,
+      "expected_latency_ms": 19.087467484682904,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.125456Z"
+    },
+    {
+      "decision_id": "p28_route_59c8a6c1eb6a",
+      "underlying": "BTC",
+      "side": "sell",
+      "notional_usd": 377595.5674222183,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "bybit",
+        "deribit",
+        "okx"
+      ],
+      "routed_split": {
+        "binance": 0.6824152750438204,
+        "bybit": 0.25,
+        "deribit": 0.06758472495617962
+      },
+      "expected_cost_bps": 5.989724731681431,
+      "expected_latency_ms": 8.903664540657738,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.126891Z"
+    },
+    {
+      "decision_id": "p28_route_635a1945ffd3",
+      "underlying": "BTC",
+      "side": "buy",
+      "notional_usd": 377595.5674222183,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "deribit",
+        "bybit",
+        "okx"
+      ],
+      "routed_split": {
+        "binance": 0.6873159140258593,
+        "deribit": 0.25,
+        "bybit": 0.06268408597414066
+      },
+      "expected_cost_bps": 2.155118941163611,
+      "expected_latency_ms": 15.22207631033131,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.127042Z"
+    },
+    {
+      "decision_id": "p28_route_b9108749a45c",
+      "underlying": "ETH",
+      "side": "sell",
+      "notional_usd": 983552.3366793727,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "binance",
+        "deribit",
+        "okx"
+      ],
+      "routed_split": {
+        "bybit": 0.6675156788441613,
+        "binance": 0.25,
+        "deribit": 0.0824843211558387
+      },
+      "expected_cost_bps": 3.1093088718282935,
+      "expected_latency_ms": 7.909257364878865,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.127568Z"
+    },
+    {
+      "decision_id": "p28_route_5c43408b1abb",
+      "underlying": "ETH",
+      "side": "buy",
+      "notional_usd": 983552.3366793727,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "binance",
+        "bybit",
+        "okx"
+      ],
+      "routed_split": {
+        "deribit": 0.673513250580893,
+        "binance": 0.25,
+        "bybit": 0.07648674941910705
+      },
+      "expected_cost_bps": 4.51493025293695,
+      "expected_latency_ms": 7.811818159190156,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.127719Z"
+    },
+    {
+      "decision_id": "p28_route_206312076646",
+      "underlying": "SOL",
+      "side": "sell",
+      "notional_usd": 650387.3540035754,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "bybit",
+        "deribit",
+        "okx"
+      ],
+      "routed_split": {
+        "binance": 0.6721102695122457,
+        "bybit": 0.25,
+        "deribit": 0.07788973048775427
+      },
+      "expected_cost_bps": 5.989724731681431,
+      "expected_latency_ms": 8.903664540657738,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.128321Z"
+    },
+    {
+      "decision_id": "p28_route_39bb10ae856d",
+      "underlying": "SOL",
+      "side": "buy",
+      "notional_usd": 650387.3540035754,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "binance",
+        "bybit",
+        "okx"
+      ],
+      "routed_split": {
+        "deribit": 0.6797159792487518,
+        "binance": 0.25,
+        "bybit": 0.07028402075124818
+      },
+      "expected_cost_bps": 4.51493025293695,
+      "expected_latency_ms": 7.811818159190156,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.128462Z"
+    },
+    {
+      "decision_id": "p28_route_c26eb07cbaa2",
+      "underlying": "XRP",
+      "side": "sell",
+      "notional_usd": 186062.73542576726,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "binance",
+        "deribit",
+        "okx"
+      ],
+      "routed_split": {
+        "bybit": 0.6840995668886015,
+        "binance": 0.25,
+        "deribit": 0.06590043311139848
+      },
+      "expected_cost_bps": 3.1093088718282935,
+      "expected_latency_ms": 7.909257364878865,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.129003Z"
+    },
+    {
+      "decision_id": "p28_route_6d6cc9f58c52",
+      "underlying": "XRP",
+      "side": "buy",
+      "notional_usd": 186062.73542576726,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "deribit",
+        "bybit",
+        "okx"
+      ],
+      "routed_split": {
+        "binance": 0.68832191388933,
+        "deribit": 0.25,
+        "bybit": 0.06167808611067005
+      },
+      "expected_cost_bps": 2.155118941163611,
+      "expected_latency_ms": 15.22207631033131,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.129149Z"
+    },
+    {
+      "decision_id": "p28_route_15919bb58896",
+      "underlying": "BTC",
+      "side": "sell",
+      "notional_usd": 621754.256111847,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "okx",
+        "bybit",
+        "deribit"
+      ],
+      "routed_split": {
+        "binance": 0.6748732515241207,
+        "okx": 0.25,
+        "bybit": 0.0751267484758793
+      },
+      "expected_cost_bps": 5.122715635637225,
+      "expected_latency_ms": 11.561273890803093,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.130391Z"
+    },
+    {
+      "decision_id": "p28_route_7cc61b6961d3",
+      "underlying": "BTC",
+      "side": "buy",
+      "notional_usd": 621754.256111847,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "binance",
+        "deribit",
+        "okx"
+      ],
+      "routed_split": {
+        "bybit": 0.6663252200379776,
+        "binance": 0.25,
+        "deribit": 0.08367477996202244
+      },
+      "expected_cost_bps": 4.27719225709198,
+      "expected_latency_ms": 19.834973301835582,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.130540Z"
+    },
+    {
+      "decision_id": "p28_route_15182b9a5c14",
+      "underlying": "ETH",
+      "side": "sell",
+      "notional_usd": 504981.1890712194,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "okx",
+        "bybit",
+        "deribit"
+      ],
+      "routed_split": {
+        "binance": 0.6793412306130119,
+        "okx": 0.25,
+        "bybit": 0.07065876938698812
+      },
+      "expected_cost_bps": 5.122715635637225,
+      "expected_latency_ms": 11.561273890803093,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.131118Z"
+    },
+    {
+      "decision_id": "p28_route_0ce10f3ddaec",
+      "underlying": "ETH",
+      "side": "buy",
+      "notional_usd": 504981.1890712194,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "bybit",
+        "deribit",
+        "okx"
+      ],
+      "routed_split": {
+        "binance": 0.6707671170387508,
+        "bybit": 0.25,
+        "deribit": 0.0792328829612492
+      },
+      "expected_cost_bps": 3.8324221431962044,
+      "expected_latency_ms": 34.40375729761739,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.131264Z"
+    },
+    {
+      "decision_id": "p28_route_87b53f2ceac6",
+      "underlying": "SOL",
+      "side": "sell",
+      "notional_usd": 426753.4893057043,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "deribit"
+      ],
+      "routed_split": {
+        "binance": 0.6805516266817364,
+        "bybit": 0.25,
+        "okx": 0.06944837331826359
+      },
+      "expected_cost_bps": 5.122715635637225,
+      "expected_latency_ms": 11.561273890803093,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.131882Z"
+    },
+    {
+      "decision_id": "p28_route_28f46ed27568",
+      "underlying": "SOL",
+      "side": "buy",
+      "notional_usd": 426753.4893057043,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "binance",
+        "deribit",
+        "okx"
+      ],
+      "routed_split": {
+        "bybit": 0.6722430720536685,
+        "binance": 0.25,
+        "deribit": 0.07775692794633149
+      },
+      "expected_cost_bps": 4.27719225709198,
+      "expected_latency_ms": 19.834973301835582,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.132031Z"
+    },
+    {
+      "decision_id": "p28_route_2dace748c0af",
+      "underlying": "XRP",
+      "side": "sell",
+      "notional_usd": 286082.87533056346,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "deribit"
+      ],
+      "routed_split": {
+        "binance": 0.6805516266817364,
+        "bybit": 0.25,
+        "okx": 0.06944837331826359
+      },
+      "expected_cost_bps": 5.122715635637225,
+      "expected_latency_ms": 11.561273890803093,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.132535Z"
+    },
+    {
+      "decision_id": "p28_route_cf143974230e",
+      "underlying": "XRP",
+      "side": "buy",
+      "notional_usd": 286082.87533056346,
+      "primary_venue": "bybit",
+      "backup_venues": [
+        "deribit",
+        "binance",
+        "okx"
+      ],
+      "routed_split": {
+        "bybit": 0.6783741735459319,
+        "deribit": 0.25,
+        "binance": 0.07162582645406812
+      },
+      "expected_cost_bps": 4.27719225709198,
+      "expected_latency_ms": 19.834973301835582,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.132694Z"
+    },
+    {
+      "decision_id": "p28_route_a6c3684d3ce2",
+      "underlying": "BTC",
+      "side": "sell",
+      "notional_usd": 359278.25901463535,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "binance",
+        "bybit",
+        "okx"
+      ],
+      "routed_split": {
+        "deribit": 0.6812303868745647,
+        "binance": 0.25,
+        "bybit": 0.06876961312543528
+      },
+      "expected_cost_bps": 4.804629476107003,
+      "expected_latency_ms": 11.724130583391744,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.133935Z"
+    },
+    {
+      "decision_id": "p28_route_f76c62a15e12",
+      "underlying": "BTC",
+      "side": "buy",
+      "notional_usd": 359278.25901463535,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.6704495820011881,
+        "okx": 0.25,
+        "bybit": 0.0795504179988119
+      },
+      "expected_cost_bps": 3.5534873099633053,
+      "expected_latency_ms": 22.251183462024706,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.134082Z"
+    },
+    {
+      "decision_id": "p28_route_cb9dbcb1cc57",
+      "underlying": "ETH",
+      "side": "sell",
+      "notional_usd": 111987.1754856623,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "binance",
+        "okx"
+      ],
+      "routed_split": {
+        "deribit": 0.6812303868745647,
+        "bybit": 0.25,
+        "binance": 0.06876961312543528
+      },
+      "expected_cost_bps": 4.804629476107003,
+      "expected_latency_ms": 11.724130583391744,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.134659Z"
+    },
+    {
+      "decision_id": "p28_route_3e2886d66481",
+      "underlying": "ETH",
+      "side": "buy",
+      "notional_usd": 111987.1754856623,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "deribit",
+        "bybit",
+        "binance"
+      ],
+      "routed_split": {
+        "okx": 0.6805630398277183,
+        "deribit": 0.25,
+        "bybit": 0.06943696017228174
+      },
+      "expected_cost_bps": 2.50625109311893,
+      "expected_latency_ms": 15.313644555018193,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.134833Z"
+    },
+    {
+      "decision_id": "p28_route_7bf3961b9501",
+      "underlying": "SOL",
+      "side": "sell",
+      "notional_usd": 675350.9419998393,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "binance",
+        "bybit",
+        "okx"
+      ],
+      "routed_split": {
+        "deribit": 0.6754965964985677,
+        "binance": 0.25,
+        "bybit": 0.07450340350143225
+      },
+      "expected_cost_bps": 4.804629476107003,
+      "expected_latency_ms": 11.724130583391744,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.135337Z"
+    },
+    {
+      "decision_id": "p28_route_fa2b3ba3f464",
+      "underlying": "SOL",
+      "side": "buy",
+      "notional_usd": 675350.9419998393,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.6625858645587741,
+        "okx": 0.25,
+        "bybit": 0.0874141354412259
+      },
+      "expected_cost_bps": 3.5534873099633053,
+      "expected_latency_ms": 22.251183462024706,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.135485Z"
+    },
+    {
+      "decision_id": "p28_route_b1a238d26c89",
+      "underlying": "XRP",
+      "side": "sell",
+      "notional_usd": 775386.5145610478,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "binance",
+        "bybit",
+        "okx"
+      ],
+      "routed_split": {
+        "deribit": 0.6730109892889653,
+        "binance": 0.25,
+        "bybit": 0.0769890107110347
+      },
+      "expected_cost_bps": 4.804629476107003,
+      "expected_latency_ms": 11.724130583391744,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.136019Z"
+    },
+    {
+      "decision_id": "p28_route_c1bd0f37672a",
+      "underlying": "XRP",
+      "side": "buy",
+      "notional_usd": 775386.5145610478,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "deribit",
+        "bybit",
+        "binance"
+      ],
+      "routed_split": {
+        "okx": 0.661792175581682,
+        "deribit": 0.25,
+        "bybit": 0.08820782441831798
+      },
+      "expected_cost_bps": 2.50625109311893,
+      "expected_latency_ms": 15.313644555018193,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.136168Z"
+    },
+    {
+      "decision_id": "p28_route_0317ce36f5ad",
+      "underlying": "BTC",
+      "side": "sell",
+      "notional_usd": 132806.68573541834,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.6884176023315074,
+        "bybit": 0.25,
+        "okx": 0.061582397668492606
+      },
+      "expected_cost_bps": 1.0759265851826543,
+      "expected_latency_ms": 19.087467484682904,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.137343Z"
+    },
+    {
+      "decision_id": "p28_route_94ef00313c3b",
+      "underlying": "BTC",
+      "side": "buy",
+      "notional_usd": 132806.68573541834,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "deribit",
+        "bybit",
+        "okx"
+      ],
+      "routed_split": {
+        "binance": 0.6874380188329118,
+        "deribit": 0.25,
+        "bybit": 0.06256198116708822
+      },
+      "expected_cost_bps": 2.5407000982820955,
+      "expected_latency_ms": 14.359661362964268,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.137490Z"
+    },
+    {
+      "decision_id": "p28_route_bb04f0717bcf",
+      "underlying": "ETH",
+      "side": "sell",
+      "notional_usd": 828266.5390635283,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.670585197999464,
+        "bybit": 0.25,
+        "okx": 0.07941480200053597
+      },
+      "expected_cost_bps": 1.0759265851826543,
+      "expected_latency_ms": 19.087467484682904,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.138097Z"
+    },
+    {
+      "decision_id": "p28_route_f0959e2be4b7",
+      "underlying": "ETH",
+      "side": "buy",
+      "notional_usd": 828266.5390635283,
+      "primary_venue": "binance",
+      "backup_venues": [
+        "okx",
+        "deribit",
+        "bybit"
+      ],
+      "routed_split": {
+        "binance": 0.6693876183688162,
+        "okx": 0.25,
+        "deribit": 0.08061238163118378
+      },
+      "expected_cost_bps": 2.5407000982820955,
+      "expected_latency_ms": 14.359661362964268,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.138240Z"
+    },
+    {
+      "decision_id": "p28_route_9823f96a19cc",
+      "underlying": "SOL",
+      "side": "sell",
+      "notional_usd": 725125.1064256555,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.6716047132240935,
+        "bybit": 0.25,
+        "okx": 0.07839528677590646
+      },
+      "expected_cost_bps": 1.0759265851826543,
+      "expected_latency_ms": 19.087467484682904,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.138765Z"
+    },
+    {
+      "decision_id": "p28_route_3da7d02236b9",
+      "underlying": "SOL",
+      "side": "buy",
+      "notional_usd": 725125.1064256555,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "binance",
+        "deribit",
+        "bybit"
+      ],
+      "routed_split": {
+        "okx": 0.6708920297276187,
+        "binance": 0.25,
+        "deribit": 0.07910797027238126
+      },
+      "expected_cost_bps": 4.458218638067433,
+      "expected_latency_ms": 8.439792404801459,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.138911Z"
+    },
+    {
+      "decision_id": "p28_route_ffe331307e93",
+      "underlying": "XRP",
+      "side": "sell",
+      "notional_usd": 760192.3086105698,
+      "primary_venue": "deribit",
+      "backup_venues": [
+        "bybit",
+        "okx",
+        "binance"
+      ],
+      "routed_split": {
+        "deribit": 0.6712270468497713,
+        "bybit": 0.25,
+        "okx": 0.0787729531502287
+      },
+      "expected_cost_bps": 1.0759265851826543,
+      "expected_latency_ms": 19.087467484682904,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.139421Z"
+    },
+    {
+      "decision_id": "p28_route_a08deed33605",
+      "underlying": "XRP",
+      "side": "buy",
+      "notional_usd": 760192.3086105698,
+      "primary_venue": "okx",
+      "backup_venues": [
+        "binance",
+        "deribit",
+        "bybit"
+      ],
+      "routed_split": {
+        "okx": 0.670189971956434,
+        "binance": 0.25,
+        "deribit": 0.07981002804356596
+      },
+      "expected_cost_bps": 4.458218638067433,
+      "expected_latency_ms": 8.439792404801459,
+      "paper_only": true,
+      "timestamp": "2026-11-01T19:16:35.139559Z"
+    }
+  ],
+  "fills": [
+    {
+      "fill_id": "p28_fill_ca03edef8d78",
+      "quote_id": "p28_cv_quote_1c97353722ee",
+      "underlying": "BTC",
+      "side": "buy",
+      "fill_qty": 4.840931633685996,
+      "fill_price": 105206.08547192402,
+      "timestamp": "2026-11-01T19:16:35.123261Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_14d1a79f4882",
+      "quote_id": "p28_cv_quote_19e7405222a7",
+      "underlying": "ETH",
+      "side": "buy",
+      "fill_qty": 1.392568167715361,
+      "fill_price": 3716.8692192756794,
+      "timestamp": "2026-11-01T19:16:35.124020Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_a311f539ee47",
+      "quote_id": "p28_cv_quote_bd85fd8466ea",
+      "underlying": "SOL",
+      "side": "sell",
+      "fill_qty": 2.0627960315721983,
+      "fill_price": 143.12841114441406,
+      "timestamp": "2026-11-01T19:16:35.124730Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_5bbcfc5985c5",
+      "quote_id": "p28_cv_quote_bd85fd8466ea",
+      "underlying": "SOL",
+      "side": "buy",
+      "fill_qty": 4.9718333464473545,
+      "fill_price": 142.8715813792063,
+      "timestamp": "2026-11-01T19:16:35.124771Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_9030aca0a152",
+      "quote_id": "p28_cv_quote_788b73a25826",
+      "underlying": "XRP",
+      "side": "sell",
+      "fill_qty": 1.8014177115562893,
+      "fill_price": 46.48351910470397,
+      "timestamp": "2026-11-01T19:16:35.125484Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_e6402bbf3d12",
+      "quote_id": "p28_cv_quote_788b73a25826",
+      "underlying": "XRP",
+      "side": "sell",
+      "fill_qty": 0.28305101280746964,
+      "fill_price": 46.38781485000463,
+      "timestamp": "2026-11-01T19:16:35.125498Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_2549196ec640",
+      "quote_id": "p28_cv_quote_c57c69285126",
+      "underlying": "BTC",
+      "side": "buy",
+      "fill_qty": 2.032595739627487,
+      "fill_price": 103070.86707228965,
+      "timestamp": "2026-11-01T19:16:35.127070Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_163e1db7e2cc",
+      "quote_id": "p28_cv_quote_cd9a4fe3fcea",
+      "underlying": "ETH",
+      "side": "sell",
+      "fill_qty": 0.3554967205218199,
+      "fill_price": 3801.0886923617604,
+      "timestamp": "2026-11-01T19:16:35.127766Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_1000db79718d",
+      "quote_id": "p28_cv_quote_231472dba6a4",
+      "underlying": "SOL",
+      "side": "buy",
+      "fill_qty": 2.395788592603115,
+      "fill_price": 142.64910724305793,
+      "timestamp": "2026-11-01T19:16:35.128489Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_c86453e44ac1",
+      "quote_id": "p28_cv_quote_ebccb50490e2",
+      "underlying": "XRP",
+      "side": "buy",
+      "fill_qty": 1.3579688751094572,
+      "fill_price": 48.719503273804506,
+      "timestamp": "2026-11-01T19:16:35.129175Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_ad5183aed1e5",
+      "quote_id": "p28_cv_quote_b71bcbe99b76",
+      "underlying": "BTC",
+      "side": "sell",
+      "fill_qty": 4.628000336208347,
+      "fill_price": 101746.50486335052,
+      "timestamp": "2026-11-01T19:16:35.130567Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_7656b5ff8130",
+      "quote_id": "p28_cv_quote_515edea2e955",
+      "underlying": "ETH",
+      "side": "buy",
+      "fill_qty": 1.9572272387490663,
+      "fill_price": 3668.584854553362,
+      "timestamp": "2026-11-01T19:16:35.131291Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_fe0ec9bc2464",
+      "quote_id": "p28_cv_quote_2048e52a801a",
+      "underlying": "SOL",
+      "side": "sell",
+      "fill_qty": 0.7873662377873415,
+      "fill_price": 146.70290707833902,
+      "timestamp": "2026-11-01T19:16:35.132059Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_ff49ffe66e45",
+      "quote_id": "p28_cv_quote_8d4a79fd1724",
+      "underlying": "XRP",
+      "side": "sell",
+      "fill_qty": 4.004975259216257,
+      "fill_price": 54.068388869604476,
+      "timestamp": "2026-11-01T19:16:35.132720Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_5f23cb243d51",
+      "quote_id": "p28_cv_quote_b8cdba1abe8d",
+      "underlying": "BTC",
+      "side": "buy",
+      "fill_qty": 3.468022053113777,
+      "fill_price": 93022.18151190733,
+      "timestamp": "2026-11-01T19:16:35.134110Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_8877db99d322",
+      "quote_id": "p28_cv_quote_050cad378ed9",
+      "underlying": "ETH",
+      "side": "sell",
+      "fill_qty": 1.0447238887456494,
+      "fill_price": 4351.462490380559,
+      "timestamp": "2026-11-01T19:16:35.134859Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_776d58110d34",
+      "quote_id": "p28_cv_quote_8456d0a5497b",
+      "underlying": "SOL",
+      "side": "buy",
+      "fill_qty": 4.063980011681158,
+      "fill_price": 139.10610504765467,
+      "timestamp": "2026-11-01T19:16:35.135512Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_7f7571327ac7",
+      "quote_id": "p28_cv_quote_770b9b7fc951",
+      "underlying": "XRP",
+      "side": "buy",
+      "fill_qty": 3.987392083180496,
+      "fill_price": 49.6454958866741,
+      "timestamp": "2026-11-01T19:16:35.136194Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_3b9a49940df5",
+      "quote_id": "p28_cv_quote_9c9cea0feca3",
+      "underlying": "BTC",
+      "side": "sell",
+      "fill_qty": 0.7677092475347147,
+      "fill_price": 92272.30962084874,
+      "timestamp": "2026-11-01T19:16:35.137516Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_5b931ef63c0e",
+      "quote_id": "p28_cv_quote_8afe0b7b1b07",
+      "underlying": "ETH",
+      "side": "buy",
+      "fill_qty": 2.9863772133198707,
+      "fill_price": 3716.6488702048828,
+      "timestamp": "2026-11-01T19:16:35.138267Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_9e8260f7ecb1",
+      "quote_id": "p28_cv_quote_2496a85ca96c",
+      "underlying": "SOL",
+      "side": "buy",
+      "fill_qty": 3.9200958679089455,
+      "fill_price": 155.2546818663172,
+      "timestamp": "2026-11-01T19:16:35.138938Z",
+      "paper_only": true
+    },
+    {
+      "fill_id": "p28_fill_0ae555c5a07b",
+      "quote_id": "p28_cv_quote_c59cafe99e3e",
+      "underlying": "XRP",
+      "side": "buy",
+      "fill_qty": 4.230228753306488,
+      "fill_price": 50.53278215192994,
+      "timestamp": "2026-11-01T19:16:35.139584Z",
+      "paper_only": true
+    }
+  ],
+  "audit": [
+    {
+      "timestamp": "2026-11-01T19:16:35.122785Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "BTC",
+        "venue_count": 4,
+        "mid": 105185.10529305876
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.122867Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "BTC",
+        "best_bid": 105151.4037184748,
+        "best_ask": 105218.80686764272,
+        "spread_bps": 6.4080507387549055,
+        "dislocation_bps": -6.405998240666976
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.122874Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "BTC",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.123087Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "sell",
+        "primary_venue": "bybit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.123251Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "buy",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.123272Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_ca03edef8d78",
+        "underlying": "BTC",
+        "side": "buy",
+        "qty": 4.840931633685996,
+        "inventory": 4.840931633685996,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.123584Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "ETH",
+        "venue_count": 4,
+        "mid": 3722.6853403531463
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.123658Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "ETH",
+        "best_bid": 3721.49392682587,
+        "best_ask": 3723.8767538804227,
+        "spread_bps": 6.400828532896418,
+        "dislocation_bps": -6.398780658005842
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.123664Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "ETH",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.123856Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "sell",
+        "primary_venue": "bybit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.124010Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "buy",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.124031Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_14d1a79f4882",
+        "underlying": "ETH",
+        "side": "buy",
+        "qty": 1.392568167715361,
+        "inventory": 1.392568167715361,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.124330Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "SOL",
+        "venue_count": 4,
+        "mid": 142.69281439837422
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.124392Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "SOL",
+        "best_bid": 142.64882890427037,
+        "best_ask": 142.73679989247807,
+        "spread_bps": 6.165060839160461,
+        "dislocation_bps": -6.163161026026111
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.124397Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "SOL",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.124567Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "sell",
+        "primary_venue": "bybit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.124722Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "buy",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.124738Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_a311f539ee47",
+        "underlying": "SOL",
+        "side": "sell",
+        "qty": 2.0627960315721983,
+        "inventory": -2.0627960315721983,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.124781Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_5bbcfc5985c5",
+        "underlying": "SOL",
+        "side": "buy",
+        "qty": 4.9718333464473545,
+        "inventory": 2.9090373148751563,
+        "venue": "okx"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.125059Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "XRP",
+        "venue_count": 4,
+        "mid": 46.280397400352385
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.125167Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "XRP",
+        "best_bid": 46.2661313270707,
+        "best_ask": 46.29466347363407,
+        "spread_bps": 6.165060839159321,
+        "dislocation_bps": -6.163161026024972
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.125173Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "XRP",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.125328Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "sell",
+        "primary_venue": "bybit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.125476Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "buy",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.125492Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_9030aca0a152",
+        "underlying": "XRP",
+        "side": "sell",
+        "qty": 1.8014177115562893,
+        "inventory": -1.8014177115562893,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.125505Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_e6402bbf3d12",
+        "underlying": "XRP",
+        "side": "sell",
+        "qty": 0.28305101280746964,
+        "inventory": -2.084468724363759,
+        "venue": "okx"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.126631Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "BTC",
+        "venue_count": 4,
+        "mid": 102612.38576479457
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.126701Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "BTC",
+        "best_bid": 102576.21192917683,
+        "best_ask": 102643.71866877862,
+        "spread_bps": 6.578965250118496,
+        "dislocation_bps": -6.576801822586111
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.126706Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "BTC",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.126913Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "sell",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.127062Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "buy",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.127078Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_2549196ec640",
+        "underlying": "BTC",
+        "side": "buy",
+        "qty": 2.032595739627487,
+        "inventory": 6.873527373313483,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.127359Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "ETH",
+        "venue_count": 4,
+        "mid": 3794.02504245326
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.127425Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "ETH",
+        "best_bid": 3792.159453240488,
+        "best_ask": 3794.4980634983167,
+        "spread_bps": 6.165060839161429,
+        "dislocation_bps": -6.163161026027078
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.127430Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "ETH",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.127591Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "sell",
+        "primary_venue": "bybit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.127739Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "buy",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.127776Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_163e1db7e2cc",
+        "underlying": "ETH",
+        "side": "sell",
+        "qty": 0.3554967205218199,
+        "inventory": 1.037071447193541,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.128070Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "SOL",
+        "venue_count": 4,
+        "mid": 143.14217558210848
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.128184Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "SOL",
+        "best_bid": 141.64306084097066,
+        "best_ask": 141.73225300837115,
+        "spread_bps": 6.294984992793196,
+        "dislocation_bps": -6.293004274419842
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.128189Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "SOL",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.128341Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "sell",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.128481Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "buy",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.128496Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_1000db79718d",
+        "underlying": "SOL",
+        "side": "buy",
+        "qty": 2.395788592603115,
+        "inventory": 5.304825907478271,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.128796Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "XRP",
+        "venue_count": 4,
+        "mid": 48.83602193008943
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.128861Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "XRP",
+        "best_bid": 49.86288116804165,
+        "best_ask": 49.893631416500966,
+        "spread_bps": 6.1650608391612405,
+        "dislocation_bps": -6.1631610260268905
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.128867Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "XRP",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.129023Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "sell",
+        "primary_venue": "bybit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.129168Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "buy",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.129183Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_c86453e44ac1",
+        "underlying": "XRP",
+        "side": "buy",
+        "qty": 1.3579688751094572,
+        "inventory": -0.7264998492543018,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.130182Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "BTC",
+        "venue_count": 4,
+        "mid": 101688.65787705728
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.130244Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "BTC",
+        "best_bid": 101653.87633464026,
+        "best_ask": 101716.565892101,
+        "spread_bps": 6.165060839161101,
+        "dislocation_bps": -6.163161026026752
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.130250Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "BTC",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.130412Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "sell",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.130559Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "buy",
+        "primary_venue": "bybit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.130575Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_ad5183aed1e5",
+        "underlying": "BTC",
+        "side": "sell",
+        "qty": 4.628000336208347,
+        "inventory": 2.245527037105137,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.130909Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "ETH",
+        "venue_count": 4,
+        "mid": 3658.837358006115
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.130977Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "ETH",
+        "best_bid": 3657.1911343770976,
+        "best_ask": 3659.446510187939,
+        "spread_bps": 6.165060839159874,
+        "dislocation_bps": -6.1631610260255245
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.130982Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "ETH",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.131138Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "sell",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.131283Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "buy",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.131299Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_7656b5ff8130",
+        "underlying": "ETH",
+        "side": "buy",
+        "qty": 1.9572272387490663,
+        "inventory": 2.9942986859426073,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.131637Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "SOL",
+        "venue_count": 4,
+        "mid": 146.00598521220968
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.131697Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "SOL",
+        "best_bid": 143.3067800220882,
+        "best_ask": 143.40036449485288,
+        "spread_bps": 6.528227465162435,
+        "dislocation_bps": -6.526097272789608
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.131702Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "SOL",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.131903Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "sell",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.132051Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "buy",
+        "primary_venue": "bybit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.132067Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_fe0ec9bc2464",
+        "underlying": "SOL",
+        "side": "sell",
+        "qty": 0.7873662377873415,
+        "inventory": 4.51745966969093,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.132339Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "XRP",
+        "venue_count": 4,
+        "mid": 54.03724742462395
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.132402Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "XRP",
+        "best_bid": 54.38334319651782,
+        "best_ask": 54.41765150198437,
+        "spread_bps": 6.3066161410792745,
+        "dislocation_bps": -6.304628097613079
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.132407Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "XRP",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.132555Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "sell",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.132713Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "buy",
+        "primary_venue": "bybit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.132728Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_ff49ffe66e45",
+        "underlying": "XRP",
+        "side": "sell",
+        "qty": 4.004975259216257,
+        "inventory": -4.731475108470559,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.133699Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "BTC",
+        "venue_count": 4,
+        "mid": 92753.52670610153
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.133790Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "BTC",
+        "best_bid": 92723.81273191876,
+        "best_ask": 92780.9951532472,
+        "spread_bps": 6.16506083916053,
+        "dislocation_bps": -6.16316102602618
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.133796Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "BTC",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.133955Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "sell",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.134102Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "buy",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.134118Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_5f23cb243d51",
+        "underlying": "BTC",
+        "side": "buy",
+        "qty": 3.468022053113777,
+        "inventory": 5.713549090218914,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.134399Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "ETH",
+        "venue_count": 4,
+        "mid": 4340.1157616358305
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.134461Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "ETH",
+        "best_bid": 4337.281219907724,
+        "best_ask": 4339.956004677994,
+        "spread_bps": 6.16506083916055,
+        "dislocation_bps": -6.1631610260262
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.134466Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "ETH",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.134680Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "sell",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.134852Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "buy",
+        "primary_venue": "okx"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.134867Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_8877db99d322",
+        "underlying": "ETH",
+        "side": "sell",
+        "qty": 1.0447238887456494,
+        "inventory": 1.949574797196958,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.135140Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "SOL",
+        "venue_count": 4,
+        "mid": 139.3331656479851
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.135203Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "SOL",
+        "best_bid": 137.03218220132555,
+        "best_ask": 137.11668942495373,
+        "spread_bps": 6.165060839161867,
+        "dislocation_bps": -6.163161026027516
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.135208Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "SOL",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.135359Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "sell",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.135505Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "buy",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.135520Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_776d58110d34",
+        "underlying": "SOL",
+        "side": "buy",
+        "qty": 4.063980011681158,
+        "inventory": 8.581439681372089,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.135825Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "XRP",
+        "venue_count": 4,
+        "mid": 49.675010706192815
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.135886Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "XRP",
+        "best_bid": 52.02470654147105,
+        "best_ask": 52.056789979385144,
+        "spread_bps": 6.165060839160244,
+        "dislocation_bps": -6.163161026025894
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.135891Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "XRP",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.136043Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "sell",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.136186Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "buy",
+        "primary_venue": "okx"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.136201Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_7f7571327ac7",
+        "underlying": "XRP",
+        "side": "buy",
+        "qty": 3.987392083180496,
+        "inventory": -0.7440830252900632,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.137136Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "BTC",
+        "venue_count": 4,
+        "mid": 92604.49771007939
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.137197Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "BTC",
+        "best_bid": 92572.52190579558,
+        "best_ask": 92630.75996527297,
+        "spread_bps": 6.2890958398813845,
+        "dislocation_bps": -6.287118825238952
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.137202Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "BTC",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.137364Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "sell",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.137509Z",
+      "action": "route",
+      "details": {
+        "underlying": "BTC",
+        "side": "buy",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.137524Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_3b9a49940df5",
+        "underlying": "BTC",
+        "side": "sell",
+        "qty": 0.7677092475347147,
+        "inventory": 4.945839842684199,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.137889Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "ETH",
+        "venue_count": 4,
+        "mid": 3698.332201874775
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.137953Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "ETH",
+        "best_bid": 3696.217692805958,
+        "best_ask": 3698.497136146395,
+        "spread_bps": 6.165060839161248,
+        "dislocation_bps": -6.163161026026897
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.137958Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "ETH",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.138117Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "sell",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.138260Z",
+      "action": "route",
+      "details": {
+        "underlying": "ETH",
+        "side": "buy",
+        "primary_venue": "binance"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.138275Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_5b931ef63c0e",
+        "underlying": "ETH",
+        "side": "buy",
+        "qty": 2.9863772133198707,
+        "inventory": 4.935952010516829,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.138548Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "SOL",
+        "venue_count": 4,
+        "mid": 155.00389444753569
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.138607Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "SOL",
+        "best_bid": 150.6661119483653,
+        "best_ask": 150.76023726533396,
+        "spread_bps": 6.24532773688688,
+        "dislocation_bps": -6.243378139753476
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.138612Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "SOL",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.138787Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "sell",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.138931Z",
+      "action": "route",
+      "details": {
+        "underlying": "SOL",
+        "side": "buy",
+        "primary_venue": "okx"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.138946Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_9e8260f7ecb1",
+        "underlying": "SOL",
+        "side": "buy",
+        "qty": 3.9200958679089455,
+        "inventory": 12.501535549281034,
+        "venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.139220Z",
+      "action": "venue_quotes",
+      "details": {
+        "underlying": "XRP",
+        "venue_count": 4,
+        "mid": 50.47885263267071
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.139281Z",
+      "action": "aggregate_quote",
+      "details": {
+        "underlying": "XRP",
+        "best_bid": 50.83458917702806,
+        "best_ask": 50.86719911360343,
+        "spread_bps": 6.412854114655345,
+        "dislocation_bps": -6.4107985388659365
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.139286Z",
+      "action": "detect_dislocations",
+      "details": {
+        "underlying": "XRP",
+        "count": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.139440Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "sell",
+        "primary_venue": "deribit"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.139577Z",
+      "action": "route",
+      "details": {
+        "underlying": "XRP",
+        "side": "buy",
+        "primary_venue": "okx"
+      }
+    },
+    {
+      "timestamp": "2026-11-01T19:16:35.139591Z",
+      "action": "fill",
+      "details": {
+        "fill_id": "p28_fill_0ae555c5a07b",
+        "underlying": "XRP",
+        "side": "buy",
+        "qty": 4.230228753306488,
+        "inventory": 3.4861457280164245,
+        "venue": "deribit"
+      }
+    }
+  ],
+  "paper_only": true
+}
