@@ -23,16 +23,16 @@
     "artifacts": 4
   },
   "artifacts": [
-    "research_state/DEPLOYMENT_REPORT.json",
-    "research_state/CONTINUOUS_MONITOR_REPORT.json",
-    "research_state/AUTO_HEALER_REPORT.json",
-    "research_state/MODEL_GOVERNANCE_REPORT.json"
+    "DEPLOYMENT_REPORT.json",
+    "CONTINUOUS_MONITOR_REPORT.json",
+    "AUTO_HEALER_REPORT.json",
+    "MODEL_GOVERNANCE_REPORT.json"
   ],
   "deployment": {
     "deployment_id": "deploy_42",
     "status": "promoted",
     "timestamp": "2026-11-01T00:00:42Z",
-    "git_sha": "e2aa4e14b855599f3691b09d9a1535ba6ece539a",
+    "git_sha": "ba0f65d2731f551eeec45c84488f2a0d2a0f1880",
     "seed": 42,
     "paper_only": true,
     "env": "paper",
@@ -82,7 +82,7 @@
       {
         "name": "risk",
         "status": "pass",
-        "latency_ms": 5.1,
+        "latency_ms": 5.8,
         "message": "risk reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -93,7 +93,7 @@
       {
         "name": "orderflow_adapter",
         "status": "pass",
-        "latency_ms": 5.7,
+        "latency_ms": 5.3,
         "message": "orderflow_adapter reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -104,7 +104,7 @@
       {
         "name": "reconciliation",
         "status": "pass",
-        "latency_ms": 5.1,
+        "latency_ms": 5.7,
         "message": "reconciliation reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -114,10 +114,42 @@
       }
     ],
     "steps": [
-      "DeploymentStep(step_id='validate_environment', name='Environment validation', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
-      "DeploymentStep(step_id='validate_secrets', name='Secret validation', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
-      "DeploymentStep(step_id='rollout', name='Rollout', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
-      "DeploymentStep(step_id='promote', name='Health-gated promotion', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)"
+      {
+        "step_id": "validate_environment",
+        "name": "Environment validation",
+        "status": "completed",
+        "started_at": "2026-11-01T00:00:42Z",
+        "completed_at": "2026-11-01T00:00:42Z",
+        "error": null,
+        "result_path": null
+      },
+      {
+        "step_id": "validate_secrets",
+        "name": "Secret validation",
+        "status": "completed",
+        "started_at": "2026-11-01T00:00:42Z",
+        "completed_at": "2026-11-01T00:00:42Z",
+        "error": null,
+        "result_path": null
+      },
+      {
+        "step_id": "rollout",
+        "name": "Rollout",
+        "status": "completed",
+        "started_at": "2026-11-01T00:00:42Z",
+        "completed_at": "2026-11-01T00:00:42Z",
+        "error": null,
+        "result_path": null
+      },
+      {
+        "step_id": "promote",
+        "name": "Health-gated promotion",
+        "status": "completed",
+        "started_at": "2026-11-01T00:00:42Z",
+        "completed_at": "2026-11-01T00:00:42Z",
+        "error": null,
+        "result_path": null
+      }
     ],
     "artifacts": [],
     "counts": {
@@ -136,7 +168,7 @@
     "seed": 42,
     "paper_only": true,
     "timestamp": "2026-11-01T00:00:42Z",
-    "uptime_sec": 0.000739,
+    "uptime_sec": 0.0,
     "health": {
       "service": "crypto-options-orderflow",
       "status": "pass",
@@ -144,20 +176,20 @@
         {
           "name": "exchange",
           "status": "pass",
-          "latency_ms": 0.0,
+          "latency_ms": 5.5,
           "message": "exchange reachable",
-          "checked_at": "2026-11-01T04:33:08.146752+00:00",
+          "checked_at": "2026-11-01T00:00:42Z",
           "details": {
             "venue": "deribit",
-            "latency_ms": 0.0
+            "latency_ms": 5.5
           }
         },
         {
           "name": "risk",
           "status": "pass",
-          "latency_ms": 0.0,
+          "latency_ms": 5.5,
           "message": "risk engine operational",
-          "checked_at": "2026-11-01T04:33:08.146755+00:00",
+          "checked_at": "2026-11-01T00:00:42Z",
           "details": {
             "kill_switch": "armed",
             "circuit_state": "closed"
@@ -166,9 +198,9 @@
         {
           "name": "orderflow_adapter",
           "status": "pass",
-          "latency_ms": 0.0,
+          "latency_ms": 5.5,
           "message": "orderflow adapter connected",
-          "checked_at": "2026-11-01T04:33:08.146758+00:00",
+          "checked_at": "2026-11-01T00:00:42Z",
           "details": {
             "venue": "deribit",
             "feed": "orderflow"
@@ -177,18 +209,18 @@
         {
           "name": "reconciliation",
           "status": "pass",
-          "latency_ms": 0.0,
+          "latency_ms": 5.5,
           "message": "reconciliation in sync",
-          "checked_at": "2026-11-01T04:33:08.146760+00:00",
+          "checked_at": "2026-11-01T00:00:42Z",
           "details": {
             "matched_orders": 0,
             "mismatches": 0
           }
         }
       ],
-      "checked_at": "2026-11-01T04:33:08.146764+00:00",
+      "checked_at": "2026-11-01T00:00:42Z",
       "version": null,
-      "uptime_sec": 4.581336498260498
+      "uptime_sec": 0.0
     },
     "slo_evaluations": [
       {
@@ -201,7 +233,7 @@
         "error_budget_remaining": 1.0,
         "window_sec": 300.0,
         "num_measurements": 0,
-        "evaluated_at": "2026-11-01T04:33:08.146826+00:00",
+        "evaluated_at": "2026-11-01T00:00:42Z",
         "labels": {
           "component": "execution"
         }
@@ -216,7 +248,7 @@
         "error_budget_remaining": 1.0,
         "window_sec": 300.0,
         "num_measurements": 0,
-        "evaluated_at": "2026-11-01T04:33:08.146936+00:00",
+        "evaluated_at": "2026-11-01T00:00:42Z",
         "labels": {
           "component": "execution"
         }
@@ -231,7 +263,7 @@
         "error_budget_remaining": 1.0,
         "window_sec": 3600.0,
         "num_measurements": 0,
-        "evaluated_at": "2026-11-01T04:33:08.147027+00:00",
+        "evaluated_at": "2026-11-01T00:00:42Z",
         "labels": {
           "component": "api"
         }
@@ -246,7 +278,7 @@
         "error_budget_remaining": 1.0,
         "window_sec": 60.0,
         "num_measurements": 0,
-        "evaluated_at": "2026-11-01T04:33:08.147114+00:00",
+        "evaluated_at": "2026-11-01T00:00:42Z",
         "labels": {
           "component": "reconciliation"
         }
@@ -261,23 +293,25 @@
         "error_budget_remaining": 1.0,
         "window_sec": 300.0,
         "num_measurements": 0,
-        "evaluated_at": "2026-11-01T04:33:08.147197+00:00",
+        "evaluated_at": "2026-11-01T00:00:42Z",
         "labels": {
           "component": "execution"
         }
       }
     ],
     "metrics": {
-      "latency_p99_ms": 78.0,
-      "error_rate": 0.002,
-      "throughput_per_sec": 1250.0,
-      "uptime_pct": 100.0,
-      "fill_rate": 1.0,
-      "reconciliation_freshness": 1.0,
-      "health_status": "pass",
-      "num_alerts": 0,
-      "critical_alerts": 0,
-      "warning_alerts": 0
+      "metrics": {
+        "latency_p99_ms": 78.0,
+        "error_rate": 0.002,
+        "throughput_per_sec": 1250.0,
+        "uptime_pct": 100.0,
+        "fill_rate": 1.0,
+        "reconciliation_freshness": 1.0,
+        "health_status": "pass",
+        "num_alerts": 0,
+        "critical_alerts": 0,
+        "warning_alerts": 0
+      }
     },
     "alerts": [],
     "thresholds": {
@@ -336,9 +370,9 @@
         "retries": 0,
         "escalations": 0,
         "last_failure_ts": null,
-        "last_heal_ts": 1793507588.1494071,
+        "last_heal_ts": 42.00299999999999,
         "last_action": "noop",
-        "last_success_ts": 1793507588.1494074
+        "last_success_ts": 42.00399999999999
       },
       "risk": {
         "component": "risk",
@@ -351,9 +385,9 @@
         "retries": 0,
         "escalations": 0,
         "last_failure_ts": null,
-        "last_heal_ts": 1793507588.1495376,
+        "last_heal_ts": 42.00799999999998,
         "last_action": "noop",
-        "last_success_ts": 1793507588.1495376
+        "last_success_ts": 42.00899999999998
       },
       "orderflow_adapter": {
         "component": "orderflow_adapter",
@@ -366,9 +400,9 @@
         "retries": 0,
         "escalations": 0,
         "last_failure_ts": null,
-        "last_heal_ts": 1793507588.1496296,
+        "last_heal_ts": 42.01299999999997,
         "last_action": "noop",
-        "last_success_ts": 1793507588.1496296
+        "last_success_ts": 42.01399999999997
       },
       "reconciliation": {
         "component": "reconciliation",
@@ -381,55 +415,55 @@
         "retries": 0,
         "escalations": 0,
         "last_failure_ts": null,
-        "last_heal_ts": 1793507588.149729,
+        "last_heal_ts": 42.01799999999996,
         "last_action": "noop",
-        "last_success_ts": 1793507588.149729
+        "last_success_ts": 42.018999999999956
       }
     },
     "records": [
       {
-        "record_id": "heal_157f419e6976",
+        "record_id": "heal_616960065248",
         "component": "exchange",
         "action": "noop",
         "trigger": "startup_check",
         "success": true,
-        "latency_ms": 0.002384,
+        "latency_ms": 1.0,
         "timestamp": "2026-11-01T00:00:42Z",
         "details": {
           "circuit_state": "unknown"
         }
       },
       {
-        "record_id": "heal_e39baa6f8721",
+        "record_id": "heal_ac9823fd6198",
         "component": "risk",
         "action": "noop",
         "trigger": "startup_check",
         "success": true,
-        "latency_ms": 0.001907,
+        "latency_ms": 1.0,
         "timestamp": "2026-11-01T00:00:42Z",
         "details": {
           "circuit_state": "unknown"
         }
       },
       {
-        "record_id": "heal_1fd38cfadd57",
+        "record_id": "heal_fd387eb6c99d",
         "component": "orderflow_adapter",
         "action": "noop",
         "trigger": "startup_check",
         "success": true,
-        "latency_ms": 0.001192,
+        "latency_ms": 1.0,
         "timestamp": "2026-11-01T00:00:42Z",
         "details": {
           "circuit_state": "unknown"
         }
       },
       {
-        "record_id": "heal_7e89ca5a13e5",
+        "record_id": "heal_90f61d45a375",
         "component": "reconciliation",
         "action": "noop",
         "trigger": "startup_check",
         "success": true,
-        "latency_ms": 0.001192,
+        "latency_ms": 1.0,
         "timestamp": "2026-11-01T00:00:42Z",
         "details": {
           "circuit_state": "unknown"
@@ -487,14 +521,14 @@
             "win_rate_bt": 0.55
           },
           "validation_gates": {
-            "determinism_verified": true,
+            "backtest_passed": true,
             "numerics_finite": true,
+            "paper_only_enforced": true,
             "oos_passed": true,
             "schema_valid": true,
-            "paper_only_enforced": true,
-            "backtest_passed": true
+            "determinism_verified": true
           },
-          "artifact_path": "research_state/model_v1_0_0.json",
+          "artifact_path": "model_v1_0_0.json",
           "checksum": "sha256:deterministic_checksum_phase13",
           "paper_only": true,
           "tags": {
@@ -517,12 +551,12 @@
           "model_id": "model_158a6c98c263",
           "name": "options_orderflow_alpha",
           "gates": {
-            "determinism_verified": true,
+            "backtest_passed": true,
             "numerics_finite": true,
+            "paper_only_enforced": true,
             "oos_passed": true,
             "schema_valid": true,
-            "paper_only_enforced": true,
-            "backtest_passed": true
+            "determinism_verified": true
           },
           "timestamp": "2026-11-01T00:00:42Z"
         },
@@ -531,12 +565,12 @@
           "model_id": "model_158a6c98c263",
           "name": "options_orderflow_alpha",
           "gates": {
-            "determinism_verified": true,
+            "backtest_passed": true,
             "numerics_finite": true,
+            "paper_only_enforced": true,
             "oos_passed": true,
             "schema_valid": true,
-            "paper_only_enforced": true,
-            "backtest_passed": true
+            "determinism_verified": true
           },
           "timestamp": "2026-11-01T00:00:42Z"
         },

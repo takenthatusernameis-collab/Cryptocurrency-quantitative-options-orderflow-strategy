@@ -2,7 +2,7 @@
   "deployment_id": "deploy_42",
   "status": "promoted",
   "timestamp": "2026-11-01T00:00:42Z",
-  "git_sha": "e2aa4e14b855599f3691b09d9a1535ba6ece539a",
+  "git_sha": "ba0f65d2731f551eeec45c84488f2a0d2a0f1880",
   "seed": 42,
   "paper_only": true,
   "env": "paper",
@@ -52,7 +52,7 @@
     {
       "name": "risk",
       "status": "pass",
-      "latency_ms": 5.1,
+      "latency_ms": 5.8,
       "message": "risk reachable",
       "checked_at": "2026-11-01T00:00:42Z",
       "details": {
@@ -63,7 +63,7 @@
     {
       "name": "orderflow_adapter",
       "status": "pass",
-      "latency_ms": 5.7,
+      "latency_ms": 5.3,
       "message": "orderflow_adapter reachable",
       "checked_at": "2026-11-01T00:00:42Z",
       "details": {
@@ -74,7 +74,7 @@
     {
       "name": "reconciliation",
       "status": "pass",
-      "latency_ms": 5.1,
+      "latency_ms": 5.7,
       "message": "reconciliation reachable",
       "checked_at": "2026-11-01T00:00:42Z",
       "details": {
@@ -84,10 +84,42 @@
     }
   ],
   "steps": [
-    "DeploymentStep(step_id='validate_environment', name='Environment validation', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
-    "DeploymentStep(step_id='validate_secrets', name='Secret validation', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
-    "DeploymentStep(step_id='rollout', name='Rollout', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)",
-    "DeploymentStep(step_id='promote', name='Health-gated promotion', status='completed', started_at='2026-11-01T00:00:42Z', completed_at='2026-11-01T00:00:42Z', error=None, result_path=None)"
+    {
+      "step_id": "validate_environment",
+      "name": "Environment validation",
+      "status": "completed",
+      "started_at": "2026-11-01T00:00:42Z",
+      "completed_at": "2026-11-01T00:00:42Z",
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "validate_secrets",
+      "name": "Secret validation",
+      "status": "completed",
+      "started_at": "2026-11-01T00:00:42Z",
+      "completed_at": "2026-11-01T00:00:42Z",
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "rollout",
+      "name": "Rollout",
+      "status": "completed",
+      "started_at": "2026-11-01T00:00:42Z",
+      "completed_at": "2026-11-01T00:00:42Z",
+      "error": null,
+      "result_path": null
+    },
+    {
+      "step_id": "promote",
+      "name": "Health-gated promotion",
+      "status": "completed",
+      "started_at": "2026-11-01T00:00:42Z",
+      "completed_at": "2026-11-01T00:00:42Z",
+      "error": null,
+      "result_path": null
+    }
   ],
   "artifacts": [],
   "counts": {

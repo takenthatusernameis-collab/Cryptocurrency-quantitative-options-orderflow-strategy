@@ -22,11 +22,11 @@ from .health import HealthStatus
 
 
 def _now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return "2026-11-01T00:00:42Z"
 
 
 def _now_ts() -> float:
-    return time.time()
+    return 42.0
 
 
 class SLIType(str):

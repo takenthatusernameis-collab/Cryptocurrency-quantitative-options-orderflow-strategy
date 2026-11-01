@@ -104,7 +104,7 @@ def _is_finite_number(v: Any) -> bool:
     return True
 
 
-def _validate_finite(obj: Any, path: str = "$") -> List[str]:
+def _validate_finite(obj: Any, path: str = "") -> List[str]:
     bad: List[str] = []
     if isinstance(obj, dict):
         for k, v in obj.items():
@@ -178,6 +178,8 @@ class DeploymentConfig:
         })
 
     def assert_valid(self) -> None:
+        valid_venues = {"deribit", "okx", "binance"}
+        assert all(v in valid_venues for v in self.venues), "invalid venue"
         assert_json_valid(self.to_dict())
 
 
@@ -312,6 +314,7 @@ class ProductionDeployer:
         self.timestamp = _deterministic_iso(self.config.seed)
         self.git_sha = _git_sha()
         self.status = DeploymentStatus.PENDING
+        self.paper_only = bool(self.config.paper_only)
         self.health_checks: List[HealthCheckResult] = []
         self.steps: List[DeploymentStep] = []
         self.artifacts: List[str] = []
@@ -560,7 +563,7 @@ class ProductionDeployer:
             symbols=list(self.config.symbols),
             config=self.config.to_dict(),
             health_checks=[c.to_dict() for c in self.health_checks],
-            steps=self.steps,
+            steps=[st.to_dict() for st in self.steps],
             artifacts=list(self.artifacts),
             counts={
                 "venues": len(self.config.venues),

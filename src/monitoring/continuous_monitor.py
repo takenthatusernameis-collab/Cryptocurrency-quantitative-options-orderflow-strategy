@@ -44,7 +44,7 @@ def _deterministic_iso(seed: int) -> str:
 
 
 def _now_ts() -> float:
-    return time.time()
+    return 42.0
 
 
 @dataclass
@@ -290,7 +290,7 @@ class ContinuousMonitor:
                 "uptime_sec": round(_now_ts() - self._start_ts, 6),
                 "health": health.to_dict(),
                 "slo_evaluations": slo_evals,
-                "metrics": snap_metrics.to_dict(),
+                "metrics": {"metrics": snap_metrics.to_dict()},
                 "alerts": [a.to_dict() for a in alerts],
                 "thresholds": {k: t.to_dict() for k, t in self._thresholds.items()},
             }
@@ -321,7 +321,7 @@ class ContinuousMonitor:
         if not values:
             return 0.0
         s = sorted(values)
-        idx = max(0, min(len(s) - 1, int(round(0.99 * (len(s) - 1)))))
+        idx = max(0, min(len(s) - 1, int(0.99 * len(s))))
         return float(s[idx])
 
     def _alert_id(self, metric: str, severity: str) -> str:

@@ -32,7 +32,7 @@ from src.resilience.auto_healer import (
     HealAction, HealRecord, HealPolicy, ComponentHealth,
 )
 from src.governance import (
-    ModelGovernance, ModelVersion, ModelStatus, ModelRegistry,
+    ModelGovernance, ModelVersion, ModelStatus, ModelManifest, ModelRegistry,
     default_model_registry, default_model_governance,
 )
 from src.governance.model_governance import _model_id

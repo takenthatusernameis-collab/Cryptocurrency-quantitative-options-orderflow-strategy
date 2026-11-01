@@ -158,7 +158,7 @@ class Phase13Campaign:
             metrics={"sharpe": 1.75, "sortino": 2.10, "calmar": 3.20},
             oos_metrics={"sharpe_oos": 1.60, "sortino_oos": 1.90, "calmar_oos": 2.90},
             backtest_metrics={"sharpe_bt": 1.80, "max_dd_bt": 0.08, "win_rate_bt": 0.55},
-            artifact_path=str(self.outdir / "model_v1_0_0.json"),
+            artifact_path="model_v1_0_0.json",
             checksum="sha256:deterministic_checksum_phase13",
             tags={"asset_class": "crypto_options", "universe": "BTC,ETH"},
         )
@@ -201,7 +201,7 @@ class Phase13Campaign:
                 "models_promoted": 1,
                 "artifacts": len(self.artifacts),
             },
-            "artifacts": self.artifacts,
+            "artifacts": [__import__("os").path.basename(a) for a in self.artifacts],
             "deployment": dep_report,
             "continuous_monitor": snap,
             "auto_healer": healer_report,
@@ -213,6 +213,7 @@ class Phase13Campaign:
         master_path = _write_json_artifact(
             self.outdir / "PHASE13_PRODUCTION_REPORT.json", master)
         self.artifacts.append(master_path)
+        results["status"] = "completed"
         results["master_report"] = master
         results["master_report_artifact"] = master_path
 

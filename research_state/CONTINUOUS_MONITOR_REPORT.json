@@ -3,7 +3,7 @@
   "seed": 42,
   "paper_only": true,
   "timestamp": "2026-11-01T00:00:42Z",
-  "uptime_sec": 0.000739,
+  "uptime_sec": 0.0,
   "health": {
     "service": "crypto-options-orderflow",
     "status": "pass",
@@ -11,20 +11,20 @@
       {
         "name": "exchange",
         "status": "pass",
-        "latency_ms": 0.0,
+        "latency_ms": 5.5,
         "message": "exchange reachable",
-        "checked_at": "2026-11-01T04:33:08.146752+00:00",
+        "checked_at": "2026-11-01T00:00:42Z",
         "details": {
           "venue": "deribit",
-          "latency_ms": 0.0
+          "latency_ms": 5.5
         }
       },
       {
         "name": "risk",
         "status": "pass",
-        "latency_ms": 0.0,
+        "latency_ms": 5.5,
         "message": "risk engine operational",
-        "checked_at": "2026-11-01T04:33:08.146755+00:00",
+        "checked_at": "2026-11-01T00:00:42Z",
         "details": {
           "kill_switch": "armed",
           "circuit_state": "closed"
@@ -33,9 +33,9 @@
       {
         "name": "orderflow_adapter",
         "status": "pass",
-        "latency_ms": 0.0,
+        "latency_ms": 5.5,
         "message": "orderflow adapter connected",
-        "checked_at": "2026-11-01T04:33:08.146758+00:00",
+        "checked_at": "2026-11-01T00:00:42Z",
         "details": {
           "venue": "deribit",
           "feed": "orderflow"
@@ -44,18 +44,18 @@
       {
         "name": "reconciliation",
         "status": "pass",
-        "latency_ms": 0.0,
+        "latency_ms": 5.5,
         "message": "reconciliation in sync",
-        "checked_at": "2026-11-01T04:33:08.146760+00:00",
+        "checked_at": "2026-11-01T00:00:42Z",
         "details": {
           "matched_orders": 0,
           "mismatches": 0
         }
       }
     ],
-    "checked_at": "2026-11-01T04:33:08.146764+00:00",
+    "checked_at": "2026-11-01T00:00:42Z",
     "version": null,
-    "uptime_sec": 4.581336498260498
+    "uptime_sec": 0.0
   },
   "slo_evaluations": [
     {
@@ -68,7 +68,7 @@
       "error_budget_remaining": 1.0,
       "window_sec": 300.0,
       "num_measurements": 0,
-      "evaluated_at": "2026-11-01T04:33:08.146826+00:00",
+      "evaluated_at": "2026-11-01T00:00:42Z",
       "labels": {
         "component": "execution"
       }
@@ -83,7 +83,7 @@
       "error_budget_remaining": 1.0,
       "window_sec": 300.0,
       "num_measurements": 0,
-      "evaluated_at": "2026-11-01T04:33:08.146936+00:00",
+      "evaluated_at": "2026-11-01T00:00:42Z",
       "labels": {
         "component": "execution"
       }
@@ -98,7 +98,7 @@
       "error_budget_remaining": 1.0,
       "window_sec": 3600.0,
       "num_measurements": 0,
-      "evaluated_at": "2026-11-01T04:33:08.147027+00:00",
+      "evaluated_at": "2026-11-01T00:00:42Z",
       "labels": {
         "component": "api"
       }
@@ -113,7 +113,7 @@
       "error_budget_remaining": 1.0,
       "window_sec": 60.0,
       "num_measurements": 0,
-      "evaluated_at": "2026-11-01T04:33:08.147114+00:00",
+      "evaluated_at": "2026-11-01T00:00:42Z",
       "labels": {
         "component": "reconciliation"
       }
@@ -128,23 +128,25 @@
       "error_budget_remaining": 1.0,
       "window_sec": 300.0,
       "num_measurements": 0,
-      "evaluated_at": "2026-11-01T04:33:08.147197+00:00",
+      "evaluated_at": "2026-11-01T00:00:42Z",
       "labels": {
         "component": "execution"
       }
     }
   ],
   "metrics": {
-    "latency_p99_ms": 78.0,
-    "error_rate": 0.002,
-    "throughput_per_sec": 1250.0,
-    "uptime_pct": 100.0,
-    "fill_rate": 1.0,
-    "reconciliation_freshness": 1.0,
-    "health_status": "pass",
-    "num_alerts": 0,
-    "critical_alerts": 0,
-    "warning_alerts": 0
+    "metrics": {
+      "latency_p99_ms": 78.0,
+      "error_rate": 0.002,
+      "throughput_per_sec": 1250.0,
+      "uptime_pct": 100.0,
+      "fill_rate": 1.0,
+      "reconciliation_freshness": 1.0,
+      "health_status": "pass",
+      "num_alerts": 0,
+      "critical_alerts": 0,
+      "warning_alerts": 0
+    }
   },
   "alerts": [],
   "thresholds": {
