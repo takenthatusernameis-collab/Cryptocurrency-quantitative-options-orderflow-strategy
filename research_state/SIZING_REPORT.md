@@ -1,7 +1,7 @@
 # SIZING_REPORT
 
-- Timestamp: 2026-11-01T11:35:08.753234Z
+- Timestamp: 2026-11-01T12:19:59.891980Z
 - Seed: 42
-- Git SHA: ff2ed9c9a80d82b0a3080dd0044d304bca8055a1
+- Git SHA: b26fb657bc6894ef84f3bcd564653ef415f03642
 - Symbols: ['BTC', 'ETH']
 - Count: 0
