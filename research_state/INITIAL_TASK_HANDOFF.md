@@ -9,7 +9,7 @@ This file points to the authoritative handoff. Read durable_handoff.md for full 
 ## Initial Task Message
 **DO NOT EXPLORE AIMLESSLY. DO NOT REWRITE EXISTING CORRECT CODE. HEAVY QUANT WORK ONLY.**
 
-You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. Production-grade crypto options + orderflow quant. Phases 1-4b + Phase 5 (regime OOS + portfolio scaling + hedging robustness) COMPLETE. **CURRENT STATE (2026-10-31T16:52:52Z): 385 tests passing, 0 failing, 0 warnings. Gate GREEN. Bottlenecks: NONE.** Read durable_handoff.md for exact requirements.
+You are picking up the Cryptocurrency-quantitative-options-orderflow-strategy campaign. Production-grade crypto options + orderflow quant. Phases 1-4b + Phase 5 (regime OOS + portfolio scaling + hedging robustness) COMPLETE. **CURRENT STATE (2026-11-01T13:28:25Z): 1181 tests passing, 2 skipped, 0 failing. Gate GREEN. Bottlenecks: NONE.** Read durable_handoff.md for exact requirements.
 
 ## Immediate Objectives
 1. **HOLD GATE:** `python -m pytest -q` (>=385 passing, 0 failures). `tests/test_campaign_resume.py` must pass.

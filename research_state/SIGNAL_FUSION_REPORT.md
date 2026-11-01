@@ -1,7 +1,7 @@
 # SIGNAL_FUSION_REPORT
 
-- Timestamp: 2026-11-01T13:27:55.482396Z
+- Timestamp: 2026-11-01T13:28:44.233334Z
 - Seed: 42
-- Git SHA: ec9443e9a8b6dde81dedc0aa582d756e37ca64a9
+- Git SHA: 483462580ca48b4e65cd1661b57128ab9eb728e8
 - Symbols: ['BTC', 'ETH']
 - Count: 0
