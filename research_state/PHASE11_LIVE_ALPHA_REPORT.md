@@ -1,0 +1,28 @@
+# PHASE11_LIVE_ALPHA_REPORT
+
+{
+  "timestamp": "2026-11-01T02:28:23.003847Z",
+  "git_sha": "98576dcacf23fa797b25b85866d32cb6c53fe8f5",
+  "seed": 42,
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "counts": {
+    "intents": 0,
+    "orders": 0,
+    "fills": 0
+  },
+  "artifacts": [
+    "research_state/LIVE_EXECUTION_REPORT.json",
+    "research_state/LIVE_EXECUTION_REPORT.md",
+    "research_state/LIVE_RISK_GATE_REPORT.json",
+    "research_state/LIVE_RISK_GATE_REPORT.md",
+    "research_state/CONTINUOUS_OPTIMIZER_REPORT.json",
+    "research_state/CONTINUOUS_OPTIMIZER_REPORT.md",
+    "research_state/ATTRIBUTION_REPORT.json",
+    "research_state/ATTRIBUTION_REPORT.md",
+    "research_state/LIVE_REPLAY_OOS_REPORT.json",
+    "research_state/LIVE_REPLAY_OOS_REPORT.md"
+  ]
+}
