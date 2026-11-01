@@ -219,3 +219,15 @@ PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION 
 ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
 SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
 ACTIVE FOCUS CAMPAIGN: PHASE 12 — PRODUCTION HARDENING, REAL EXCHANGE CONNECTIVITY & LIVE CAPITAL READINESS (CRYPTO OPTIONS + ORDERFLOW). Execute all mandatory deliverables in durable_handoff.md Phase 12 spec (live_adapters, OMS, reconciliation, live_capital_gate, pre/post-trade risk + circuit breaker integration, phase12_campaign + CLI, 6 artifacts, >=80 tests). Default PAPER-ONLY — never enable live trading by accident. Gate >=647 passing minimum, fail fast on NaN/Inf, byte-identical determinism seed 42, symbols BTC/ETH. Update THIS FILE before ending session with fresh timestamp, files changed, rationale, and `python -m pytest tests/ -q` GREEN result.
+
+## SESSION UPDATE (UTC): 2026-11-01T03:26:19Z
+- Repo name priority: CRYPTO OPTIONS + ORDERFLOW (vol surface RV, orderflow microstructure, options pricing/Greeks/IV). Gate GREEN (647 passed, 2 skipped, 0 failed). Working tree clean. SHA f7972ccb0993dbc3f8b4df4a693593d3e5e64a85.
+- Bottlenecks: NONE. No blocked/inefficient sessions remain; all prior bottlenecks removed. Phases 1-11 COMPLETE. Phase 12 NOT yet started — 8 mandatory deliverables pending (zero code, zero tests, zero artifacts).
+- Focus locked: PHASE 12 — PRODUCTION HARDENING, REAL EXCHANGE CONNECTIVITY & LIVE CAPITAL READINESS (CRYPTO OPTIONS + ORDERFLOW). Implementation required NOW. No analysis-only session.
+
+## INITIAL TASK MESSAGE (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp: 2026-11-01T03:26:19Z
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
+SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
+ACTIVE FOCUS CAMPAIGN: PHASE 12 — PRODUCTION HARDENING, REAL EXCHANGE CONNECTIVITY & LIVE CAPITAL READINESS (CRYPTO OPTIONS + ORDERFLOW). Execute all mandatory deliverables in durable_handoff.md Phase 12 spec: src/ingestion/live_adapters.py, src/execution/oms.py, src/execution/reconciliation.py, src/risk/live_capital_gate.py, src/risk/pre_post_trade_risk.py (+ src/resilience/circuit.py integration), src/execution/phase12_campaign.py + scripts/run_phase12_live_readiness_campaign.py, 6 artifacts under research_state/ (allow_nan=False), tests/test_phase12_live_readiness.py (>=80 tests). Default PAPER-ONLY — never enable live trading by accident. Gate >=647 passing minimum. Fail fast on NaN/Inf. Byte-identical determinism seed 42, symbols BTC/ETH, venues Deribit/OKX/Binance. Update THIS FILE before ending session with fresh timestamp, files changed, rationale, and `python -m pytest tests/ -q` GREEN result.
