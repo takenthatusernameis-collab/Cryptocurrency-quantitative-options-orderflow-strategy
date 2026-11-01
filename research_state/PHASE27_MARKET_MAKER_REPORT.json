@@ -1,0 +1,54 @@
+{
+  "report": "PHASE27_MARKET_MAKER_REPORT",
+  "timestamp": "2026-11-01T18:26:49.395961Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "expiries": [
+      "7D",
+      "30D",
+      "90D"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "base_spread_bps": 6.0,
+    "risk_aversion": 0.5,
+    "max_inventory": 200.0,
+    "max_position_notional_usd": 2000000.0,
+    "delta_limit": 500.0,
+    "gamma_limit": 200.0,
+    "vega_limit": 40000.0,
+    "adverse_selection_threshold": 0.15,
+    "min_quote_size": 0.01,
+    "max_quote_size": 50.0,
+    "enforce_gates": true
+  },
+  "risk_state": {
+    "seed": 42,
+    "inventory": {},
+    "greeks": {},
+    "total_delta": 0.0,
+    "total_gamma": 0.0,
+    "total_vega": 0.0,
+    "total_position_notional_usd": 0.0,
+    "within_limits": true,
+    "paper_only": true,
+    "quote_count": 0,
+    "fill_count": 0
+  },
+  "quotes": [],
+  "fills": [],
+  "audit": [],
+  "paper_only": true
+}

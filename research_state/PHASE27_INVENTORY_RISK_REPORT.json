@@ -1,0 +1,104 @@
+{
+  "report": "PHASE27_INVENTORY_RISK_REPORT",
+  "timestamp": "2026-11-01T18:26:49.396100Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "expiries": [
+      "7D",
+      "30D",
+      "90D"
+    ],
+    "max_delta_total": 500.0,
+    "max_delta_per_symbol": 200.0,
+    "max_gamma_total": 200.0,
+    "max_vega_total": 40000.0,
+    "max_theta_total": -100000.0,
+    "max_inventory_per_symbol": 100.0,
+    "max_position_notional_usd": 2000000.0,
+    "gamma_scalp_threshold_bps": 5.0,
+    "delta_hedge_cadence_sec": 60.0,
+    "stress_multiplier": 1.5,
+    "enforce_hard_limits": true
+  },
+  "snapshot_count": 0,
+  "snapshots": [],
+  "limits": {
+    "timestamp": "2026-11-01T18:26:49.396056Z",
+    "totals": {
+      "delta": 0.0,
+      "gamma": 0.0,
+      "vega": 0.0,
+      "theta": 0.0,
+      "notional_usd": 0.0
+    },
+    "by_symbol_delta": {},
+    "by_symbol_inventory": {},
+    "checks": [
+      {
+        "limit_id": "p27inv_limit_4621887cfe3b",
+        "metric": "total_delta",
+        "value": 0.0,
+        "limit": 500.0,
+        "utilized": 0.0,
+        "status": "ok",
+        "timestamp": "2026-11-01T18:26:49.396022Z",
+        "paper_only": true
+      },
+      {
+        "limit_id": "p27inv_limit_e608341627cb",
+        "metric": "total_gamma",
+        "value": 0.0,
+        "limit": 200.0,
+        "utilized": 0.0,
+        "status": "ok",
+        "timestamp": "2026-11-01T18:26:49.396032Z",
+        "paper_only": true
+      },
+      {
+        "limit_id": "p27inv_limit_682624015430",
+        "metric": "total_vega",
+        "value": 0.0,
+        "limit": 40000.0,
+        "utilized": 0.0,
+        "status": "ok",
+        "timestamp": "2026-11-01T18:26:49.396039Z",
+        "paper_only": true
+      },
+      {
+        "limit_id": "p27inv_limit_e198b019ffd9",
+        "metric": "total_theta",
+        "value": 0.0,
+        "limit": 100000.0,
+        "utilized": 0.0,
+        "status": "ok",
+        "timestamp": "2026-11-01T18:26:49.396045Z",
+        "paper_only": true
+      },
+      {
+        "limit_id": "p27inv_limit_fe872fdde00b",
+        "metric": "total_notional",
+        "value": 0.0,
+        "limit": 2000000.0,
+        "utilized": 0.0,
+        "status": "ok",
+        "timestamp": "2026-11-01T18:26:49.396051Z",
+        "paper_only": true
+      }
+    ],
+    "passed": true,
+    "enforce_hard_limits": true,
+    "paper_only": true
+  },
+  "triggers": [],
+  "hedges": [],
+  "audit": [],
+  "paper_only": true
+}

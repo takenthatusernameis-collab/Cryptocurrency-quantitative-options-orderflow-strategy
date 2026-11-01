@@ -1,0 +1,2080 @@
+{
+  "report": "PHASE27_MM_PAPER_LOOP_REPORT",
+  "timestamp": "2026-11-01T18:26:49.396148Z",
+  "seed": 42,
+  "config": {
+    "seed": 42,
+    "paper_only": true,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "expiries": [
+      "7D",
+      "30D",
+      "90D"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "cycles": 5,
+    "enforce_gates": true
+  },
+  "cycle_count": 5,
+  "total_quotes_placed": 60,
+  "total_fills": 7,
+  "overall_risk_passed": false,
+  "results": [
+    {
+      "cycle": 0,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 12,
+      "fills": 2,
+      "spread_bps": 6.308578337627655,
+      "inventory_utilization": 0.00896571379016615,
+      "risk_passed": false,
+      "adverse_selection_flagged": 0,
+      "paper_only": true,
+      "timestamp": "2026-11-01T18:26:49.384150Z"
+    },
+    {
+      "cycle": 1,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 12,
+      "fills": 2,
+      "spread_bps": 6.22651655135137,
+      "inventory_utilization": 0.01934724958241634,
+      "risk_passed": false,
+      "adverse_selection_flagged": 0,
+      "paper_only": true,
+      "timestamp": "2026-11-01T18:26:49.386893Z"
+    },
+    {
+      "cycle": 2,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 12,
+      "fills": 1,
+      "spread_bps": 6.237662891162464,
+      "inventory_utilization": 0.023848387297433292,
+      "risk_passed": false,
+      "adverse_selection_flagged": 0,
+      "paper_only": true,
+      "timestamp": "2026-11-01T18:26:49.389502Z"
+    },
+    {
+      "cycle": 3,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 12,
+      "fills": 1,
+      "spread_bps": 6.351387761946636,
+      "inventory_utilization": 0.026656202770855272,
+      "risk_passed": false,
+      "adverse_selection_flagged": 0,
+      "paper_only": true,
+      "timestamp": "2026-11-01T18:26:49.392040Z"
+    },
+    {
+      "cycle": 4,
+      "symbol": "BTC,ETH,SOL,XRP",
+      "quotes_placed": 12,
+      "fills": 1,
+      "spread_bps": 6.243663579951064,
+      "inventory_utilization": 0.03261603593339791,
+      "risk_passed": false,
+      "adverse_selection_flagged": 0,
+      "paper_only": true,
+      "timestamp": "2026-11-01T18:26:49.394630Z"
+    }
+  ],
+  "final_risk_state": {
+    "seed": 42,
+    "inventory": {
+      "BTC": -18.215238791637645,
+      "ETH": -7.8775899550806825
+    },
+    "greeks": {
+      "BTC": {
+        "delta": -31.068419107759922,
+        "gamma": 0.014680937646600056,
+        "vega": 1578.7772734353234,
+        "theta": -367.85983350896277,
+        "rho": 36.75289159632729
+      },
+      "ETH": {
+        "delta": -1.4363858229106512,
+        "gamma": 0.013013522188005174,
+        "vega": 868.7512680760335,
+        "theta": -5709.380997750829,
+        "rho": -22.72026362166183
+      },
+      "SOL": {
+        "delta": 58.95734772616714,
+        "gamma": 0.0030994812310669727,
+        "vega": 4239.756865029858,
+        "theta": -629.3242790281492,
+        "rho": -26.289414627421536
+      },
+      "XRP": {
+        "delta": 3.1302320578074045,
+        "gamma": 0.03136404141969841,
+        "vega": 1085.8780409832775,
+        "theta": -109.52730848554347,
+        "rho": 41.38889457684728
+      }
+    },
+    "total_delta": 29.582774853303974,
+    "total_gamma": 0.06215798248537061,
+    "total_vega": 7773.163447524493,
+    "total_position_notional_usd": 2609282.8746718327,
+    "within_limits": false,
+    "paper_only": true,
+    "quote_count": 60,
+    "fill_count": 7
+  },
+  "inventory_risk_report": {
+    "report": "PHASE27_INVENTORY_RISK_REPORT",
+    "timestamp": "2026-11-01T18:26:49.396402Z",
+    "seed": 42,
+    "config": {
+      "seed": 42,
+      "paper_only": true,
+      "underlyings": [
+        "BTC",
+        "ETH",
+        "SOL",
+        "XRP"
+      ],
+      "expiries": [
+        "7D",
+        "30D",
+        "90D"
+      ],
+      "max_delta_total": 500.0,
+      "max_delta_per_symbol": 200.0,
+      "max_gamma_total": 200.0,
+      "max_vega_total": 40000.0,
+      "max_theta_total": -100000.0,
+      "max_inventory_per_symbol": 100.0,
+      "max_position_notional_usd": 2000000.0,
+      "gamma_scalp_threshold_bps": 5.0,
+      "delta_hedge_cadence_sec": 60.0,
+      "stress_multiplier": 1.5,
+      "enforce_hard_limits": true
+    },
+    "snapshot_count": 60,
+    "snapshots": [
+      {
+        "snapshot_id": "p27inv_snap_122e96b59233",
+        "underlying": "BTC",
+        "expiry": "7D",
+        "strike": 100000.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 207825.44053444517,
+        "delta": 81.04503114685278,
+        "gamma": 0.006197562611254765,
+        "vega": 3908.242404802662,
+        "theta": -1574.0996963070684,
+        "rho": -48.126348278621556,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.382707Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_29f3591de311",
+        "underlying": "BTC",
+        "expiry": "30D",
+        "strike": 100000.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 990063.9352969399,
+        "delta": 96.70464847986818,
+        "gamma": 0.00788511780854232,
+        "vega": 1944.6918815269314,
+        "theta": -495.8519651566021,
+        "rho": -0.5869777826489369,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.382854Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_f93c8fe7fa6e",
+        "underlying": "BTC",
+        "expiry": "90D",
+        "strike": 100000.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 844448.8218185316,
+        "delta": 95.26447973611724,
+        "gamma": 0.04151535790092947,
+        "vega": 746.4284446818328,
+        "theta": -6314.57562926838,
+        "rho": -31.883907545353107,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.382946Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_b5a1a3bccab5",
+        "underlying": "ETH",
+        "expiry": "7D",
+        "strike": 4000.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 921255.6220909636,
+        "delta": -54.169928787552244,
+        "gamma": 0.013528424017707388,
+        "vega": 1822.0030339341492,
+        "theta": -9785.064945000742,
+        "rho": -21.83757929090063,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.383030Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_037f41f2b983",
+        "underlying": "ETH",
+        "expiry": "30D",
+        "strike": 4000.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 664878.3699031099,
+        "delta": -14.434643028182848,
+        "gamma": 0.034696812009156454,
+        "vega": 1076.4890166158827,
+        "theta": -3370.3241121355713,
+        "rho": 17.77517291260905,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.383111Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_e78935358e51",
+        "underlying": "ETH",
+        "expiry": "90D",
+        "strike": 4000.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 584624.2067484655,
+        "delta": 92.22641724134618,
+        "gamma": 0.006749854772608804,
+        "vega": 3480.869723447043,
+        "theta": -1698.8215696441875,
+        "rho": 1.5949912221128386,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.383189Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_6607e4a23405",
+        "underlying": "SOL",
+        "expiry": "7D",
+        "strike": 150.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 488959.73669441306,
+        "delta": -99.35667343129715,
+        "gamma": 0.02682596106532491,
+        "vega": 1493.9935241448368,
+        "theta": -2498.9642843370975,
+        "rho": -32.33734761552006,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.383264Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_70179aeb2142",
+        "underlying": "SOL",
+        "expiry": "30D",
+        "strike": 150.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 471905.20610450034,
+        "delta": 82.13761516758774,
+        "gamma": 0.04764078438329516,
+        "vega": 1648.9210424605978,
+        "theta": -6637.872816734329,
+        "rho": 18.724471130680413,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.383339Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_dbe504b65b8f",
+        "underlying": "SOL",
+        "expiry": "90D",
+        "strike": 150.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 738283.0289687273,
+        "delta": 16.37092572648173,
+        "gamma": 0.01239348553245594,
+        "vega": 3930.5643214069078,
+        "theta": -5360.305322395222,
+        "rho": -19.636804784080354,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.383416Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_71a36aaf3376",
+        "underlying": "XRP",
+        "expiry": "7D",
+        "strike": 50.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 810950.8047982163,
+        "delta": -77.76553619554846,
+        "gamma": 0.024531950220541977,
+        "vega": 2185.6784237845654,
+        "theta": -6732.187452037088,
+        "rho": 43.41233212677764,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.383601Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_d496c9a964e5",
+        "underlying": "XRP",
+        "expiry": "30D",
+        "strike": 50.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 252361.23218754455,
+        "delta": -52.19068406127649,
+        "gamma": 0.04361175787692639,
+        "vega": 3286.3251348748768,
+        "theta": -6317.766840476797,
+        "rho": 20.5883147637264,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.383682Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_1781f9163d76",
+        "underlying": "XRP",
+        "expiry": "90D",
+        "strike": 50.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 244531.46210946311,
+        "delta": -45.665671678500466,
+        "gamma": 0.029573778528467768,
+        "vega": 1231.3468100020827,
+        "theta": -4514.640243281564,
+        "rho": -36.53765185297052,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.383779Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_0c0bf60472ee",
+        "underlying": "BTC",
+        "expiry": "7D",
+        "strike": 100000.0,
+        "option_type": "put",
+        "position_qty": 0.1089299059942741,
+        "notional_usd": 644391.5063083533,
+        "delta": 95.53040898367189,
+        "gamma": 0.011940428920094975,
+        "vega": 4634.5976783983115,
+        "theta": -267.7304087952907,
+        "rho": 20.68076655475086,
+        "inventory_utilization": 0.001089299059942741,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.385680Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_a68d54ed40cc",
+        "underlying": "BTC",
+        "expiry": "30D",
+        "strike": 100000.0,
+        "option_type": "put",
+        "position_qty": 0.06580404148586005,
+        "notional_usd": 437909.4543944544,
+        "delta": 79.07400557038505,
+        "gamma": 0.022455273404553142,
+        "vega": 2356.4370347504278,
+        "theta": -2062.8252205419203,
+        "rho": 40.57238886771589,
+        "inventory_utilization": 0.0006580404148586005,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.385789Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_2e021b5938df",
+        "underlying": "BTC",
+        "expiry": "90D",
+        "strike": 100000.0,
+        "option_type": "put",
+        "position_qty": 0.09092390502988223,
+        "notional_usd": 537874.2558055951,
+        "delta": -79.28845355867828,
+        "gamma": 0.04396501300450284,
+        "vega": 3788.2594006451554,
+        "theta": -4532.953483489246,
+        "rho": 36.611409740828236,
+        "inventory_utilization": 0.0009092390502988223,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.385869Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_c5c3024af222",
+        "underlying": "ETH",
+        "expiry": "7D",
+        "strike": 4000.0,
+        "option_type": "put",
+        "position_qty": 0.1127739959662728,
+        "notional_usd": 712716.8232136434,
+        "delta": 34.95676264241317,
+        "gamma": 0.044836697538478326,
+        "vega": 1163.1394043419768,
+        "theta": -3314.6687265487517,
+        "rho": -28.31124401119689,
+        "inventory_utilization": 0.001127739959662728,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.385947Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_9dd84928fba2",
+        "underlying": "ETH",
+        "expiry": "30D",
+        "strike": 4000.0,
+        "option_type": "put",
+        "position_qty": 0.10006469203217971,
+        "notional_usd": 527807.7252235229,
+        "delta": -27.581176956957165,
+        "gamma": 0.021504859458540596,
+        "vega": 2866.2587755342774,
+        "theta": -8935.68650837237,
+        "rho": -5.08397101432999,
+        "inventory_utilization": 0.001000646920321797,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.386024Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_758c51dbc498",
+        "underlying": "ETH",
+        "expiry": "90D",
+        "strike": 4000.0,
+        "option_type": "put",
+        "position_qty": 0.1616883657078585,
+        "notional_usd": 852851.957730802,
+        "delta": -52.824493974333045,
+        "gamma": 0.030044841037051476,
+        "vega": 386.17826195177895,
+        "theta": -6421.139374450027,
+        "rho": 17.032522451479124,
+        "inventory_utilization": 0.0016168836570785849,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.386099Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_3c292f768650",
+        "underlying": "SOL",
+        "expiry": "7D",
+        "strike": 150.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 585783.4297324924,
+        "delta": 62.7930086522108,
+        "gamma": 0.03912487304929006,
+        "vega": 2727.292989644922,
+        "theta": -1853.1173963499486,
+        "rho": -44.18572013930764,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.386181Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_bea82b7e9085",
+        "underlying": "SOL",
+        "expiry": "30D",
+        "strike": 150.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 181165.41643734195,
+        "delta": -3.1833730642949263,
+        "gamma": 0.009174704833810679,
+        "vega": 1374.9186634909395,
+        "theta": -4059.10079990586,
+        "rho": -5.651052978172167,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.386251Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_ec54bed2c9ef",
+        "underlying": "SOL",
+        "expiry": "90D",
+        "strike": 150.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 469296.1552905646,
+        "delta": -88.46697638268996,
+        "gamma": 0.01051667169978909,
+        "vega": 781.2259133023953,
+        "theta": -4915.469081605043,
+        "rho": 18.646048733696645,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.386322Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_ba9425d032af",
+        "underlying": "XRP",
+        "expiry": "7D",
+        "strike": 50.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 355350.8840818486,
+        "delta": -28.43501242928714,
+        "gamma": 0.019696827045281272,
+        "vega": 2914.3841079049193,
+        "theta": -7078.710215411191,
+        "rho": 1.9105731397791175,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.386397Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_dfc731c7a58a",
+        "underlying": "XRP",
+        "expiry": "30D",
+        "strike": 50.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 251153.86035250255,
+        "delta": 82.14252086847762,
+        "gamma": 0.03691608692991971,
+        "vega": 4827.693074281302,
+        "theta": -5274.928956682575,
+        "rho": 26.42456105541396,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.386471Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_e366cfe5a3e8",
+        "underlying": "XRP",
+        "expiry": "90D",
+        "strike": 50.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 219880.10300044128,
+        "delta": -30.77765960025971,
+        "gamma": 0.0203609277704534,
+        "vega": 4743.632847980268,
+        "theta": -141.60765158401955,
+        "rho": -49.63707259706464,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.386544Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_b04219bd4cb0",
+        "underlying": "BTC",
+        "expiry": "7D",
+        "strike": 100000.0,
+        "option_type": "call",
+        "position_qty": 0.21374623758008138,
+        "notional_usd": 678305.8191395913,
+        "delta": 12.454551541256038,
+        "gamma": 0.03649268653343762,
+        "vega": 1292.869659366602,
+        "theta": -4109.55415784496,
+        "rho": 45.33271110791388,
+        "inventory_utilization": 0.0021374623758008138,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.388288Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_fba35fb3b83f",
+        "underlying": "BTC",
+        "expiry": "30D",
+        "strike": 100000.0,
+        "option_type": "call",
+        "position_qty": 0.1242892648368441,
+        "notional_usd": 651338.620311835,
+        "delta": 63.38159065189333,
+        "gamma": 0.031352031415808716,
+        "vega": 3431.9810346564605,
+        "theta": -9492.158869244558,
+        "rho": -24.958626850780362,
+        "inventory_utilization": 0.001242892648368441,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.388416Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_c348b46fa320",
+        "underlying": "BTC",
+        "expiry": "90D",
+        "strike": 100000.0,
+        "option_type": "call",
+        "position_qty": 0.2182200763348101,
+        "notional_usd": 605278.5492151096,
+        "delta": 47.78666877918485,
+        "gamma": 0.01963446351310858,
+        "vega": 4790.9584698054805,
+        "theta": -8982.728276562277,
+        "rho": 36.240067258403016,
+        "inventory_utilization": 0.002182200763348101,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.388499Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_147e8a454aa9",
+        "underlying": "ETH",
+        "expiry": "7D",
+        "strike": 4000.0,
+        "option_type": "call",
+        "position_qty": 0.051584979388984875,
+        "notional_usd": 130966.39881773747,
+        "delta": -81.94452356768636,
+        "gamma": 0.03288182020984626,
+        "vega": 3762.6491306330004,
+        "theta": -9504.217182047605,
+        "rho": 1.5027092548523555,
+        "inventory_utilization": 0.0005158497938898488,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.388574Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_60474aa3a625",
+        "underlying": "ETH",
+        "expiry": "30D",
+        "strike": 4000.0,
+        "option_type": "call",
+        "position_qty": 0.27577782966937203,
+        "notional_usd": 700157.8686930982,
+        "delta": 16.606904211181742,
+        "gamma": 0.04046232056803051,
+        "vega": 3244.790312627726,
+        "theta": -8618.247058097493,
+        "rho": -29.15461819011349,
+        "inventory_utilization": 0.00275777829669372,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.388645Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_c83a27b3301c",
+        "underlying": "ETH",
+        "expiry": "90D",
+        "strike": 4000.0,
+        "option_type": "call",
+        "position_qty": 0.09424361788805369,
+        "notional_usd": 249519.75991308468,
+        "delta": -79.11358908312562,
+        "gamma": 0.00547761290729232,
+        "vega": 2641.327523945105,
+        "theta": -7678.937175377793,
+        "rho": 10.312271201276147,
+        "inventory_utilization": 0.0009424361788805368,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.388716Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_9942efcf701a",
+        "underlying": "SOL",
+        "expiry": "7D",
+        "strike": 150.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 537444.6295814896,
+        "delta": 52.275670681345275,
+        "gamma": 0.04233506449327535,
+        "vega": 4831.816145999061,
+        "theta": -4708.9480242141935,
+        "rho": -29.237819282096567,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.388811Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_ab4706264387",
+        "underlying": "SOL",
+        "expiry": "30D",
+        "strike": 150.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 601939.4241299941,
+        "delta": 85.1893890315005,
+        "gamma": 0.03569125893393644,
+        "vega": 4099.236313672029,
+        "theta": -9240.400994228097,
+        "rho": -26.453095608946686,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.388888Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_8f52d26a5019",
+        "underlying": "SOL",
+        "expiry": "90D",
+        "strike": 150.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 854235.7063194849,
+        "delta": 86.60549122994891,
+        "gamma": 0.03496875341036692,
+        "vega": 1191.7498797818698,
+        "theta": -1874.2709538705449,
+        "rho": 47.93044240571534,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.388959Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_78cb52f9f1cb",
+        "underlying": "XRP",
+        "expiry": "7D",
+        "strike": 50.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 247553.1006230596,
+        "delta": 60.12074923144638,
+        "gamma": 0.011036897664768067,
+        "vega": 1312.1753148769003,
+        "theta": -1559.6435531325042,
+        "rho": -2.193622986520971,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.389037Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_afe02f1d8d1c",
+        "underlying": "XRP",
+        "expiry": "30D",
+        "strike": 50.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 189014.91303210583,
+        "delta": -88.26787506404725,
+        "gamma": 0.04080945885569861,
+        "vega": 3792.127590555784,
+        "theta": -9392.89122451185,
+        "rho": -41.38860309743202,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.389111Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_75fe74ba1dad",
+        "underlying": "XRP",
+        "expiry": "90D",
+        "strike": 50.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 965886.9532919702,
+        "delta": -20.793863625134847,
+        "gamma": 0.041017818199561476,
+        "vega": 207.08618808107764,
+        "theta": -3309.5425112687826,
+        "rho": 26.67341069859181,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.389189Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_b2e636c8361f",
+        "underlying": "BTC",
+        "expiry": "7D",
+        "strike": 100000.0,
+        "option_type": "put",
+        "position_qty": 0.30030993500394576,
+        "notional_usd": 536214.1252738873,
+        "delta": 20.139327898145538,
+        "gamma": 0.017032556800188565,
+        "vega": 1479.420010829404,
+        "theta": -9071.89667894443,
+        "rho": -23.792517071712037,
+        "inventory_utilization": 0.0030030993500394574,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.390892Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_636271b62f7b",
+        "underlying": "BTC",
+        "expiry": "30D",
+        "strike": 100000.0,
+        "option_type": "put",
+        "position_qty": 0.14864629336159085,
+        "notional_usd": 444427.25441416743,
+        "delta": -64.22034507241365,
+        "gamma": 0.0011196626354732018,
+        "vega": 2015.4197792305758,
+        "theta": -9020.933050630403,
+        "rho": 11.885658032613478,
+        "inventory_utilization": 0.0014864629336159086,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.390975Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_af1610286255",
+        "underlying": "BTC",
+        "expiry": "90D",
+        "strike": 100000.0,
+        "option_type": "put",
+        "position_qty": 0.4679336404140093,
+        "notional_usd": 952937.4284256566,
+        "delta": -59.47443022832775,
+        "gamma": 0.047964438045645943,
+        "vega": 3088.5255636233614,
+        "theta": -3325.309183681189,
+        "rho": -21.821559071353036,
+        "inventory_utilization": 0.004679336404140093,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391053Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_d856abe3293a",
+        "underlying": "ETH",
+        "expiry": "7D",
+        "strike": 4000.0,
+        "option_type": "put",
+        "position_qty": 0.08053744193385448,
+        "notional_usd": 243244.91932309282,
+        "delta": 86.83265015880954,
+        "gamma": 0.011650495037309343,
+        "vega": 3586.1388992033094,
+        "theta": -8921.155926025915,
+        "rho": 43.98557759044354,
+        "inventory_utilization": 0.0008053744193385448,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391127Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_d707fd44d220",
+        "underlying": "ETH",
+        "expiry": "30D",
+        "strike": 4000.0,
+        "option_type": "put",
+        "position_qty": 0.19075091830083135,
+        "notional_usd": 745920.4756532513,
+        "delta": -90.20103219720343,
+        "gamma": 0.043775942034476364,
+        "vega": 704.6449450347338,
+        "theta": -8720.112423421244,
+        "rho": -23.78608846536322,
+        "inventory_utilization": 0.0019075091830083135,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391209Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_b5e91c253fdf",
+        "underlying": "ETH",
+        "expiry": "90D",
+        "strike": 4000.0,
+        "option_type": "put",
+        "position_qty": 0.1644929856042623,
+        "notional_usd": 554403.71343375,
+        "delta": 14.643434977212962,
+        "gamma": 0.02282303605401704,
+        "vega": 986.6695383591325,
+        "theta": -2374.420371005128,
+        "rho": -40.39914946345369,
+        "inventory_utilization": 0.001644929856042623,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391281Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_a2ea7b5af0ff",
+        "underlying": "SOL",
+        "expiry": "7D",
+        "strike": 150.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 965033.2911169997,
+        "delta": 72.85909117480588,
+        "gamma": 0.03580824785369312,
+        "vega": 2632.994570968085,
+        "theta": -2146.6874487883806,
+        "rho": -22.19907411184584,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391353Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_89413472ac4a",
+        "underlying": "SOL",
+        "expiry": "30D",
+        "strike": 150.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 171062.64576442563,
+        "delta": -52.304580913400734,
+        "gamma": 0.03183348660661866,
+        "vega": 1984.230637479508,
+        "theta": -3007.0967932241592,
+        "rho": -46.11736712530246,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391426Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_11b28ff74ce4",
+        "underlying": "SOL",
+        "expiry": "90D",
+        "strike": 150.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 970329.0933610101,
+        "delta": 12.077790970479938,
+        "gamma": 0.0029966506421888893,
+        "vega": 2561.0520342557493,
+        "theta": -6324.846194749482,
+        "rho": 19.132960719468073,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391497Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_6913bcb64be9",
+        "underlying": "XRP",
+        "expiry": "7D",
+        "strike": 50.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 178104.48745521996,
+        "delta": 47.52083193844484,
+        "gamma": 0.03415502434262933,
+        "vega": 242.56328536258914,
+        "theta": -1117.6821622354619,
+        "rho": 22.0627137289664,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391570Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_00bcf34ef006",
+        "underlying": "XRP",
+        "expiry": "30D",
+        "strike": 50.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 473519.4659971774,
+        "delta": -9.20964791454098,
+        "gamma": 0.010549005901857943,
+        "vega": 4341.616958928269,
+        "theta": -9834.95603710229,
+        "rho": 14.797330901134004,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391645Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_917003b6bbe2",
+        "underlying": "XRP",
+        "expiry": "90D",
+        "strike": 50.0,
+        "option_type": "put",
+        "position_qty": 0.0,
+        "notional_usd": 661381.2680441185,
+        "delta": -9.375530656390652,
+        "gamma": 0.03507176387400515,
+        "vega": 137.18196943657318,
+        "theta": -5646.0521314618545,
+        "rho": 23.69087871617522,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.391715Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_c3844580d383",
+        "underlying": "BTC",
+        "expiry": "7D",
+        "strike": 100000.0,
+        "option_type": "call",
+        "position_qty": 0.5257696295463443,
+        "notional_usd": 781966.3489908456,
+        "delta": 72.60535205539787,
+        "gamma": 0.04037112443503193,
+        "vega": 3356.1587874571856,
+        "theta": -2410.4993909686727,
+        "rho": 45.57952407762885,
+        "inventory_utilization": 0.005257696295463443,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.393413Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_7798cfdad5b2",
+        "underlying": "BTC",
+        "expiry": "30D",
+        "strike": 100000.0,
+        "option_type": "call",
+        "position_qty": 0.09454998208255216,
+        "notional_usd": 140622.2423878634,
+        "delta": -61.26633010124034,
+        "gamma": 0.017085961140624287,
+        "vega": 3176.104363100303,
+        "theta": -6755.999927060144,
+        "rho": -42.74085742703251,
+        "inventory_utilization": 0.0009454998208255216,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.393505Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_36767d995665",
+        "underlying": "BTC",
+        "expiry": "90D",
+        "strike": 100000.0,
+        "option_type": "call",
+        "position_qty": 0.25464757054412157,
+        "notional_usd": 378732.09068692254,
+        "delta": -31.068419107759922,
+        "gamma": 0.014680937646600056,
+        "vega": 1578.7772734353234,
+        "theta": -367.85983350896277,
+        "rho": 36.75289159632729,
+        "inventory_utilization": 0.0025464757054412157,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.393634Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_d8ecba0cc103",
+        "underlying": "ETH",
+        "expiry": "7D",
+        "strike": 4000.0,
+        "option_type": "call",
+        "position_qty": 0.11904086482596998,
+        "notional_usd": 302226.6086576237,
+        "delta": 84.8989036689652,
+        "gamma": 0.021534730347595097,
+        "vega": 4894.0899359082105,
+        "theta": -2793.0477400850596,
+        "rho": -33.60339665962,
+        "inventory_utilization": 0.0011904086482596998,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.393708Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_80b50412a735",
+        "underlying": "ETH",
+        "expiry": "30D",
+        "strike": 4000.0,
+        "option_type": "call",
+        "position_qty": 0.09035349765829626,
+        "notional_usd": 229393.75665275013,
+        "delta": 86.72950122260653,
+        "gamma": 0.024669314625926166,
+        "vega": 2915.816061695447,
+        "theta": -7095.0406352982445,
+        "rho": -9.175088323435851,
+        "inventory_utilization": 0.0009035349765829626,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.393807Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_7585d482ffd8",
+        "underlying": "ETH",
+        "expiry": "90D",
+        "strike": 4000.0,
+        "option_type": "call",
+        "position_qty": 0.1731525859765357,
+        "notional_usd": 724790.8467861045,
+        "delta": -1.4363858229106512,
+        "gamma": 0.013013522188005174,
+        "vega": 868.7512680760335,
+        "theta": -5709.380997750829,
+        "rho": -22.72026362166183,
+        "inventory_utilization": 0.001731525859765357,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.393882Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_a98ec15dbd61",
+        "underlying": "SOL",
+        "expiry": "7D",
+        "strike": 150.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 398427.95634268754,
+        "delta": 92.14544606082092,
+        "gamma": 0.030321022438130257,
+        "vega": 2719.166178877354,
+        "theta": -4717.692790420783,
+        "rho": -13.69302877730371,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.393954Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_b611bdb3d63c",
+        "underlying": "SOL",
+        "expiry": "30D",
+        "strike": 150.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 593712.297670781,
+        "delta": 56.149581021970306,
+        "gamma": 0.03755877550473596,
+        "vega": 2657.9574932275164,
+        "theta": -5380.609233339168,
+        "rho": -41.321693663009015,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.394024Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_19a663a9a7c2",
+        "underlying": "SOL",
+        "expiry": "90D",
+        "strike": 150.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 661392.2936330922,
+        "delta": 58.95734772616714,
+        "gamma": 0.0030994812310669727,
+        "vega": 4239.756865029858,
+        "theta": -629.3242790281492,
+        "rho": -26.289414627421536,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.394099Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_76ccd09ed38c",
+        "underlying": "XRP",
+        "expiry": "7D",
+        "strike": 50.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 319362.7510870332,
+        "delta": 16.60889940685901,
+        "gamma": 0.04279140411619339,
+        "vega": 3060.0898672507005,
+        "theta": -7335.603925373547,
+        "rho": -25.329573836506302,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.394176Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_b1d845c871bd",
+        "underlying": "XRP",
+        "expiry": "30D",
+        "strike": 50.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 872905.3748959787,
+        "delta": 80.68756898325603,
+        "gamma": 0.020161639555647606,
+        "vega": 1836.3928165553396,
+        "theta": -7444.214398335958,
+        "rho": -1.4613463308722174,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.394250Z"
+      },
+      {
+        "snapshot_id": "p27inv_snap_d8a1f7117e03",
+        "underlying": "XRP",
+        "expiry": "90D",
+        "strike": 50.0,
+        "option_type": "call",
+        "position_qty": 0.0,
+        "notional_usd": 189938.34324755933,
+        "delta": 3.1302320578074045,
+        "gamma": 0.03136404141969841,
+        "vega": 1085.8780409832775,
+        "theta": -109.52730848554347,
+        "rho": 41.38889457684728,
+        "inventory_utilization": 0.0,
+        "within_limits": true,
+        "paper_only": true,
+        "timestamp": "2026-11-01T18:26:49.394321Z"
+      }
+    ],
+    "limits": {
+      "timestamp": "2026-11-01T18:26:49.396316Z",
+      "totals": {
+        "delta": 745.8359623918784,
+        "gamma": 1.5692805026014667,
+        "vega": 150067.73662221798,
+        "theta": -302889.90154183656,
+        "notional_usd": 31897960.26119744
+      },
+      "by_symbol_delta": {
+        "BTC": 368.6680867743529,
+        "ETH": 15.188800704583954,
+        "SOL": 434.24975365163635,
+        "XRP": -72.27067873869476
+      },
+      "by_symbol_inventory": {
+        "BTC": 2.613770482214316,
+        "ETH": 1.6144617749524717,
+        "SOL": 0.0,
+        "XRP": 0.0
+      },
+      "checks": [
+        {
+          "limit_id": "p27inv_limit_f959e7c604c6",
+          "metric": "total_delta",
+          "value": 745.8359623918784,
+          "limit": 500.0,
+          "utilized": 1.4916719247837569,
+          "status": "block",
+          "timestamp": "2026-11-01T18:26:49.396228Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_5ed3184e4461",
+          "metric": "delta_BTC",
+          "value": 368.6680867743529,
+          "limit": 200.0,
+          "utilized": 1.8433404338717645,
+          "status": "block",
+          "timestamp": "2026-11-01T18:26:49.396236Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_801949e98ba9",
+          "metric": "delta_ETH",
+          "value": 15.188800704583954,
+          "limit": 200.0,
+          "utilized": 0.07594400352291977,
+          "status": "ok",
+          "timestamp": "2026-11-01T18:26:49.396242Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_7499f60e125d",
+          "metric": "delta_SOL",
+          "value": 434.24975365163635,
+          "limit": 200.0,
+          "utilized": 2.171248768258182,
+          "status": "block",
+          "timestamp": "2026-11-01T18:26:49.396248Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_c66e4e75f36b",
+          "metric": "delta_XRP",
+          "value": -72.27067873869476,
+          "limit": 200.0,
+          "utilized": 0.3613533936934738,
+          "status": "ok",
+          "timestamp": "2026-11-01T18:26:49.396254Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_859aea2e1237",
+          "metric": "total_gamma",
+          "value": 1.5692805026014667,
+          "limit": 200.0,
+          "utilized": 0.007846402513007333,
+          "status": "ok",
+          "timestamp": "2026-11-01T18:26:49.396259Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_7eb26cad4664",
+          "metric": "total_vega",
+          "value": 150067.73662221798,
+          "limit": 40000.0,
+          "utilized": 3.7516934155554496,
+          "status": "block",
+          "timestamp": "2026-11-01T18:26:49.396265Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_8b0f2ee90bae",
+          "metric": "total_theta",
+          "value": -302889.90154183656,
+          "limit": 100000.0,
+          "utilized": 3.0288990154183657,
+          "status": "block",
+          "timestamp": "2026-11-01T18:26:49.396272Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_f5ab83c88439",
+          "metric": "inventory_BTC",
+          "value": 2.613770482214316,
+          "limit": 100.0,
+          "utilized": 0.02613770482214316,
+          "status": "ok",
+          "timestamp": "2026-11-01T18:26:49.396278Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_3ddab4f50e7b",
+          "metric": "inventory_ETH",
+          "value": 1.6144617749524717,
+          "limit": 100.0,
+          "utilized": 0.016144617749524717,
+          "status": "ok",
+          "timestamp": "2026-11-01T18:26:49.396287Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_4701e0231c24",
+          "metric": "inventory_SOL",
+          "value": 0.0,
+          "limit": 100.0,
+          "utilized": 0.0,
+          "status": "ok",
+          "timestamp": "2026-11-01T18:26:49.396292Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_86ef47dcd5cf",
+          "metric": "inventory_XRP",
+          "value": 0.0,
+          "limit": 100.0,
+          "utilized": 0.0,
+          "status": "ok",
+          "timestamp": "2026-11-01T18:26:49.396298Z",
+          "paper_only": true
+        },
+        {
+          "limit_id": "p27inv_limit_a65da922fe71",
+          "metric": "total_notional",
+          "value": 31897960.26119744,
+          "limit": 2000000.0,
+          "utilized": 15.94898013059872,
+          "status": "block",
+          "timestamp": "2026-11-01T18:26:49.396311Z",
+          "paper_only": true
+        }
+      ],
+      "passed": false,
+      "enforce_hard_limits": true,
+      "paper_only": true
+    },
+    "triggers": [],
+    "hedges": [],
+    "audit": [
+      {
+        "timestamp": "2026-11-01T18:26:49.382740Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_122e96b59233",
+          "underlying": "BTC",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.382874Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_29f3591de311",
+          "underlying": "BTC",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.382965Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_f93c8fe7fa6e",
+          "underlying": "BTC",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.383047Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_b5a1a3bccab5",
+          "underlying": "ETH",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.383130Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_037f41f2b983",
+          "underlying": "ETH",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.383206Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_e78935358e51",
+          "underlying": "ETH",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.383282Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_6607e4a23405",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.383355Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_70179aeb2142",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.383434Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_dbe504b65b8f",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.383619Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_71a36aaf3376",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.383699Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_d496c9a964e5",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.383798Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_1781f9163d76",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.385699Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_0c0bf60472ee",
+          "underlying": "BTC",
+          "position_qty": 0.1089299059942741,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.385807Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_a68d54ed40cc",
+          "underlying": "BTC",
+          "position_qty": 0.06580404148586005,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.385886Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_2e021b5938df",
+          "underlying": "BTC",
+          "position_qty": 0.09092390502988223,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.385964Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_c5c3024af222",
+          "underlying": "ETH",
+          "position_qty": 0.1127739959662728,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.386043Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_9dd84928fba2",
+          "underlying": "ETH",
+          "position_qty": 0.10006469203217971,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.386118Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_758c51dbc498",
+          "underlying": "ETH",
+          "position_qty": 0.1616883657078585,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.386197Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_3c292f768650",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.386267Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_bea82b7e9085",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.386338Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_ec54bed2c9ef",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.386414Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_ba9425d032af",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.386487Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_dfc731c7a58a",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.386560Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_e366cfe5a3e8",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.388307Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_b04219bd4cb0",
+          "underlying": "BTC",
+          "position_qty": 0.21374623758008138,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.388433Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_fba35fb3b83f",
+          "underlying": "BTC",
+          "position_qty": 0.1242892648368441,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.388516Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_c348b46fa320",
+          "underlying": "BTC",
+          "position_qty": 0.2182200763348101,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.388590Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_147e8a454aa9",
+          "underlying": "ETH",
+          "position_qty": 0.051584979388984875,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.388661Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_60474aa3a625",
+          "underlying": "ETH",
+          "position_qty": 0.27577782966937203,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.388732Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_c83a27b3301c",
+          "underlying": "ETH",
+          "position_qty": 0.09424361788805369,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.388827Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_9942efcf701a",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.388905Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_ab4706264387",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.388978Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_8f52d26a5019",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.389053Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_78cb52f9f1cb",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.389130Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_afe02f1d8d1c",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.389208Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_75fe74ba1dad",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.390911Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_b2e636c8361f",
+          "underlying": "BTC",
+          "position_qty": 0.30030993500394576,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.390993Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_636271b62f7b",
+          "underlying": "BTC",
+          "position_qty": 0.14864629336159085,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391070Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_af1610286255",
+          "underlying": "BTC",
+          "position_qty": 0.4679336404140093,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391151Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_d856abe3293a",
+          "underlying": "ETH",
+          "position_qty": 0.08053744193385448,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391226Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_d707fd44d220",
+          "underlying": "ETH",
+          "position_qty": 0.19075091830083135,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391297Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_b5e91c253fdf",
+          "underlying": "ETH",
+          "position_qty": 0.1644929856042623,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391369Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_a2ea7b5af0ff",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391442Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_89413472ac4a",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391516Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_11b28ff74ce4",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391589Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_6913bcb64be9",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391662Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_00bcf34ef006",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.391731Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_917003b6bbe2",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.393434Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_c3844580d383",
+          "underlying": "BTC",
+          "position_qty": 0.5257696295463443,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.393522Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_7798cfdad5b2",
+          "underlying": "BTC",
+          "position_qty": 0.09454998208255216,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.393651Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_36767d995665",
+          "underlying": "BTC",
+          "position_qty": 0.25464757054412157,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.393725Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_d8ecba0cc103",
+          "underlying": "ETH",
+          "position_qty": 0.11904086482596998,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.393825Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_80b50412a735",
+          "underlying": "ETH",
+          "position_qty": 0.09035349765829626,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.393898Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_7585d482ffd8",
+          "underlying": "ETH",
+          "position_qty": 0.1731525859765357,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.393970Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_a98ec15dbd61",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.394040Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_b611bdb3d63c",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.394115Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_19a663a9a7c2",
+          "underlying": "SOL",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.394194Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_76ccd09ed38c",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.394267Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_b1d845c871bd",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      },
+      {
+        "timestamp": "2026-11-01T18:26:49.394337Z",
+        "action": "snapshot",
+        "details": {
+          "snapshot_id": "p27inv_snap_d8a1f7117e03",
+          "underlying": "XRP",
+          "position_qty": 0.0,
+          "within_limits": true
+        }
+      }
+    ],
+    "paper_only": true
+  },
+  "audit": [
+    {
+      "timestamp": "2026-11-01T18:26:49.384158Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 0,
+        "quotes_placed": 12,
+        "fills": 2,
+        "risk_passed": false,
+        "flagged": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T18:26:49.386901Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 1,
+        "quotes_placed": 12,
+        "fills": 2,
+        "risk_passed": false,
+        "flagged": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T18:26:49.389508Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 2,
+        "quotes_placed": 12,
+        "fills": 1,
+        "risk_passed": false,
+        "flagged": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T18:26:49.392046Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 3,
+        "quotes_placed": 12,
+        "fills": 1,
+        "risk_passed": false,
+        "flagged": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T18:26:49.394637Z",
+      "action": "cycle",
+      "details": {
+        "cycle": 4,
+        "quotes_placed": 12,
+        "fills": 1,
+        "risk_passed": false,
+        "flagged": 0
+      }
+    },
+    {
+      "timestamp": "2026-11-01T18:26:49.395954Z",
+      "action": "run_completed",
+      "details": {
+        "cycles": 5
+      }
+    }
+  ],
+  "paper_only": true
+}
