@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 Timestamp (UTC): 2026-11-01T20:05:00Z
-Updated (UTC): 2026-11-01T20:05:00Z
+Updated (UTC): 2026-11-01T20:07:00Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution)
 
@@ -25,21 +25,34 @@ COMPLETED (DO NOT REDO):
   5. `tests/test_phase28_cv_mm.py` — 82 substantive deterministic tests (fixed seeds, mocks, no network).
   6. Artifacts under research_state/: PHASE28_CROSS_VENUE_MM_REPORT.json/md, PHASE28_INVENTORY_REBALANCE_REPORT.json/md, PHASE28_CV_MM_PAPER_LOOP_REPORT.json/md, PHASE28_CV_MM_MASTER_REPORT.json/md.
 
+PHASE 29 (COMPLETE 2026-11-01T20:05:00Z): Crypto Options Vol Surface Arbitrage Hedging & Delta-Neutral Market Making. All deliverables shipped (vol arb engine, delta-neutral hedge engine, vol arb paper loop, campaign script, >=80 tests, master/loop/hedge reports). No placeholders/TODOs. Deterministic, finite numerics, paper-only safe. DO NOT REDO.
+
 BOTTLENECKS REMOVED: NONE. Any inefficiencies must be removed by direct implementation.
 
-## MANDATORY INITIAL TASK MESSAGE — PHASE 29 (EXECUTE IMMEDIATELY - NO DEVIATION)
-Timestamp (UTC): 2026-11-01T19:17:33Z
+## MANDATORY INITIAL TASK MESSAGE — PHASE 30 (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp (UTC): 2026-11-01T20:07:00Z
 PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
 ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
 SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
 DEFAULT PAPER-ONLY. HARD GATES FOR LIVE PATHS.
 
-### ACTIVE FOCUS CAMPAIGN: PHASE 29 — COMPLETE
-Status: COMPLETE (2026-11-01T20:05:00Z). Gate GREEN (1890 passed, 2 skipped, 0 failed). All deliverables shipped (modules, script, >=80 tests, artifacts). No placeholders/TODOs. Deterministic, finite numerics, paper-only safe.
+### ACTIVE FOCUS CAMPAIGN: PHASE 30 — IN PROGRESS (START NOW)
+Status: NOT STARTED — must be executed in this session. Gate GREEN must be kept.
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+EXTENDS: Phase 25 (vol surface construction / orderflow-driven IV skew / risk reversal / delta-hedging optimizer) + Phase 29 (vol arb + delta-neutral hedge + paper loop).
+
+Deliverables (ALL required, end-to-end, no scaffolding):
+1. `src/options/phase30_vol_surface_arb.py` — OptionsVolSurfaceArbEngine: cross-venue vol surface arbitrage detection across underlyings/expiries/strikes, IV skew & risk-reversal dislocation scoring, cash-and-carry / calendar / butterfly vol-spread legs, deterministic, finite numerics, paper-only gated.
+2. `src/risk/phase30_vol_risk_budget.py` — VolRiskBudgetManager: per-underlying and cross-asset vol-risk budget enforcement, delta/gamma/vega limits by regime, stress-aware budget cuts, kill-switch triggers, deterministic.
+3. `src/capital/phase30_dynamic_capital_allocator.py` — DynamicCapitalAllocator: regime-aware capital allocation across vol-arb strategies/venues/underlyings, Kelly/fractional sizing caps, drawdown-based scaling, allocation weights + utilization reporting, deterministic.
+4. `src/execution/phase30_cross_asset_hedge_router.py` — CrossAssetHedgeRouter: cross-asset hedge routing (option legs vs perp/future/spot hedges across venues), fill prediction + TCA capture, auto-healer integration, paper-only gated.
+5. `src/execution/phase30_vol_arb_paper_loop.py` — VolSurfaceArbPaperLoop: integrates engine + risk budget + capital allocator + hedge router + Phase 18 observability + Phase 24 router/healer, per-cycle TCA + fill-quality capture, paper-only.
+6. `scripts/run_phase30_vol_surface_arb_campaign.py` — CLI (--symbols, --venues, --underlyings BTC/ETH/SOL/XRP, --expiries, --modes paper/live gated, --cycles, --seed, --enforce-gates, --outdir). Integrates Phase 17-29.
+7. `tests/test_phase30_vol_surface_arb.py` — >=80 substantive deterministic tests (fixed seeds, mocks, no network), covering engine, risk budget, capital allocator, hedge router, paper loop, finite-numerics, gate enforcement.
+8. Artifacts under research_state/: PHASE30_VOL_SURFACE_ARB_REPORT.json/md, PHASE30_VOL_RISK_BUDGET_REPORT.json/md, PHASE30_DYNAMIC_CAPITAL_ALLOCATOR_REPORT.json/md, PHASE30_CROSS_ASSET_HEDGE_ROUTER_REPORT.json/md, PHASE30_VOL_SURFACE_ARB_PAPER_LOOP_REPORT.json/md, PHASE30_VOL_SURFACE_ARB_MASTER_REPORT.json/md.
 
 ### NEXT FOCUS (AUTO-SELECTED BY REPO PRIORITY)
-PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. Build next heavy integration without regression.
-Recommended next: Phase 30 — Cross-Venue Options Vol Surface Arbitrage Hedging & Dynamic Capital Allocation (extends Phase 25/29 with regime-aware capital allocation, vol-risk budget enforcement, cross-asset hedge routing). If not specified, implement Phase 30 end-to-end with full tests/artifacts, keep gate GREEN, update this file on completion.
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. Build Phase 30 heavy integration without regression. Implement Phase 30 end-to-end with full tests/artifacts, keep gate GREEN, update this file on completion.
 
 ### CONSTRAINTS (NON-NEGOTIABLE):
 - No placeholders/TODOs/FIXMEs/HACKs/XXX. Implement fully end-to-end.
@@ -50,4 +63,4 @@ Recommended next: Phase 30 — Cross-Venue Options Vol Surface Arbitrage Hedging
 - Before ending: update THIS FILE with fresh UTC timestamp, files changed, rationale, and run `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` (must be GREEN).
 - Ship code+tests+artifacts to completion. NO analysis-only. NO stopping at scaffolding.
 
-**ACTION NOW:** Begin Phase 29 immediately. Prioritize crypto options + orderflow. Build heavy implementation. Do not deviate.
+**ACTION NOW:** Begin Phase 30 immediately. Prioritize crypto options + orderflow. Build heavy implementation end-to-end. Do not deviate. Do not stop at scaffolding.
