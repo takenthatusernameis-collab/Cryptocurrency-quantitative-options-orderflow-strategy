@@ -473,6 +473,60 @@ class LatencyAwareRouter:
             "paper_only": True,
         }
 
+    def generate_report(self) -> Dict[str, Any]:
+        route_costs = [o["total_cost_bps"] for o in self.orders.values()]
+        route_latencies = [o["latency_ms"] for o in self.orders.values()]
+        slips = [f.slippage_bps for f in self.fills]
+        report: Dict[str, Any] = {
+            "report": "LATENCY_ROUTING_REPORT",
+            "router": "LatencyAwareRouter",
+            "campaign": "phase15_crossvenue",
+            "seed": self.seed,
+            "symbols": list(self.config.symbols),
+            "venues": list(self.config.venues),
+            "paper_only": True,
+            "enable_live": False,
+            "timestamp": _det_ts(self.seed),
+            "config": asdict(self.config),
+            "counts": {
+                "routes": len(self.orders),
+                "fills": len(self.fills),
+                "cancels": len(self.cancel_history),
+                "replacements": len(self.replacement_history),
+                "venues_tracked": len(self.latency_ewma),
+            },
+            "latency": {
+                venue: {
+                    "ewma_ms": float(self.latency_ewma.get(venue, 0.0)),
+                    "samples": len(self.latency_samples.get(venue, [])),
+                    "max_sample_ms": float(max(self.latency_samples.get(venue, [0.0]))) if self.latency_samples.get(venue) else 0.0,
+                    "within_limit": bool(self.latency_ewma.get(venue, 0.0) <= self.config.max_latency_ms),
+                }
+                for venue in self.config.venues
+            },
+            "routing": {
+                "total_routes": len(self.orders),
+                "avg_cost_bps": float(sum(route_costs) / len(route_costs)) if route_costs else 0.0,
+                "max_cost_bps": float(max(route_costs)) if route_costs else 0.0,
+                "avg_latency_ms": float(sum(route_latencies) / len(route_latencies)) if route_latencies else 0.0,
+                "paper_only": True,
+            },
+            "slippage": {
+                "fills": len(self.fills),
+                "total_slippage_bps": float(sum(slips)) if slips else 0.0,
+                "avg_slippage_bps": float(sum(slips) / len(slips)) if slips else 0.0,
+                "max_slippage_bps": float(max(slips)) if slips else 0.0,
+                "total_commission": float(sum(f.commission for f in self.fills)),
+            },
+            "cancels": self.cancel_history,
+            "replacements": self.replacement_history,
+            "orders": [o for o in self.orders.values()],
+        }
+        serialized = serialize_metrics_strict(report)
+        assert_json_valid(serialized)
+        self.last_report = serialized
+        return serialized
+
     def halt(self, reason: str = "halt") -> None:
         self.halted = True
         self.halt_reason = str(reason)

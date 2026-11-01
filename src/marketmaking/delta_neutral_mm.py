@@ -546,6 +546,7 @@ class DeltaNeutralMM:
             hedge_side = str(side).lower()
             if hedge_side not in ("buy", "sell"):
                 raise ValidationError("side must be 'buy' or 'sell'")
+        mm_side = "long" if hedge_side == "buy" else "short"
         self._counter += 1
         pid = _pid("hedge", self.seed, self._counter)
         self.open_position(
@@ -553,7 +554,7 @@ class DeltaNeutralMM:
             venue=self.config.venues[0],
             instrument=f"{symbol}-PERP",
             kind="perp",
-            side=hedge_side,
+            side=mm_side,
             quantity=max(self.config.min_hedge_size, hedge_qty),
             strike=0.0,
             expiry="perpetual",
@@ -564,6 +565,13 @@ class DeltaNeutralMM:
             implied_vol=0.0,
         )
         return {"hedged": True, "hedge_quantity": float(max(self.config.min_hedge_size, hedge_qty)), "position_id": pid, "side": hedge_side, "timestamp": _det_ts(self.seed)}
+
+    def _portfolio_summary(self, symbol: str, spot: float) -> Dict[str, Any]:
+        return {
+            "symbol": symbol,
+            "spot": float(spot),
+            "net_delta_usd": float(self.net_delta_usd(symbol)),
+        }
 
     def close_position(self, position_id: str, exit_price: Optional[float] = None, close_price: Optional[float] = None) -> Any:
         if position_id not in self.positions:
@@ -649,6 +657,8 @@ class DeltaNeutralMM:
             "perp_inventory": dict(self.perp_inventory),
             "positions": len(self.positions),
         }
+
+    def generate_report(self) -> Dict[str, Any]:
         risk = self.risk_check()
         unrealized = sum(p.unrealized_pnl_usd for p in self.positions.values())
         report: Dict[str, Any] = {

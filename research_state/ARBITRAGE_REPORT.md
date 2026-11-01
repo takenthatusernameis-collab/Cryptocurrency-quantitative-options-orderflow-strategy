@@ -5,7 +5,7 @@ Symbols: BTC, ETH
 Venues: deribit, okx, binance
 Paper-only: True
 Quotes accepted: 6
-Opportunities detected: 2
+Opportunities detected: 0
 Qualified: 0
-Rejections: 10
+Rejections: 0
 Artifact: ARBITRAGE_REPORT.json

@@ -5,12 +5,12 @@ Seed: 42
 Symbols: BTC, ETH
 Venues: deribit, okx, binance
 Paper-only: True
-Git SHA: cc24ec71bcb86236b74d17a622b2afe418355143
+Git SHA: 17f73285af535d754970b202319e85a969c6e982
 Cycles: 5
 Status: completed
 
 ## Counts
-- arb_opportunities: 2
+- arb_opportunities: 0
 - arb_qualified: 0
 - mm_positions: 4
 - router_routes: 4

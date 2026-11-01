@@ -383,7 +383,7 @@ class CrossVenueOrchestrator:
         cycle_result: Dict[str, Any] = {
             "cycle": cycle,
             "timestamp": timestamp,
-            "status": "completed",
+            "status": "ok",
             "paper_only": True,
             "spots": spots,
             "implied_vols": ivs,
@@ -459,96 +459,32 @@ class CrossVenueOrchestrator:
                 "realized_pnl_usd": float(total_realized),
                 "unrealized_pnl_usd": float(total_unrealized),
                 "net_pnl_usd": float(net_pnl),
+                "drawdown_pct": float(mm_report["pnl"]["drawdown_pct"]) if mm_report else 0.0,
             },
             "counts": {
                 "cycles": self.cycle_counter,
+                "cycles_completed": sum(1 for c in self.cycle_results if c.get("status") == "ok"),
+                "cycles_halted": sum(1 for c in self.cycle_results if c.get("status") == "halted"),
                 "arb_opportunities": len(getattr(self.detector, "last_opportunities", []) or []),
+                "arb_fills": sum(c["arbitrage"]["fills"] for c in self.cycle_results),
+                "hedges": sum(len(c["hedges"]) for c in self.cycle_results),
                 "mm_positions": len(getattr(self.mm, "positions", {})),
                 "router_fills": len(getattr(self.router, "fills", [])),
             },
             "halted": bool(self.is_halted()),
             "halt_reason": self.halt_reason,
+            "kill_switch": {
+                "triggered": bool(self.is_halted()),
+                "reason": self.halt_reason or getattr(self.mm, "halt_reason", None),
+                "halted_at": self.halted_at,
+                "source": "orchestrator",
+            },
             "components": {
                 "arbitrage": arbitrage_report,
                 "market_making": mm_report,
                 "latency_routing": router_report,
             },
             "cycle_results": self.cycle_results[-10:],
-        }
-        serialized = serialize_metrics_strict(report)
-        assert_json_valid(serialized)
-        self.last_report = serialized
-        return serialized
-        mm_report = self.mm.generate_report()
-        rtr_report = self.router.generate_report()
-        arb_report = self.detector.generate_report()
-        total_cycles = len(self.cycle_results)
-        completed = sum(1 for c in self.cycle_results if c.get("status") == "completed")
-        halted = sum(1 for c in self.cycle_results if c.get("status") == "halted")
-        total_arb_fills = sum(c["arbitrage"]["fills"] for c in self.cycle_results)
-        total_arb_pnl = sum(c["arbitrage"]["pnl_usd"] for c in self.cycle_results)
-        total_hedges = sum(len(c["hedges"]) for c in self.cycle_results)
-        net_pnl = self.realized_pnl_usd + self.cash_usd + mm_report["pnl"]["unrealized_pnl_usd"]
-        report: Dict[str, Any] = {
-            "report": "CROSSVENUE_ORCHESTRATION_REPORT",
-            "orchestrator": "CrossVenueOrchestrator",
-            "campaign": "phase15_crossvenue",
-            "campaign_id": f"phase15_{self.seed}",
-            "seed": self.seed,
-            "symbols": list(self.config.symbols),
-            "venues": list(self.config.venues),
-            "paper_only": True,
-            "timestamp": _det_ts(self.seed),
-            "git_sha": _git_sha(),
-            "status": "halted" if self.is_halted() else "completed",
-            "kill_switch": {
-                "triggered": bool(self.halted or self.mm.halted),
-                "reason": self.halt_reason or self.mm.halt_reason,
-                "halted_at": self.halted_at,
-                "source": "orchestrator",
-            },
-            "counts": {
-                "cycles": total_cycles,
-                "cycles_completed": completed,
-                "cycles_halted": halted,
-                "opportunities": arb_report["counts"]["opportunities_detected"],
-                "qualified_opportunities": arb_report["counts"]["qualified"],
-                "arb_fills": total_arb_fills,
-                "hedges": total_hedges,
-                "mm_positions": len(self.mm.positions),
-                "router_routes": rtr_report["counts"]["routes"],
-                "router_fills": rtr_report["counts"]["fills"],
-                "router_cancels": rtr_report["counts"]["cancels"],
-                "router_replacements": rtr_report["counts"]["replacements"],
-            },
-            "pnl": {
-                "realized_pnl_usd": float(self.realized_pnl_usd),
-                "cash_usd": float(self.cash_usd),
-                "unrealized_pnl_usd": float(mm_report["pnl"]["unrealized_pnl_usd"]),
-                "net_pnl_usd": float(net_pnl),
-                "drawdown_pct": float(mm_report["pnl"]["drawdown_pct"]),
-            },
-            "arbitrage_summary": {
-                "report": arb_report["report"],
-                "counts": arb_report["counts"],
-                "qualified_net_edges_bps": [o["net_edge_bps"] for o in arb_report["opportunities"] if o["qualified"]],
-            },
-            "market_making_summary": {
-                "report": mm_report["report"],
-                "counts": mm_report["counts"],
-                "pnl": mm_report["pnl"],
-                "risk_within_limits": bool(mm_report["risk"]["within_limits"]),
-                "breaches": mm_report["risk"]["breaches"],
-                "per_symbol": mm_report["per_symbol"],
-            },
-            "latency_routing_summary": {
-                "report": rtr_report["report"],
-                "counts": rtr_report["counts"],
-                "routing": rtr_report["routing"],
-                "slippage": rtr_report["slippage"],
-                "latency": rtr_report["latency"],
-            },
-            "cycles": self.cycle_results,
         }
         serialized = serialize_metrics_strict(report)
         assert_json_valid(serialized)
@@ -566,7 +502,7 @@ class CrossVenueOrchestrator:
             if not inv["valid"]:
                 problems.extend(f"{label}:{p}" for p in inv["problems"][:10])
         for cycle in self.cycle_results:
-            if cycle.get("status") not in ("completed", "halted"):
+            if cycle.get("status") not in ("ok", "halted"):
                 problems.append(f"invalid cycle status {cycle.get('cycle')}")
             pnl = cycle.get("pnl_snapshot", {})
             for name in ("realized_pnl_usd", "cash_usd", "unrealized_pnl_usd", "net_pnl_usd"):
