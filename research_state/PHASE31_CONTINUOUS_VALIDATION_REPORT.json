@@ -1,0 +1,569 @@
+{
+  "report": "PHASE31_CONTINUOUS_VALIDATION_REPORT",
+  "timestamp": "2026-11-01T21:10:12.043934Z",
+  "seed": 31150,
+  "paper_only": true,
+  "cycles_validated": 20,
+  "last_all_ok": false,
+  "last_cycle": 20,
+  "invariants": [
+    {
+      "name": "max_drawdown",
+      "passed": true,
+      "value": 0.0,
+      "threshold": 0.08,
+      "direction": "lte",
+      "detail": "drawdown 0.0000 <= 0.0800"
+    },
+    {
+      "name": "max_var",
+      "passed": true,
+      "value": 0.0,
+      "threshold": 0.04,
+      "direction": "lte",
+      "detail": "var 0.0000 <= 0.0400"
+    },
+    {
+      "name": "max_iv_skew",
+      "passed": false,
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "direction": "lte",
+      "detail": "iv_skew 220.0bps > 25.0bps"
+    },
+    {
+      "name": "min_sharpe",
+      "passed": true,
+      "value": 1.2,
+      "threshold": 0.5,
+      "direction": "gte",
+      "detail": "sharpe 1.200 >= 0.500"
+    },
+    {
+      "name": "max_fill_reject_rate",
+      "passed": true,
+      "value": 0.05,
+      "threshold": 0.15,
+      "direction": "lte",
+      "detail": "fill_reject 0.050 <= 0.150"
+    },
+    {
+      "name": "max_latency_p95",
+      "passed": true,
+      "value": 90.0,
+      "threshold": 200.0,
+      "direction": "lte",
+      "detail": "latency_p95 90.0ms <= 200.0ms"
+    }
+  ],
+  "drift": [
+    {
+      "metric": "drawdown_pct",
+      "baseline": 0.02,
+      "current": 0.0,
+      "drift_pct": 100.0,
+      "zscore": 33.333333333333336,
+      "drifted": true
+    },
+    {
+      "metric": "var_pct",
+      "baseline": 0.02,
+      "current": 0.0,
+      "drift_pct": 100.0,
+      "zscore": 33.333333333333336,
+      "drifted": true
+    },
+    {
+      "metric": "iv_skew_bps",
+      "baseline": 10.0,
+      "current": 220.0000000000002,
+      "drift_pct": 2100.0000000000023,
+      "zscore": 700.0000000000008,
+      "drifted": true
+    },
+    {
+      "metric": "sharpe",
+      "baseline": 1.0,
+      "current": 1.2,
+      "drift_pct": 19.999999999999996,
+      "zscore": 6.666666666666665,
+      "drifted": false
+    },
+    {
+      "metric": "fill_reject_rate",
+      "baseline": 0.05,
+      "current": 0.05,
+      "drift_pct": 0.0,
+      "zscore": 0.0,
+      "drifted": false
+    },
+    {
+      "metric": "latency_p95_ms",
+      "baseline": 80.0,
+      "current": 90.0,
+      "drift_pct": 12.5,
+      "zscore": 4.166666666666667,
+      "drifted": false
+    }
+  ],
+  "alerts": [
+    {
+      "alert_id": "p31_alert_55df93c81593",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.889006Z"
+    },
+    {
+      "alert_id": "p31_alert_51d870fbc881",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:11.889013Z"
+    },
+    {
+      "alert_id": "p31_alert_6e86d7385680",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:11.900775Z"
+    },
+    {
+      "alert_id": "p31_alert_8fe513326208",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.900786Z"
+    },
+    {
+      "alert_id": "p31_alert_cb1d63555d99",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.900793Z"
+    },
+    {
+      "alert_id": "p31_alert_8ef4b99cd04b",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:11.900801Z"
+    },
+    {
+      "alert_id": "p31_alert_92cf3eb24807",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:11.912389Z"
+    },
+    {
+      "alert_id": "p31_alert_d337c928aa2e",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.912400Z"
+    },
+    {
+      "alert_id": "p31_alert_e768a0098824",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.912407Z"
+    },
+    {
+      "alert_id": "p31_alert_499d24c35017",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:11.912415Z"
+    },
+    {
+      "alert_id": "p31_alert_3490368ea0ba",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:11.923980Z"
+    },
+    {
+      "alert_id": "p31_alert_b8d6da0d6f6a",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.923991Z"
+    },
+    {
+      "alert_id": "p31_alert_6ab0ceccbd9f",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.923999Z"
+    },
+    {
+      "alert_id": "p31_alert_70bc432a4d08",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:11.924007Z"
+    },
+    {
+      "alert_id": "p31_alert_d991555fe60c",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:11.935540Z"
+    },
+    {
+      "alert_id": "p31_alert_e635195fddc1",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.935550Z"
+    },
+    {
+      "alert_id": "p31_alert_6e7176a9648d",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.935558Z"
+    },
+    {
+      "alert_id": "p31_alert_f0494995ce04",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:11.935566Z"
+    },
+    {
+      "alert_id": "p31_alert_620a749f81df",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:11.947109Z"
+    },
+    {
+      "alert_id": "p31_alert_255a7ee353a0",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.947119Z"
+    },
+    {
+      "alert_id": "p31_alert_9b7cea606455",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.947127Z"
+    },
+    {
+      "alert_id": "p31_alert_1572a37fcc42",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:11.947134Z"
+    },
+    {
+      "alert_id": "p31_alert_728aaa029ce6",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:11.958702Z"
+    },
+    {
+      "alert_id": "p31_alert_15818e603d5d",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.958712Z"
+    },
+    {
+      "alert_id": "p31_alert_3abaa05a951d",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.958720Z"
+    },
+    {
+      "alert_id": "p31_alert_58554b2d0531",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:11.958727Z"
+    },
+    {
+      "alert_id": "p31_alert_8d69402aefed",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:11.978600Z"
+    },
+    {
+      "alert_id": "p31_alert_86bbfbf00ede",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.978611Z"
+    },
+    {
+      "alert_id": "p31_alert_b01b9809cced",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.978619Z"
+    },
+    {
+      "alert_id": "p31_alert_99bdba94bb92",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:11.978626Z"
+    },
+    {
+      "alert_id": "p31_alert_220c373d3764",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:11.990314Z"
+    },
+    {
+      "alert_id": "p31_alert_77e692374a48",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.990325Z"
+    },
+    {
+      "alert_id": "p31_alert_afa822982b46",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:11.990333Z"
+    },
+    {
+      "alert_id": "p31_alert_e3e722cce67c",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:11.990341Z"
+    },
+    {
+      "alert_id": "p31_alert_f3e9e77b8c30",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:12.001995Z"
+    },
+    {
+      "alert_id": "p31_alert_d49216629f17",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:12.002007Z"
+    },
+    {
+      "alert_id": "p31_alert_7986b837250a",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:12.002015Z"
+    },
+    {
+      "alert_id": "p31_alert_293ae8fc77ae",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:12.002022Z"
+    },
+    {
+      "alert_id": "p31_alert_e3fdc9c15b07",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:12.013701Z"
+    },
+    {
+      "alert_id": "p31_alert_a81e6d372b62",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:12.013712Z"
+    },
+    {
+      "alert_id": "p31_alert_ed2caf87d85f",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:12.013721Z"
+    },
+    {
+      "alert_id": "p31_alert_2721f4aaef93",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:12.013729Z"
+    },
+    {
+      "alert_id": "p31_alert_5aaff4fe699b",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:12.025317Z"
+    },
+    {
+      "alert_id": "p31_alert_4a07abaf8eb7",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:12.025330Z"
+    },
+    {
+      "alert_id": "p31_alert_d742c0c42136",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:12.025338Z"
+    },
+    {
+      "alert_id": "p31_alert_aad0cf315b65",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:12.025346Z"
+    },
+    {
+      "alert_id": "p31_alert_cdfa960483b7",
+      "severity": "warn",
+      "message": "Invariant breach: iv_skew 220.0bps > 25.0bps",
+      "metric": "max_iv_skew",
+      "value": 220.0000000000002,
+      "threshold": 25.0,
+      "timestamp": "2026-11-01T21:10:12.036869Z"
+    },
+    {
+      "alert_id": "p31_alert_2b3fdf8fcc63",
+      "severity": "warn",
+      "message": "Drift detected: drawdown_pct drifted 100.0% (z=33.33)",
+      "metric": "drawdown_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:12.036881Z"
+    },
+    {
+      "alert_id": "p31_alert_0ef04f10cbc6",
+      "severity": "warn",
+      "message": "Drift detected: var_pct drifted 100.0% (z=33.33)",
+      "metric": "var_pct",
+      "value": 0.0,
+      "threshold": 0.02,
+      "timestamp": "2026-11-01T21:10:12.036890Z"
+    },
+    {
+      "alert_id": "p31_alert_209c6cc1851b",
+      "severity": "warn",
+      "message": "Drift detected: iv_skew_bps drifted 2100.0% (z=700.00)",
+      "metric": "iv_skew_bps",
+      "value": 220.0000000000002,
+      "threshold": 10.0,
+      "timestamp": "2026-11-01T21:10:12.036897Z"
+    }
+  ],
+  "baselines": {
+    "drawdown_pct": 0.02,
+    "var_pct": 0.02,
+    "iv_skew_bps": 10.0,
+    "sharpe": 1.0,
+    "fill_reject_rate": 0.05,
+    "latency_p95_ms": 80.0
+  }
+}

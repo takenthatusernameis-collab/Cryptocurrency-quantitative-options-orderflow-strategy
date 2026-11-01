@@ -1,0 +1,828 @@
+{
+  "report": "PHASE31_LIVE_DEPLOYMENT_REPORT",
+  "timestamp": "2026-11-01T21:10:12.038257Z",
+  "seed": 31149,
+  "paper_only": true,
+  "config": {
+    "seed": 31149,
+    "paper_only": true,
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "expiries": [
+      "7D",
+      "30D",
+      "90D"
+    ],
+    "min_equity_usd": 100000.0,
+    "max_drawdown_pct": 0.08,
+    "kill_switch_dd_pct": 0.05,
+    "canary_size_pct": 0.1,
+    "max_canary_notional_usd": 50000.0,
+    "venue_latency_max_ms": 150.0,
+    "venue_error_rate_max": 0.02,
+    "min_fill_rate": 0.8,
+    "max_concurrent_positions": 20,
+    "enforce_gates": true,
+    "modes": [
+      "paper"
+    ]
+  },
+  "cycles_deployed": 0,
+  "canary_cycles": 0,
+  "canary_pnl_usd": 0.0,
+  "kill_switch": {
+    "active": false,
+    "reason": "",
+    "triggered_at": "",
+    "cycles_blocked": 0
+  },
+  "healthy_venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "venue_health": {
+    "deribit": {
+      "venue": "deribit",
+      "latency_ms": 45.26137371470768,
+      "fill_rate": 0.9042260878353581,
+      "error_rate": 0.010985585297728204,
+      "ok": true,
+      "last_check": "2026-11-01T21:10:12.026811Z"
+    },
+    "okx": {
+      "venue": "okx",
+      "latency_ms": 62.10942191840813,
+      "fill_rate": 0.9114049910491281,
+      "error_rate": 0.015006894022448635,
+      "ok": true,
+      "last_check": "2026-11-01T21:10:12.026827Z"
+    },
+    "bybit": {
+      "venue": "bybit",
+      "latency_ms": 68.37758538493637,
+      "fill_rate": 0.8515424316841584,
+      "error_rate": 0.016156234561156606,
+      "ok": true,
+      "last_check": "2026-11-01T21:10:12.026840Z"
+    },
+    "binance": {
+      "venue": "binance",
+      "latency_ms": 73.74367793602639,
+      "fill_rate": 0.8829836557455877,
+      "error_rate": 0.0052240451715598836,
+      "ok": true,
+      "last_check": "2026-11-01T21:10:12.026852Z"
+    }
+  },
+  "decisions": [
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:11.913693Z"
+    },
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:11.925284Z"
+    },
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:11.936858Z"
+    },
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:11.948408Z"
+    },
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:11.960006Z"
+    },
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:11.980011Z"
+    },
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:11.991640Z"
+    },
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:12.003356Z"
+    },
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:12.014990Z"
+    },
+    {
+      "allowed": true,
+      "paper_only": true,
+      "live_allowed": false,
+      "kill_switch_active": false,
+      "canary_size_usd": 10000.0,
+      "blocked_reasons": [],
+      "checks": [
+        {
+          "name": "min_equity",
+          "passed": true,
+          "required": true,
+          "reason": "equity 100000.00 >= 100000.00",
+          "severity": "info"
+        },
+        {
+          "name": "max_drawdown",
+          "passed": true,
+          "required": true,
+          "reason": "drawdown 0.0000 <= 0.0800",
+          "severity": "info"
+        },
+        {
+          "name": "connectivity_ok",
+          "passed": true,
+          "required": true,
+          "reason": "connectivity_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "risk_limits_ok",
+          "passed": true,
+          "required": true,
+          "reason": "risk_limits_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "compliance_ok",
+          "passed": true,
+          "required": true,
+          "reason": "compliance_ok ok",
+          "severity": "info"
+        },
+        {
+          "name": "drift_within_bounds",
+          "passed": true,
+          "required": true,
+          "reason": "drift_within_bounds ok",
+          "severity": "info"
+        },
+        {
+          "name": "reconciliation_clean",
+          "passed": true,
+          "required": true,
+          "reason": "reconciliation_clean ok",
+          "severity": "info"
+        },
+        {
+          "name": "auto_recovery_ready",
+          "passed": true,
+          "required": true,
+          "reason": "auto_recovery_ready ok",
+          "severity": "info"
+        }
+      ],
+      "timestamp": "2026-11-01T21:10:12.026624Z"
+    }
+  ],
+  "last_decision": {
+    "allowed": true,
+    "paper_only": true,
+    "live_allowed": false,
+    "kill_switch_active": false,
+    "canary_size_usd": 10000.0,
+    "blocked_reasons": [],
+    "checks": [
+      {
+        "name": "min_equity",
+        "passed": true,
+        "required": true,
+        "reason": "equity 100000.00 >= 100000.00",
+        "severity": "info"
+      },
+      {
+        "name": "max_drawdown",
+        "passed": true,
+        "required": true,
+        "reason": "drawdown 0.0000 <= 0.0800",
+        "severity": "info"
+      },
+      {
+        "name": "connectivity_ok",
+        "passed": true,
+        "required": true,
+        "reason": "connectivity_ok ok",
+        "severity": "info"
+      },
+      {
+        "name": "risk_limits_ok",
+        "passed": true,
+        "required": true,
+        "reason": "risk_limits_ok ok",
+        "severity": "info"
+      },
+      {
+        "name": "compliance_ok",
+        "passed": true,
+        "required": true,
+        "reason": "compliance_ok ok",
+        "severity": "info"
+      },
+      {
+        "name": "drift_within_bounds",
+        "passed": true,
+        "required": true,
+        "reason": "drift_within_bounds ok",
+        "severity": "info"
+      },
+      {
+        "name": "reconciliation_clean",
+        "passed": true,
+        "required": true,
+        "reason": "reconciliation_clean ok",
+        "severity": "info"
+      },
+      {
+        "name": "auto_recovery_ready",
+        "passed": true,
+        "required": true,
+        "reason": "auto_recovery_ready ok",
+        "severity": "info"
+      }
+    ],
+    "timestamp": "2026-11-01T21:10:12.026624Z"
+  }
+}
