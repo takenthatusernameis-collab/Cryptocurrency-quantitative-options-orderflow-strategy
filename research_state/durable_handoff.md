@@ -161,3 +161,15 @@ Goal: Harden Phase 11 live execution to production-grade readiness for real exch
 - Use existing project patterns/configs. Integrate cleanly with Phase 9-11 (monitoring/observability, alpha, live execution).
 - Update THIS FILE before ending the session with: fresh timestamp (UTC), files changed (code/tests/scripts/artifacts), rationale, verification results (`python -m pytest tests/ -q` must be GREEN).
 - No analysis-only sessions. Every turn must advance code/tests/artifacts. Do not stop until all deliverables shipped and gate is GREEN.
+
+## SESSION UPDATE (UTC): 2026-11-01T03:20:47Z
+- Repo name priority: CRYPTO OPTIONS + ORDERFLOW (vol surface RV, orderflow microstructure, options pricing/Greeks/IV). Gate GREEN (647 passed, 2 skipped, 0 failed). Working tree clean.
+- Bottlenecks: NONE. Phases 1-11 COMPLETE. All prior inefficiencies removed. No blocked sessions. No bottlenecks remain.
+- Focus locked: PHASE 12 — PRODUCTION HARDENING, REAL EXCHANGE CONNECTIVITY & LIVE CAPITAL READINESS (CRYPTO OPTIONS + ORDERFLOW). Implementation required NOW. No analysis-only session.
+
+## INITIAL TASK MESSAGE (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp: 2026-11-01T03:20:47Z
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
+SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
+ACTIVE FOCUS CAMPAIGN: PHASE 12 — PRODUCTION HARDENING, REAL EXCHANGE CONNECTIVITY & LIVE CAPITAL READINESS (CRYPTO OPTIONS + ORDERFLOW). Execute all mandatory deliverables in durable_handoff.md Phase 12 spec. Update this file before ending session. Keep gate GREEN.
