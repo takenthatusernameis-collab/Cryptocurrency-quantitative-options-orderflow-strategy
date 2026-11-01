@@ -32,7 +32,7 @@
     "deployment_id": "deploy_42",
     "status": "promoted",
     "timestamp": "2026-11-01T00:00:42Z",
-    "git_sha": "6cb6f1a2cd39602a947942077a1d014b2958feb1",
+    "git_sha": "6be2f38b829ff656c29282f293a88f37b099124a",
     "seed": 42,
     "paper_only": true,
     "env": "paper",
@@ -71,7 +71,7 @@
       {
         "name": "exchange",
         "status": "pass",
-        "latency_ms": 5.2,
+        "latency_ms": 5.9,
         "message": "exchange reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -93,7 +93,7 @@
       {
         "name": "orderflow_adapter",
         "status": "pass",
-        "latency_ms": 5.7,
+        "latency_ms": 5.6,
         "message": "orderflow_adapter reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -104,7 +104,7 @@
       {
         "name": "reconciliation",
         "status": "pass",
-        "latency_ms": 5.5,
+        "latency_ms": 5.8,
         "message": "reconciliation reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -522,10 +522,10 @@
           },
           "validation_gates": {
             "schema_valid": true,
-            "oos_passed": true,
             "numerics_finite": true,
-            "backtest_passed": true,
             "paper_only_enforced": true,
+            "backtest_passed": true,
+            "oos_passed": true,
             "determinism_verified": true
           },
           "artifact_path": "model_v1_0_0.json",
@@ -552,10 +552,10 @@
           "name": "options_orderflow_alpha",
           "gates": {
             "schema_valid": true,
-            "oos_passed": true,
             "numerics_finite": true,
-            "backtest_passed": true,
             "paper_only_enforced": true,
+            "backtest_passed": true,
+            "oos_passed": true,
             "determinism_verified": true
           },
           "timestamp": "2026-11-01T00:00:42Z"
@@ -566,10 +566,10 @@
           "name": "options_orderflow_alpha",
           "gates": {
             "schema_valid": true,
-            "oos_passed": true,
             "numerics_finite": true,
-            "backtest_passed": true,
             "paper_only_enforced": true,
+            "backtest_passed": true,
+            "oos_passed": true,
             "determinism_verified": true
           },
           "timestamp": "2026-11-01T00:00:42Z"
