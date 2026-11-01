@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 # Timestamp (UTC): 2026-11-01T20:05:00Z
-# Updated (UTC): 2026-11-01T23:13:21Z
+# Updated (UTC): 2026-11-01T23:18:55Z
 # Project: Cryptocurrency-quantitative-options-orderflow-strategy
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution)
 
@@ -28,6 +28,16 @@ COMPLETED (DO NOT REDO):
   6. `tests/test_phase32_orderflow_vol_arb.py` — 47 substantive deterministic tests (fixed seeds, mocks, no network, no placeholders).
   7. Artifacts under research_state/: PHASE32_ORDERFLOW_ALPHA_REPORT.*, PHASE32_EXECUTION_QUALITY_REPORT.*, PHASE32_LIVE_RISK_REPORT.*, PHASE32_VOL_ARB_ORDERFLOW_LOOP_REPORT.*, PHASE32_CAMPAIGN_SUMMARY.*.
   Gate: 2187 passed, 2 skipped, 0 failed (prior 2140 + 47 new Phase 32). Deterministic, finite numerics, paper-only safe.
+
+- PHASE 35 (COMPLETE 2026-11-01T23:18:55Z): Real-Time Cross-Venue Options Liquidity Aggregation, Smart Order Routing & Adversarial Slippage Control for Crypto Options Vol Surface Arbitrage + Orderflow. All deliverables shipped end-to-end, deterministic, paper-only safe, no placeholders/TODOs:
+  1. `src/execution/phase35_cross_venue_liquidity_aggregator.py` — CrossVenueLiquidityAggregator: multi-venue options liquidity aggregation with depth/impact, deterministic.
+  2. `src/execution/phase35_smart_order_router.py` — SmartOrderRouter: venue selection/routing with slippage control and fill probability, deterministic.
+  3. `src/risk/phase35_adversarial_slippage_controller.py` — AdversarialSlippageController: adversarial slippage detection/mitigation, hard limits, deterministic.
+  4. `src/integration/phase35_liquidity_routing_loop.py` — integrates Phase 31-34 with Phase 35 aggregator/router/controller, paper/live gated, per-cycle TCA + liquidity/routing/slippage report.
+  5. `scripts/run_phase35_liquidity_routing_campaign.py` — CLI (--symbols/--venues/--underlyings BTC/ETH/SOL/XRP/--expiries/--modes paper/live gated/--cycles/--seed/--enforce-gates/--outdir).
+  6. `tests/test_phase35_liquidity_routing.py` — 21 substantive deterministic tests (fixed seeds, mocks, no network, no placeholders).
+  7. Artifacts under research_state/: PHASE35_LIQUIDITY_AGGREGATION_REPORT.*, PHASE35_SMART_ROUTING_REPORT.*, PHASE35_ADVERSARIAL_SLIPPAGE_REPORT.*, PHASE35_LIQUIDITY_ROUTING_LOOP_REPORT.*, PHASE35_CAMPAIGN_SUMMARY.*.
+  Gate: 2277 passed, 2 skipped, 0 failed (prior 2256 + 21 new Phase 35). Deterministic, finite numerics, paper-only safe.
 - PHASE 34 (COMPLETE 2026-11-01T23:13:21.697722Z): Cross-Underlying Portfolio Greeks Aggregation, Cross-Margin Risk & Adaptive Capital Reallocation for Crypto Options Vol Surface Arbitrage + Orderflow. All deliverables shipped end-to-end, deterministic, paper-only safe, no placeholders/TODOs:
   1. `src/risk/phase34_portfolio_greeks_aggregator.py` — PortfolioGreeksAggregator: cross-underlying delta/gamma/vega/theta aggregation with netting, deterministic.
   2. `src/risk/phase34_cross_margin_engine.py` — CrossMarginEngine: cross-margin requirements, stress loss scenarios, margin call detection, deterministic.
