@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 Timestamp (UTC): 2026-11-01T14:13:28Z
-Updated (UTC): 2026-11-01T14:13:28Z
+Updated (UTC): 2026-11-01T14:23:02Z
 Project: Cryptocurrency-quantitative-options-orderflow-strategy
 Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution)
 
@@ -88,3 +88,40 @@ Verification:
 - All prior phases unchanged. No placeholders/TODOs. Paper-only enforced, live paths hard-gated.
 
 NEXT FOCUS CAMPAIGN: PHASE 22 — ADVANCED EXECUTION OPTIMIZATION, SMART ORDER ROUTING & FILL PREDICTION (CRYPTO OPTIONS + ORDERFLOW). Continue heavy implementation.
+
+## MANDATORY INITIAL TASK MESSAGE — PHASE 22 (EXECUTE IMMEDIATELY - NO DEVIATION)
+Timestamp (UTC): 2026-11-01T14:23:02Z
+PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY.
+ZERO PLACEHOLDERS, TODOs, FIXMEs, HACKs, XXX. PRODUCTION-GRADE. CORRECTNESS + DETERMINISM MANDATORY.
+SHIP CODE + TESTS + ARTIFACTS EVERY SESSION. DO NOT STOP AT SCAFFOLDING. BUILD, INTEGRATE, TEST, VALIDATE.
+DEFAULT PAPER-ONLY. HARD GATES FOR LIVE PATHS.
+
+### ACTIVE FOCUS CAMPAIGN: PHASE 22 — ADVANCED EXECUTION OPTIMIZATION, SMART ORDER ROUTING & FILL PREDICTION (CRYPTO OPTIONS + ORDERFLOW)
+Goal: Harden execution optimization across venues: smart order routing with liquidity/cost-aware venue selection, fill probability prediction, slippage modeling, latency-aware routing, order slicing/TWAP/VWAP, post-trade TCA, and deterministic execution simulation. Build end-to-end integration on top of Phases 17-21. All paper-only by default with hard gating. No placeholders.
+
+### DELIVERABLES (ALL REQUIRED):
+1. `src/execution/phase22_smart_router.py` — SmartOrderRouter: venue scoring, liquidity/cost/latency-aware routing, deterministic.
+2. `src/execution/phase22_fill_predictor.py` — FillPredictor: fill probability, expected fill price, deterministic (fixed seeds).
+3. `src/execution/phase22_slippage_model.py` — SlippageModel: market impact, spread, depth-based slippage, deterministic.
+4. `src/execution/phase22_order_slicer.py` — OrderSlicer: TWAP/VWAP/adaptive slicing, deterministic.
+5. `src/analytics/phase22_tca.py` — TCA: transaction cost analysis, venue/strategy attribution, deterministic.
+6. `scripts/run_phase22_execution_optimization_campaign.py` — CLI (--symbols, --venues, --strategies, --seed, --cycles, --paper-only required True, --enforce-gates, --outdir). Integrates Phase 17-21.
+7. `tests/test_phase22_execution_optimization.py` — >=60 substantive deterministic tests (fixed seeds, mocks, no network).
+8. Artifacts: PHASE22_SMART_ROUTING_REPORT.json/md, PHASE22_FILL_PREDICTION_REPORT.json/md, PHASE22_SLIPPAGE_REPORT.json/md, PHASE22_ORDER_SLICING_REPORT.json/md, PHASE22_TCA_REPORT.json/md, PHASE22_EXECUTION_OPTIMIZATION_MASTER_REPORT.json/md under research_state/.
+
+### IMMEDIATE ACTIONS
+- Read this file first. Verify gate GREEN (1237 passed). Phase 21 verified complete.
+- Build Phase 22 end-to-end (modules + script + tests + artifacts). NO placeholders/TODOs.
+- Run tests frequently; keep gate GREEN.
+- Update this file with fresh timestamp/files/notes on completion with `python -m pytest tests/ -q` result.
+
+### CONSTRAINTS (NON-NEGOTIABLE):
+- No placeholders/TODOs/FIXMEs/HACKs/XXX. Implement fully end-to-end.
+- Keep ALL existing tests passing. Only add tests/modules.
+- Determinism + finite numerics. No NaN/Inf. Validate strictly.
+- Default PAPER-ONLY; live paths hard-gated + tested.
+- Integrate with existing telemetry/serialization, resilience, monitoring, governance, risk patterns.
+- Before ending: update THIS FILE with fresh UTC timestamp, files changed, rationale, and run `python -m pytest tests/ -q` (must be GREEN).
+- Ship code+tests+artifacts to completion. NO analysis-only. NO stopping at scaffolding.
+
+**ACTION NOW:** Begin Phase 22 immediately. Prioritize crypto options + orderflow. Build heavy implementation.
