@@ -1,9 +1,9 @@
 # PHASE45 CHAOS FAILOVER ENGINE REPORT
 
-Timestamp: 2026-11-02T22:02:16.602779Z
+Timestamp: 2026-11-02T22:20:18.405085Z
 
-Paper-only: true | Seed: 49094 | Cycles: 5/5
-Primary venue: deribit | Final active: okx
-Failovers: 8 | Recoveries: 0 | SLO burn alerts: 0
+Paper-only: true | Seed: 560 | Cycles: 8/8
+Primary venue: deribit | Final active: deribit
+Failovers: 9 | Recoveries: 0 | SLO burn alerts: 0
 Halted: False | Gates OK: True
 Crypto options + orderflow | Integrated with Phases 17-44
