@@ -1,7 +1,7 @@
 # LIVE_ADAPTERS_REPORT
 
-- Timestamp: 2026-11-02T13:03:24.061549Z
+- Timestamp: 2026-11-02T13:54:39.161567Z
 - Seed: 42
-- Git SHA: fc24f632ed726611470062ec2db425318fbec1c8
+- Git SHA: 2ffe08ecd47dabeea564735fce0449328ceec6f3
 - Symbols: ['BTC', 'ETH']
 - Paper Only: True

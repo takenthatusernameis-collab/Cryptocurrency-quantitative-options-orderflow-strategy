@@ -1,162 +1,164 @@
 {
   "phase": "PHASE42_GREEKS_RISK_MONITOR",
-  "seed": 53151,
+  "seed": 52139,
   "paper_only": true,
   "cycles": 16,
   "snapshots": [
     {
       "cycle": 1,
-      "timestamp": "2026-11-02T13:34:34.736163Z",
+      "timestamp": "2026-11-02T13:56:20.280443Z",
       "paper_only": true,
       "regime": "volup",
-      "total_delta_usd": 574002.091110485,
-      "total_gamma_usd": -39621.31545122403,
-      "total_vega_usd": 49771.4491380018,
-      "total_theta_usd": -55986.54151611545,
-      "net_delta_usd": 574002.091110485,
-      "net_gamma_usd": -39621.31545122403,
-      "net_vega_usd": 49771.4491380018,
-      "net_theta_usd": -55986.54151611545,
+      "total_delta_usd": 1004422.3706542882,
+      "total_gamma_usd": -51087.25691973064,
+      "total_vega_usd": 42581.01914332117,
+      "total_theta_usd": 15507.022903720024,
+      "net_delta_usd": 1004422.3706542882,
+      "net_gamma_usd": -51087.25691973064,
+      "net_vega_usd": 42581.01914332117,
+      "net_theta_usd": 15507.022903720024,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": 124550.96880000374,
-          "gamma_usd": -45041.15938574253,
-          "vega_usd": 25616.456049904322,
-          "theta_usd": 8929.436638600899,
+          "delta_usd": 295713.1011714434,
+          "gamma_usd": 24160.552942637307,
+          "vega_usd": 29224.53892595823,
+          "theta_usd": -3288.655133996844,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -67930.75509123475,
-          "gamma_usd": 23060.843719137574,
-          "vega_usd": -85318.22473350415,
-          "theta_usd": -53045.45784273248,
+          "delta_usd": 702248.4622364896,
+          "gamma_usd": -105843.797823968,
+          "vega_usd": -47611.38641720986,
+          "theta_usd": -14838.381063341752,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": -44935.559610743956,
-          "gamma_usd": -46597.56632349182,
-          "vega_usd": 29690.803560631965,
-          "theta_usd": -56413.06745564316,
+          "delta_usd": -52591.55055824608,
+          "gamma_usd": -1864.5080640069286,
+          "vega_usd": -18052.950533648258,
+          "theta_usd": 7341.668438902351,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": 562317.4370124601,
-          "gamma_usd": 28956.566538872743,
-          "vega_usd": 79782.41426096966,
-          "theta_usd": 44542.547143659285,
+          "delta_usd": 59052.35780460115,
+          "gamma_usd": 32460.496025606975,
+          "vega_usd": 79020.81716822105,
+          "theta_usd": 26292.390662156267,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": 51246.36513644902
+          "gamma_usd": -24146.624852392495
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -1496.3150896840118
+          "gamma_usd": -1339.0221557485725
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -89371.36549798903
+          "gamma_usd": -25601.609911589556
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "mid",
-          "vega_usd": 49771.44913800183
+          "iv_bucket": "low",
+          "vega_usd": 42581.019143321166
         }
       ],
-      "tail_gamma_concentration_usd": 238807.8827397169,
+      "tail_gamma_concentration_usd": 175412.22040876403,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": 12876.904548706554,
+        "gamma_burn_7d_est_usd": -3566.615267855606,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": -55986.54151611545
+        "carry_theta_usd": 15507.022903720024
       },
-      "risk_ok": true,
-      "blocked_reasons": [],
+      "risk_ok": false,
+      "blocked_reasons": [
+        "portfolio_delta_exceeded"
+      ],
       "alerts": [
         "tail_gamma_concentration_high"
       ]
     },
     {
       "cycle": 2,
-      "timestamp": "2026-11-02T13:34:34.736573Z",
+      "timestamp": "2026-11-02T13:56:20.280889Z",
       "paper_only": true,
       "regime": "trend",
-      "total_delta_usd": -557905.2040825747,
-      "total_gamma_usd": -15261.95892017397,
-      "total_vega_usd": -167525.29105035125,
-      "total_theta_usd": -60022.691976020884,
-      "net_delta_usd": -557905.2040825747,
-      "net_gamma_usd": -15261.95892017397,
-      "net_vega_usd": -167525.29105035125,
-      "net_theta_usd": -60022.691976020884,
+      "total_delta_usd": -65628.24238162758,
+      "total_gamma_usd": -60871.1563231802,
+      "total_vega_usd": 204797.88758780083,
+      "total_theta_usd": -20662.68561985332,
+      "net_delta_usd": -65628.24238162758,
+      "net_gamma_usd": -60871.1563231802,
+      "net_vega_usd": 204797.88758780083,
+      "net_theta_usd": -20662.68561985332,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": -382324.50096981286,
-          "gamma_usd": 66299.19774074559,
-          "vega_usd": -31331.5503318775,
-          "theta_usd": -17454.99356665687,
+          "delta_usd": -226788.44526382667,
+          "gamma_usd": -78953.3715048038,
+          "vega_usd": 71866.36666675359,
+          "theta_usd": -108.06438455973557,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -216592.79829483575,
-          "gamma_usd": -36407.47253347886,
-          "vega_usd": -26587.671236126207,
-          "theta_usd": -23951.30115014013,
+          "delta_usd": 515872.24461692764,
+          "gamma_usd": 69634.55967407045,
+          "vega_usd": 151069.2936883766,
+          "theta_usd": 18753.917478385658,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": 137049.22817621235,
-          "gamma_usd": -10572.205944154288,
-          "vega_usd": -63422.85005823674,
-          "theta_usd": -74085.4498940144,
+          "delta_usd": -120814.36129126002,
+          "gamma_usd": -5687.9385542999935,
+          "vega_usd": -131440.4379421714,
+          "theta_usd": -5528.529828168311,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -96037.1329941384,
-          "gamma_usd": -34581.47818328641,
-          "vega_usd": -46183.219424110786,
-          "theta_usd": 55469.05263479051,
+          "delta_usd": -233897.6804434685,
+          "gamma_usd": -45864.40593814686,
+          "vega_usd": 113302.66517484204,
+          "theta_usd": -33780.008885510935,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": -3469.572324052414
+          "gamma_usd": -891.1078035846476
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -49097.0543878056
+          "gamma_usd": -26660.531841564116
         },
         {
           "tenor_days": 90,
-          "gamma_usd": 37304.667791684034
+          "gamma_usd": -33319.51667803144
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "high",
-          "vega_usd": -167525.29105035125
+          "iv_bucket": "mid",
+          "vega_usd": 204797.88758780085
         }
       ],
-      "tail_gamma_concentration_usd": 282719.0210177166,
+      "tail_gamma_concentration_usd": 305354.24773303163,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": 13805.219154484805,
+        "gamma_burn_7d_est_usd": 4752.417692566264,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": -60022.691976020884
+        "carry_theta_usd": -20662.68561985332
       },
       "risk_ok": true,
       "blocked_reasons": [],
@@ -166,77 +168,77 @@
     },
     {
       "cycle": 3,
-      "timestamp": "2026-11-02T13:34:34.736994Z",
+      "timestamp": "2026-11-02T13:56:20.281285Z",
       "paper_only": true,
       "regime": "calm",
-      "total_delta_usd": -520945.315120948,
-      "total_gamma_usd": -57514.38907611298,
-      "total_vega_usd": -43867.73007683358,
-      "total_theta_usd": -2256.909463373649,
-      "net_delta_usd": -520945.315120948,
-      "net_gamma_usd": -57514.38907611298,
-      "net_vega_usd": -43867.73007683358,
-      "net_theta_usd": -2256.909463373649,
+      "total_delta_usd": 406628.5702679513,
+      "total_gamma_usd": -23736.927700234,
+      "total_vega_usd": -25328.317605335073,
+      "total_theta_usd": 29737.98839594742,
+      "net_delta_usd": 406628.5702679513,
+      "net_gamma_usd": -23736.927700234,
+      "net_vega_usd": -25328.317605335073,
+      "net_theta_usd": 29737.98839594742,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": -119389.04517322968,
-          "gamma_usd": 9622.71300886321,
-          "vega_usd": -68854.21652183992,
-          "theta_usd": 23859.088210514317,
+          "delta_usd": 153224.0773932816,
+          "gamma_usd": -25144.248111867953,
+          "vega_usd": 49312.525459510434,
+          "theta_usd": -9052.47007030492,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -158846.3205154738,
-          "gamma_usd": -94694.14260610477,
-          "vega_usd": 105674.16625257472,
-          "theta_usd": -64780.19445730635,
+          "delta_usd": -25796.769347290683,
+          "gamma_usd": -18595.311115851622,
+          "vega_usd": -20700.31952547708,
+          "theta_usd": -4346.321011751756,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": -79907.97135512388,
-          "gamma_usd": 16388.691934804414,
-          "vega_usd": -47827.54992363689,
-          "theta_usd": 8808.669782487588,
+          "delta_usd": 436640.3121184736,
+          "gamma_usd": -37187.51608531672,
+          "vega_usd": -35267.220914409765,
+          "theta_usd": -17033.203269326816,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -162801.97807712064,
-          "gamma_usd": 11168.348586324175,
-          "vega_usd": -32860.1298839315,
-          "theta_usd": 29855.527000930797,
+          "delta_usd": -157439.04989651317,
+          "gamma_usd": 57190.14761280229,
+          "vega_usd": -18673.302624958666,
+          "theta_usd": 60169.98274733091,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": 17975.24742897639
+          "gamma_usd": -43551.78658307425
         },
         {
           "tenor_days": 30,
-          "gamma_usd": 24749.279126027806
+          "gamma_usd": -31788.869746515917
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -100238.91563111717
+          "gamma_usd": 51603.72862935616
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "low",
-          "vega_usd": -43867.730076833584
+          "iv_bucket": "high",
+          "vega_usd": -25328.31760533506
         }
       ],
-      "tail_gamma_concentration_usd": 196818.60244843358,
+      "tail_gamma_concentration_usd": 314714.1907326871,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": 519.0891765759393,
+        "gamma_burn_7d_est_usd": -6839.737331067907,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": -2256.909463373649
+        "carry_theta_usd": 29737.98839594742
       },
       "risk_ok": true,
       "blocked_reasons": [],
@@ -246,80 +248,82 @@
     },
     {
       "cycle": 4,
-      "timestamp": "2026-11-02T13:34:34.737471Z",
+      "timestamp": "2026-11-02T13:56:20.281768Z",
       "paper_only": true,
       "regime": "stressed",
-      "total_delta_usd": 159790.85280722514,
-      "total_gamma_usd": -40827.04647866192,
-      "total_vega_usd": -65482.9763158654,
-      "total_theta_usd": -119732.67642533853,
-      "net_delta_usd": 159790.85280722514,
-      "net_gamma_usd": -40827.04647866192,
-      "net_vega_usd": -65482.9763158654,
-      "net_theta_usd": -119732.67642533853,
+      "total_delta_usd": -897132.5964054746,
+      "total_gamma_usd": -90088.3574240212,
+      "total_vega_usd": -225919.26214758292,
+      "total_theta_usd": 96487.91075477826,
+      "net_delta_usd": -897132.5964054746,
+      "net_gamma_usd": -90088.3574240212,
+      "net_vega_usd": -225919.26214758292,
+      "net_theta_usd": 96487.91075477826,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": 283586.51287565334,
-          "gamma_usd": 21568.495262024157,
-          "vega_usd": 64970.54710065763,
-          "theta_usd": -15594.004996375088,
+          "delta_usd": 56131.190960904634,
+          "gamma_usd": -23050.304357658264,
+          "vega_usd": 37799.24102534928,
+          "theta_usd": 19110.012914402065,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -344483.5065091298,
-          "gamma_usd": -57512.299558775936,
-          "vega_usd": -82592.80487523641,
-          "theta_usd": -84589.78569928357,
+          "delta_usd": -522283.18026248703,
+          "gamma_usd": 8772.266498231586,
+          "vega_usd": -82996.67474780063,
+          "theta_usd": 40485.10790689113,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": 505255.8023436391,
-          "gamma_usd": -34868.70421319607,
-          "vega_usd": -74486.8678137588,
-          "theta_usd": -41809.06089417005,
+          "delta_usd": -63666.25574572125,
+          "gamma_usd": -43036.50844037335,
+          "vega_usd": -66134.73703865512,
+          "theta_usd": 12787.088281285676,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -284567.95590293745,
-          "gamma_usd": 29985.462031285926,
-          "vega_usd": 26626.149272472172,
-          "theta_usd": 22260.175164490185,
+          "delta_usd": -367314.3513581709,
+          "gamma_usd": -32773.81112422118,
+          "vega_usd": -114587.09138647644,
+          "theta_usd": 24105.701652199394,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": 521.9984188967109
+          "gamma_usd": -36991.217480212785
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -31053.935935332316
+          "gamma_usd": -26124.119978870545
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -10295.108962226312
+          "gamma_usd": -26973.019964937877
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "mid",
-          "vega_usd": -65482.976315865395
+          "iv_bucket": "low",
+          "vega_usd": -225919.2621475829
         }
       ],
-      "tail_gamma_concentration_usd": 185857.006004071,
+      "tail_gamma_concentration_usd": 192906.67689098854,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": 27538.515577827864,
+        "gamma_burn_7d_est_usd": -22192.219473599,
         "gamma_decay_rate": 0.16999999999999998,
-        "carry_theta_usd": -119732.67642533853
+        "carry_theta_usd": 96487.91075477826
       },
-      "risk_ok": true,
-      "blocked_reasons": [],
+      "risk_ok": false,
+      "blocked_reasons": [
+        "portfolio_delta_exceeded"
+      ],
       "alerts": [
         "tail_gamma_concentration_high",
         "regime_stressed_greeks_watch"
@@ -327,159 +331,157 @@
     },
     {
       "cycle": 5,
-      "timestamp": "2026-11-02T13:34:34.737879Z",
+      "timestamp": "2026-11-02T13:56:20.282163Z",
       "paper_only": true,
       "regime": "volup",
-      "total_delta_usd": -665850.532681171,
-      "total_gamma_usd": -70760.10617774584,
-      "total_vega_usd": -159204.22691731717,
-      "total_theta_usd": 79434.38377572701,
-      "net_delta_usd": -665850.532681171,
-      "net_gamma_usd": -70760.10617774584,
-      "net_vega_usd": -159204.22691731717,
-      "net_theta_usd": 79434.38377572701,
+      "total_delta_usd": 217261.59131866158,
+      "total_gamma_usd": 128463.81482400569,
+      "total_vega_usd": 68782.40404731022,
+      "total_theta_usd": -18407.145228697776,
+      "net_delta_usd": 217261.59131866158,
+      "net_gamma_usd": 128463.81482400569,
+      "net_vega_usd": 68782.40404731022,
+      "net_theta_usd": -18407.145228697776,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": -211626.14410699924,
-          "gamma_usd": 16545.05027756734,
-          "vega_usd": 27037.461393966318,
-          "theta_usd": 35269.60576395207,
+          "delta_usd": 183346.5800832376,
+          "gamma_usd": 83907.93133339832,
+          "vega_usd": 43900.61958856154,
+          "theta_usd": 15596.602670212911,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -11615.034440805624,
-          "gamma_usd": -64448.16731759974,
-          "vega_usd": 45380.96756311955,
-          "theta_usd": -19589.272826512,
+          "delta_usd": -152960.3511093579,
+          "gamma_usd": 23487.88155115564,
+          "vega_usd": 59101.37928722861,
+          "theta_usd": -35017.64799456852,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": -11193.092644019101,
-          "gamma_usd": -14690.06460648501,
-          "vega_usd": -115578.91833587106,
-          "theta_usd": -21110.24663929717,
+          "delta_usd": -201310.7843673373,
+          "gamma_usd": 29548.65825228133,
+          "vega_usd": -91907.95755122094,
+          "theta_usd": 11948.516517818778,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -431416.261489347,
-          "gamma_usd": -8166.924531228426,
-          "vega_usd": -116043.73753853196,
-          "theta_usd": 84864.2974775841,
+          "delta_usd": 388186.14671211917,
+          "gamma_usd": -8480.656312829584,
+          "vega_usd": 57688.36272274101,
+          "theta_usd": -10934.616422160947,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": -74334.89451802356
+          "gamma_usd": 69752.31625254378
         },
         {
           "tenor_days": 30,
-          "gamma_usd": 6210.458529927776
+          "gamma_usd": 34365.30980289555
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -2635.6701896500363
+          "gamma_usd": 24346.188768566346
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "high",
-          "vega_usd": -159204.22691731717
+          "iv_bucket": "mid",
+          "vega_usd": 68782.4040473102
         }
       ],
-      "tail_gamma_concentration_usd": 228685.35372047542,
+      "tail_gamma_concentration_usd": 248261.40016983944,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -18269.908268417214,
+        "gamma_burn_7d_est_usd": 4233.643402600489,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": 79434.38377572701
+        "carry_theta_usd": -18407.145228697776
       },
-      "risk_ok": false,
-      "blocked_reasons": [
-        "portfolio_delta_exceeded"
-      ],
+      "risk_ok": true,
+      "blocked_reasons": [],
       "alerts": [
         "tail_gamma_concentration_high"
       ]
     },
     {
       "cycle": 6,
-      "timestamp": "2026-11-02T13:34:34.738265Z",
+      "timestamp": "2026-11-02T13:56:20.282544Z",
       "paper_only": true,
       "regime": "trend",
-      "total_delta_usd": -10270.322487564894,
-      "total_gamma_usd": -22699.58924569046,
-      "total_vega_usd": -120465.69820595895,
-      "total_theta_usd": 55594.435981417955,
-      "net_delta_usd": -10270.322487564894,
-      "net_gamma_usd": -22699.58924569046,
-      "net_vega_usd": -120465.69820595895,
-      "net_theta_usd": 55594.435981417955,
+      "total_delta_usd": -125989.17342231984,
+      "total_gamma_usd": -62459.47714472726,
+      "total_vega_usd": -186372.04927024822,
+      "total_theta_usd": 97925.4605232293,
+      "net_delta_usd": -125989.17342231984,
+      "net_gamma_usd": -62459.47714472726,
+      "net_vega_usd": -186372.04927024822,
+      "net_theta_usd": 97925.4605232293,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": -218825.20446058363,
-          "gamma_usd": 38825.533675517596,
-          "vega_usd": -20176.4366362798,
-          "theta_usd": 56766.96553538726,
+          "delta_usd": -7060.892338779149,
+          "gamma_usd": 11259.090915559767,
+          "vega_usd": -64949.3380170181,
+          "theta_usd": 10480.965063562382,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -237824.27579305597,
-          "gamma_usd": -125491.50049948588,
-          "vega_usd": -21419.107558506326,
-          "theta_usd": -11573.059679203578,
+          "delta_usd": -148012.73217985636,
+          "gamma_usd": -111779.52494739965,
+          "vega_usd": -16593.676228592143,
+          "theta_usd": -41409.36034087434,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": 102541.4133756229,
-          "gamma_usd": 37126.57447473012,
-          "vega_usd": -62632.85018228166,
-          "theta_usd": 55842.107152437144,
+          "delta_usd": -286335.06826527754,
+          "gamma_usd": 22903.007040470846,
+          "vega_usd": -61221.801840604065,
+          "theta_usd": 52136.20330608315,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": 343837.7443904518,
-          "gamma_usd": 26839.803103547696,
-          "vega_usd": -16237.30382889117,
-          "theta_usd": -45441.577027202875,
+          "delta_usd": 315419.51936159324,
+          "gamma_usd": 15157.949846641784,
+          "vega_usd": -43607.23318403391,
+          "theta_usd": 76717.6524944581,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": 19187.21134737193
+          "gamma_usd": -46269.096046600505
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -49333.5268690211
+          "gamma_usd": 33380.31374881835
         },
         {
           "tenor_days": 90,
-          "gamma_usd": 7446.726275958712
+          "gamma_usd": -49570.69484694511
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "low",
-          "vega_usd": -120465.69820595895
+          "iv_bucket": "high",
+          "vega_usd": -186372.04927024816
         }
       ],
-      "tail_gamma_concentration_usd": 255162.33540713546,
+      "tail_gamma_concentration_usd": 287102.1500721182,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -12786.720275726131,
+        "gamma_burn_7d_est_usd": -22522.85592034274,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": 55594.435981417955
+        "carry_theta_usd": 97925.4605232293
       },
       "risk_ok": true,
       "blocked_reasons": [],
@@ -489,77 +491,77 @@
     },
     {
       "cycle": 7,
-      "timestamp": "2026-11-02T13:34:34.738643Z",
+      "timestamp": "2026-11-02T13:56:20.282959Z",
       "paper_only": true,
       "regime": "calm",
-      "total_delta_usd": -379762.22181261866,
-      "total_gamma_usd": -38754.266474814205,
-      "total_vega_usd": -73158.38472769107,
-      "total_theta_usd": 98232.94936810462,
-      "net_delta_usd": -379762.22181261866,
-      "net_gamma_usd": -38754.266474814205,
-      "net_vega_usd": -73158.38472769107,
-      "net_theta_usd": 98232.94936810462,
+      "total_delta_usd": -265175.5937647519,
+      "total_gamma_usd": -5584.464471189508,
+      "total_vega_usd": -52005.350827464434,
+      "total_theta_usd": -63981.413906481255,
+      "net_delta_usd": -265175.5937647519,
+      "net_gamma_usd": -5584.464471189508,
+      "net_vega_usd": -52005.350827464434,
+      "net_theta_usd": -63981.413906481255,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": 172966.77216600953,
-          "gamma_usd": -24786.94270585348,
-          "vega_usd": -1135.7544901978195,
-          "theta_usd": 28876.328732579463,
+          "delta_usd": -138191.56474601832,
+          "gamma_usd": 30367.338697635056,
+          "vega_usd": 88097.7130746326,
+          "theta_usd": 42829.0938069138,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -195402.16178409173,
-          "gamma_usd": 76104.84653653191,
-          "vega_usd": -78913.51904099448,
-          "theta_usd": 31946.149277591212,
+          "delta_usd": 151983.08396126927,
+          "gamma_usd": 71413.253203265,
+          "vega_usd": 4406.4883337461515,
+          "theta_usd": -72170.44939048804,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": -157970.70982870163,
-          "gamma_usd": 724.2101514672815,
-          "vega_usd": 29083.105052144958,
-          "theta_usd": 39709.87686283228,
+          "delta_usd": 62724.12944825302,
+          "gamma_usd": -25576.601662545865,
+          "vega_usd": -119963.43492629321,
+          "theta_usd": -2955.9931649620844,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -199356.12236583483,
-          "gamma_usd": -90796.38045695992,
-          "vega_usd": -22192.216248643723,
-          "theta_usd": -2299.405504898339,
+          "delta_usd": -341691.2424282559,
+          "gamma_usd": -81788.4547095437,
+          "vega_usd": -24546.117309549983,
+          "theta_usd": -31684.065157944926,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": -5685.15596357815
+          "gamma_usd": 5635.659624682112
         },
         {
           "tenor_days": 30,
-          "gamma_usd": 1104.8788302115427
+          "gamma_usd": 24087.07933118847
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -34173.9893414476
+          "gamma_usd": -35307.20342706009
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "mid",
-          "vega_usd": -73158.38472769105
+          "iv_bucket": "low",
+          "vega_usd": -52005.35082746443
         }
       ],
-      "tail_gamma_concentration_usd": 222485.37156667668,
+      "tail_gamma_concentration_usd": 234630.88453865008,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -22593.578354664063,
+        "gamma_burn_7d_est_usd": 14715.725198490689,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": 98232.94936810462
+        "carry_theta_usd": -63981.413906481255
       },
       "risk_ok": true,
       "blocked_reasons": [],
@@ -569,80 +571,82 @@
     },
     {
       "cycle": 8,
-      "timestamp": "2026-11-02T13:34:34.739043Z",
+      "timestamp": "2026-11-02T13:56:20.283345Z",
       "paper_only": true,
       "regime": "stressed",
-      "total_delta_usd": -527484.0142056277,
-      "total_gamma_usd": 37034.936966343754,
-      "total_vega_usd": 28011.4500320431,
-      "total_theta_usd": -68034.06094699219,
-      "net_delta_usd": -527484.0142056277,
-      "net_gamma_usd": 37034.936966343754,
-      "net_vega_usd": 28011.4500320431,
-      "net_theta_usd": -68034.06094699219,
+      "total_delta_usd": -807916.4844913376,
+      "total_gamma_usd": 25781.186148430712,
+      "total_vega_usd": -90565.93338857227,
+      "total_theta_usd": 43008.97433984545,
+      "net_delta_usd": -807916.4844913376,
+      "net_gamma_usd": 25781.186148430712,
+      "net_vega_usd": -90565.93338857227,
+      "net_theta_usd": 43008.97433984545,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": -650.8899269828325,
-          "gamma_usd": -19885.398960115654,
-          "vega_usd": -13936.570563781166,
-          "theta_usd": 11851.567601427934,
+          "delta_usd": 176173.10847481003,
+          "gamma_usd": -59165.794043152666,
+          "vega_usd": 63132.25788859083,
+          "theta_usd": -32908.833039281846,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -268784.635472433,
-          "gamma_usd": 44988.58826920817,
-          "vega_usd": -21728.009370797077,
-          "theta_usd": 45653.69169122894,
+          "delta_usd": -320142.9154479921,
+          "gamma_usd": 2770.2838491417792,
+          "vega_usd": -32346.483036211004,
+          "theta_usd": 24662.628404981355,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": -135403.92173229958,
-          "gamma_usd": 42711.942574263245,
-          "vega_usd": -3949.267042100206,
-          "theta_usd": -42668.84274354008,
+          "delta_usd": -197008.70108169568,
+          "gamma_usd": -4362.061150934486,
+          "vega_usd": -48963.73353378641,
+          "theta_usd": -3417.867699128289,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -122644.56707391229,
-          "gamma_usd": -30780.194917012006,
-          "vega_usd": 67625.29700872155,
-          "theta_usd": -82870.47749610899,
+          "delta_usd": -466937.9764364598,
+          "gamma_usd": 86538.75749337608,
+          "vega_usd": -72387.97470716569,
+          "theta_usd": 54673.046673274235,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": -4280.157589184133
+          "gamma_usd": -4628.86042668268
         },
         {
           "tenor_days": 30,
-          "gamma_usd": 47382.250532155726
+          "gamma_usd": 9166.170356030976
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -6067.155976627837
+          "gamma_usd": 21243.876219082413
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "high",
-          "vega_usd": 28011.450032043078
+          "iv_bucket": "mid",
+          "vega_usd": -90565.93338857224
         }
       ],
-      "tail_gamma_concentration_usd": 223764.80898055987,
+      "tail_gamma_concentration_usd": 200480.20979431178,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": 15647.834017808205,
+        "gamma_burn_7d_est_usd": -9892.064098164454,
         "gamma_decay_rate": 0.16999999999999998,
-        "carry_theta_usd": -68034.06094699219
+        "carry_theta_usd": 43008.97433984545
       },
-      "risk_ok": true,
-      "blocked_reasons": [],
+      "risk_ok": false,
+      "blocked_reasons": [
+        "portfolio_delta_exceeded"
+      ],
       "alerts": [
         "tail_gamma_concentration_high",
         "regime_stressed_greeks_watch"
@@ -650,82 +654,81 @@
     },
     {
       "cycle": 9,
-      "timestamp": "2026-11-02T13:34:34.739431Z",
+      "timestamp": "2026-11-02T13:56:20.283748Z",
       "paper_only": true,
       "regime": "volup",
-      "total_delta_usd": -1170715.124781247,
-      "total_gamma_usd": -305584.35427311005,
-      "total_vega_usd": 175839.7887368754,
-      "total_theta_usd": 87909.19674049203,
-      "net_delta_usd": -1170715.124781247,
-      "net_gamma_usd": -305584.35427311005,
-      "net_vega_usd": 175839.7887368754,
-      "net_theta_usd": 87909.19674049203,
+      "total_delta_usd": 604209.3174527392,
+      "total_gamma_usd": -61501.44841847546,
+      "total_vega_usd": 178928.21419825245,
+      "total_theta_usd": 11588.928981788991,
+      "net_delta_usd": 604209.3174527392,
+      "net_gamma_usd": -61501.44841847546,
+      "net_vega_usd": 178928.21419825245,
+      "net_theta_usd": 11588.928981788991,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": -316274.8230667419,
-          "gamma_usd": -50341.32119350952,
-          "vega_usd": -24114.87030766147,
-          "theta_usd": 60503.72284117176,
+          "delta_usd": 162613.1779083568,
+          "gamma_usd": -64170.00395604941,
+          "vega_usd": 63256.07286753865,
+          "theta_usd": 15039.934250113154,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -232700.93344043745,
-          "gamma_usd": -132324.5903560725,
-          "vega_usd": 50727.42413004235,
-          "theta_usd": -58265.763191620594,
+          "delta_usd": 49604.85022219346,
+          "gamma_usd": -39811.013462427625,
+          "vega_usd": 102134.77029724239,
+          "theta_usd": 7279.1436035699735,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": -103362.21843441988,
-          "gamma_usd": -83345.05167621656,
-          "vega_usd": 109736.25516032714,
-          "theta_usd": 23362.947964445793,
+          "delta_usd": -10701.17787028417,
+          "gamma_usd": 10020.420263071412,
+          "vega_usd": -50614.864312775004,
+          "theta_usd": -21663.66863007066,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -518377.1498396478,
-          "gamma_usd": -39573.39104731149,
-          "vega_usd": 39490.97975416739,
-          "theta_usd": 62308.28912649508,
+          "delta_usd": 402692.4671924731,
+          "gamma_usd": 32459.14873693016,
+          "vega_usd": 64152.2353462464,
+          "theta_usd": 10933.519758176524,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": -52236.249935142914
+          "gamma_usd": 12485.937942567278
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -181349.1649476212
+          "gamma_usd": -26753.737017608197
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -71998.93939034593
+          "gamma_usd": -47233.64934343455
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "low",
-          "vega_usd": 175839.7887368754
+          "iv_bucket": "high",
+          "vega_usd": 178928.21419825245
         }
       ],
-      "tail_gamma_concentration_usd": 371489.6725290906,
+      "tail_gamma_concentration_usd": 291412.1812905492,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -20219.115250313167,
+        "gamma_burn_7d_est_usd": -2665.453665811468,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": 87909.19674049203
+        "carry_theta_usd": 11588.928981788991
       },
       "risk_ok": false,
       "blocked_reasons": [
-        "portfolio_delta_exceeded",
-        "portfolio_gamma_exceeded"
+        "portfolio_delta_exceeded"
       ],
       "alerts": [
         "tail_gamma_concentration_high"
@@ -733,157 +736,157 @@
     },
     {
       "cycle": 10,
-      "timestamp": "2026-11-02T13:34:34.739836Z",
+      "timestamp": "2026-11-02T13:56:20.284133Z",
       "paper_only": true,
       "regime": "trend",
-      "total_delta_usd": -1012398.8802875031,
-      "total_gamma_usd": -36123.28431367542,
-      "total_vega_usd": -57393.457506015475,
-      "total_theta_usd": -7563.115841956164,
-      "net_delta_usd": -1012398.8802875031,
-      "net_gamma_usd": -36123.28431367542,
-      "net_vega_usd": -57393.457506015475,
-      "net_theta_usd": -7563.115841956164,
+      "total_delta_usd": 92474.7993093634,
+      "total_gamma_usd": -56283.55447752533,
+      "total_vega_usd": -179225.97512248598,
+      "total_theta_usd": 52923.329056078204,
+      "net_delta_usd": 92474.7993093634,
+      "net_gamma_usd": -56283.55447752533,
+      "net_vega_usd": -179225.97512248598,
+      "net_theta_usd": 52923.329056078204,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": -441265.71947192657,
-          "gamma_usd": -11867.35209625319,
-          "vega_usd": -49681.41586940792,
-          "theta_usd": 24387.181254542626,
+          "delta_usd": -71629.19646196283,
+          "gamma_usd": 48795.75486018817,
+          "vega_usd": -101897.63727295537,
+          "theta_usd": 2858.9795722793374,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -360619.11342227075,
-          "gamma_usd": 14897.414533889021,
-          "vega_usd": 56769.21143926715,
-          "theta_usd": -69143.28257560047,
+          "delta_usd": -388850.6339330876,
+          "gamma_usd": -34335.41057543153,
+          "vega_usd": 542.9445651199876,
+          "theta_usd": 48683.23663186507,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": 77384.34393296504,
-          "gamma_usd": -23243.888765167656,
-          "vega_usd": -34577.01055162401,
-          "theta_usd": -10482.593507680878,
+          "delta_usd": 101467.2362145674,
+          "gamma_usd": -101613.41855145239,
+          "vega_usd": -109009.21599882834,
+          "theta_usd": -6428.726323537148,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -287898.3913262709,
-          "gamma_usd": -15909.457986143598,
-          "vega_usd": -29904.242524250694,
-          "theta_usd": 47675.57898678256,
+          "delta_usd": 451487.39348984644,
+          "gamma_usd": 30869.519789170412,
+          "vega_usd": 31137.93358417776,
+          "theta_usd": 7809.839175470944,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": 4980.445849678086
+          "gamma_usd": 6021.84539782323
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -13649.937431389293
+          "gamma_usd": 37713.84167901196
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -27453.79273196422
+          "gamma_usd": -100019.24155436053
+        }
+      ],
+      "by_iv_bucket": [
+        {
+          "iv_bucket": "low",
+          "vega_usd": -179225.97512248595
+        }
+      ],
+      "tail_gamma_concentration_usd": 249663.48828942873,
+      "tail_gamma_alert": true,
+      "gamma_decay_tracking": {
+        "gamma_burn_7d_est_usd": -12172.365682897987,
+        "gamma_decay_rate": 0.12,
+        "carry_theta_usd": 52923.329056078204
+      },
+      "risk_ok": true,
+      "blocked_reasons": [],
+      "alerts": [
+        "tail_gamma_concentration_high"
+      ]
+    },
+    {
+      "cycle": 11,
+      "timestamp": "2026-11-02T13:56:20.284506Z",
+      "paper_only": true,
+      "regime": "calm",
+      "total_delta_usd": -94256.40608301508,
+      "total_gamma_usd": 68743.41831528461,
+      "total_vega_usd": -62763.04911199259,
+      "total_theta_usd": 101837.64172894965,
+      "net_delta_usd": -94256.40608301508,
+      "net_gamma_usd": 68743.41831528461,
+      "net_vega_usd": -62763.04911199259,
+      "net_theta_usd": 101837.64172894965,
+      "by_underlying": [
+        {
+          "underlying": "BTC",
+          "delta_usd": 280931.209784026,
+          "gamma_usd": -86493.88966799654,
+          "vega_usd": -8310.942519713282,
+          "theta_usd": -47624.25707799358,
+          "lines": 9
+        },
+        {
+          "underlying": "ETH",
+          "delta_usd": -501283.7854400724,
+          "gamma_usd": 92639.06699773243,
+          "vega_usd": 2524.61173886202,
+          "theta_usd": 54891.05796848999,
+          "lines": 9
+        },
+        {
+          "underlying": "SOL",
+          "delta_usd": 33810.48154908765,
+          "gamma_usd": 52312.951720826495,
+          "vega_usd": -141396.47196218875,
+          "theta_usd": 107132.38287969519,
+          "lines": 9
+        },
+        {
+          "underlying": "XRP",
+          "delta_usd": 92285.68802394364,
+          "gamma_usd": 10285.289264722216,
+          "vega_usd": 84419.75363104741,
+          "theta_usd": -12561.542041241948,
+          "lines": 9
+        }
+      ],
+      "by_tenor": [
+        {
+          "tenor_days": 7,
+          "gamma_usd": -36011.177246051666
+        },
+        {
+          "tenor_days": 30,
+          "gamma_usd": 43112.23392104929
+        },
+        {
+          "tenor_days": 90,
+          "gamma_usd": 61642.36164028698
         }
       ],
       "by_iv_bucket": [
         {
           "iv_bucket": "mid",
-          "vega_usd": -57393.457506015475
+          "vega_usd": -62763.04911199259
         }
       ],
-      "tail_gamma_concentration_usd": 147718.60651246525,
-      "tail_gamma_alert": false,
-      "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": 1739.5166436499178,
-        "gamma_decay_rate": 0.12,
-        "carry_theta_usd": -7563.115841956164
-      },
-      "risk_ok": false,
-      "blocked_reasons": [
-        "portfolio_delta_exceeded"
-      ],
-      "alerts": []
-    },
-    {
-      "cycle": 11,
-      "timestamp": "2026-11-02T13:34:34.740218Z",
-      "paper_only": true,
-      "regime": "calm",
-      "total_delta_usd": -125259.6506019408,
-      "total_gamma_usd": 73948.6286388181,
-      "total_vega_usd": -191941.90100215198,
-      "total_theta_usd": 46192.70729631797,
-      "net_delta_usd": -125259.6506019408,
-      "net_gamma_usd": 73948.6286388181,
-      "net_vega_usd": -191941.90100215198,
-      "net_theta_usd": 46192.70729631797,
-      "by_underlying": [
-        {
-          "underlying": "BTC",
-          "delta_usd": -142748.22306070122,
-          "gamma_usd": 31185.944322165782,
-          "vega_usd": 70308.18707858134,
-          "theta_usd": 38302.87352796268,
-          "lines": 9
-        },
-        {
-          "underlying": "ETH",
-          "delta_usd": -133867.89447519026,
-          "gamma_usd": -23108.324638723778,
-          "vega_usd": -72566.15162814704,
-          "theta_usd": 13467.298558148186,
-          "lines": 9
-        },
-        {
-          "underlying": "SOL",
-          "delta_usd": 108535.28195260518,
-          "gamma_usd": 45178.88721524284,
-          "vega_usd": -80000.51858333671,
-          "theta_usd": 2468.8012567978385,
-          "lines": 9
-        },
-        {
-          "underlying": "XRP",
-          "delta_usd": 42821.184981345505,
-          "gamma_usd": 20692.121740133254,
-          "vega_usd": -109683.41786924956,
-          "theta_usd": -8046.266046590731,
-          "lines": 9
-        }
-      ],
-      "by_tenor": [
-        {
-          "tenor_days": 7,
-          "gamma_usd": -29299.020710847453
-        },
-        {
-          "tenor_days": 30,
-          "gamma_usd": -719.3715979690486
-        },
-        {
-          "tenor_days": 90,
-          "gamma_usd": 103967.02094763458
-        }
-      ],
-      "by_iv_bucket": [
-        {
-          "iv_bucket": "high",
-          "vega_usd": -191941.901002152
-        }
-      ],
-      "tail_gamma_concentration_usd": 187901.93725736506,
+      "tail_gamma_concentration_usd": 230120.12547927687,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -10624.322678153132,
+        "gamma_burn_7d_est_usd": -23422.65759765842,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": 46192.70729631797
+        "carry_theta_usd": 101837.64172894965
       },
       "risk_ok": true,
       "blocked_reasons": [],
@@ -893,77 +896,77 @@
     },
     {
       "cycle": 12,
-      "timestamp": "2026-11-02T13:34:34.740593Z",
+      "timestamp": "2026-11-02T13:56:20.284906Z",
       "paper_only": true,
       "regime": "stressed",
-      "total_delta_usd": 681741.8768232376,
-      "total_gamma_usd": -6493.20427001712,
-      "total_vega_usd": 87396.15554146789,
-      "total_theta_usd": 73209.46202899417,
-      "net_delta_usd": 681741.8768232376,
-      "net_gamma_usd": -6493.20427001712,
-      "net_vega_usd": 87396.15554146789,
-      "net_theta_usd": 73209.46202899417,
+      "total_delta_usd": -647085.8452315165,
+      "total_gamma_usd": 27520.680605198322,
+      "total_vega_usd": -229977.84216590016,
+      "total_theta_usd": 106456.74581354682,
+      "net_delta_usd": -647085.8452315165,
+      "net_gamma_usd": 27520.680605198322,
+      "net_vega_usd": -229977.84216590016,
+      "net_theta_usd": 106456.74581354682,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": -243001.52456937302,
-          "gamma_usd": -21676.740703474134,
-          "vega_usd": -23328.0736912257,
-          "theta_usd": 82130.27161543927,
+          "delta_usd": 57602.61442603028,
+          "gamma_usd": -24020.51608433627,
+          "vega_usd": 94332.81924702346,
+          "theta_usd": 77585.27458559947,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": 171649.82625898087,
-          "gamma_usd": -3308.888981730821,
-          "vega_usd": -29773.778817680293,
-          "theta_usd": -42841.021342450484,
+          "delta_usd": -371593.312821694,
+          "gamma_usd": -9692.072329952423,
+          "vega_usd": -56221.08601341821,
+          "theta_usd": 29512.810006286047,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": 300236.2886176547,
-          "gamma_usd": 15238.6610573834,
-          "vega_usd": 89518.1573885748,
-          "theta_usd": 50043.83173525026,
+          "delta_usd": -122822.67609167498,
+          "gamma_usd": 8361.37163156231,
+          "vega_usd": -145502.1459144624,
+          "theta_usd": -22916.906602693383,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": 452857.28651597514,
-          "gamma_usd": 3253.7643578044344,
-          "vega_usd": 50979.8506617991,
-          "theta_usd": -16123.619979244879,
+          "delta_usd": -210272.47074417787,
+          "gamma_usd": 52871.897387924706,
+          "vega_usd": -122587.42948504306,
+          "theta_usd": 22275.56782435467,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": -44590.83075534469
+          "gamma_usd": 35945.372325299024
         },
         {
           "tenor_days": 30,
-          "gamma_usd": 56962.13824239432
+          "gamma_usd": -55948.685886459294
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -18864.511757066743
+          "gamma_usd": 47523.994166358585
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "low",
-          "vega_usd": 87396.15554146789
+          "iv_bucket": "high",
+          "vega_usd": -229977.84216590025
         }
       ],
-      "tail_gamma_concentration_usd": 245323.5453289461,
+      "tail_gamma_concentration_usd": 179671.04192022906,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -16838.17626666866,
+        "gamma_burn_7d_est_usd": -24485.05153711577,
         "gamma_decay_rate": 0.16999999999999998,
-        "carry_theta_usd": 73209.46202899417
+        "carry_theta_usd": 106456.74581354682
       },
       "risk_ok": false,
       "blocked_reasons": [
@@ -976,77 +979,77 @@
     },
     {
       "cycle": 13,
-      "timestamp": "2026-11-02T13:34:34.740988Z",
+      "timestamp": "2026-11-02T13:56:20.285326Z",
       "paper_only": true,
       "regime": "volup",
-      "total_delta_usd": 3508.4020437177605,
-      "total_gamma_usd": -77041.60537989004,
-      "total_vega_usd": 26764.577351331573,
-      "total_theta_usd": 18473.68937573817,
-      "net_delta_usd": 3508.4020437177605,
-      "net_gamma_usd": -77041.60537989004,
-      "net_vega_usd": 26764.577351331573,
-      "net_theta_usd": 18473.68937573817,
+      "total_delta_usd": 173436.50230335695,
+      "total_gamma_usd": 76974.56334858676,
+      "total_vega_usd": -184863.54505071024,
+      "total_theta_usd": -75292.35641354346,
+      "net_delta_usd": 173436.50230335695,
+      "net_gamma_usd": 76974.56334858676,
+      "net_vega_usd": -184863.54505071024,
+      "net_theta_usd": -75292.35641354346,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": 194193.99365775735,
-          "gamma_usd": -33895.97899549669,
-          "vega_usd": 47828.19715255062,
-          "theta_usd": -22557.852226958214,
+          "delta_usd": -65238.69068161209,
+          "gamma_usd": 42917.26667263962,
+          "vega_usd": 34622.28257181247,
+          "theta_usd": 1760.3084279676355,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -135632.51318245786,
-          "gamma_usd": 33685.921200379846,
-          "vega_usd": -5692.370618146806,
-          "theta_usd": 22221.60431977464,
+          "delta_usd": 150891.55435136327,
+          "gamma_usd": 33249.49000661724,
+          "vega_usd": -142781.6312331789,
+          "theta_usd": -5427.9431541822905,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": -272097.34717932594,
-          "gamma_usd": -64400.34146761644,
-          "vega_usd": 62857.09661609269,
-          "theta_usd": 27795.917237305144,
+          "delta_usd": 219782.65246429906,
+          "gamma_usd": -54066.520011507724,
+          "vega_usd": -60815.827799244624,
+          "theta_usd": -29365.03872412962,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": 217044.26874774418,
-          "gamma_usd": -12431.206117156747,
-          "vega_usd": -78228.34579916493,
-          "theta_usd": -8985.979954383398,
+          "delta_usd": -131999.0138306933,
+          "gamma_usd": 54874.32668083763,
+          "vega_usd": -15888.368590099199,
+          "theta_usd": -42259.68296319918,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": -42224.088475076045
+          "gamma_usd": 9791.729475356056
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -88994.88997932081
+          "gamma_usd": 13803.951642051003
         },
         {
           "tenor_days": 90,
-          "gamma_usd": 54177.37307450683
+          "gamma_usd": 53378.8822311797
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "mid",
-          "vega_usd": 26764.577351331565
+          "iv_bucket": "low",
+          "vega_usd": -184863.54505071027
         }
       ],
-      "tail_gamma_concentration_usd": 237583.43138991157,
+      "tail_gamma_concentration_usd": 166001.82423773062,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -4248.948556419779,
+        "gamma_burn_7d_est_usd": 17317.241975114997,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": 18473.68937573817
+        "carry_theta_usd": -75292.35641354346
       },
       "risk_ok": true,
       "blocked_reasons": [],
@@ -1056,77 +1059,77 @@
     },
     {
       "cycle": 14,
-      "timestamp": "2026-11-02T13:34:34.741366Z",
+      "timestamp": "2026-11-02T13:56:20.285737Z",
       "paper_only": true,
       "regime": "trend",
-      "total_delta_usd": 243047.59321251896,
-      "total_gamma_usd": -37948.76807630968,
-      "total_vega_usd": -58235.949948150446,
-      "total_theta_usd": 107606.00137726139,
-      "net_delta_usd": 243047.59321251896,
-      "net_gamma_usd": -37948.76807630968,
-      "net_vega_usd": -58235.949948150446,
-      "net_theta_usd": 107606.00137726139,
+      "total_delta_usd": -156578.2869919841,
+      "total_gamma_usd": 84729.98437514994,
+      "total_vega_usd": -104247.60283335304,
+      "total_theta_usd": 26981.680579989967,
+      "net_delta_usd": -156578.2869919841,
+      "net_gamma_usd": 84729.98437514994,
+      "net_vega_usd": -104247.60283335304,
+      "net_theta_usd": 26981.680579989967,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": 62937.77639099172,
-          "gamma_usd": -21947.681749153442,
-          "vega_usd": -58080.628747490606,
-          "theta_usd": 61717.50296823942,
+          "delta_usd": -359031.9488887182,
+          "gamma_usd": 843.0789655193587,
+          "vega_usd": -26115.020433834656,
+          "theta_usd": -3034.0441478177345,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": -53859.957636366606,
-          "gamma_usd": 14232.42954020636,
-          "vega_usd": -58151.46229808143,
-          "theta_usd": 73105.73714535419,
+          "delta_usd": 646054.1608912022,
+          "gamma_usd": 68122.52115272543,
+          "vega_usd": 16367.244615849964,
+          "theta_usd": 51405.18382469908,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": 289938.19335674477,
-          "gamma_usd": -19134.89719574113,
-          "vega_usd": 90608.12195281779,
-          "theta_usd": -75228.75277419137,
+          "delta_usd": -437260.3032674775,
+          "gamma_usd": 13063.164474323234,
+          "vega_usd": 84228.44464333667,
+          "theta_usd": -12300.506713376411,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -55968.41889885094,
-          "gamma_usd": -11098.618671621467,
-          "vega_usd": -32611.98085539621,
-          "theta_usd": 48011.51403785914,
+          "delta_usd": -6340.195726990569,
+          "gamma_usd": 2701.219782581934,
+          "vega_usd": -178728.27165870502,
+          "theta_usd": -9088.952383514967,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": 2370.689910227577
+          "gamma_usd": -8386.101691451971
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -16232.348244565896
+          "gamma_usd": 57733.02582924762
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -24087.109741971366
+          "gamma_usd": 35383.060237354315
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "high",
-          "vega_usd": -58235.94994815045
+          "iv_bucket": "mid",
+          "vega_usd": -104247.60283335303
         }
       ],
-      "tail_gamma_concentration_usd": 152320.8986518087,
+      "tail_gamma_concentration_usd": 310700.1834317811,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -24749.38031677012,
+        "gamma_burn_7d_est_usd": -6205.786533397692,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": 107606.00137726139
+        "carry_theta_usd": 26981.680579989967
       },
       "risk_ok": true,
       "blocked_reasons": [],
@@ -1136,77 +1139,77 @@
     },
     {
       "cycle": 15,
-      "timestamp": "2026-11-02T13:34:34.741740Z",
+      "timestamp": "2026-11-02T13:56:20.286129Z",
       "paper_only": true,
       "regime": "calm",
-      "total_delta_usd": -70547.72106894737,
-      "total_gamma_usd": -10739.470643342183,
-      "total_vega_usd": 29787.811199188647,
-      "total_theta_usd": 57007.31979275521,
-      "net_delta_usd": -70547.72106894737,
-      "net_gamma_usd": -10739.470643342183,
-      "net_vega_usd": 29787.811199188647,
-      "net_theta_usd": 57007.31979275521,
+      "total_delta_usd": -296438.1841531521,
+      "total_gamma_usd": -35378.70911104051,
+      "total_vega_usd": 51683.453934721176,
+      "total_theta_usd": 65960.19039983732,
+      "net_delta_usd": -296438.1841531521,
+      "net_gamma_usd": -35378.70911104051,
+      "net_vega_usd": 51683.453934721176,
+      "net_theta_usd": 65960.19039983732,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": 111700.21838086654,
-          "gamma_usd": -43883.00420101367,
-          "vega_usd": 19858.85827119573,
-          "theta_usd": 96439.2212671394,
+          "delta_usd": 114566.5074526703,
+          "gamma_usd": 18233.945881450127,
+          "vega_usd": 30396.41935087762,
+          "theta_usd": -12764.120204940142,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": 24473.698850886998,
-          "gamma_usd": 50145.862392170755,
-          "vega_usd": 70884.52302878158,
-          "theta_usd": -4904.709321147074,
+          "delta_usd": -227091.84144782284,
+          "gamma_usd": -66983.619968277,
+          "vega_usd": 9845.32491248399,
+          "theta_usd": -31990.89026328834,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": 117880.75879973419,
-          "gamma_usd": 16559.049484375082,
-          "vega_usd": -49779.480255887946,
-          "theta_usd": -4695.232720010265,
+          "delta_usd": 58321.512301079194,
+          "gamma_usd": -5926.970515367319,
+          "vega_usd": 2764.627400740558,
+          "theta_usd": 19147.348356627874,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": -324602.3971004351,
-          "gamma_usd": -33561.378318874355,
-          "vega_usd": -11176.089844900715,
-          "theta_usd": -29831.959433226843,
+          "delta_usd": -242234.36245907875,
+          "gamma_usd": 19297.935491153676,
+          "vega_usd": 8677.082270619012,
+          "theta_usd": 91567.85251143793,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": -13980.605370438167
+          "gamma_usd": -21436.287912335138
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -10642.608424078004
+          "gamma_usd": 15717.220698670524
         },
         {
           "tenor_days": 90,
-          "gamma_usd": 13883.743151173985
+          "gamma_usd": -29659.641897375892
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "low",
-          "vega_usd": 29787.81119918864
+          "iv_bucket": "high",
+          "vega_usd": 51683.453934721176
         }
       ],
-      "tail_gamma_concentration_usd": 207313.74991222064,
+      "tail_gamma_concentration_usd": 275420.41267764196,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -13111.6835523337,
+        "gamma_burn_7d_est_usd": -15170.843791962583,
         "gamma_decay_rate": 0.12,
-        "carry_theta_usd": 57007.31979275521
+        "carry_theta_usd": 65960.19039983732
       },
       "risk_ok": true,
       "blocked_reasons": [],
@@ -1216,82 +1219,81 @@
     },
     {
       "cycle": 16,
-      "timestamp": "2026-11-02T13:34:34.742133Z",
+      "timestamp": "2026-11-02T13:56:20.286510Z",
       "paper_only": true,
       "regime": "stressed",
-      "total_delta_usd": 936167.5205276599,
-      "total_gamma_usd": -55931.83537181965,
-      "total_vega_usd": 467798.41997991997,
-      "total_theta_usd": 70830.37455736457,
-      "net_delta_usd": 936167.5205276599,
-      "net_gamma_usd": -55931.83537181965,
-      "net_vega_usd": 467798.41997991997,
-      "net_theta_usd": 70830.37455736457,
+      "total_delta_usd": -722945.9741444445,
+      "total_gamma_usd": 12817.376391480842,
+      "total_vega_usd": -74406.91142057977,
+      "total_theta_usd": 64244.92265237333,
+      "net_delta_usd": -722945.9741444445,
+      "net_gamma_usd": 12817.376391480842,
+      "net_vega_usd": -74406.91142057977,
+      "net_theta_usd": 64244.92265237333,
       "by_underlying": [
         {
           "underlying": "BTC",
-          "delta_usd": -72185.15891511987,
-          "gamma_usd": -28364.46117894781,
-          "vega_usd": 99296.40231793637,
-          "theta_usd": 74538.98913121634,
+          "delta_usd": 104916.1494752321,
+          "gamma_usd": 47749.70161431335,
+          "vega_usd": -45813.08766017076,
+          "theta_usd": 23816.245996755733,
           "lines": 9
         },
         {
           "underlying": "ETH",
-          "delta_usd": 344190.9255883575,
-          "gamma_usd": -42067.53700371582,
-          "vega_usd": 151701.74110809073,
-          "theta_usd": 27407.681982628954,
+          "delta_usd": -121614.79007479022,
+          "gamma_usd": -61828.93472439842,
+          "vega_usd": -88889.09119364107,
+          "theta_usd": 15908.789364482938,
           "lines": 9
         },
         {
           "underlying": "SOL",
-          "delta_usd": 167337.8067813555,
-          "gamma_usd": 41964.79775310957,
-          "vega_usd": 140834.00575849114,
-          "theta_usd": -32901.95336690913,
+          "delta_usd": -416909.5218318803,
+          "gamma_usd": -17629.260918678723,
+          "vega_usd": 6059.415877328053,
+          "theta_usd": -3763.427649682751,
           "lines": 9
         },
         {
           "underlying": "XRP",
-          "delta_usd": 496823.9470730668,
-          "gamma_usd": -27464.634942265584,
-          "vega_usd": 75966.27079540175,
-          "theta_usd": 1785.6568104284208,
+          "delta_usd": -289337.811713006,
+          "gamma_usd": 44525.87042024464,
+          "vega_usd": 54235.851555904,
+          "theta_usd": 28283.314940817414,
           "lines": 9
         }
       ],
       "by_tenor": [
         {
           "tenor_days": 7,
-          "gamma_usd": 17262.615870083406
+          "gamma_usd": 22281.881830949507
         },
         {
           "tenor_days": 30,
-          "gamma_usd": -28567.91020220149
+          "gamma_usd": 32423.203231614956
         },
         {
           "tenor_days": 90,
-          "gamma_usd": -44626.541039701566
+          "gamma_usd": -41887.70867108362
         }
       ],
       "by_iv_bucket": [
         {
-          "iv_bucket": "mid",
-          "vega_usd": 467798.4199799199
+          "iv_bucket": "low",
+          "vega_usd": -74406.91142057971
         }
       ],
-      "tail_gamma_concentration_usd": 199818.06788458902,
+      "tail_gamma_concentration_usd": 211787.93937158998,
       "tail_gamma_alert": true,
       "gamma_decay_tracking": {
-        "gamma_burn_7d_est_usd": -16290.986148193851,
+        "gamma_burn_7d_est_usd": -14776.332210045866,
         "gamma_decay_rate": 0.16999999999999998,
-        "carry_theta_usd": 70830.37455736457
+        "carry_theta_usd": 64244.92265237333
       },
       "risk_ok": false,
       "blocked_reasons": [
-        "portfolio_delta_exceeded",
-        "portfolio_vega_exceeded"
+        "portfolio_delta_exceeded"
       ],
       "alerts": [
         "tail_gamma_concentration_high",
@@ -1301,8 +1303,8 @@
   ],
   "total_cycles": 16,
   "final_risk_ok": false,
-  "tail_gamma_alerts": 15,
-  "avg_total_delta_usd": -152680.0406628312,
-  "avg_total_gamma_usd": -44019.85178421411,
-  "avg_total_vega_usd": -4494.122735719184
+  "tail_gamma_alerts": 16,
+  "avg_total_delta_usd": -98794.60223520394,
+  "avg_total_gamma_usd": -1372.5204988742016,
+  "avg_total_vega_usd": -54306.42875205118
 }
