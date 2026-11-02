@@ -1,0 +1,360 @@
+{
+  "campaign_id": "test_mode_equal_weight",
+  "step": "options_hedging",
+  "status": "completed",
+  "transaction_cost_bps": 1.0,
+  "rebalance_every_step": true,
+  "symbols": {
+    "BTC": {
+      "total_pnl": -5218.980842082106,
+      "final_portfolio_value": 490.9869536824117,
+      "initial_option_premium": 5709.967795764518,
+      "initial_investment": 5709.967795764518,
+      "attribution": {
+        "delta_pnl": -767.6159808918867,
+        "gamma_pnl": 199.39648655305814,
+        "theta_pnl": -786.147646134217,
+        "vega_pnl": 0.0,
+        "residual": -3864.6137016090606,
+        "total_pnl": -5218.980842082106,
+        "sum_attribution": -5218.980842082106
+      },
+      "hedge_steps": 8,
+      "transaction_cost_bps": 1.0,
+      "rebalance_threshold": 0.05,
+      "rebalance_every_step": true,
+      "num_rebalances": 7,
+      "num_blocked": 0,
+      "num_holds": 1,
+      "risk_integrated": true,
+      "actions": [
+        {
+          "time": 0.019178082191780823,
+          "spot": 63050.0,
+          "action": "rebalance",
+          "target_delta": 0.7546135544798753,
+          "current_delta": 0.7546135544798753,
+          "hedge_trade": 0.7546135544798753,
+          "hedge_cost": 4.757838460995615,
+          "portfolio_value": -4.757838460995117,
+          "risk_approved": true
+        },
+        {
+          "time": 0.01678082191780822,
+          "spot": 64025.0,
+          "action": "rebalance",
+          "target_delta": 0.8069207088071928,
+          "current_delta": 0.8069207088071928,
+          "hedge_trade": 0.05230715432731747,
+          "hedge_cost": 0.3348965555806501,
+          "portfolio_value": 113.37877243558614,
+          "risk_approved": true
+        },
+        {
+          "time": 0.014383561643835616,
+          "spot": 65000.0,
+          "action": "rebalance",
+          "target_delta": 0.8586218414795126,
+          "current_delta": 0.8586218414795126,
+          "hedge_trade": 0.051701132672319794,
+          "hedge_cost": 0.3360573623700787,
+          "portfolio_value": 220.56848092084692,
+          "risk_approved": true
+        },
+        {
+          "time": 0.011986301369863015,
+          "spot": 65975.0,
+          "action": "rebalance",
+          "target_delta": 0.9075084755559569,
+          "current_delta": 0.9075084755559569,
+          "hedge_trade": 0.048886634076444335,
+          "hedge_cost": 0.32252956831934154,
+          "portfolio_value": 310.6913492718595,
+          "risk_approved": true
+        },
+        {
+          "time": 0.009589041095890411,
+          "spot": 66950.0,
+          "action": "rebalance",
+          "target_delta": 0.9501083249267136,
+          "current_delta": 0.9501083249267136,
+          "hedge_trade": 0.04259984937075667,
+          "hedge_cost": 0.28520599153721593,
+          "portfolio_value": 377.2282717766211,
+          "risk_approved": true
+        },
+        {
+          "time": 0.007191780821917808,
+          "spot": 66300.0,
+          "action": "rebalance",
+          "target_delta": 0.9603248118624692,
+          "current_delta": 0.9603248118624692,
+          "hedge_trade": 0.010216486935755609,
+          "hedge_cost": 0.06773530838405968,
+          "portfolio_value": 451.41164114672574,
+          "risk_approved": true
+        },
+        {
+          "time": 0.004794520547945207,
+          "spot": 63700.0,
+          "action": "rebalance",
+          "target_delta": 0.9280417274259486,
+          "current_delta": 0.9280417274259486,
+          "hedge_trade": -0.032283084436520615,
+          "hedge_cost": 0.2056432478606363,
+          "portfolio_value": 509.6114298985849,
+          "risk_approved": true
+        },
+        {
+          "time": 0.0023972602739726033,
+          "spot": 65650.0,
+          "action": "hold",
+          "target_delta": 0.9971322290629809,
+          "current_delta": 0.9280417274259486,
+          "hedge_trade": 0.0,
+          "hedge_cost": 0.0,
+          "portfolio_value": 490.9869536824117,
+          "risk_approved": true
+        }
+      ],
+      "underlying": "BTC",
+      "strike": 58500.0,
+      "expiry": "2026-11-07T12:00:00+00:00",
+      "time_to_expiry": 0.019178082191780823
+    },
+    "ETH": {
+      "total_pnl": -266.8726178788402,
+      "final_portfolio_value": 14.329591341366722,
+      "initial_option_premium": 281.2022092202069,
+      "initial_investment": 281.2022092202069,
+      "attribution": {
+        "delta_pnl": -43.25006311845378,
+        "gamma_pnl": 8.648645647436823,
+        "theta_pnl": -27.361011021172118,
+        "vega_pnl": 0.0,
+        "residual": -204.9101893866511,
+        "total_pnl": -266.8726178788402,
+        "sum_attribution": -266.8726178788402
+      },
+      "hedge_steps": 8,
+      "transaction_cost_bps": 1.0,
+      "rebalance_threshold": 0.05,
+      "rebalance_every_step": true,
+      "num_rebalances": 7,
+      "num_blocked": 0,
+      "num_holds": 1,
+      "risk_integrated": true,
+      "actions": [
+        {
+          "time": 0.019178082191780823,
+          "spot": 3298.0,
+          "action": "rebalance",
+          "target_delta": 0.7847471923005037,
+          "current_delta": 0.7847471923005037,
+          "hedge_trade": 0.7847471923005037,
+          "hedge_cost": 0.2588096240207061,
+          "portfolio_value": -0.25880962402061414,
+          "risk_approved": true
+        },
+        {
+          "time": 0.01678082191780822,
+          "spot": 3349.0,
+          "action": "rebalance",
+          "target_delta": 0.8407418818603171,
+          "current_delta": 0.8407418818603171,
+          "hedge_trade": 0.05599468955981335,
+          "hedge_cost": 0.018752621533581492,
+          "portfolio_value": 4.124713705762133,
+          "risk_approved": true
+        },
+        {
+          "time": 0.014383561643835616,
+          "spot": 3400.0,
+          "action": "rebalance",
+          "target_delta": 0.892873039511213,
+          "current_delta": 0.892873039511213,
+          "hedge_trade": 0.05213115765089593,
+          "hedge_cost": 0.017724593601304618,
+          "portfolio_value": 7.836018874626461,
+          "risk_approved": true
+        },
+        {
+          "time": 0.011986301369863015,
+          "spot": 3450.9999999999995,
+          "action": "rebalance",
+          "target_delta": 0.9379644588777128,
+          "current_delta": 0.9379644588777128,
+          "hedge_trade": 0.04509141936649985,
+          "hedge_cost": 0.015561048823379097,
+          "portfolio_value": 10.64717289170585,
+          "risk_approved": true
+        },
+        {
+          "time": 0.009589041095890411,
+          "spot": 3502.0,
+          "action": "rebalance",
+          "target_delta": 0.9722377965096494,
+          "current_delta": 0.9722377965096494,
+          "hedge_trade": 0.03427333763193652,
+          "hedge_cost": 0.012002522838704168,
+          "portfolio_value": 12.408502167800634,
+          "risk_approved": true
+        },
+        {
+          "time": 0.007191780821917808,
+          "spot": 3468.0,
+          "action": "rebalance",
+          "target_delta": 0.9795093202032921,
+          "current_delta": 0.9795093202032921,
+          "hedge_trade": 0.007271523693642701,
+          "hedge_cost": 0.002521764416955289,
+          "portfolio_value": 14.431243068590447,
+          "risk_approved": true
+        },
+        {
+          "time": 0.004794520547945207,
+          "spot": 3332.0,
+          "action": "rebalance",
+          "target_delta": 0.9556671282181124,
+          "current_delta": 0.9556671282181124,
+          "hedge_trade": -0.023842191985179673,
+          "hedge_cost": 0.007944218369461867,
+          "portfolio_value": 15.738231612232994,
+          "risk_approved": true
+        },
+        {
+          "time": 0.0023972602739726033,
+          "spot": 3434.0,
+          "action": "hold",
+          "target_delta": 0.9993800076422954,
+          "current_delta": 0.9556671282181124,
+          "hedge_trade": 0.0,
+          "hedge_cost": 0.0,
+          "portfolio_value": 14.329591341366722,
+          "risk_approved": true
+        }
+      ],
+      "underlying": "ETH",
+      "strike": 3060.0,
+      "expiry": "2026-11-07T12:00:00+00:00",
+      "time_to_expiry": 0.019178082191780823
+    },
+    "SOL": {
+      "total_pnl": -11.64478953318563,
+      "final_portfolio_value": 1.1010068835740157,
+      "initial_option_premium": 12.745796416759646,
+      "initial_investment": 12.745796416759646,
+      "attribution": {
+        "delta_pnl": -1.711111228254576,
+        "gamma_pnl": 0.4454477987476414,
+        "theta_pnl": -1.7602604763589471,
+        "vega_pnl": 0.0,
+        "residual": -8.61886562731975,
+        "total_pnl": -11.64478953318563,
+        "sum_attribution": -11.64478953318563
+      },
+      "hedge_steps": 8,
+      "transaction_cost_bps": 1.0,
+      "rebalance_threshold": 0.05,
+      "rebalance_every_step": true,
+      "num_rebalances": 7,
+      "num_blocked": 0,
+      "num_holds": 1,
+      "risk_integrated": true,
+      "actions": [
+        {
+          "time": 0.019178082191780823,
+          "spot": 140.65,
+          "action": "rebalance",
+          "target_delta": 0.7543354627748169,
+          "current_delta": 0.7543354627748169,
+          "hedge_trade": 0.7543354627748169,
+          "hedge_cost": 0.0106097282839278,
+          "portfolio_value": -0.010609728283924369,
+          "risk_approved": true
+        },
+        {
+          "time": 0.01678082191780822,
+          "spot": 142.825,
+          "action": "rebalance",
+          "target_delta": 0.806599714385261,
+          "current_delta": 0.806599714385261,
+          "hedge_trade": 0.052264251610444123,
+          "hedge_cost": 0.0007464641736261682,
+          "portfolio_value": 0.25373161442479386,
+          "risk_approved": true
+        },
+        {
+          "time": 0.014383561643835616,
+          "spot": 145.0,
+          "action": "rebalance",
+          "target_delta": 0.8582843068395081,
+          "current_delta": 0.8582843068395081,
+          "hedge_trade": 0.05168459245424706,
+          "hedge_cost": 0.0007494265905865824,
+          "portfolio_value": 0.4937141501360003,
+          "risk_approved": true
+        },
+        {
+          "time": 0.011986301369863015,
+          "spot": 147.17499999999998,
+          "action": "rebalance",
+          "target_delta": 0.9071917511946879,
+          "current_delta": 0.9071917511946879,
+          "hedge_trade": 0.0489074443551798,
+          "hedge_cost": 0.0007197953122973586,
+          "portfolio_value": 0.6956582777963121,
+          "risk_approved": true
+        },
+        {
+          "time": 0.009589041095890411,
+          "spot": 149.35,
+          "action": "rebalance",
+          "target_delta": 0.9498585846244555,
+          "current_delta": 0.9498585846244555,
+          "hedge_trade": 0.042666833429767625,
+          "hedge_cost": 0.0006372291572735795,
+          "portfolio_value": 0.8449503716595927,
+          "risk_approved": true
+        },
+        {
+          "time": 0.007191780821917808,
+          "spot": 147.9,
+          "action": "rebalance",
+          "target_delta": 0.9601011636830551,
+          "current_delta": 0.9601011636830551,
+          "hedge_trade": 0.010242579058599599,
+          "hedge_cost": 0.00015148774427668809,
+          "portfolio_value": 1.0113750320214479,
+          "risk_approved": true
+        },
+        {
+          "time": 0.004794520547945207,
+          "spot": 142.1,
+          "action": "rebalance",
+          "target_delta": 0.9277432410207984,
+          "current_delta": 0.9277432410207984,
+          "hedge_trade": -0.03235792266225668,
+          "hedge_cost": 0.00045980608103066736,
+          "portfolio_value": 1.1421341330056691,
+          "risk_approved": true
+        },
+        {
+          "time": 0.0023972602739726033,
+          "spot": 146.45,
+          "action": "hold",
+          "target_delta": 0.9970949668200206,
+          "current_delta": 0.9277432410207984,
+          "hedge_trade": 0.0,
+          "hedge_cost": 0.0,
+          "portfolio_value": 1.1010068835740157,
+          "risk_approved": true
+        }
+      ],
+      "underlying": "SOL",
+      "strike": 130.5,
+      "expiry": "2026-11-07T12:00:00+00:00",
+      "time_to_expiry": 0.019178082191780823
+    }
+  }
+}
