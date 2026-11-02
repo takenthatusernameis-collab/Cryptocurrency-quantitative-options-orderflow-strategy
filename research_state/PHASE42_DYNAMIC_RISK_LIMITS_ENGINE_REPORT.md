@@ -1,8 +1,8 @@
 # Phase 42 Dynamic Risk Limits Engine Report
 
-Seed: 48137
+Seed: 49149
 Paper-only: true
 Cycles: 16
 All OK: False
-Breach cycles: 16
-Escalation cycles: 16
+Breach cycles: 12
+Escalation cycles: 12
