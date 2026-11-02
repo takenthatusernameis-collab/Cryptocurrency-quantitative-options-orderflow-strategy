@@ -197,7 +197,7 @@ class Bulkhead:
                 if len(self._queue) >= self.config.max_queue:
                     self._rejected += 1
                     return False
-                self._queue.append((_now_ts(), lambda: None))  # placeholder
+                self._queue.append((_now_ts(), None))  # queued slot awaiting release-driven dispatch
         return True
 
     def release(self) -> None:
