@@ -17,6 +17,7 @@ def test_p51_alpha_fusion_paper_only_and_gates():
 def test_p51_alpha_fusion_deterministic():
     def strip(rep):
         rep = dict(rep)
+        rep.pop("timestamp", None)
         for al in rep.get("alphas", []):
             al.pop("ts", None)
         return rep

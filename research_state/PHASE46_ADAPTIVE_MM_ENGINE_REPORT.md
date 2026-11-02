@@ -1,11 +1,11 @@
 # PHASE46 ADAPTIVE MM ENGINE REPORT
 
-Timestamp: 2026-11-02T10:37:39.910696Z
+Timestamp: 2026-11-02T11:54:27.244086Z
 
-Paper-only: true | Seed: 50096 | Cycles: 40/40
+Paper-only: true | Seed: 50 | Cycles: 25/25
 Symbols: BTC-PERP, ETH-PERP, SOL-PERP | Venues: deribit, okx, bybit, binance
-Quotes: 960 | Dislocations: 1028
-Exploitable dislocations: 1016
-Avg spread bps: 10.71
-Halted: False | Gates OK: False
+Quotes: 1200 | Dislocations: 1272
+Exploitable dislocations: 1252
+Avg spread bps: 10.61
+Halted: False | Gates OK: True
 Crypto options + orderflow | Integrated with Phases 28/32/39 + monitoring SLO

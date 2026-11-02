@@ -1,10 +1,10 @@
 # PHASE45 RESILIENCE VALIDATION LOOP REPORT
 
-Timestamp: 2026-11-02T10:37:41Z
+Timestamp: 2026-11-02T11:54:28Z
 
-Paper-only: true | Seed: 50095 | Cycles: 40
-Chaos gates_ok: True | Failovers: 39
+Paper-only: true | Seed: 49 | Cycles: 25
+Chaos gates_ok: True | Failovers: 73
 Critical chaos faults: 0 | Rollback executed: False
-SLO burn alerts: 84 | Fired: 160
+SLO burn alerts: 224 | Fired: 200
 Deployment gates_ok: True | PnL gates_ok: True
-Integrated with Phases 39-44 + Phase 45 chaos | Gates OK: True
+Integrated with Phases 39-44 + Phase 45 chaos | Gates OK: False

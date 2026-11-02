@@ -135,7 +135,7 @@ class Phase51ExecutionAlphaFusionLoop:
         )
         self.ks = Phase39KillSwitchesCircuitBreakers(KillSwitchConfig39(seed=self.seed + 39, paper_only=True))
         self.of = OrderflowAlphaIntegrator(OrderflowAlphaIntegrationConfig32(seed=self.seed + 32, paper_only=True, cycles=self.cycles))
-        self.recon = Phase40PositionMarginAudit(Phase40AuditConfig(seed=self.seed + 40, paper_only=True, outdir=outdir))
+        self.recon = Phase40PositionMarginAudit(Phase40AuditConfig(seed=self.seed + 40, paper_only=True))
         self.settlement = Phase41CrossVenueSettlement(Phase41SettlementConfig(seed=self.seed + 41, paper_only=True))
         self.slo = SLOMonitor()
         register_default_slos(self.slo)

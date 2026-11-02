@@ -16,6 +16,7 @@ def test_p51_sor_paper_only_and_gates():
 def test_p51_sor_deterministic():
     def strip(rep):
         rep = dict(rep)
+        rep.pop("timestamp", None)
         for d in rep.get("routes", []):
             d.pop("timestamp", None)
         for t in rep.get("tcas", []):
