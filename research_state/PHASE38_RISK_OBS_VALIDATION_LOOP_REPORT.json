@@ -1,0 +1,149 @@
+{
+  "phase": "PHASE38_RISK_OBS_VALIDATION_LOOP",
+  "timestamp_utc": "2026-11-02T01:10:44Z",
+  "paper_only": true,
+  "modes": "paper",
+  "cfg": {
+    "seed": 38038,
+    "cycles": 12,
+    "paper_only": true,
+    "modes": "paper",
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "expiries": [
+      "2026-12-26"
+    ],
+    "outdir": "research_state"
+  },
+  "n_cycles": 12,
+  "risk_ok_cycles": 12,
+  "parity_ok_cycles": 10,
+  "slippage_ok_cycles": 12,
+  "gates_ok": true,
+  "n_alerts": 0,
+  "n_traces": 2,
+  "results": [
+    {
+      "cycle": 0,
+      "regime": "normal",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 1,
+      "regime": "stressed",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 2,
+      "regime": "volatile",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": false,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 3,
+      "regime": "crisis",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 4,
+      "regime": "normal",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 5,
+      "regime": "stressed",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 6,
+      "regime": "volatile",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 7,
+      "regime": "crisis",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 8,
+      "regime": "normal",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 9,
+      "regime": "stressed",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 10,
+      "regime": "volatile",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": true,
+      "slippage_ok": true,
+      "drifted": false
+    },
+    {
+      "cycle": 11,
+      "regime": "crisis",
+      "risk_ok": true,
+      "action_taken": "none",
+      "parity_ok": false,
+      "slippage_ok": true,
+      "drifted": false
+    }
+  ],
+  "integrated_with": [
+    "PHASE37_ORDERFLOW_ROUTING_LOOP"
+  ]
+}
