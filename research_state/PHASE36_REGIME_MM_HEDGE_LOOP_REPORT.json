@@ -1,0 +1,101 @@
+{
+  "phase": "PHASE36",
+  "timestamp_utc": "2026-11-02T00:04:45Z",
+  "cfg": {
+    "symbols": [
+      "ETH-USD"
+    ],
+    "venues": [
+      "okx"
+    ],
+    "underlyings": [
+      "ETH"
+    ],
+    "expiries": [
+      "20261114"
+    ],
+    "modes": "paper",
+    "cycles": 3,
+    "seed": 8,
+    "enforce_gates": true,
+    "outdir": "research_state",
+    "paper_only": true
+  },
+  "cycles": [
+    {
+      "cycle": 0,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.4611400462415538,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": -20.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 3327.041427146435,
+        "urgency": 1.0901380904881164,
+        "warnings": []
+      },
+      "orderflow_stress": 0.0
+    },
+    {
+      "cycle": 1,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.46984004624155384,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.176883779123946,
+        "inventory": -10.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 2234.027618097623,
+        "urgency": 1.1701380904881165,
+        "warnings": []
+      },
+      "orderflow_stress": 0.1
+    },
+    {
+      "cycle": 2,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.47854004624155383,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": 0.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 1125.0138090488115,
+        "urgency": 1.2501380904881163,
+        "warnings": []
+      },
+      "orderflow_stress": 0.2
+    }
+  ],
+  "aggregate": {
+    "n_cycles": 3,
+    "stress_detected_cycles": 0,
+    "total_hedge_notional": 6686.082854292869,
+    "avg_spread_bps": 10.583959130288903
+  }
+}
