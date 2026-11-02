@@ -1,7 +1,7 @@
 # PHASE37 ORDERFLOW ROUTING LOOP REPORT
 
-Timestamp: 2026-11-02T00:14:24Z
+Timestamp: 2026-11-02T00:16:31Z
 
-Cycles: 20
-Delta neutral OK: 20
-Total routed notional: 50000.00
+Cycles: 5
+Delta neutral OK: 5
+Total routed notional: 13750.00

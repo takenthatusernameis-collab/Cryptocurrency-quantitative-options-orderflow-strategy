@@ -1,14 +1,12 @@
 {
   "phase": "PHASE37",
-  "timestamp_utc": "2026-11-02T00:14:24Z",
+  "timestamp_utc": "2026-11-02T00:16:31Z",
   "cfg": {
     "symbols": [
       "BTC-USD"
     ],
     "venues": [
-      "deribit",
-      "okx",
-      "bybit"
+      "deribit"
     ],
     "underlyings": [
       "BTC"
@@ -17,8 +15,8 @@
       "20261107"
     ],
     "modes": "paper",
-    "cycles": 20,
-    "seed": 737373,
+    "cycles": 5,
+    "seed": 777,
     "paper_only": true,
     "outdir": "research_state"
   },
@@ -26,16 +24,14 @@
     {
       "cycle": 0,
       "sourcing": {
-        "n_sources": 3,
+        "n_sources": 1,
         "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
+          "deribit"
         ],
-        "avg_score": 0.8133333333333334
+        "avg_score": 0.72
       },
       "routing": {
-        "n_orders": 3,
+        "n_orders": 1,
         "total_notional": 3750.0000000000005,
         "delta_neutral_ok": true,
         "net_delta_est": -0.0007500000000000001
@@ -45,17 +41,15 @@
     {
       "cycle": 1,
       "sourcing": {
-        "n_sources": 3,
+        "n_sources": 1,
         "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
+          "deribit"
         ],
-        "avg_score": 0.8946666666666667
+        "avg_score": 0.792
       },
       "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
+        "n_orders": 1,
+        "total_notional": 1250.0,
         "delta_neutral_ok": true,
         "net_delta_est": -0.00025
       },
@@ -64,17 +58,15 @@
     {
       "cycle": 2,
       "sourcing": {
-        "n_sources": 3,
+        "n_sources": 1,
         "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
+          "deribit"
         ],
-        "avg_score": 0.976
+        "avg_score": 0.864
       },
       "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
+        "n_orders": 1,
+        "total_notional": 1250.0,
         "delta_neutral_ok": true,
         "net_delta_est": 0.00025
       },
@@ -83,16 +75,14 @@
     {
       "cycle": 3,
       "sourcing": {
-        "n_sources": 3,
+        "n_sources": 1,
         "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
+          "deribit"
         ],
-        "avg_score": 0.8133333333333334
+        "avg_score": 0.72
       },
       "routing": {
-        "n_orders": 3,
+        "n_orders": 1,
         "total_notional": 3750.0000000000005,
         "delta_neutral_ok": true,
         "net_delta_est": 0.0007500000000000001
@@ -102,312 +92,25 @@
     {
       "cycle": 4,
       "sourcing": {
-        "n_sources": 3,
+        "n_sources": 1,
         "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
+          "deribit"
         ],
-        "avg_score": 0.8946666666666667
+        "avg_score": 0.792
       },
       "routing": {
-        "n_orders": 3,
+        "n_orders": 1,
         "total_notional": 3750.0000000000005,
         "delta_neutral_ok": true,
         "net_delta_est": -0.0007500000000000001
-      },
-      "orderflow_imbalance": 0.2
-    },
-    {
-      "cycle": 5,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.976
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
-        "delta_neutral_ok": true,
-        "net_delta_est": -0.00025
-      },
-      "orderflow_imbalance": -0.2
-    },
-    {
-      "cycle": 6,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8133333333333334
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
-        "delta_neutral_ok": true,
-        "net_delta_est": 0.00025
-      },
-      "orderflow_imbalance": -0.1
-    },
-    {
-      "cycle": 7,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8946666666666667
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 3750.0000000000005,
-        "delta_neutral_ok": true,
-        "net_delta_est": 0.0007500000000000001
-      },
-      "orderflow_imbalance": 0.0
-    },
-    {
-      "cycle": 8,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.976
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 3750.0000000000005,
-        "delta_neutral_ok": true,
-        "net_delta_est": -0.0007500000000000001
-      },
-      "orderflow_imbalance": 0.1
-    },
-    {
-      "cycle": 9,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8133333333333334
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
-        "delta_neutral_ok": true,
-        "net_delta_est": -0.00025
-      },
-      "orderflow_imbalance": 0.2
-    },
-    {
-      "cycle": 10,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8946666666666667
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
-        "delta_neutral_ok": true,
-        "net_delta_est": 0.00025
-      },
-      "orderflow_imbalance": -0.2
-    },
-    {
-      "cycle": 11,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.976
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 3750.0000000000005,
-        "delta_neutral_ok": true,
-        "net_delta_est": 0.0007500000000000001
-      },
-      "orderflow_imbalance": -0.1
-    },
-    {
-      "cycle": 12,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8133333333333334
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 3750.0000000000005,
-        "delta_neutral_ok": true,
-        "net_delta_est": -0.0007500000000000001
-      },
-      "orderflow_imbalance": 0.0
-    },
-    {
-      "cycle": 13,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8946666666666667
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
-        "delta_neutral_ok": true,
-        "net_delta_est": -0.00025
-      },
-      "orderflow_imbalance": 0.1
-    },
-    {
-      "cycle": 14,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.976
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
-        "delta_neutral_ok": true,
-        "net_delta_est": 0.00025
-      },
-      "orderflow_imbalance": 0.2
-    },
-    {
-      "cycle": 15,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8133333333333334
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 3750.0000000000005,
-        "delta_neutral_ok": true,
-        "net_delta_est": 0.0007500000000000001
-      },
-      "orderflow_imbalance": -0.2
-    },
-    {
-      "cycle": 16,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8946666666666667
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 3750.0000000000005,
-        "delta_neutral_ok": true,
-        "net_delta_est": -0.0007500000000000001
-      },
-      "orderflow_imbalance": -0.1
-    },
-    {
-      "cycle": 17,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.976
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
-        "delta_neutral_ok": true,
-        "net_delta_est": -0.00025
-      },
-      "orderflow_imbalance": 0.0
-    },
-    {
-      "cycle": 18,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8133333333333334
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 1250.0000000000002,
-        "delta_neutral_ok": true,
-        "net_delta_est": 0.00025
-      },
-      "orderflow_imbalance": 0.1
-    },
-    {
-      "cycle": 19,
-      "sourcing": {
-        "n_sources": 3,
-        "top_venues": [
-          "deribit",
-          "bybit",
-          "okx"
-        ],
-        "avg_score": 0.8946666666666667
-      },
-      "routing": {
-        "n_orders": 3,
-        "total_notional": 3750.0000000000005,
-        "delta_neutral_ok": true,
-        "net_delta_est": 0.0007500000000000001
       },
       "orderflow_imbalance": 0.2
     }
   ],
   "aggregate": {
-    "n_cycles": 20,
-    "delta_neutral_ok_cycles": 20,
-    "total_routed_notional": 50000.00000000001,
-    "avg_orders_per_cycle": 3.0
+    "n_cycles": 5,
+    "delta_neutral_ok_cycles": 5,
+    "total_routed_notional": 13750.000000000002,
+    "avg_orders_per_cycle": 1.0
   }
 }
