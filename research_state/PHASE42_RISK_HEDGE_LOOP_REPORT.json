@@ -1,11 +1,11 @@
 {
   "phase": "PHASE42_RISK_HEDGE_LOOP",
-  "timestamp_utc": "2026-11-02T21:50:09Z",
+  "timestamp_utc": "2026-11-02T22:02:16Z",
   "paper_only": true,
   "modes": "paper",
   "cfg": {
-    "seed": 52139,
-    "cycles": 12,
+    "seed": 49136,
+    "cycles": 5,
     "paper_only": true,
     "modes": "paper",
     "symbols": [
@@ -35,120 +35,39 @@
   "cycles": [
     {
       "cycle": 1,
-      "regime": "volup",
+      "regime": "stressed",
       "greeks": {
-        "total_delta_usd": 1004422.3706542882,
-        "total_gamma_usd": -51087.25691973064,
-        "total_vega_usd": 42581.01914332117,
-        "total_theta_usd": 15507.022903720024,
+        "total_delta_usd": 455331.56961256673,
+        "total_gamma_usd": 38184.49995466129,
+        "total_vega_usd": 186785.1848255736,
+        "total_theta_usd": 64368.55580561877,
         "tail_gamma_alert": true,
-        "risk_ok": false
+        "risk_ok": true
       },
       "hedge": {
         "n_orders": 8,
         "total_hedge_notional_usd": 250000.0,
         "execution_ok": true,
         "within_budget": true,
-        "avg_slippage_est_bps": 10.887915513425948
+        "avg_slippage_est_bps": 7.229771359849567
       },
       "limits": {
         "breach_count": 3,
         "max_severity": "high",
         "trading_enabled": false,
-        "kill_switch_triggered": false,
+        "kill_switch_triggered": true,
         "escalation_required": true,
         "ok": false
       }
     },
     {
       "cycle": 2,
-      "regime": "trend",
-      "greeks": {
-        "total_delta_usd": -65628.24238162758,
-        "total_gamma_usd": -60871.1563231802,
-        "total_vega_usd": 204797.88758780083,
-        "total_theta_usd": -20662.68561985332,
-        "tail_gamma_alert": true,
-        "risk_ok": true
-      },
-      "hedge": {
-        "n_orders": 8,
-        "total_hedge_notional_usd": 164221.1078177358,
-        "execution_ok": true,
-        "within_budget": true,
-        "avg_slippage_est_bps": 6.445721737033814
-      },
-      "limits": {
-        "breach_count": 6,
-        "max_severity": "high",
-        "trading_enabled": false,
-        "kill_switch_triggered": true,
-        "escalation_required": true,
-        "ok": false
-      }
-    },
-    {
-      "cycle": 3,
-      "regime": "calm",
-      "greeks": {
-        "total_delta_usd": 406628.5702679513,
-        "total_gamma_usd": -23736.927700234,
-        "total_vega_usd": -25328.317605335073,
-        "total_theta_usd": 29737.98839594742,
-        "tail_gamma_alert": true,
-        "risk_ok": true
-      },
-      "hedge": {
-        "n_orders": 8,
-        "total_hedge_notional_usd": 250000.0,
-        "execution_ok": true,
-        "within_budget": true,
-        "avg_slippage_est_bps": 6.560806728111337
-      },
-      "limits": {
-        "breach_count": 2,
-        "max_severity": "medium",
-        "trading_enabled": false,
-        "kill_switch_triggered": false,
-        "escalation_required": true,
-        "ok": false
-      }
-    },
-    {
-      "cycle": 4,
-      "regime": "stressed",
-      "greeks": {
-        "total_delta_usd": -897132.5964054746,
-        "total_gamma_usd": -90088.3574240212,
-        "total_vega_usd": -225919.26214758292,
-        "total_theta_usd": 96487.91075477826,
-        "tail_gamma_alert": true,
-        "risk_ok": false
-      },
-      "hedge": {
-        "n_orders": 8,
-        "total_hedge_notional_usd": 250000.0,
-        "execution_ok": true,
-        "within_budget": true,
-        "avg_slippage_est_bps": 6.532494529658066
-      },
-      "limits": {
-        "breach_count": 1,
-        "max_severity": "medium",
-        "trading_enabled": false,
-        "kill_switch_triggered": false,
-        "escalation_required": true,
-        "ok": false
-      }
-    },
-    {
-      "cycle": 5,
       "regime": "volup",
       "greeks": {
-        "total_delta_usd": 217261.59131866158,
-        "total_gamma_usd": 128463.81482400569,
-        "total_vega_usd": 68782.40404731022,
-        "total_theta_usd": -18407.145228697776,
+        "total_delta_usd": -366243.3074061432,
+        "total_gamma_usd": -187518.55773541628,
+        "total_vega_usd": -137604.42652594933,
+        "total_theta_usd": 180193.38398100456,
         "tail_gamma_alert": true,
         "risk_ok": true
       },
@@ -157,61 +76,7 @@
         "total_hedge_notional_usd": 250000.0,
         "execution_ok": true,
         "within_budget": true,
-        "avg_slippage_est_bps": 10.76884628449147
-      },
-      "limits": {
-        "breach_count": 5,
-        "max_severity": "high",
-        "trading_enabled": false,
-        "kill_switch_triggered": false,
-        "escalation_required": true,
-        "ok": false
-      }
-    },
-    {
-      "cycle": 6,
-      "regime": "trend",
-      "greeks": {
-        "total_delta_usd": -125989.17342231984,
-        "total_gamma_usd": -62459.47714472726,
-        "total_vega_usd": -186372.04927024822,
-        "total_theta_usd": 97925.4605232293,
-        "tail_gamma_alert": true,
-        "risk_ok": true
-      },
-      "hedge": {
-        "n_orders": 8,
-        "total_hedge_notional_usd": 248552.7614472077,
-        "execution_ok": true,
-        "within_budget": true,
-        "avg_slippage_est_bps": 6.837779145046884
-      },
-      "limits": {
-        "breach_count": 2,
-        "max_severity": "high",
-        "trading_enabled": false,
-        "kill_switch_triggered": true,
-        "escalation_required": true,
-        "ok": false
-      }
-    },
-    {
-      "cycle": 7,
-      "regime": "calm",
-      "greeks": {
-        "total_delta_usd": -265175.5937647519,
-        "total_gamma_usd": -5584.464471189508,
-        "total_vega_usd": -52005.350827464434,
-        "total_theta_usd": -63981.413906481255,
-        "tail_gamma_alert": true,
-        "risk_ok": true
-      },
-      "hedge": {
-        "n_orders": 8,
-        "total_hedge_notional_usd": 250000.0,
-        "execution_ok": true,
-        "within_budget": true,
-        "avg_slippage_est_bps": 6.57758332545547
+        "avg_slippage_est_bps": 10.587577758432046
       },
       "limits": {
         "breach_count": 0,
@@ -223,25 +88,25 @@
       }
     },
     {
-      "cycle": 8,
-      "regime": "stressed",
+      "cycle": 3,
+      "regime": "trend",
       "greeks": {
-        "total_delta_usd": -807916.4844913376,
-        "total_gamma_usd": 25781.186148430712,
-        "total_vega_usd": -90565.93338857227,
-        "total_theta_usd": 43008.97433984545,
+        "total_delta_usd": -165649.98060916353,
+        "total_gamma_usd": 56515.88301595351,
+        "total_vega_usd": 105564.0576744035,
+        "total_theta_usd": -95469.10941028304,
         "tail_gamma_alert": true,
-        "risk_ok": false
+        "risk_ok": true
       },
       "hedge": {
         "n_orders": 8,
-        "total_hedge_notional_usd": 250000.0,
+        "total_hedge_notional_usd": 246627.4234127206,
         "execution_ok": true,
         "within_budget": true,
-        "avg_slippage_est_bps": 6.312953517842768
+        "avg_slippage_est_bps": 6.60648865696419
       },
       "limits": {
-        "breach_count": 2,
+        "breach_count": 3,
         "max_severity": "medium",
         "trading_enabled": false,
         "kill_switch_triggered": false,
@@ -250,25 +115,25 @@
       }
     },
     {
-      "cycle": 9,
-      "regime": "volup",
+      "cycle": 4,
+      "regime": "calm",
       "greeks": {
-        "total_delta_usd": 604209.3174527392,
-        "total_gamma_usd": -61501.44841847546,
-        "total_vega_usd": 178928.21419825245,
-        "total_theta_usd": 11588.928981788991,
+        "total_delta_usd": -202042.58370293136,
+        "total_gamma_usd": 68983.92478773496,
+        "total_vega_usd": -323538.62908125826,
+        "total_theta_usd": 96664.22248896128,
         "tail_gamma_alert": true,
-        "risk_ok": false
+        "risk_ok": true
       },
       "hedge": {
         "n_orders": 8,
-        "total_hedge_notional_usd": 250000.0,
+        "total_hedge_notional_usd": 248065.12956475175,
         "execution_ok": true,
         "within_budget": true,
-        "avg_slippage_est_bps": 10.925192113520971
+        "avg_slippage_est_bps": 6.469092389358246
       },
       "limits": {
-        "breach_count": 9,
+        "breach_count": 3,
         "max_severity": "high",
         "trading_enabled": false,
         "kill_switch_triggered": false,
@@ -277,22 +142,22 @@
       }
     },
     {
-      "cycle": 10,
-      "regime": "trend",
+      "cycle": 5,
+      "regime": "stressed",
       "greeks": {
-        "total_delta_usd": 92474.7993093634,
-        "total_gamma_usd": -56283.55447752533,
-        "total_vega_usd": -179225.97512248598,
-        "total_theta_usd": 52923.329056078204,
+        "total_delta_usd": -314156.4247636817,
+        "total_gamma_usd": 37305.910768391645,
+        "total_vega_usd": -88122.87086343675,
+        "total_theta_usd": -24618.830086895385,
         "tail_gamma_alert": true,
         "risk_ok": true
       },
       "hedge": {
         "n_orders": 8,
-        "total_hedge_notional_usd": 196693.88167665474,
+        "total_hedge_notional_usd": 250000.0,
         "execution_ok": true,
         "within_budget": true,
-        "avg_slippage_est_bps": 6.675574492749645
+        "avg_slippage_est_bps": 7.581692451287345
       },
       "limits": {
         "breach_count": 3,
@@ -302,67 +167,13 @@
         "escalation_required": true,
         "ok": false
       }
-    },
-    {
-      "cycle": 11,
-      "regime": "calm",
-      "greeks": {
-        "total_delta_usd": -94256.40608301508,
-        "total_gamma_usd": 68743.41831528461,
-        "total_vega_usd": -62763.04911199259,
-        "total_theta_usd": 101837.64172894965,
-        "tail_gamma_alert": true,
-        "risk_ok": true
-      },
-      "hedge": {
-        "n_orders": 8,
-        "total_hedge_notional_usd": 205219.31890274712,
-        "execution_ok": true,
-        "within_budget": true,
-        "avg_slippage_est_bps": 7.1113696801829125
-      },
-      "limits": {
-        "breach_count": 5,
-        "max_severity": "medium",
-        "trading_enabled": false,
-        "kill_switch_triggered": false,
-        "escalation_required": true,
-        "ok": false
-      }
-    },
-    {
-      "cycle": 12,
-      "regime": "stressed",
-      "greeks": {
-        "total_delta_usd": -647085.8452315165,
-        "total_gamma_usd": 27520.680605198322,
-        "total_vega_usd": -229977.84216590016,
-        "total_theta_usd": 106456.74581354682,
-        "tail_gamma_alert": true,
-        "risk_ok": false
-      },
-      "hedge": {
-        "n_orders": 8,
-        "total_hedge_notional_usd": 250000.0,
-        "execution_ok": true,
-        "within_budget": true,
-        "avg_slippage_est_bps": 5.603564688344566
-      },
-      "limits": {
-        "breach_count": 3,
-        "max_severity": "medium",
-        "trading_enabled": false,
-        "kill_switch_triggered": false,
-        "escalation_required": true,
-        "ok": false
-      }
     }
   ],
-  "n_cycles": 12,
-  "greeks_final_risk_ok": false,
+  "n_cycles": 5,
+  "greeks_final_risk_ok": true,
   "hedge_execution_ok_all": true,
   "limits_all_ok": false,
-  "limits_breach_cycles": 11,
+  "limits_breach_cycles": 4,
   "integrated_with": [
     "PHASE17-38",
     "PHASE39_KILL_SWITCHES",
@@ -370,6 +181,6 @@
     "PHASE41_SETTLEMENT"
   ],
   "phase39_global_halts": 0,
-  "phase40_reconciled_all": 8,
-  "gates_ok": false
+  "phase40_reconciled_all": 4,
+  "gates_ok": true
 }
