@@ -1,7 +1,7 @@
 # PREPOST_TRADE_RISK_REPORT
 
-- Timestamp: 2026-11-02T16:14:31.191120Z
+- Timestamp: 2026-11-02T16:29:00.824932Z
 - Seed: 42
-- Git SHA: 3e70eb9e6cbd045dd89daf7b9fb45fcfcb373912
+- Git SHA: e3e7dac84e09a52ac9d194f0b4a336a07571ba39
 - Symbols: ['BTC', 'ETH']
 - Paper Only: True
