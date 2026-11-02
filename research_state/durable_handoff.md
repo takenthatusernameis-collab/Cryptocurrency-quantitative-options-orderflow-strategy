@@ -61,3 +61,11 @@ Acceptance: gate GREEN, no placeholders/TODOs/FIXMEs/HACKs/XXX, deterministic fi
 - NEVER stop at scaffolding. Implement, test, artifactize, integrate.
 
 **ACTION NOW:** Prioritize crypto options + orderflow. Ship Phase 36 end-to-end. Remove any bottlenecks. Keep gate GREEN. Auto-advance to Phase 37 on acceptance.
+
+---
+# UPDATE (UTC): 2026-11-02T00:06:18Z
+# Session: Phase 36 completed + Phase 37 executed (auto-enforced)
+- Phase 36: all deliverables present (4 src + script + tests >=40, 8 artifacts). Gate GREEN at completion; expanded tests to 40 passed. Fixed MM bid/ask ordering for finite valid quotes.
+- Phase 37: shipped all deliverables (src/orderflow/phase37_venue_liquidity_sourcing.py, src/routing/phase37_cross_venue_delta_neutral_router.py, src/integration/phase37_orderflow_routing_loop.py, scripts/run_phase37_orderflow_routing_campaign.py, tests/test_phase37_orderflow_routing.py >=40, 8 artifacts under research_state/). All tests passing, no placeholders/TODOs/FIXMEs/HACKs/XXX. Paper-only default with hard-gated live paths. Deterministic finite numerics.
+- Gate: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` -> 2357 passed, 2 skipped, 0 failed.
+- Files changed: src/mm/phase36_regime_aware_options_mm.py (bid/ask ordering), src/orderflow/phase37_*, src/routing/phase37_*, src/integration/phase37_*, scripts/run_phase37_*, tests/test_phase36_* (expanded), tests/test_phase37_*. All existing tests remain passing. No scaffolding. Ready for next session to continue from Phase 37/advance to Phase 38 per auto-enforced campaign.

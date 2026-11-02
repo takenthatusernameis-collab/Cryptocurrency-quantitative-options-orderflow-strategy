@@ -90,9 +90,17 @@ class RegimeAwareOptionsMM:
             bid_sz = 0.1
         if ask_sz <= 0:
             ask_sz = 0.1
+        bid_px = spot * math.exp(-0.5 * bid_iv * bid_iv * t)
+        ask_px = spot * math.exp(-0.5 * ask_iv * ask_iv * t)
+        if not (bid_px < ask_px):
+            # enforce ordering
+            mid_px = spot * math.exp(-0.5 * mid_iv * mid_iv * t)
+            adj = max(1e-10, spread_bps * 1e-4 * spot * 0.01)
+            bid_px = mid_px - adj
+            ask_px = mid_px + adj
         quotes = [
-            Quote(side="bid", px=spot * math.exp(-0.5 * bid_iv * bid_iv * t), sz=bid_sz, iv_quote=bid_iv),
-            Quote(side="ask", px=spot * math.exp(-0.5 * ask_iv * ask_iv * t), sz=ask_sz, iv_quote=ask_iv),
+            Quote(side="bid", px=bid_px, sz=bid_sz, iv_quote=bid_iv),
+            Quote(side="ask", px=ask_px, sz=ask_sz, iv_quote=ask_iv),
         ]
         metrics = {
             "spread_bps": spread_bps,

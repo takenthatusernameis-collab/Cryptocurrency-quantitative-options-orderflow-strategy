@@ -1,22 +1,22 @@
 {
   "phase": "PHASE36",
-  "timestamp_utc": "2026-11-02T00:04:45Z",
+  "timestamp_utc": "2026-11-02T00:14:14Z",
   "cfg": {
     "symbols": [
-      "ETH-USD"
+      "BTC-USD"
     ],
     "venues": [
-      "okx"
+      "deribit"
     ],
     "underlyings": [
-      "ETH"
+      "BTC"
     ],
     "expiries": [
-      "20261114"
+      "20261107"
     ],
     "modes": "paper",
-    "cycles": 3,
-    "seed": 8,
+    "cycles": 15,
+    "seed": 406,
     "enforce_gates": true,
     "outdir": "research_state",
     "paper_only": true
@@ -90,12 +90,288 @@
         "warnings": []
       },
       "orderflow_stress": 0.2
+    },
+    {
+      "cycle": 3,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.4872400462415538,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": 10.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 0,
+        "total_notional": 0,
+        "urgency": 1.3301380904881164,
+        "warnings": []
+      },
+      "orderflow_stress": 0.30000000000000004
+    },
+    {
+      "cycle": 4,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.4611400462415538,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.176883779123946,
+        "inventory": 20.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 1109.0138090488115,
+        "urgency": 1.0901380904881164,
+        "warnings": []
+      },
+      "orderflow_stress": 0.0
+    },
+    {
+      "cycle": 5,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.46984004624155384,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": -20.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 2234.027618097623,
+        "urgency": 1.1701380904881165,
+        "warnings": []
+      },
+      "orderflow_stress": 0.1
+    },
+    {
+      "cycle": 6,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.47854004624155383,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": -10.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 3375.041427146434,
+        "urgency": 1.2501380904881163,
+        "warnings": []
+      },
+      "orderflow_stress": 0.2
+    },
+    {
+      "cycle": 7,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.4872400462415538,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.176883779123946,
+        "inventory": 0.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 3399.0414271464347,
+        "urgency": 1.3301380904881164,
+        "warnings": []
+      },
+      "orderflow_stress": 0.30000000000000004
+    },
+    {
+      "cycle": 8,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.4611400462415538,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": 10.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 2218.027618097623,
+        "urgency": 1.0901380904881164,
+        "warnings": []
+      },
+      "orderflow_stress": 0.0
+    },
+    {
+      "cycle": 9,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.46984004624155384,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": 20.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 1117.0138090488115,
+        "urgency": 1.1701380904881165,
+        "warnings": []
+      },
+      "orderflow_stress": 0.1
+    },
+    {
+      "cycle": 10,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.47854004624155383,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.176883779123946,
+        "inventory": -20.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 0,
+        "total_notional": 0,
+        "urgency": 1.2501380904881163,
+        "warnings": []
+      },
+      "orderflow_stress": 0.2
+    },
+    {
+      "cycle": 11,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.4872400462415538,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": -10.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 1133.0138090488115,
+        "urgency": 1.3301380904881164,
+        "warnings": []
+      },
+      "orderflow_stress": 0.30000000000000004
+    },
+    {
+      "cycle": 12,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.4611400462415538,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": 0.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 2218.027618097623,
+        "urgency": 1.0901380904881164,
+        "warnings": []
+      },
+      "orderflow_stress": 0.0
+    },
+    {
+      "cycle": 13,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.46984004624155384,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.176883779123946,
+        "inventory": 10.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 3351.0414271464347,
+        "urgency": 1.1701380904881165,
+        "warnings": []
+      },
+      "orderflow_stress": 0.1
+    },
+    {
+      "cycle": 14,
+      "calibration": {
+        "regime": "calm",
+        "stress_score": 0.6009206032541097,
+        "atm_vol": 0.47854004624155383,
+        "stress_detected": false,
+        "warnings": []
+      },
+      "mm": {
+        "regime": "calm",
+        "spread_bps": 10.787496805871383,
+        "inventory": 20.0,
+        "n_quotes": 2
+      },
+      "hedge": {
+        "n_orders": 1,
+        "total_notional": 3375.041427146434,
+        "urgency": 1.2501380904881163,
+        "warnings": []
+      },
+      "orderflow_stress": 0.2
     }
   ],
   "aggregate": {
-    "n_cycles": 3,
+    "n_cycles": 15,
     "stress_detected_cycles": 0,
-    "total_hedge_notional": 6686.082854292869,
-    "avg_spread_bps": 10.583959130288903
+    "total_hedge_notional": 30215.37284431791,
+    "avg_spread_bps": 10.583959130288905
   }
 }
