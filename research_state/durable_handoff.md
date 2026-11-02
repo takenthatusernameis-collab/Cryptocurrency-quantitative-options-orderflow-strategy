@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-02T00:04:59Z
-# Updated (UTC): 2026-11-02T00:04:59Z
+# Timestamp (UTC): 2026-11-02T00:15:06Z
+# Updated (UTC): 2026-11-02T00:15:06Z
 # Project: Cryptocurrency-quantitative-options-orderflow-strategy
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution + regime-aware MM/hedging)
 
@@ -13,7 +13,7 @@ COMPLETED (DO NOT REDO):
 - PHASE 36 (IN PROGRESS - EXECUTE NOW): Adaptive Volatility Surface Calibration, Regime-Aware Options Market Making & Dynamic Hedging Under Orderflow Stress for Crypto Options.
 
 ## MANDATORY INITIAL TASK MESSAGE — STANDING (EXECUTE EVERY SESSION - NO DEVIATION)
-Timestamp (UTC): 2026-11-02T00:04:59Z
+Timestamp (UTC): 2026-11-02T00:15:06Z
 INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME: CRYPTO OPTIONS + ORDERFLOW. HEAVY QUANT IMPLEMENTATION ONLY. NO SCAFFOLDING, NO PLANNING DOCS, NO EXPLORATORY READS WITHOUT IMMEDIATE IMPLEMENTATION.
 
 - START: Verify gate GREEN at session start (`PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q`). If RED or placeholders exist -> FIX FIRST (remove bottleneck immediately).
@@ -69,3 +69,26 @@ Acceptance: gate GREEN, no placeholders/TODOs/FIXMEs/HACKs/XXX, deterministic fi
 - Phase 37: shipped all deliverables (src/orderflow/phase37_venue_liquidity_sourcing.py, src/routing/phase37_cross_venue_delta_neutral_router.py, src/integration/phase37_orderflow_routing_loop.py, scripts/run_phase37_orderflow_routing_campaign.py, tests/test_phase37_orderflow_routing.py >=40, 8 artifacts under research_state/). All tests passing, no placeholders/TODOs/FIXMEs/HACKs/XXX. Paper-only default with hard-gated live paths. Deterministic finite numerics.
 - Gate: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` -> 2357 passed, 2 skipped, 0 failed.
 - Files changed: src/mm/phase36_regime_aware_options_mm.py (bid/ask ordering), src/orderflow/phase37_*, src/routing/phase37_*, src/integration/phase37_*, scripts/run_phase37_*, tests/test_phase36_* (expanded), tests/test_phase37_*. All existing tests remain passing. No scaffolding. Ready for next session to continue from Phase 37/advance to Phase 38 per auto-enforced campaign.
+
+---
+# UPDATE (UTC): 2026-11-02T00:15:06Z
+# Session: Phase 36 + Phase 37 complete; handoff refreshed for next agentic session
+- Gate: 2357 passed, 2 skipped, 0 failed. No placeholders/TODOs/FIXMEs/HACKs/XXX. All sessions unblocked.
+- Phase 36 and Phase 37 fully shipped (src + scripts + tests + artifacts). Do not redo.
+- NEXT INITIAL TASK: Phase 38 — Real-Time Risk, Monitoring & Continuous Validation for Crypto Options + Orderflow (auto-enforced).
+
+## NEXT CAMPAIGN (AUTO-ENFORCED): PHASE 38
+Timestamp (UTC): 2026-11-02T00:15:06Z
+PHASE 38: Real-Time Risk Monitoring, Observability & Continuous Validation (CRYPTO OPTIONS + ORDERFLOW)
+Goal: Extend Phase 37 loop with real-time risk monitoring (VaR/CVaR, Greeks limits, exposure caps), observability telemetry (metrics/traces/alerts), and continuous validation (backtest/live parity checks, drift detection) integrated with margin/reallocation and regime filters. Deterministic, paper-only by default, hard-gated live.
+Deliverables (SHIP ALL):
+1. `src/risk/phase38_realtime_risk_monitor.py`
+2. `src/observability/phase38_telemetry_observability.py`
+3. `src/validation/phase38_continuous_validation.py`
+4. `src/integration/phase38_risk_obs_validation_loop.py`
+5. `scripts/run_phase38_risk_obs_validation_campaign.py`
+6. `tests/test_phase38_risk_obs_validation.py` >= 40 substantive tests
+7. Artifacts under research_state/: PHASE38_RISK_MONITOR_REPORT.*, PHASE38_OBSERVABILITY_REPORT.*, PHASE38_CONTINUOUS_VALIDATION_REPORT.*, PHASE38_LOOP_REPORT.*, PHASE38_CAMPAIGN_SUMMARY.*
+Acceptance: gate GREEN (>=2397 passed, 0 failed); no placeholders/TODOs/FIXMEs/HACKs/XXX; deterministic finite numerics; paper-only default with hard-gated live paths; integrate with Phases 17-37. Update THIS FILE with fresh UTC timestamp before ending.
+
+**ACTION NOW:** Ship Phase 38 end-to-end. Remove any bottlenecks. Keep gate GREEN. Auto-advance to Phase 39 on acceptance.
