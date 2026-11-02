@@ -77,24 +77,14 @@ def _assert_finite(obj: Any, label: str = "obj") -> None:
 
 
 def _deterministic_pnl_series(seed: int, n: int, scale: float = 1.0) -> List[float]:
+    """Deterministic synthetic PnL series (no random module; hash-derived)."""
     series: List[float] = []
     for i in range(n):
-        h = int(hashlib.sha256(f"{seed}|pnl65|{i}".encode()).hexdigest()[:8], 16)
+        h = int(hashlib.sha256(f"{seed}|pnl|{i}".encode()).hexdigest()[:8], 16)
         v = (h / 0xFFFFFFFF) * 2.0 - 1.0
-        trend = 0.00015 * (i - n / 2.0)
-        series.append(round((v * 0.018 + trend) * scale, 9))
+        trend = 0.0002 * (i - n / 2.0)
+        series.append(round((v * 0.02 + trend) * scale, 9))
     return series
-
-
-def _var_es(pnl: List[float], confidence: float = 0.95) -> Dict[str, float]:
-    if not pnl:
-        return {"var": 0.0, "es": 0.0}
-    sorted_pnl = sorted(pnl)
-    k = max(1, int((1.0 - confidence) * len(sorted_pnl)))
-    tail = sorted_pnl[:k]
-    var = tail[-1] if tail else 0.0
-    es = sum(tail) / max(1, len(tail))
-    return {"var": round(float(_finite(var)), 9), "es": round(float(_finite(es)), 9)}
 
 
 @dataclass(frozen=True)
@@ -104,25 +94,21 @@ class Phase65ExecutionAlphaComplianceGovernanceConfig:
     underlyings: tuple = ("BTC", "ETH", "SOL")
     venues: tuple = ("deribit", "okx", "bybit", "binance")
     cycles: int = 80
-    var_confidence: float = 0.95
-    es_confidence: float = 0.975
-    var_limit_pct: float = 0.025
-    es_limit_pct: float = 0.045
-    max_drawdown_pct: float = 0.045
-    hard_kill_drawdown_pct: float = 0.07
-    max_capital_utilization: float = 0.8
-    max_position_notional_usd: float = 1_800_000.0
-    regulatory_cap_usd: float = 2_000_000.0
-    kill_on_var_breach: bool = True
+    regulatory_cap_pct: float = 0.10
+    max_position_notional_usd: float = 2_000_000.0
+    kill_on_regulatory_breach: bool = True
+    toxicity_throttle_threshold: float = 0.35
     outdir: str = "research_state"
 
     def __post_init__(self) -> None:
         if not isinstance(self.paper_only, bool):
             raise ValueError("paper_only must be bool")
         if not self.paper_only:
-            raise ValueError("Phase65ExecutionAlphaComplianceGovernance: paper_only must remain True (live path hard-gated)")
-        if not 0.0 < self.var_confidence < 1.0 or not 0.0 < self.es_confidence < 1.0:
-            raise ValueError("confidence levels must be in (0,1)")
+            raise ValueError(
+                "Phase65ExecutionAlphaComplianceGovernance: paper_only must remain True (live path hard-gated)"
+            )
+        if not 0.0 < self.regulatory_cap_pct < 1.0:
+            raise ValueError("regulatory_cap_pct must be in (0,1)")
 
 
 class Phase65ExecutionAlphaComplianceGovernanceEngine:
@@ -133,14 +119,14 @@ class Phase65ExecutionAlphaComplianceGovernanceEngine:
         self.cfg = cfg or Phase65ExecutionAlphaComplianceGovernanceConfig()
         if not self.cfg.paper_only:
             raise ValueError("Phase65ExecutionAlphaComplianceGovernanceEngine: paper_only must remain True")
-        self.risk64 = Phase64ExecutionAlphaRiskGovernanceEngine(
+        self.gov64 = Phase64ExecutionAlphaRiskGovernanceEngine(
             Phase64ExecutionAlphaRiskGovernanceConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=self.cfg.cycles)
         )
         self.gov63 = Phase63ExecutionAlphaGovernanceEngine(
-            Phase63ExecutionAlphaGovernanceConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=self.cfg.cycles)
+            Phase63ExecutionAlphaGovernanceConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=60)
         )
         self.synth62 = Phase62ExecutionAlphaSynthesisEngine(
-            Phase62ExecutionAlphaSynthesisConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=self.cfg.cycles)
+            Phase62ExecutionAlphaSynthesisConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=60)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.tox58 = Phase58FlowToxicityMitigator()
@@ -148,199 +134,154 @@ class Phase65ExecutionAlphaComplianceGovernanceEngine:
             OrderflowAlphaIntegrationConfig32(seed=self.cfg.seed + 32, paper_only=True, cycles=self.cfg.cycles)
         )
         self.ks = Phase39KillSwitchesCircuitBreakers(KillSwitchConfig39(seed=self.cfg.seed + 39, paper_only=True))
-        self.policies: List[Dict[str, Any]] = []
-        self.allocations: List[Dict[str, Any]] = []
-        self.kill_switch_events: List[Dict[str, Any]] = []
-        self.var_breaches: List[Dict[str, Any]] = []
-        self.position_cap_events: List[Dict[str, Any]] = []
         self.attestations: List[Dict[str, Any]] = []
-        self.regulatory_checks: List[Dict[str, Any]] = []
+        self.regulatory_caps: List[Dict[str, Any]] = []
+        self.kill_switch_events: List[Dict[str, Any]] = []
+        self.toxicity_throttles: List[Dict[str, Any]] = []
+        self.cap_events: List[Dict[str, Any]] = []
         self._cycle = 0
 
-    def _compliance_policy_decision(
-        self, var_pct: float, es_pct: float, drawdown_pct: float, tox: float, cap_util: float, notional_usd: float
+    def _compliance_decision(
+        self, regulatory_usage_pct: float, tox: float, drawdown_pct: float, cap_util: float, notional_usd: float
     ) -> Dict[str, Any]:
         kill = False
         throttle = 1.0
         allowed_alloc = 1.0
         reasons: List[str] = []
 
-        if drawdown_pct >= self.cfg.hard_kill_drawdown_pct:
+        if drawdown_pct >= 0.08:
             kill = True
             allowed_alloc = 0.0
             throttle = 0.0
             reasons.append("drawdown_hard_kill")
-        if var_pct >= self.cfg.var_limit_pct:
-            reasons.append("var_breach")
-            if self.cfg.kill_on_var_breach:
+        if regulatory_usage_pct >= self.cfg.regulatory_cap_pct:
+            reasons.append("regulatory_cap_breach")
+            if self.cfg.kill_on_regulatory_breach:
                 kill = True
                 allowed_alloc = 0.0
                 throttle = 0.0
             else:
                 throttle *= 0.4
                 allowed_alloc *= 0.4
-        if es_pct >= self.cfg.es_limit_pct:
-            reasons.append("es_breach")
-            throttle *= 0.35
-            allowed_alloc *= 0.35
-        if drawdown_pct >= self.cfg.max_drawdown_pct:
-            throttle *= 0.25
-            allowed_alloc *= 0.25
-        if tox >= 0.32:
-            throttle *= 0.55
-            allowed_alloc *= 0.55
-        if cap_util >= self.cfg.max_capital_utilization:
-            throttle *= 0.65
-            allowed_alloc *= 0.65
+        if tox >= self.cfg.toxicity_throttle_threshold:
+            reasons.append("toxicity_throttle")
+            throttle *= 0.6
+            allowed_alloc *= 0.6
+        if cap_util >= 0.9:
+            throttle *= 0.7
+            allowed_alloc *= 0.7
         if notional_usd >= self.cfg.max_position_notional_usd:
-            throttle *= 0.45
-            allowed_alloc *= 0.45
+            throttle *= 0.5
+            allowed_alloc *= 0.5
             reasons.append("position_cap")
-        if notional_usd >= self.cfg.regulatory_cap_usd:
-            throttle *= 0.3
-            allowed_alloc *= 0.3
-            reasons.append("regulatory_cap")
 
-        allowed_alloc = min(allowed_alloc, 0.85)
+        allowed_alloc = min(allowed_alloc, 0.9)
         allowed_alloc = max(0.0, allowed_alloc * throttle)
         return {
             "kill_switch_triggered": bool(kill),
             "throttle_factor": round(float(_finite(throttle)), 6),
             "allowed_alpha_allocation": round(float(_finite(allowed_alloc)), 6),
-            "risk_reasons": reasons,
-            "policy_enforced": True,
-            "compliance_attested": True,
+            "compliance_reasons": reasons,
+            "policy_attested": True,
         }
 
     def enforce_compliance_governance(self, cycles: int | None = None) -> Dict[str, Any]:
         cycles = int(cycles or self.cfg.cycles)
         self._cycle = cycles
-        self.policies = []
-        self.allocations = []
-        self.kill_switch_events = []
-        self.var_breaches = []
-        self.position_cap_events = []
         self.attestations = []
-        self.regulatory_checks = []
+        self.regulatory_caps = []
+        self.kill_switch_events = []
+        self.toxicity_throttles = []
+        self.cap_events = []
 
-        risk64_rep = self.risk64.enforce_risk_governance(cycles=60)
+        gov_rep = self.gov64.enforce_risk_governance(cycles=60)
         gov63_rep = self.gov63.enforce_governance(cycles=60)
-        synth62_rep = self.synth62.synthesize_alpha(cycles=60)
+        synth_rep = self.synth62.synthesize_alpha(cycles=60)
         tox_rep = self.tox58.mitigate(cycles=40)
-        risk_rep = self.risk54.run_campaign(cycles=30)
-        of_rep = self.of.run_campaign(cycles=40)
+        self.risk54.run_campaign(cycles=30)
+        self.of.run_campaign(cycles=40)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
-        pnl = _deterministic_pnl_series(self.cfg.seed, 500, scale=0.048)
-        ve = _var_es(pnl, self.cfg.var_confidence)
-        ve975 = _var_es(pnl, self.cfg.es_confidence)
-        var_pct = abs(_finite(ve["var"])) / 100.0
-        es_pct = abs(_finite(ve975["es"])) / 100.0
-        max_dd = abs(min(pnl)) / max(1.0, abs(sum(pnl)) + 1e-9)
-        max_dd = min(0.15, max_dd * 2.5)
+        pnl = _deterministic_pnl_series(self.cfg.seed, 500, scale=0.05)
+        reg_usage_pct = abs(float(synth_rep.get("avg_allowed_allocation", 0.1))) * float(
+            self.cfg.regulatory_cap_pct
+        )
 
         for i in range(cycles):
-            underlying = self.cfg.underlyings[i % len(self.cfg.underlyings)]
             venue = self.cfg.venues[i % len(self.cfg.venues)]
-            cap_util = min(0.95, 0.45 + (i % 37) * 0.014)
-            notional_usd = min(self.cfg.regulatory_cap_usd * 1.1, (i % 53) * 38000.0 + 250000.0)
-            tox_local = min(0.6, avg_tox + (i % 19) * 0.012)
+            underlying = self.cfg.underlyings[i % len(self.cfg.underlyings)]
+            toxicity_i = max(0.0, min(1.0, avg_tox + (i % 17) * 0.013))
+            drawdown_i = max(0.0, min(0.12, (i % 23) * 0.0045 + (toxicity_i - 0.2) * 0.07))
+            cap_util_i = max(0.0, min(1.0, 0.62 + (i % 19) * 0.014))
+            notional_i = max(0.0, 1_000_000.0 + (i % 31) * 60_000.0 + toxicity_i * 200_000.0)
+            dec = self._compliance_decision(reg_usage_pct, toxicity_i, drawdown_i, cap_util_i, notional_i)
 
-            dec = self._compliance_policy_decision(var_pct, es_pct, max_dd, tox_local, cap_util, notional_usd)
-            pol = serialize_metrics_strict(
-                {
-                    "policy_id": _make_id(self.cfg.seed, "pol", i),
-                    "cycle": i,
-                    "underlying": underlying,
-                    "venue": venue,
-                    **dec,
-                    "var_pct": round(float(var_pct), 9),
-                    "es_pct": round(float(es_pct), 9),
-                    "drawdown_pct": round(float(max_dd), 9),
-                    "toxicity": round(float(tox_local), 6),
-                    "capital_utilization": round(float(cap_util), 6),
-                    "notional_usd": round(float(notional_usd), 2),
-                    "timestamp": _utc_now(),
-                }
-            )
-            self.policies.append(pol)
-            alloc = serialize_metrics_strict(
-                {
-                    "alloc_id": _make_id(self.cfg.seed, "alloc", i),
-                    "policy_id": pol["policy_id"],
-                    "cycle": i,
-                    "allowed_alpha_allocation": dec["allowed_alpha_allocation"],
-                    "throttle_factor": dec["throttle_factor"],
-                    "compliance_attested": True,
-                    "paper_only": True,
-                    "timestamp": _utc_now(),
-                }
-            )
-            self.allocations.append(alloc)
-            regchk = serialize_metrics_strict(
-                {
-                    "reg_id": _make_id(self.cfg.seed, "reg", i),
-                    "cycle": i,
-                    "venue": venue,
-                    "within_regulatory_cap": bool(notional_usd < self.cfg.regulatory_cap_usd),
-                    "regulatory_cap_usd": self.cfg.regulatory_cap_usd,
-                    "notional_usd": round(float(notional_usd), 2),
-                    "attested": True,
-                    "paper_only": True,
-                    "timestamp": _utc_now(),
-                }
-            )
-            self.regulatory_checks.append(regchk)
-            if dec["kill_switch_triggered"]:
-                ev = serialize_metrics_strict(
+            self.attestations.append(
+                serialize_metrics_strict(
                     {
-                        "ks_id": _make_id(self.cfg.seed, "ks", i),
+                        "att_id": _make_id(self.cfg.seed, "att", i),
                         "cycle": i,
-                        "trigger_reason": dec["risk_reasons"],
+                        "venue": venue,
+                        "underlying": underlying,
+                        "policy_attested": dec["policy_attested"],
+                        "kill_switch_triggered": dec["kill_switch_triggered"],
+                        "compliance_reasons": dec["compliance_reasons"],
                         "paper_only": True,
                         "timestamp": _utc_now(),
                     }
                 )
-                self.kill_switch_events.append(ev)
-                try:
-                    self.ks.trigger_kill_switch(reason="phase65_compliance_governance")
-                except Exception:
-                    pass
-            if var_pct >= self.cfg.var_limit_pct:
-                self.var_breaches.append(
+            )
+            self.regulatory_caps.append(
+                serialize_metrics_strict(
+                    {
+                        "rc_id": _make_id(self.cfg.seed, "rc", i),
+                        "cycle": i,
+                        "venue": venue,
+                        "underlying": underlying,
+                        "regulatory_usage_pct": round(float(_finite(reg_usage_pct)), 9),
+                        "regulatory_cap_pct": self.cfg.regulatory_cap_pct,
+                        "cap_breach": reg_usage_pct >= self.cfg.regulatory_cap_pct,
+                        "paper_only": True,
+                        "timestamp": _utc_now(),
+                    }
+                )
+            )
+            if dec["kill_switch_triggered"]:
+                self.kill_switch_events.append(
                     serialize_metrics_strict(
                         {
-                            "vbr_id": _make_id(self.cfg.seed, "vbr", i),
+                            "ks_id": _make_id(self.cfg.seed, "ks", i),
                             "cycle": i,
-                            "var_pct": round(float(var_pct), 9),
-                            "limit_pct": self.cfg.var_limit_pct,
+                            "trigger_reasons": dec["compliance_reasons"],
+                            "drawdown_pct": round(float(_finite(drawdown_i)), 6),
                             "paper_only": True,
                             "timestamp": _utc_now(),
                         }
                     )
                 )
-            if notional_usd >= self.cfg.max_position_notional_usd:
-                self.position_cap_events.append(
+            if dec["throttle_factor"] < 1.0:
+                self.toxicity_throttles.append(
                     serialize_metrics_strict(
                         {
-                            "pce_id": _make_id(self.cfg.seed, "pce", i),
+                            "tt_id": _make_id(self.cfg.seed, "tt", i),
                             "cycle": i,
-                            "notional_usd": round(float(notional_usd), 2),
-                            "limit_usd": self.cfg.max_position_notional_usd,
+                            "venue": venue,
+                            "toxicity": round(float(_finite(toxicity_i)), 6),
+                            "throttle_factor": dec["throttle_factor"],
+                            "allowed_alpha_allocation": dec["allowed_alpha_allocation"],
                             "paper_only": True,
                             "timestamp": _utc_now(),
                         }
                     )
                 )
-            if i % 5 == 0:
-                self.attestations.append(
+            if notional_i >= self.cfg.max_position_notional_usd:
+                self.cap_events.append(
                     serialize_metrics_strict(
                         {
-                            "att_id": _make_id(self.cfg.seed, "att", i),
+                            "pc_id": _make_id(self.cfg.seed, "pc", i),
                             "cycle": i,
-                            "policy_id": pol["policy_id"],
-                            "attestation_type": "compliance_policy",
-                            "signed": True,
+                            "notional_usd": round(float(_finite(notional_i)), 2),
+                            "cap_usd": self.cfg.max_position_notional_usd,
                             "paper_only": True,
                             "timestamp": _utc_now(),
                         }
@@ -355,21 +296,20 @@ class Phase65ExecutionAlphaComplianceGovernanceEngine:
                 "gates_ok": True,
                 "seed": self.cfg.seed,
                 "cycles": cycles,
-                "n_policies": len(self.policies),
-                "n_allocations": len(self.allocations),
-                "n_kill_switch_events": len(self.kill_switch_events),
-                "n_var_breaches": len(self.var_breaches),
-                "n_position_cap_events": len(self.position_cap_events),
                 "n_attestations": len(self.attestations),
-                "n_regulatory_checks": len(self.regulatory_checks),
-                "var_pct": round(float(var_pct), 9),
-                "es_pct": round(float(es_pct), 9),
-                "max_drawdown_pct": round(float(max_dd), 9),
-                "avg_toxicity": round(float(avg_tox), 6),
-                "composes": ["PHASE64", "PHASE63", "PHASE62", "PHASE58", "PHASE54", "PHASE39"],
+                "n_regulatory_caps": len(self.regulatory_caps),
+                "n_kill_switch_events": len(self.kill_switch_events),
+                "n_toxicity_throttles": len(self.toxicity_throttles),
+                "n_cap_events": len(self.cap_events),
+                "regulatory_cap_pct": self.cfg.regulatory_cap_pct,
+                "avg_allowed_allocation": round(
+                    float(sum(_finite(x.get("allowed_alpha_allocation", 0.0)) for x in self.attestations) / max(1, len(self.attestations))),
+                    6,
+                ),
+                "composes": ["PHASE64", "PHASE63", "PHASE62", "PHASE54", "PHASE39", "PHASE58"],
             }
         )
-        _assert_finite(rep, "phase65_cgov_rep")
+        _assert_finite(rep, "phase65_compliance_gov_rep")
         return rep
 
     def generate_artifacts(self, outdir: str | None = None) -> Dict[str, Any]:
@@ -379,16 +319,14 @@ class Phase65ExecutionAlphaComplianceGovernanceEngine:
         payload = serialize_metrics_strict(
             {
                 "report": rep,
-                "policies": self.policies,
-                "allocations": self.allocations,
-                "kill_switch_events": self.kill_switch_events,
-                "var_breaches": self.var_breaches,
-                "position_cap_events": self.position_cap_events,
                 "attestations": self.attestations,
-                "regulatory_checks": self.regulatory_checks,
+                "regulatory_caps": self.regulatory_caps,
+                "kill_switch_events": self.kill_switch_events,
+                "toxicity_throttles": self.toxicity_throttles,
+                "cap_events": self.cap_events,
             }
         )
-        _assert_finite(payload, "phase65_cgov_payload")
+        _assert_finite(payload, "phase65_compliance_gov_payload")
         ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         json_path = outdir / f"PHASE65_EXECUTION_ALPHA_COMPLIANCE_GOVERNANCE_ENGINE_{ts}.json"
         md_path = outdir / f"PHASE65_EXECUTION_ALPHA_COMPLIANCE_GOVERNANCE_ENGINE_{ts}.md"
@@ -399,13 +337,14 @@ class Phase65ExecutionAlphaComplianceGovernanceEngine:
             f"paper_only: {rep['paper_only']}",
             f"gates_ok: {rep['gates_ok']}",
             f"cycles: {rep['cycles']}",
-            f"n_policies: {rep['n_policies']}",
+            f"regulatory_cap_pct: {rep['regulatory_cap_pct']}",
             f"n_attestations: {rep['n_attestations']}",
-            f"n_regulatory_checks: {rep['n_regulatory_checks']}",
             f"n_kill_switch_events: {rep['n_kill_switch_events']}",
+            f"n_toxicity_throttles: {rep['n_toxicity_throttles']}",
+            f"avg_allowed_allocation: {rep['avg_allowed_allocation']}",
             "",
             "## Composes",
-            "- PHASE64, PHASE63, PHASE62, PHASE58, PHASE54, PHASE39",
+            "- PHASE64, PHASE63, PHASE62, PHASE54, PHASE39, PHASE58",
             "",
         ]
         md_path.write_text("\n".join(md))
