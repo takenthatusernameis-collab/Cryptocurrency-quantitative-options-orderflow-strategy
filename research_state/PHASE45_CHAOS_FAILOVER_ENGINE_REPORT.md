@@ -1,6 +1,6 @@
 # PHASE45 CHAOS FAILOVER ENGINE REPORT
 
-Timestamp: 2026-11-02T20:27:07.897911Z
+Timestamp: 2026-11-02T20:47:09.481921Z
 
 Paper-only: true | Seed: 560 | Cycles: 8/8
 Primary venue: deribit | Final active: deribit
