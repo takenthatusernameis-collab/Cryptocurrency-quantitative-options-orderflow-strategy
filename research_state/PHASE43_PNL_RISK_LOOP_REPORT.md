@@ -1,6 +1,6 @@
 # PHASE43 PNL RISK LOOP REPORT
 
-Timestamp: 2026-11-02T08:00:28Z
+Timestamp: 2026-11-02T08:01:56Z
 Cycles: 10, Paper-only: true
 Greeks risk_ok: True, Hedge ok_all: True
 Final VaR: 79445.87, Max stress loss: -441693.81
