@@ -25,7 +25,15 @@ def test_durable_handoff_is_source_of_truth():
     assert "INITIAL TASK MESSAGE" in text
     # Case-insensitive: the authoritative handoff carries the active focus campaign.
     tl = text.lower()
-    assert "phase 15" in tl or "phase 16" in tl or "phase 17" in tl or "phase 18" in tl or "phase 19" in tl
+    assert (
+        "phase 15" in tl
+        or "phase 16" in tl
+        or "phase 17" in tl
+        or "phase 18" in tl
+        or "phase 19" in tl
+        or "phase 38" in tl
+        or "phase 39" in tl
+    )
 
 
 def test_root_handoff_retired():
