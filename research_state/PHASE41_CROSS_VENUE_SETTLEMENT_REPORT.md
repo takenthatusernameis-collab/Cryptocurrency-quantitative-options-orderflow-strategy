@@ -1,6 +1,6 @@
 # PHASE41 CROSS-VENUE SETTLEMENT REPORT
 
-Timestamp: 2026-11-02T10:03:52.649910Z
-Cycles: 5, Instructions: 21, Receipts: 21
+Timestamp: 2026-11-02T10:07:57.315606Z
+Cycles: 8, Instructions: 36, Receipts: 36
 Finality OK: True, Margin Gates OK: True
 Trading Enabled All: True
