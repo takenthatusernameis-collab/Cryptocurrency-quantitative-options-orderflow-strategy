@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 # Timestamp (UTC): 2026-11-02T07:47:27Z
-# Updated (UTC): 2026-11-02T08:54:57Z# Project: Cryptocurrency-quantitative-options-orderflow-strategy
+# Updated (UTC): 2026-11-02T08:57:45Z
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution + regime-aware MM/hedging + live-readiness hardening + post-trade reconciliation/margin/collateral)
 
 THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
@@ -18,15 +18,15 @@ COMPLETED (DO NOT REDO):
 - Phase 46: Advanced Execution Intelligence, Adaptive Market-Making & Cross-Venue Latency Arbitrage COMPLETE (`src/execution/phase46_adaptive_mm_engine.py`, `src/integration/phase46_execution_intelligence_loop.py`, `tests/test_phase46_adaptive_mm_engine.py`, `tests/test_phase46_execution_intelligence_loop.py`).
 
 ## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
-Timestamp (UTC): 2026-11-02T07:47:27Z
+Timestamp (UTC): 2026-11-02T08:57:45Z
 
-INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. PHASE 47 COMPLETE. SHIP PHASE 48 END-TO-END IMMEDIATELY. NO SCAFFOLDING. HEAVY QUANT IMPLEMENTATION ONLY. Phases 41-47 are COMPLETE. HEAVY QUANT IMPLEMENTATION ONLY. NO SCAFFOLDING, NO PLANNING DOCS, NO ROADMAPS, NO DESIGN NOTES. EVERY SESSION MUST SHIP TANGIBLE FILE CHANGES (src/tests/scripts/artifacts). IF NO CODE WRITTEN -> YOU HAVE NOT DONE THE JOB. The repo name is Cryptocurrency-quantitative-options-orderflow-strategy, so crypto options + orderflow is the domain; every task must serve it. Build production-grade code that composes with existing Phases 17-47. Do not stop until all Phase 48 deliverables are complete and gate is GREEN.
+INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. PHASE 48 COMPLETE. SHIP PHASE 49 END-TO-END IMMEDIATELY. NO SCAFFOLDING. HEAVY QUANT IMPLEMENTATION ONLY. Phases 41-48 are COMPLETE. HEAVY QUANT IMPLEMENTATION ONLY. NO SCAFFOLDING, NO PLANNING DOCS, NO ROADMAPS, NO DESIGN NOTES. EVERY SESSION MUST SHIP TANGIBLE FILE CHANGES (src/tests/scripts/artifacts). IF NO CODE WRITTEN -> YOU HAVE NOT DONE THE JOB. The repo name is Cryptocurrency-quantitative-options-orderflow-strategy, so crypto options + orderflow is the domain; every task must serve it. Build production-grade code that composes with existing Phases 17-48. Do not stop until all Phase 49 deliverables are complete and gate is GREEN.
 
 MANDATORY SESSION STARTUP (EXECUTE IN THIS ORDER):
-1. VERIFY GATE: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` -> MUST be GREEN (>=2535 passed). If RED or any placeholders/TODOs/FIXMEs/HACKs/XXX exist anywhere -> FIX FIRST. Remove bottlenecks immediately.
-2. DO NOT REDO PHASES 1-46. Extend/compose only.
-3. SHIP PHASE 47 DELIVERABLES END-TO-END THIS SESSION. Implement full production logic with integration tests and artifacts. Integrate tightly with: options/Greeks/IV, orderflow microstructure, risk/portfolio, hedging/marketmaking, execution/routing, monitoring/observability, reconciliation/margin/collateral, settlement/finality, resilience/chaos (Phases 17-46). No stubs. No partials.
-4. ON PHASE 47 ACCEPTANCE -> IMMEDIATELY ATTACK PHASE 48 (NEXT CAMPAIGN). Same rules: ship all deliverables, tests, artifacts; gate GREEN; update THIS FILE.
+1. VERIFY GATE: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` -> MUST be GREEN (>=2558 passed). If RED or any placeholders/TODOs/FIXMEs/HACKs/XXX exist anywhere -> FIX FIRST. Remove bottlenecks immediately.
+2. DO NOT REDO PHASES 1-48. Extend/compose only.
+3. SHIP PHASE 49 DELIVERABLES END-TO-END THIS SESSION. Implement full production logic with integration tests and artifacts. Integrate tightly with: options/Greeks/IV, orderflow microstructure, risk/portfolio, hedging/marketmaking, execution/routing, monitoring/observability, reconciliation/margin/collateral, settlement/finality, resilience/chaos (Phases 17-48). No stubs. No partials.
+4. ON PHASE 49 ACCEPTANCE -> IMMEDIATELY ATTACK PHASE 50 (NEXT CAMPAIGN). Same rules: ship all deliverables, tests, artifacts; gate GREEN; update THIS FILE.
 5. BEFORE ENDING: Update this file with fresh UTC timestamp, files changed (full paths), rationale. Re-verify gate GREEN. No session ends with work incomplete once started.
 
 BOTTLENECK POLICY (ENFORCED — REMOVES INEFFICIENCY):
@@ -70,6 +70,41 @@ Create/extend the following (full paths):
 - PAPER-ONLY enforced.
 - Integration verified with Phases 39-46.
 - research_state/durable_handoff.md updated before ending with: fresh UTC timestamp, full list of files changed (absolute paths), concrete rationale.
+
+
+
+## COMPLETED CAMPAIGN: PHASE 49 — ADVANCED VOLATILITY ARBITRAGE, ORDERFLOW-DRIVEN DELTA HEDGING & CROSS-VENUE VOL SURFACE ARBITRAGE (CRYPTO OPTIONS + ORDERFLOW FOCUS)
+Timestamp (UTC): 2026-11-02T08:57:45Z
+Status: IN PROGRESS — MANDATORY FOR NEXT SESSION. Ship end-to-end.
+
+### REQUIRED DELIVERABLES (SHIP ALL, NO PARTIALS)
+Create/extend the following (full paths):
+**Core modules (src/):**
+- `src/volatility/phase49_vol_surface_arb_engine.py` — Cross-venue IV surface arbitrage (calendar/spread/term structure dislocations), smile/skew arbitrage, orderflow-aware volatility forecasting, dynamic surface calibration with no-arb constraints. PAPER-ONLY, deterministic.
+- `src/hedging/phase49_orderflow_driven_delta_hedge.py` — Real-time delta/gamma/vanna/vega hedging driven by orderflow toxicity/imbalance, adaptive hedge ratios, cross-venue hedge routing, slippage-aware rebalancing. PAPER-ONLY, deterministic.
+- `src/integration/phase49_vol_arb_orchestration_loop.py` — End-to-end orchestration composing Phases 17-48 (alpha/orchestration, arb engines, MM, risk/limits, kill-switches, chaos/failover, SLO). Emit telemetry/artifacts. PAPER-ONLY.
+
+**Tests (tests/):**
+- `tests/test_phase49_vol_surface_arb_engine.py` — Surface arbitrage scenarios, no-arb checks, orderflow integration, determinism, TCA.
+- `tests/test_phase49_orderflow_driven_delta_hedge.py` — Hedge triggers, toxicity-adjusted ratios, cross-venue routing, Greeks stability.
+- `tests/test_phase49_vol_arb_orchestration_loop.py` — Full composition with Phases 39-48, gates, artifacts.
+
+**Artifacts/scripts as needed:** Deterministic JSON/MD reports under research_state (follow existing patterns). Library-first + tests.
+
+### INTEGRATION REQUIREMENTS (MANDATORY)
+- Compose with src/options/* (pricing/Greeks/IV), src/orderflow/*, src/risk/*, src/hedging/*, src/portfolio/*, src/execution/* (Phase 46/47), src/alpha/* (Phase 48), src/monitoring/*, src/reconciliation/*, src/settlement/*, src/recovery/*, src/deployment/*, src/resilience/*, src/integration/* (Phases 17-48). Do not duplicate.
+- Use existing kill-switches, dynamic limits, deployment controller, PnL/risk loops, chaos/failover, adaptive MM/arb engines.
+- PAPER-ONLY defaults; live paths hard-gated + tested.
+- Determinism + finite numerics. No random without seed. No NaN/Inf. Enforce no-arbitrage on surfaces where computed.
+
+### ACCEPTANCE CRITERIA
+- All Phase 49 deliverables implemented and wired.
+- Gate GREEN: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` passes with >= 2558 passed, 0 failed (rises as Phase 49 tests ship).
+- No placeholders/TODOs/FIXMEs/HACKs/XXX anywhere.
+- PAPER-ONLY enforced.
+- Integration verified with Phases 39-48.
+- research_state/durable_handoff.md updated before ending with: fresh UTC timestamp, full list of files changed (absolute paths), concrete rationale.
+
 
 ## CONSTRAINTS (NON-NEGOTIABLE):
 - NO placeholders/TODOs/FIXMEs/HACKs/XXX. Ever.
