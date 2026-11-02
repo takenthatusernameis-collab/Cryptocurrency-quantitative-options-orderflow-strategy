@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
 # Timestamp (UTC): 2026-11-02T07:47:27Z
-# Updated (UTC): 2026-11-02T08:02:02Z# Project: Cryptocurrency-quantitative-options-orderflow-strategy
+# Updated (UTC): 2026-11-02T08:54:57Z# Project: Cryptocurrency-quantitative-options-orderflow-strategy
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution + regime-aware MM/hedging + live-readiness hardening + post-trade reconciliation/margin/collateral)
 
 THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
@@ -41,35 +41,11 @@ BOTTLENECK POLICY (ENFORCED — REMOVES INEFFICIENCY):
 ## COMPLETED CAMPAIGN: PHASE 46 — ADVANCED EXECUTION INTELLIGENCE, ADAPTIVE MARKET-MAKING & CROSS-VENUE LATENCY ARBITRAGE (CRYPTO OPTIONS + ORDERFLOW FOCUS)
 Status: COMPLETE (gate GREEN, 2535 passed, 2 skipped, 0 failed, verified 2026-11-02T07:17:00Z). Deliverables: `src/execution/phase46_adaptive_mm_engine.py`, `src/integration/phase46_execution_intelligence_loop.py`, `tests/test_phase46_adaptive_mm_engine.py`, `tests/test_phase46_execution_intelligence_loop.py`, deterministic JSON/MD artifacts under research_state. No placeholders/TODOs/FIXMEs/HACKs/XXX. PAPER-ONLY enforced. Integrated with Phases 28/32/39/42/44/45 + monitoring SLO.
 
-## ACTIVE CAMPAIGN: PHASE 48 — ADVANCED ALPHA GENERATION, REGIME-CONDITIONAL OPTIONS STRATEGIES & ORDERFLOW SIGNAL FUSION (CRYPTO OPTIONS + ORDERFLOW FOCUS)
-Timestamp (UTC): 2026-11-02T08:02:02Z
-Status: PENDING (SHIP THIS SESSION)
-Priority: MAXIMUM (by repo domain). Continues from Phase 47 with regime-conditional options strategy orchestration, orderflow signal fusion, and cross-venue alpha attribution integrated across Phases 17-47.
-Goal: Production-grade regime-conditional crypto options strategy engine fusing orderflow microstructure signals, cross-venue arbitrage/TCA, and risk-aware capital allocation. Tightly integrated with Phases 17-47. Deterministic, finite numerics, PAPER-ONLY hard gate by default; live paths hard-gated + tested.
+## COMPLETED CAMPAIGN: PHASE 48 — ADVANCED ALPHA GENERATION, REGIME-CONDITIONAL OPTIONS STRATEGIES & ORDERFLOW SIGNAL FUSION (CRYPTO OPTIONS + ORDERFLOW FOCUS)
+Timestamp (UTC): 2026-11-02T08:54:57Z
+Status: COMPLETE (gate GREEN, 2558 passed, 2 skipped, 0 failed, verified via `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q`). Deliverables: `src/alpha/phase48_regime_conditional_options_engine.py` (regime-conditional options strategy selection, orderflow signal fusion, alpha scoring, capital allocation), `src/integration/phase48_alpha_orchestration_loop.py` (end-to-end alpha orchestration composing Phases 17-47), `tests/test_phase48_regime_conditional_options_engine.py`, `tests/test_phase48_alpha_orchestration_loop.py`. Deterministic JSON/MD artifacts under research_state. No placeholders/TODOs/FIXMEs/HACKs/XXX. PAPER-ONLY enforced. Integrated with Phases 32/39/42/44/45/46/47 + monitoring SLO.
 
-### REQUIRED DELIVERABLES (SHIP ALL, NO PARTIALS)
-Create/extend the following (full paths):
-**Core modules (src/):**
-- `src/alpha/phase48_regime_conditional_options_engine.py` — Regime-conditional options strategy selection (vol surface, skew, term structure), orderflow signal fusion, alpha scoring, capital allocation. PAPER-ONLY, deterministic.
-- `src/integration/phase48_alpha_orchestration_loop.py` — End-to-end alpha orchestration loop composing Phases 17-47 with regime-conditional options + orderflow fusion. Emit telemetry/artifacts. PAPER-ONLY.
-**Tests (tests/):**
-- `tests/test_phase48_regime_conditional_options_engine.py` — Regime scenarios, signal fusion, alpha scoring, allocation.
-- `tests/test_phase48_alpha_orchestration_loop.py` — Integration with Phases 39-47 verified.
-**Artifacts/scripts as needed:** Deterministic JSON reports under research_state (follow existing patterns). Library-first + tests.
-
-### INTEGRATION REQUIREMENTS (MANDATORY)
-- Compose with src/options/*, src/orderflow/*, src/risk/*, src/hedging/*, src/portfolio/*, src/monitoring/*, src/reconciliation/*, src/settlement/*, src/recovery/*, src/deployment/*, src/resilience/*, src/integration/*, src/execution/* (Phases 17-47). Do not duplicate.
-- Use existing kill-switches, dynamic limits, deployment controller, PnL/risk loops, chaos/failover, adaptive MM, cross-venue arb/TCA (Phase 47).
-- PAPER-ONLY defaults; live paths hard-gated + tested.
-- Determinism + finite numerics. No placeholders/TODOs/FIXMEs/HACKs/XXX.
-
-### ACCEPTANCE CRITERIA
-- All Phase 48 deliverables implemented and wired.
-- Gate GREEN: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` passes with >= 2546 passed, 0 failed (rises as Phase 48 tests ship).
-- No placeholders/TODOs/FIXMEs/HACKs/XXX anywhere.
-- PAPER-ONLY enforced.
-- Integration verified with Phases 39-47.
-- research_state/durable_handoff.md updated before ending with: fresh UTC timestamp, full list of files changed (absolute paths), concrete rationale.
+Files changed this session (full paths): `src/alpha/phase48_regime_conditional_options_engine.py` (new/extended: regime classification, orderflow fusion, strategy selection by regime, alpha scoring/allocation with Greeks approx, campaign + reports), `src/integration/phase48_alpha_orchestration_loop.py` (new: orchestration composing alpha engine, Phase 47 arb, orderflow, risk/hedge, resilience, kill-switches, SLO), `tests/test_phase48_regime_conditional_options_engine.py` (new: 8 tests), `tests/test_phase48_alpha_orchestration_loop.py` (new: 4 tests), `research_state/durable_handoff.md` (updated). All 12 new tests pass; full gate GREEN (2558 passed, 2 skipped). Bottlenecks cleared.
 
 ### REQUIRED DELIVERABLES (SHIP ALL, NO PARTIALS)
 Create/extend the following (full paths):
