@@ -1,0 +1,154 @@
+{
+  "all_events_paper_only": true,
+  "backup_venues": [
+    "bybit",
+    "binance"
+  ],
+  "chaos_failover_triggered": false,
+  "cycles": 8,
+  "domain_focus": "crypto_options_orderflow_kill_switch_failover_drill",
+  "drift_breach_count": 5,
+  "drift_count": 5,
+  "drift_events": [
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 2,
+      "drift_id": "p55ksdrill_drift_0c139cce78f6",
+      "drift_pct": 0.028061127181630032,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-02T17:05:07.025755Z",
+      "venue": "deribit"
+    },
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 3,
+      "drift_id": "p55ksdrill_drift_ade9fd0a4af1",
+      "drift_pct": 0.045991614128205925,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-02T17:05:07.027714Z",
+      "venue": "deribit"
+    },
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 5,
+      "drift_id": "p55ksdrill_drift_d324567676a3",
+      "drift_pct": 0.020588043031085253,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-02T17:05:07.032290Z",
+      "venue": "deribit"
+    },
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 6,
+      "drift_id": "p55ksdrill_drift_74963e95b439",
+      "drift_pct": 0.027414128078181933,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-02T17:05:07.034536Z",
+      "venue": "deribit"
+    },
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 7,
+      "drift_id": "p55ksdrill_drift_e11c68e21394",
+      "drift_pct": 0.03763715225559508,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-02T17:05:07.036768Z",
+      "venue": "deribit"
+    }
+  ],
+  "drift_threshold_pct": 0.02,
+  "failover_count": 5,
+  "failover_events": [
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 1,
+      "failover_id": "p55ksdrill_chaos_failover_ef5fc5a43196",
+      "from_venue": "deribit",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-02T17:05:07.023678Z",
+      "to_venue": "okx"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 4,
+      "failover_id": "p55ksdrill_chaos_failover_43c67015dd3c",
+      "from_venue": "okx",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-02T17:05:07.029990Z",
+      "to_venue": "binance"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 5,
+      "failover_id": "p55ksdrill_chaos_failover_9dfd2c03d9c6",
+      "from_venue": "binance",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-02T17:05:07.032272Z",
+      "to_venue": "deribit"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 6,
+      "failover_id": "p55ksdrill_chaos_failover_cdf95dd680f3",
+      "from_venue": "deribit",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-02T17:05:07.034518Z",
+      "to_venue": "okx"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 7,
+      "failover_id": "p55ksdrill_chaos_failover_40d34d2806e4",
+      "from_venue": "okx",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-02T17:05:07.036750Z",
+      "to_venue": "deribit"
+    }
+  ],
+  "gates_ok": true,
+  "halt_count": 0,
+  "halt_events": [],
+  "halt_propagation_ok": true,
+  "integration": "Phase39+Phase45",
+  "kill_switch_halted": false,
+  "modes": "paper",
+  "paper_only": true,
+  "phase": "PHASE55_KILL_SWITCH_FAILOVER_DRILL",
+  "primary_venue": "deribit",
+  "recovery_count": 0,
+  "recovery_events": [],
+  "seed": 555,
+  "timestamp": "2026-11-02T17:05:07.040479Z",
+  "total_halted_cycles": 0,
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ]
+}
