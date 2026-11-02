@@ -1,0 +1,89 @@
+{
+  "cycles": 6,
+  "deployment": {
+    "gates_ok": true,
+    "paper_only": true
+  },
+  "domain_focus": "crypto_options_orderflow_toxicity_resilient_flow_liquidity_allocator_adaptive_hedge",
+  "gates_ok": true,
+  "halt_count": 1,
+  "halt_events": [
+    {
+      "action": "halt_adaptive_hedge_execution_and_roll_back",
+      "auto_executed": true,
+      "cycle": 6,
+      "paper_only": true,
+      "reason": "phase52_breach_flow_alloc_hedge_mm_rv_vol_alpha_arb_risk_resilience",
+      "severity": "critical",
+      "timestamp": "2026-11-02T13:23:22.172248Z",
+      "trigger_id": "p52_halt_5243df3ccf42"
+    }
+  ],
+  "integration": "Phases17-51+Phase52",
+  "kill_switches": {
+    "halted": false
+  },
+  "modes": "paper",
+  "paper_only": true,
+  "phase": "PHASE52_ADAPTIVE_HEDGE_EXECUTION_LOOP",
+  "phase46_mm": {
+    "gates_ok": true
+  },
+  "phase47_arb": {
+    "gates_ok": true
+  },
+  "phase48_alpha": {
+    "gates_ok": true
+  },
+  "phase49_hedge": {
+    "gates_ok": true
+  },
+  "phase49_vol_arb": {
+    "gates_ok": true
+  },
+  "phase50_mm": {
+    "gates_ok": true,
+    "n_quotes": 36
+  },
+  "phase50_rv": {
+    "gates_ok": true,
+    "n_opps": 0
+  },
+  "phase51_alpha_fusion": {
+    "gates_ok": true,
+    "n_alphas": 6
+  },
+  "phase51_sor": {
+    "gates_ok": true,
+    "n_orders": null
+  },
+  "phase52_flow_optimizer": {
+    "avg_throttle_mult": 0.9,
+    "avg_toxicity": 0.195225,
+    "gates_ok": true
+  },
+  "phase52_liquidity_allocator": {
+    "gates_ok": true,
+    "n_allocations": 24,
+    "n_slices": 88,
+    "total_alloc_usd": 28800.0
+  },
+  "recon": {
+    "gates_ok": true
+  },
+  "resilience": {
+    "gates_ok": false
+  },
+  "risk_hedge": {
+    "gates_ok": false
+  },
+  "seed": 53110,
+  "settlement": {
+    "gates_ok": true
+  },
+  "slo": {
+    "alerts_fired": 5,
+    "evaluations": 5
+  },
+  "timestamp": "2026-11-02T13:23:22.173010Z"
+}

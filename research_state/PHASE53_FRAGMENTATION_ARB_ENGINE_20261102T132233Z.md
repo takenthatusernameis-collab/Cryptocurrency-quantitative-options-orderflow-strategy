@@ -1,0 +1,11 @@
+# PHASE53 Fragmentation Arb Engine
+- Timestamp: 2026-11-02T13:22:33.782027Z
+- Gates OK: True
+- Avg Toxicity: 0.19
+- Frag Max: 0.74
+- Basis Observations: 36
+- Opportunities: 25
+- Total Notional USD: 2137769.55
+- Total Edge BPS: 12.108082763385719
+- Kill-Switch Halted: False
+- SLO Alerts Fired: 5

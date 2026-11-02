@@ -1,0 +1,119 @@
+{
+  "cycles": 8,
+  "deployment": {
+    "gates_ok": true,
+    "paper_only": true
+  },
+  "domain_focus": "crypto_options_orderflow_cross_asset_delta_vol_hedge_fusion",
+  "gates_ok": false,
+  "halt_count": 1,
+  "halt_events": [
+    {
+      "action": "halt_hedge_fusion_and_roll_back_positions",
+      "auto_executed": true,
+      "cycle": 8,
+      "paper_only": true,
+      "reason": "phase53_breach_frag_skew_flow_alloc_loop52_mm_rv_vol_hedge_alpha_arb_risk_resilience",
+      "severity": "critical",
+      "timestamp": "2026-11-02T13:21:07.435611Z",
+      "trigger_id": "p53_halt_05033cf4a5de"
+    }
+  ],
+  "halted_by_kill_switch": false,
+  "hedge_fusion": {
+    "delta_abs": 0.11,
+    "fusion_score": 0.0,
+    "hedge_capacity": 0.0,
+    "inventory_skew": 1.2188867816729938,
+    "vol_edge_bps": 16.142555884802075
+  },
+  "integration": "Phases17-52",
+  "kill_switches": {
+    "halted": false
+  },
+  "modes": "paper",
+  "paper_only": true,
+  "phase": "PHASE53_CROSS_ASSET_DELTA_VOL_HEDGE_FUSION_LOOP",
+  "phase46_mm": {
+    "gates_ok": true
+  },
+  "phase47_arb": {
+    "gates_ok": true
+  },
+  "phase48_alpha": {
+    "gates_ok": true
+  },
+  "phase49_hedge": {
+    "gates_ok": true
+  },
+  "phase49_vol_arb": {
+    "gates_ok": true
+  },
+  "phase50_mm": {
+    "gates_ok": true
+  },
+  "phase50_rv": {
+    "gates_ok": true
+  },
+  "phase51_alpha_fusion": {
+    "gates_ok": true,
+    "n_alphas": 8
+  },
+  "phase51_sor": {
+    "gates_ok": true,
+    "n_orders": null
+  },
+  "phase52_flow_optimizer": {
+    "avg_toxicity": 0.195225,
+    "gates_ok": true
+  },
+  "phase52_hedge_loop": {
+    "gates_ok": true,
+    "halt_count": 0
+  },
+  "phase52_liquidity_allocator": {
+    "gates_ok": true,
+    "n_allocations": 32
+  },
+  "phase53_fragmentation_arb": {
+    "gates_ok": true,
+    "n_opportunities": 35,
+    "total_edge_bps": 16.142555884802075
+  },
+  "phase53_inventory_skew": {
+    "avg_spread_bps": 8.702057557396365,
+    "gates_ok": false,
+    "max_abs_inventory": 1.2188867816729938,
+    "n_quotes": 384
+  },
+  "recon": {
+    "gates_ok": true
+  },
+  "resilience": {
+    "gates_ok": false
+  },
+  "risk_hedge": {
+    "gates_ok": true
+  },
+  "rollback_count": 1,
+  "rollback_events": [
+    {
+      "auto_executed": true,
+      "cycle": 8,
+      "paper_only": true,
+      "reason": "phase53_rollback_delta_vol_hedge_inventory_frag_exposure",
+      "rollback_id": "p53_halt_b5c3e3f7e061",
+      "severity": "critical",
+      "timestamp": "2026-11-02T13:21:07.435618Z"
+    }
+  ],
+  "seed": 53053,
+  "settlement": {
+    "gates_ok": true
+  },
+  "slo": {
+    "alerts_fired": 5,
+    "evaluations": 5
+  },
+  "timestamp": "2026-11-02T13:21:07.436711Z"
+}

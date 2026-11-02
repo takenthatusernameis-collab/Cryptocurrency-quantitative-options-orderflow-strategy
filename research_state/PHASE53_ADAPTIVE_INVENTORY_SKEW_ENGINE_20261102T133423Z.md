@@ -1,0 +1,11 @@
+# PHASE53 Adaptive Inventory Skew Engine
+- Timestamp: 2026-11-02T13:34:23.973372Z
+- Gates OK: True
+- Regime: neutral
+- Orderflow Shade: 0.0
+- Regime Mult: 1.0
+- Kill-Switch Halted: False
+- Quotes: 384
+- Avg Spread BPS: 8.654252603515502
+- Max Abs Inventory: 1.0
+- SLO Alerts Fired: 5
