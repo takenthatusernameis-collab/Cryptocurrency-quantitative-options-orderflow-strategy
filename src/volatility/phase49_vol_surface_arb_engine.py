@@ -279,6 +279,7 @@ class Phase49VolSurfaceArbEngine:
         self._counter = 0
         self.vol_surface = VolSurface(seed=self.seed + 49000)
         self.of = OrderflowAlphaIntegrator(OrderflowAlphaIntegrationConfig32(seed=self.seed + 49, paper_only=True))
+        self._boost_cache: Dict[str, float] = {}
         self.iv_quotes: List[IVQuote] = []
         self.dislocations: List[VolDislocation] = []
         self.signals: List[VolArbSignal] = []
@@ -311,13 +312,17 @@ class Phase49VolSurfaceArbEngine:
         return {"ingested": len(self.iv_quotes), "status": "ok"}
 
     def _orderflow_boost(self, underlying: str) -> float:
+        if underlying in self._boost_cache:
+            return self._boost_cache[underlying]
         try:
             rep = self.of.run_campaign(cycles=10)
             base = float(rep.get("signals_fused", 0)) * 0.01
         except Exception:
             base = 0.0
         b = math.tanh(base * self.config.orderflow_weight)
-        return _finite(b, 0.0)
+        val = _finite(b, 0.0)
+        self._boost_cache[underlying] = val
+        return val
 
     def detect_dislocations(self) -> List[VolDislocation]:
         self.dislocations = []
