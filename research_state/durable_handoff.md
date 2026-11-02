@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-02T05:04:51Z
-# Updated (UTC): 2026-11-02T05:04:51Z
+# Timestamp (UTC): 2026-11-02T05:05:46Z
+# Updated (UTC): 2026-11-02T05:05:46Z
 # Project: Cryptocurrency-quantitative-options-orderflow-strategy
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution + regime-aware MM/hedging + live-readiness hardening + post-trade reconciliation/margin/collateral)
 
@@ -12,6 +12,7 @@ COMPLETED (DO NOT REDO):
 - Phases 1-39: Complete. Phase 39 (Live-Readiness Hardening, Kill-Switches & Disaster Recovery) COMPLETE.
 - Phase 40: Post-Trade Reconciliation, Margin/Collateral & Position Auditing COMPLETE.
 - Phase 41: Cross-Venue Settlement & Finality COMPLETE (`src/settlement/phase41_cross_venue_settlement.py`, `src/integration/phase41_settlement_loop.py`, `tests/test_phase41_settlement.py`).
+- Phase 43: Real-Time PnL Attribution, VaR/ES, Stress Testing & Scenario Engine COMPLETE (`src/attribution/phase43_pnl_attribution.py`, `src/integration/phase43_pnl_risk_loop.py`, `tests/test_phase43_pnl_attribution.py`, `tests/test_phase43_pnl_risk_loop.py`).
 
 ## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
 Timestamp (UTC): 2026-11-02T04:15:59Z
@@ -34,23 +35,22 @@ BOTTLENECK POLICY (ENFORCED — REMOVES INEFFICIENCY):
 - Every session MUST produce tangible file changes (src/tests/scripts/artifacts). If no code written -> you have not done the job.
 - Leverage existing patterns: Phase 20 post-trade recon, Phase 38/39/40 risk/recon/validation loops, Phase 41 settlement loop, serialization/telemetry/monitoring. Compose, don't reinvent.
 
-## ACTIVE CAMPAIGN: PHASE 43 — REAL-TIME PNL ATTRIBUTION, VAR/ES, STRESS TESTING & SCENARIO ENGINE (CRYPTO OPTIONS + ORDERFLOW FOCUS)
-Timestamp (UTC): 2026-11-02T05:04:51Z
-Status: COMPLETE
-Priority: MAXIMUM (by repo domain). Continues from Phase 42 with deep PnL attribution/VaR-ES/stress integrated across Phases 17-42.
-
-Goal: Production-grade, real-time options risk + orderflow-driven hedging with dynamic limits. Tightly integrated with Phases 17-41. Deterministic, finite numerics, PAPER-ONLY by default where applicable.
+## ACTIVE CAMPAIGN: PHASE 44 — LIVE CAPITAL DEPLOYMENT, CONTINUOUS VALIDATION, AUTOMATED ROLLBACK & PRODUCTION SLO MONITORING (CRYPTO OPTIONS + ORDERFLOW FOCUS)
+Timestamp (UTC): 2026-11-02T05:05:46Z
+Status: PENDING (SHIP THIS SESSION)
+Priority: MAXIMUM (by repo domain). Continues from Phase 43 with live capital deployment + continuous validation + automated rollback integrated across Phases 17-43.
+Goal: Production-grade live capital deployment orchestration with continuous validation, automated rollback, production SLO monitoring for crypto options + orderflow quant. Tightly integrated with Phases 17-43. Deterministic, finite numerics, PAPER-ONLY hard gate by default; live paths hard-gated + tested.
 
 ### REQUIRED DELIVERABLES (SHIP ALL, NO PARTIALS)
 Create/extend the following (full paths):
 
 **Core modules (src/):**
-- `src/attribution/phase43_pnl_attribution.py` — Real-time PnL attribution (delta/gamma/vega/theta/rho + residual), VaR/ES (historical/parametric style), stress testing with regime shocks, scenario engine. Deterministic, finite numerics, PAPER-ONLY hard gate.
-- `src/integration/phase43_pnl_risk_loop.py` — Orchestration loop composing Phases 17-42: attribution + VaR/ES + stress integrated with Greeks/risk/hedging/recon/kill-switch/settlement. Emit telemetry/artifacts. PAPER-ONLY.
+- `src/deployment/phase44_live_capital_deployment.py` — Live capital deployment orchestration: capital ramp schedules, position limits escalation, automated rollback triggers, SLO monitoring. Deterministic, finite numerics, PAPER-ONLY hard gate by default; live paths hard-gated + tested.
+- `src/integration/phase44_live_validation_loop.py` — Continuous validation loop composing Phases 17-43: live capital + continuous validation + automated rollback + SLO monitoring integrated with attribution/VaR/stress/recon/settlement. Emit telemetry/artifacts. PAPER-ONLY.
 
 **Tests (tests/):**
-- `tests/test_phase43_pnl_attribution.py` — Attribution decomposition, VaR/ES consistency, stress scenarios, campaign gates.
-- `tests/test_phase43_pnl_risk_loop.py` — End-to-end loop, integration with Phases 39/40/41/42 verified.
+- `tests/test_phase44_live_capital_deployment.py` — Capital ramp, rollback triggers, SLO gates, campaign gates.
+- `tests/test_phase44_live_validation_loop.py` — End-to-end loop, integration with Phases 39-43 verified.
 
 **Artifacts/scripts as needed:**
 - Ensure loop writes deterministic JSON reports/artifacts under a sensible outdir (follow Phase 41 pattern). Add minimal script only if necessary to run campaign; prefer library-first + tests.
