@@ -1,6 +1,6 @@
 # PHASE30_DYNAMIC_CAPITAL_ALLOCATOR_REPORT
 
-Timestamp: 2026-11-02T02:12:45.195288Z
+Timestamp: 2026-11-02T03:02:04.494415Z
 Status: ok
 Paper-only: true
 Total Capital: $1,000,000

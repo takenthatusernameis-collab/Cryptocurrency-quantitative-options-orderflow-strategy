@@ -1,9 +1,9 @@
 {
   "phase": "PHASE38_RISK_MONITOR",
-  "timestamp_utc": "2026-11-02T02:13:23.151683Z",
+  "timestamp_utc": "2026-11-02T03:02:10.191678Z",
   "paper_only": true,
   "config": {
-    "seed": 31,
+    "seed": 40340,
     "paper_only": true,
     "underlyings": [
       "BTC",
@@ -17,7 +17,7 @@
       "bybit",
       "binance"
     ],
-    "cycles": 12,
+    "cycles": 3,
     "var_confidence": 0.95,
     "var_limit_usd": 25000.0,
     "cvar_limit_usd": 35000.0,
@@ -31,14 +31,14 @@
     "max_daily_loss_usd": 40000.0,
     "regime_aware": true
   },
-  "n_cycles": 12,
+  "n_cycles": 3,
   "n_breaches": 0,
-  "risk_ok_cycles": 12,
+  "risk_ok_cycles": 3,
   "breach_counts_by_metric": {},
   "cycles": [
     {
       "cycle": 0,
-      "timestamp": "2026-11-02T02:13:23.151386Z",
+      "timestamp": "2026-11-02T03:02:10.191594Z",
       "paper_only": true,
       "regime": "normal",
       "greeks": {
@@ -47,7 +47,7 @@
         "vega": 300.0,
         "theta": -80.0,
         "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151376Z"
+        "timestamp": "2026-11-02T03:02:10.191581Z"
       },
       "var_usd": 15000.0,
       "cvar_usd": 21000.0,
@@ -60,7 +60,7 @@
     },
     {
       "cycle": 1,
-      "timestamp": "2026-11-02T02:13:23.151423Z",
+      "timestamp": "2026-11-02T03:02:10.191632Z",
       "paper_only": true,
       "regime": "stressed",
       "greeks": {
@@ -69,7 +69,7 @@
         "vega": 350.0,
         "theta": -100.0,
         "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151416Z"
+        "timestamp": "2026-11-02T03:02:10.191626Z"
       },
       "var_usd": 17000.0,
       "cvar_usd": 23800.0,
@@ -82,7 +82,7 @@
     },
     {
       "cycle": 2,
-      "timestamp": "2026-11-02T02:13:23.151451Z",
+      "timestamp": "2026-11-02T03:02:10.191659Z",
       "paper_only": true,
       "regime": "volatile",
       "greeks": {
@@ -91,210 +91,12 @@
         "vega": 400.0,
         "theta": -80.0,
         "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151445Z"
+        "timestamp": "2026-11-02T03:02:10.191654Z"
       },
       "var_usd": 19000.0,
       "cvar_usd": 26600.0,
       "exposure_usd": 300000.0,
       "drawdown_pct": 0.04,
-      "daily_pnl_usd": -4000.0,
-      "breaches": [],
-      "risk_ok": true,
-      "action_taken": "none"
-    },
-    {
-      "cycle": 3,
-      "timestamp": "2026-11-02T02:13:23.151475Z",
-      "paper_only": true,
-      "regime": "crisis",
-      "greeks": {
-        "delta": 135.0,
-        "gamma": 70.0,
-        "vega": 300.0,
-        "theta": -100.0,
-        "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151470Z"
-      },
-      "var_usd": 21000.0,
-      "cvar_usd": 29399.999999999996,
-      "exposure_usd": 325000.0,
-      "drawdown_pct": 0.05,
-      "daily_pnl_usd": -6000.0,
-      "breaches": [],
-      "risk_ok": true,
-      "action_taken": "none"
-    },
-    {
-      "cycle": 4,
-      "timestamp": "2026-11-02T02:13:23.151499Z",
-      "paper_only": true,
-      "regime": "normal",
-      "greeks": {
-        "delta": 165.0,
-        "gamma": 40.0,
-        "vega": 350.0,
-        "theta": -80.0,
-        "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151495Z"
-      },
-      "var_usd": 23000.0,
-      "cvar_usd": 32199.999999999996,
-      "exposure_usd": 350000.0,
-      "drawdown_pct": 0.02,
-      "daily_pnl_usd": -5000.0,
-      "breaches": [],
-      "risk_ok": true,
-      "action_taken": "none"
-    },
-    {
-      "cycle": 5,
-      "timestamp": "2026-11-02T02:13:23.151523Z",
-      "paper_only": true,
-      "regime": "stressed",
-      "greeks": {
-        "delta": 180.0,
-        "gamma": 50.0,
-        "vega": 400.0,
-        "theta": -100.0,
-        "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151518Z"
-      },
-      "var_usd": 15000.0,
-      "cvar_usd": 21000.0,
-      "exposure_usd": 375000.0,
-      "drawdown_pct": 0.03,
-      "daily_pnl_usd": -4000.0,
-      "breaches": [],
-      "risk_ok": true,
-      "action_taken": "none"
-    },
-    {
-      "cycle": 6,
-      "timestamp": "2026-11-02T02:13:23.151546Z",
-      "paper_only": true,
-      "regime": "volatile",
-      "greeks": {
-        "delta": 150.0,
-        "gamma": 60.0,
-        "vega": 300.0,
-        "theta": -80.0,
-        "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151541Z"
-      },
-      "var_usd": 17000.0,
-      "cvar_usd": 23800.0,
-      "exposure_usd": 250000.0,
-      "drawdown_pct": 0.04,
-      "daily_pnl_usd": -6000.0,
-      "breaches": [],
-      "risk_ok": true,
-      "action_taken": "none"
-    },
-    {
-      "cycle": 7,
-      "timestamp": "2026-11-02T02:13:23.151568Z",
-      "paper_only": true,
-      "regime": "crisis",
-      "greeks": {
-        "delta": 148.5,
-        "gamma": 70.0,
-        "vega": 350.0,
-        "theta": -100.0,
-        "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151564Z"
-      },
-      "var_usd": 19000.0,
-      "cvar_usd": 26600.0,
-      "exposure_usd": 275000.0,
-      "drawdown_pct": 0.05,
-      "daily_pnl_usd": -5000.0,
-      "breaches": [],
-      "risk_ok": true,
-      "action_taken": "none"
-    },
-    {
-      "cycle": 8,
-      "timestamp": "2026-11-02T02:13:23.151592Z",
-      "paper_only": true,
-      "regime": "normal",
-      "greeks": {
-        "delta": 180.0,
-        "gamma": 40.0,
-        "vega": 400.0,
-        "theta": -80.0,
-        "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151587Z"
-      },
-      "var_usd": 21000.0,
-      "cvar_usd": 29399.999999999996,
-      "exposure_usd": 300000.0,
-      "drawdown_pct": 0.02,
-      "daily_pnl_usd": -4000.0,
-      "breaches": [],
-      "risk_ok": true,
-      "action_taken": "none"
-    },
-    {
-      "cycle": 9,
-      "timestamp": "2026-11-02T02:13:23.151614Z",
-      "paper_only": true,
-      "regime": "stressed",
-      "greeks": {
-        "delta": 150.0,
-        "gamma": 50.0,
-        "vega": 300.0,
-        "theta": -100.0,
-        "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151609Z"
-      },
-      "var_usd": 23000.0,
-      "cvar_usd": 32199.999999999996,
-      "exposure_usd": 325000.0,
-      "drawdown_pct": 0.03,
-      "daily_pnl_usd": -6000.0,
-      "breaches": [],
-      "risk_ok": true,
-      "action_taken": "none"
-    },
-    {
-      "cycle": 10,
-      "timestamp": "2026-11-02T02:13:23.151637Z",
-      "paper_only": true,
-      "regime": "volatile",
-      "greeks": {
-        "delta": 165.0,
-        "gamma": 60.0,
-        "vega": 350.0,
-        "theta": -80.0,
-        "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151632Z"
-      },
-      "var_usd": 15000.0,
-      "cvar_usd": 21000.0,
-      "exposure_usd": 350000.0,
-      "drawdown_pct": 0.04,
-      "daily_pnl_usd": -5000.0,
-      "breaches": [],
-      "risk_ok": true,
-      "action_taken": "none"
-    },
-    {
-      "cycle": 11,
-      "timestamp": "2026-11-02T02:13:23.151665Z",
-      "paper_only": true,
-      "regime": "crisis",
-      "greeks": {
-        "delta": 162.0,
-        "gamma": 70.0,
-        "vega": 400.0,
-        "theta": -100.0,
-        "rho": 10.0,
-        "timestamp": "2026-11-02T02:13:23.151660Z"
-      },
-      "var_usd": 17000.0,
-      "cvar_usd": 23800.0,
-      "exposure_usd": 375000.0,
-      "drawdown_pct": 0.05,
       "daily_pnl_usd": -4000.0,
       "breaches": [],
       "risk_ok": true,

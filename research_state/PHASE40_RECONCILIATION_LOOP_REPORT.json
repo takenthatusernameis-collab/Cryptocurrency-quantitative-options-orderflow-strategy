@@ -1,0 +1,45 @@
+{
+  "phase": "PHASE40_RECONCILIATION_LOOP",
+  "timestamp_utc": "2026-11-02T03:02:10Z",
+  "paper_only": true,
+  "modes": "paper",
+  "cfg": {
+    "seed": 40040,
+    "cycles": 4,
+    "paper_only": true,
+    "modes": "paper",
+    "symbols": [
+      "BTC-PERP",
+      "ETH-PERP"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "expiries": [
+      "2026-12-26"
+    ],
+    "outdir": "research_state"
+  },
+  "n_cycles": 4,
+  "total_discrepancies": 2,
+  "total_critical": 0,
+  "auto_halts_triggered": 0,
+  "trading_enabled_cycles": 4,
+  "reconciled_all_cycles": 3,
+  "integrated_with": [
+    "PHASE20_POST_TRADE_RECON",
+    "PHASE38_RISK_OBS_VALIDATION_LOOP",
+    "PHASE39_LIVE_READINESS_LOOP",
+    "PHASE39_KILL_SWITCHES"
+  ],
+  "gates_ok": true,
+  "phase39_global_halts": 0,
+  "phase20_reconciled": true
+}

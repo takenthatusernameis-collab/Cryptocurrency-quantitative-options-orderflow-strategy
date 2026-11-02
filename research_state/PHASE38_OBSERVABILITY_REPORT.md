@@ -1,10 +1,9 @@
 # PHASE38 OBSERVABILITY REPORT
-Timestamp: 2026-11-02T02:13:23.154402Z
+Timestamp: 2026-11-02T03:02:10.193625Z
 Traces: 2, Alerts: 0
 
 ## Counters
-- cycles: 12.0
-- regime_normal: 3.0
-- regime_stressed: 3.0
-- regime_volatile: 3.0
-- regime_crisis: 3.0
+- cycles: 3.0
+- regime_normal: 1.0
+- regime_stressed: 1.0
+- regime_volatile: 1.0
