@@ -1,0 +1,46 @@
+{
+  "phase": "PHASE41_SETTLEMENT_LOOP",
+  "timestamp_utc": "2026-11-02T04:00:45Z",
+  "paper_only": true,
+  "modes": "paper",
+  "cfg": {
+    "seed": 41041,
+    "cycles": 16,
+    "paper_only": true,
+    "modes": "paper",
+    "symbols": [
+      "BTC-PERP",
+      "ETH-PERP"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "expiries": [
+      "2026-12-26"
+    ],
+    "outdir": "research_state"
+  },
+  "n_cycles": 16,
+  "total_instructions": 72,
+  "total_receipts": 72,
+  "total_pending": 0,
+  "total_failed": 0,
+  "finality_ok_all_cycles": true,
+  "margin_gates_ok_all_cycles": true,
+  "trading_enabled_all_cycles": true,
+  "integrated_with": [
+    "PHASE39_KILL_SWITCHES",
+    "PHASE40_RECONCILIATION",
+    "PHASE17-38"
+  ],
+  "gates_ok": true,
+  "phase39_global_halts": 0,
+  "phase40_reconciled_all": 8
+}
