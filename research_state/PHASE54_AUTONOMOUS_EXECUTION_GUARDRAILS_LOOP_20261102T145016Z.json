@@ -1,0 +1,95 @@
+{
+  "cycle_breaches": 1,
+  "cycles": 10,
+  "deployment": {
+    "gates_ok": true,
+    "paper_only": true
+  },
+  "domain_focus": "crypto_options_orderflow_cross_asset_flow_synthesis_realtime_risk_fusion_autonomous_guardrails",
+  "flow_optimizer": {
+    "avg_toxicity": 0.195225,
+    "gates_ok": true
+  },
+  "flow_synth": {
+    "avg_regime_fusion_score": 0.5962500000000001,
+    "avg_toxicity": 0.19261250000000002,
+    "gates_ok": true,
+    "n_routes": 10
+  },
+  "gates_ok": false,
+  "guard_cycles": 10,
+  "halt_count": 1,
+  "halt_events": [
+    {
+      "action": "halt_autonomous_execution_and_rollback_positions",
+      "auto_executed": true,
+      "cycle": 0,
+      "flow_cycle_ok": false,
+      "flow_toxicity": 0.19261250000000002,
+      "kill_switch_ok": true,
+      "paper_only": true,
+      "reason": "phase54_guardrails_breach_flow_risk_kill_switch_toxicity_fused",
+      "risk_cycle_ok": false,
+      "risk_fused_score": 0.38949999999999996,
+      "severity": "critical",
+      "timestamp": "2026-11-02T14:50:06.007818Z",
+      "trigger_id": "p54_halt_26475c0ff336"
+    }
+  ],
+  "hedge_fusion": {
+    "gates_ok": true
+  },
+  "integration": "Phases17-53+Phase54",
+  "kill_switch_halted": false,
+  "modes": "paper",
+  "paper_only": true,
+  "phase": "PHASE54_AUTONOMOUS_EXECUTION_GUARDRAILS_LOOP",
+  "recon": {
+    "gates_ok": true
+  },
+  "resilience": {
+    "gates_ok": false
+  },
+  "risk_fusion": {
+    "avg_fused_risk_score": 0.4549,
+    "critical_breaches": 0,
+    "gates_ok": true,
+    "kill_switch_triggered": false,
+    "max_fused_risk_score": 0.519
+  },
+  "risk_hedge": {
+    "gates_ok": false
+  },
+  "rollback_count": 1,
+  "rollback_events": [
+    {
+      "auto_executed": true,
+      "cycle": 0,
+      "paper_only": true,
+      "positions_flattened": [
+        "BTC-OPT",
+        "ETH-OPT",
+        "SOL-OPT"
+      ],
+      "reason": "phase54_guardrails_auto_rollback_on_breach",
+      "rollback_id": "p54_rollback_9c0f3b5ab7b6",
+      "timestamp": "2026-11-02T14:50:06.007827Z",
+      "trigger_id": "p54_halt_26475c0ff336",
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ]
+    }
+  ],
+  "seed": 777,
+  "settlement": {
+    "gates_ok": true
+  },
+  "slo": {
+    "alerts_fired": 5,
+    "evaluations": 5
+  },
+  "timestamp": "2026-11-02T14:50:16.537148Z"
+}

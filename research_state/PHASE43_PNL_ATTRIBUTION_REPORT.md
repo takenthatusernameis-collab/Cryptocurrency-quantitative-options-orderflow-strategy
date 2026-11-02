@@ -1,9 +1,9 @@
 # Phase 43 PnL Attribution Report
 
-Seed: 52140
+Seed: 54102
 Paper-only: true
 Cycles: 16
-Final VaR(99%): 87855.10
-Final CVaR(97.5%): 104087.75
-Max stress loss: -438785.77
+Final VaR(99%): 105735.03
+Final CVaR(97.5%): 121930.52
+Max stress loss: -449034.45
 Gates OK: True

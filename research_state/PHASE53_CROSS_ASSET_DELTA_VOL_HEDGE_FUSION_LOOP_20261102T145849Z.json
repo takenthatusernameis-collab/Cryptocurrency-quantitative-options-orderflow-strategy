@@ -1,0 +1,97 @@
+{
+  "cycles": 60,
+  "deployment": {
+    "gates_ok": true,
+    "paper_only": true
+  },
+  "domain_focus": "crypto_options_orderflow_liquidity_fragmentation_adaptive_inventory_skew_cross_asset_delta_vol_hedge_fusion",
+  "gates_ok": true,
+  "halt_count": 1,
+  "halt_events": [
+    {
+      "action": "halt_cross_asset_delta_vol_hedge_fusion_and_roll_back",
+      "auto_executed": true,
+      "cycle": 60,
+      "paper_only": true,
+      "reason": "phase53_breach_fragmentation_skew_flow_alloc_hedge_mm_rv_alpha_risk_resilience",
+      "severity": "critical",
+      "timestamp": "2026-11-02T14:58:49.386605Z",
+      "trigger_id": "p53_halt_7b3395552ec4"
+    }
+  ],
+  "integration": "Phases17-52+Phase53",
+  "kill_switches": {
+    "halted": false
+  },
+  "modes": "paper",
+  "paper_only": true,
+  "phase": "PHASE53_CROSS_ASSET_DELTA_VOL_HEDGE_FUSION_LOOP",
+  "phase46_mm": {
+    "gates_ok": true
+  },
+  "phase47_arb": {
+    "gates_ok": true
+  },
+  "phase48_alpha": {
+    "gates_ok": true
+  },
+  "phase49_hedge": {
+    "gates_ok": true
+  },
+  "phase49_vol_arb": {
+    "gates_ok": true
+  },
+  "phase50_mm": {
+    "gates_ok": true,
+    "n_quotes": 36
+  },
+  "phase50_rv": {
+    "gates_ok": true,
+    "n_opps": 0
+  },
+  "phase51_alpha_fusion": {
+    "gates_ok": true,
+    "n_alphas": 60
+  },
+  "phase51_sor": {
+    "gates_ok": true,
+    "n_orders": null
+  },
+  "phase52_flow_optimizer": {
+    "avg_toxicity": 0.195225,
+    "gates_ok": true
+  },
+  "phase52_liquidity_allocator": {
+    "gates_ok": true,
+    "n_allocations": 240,
+    "total_alloc_usd": 288000.0
+  },
+  "phase53_adaptive_inventory_skew": {
+    "avg_skew_bps": 7.499,
+    "gates_ok": true,
+    "n_quotes": 60
+  },
+  "phase53_fragmentation_arb": {
+    "avg_basis_bps": 2.1643499999999998,
+    "gates_ok": true,
+    "n_opps": 0
+  },
+  "recon": {
+    "gates_ok": true
+  },
+  "resilience": {
+    "gates_ok": false
+  },
+  "risk_hedge": {
+    "gates_ok": false
+  },
+  "seed": 54056,
+  "settlement": {
+    "gates_ok": true
+  },
+  "slo": {
+    "alerts_fired": 5,
+    "evaluations": 5
+  },
+  "timestamp": "2026-11-02T14:58:49.387653Z"
+}
