@@ -1,0 +1,77 @@
+{
+  "best_venue": "bybit",
+  "cycles": 6,
+  "domain_focus": "crypto_options_orderflow_cross_venue_execution_validation",
+  "fill_rate_vs_model_ok": true,
+  "gates_ok": false,
+  "integration": "Phase51+Phase32+Phase52",
+  "modes": "paper",
+  "paper_only": true,
+  "per_venue_latency_scoring_ok": true,
+  "phase": "PHASE55_CROSS_VENUE_ORDERFLOW_EXECUTION_VALIDATOR",
+  "seed": 42,
+  "slippage_tca_reconciliation_ok": true,
+  "timestamp": "2026-11-02T15:05:56.955109Z",
+  "total_breaches": 0,
+  "total_fills": 24,
+  "toxicity_adjusted_quality_ok": false,
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "venue_gates_ok": false,
+  "venue_summaries": {
+    "binance": {
+      "avg_latency_ms": 59.433717568882884,
+      "avg_quality_score": 0.7052010193381194,
+      "avg_slippage_bps": 6.075154863540995,
+      "avg_toxicity": 0.35160872911320945,
+      "breaches": 0,
+      "fill_rate_vs_model": 1.0,
+      "fills": 6,
+      "max_latency_ms": 83.4276963964628,
+      "venue": "binance"
+    },
+    "bybit": {
+      "avg_latency_ms": 49.67772383242765,
+      "avg_quality_score": 0.7519180029202467,
+      "avg_slippage_bps": 4.670849603173228,
+      "avg_toxicity": 0.3230329839863501,
+      "breaches": 0,
+      "fill_rate_vs_model": 1.0,
+      "fills": 6,
+      "max_latency_ms": 74.3263199176928,
+      "venue": "bybit"
+    },
+    "deribit": {
+      "avg_latency_ms": 61.46809181559828,
+      "avg_quality_score": 0.7259799519651006,
+      "avg_slippage_bps": 6.6546212028229474,
+      "avg_toxicity": 0.304392347702239,
+      "breaches": 0,
+      "fill_rate_vs_model": 1.0,
+      "fills": 6,
+      "max_latency_ms": 83.5658274006696,
+      "venue": "deribit"
+    },
+    "okx": {
+      "avg_latency_ms": 74.50692819861645,
+      "avg_quality_score": 0.6877843140013118,
+      "avg_slippage_bps": 7.222766476827819,
+      "avg_toxicity": 0.35240020790215665,
+      "breaches": 0,
+      "fill_rate_vs_model": 1.0,
+      "fills": 6,
+      "max_latency_ms": 99.85225638970661,
+      "venue": "okx"
+    }
+  },
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "worst_venue": "okx"
+}
