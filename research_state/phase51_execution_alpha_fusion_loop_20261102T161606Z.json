@@ -1,0 +1,132 @@
+{
+  "phase": "PHASE51_EXECUTION_ALPHA_FUSION_LOOP",
+  "timestamp": "2026-11-02T16:16:06.791081Z",
+  "seed": 4,
+  "paper_only": true,
+  "modes": "paper",
+  "cycles": 25,
+  "gates_ok": true,
+  "phase51_alpha_fusion": {
+    "gates_ok": true,
+    "n_alphas": 25,
+    "n_gate_passed": 18,
+    "avg_alpha_score": 0.20845771942138316,
+    "avg_confidence": 0.6898503845697858,
+    "selected_features": [
+      "vwap_dev_bps",
+      "imbalance",
+      "ofi",
+      "liquidity",
+      "toxicity",
+      "regime_prob",
+      "footprint",
+      "spread_bps"
+    ]
+  },
+  "phase51_latency_aware_sor": {
+    "gates_ok": true,
+    "n_routes": 25,
+    "n_sliced": 16,
+    "avg_latency_ms": 3.935692245179276,
+    "avg_slippage_bps": 0.976732147210982,
+    "avg_expected_cost_bps": 6.283063139944918
+  },
+  "toxicity_mm50": {
+    "gates_ok": true,
+    "n_quotes": 36
+  },
+  "cross_venue_rv50": {
+    "gates_ok": true,
+    "n_opps": 0
+  },
+  "vol_surface_arb49": {
+    "gates_ok": true,
+    "n_signals": 0
+  },
+  "orderflow_delta_hedge49": {
+    "gates_ok": true,
+    "n_hedge_actions": 3
+  },
+  "alpha48_campaign": {
+    "gates_ok": true,
+    "n_qualified_alphas": 300
+  },
+  "arb47_campaign": {
+    "gates_ok": true,
+    "n_exploitable": 5400
+  },
+  "mm46_campaign": {
+    "gates_ok": true
+  },
+  "orderflow_alpha_campaign": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "risk_hedge_campaign": {
+    "gates_ok": true,
+    "halted": false
+  },
+  "resilience_campaign": {
+    "gates_ok": false
+  },
+  "capital_deployment": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "post_trade_reconciliation": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "cross_venue_settlement": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "phase39_kill_switches": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "halt_executed": true,
+  "halt_events": [
+    {
+      "trigger_id": "p51_halt_3a66aad33b50",
+      "cycle": 25,
+      "timestamp": "2026-11-02T16:16:00.158017Z",
+      "reason": "phase51_breach_alpha_sor_mm_rv_vol_hedge_arb_risk_resilience",
+      "severity": "critical",
+      "action": "halt_execution_alpha_fusion_and_roll_back",
+      "auto_executed": true,
+      "paper_only": true
+    },
+    {
+      "trigger_id": "p51_halt_9a791d247380",
+      "cycle": 25,
+      "timestamp": "2026-11-02T16:16:06.789982Z",
+      "reason": "phase51_breach_alpha_sor_mm_rv_vol_hedge_arb_risk_resilience",
+      "severity": "critical",
+      "action": "halt_execution_alpha_fusion_and_roll_back",
+      "auto_executed": true,
+      "paper_only": true
+    }
+  ],
+  "slo_evaluations": 5,
+  "slo_alerts_fired": 5,
+  "integrated_with": [
+    "PHASE32_ORDERFLOW_ALPHA",
+    "PHASE39_KILL_SWITCHES",
+    "PHASE40_POST_TRADE_RECONCILIATION",
+    "PHASE41_CROSS_VENUE_SETTLEMENT",
+    "PHASE42_RISK_HEDGE_LOOP",
+    "PHASE44_LIVE_CAPITAL_DEPLOYMENT",
+    "PHASE45_RESILIENCE_CHAOS_FAILOVER",
+    "PHASE46_ADAPTIVE_MM",
+    "PHASE47_CROSS_VENUE_ARBITRAGE",
+    "PHASE48_REGIME_CONDITIONAL_OPTIONS",
+    "PHASE49_VOL_SURFACE_ARB",
+    "PHASE49_ORDERFLOW_DRIVEN_DELTA_HEDGE",
+    "PHASE50_TOXICITY_AWARE_OPTIONS_MM",
+    "PHASE50_CROSS_VENUE_RELATIVE_VALUE_EXECUTOR",
+    "PHASE51_ADAPTIVE_ORDERFLOW_ALPHA_FUSION",
+    "PHASE51_LATENCY_AWARE_OPTIONS_SOR",
+    "MONITORING_SLO"
+  ]
+}
