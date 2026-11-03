@@ -32,7 +32,7 @@
     "deployment_id": "deploy_42",
     "status": "promoted",
     "timestamp": "2026-11-01T00:00:42Z",
-    "git_sha": "64145d3a8fc2c6fce51f3c92bf34c13600967c25",
+    "git_sha": "f9e1834ee636f96425c47b83f4ca61b0685a8579",
     "seed": 42,
     "paper_only": true,
     "env": "paper",
@@ -71,7 +71,7 @@
       {
         "name": "exchange",
         "status": "pass",
-        "latency_ms": 5.3,
+        "latency_ms": 5.1,
         "message": "exchange reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -82,7 +82,7 @@
       {
         "name": "risk",
         "status": "pass",
-        "latency_ms": 5.0,
+        "latency_ms": 5.4,
         "message": "risk reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -93,7 +93,7 @@
       {
         "name": "orderflow_adapter",
         "status": "pass",
-        "latency_ms": 5.8,
+        "latency_ms": 5.2,
         "message": "orderflow_adapter reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -104,7 +104,7 @@
       {
         "name": "reconciliation",
         "status": "pass",
-        "latency_ms": 5.3,
+        "latency_ms": 5.6,
         "message": "reconciliation reachable",
         "checked_at": "2026-11-01T00:00:42Z",
         "details": {
@@ -522,10 +522,10 @@
           },
           "validation_gates": {
             "schema_valid": true,
-            "numerics_finite": true,
-            "backtest_passed": true,
             "paper_only_enforced": true,
+            "numerics_finite": true,
             "determinism_verified": true,
+            "backtest_passed": true,
             "oos_passed": true
           },
           "artifact_path": "model_v1_0_0.json",
@@ -552,10 +552,10 @@
           "name": "options_orderflow_alpha",
           "gates": {
             "schema_valid": true,
-            "numerics_finite": true,
-            "backtest_passed": true,
             "paper_only_enforced": true,
+            "numerics_finite": true,
             "determinism_verified": true,
+            "backtest_passed": true,
             "oos_passed": true
           },
           "timestamp": "2026-11-01T00:00:42Z"
@@ -566,10 +566,10 @@
           "name": "options_orderflow_alpha",
           "gates": {
             "schema_valid": true,
-            "numerics_finite": true,
-            "backtest_passed": true,
             "paper_only_enforced": true,
+            "numerics_finite": true,
             "determinism_verified": true,
+            "backtest_passed": true,
             "oos_passed": true
           },
           "timestamp": "2026-11-01T00:00:42Z"
