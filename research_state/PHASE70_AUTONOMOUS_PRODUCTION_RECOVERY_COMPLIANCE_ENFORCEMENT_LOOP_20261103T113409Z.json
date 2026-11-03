@@ -1,0 +1,366 @@
+{
+  "report": {
+    "phase": "PHASE70_AUTONOMOUS_PRODUCTION_RECOVERY_COMPLIANCE_ENFORCEMENT_LOOP",
+    "timestamp": "2026-11-03T11:34:09.028102Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7072,
+    "cycles": 40,
+    "n_compliance_checks": 8,
+    "n_auto_recovers": 14,
+    "n_rollbacks": 14,
+    "n_compliance_attestations": 7,
+    "compliance_pass_rate": 0.625,
+    "composes": [
+      "PHASE69",
+      "PHASE68",
+      "PHASE54",
+      "PHASE39"
+    ]
+  },
+  "compliance_checks": [
+    {
+      "cc_id": "p70loop_cc_6f9b63b077d5",
+      "cycle": 0,
+      "severity": 0.1905,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025400Z"
+    },
+    {
+      "cc_id": "p70loop_cc_237fc9372e8f",
+      "cycle": 5,
+      "severity": 0.2905,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025534Z"
+    },
+    {
+      "cc_id": "p70loop_cc_65b7394b9fbd",
+      "cycle": 10,
+      "severity": 0.3905,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025653Z"
+    },
+    {
+      "cc_id": "p70loop_cc_8a2e89284c4b",
+      "cycle": 15,
+      "severity": 0.4905,
+      "compliance_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026059Z"
+    },
+    {
+      "cc_id": "p70loop_cc_e1164d5e0198",
+      "cycle": 20,
+      "severity": 0.5905,
+      "compliance_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026798Z"
+    },
+    {
+      "cc_id": "p70loop_cc_fd1714858785",
+      "cycle": 25,
+      "severity": 0.2705,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027064Z"
+    },
+    {
+      "cc_id": "p70loop_cc_84a721eaa0af",
+      "cycle": 30,
+      "severity": 0.3705,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027124Z"
+    },
+    {
+      "cc_id": "p70loop_cc_f5c1f3e1971a",
+      "cycle": 35,
+      "severity": 0.4705,
+      "compliance_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027357Z"
+    }
+  ],
+  "auto_recovers": [
+    {
+      "ar_id": "p70loop_ar_0f1ecbb73496",
+      "cycle": 13,
+      "severity": 0.4505,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025766Z"
+    },
+    {
+      "ar_id": "p70loop_ar_78be447b58cb",
+      "cycle": 14,
+      "severity": 0.4705,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025927Z"
+    },
+    {
+      "ar_id": "p70loop_ar_96cdc69333f9",
+      "cycle": 15,
+      "severity": 0.4905,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026117Z"
+    },
+    {
+      "ar_id": "p70loop_ar_47e7f0521f33",
+      "cycle": 16,
+      "severity": 0.5105,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026242Z"
+    },
+    {
+      "ar_id": "p70loop_ar_2337b9a6ad27",
+      "cycle": 17,
+      "severity": 0.5305,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026368Z"
+    },
+    {
+      "ar_id": "p70loop_ar_dd72447fc899",
+      "cycle": 18,
+      "severity": 0.5505,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026492Z"
+    },
+    {
+      "ar_id": "p70loop_ar_1a3365027a32",
+      "cycle": 19,
+      "severity": 0.5705,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026674Z"
+    },
+    {
+      "ar_id": "p70loop_ar_3391ff26c642",
+      "cycle": 20,
+      "severity": 0.5905,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026881Z"
+    },
+    {
+      "ar_id": "p70loop_ar_0a95a8b37c1e",
+      "cycle": 34,
+      "severity": 0.4505,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027233Z"
+    },
+    {
+      "ar_id": "p70loop_ar_b185a49236b4",
+      "cycle": 35,
+      "severity": 0.4705,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027414Z"
+    },
+    {
+      "ar_id": "p70loop_ar_db15bfa70d10",
+      "cycle": 36,
+      "severity": 0.4905,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027537Z"
+    },
+    {
+      "ar_id": "p70loop_ar_3ed0ac977de2",
+      "cycle": 37,
+      "severity": 0.5105,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027709Z"
+    },
+    {
+      "ar_id": "p70loop_ar_5b372f371222",
+      "cycle": 38,
+      "severity": 0.5305,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027852Z"
+    },
+    {
+      "ar_id": "p70loop_ar_c9092c656565",
+      "cycle": 39,
+      "severity": 0.5505,
+      "action": "auto_recover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027984Z"
+    }
+  ],
+  "rollbacks": [
+    {
+      "rb_id": "p70loop_rb_863d07ca1305",
+      "cycle": 13,
+      "severity": 0.4505,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025850Z"
+    },
+    {
+      "rb_id": "p70loop_rb_613ee4e0e8d6",
+      "cycle": 14,
+      "severity": 0.4705,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025993Z"
+    },
+    {
+      "rb_id": "p70loop_rb_dec37770ae45",
+      "cycle": 15,
+      "severity": 0.4905,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026179Z"
+    },
+    {
+      "rb_id": "p70loop_rb_ddb9ef9ba331",
+      "cycle": 16,
+      "severity": 0.5105,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026304Z"
+    },
+    {
+      "rb_id": "p70loop_rb_c96ef588293a",
+      "cycle": 17,
+      "severity": 0.5305,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026429Z"
+    },
+    {
+      "rb_id": "p70loop_rb_41de01a2333f",
+      "cycle": 18,
+      "severity": 0.5505,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026555Z"
+    },
+    {
+      "rb_id": "p70loop_rb_ad53785a34c3",
+      "cycle": 19,
+      "severity": 0.5705,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026736Z"
+    },
+    {
+      "rb_id": "p70loop_rb_078607f677cb",
+      "cycle": 20,
+      "severity": 0.5905,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026945Z"
+    },
+    {
+      "rb_id": "p70loop_rb_401a6321d311",
+      "cycle": 34,
+      "severity": 0.4505,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027294Z"
+    },
+    {
+      "rb_id": "p70loop_rb_842b6ef96e21",
+      "cycle": 35,
+      "severity": 0.4705,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027475Z"
+    },
+    {
+      "rb_id": "p70loop_rb_c44a5398caa8",
+      "cycle": 36,
+      "severity": 0.4905,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027597Z"
+    },
+    {
+      "rb_id": "p70loop_rb_fa16f45387c3",
+      "cycle": 37,
+      "severity": 0.5105,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027772Z"
+    },
+    {
+      "rb_id": "p70loop_rb_7fa066edc330",
+      "cycle": 38,
+      "severity": 0.5305,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027920Z"
+    },
+    {
+      "rb_id": "p70loop_rb_17c5b6c80373",
+      "cycle": 39,
+      "severity": 0.5505,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.028044Z"
+    }
+  ],
+  "compliance_attestations": [
+    {
+      "cat_id": "p70loop_cat_cc87198ac0bd",
+      "cycle": 0,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025474Z"
+    },
+    {
+      "cat_id": "p70loop_cat_1538a08d8a7e",
+      "cycle": 6,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025596Z"
+    },
+    {
+      "cat_id": "p70loop_cat_cabc0db92a6f",
+      "cycle": 12,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.025713Z"
+    },
+    {
+      "cat_id": "p70loop_cat_0f114981b89d",
+      "cycle": 18,
+      "compliance_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.026619Z"
+    },
+    {
+      "cat_id": "p70loop_cat_9a07ceed1214",
+      "cycle": 24,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027010Z"
+    },
+    {
+      "cat_id": "p70loop_cat_a10d8e0fd6d8",
+      "cycle": 30,
+      "compliance_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027180Z"
+    },
+    {
+      "cat_id": "p70loop_cat_662994ad21fe",
+      "cycle": 36,
+      "compliance_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:34:09.027656Z"
+    }
+  ]
+}
