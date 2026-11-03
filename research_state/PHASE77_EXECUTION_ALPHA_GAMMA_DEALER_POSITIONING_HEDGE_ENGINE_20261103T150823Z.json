@@ -1,0 +1,104 @@
+{
+  "dealer_positioning": [
+    {
+      "cycle": 0,
+      "dealer_gamma_exposure": 0.36072,
+      "dealer_net_delta": -0.1328,
+      "id": "p77-77071-dp-000000",
+      "net_vega_exposure": 0.25,
+      "ts": "2026-11-03T15:08:23.016087Z",
+      "underlying": "BTC",
+      "venue": "deribit"
+    }
+  ],
+  "gamma_exposures": [
+    {
+      "cycle": 0,
+      "gamma_exposure": 0.4008,
+      "gamma_risk_score": 0.263885,
+      "id": "p77-77071-ge-000000",
+      "ts": "2026-11-03T15:08:23.016076Z",
+      "underlying": "BTC",
+      "vanna_charm_adjustment": 0.0,
+      "venue": "deribit"
+    },
+    {
+      "cycle": 1,
+      "gamma_exposure": 0.41436,
+      "gamma_risk_score": 0.278617,
+      "id": "p77-77071-ge-000001",
+      "ts": "2026-11-03T15:08:23.016107Z",
+      "underlying": "ETH",
+      "vanna_charm_adjustment": 0.015,
+      "venue": "okx"
+    },
+    {
+      "cycle": 2,
+      "gamma_exposure": 0.42792,
+      "gamma_risk_score": 0.293349,
+      "id": "p77-77071-ge-000002",
+      "ts": "2026-11-03T15:08:23.016119Z",
+      "underlying": "SOL",
+      "vanna_charm_adjustment": 0.03,
+      "venue": "bybit"
+    }
+  ],
+  "hedge_signals": [
+    {
+      "cycle": 0,
+      "enforced": true,
+      "gamma_hedge_authorized": true,
+      "hedge_ratio_delta": 1.0,
+      "hedge_ratio_gamma": 1.0,
+      "hedge_throttle_factor": 1.0,
+      "id": "p77-77071-hs-000000",
+      "reasons": [],
+      "toxicity_gate": 0.16,
+      "ts": "2026-11-03T15:08:23.016094Z",
+      "underlying": "BTC",
+      "venue": "deribit"
+    }
+  ],
+  "report": {
+    "composes": [
+      "PHASE76",
+      "PHASE75-TRANSITION",
+      "PHASE75-TCA",
+      "PHASE74-SLO",
+      "PHASE73-HARDEN",
+      "PHASE72-MARGIN",
+      "PHASE72-FINALITY",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ],
+    "cycles": 3,
+    "dealer_positioning_count": 1,
+    "gamma_exposures_count": 3,
+    "gates_ok": true,
+    "hedge_signals_count": 1,
+    "metrics": {
+      "dealer_net_delta_abs_avg": 0.1328,
+      "gamma_risk_score_avg": 0.278617
+    },
+    "paper_only": true,
+    "phase": "PHASE77_EXECUTION_ALPHA_GAMMA_DEALER_POSITIONING_HEDGE_ENGINE",
+    "seed": 77071,
+    "timestamp": "2026-11-03T15:08:23.016132Z",
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ]
+  }
+}

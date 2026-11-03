@@ -1,0 +1,1722 @@
+{
+  "report": {
+    "phase": "PHASE77_AUTONOMOUS_PRODUCTION_GAMMA_RISK_PRETRADE_KILL_SWITCH_ENFORCEMENT_LOOP",
+    "timestamp": "2026-11-03T15:09:04.407666Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 77073,
+    "cycles": 80,
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "n_pretrade_checks": 16,
+    "n_position_limits": 14,
+    "n_gamma_budgets": 12,
+    "n_kill_switch_attestations": 10,
+    "n_auto_derisk_actions": 80,
+    "avg_pretrade_pass_rate": 0.997,
+    "avg_kill_switch_attestation_ok": 0.9975,
+    "composes": [
+      "PHASE77-GAMMA",
+      "PHASE77-ORCH",
+      "PHASE76",
+      "PHASE75",
+      "PHASE74",
+      "PHASE73",
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE58",
+      "PHASE54",
+      "PHASE39"
+    ]
+  },
+  "pretrade_checks": [
+    {
+      "pt_id": "p77-77073-pt-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406390Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "underlying": "SOL",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406485Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406576Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "underlying": "BTC",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406652Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406725Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "underlying": "ETH",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406815Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406903Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406980Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000040",
+      "cycle": 40,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407055Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000045",
+      "cycle": 45,
+      "venue": "okx",
+      "underlying": "BTC",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407134Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000050",
+      "cycle": 50,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407217Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000055",
+      "cycle": 55,
+      "venue": "binance",
+      "underlying": "ETH",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407284Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000060",
+      "cycle": 60,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407360Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000065",
+      "cycle": 65,
+      "venue": "okx",
+      "underlying": "SOL",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407442Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000070",
+      "cycle": 70,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407506Z"
+    },
+    {
+      "pt_id": "p77-77073-pt-000075",
+      "cycle": 75,
+      "venue": "binance",
+      "underlying": "BTC",
+      "pretrade_pass_rate": 0.997,
+      "greeks_iv_ok": false,
+      "orderflow_toxicity_ok": true,
+      "authorized": false,
+      "enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407585Z"
+    }
+  ],
+  "position_limits": [
+    {
+      "pl_id": "p77-77073-pl-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.23712,
+      "net_delta_limit_breached": false,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406401Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.253104,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406504Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.269088,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406608Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.24564,
+      "net_delta_limit_breached": false,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406698Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.261624,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406787Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.258576,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.406910Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.25416,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407008Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000042",
+      "cycle": 42,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.251112,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407091Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000048",
+      "cycle": 48,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.267096,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407171Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000054",
+      "cycle": 54,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.243648,
+      "net_delta_limit_breached": false,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407267Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000060",
+      "cycle": 60,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.259632,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407367Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000066",
+      "cycle": 66,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.256584,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407459Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000072",
+      "cycle": 72,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.252168,
+      "net_delta_limit_breached": true,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407541Z"
+    },
+    {
+      "pl_id": "p77-77073-pl-000078",
+      "cycle": 78,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "gross_position_notional_pct": 0.24912,
+      "net_delta_limit_breached": false,
+      "dynamic_limit_enforced": true,
+      "timestamp": "2026-11-03T15:09:04.407629Z"
+    }
+  ],
+  "gamma_budgets": [
+    {
+      "gb_id": "p77-77073-gb-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "gamma_risk_budget_utilization": 0.536,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.406410Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "underlying": "ETH",
+      "gamma_risk_budget_utilization": 0.6354,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.406522Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "gamma_risk_budget_utilization": 0.6802,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.406635Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "underlying": "BTC",
+      "gamma_risk_budget_utilization": 0.6096,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.406743Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "gamma_risk_budget_utilization": 0.6544,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.406876Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "gamma_risk_budget_utilization": 0.5838,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.406988Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000042",
+      "cycle": 42,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "gamma_risk_budget_utilization": 0.6286,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.407098Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000049",
+      "cycle": 49,
+      "venue": "okx",
+      "underlying": "ETH",
+      "gamma_risk_budget_utilization": 0.728,
+      "gamma_budget_exceeded": false,
+      "hedge_required": true,
+      "timestamp": "2026-11-03T15:09:04.407200Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000056",
+      "cycle": 56,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "gamma_risk_budget_utilization": 0.6028,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.407301Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000063",
+      "cycle": 63,
+      "venue": "binance",
+      "underlying": "BTC",
+      "gamma_risk_budget_utilization": 0.7022,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.407404Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000070",
+      "cycle": 70,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "gamma_risk_budget_utilization": 0.577,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.407513Z"
+    },
+    {
+      "gb_id": "p77-77073-gb-000077",
+      "cycle": 77,
+      "venue": "okx",
+      "underlying": "SOL",
+      "gamma_risk_budget_utilization": 0.6764,
+      "gamma_budget_exceeded": false,
+      "hedge_required": false,
+      "timestamp": "2026-11-03T15:09:04.407613Z"
+    }
+  ],
+  "kill_switch_attestations": [
+    {
+      "ksa_id": "p77-77073-ksa-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:0",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406418Z"
+    },
+    {
+      "ksa_id": "p77-77073-ksa-000008",
+      "cycle": 8,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:8",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406544Z"
+    },
+    {
+      "ksa_id": "p77-77073-ksa-000016",
+      "cycle": 16,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:16",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406670Z"
+    },
+    {
+      "ksa_id": "p77-77073-ksa-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:24",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406796Z"
+    },
+    {
+      "ksa_id": "p77-77073-ksa-000032",
+      "cycle": 32,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:32",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406939Z"
+    },
+    {
+      "ksa_id": "p77-77073-ksa-000040",
+      "cycle": 40,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:40",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407063Z"
+    },
+    {
+      "ksa_id": "p77-77073-ksa-000048",
+      "cycle": 48,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:48",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407180Z"
+    },
+    {
+      "ksa_id": "p77-77073-ksa-000056",
+      "cycle": 56,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:56",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407308Z"
+    },
+    {
+      "ksa_id": "p77-77073-ksa-000064",
+      "cycle": 64,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:64",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407423Z"
+    },
+    {
+      "ksa_id": "p77-77073-ksa-000072",
+      "cycle": 72,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_ok": 0.9975,
+      "attestation_hash": "sha256:p77:77073:72",
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407548Z"
+    }
+  ],
+  "auto_derisk_actions": [
+    {
+      "adr_id": "p77-77073-adr-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406426Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000001",
+      "cycle": 1,
+      "venue": "okx",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406440Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000002",
+      "cycle": 2,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406452Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000003",
+      "cycle": 3,
+      "venue": "binance",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406463Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000004",
+      "cycle": 4,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406473Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406493Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406511Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406529Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000008",
+      "cycle": 8,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406552Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000009",
+      "cycle": 9,
+      "venue": "okx",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406563Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406584Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000011",
+      "cycle": 11,
+      "venue": "binance",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406595Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406615Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000013",
+      "cycle": 13,
+      "venue": "okx",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406625Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406642Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406660Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000016",
+      "cycle": 16,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406678Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000017",
+      "cycle": 17,
+      "venue": "okx",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406688Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406705Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000019",
+      "cycle": 19,
+      "venue": "binance",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406715Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406733Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406749Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000022",
+      "cycle": 22,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406759Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000023",
+      "cycle": 23,
+      "venue": "binance",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406776Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406804Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406822Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000026",
+      "cycle": 26,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406853Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000027",
+      "cycle": 27,
+      "venue": "binance",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406865Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406883Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000029",
+      "cycle": 29,
+      "venue": "okx",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406893Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406917Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000031",
+      "cycle": 31,
+      "venue": "binance",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406928Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000032",
+      "cycle": 32,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406946Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000033",
+      "cycle": 33,
+      "venue": "okx",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406960Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000034",
+      "cycle": 34,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406970Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.406996Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407015Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000037",
+      "cycle": 37,
+      "venue": "okx",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407025Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000038",
+      "cycle": 38,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407035Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000039",
+      "cycle": 39,
+      "venue": "binance",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407046Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000040",
+      "cycle": 40,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407070Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000041",
+      "cycle": 41,
+      "venue": "okx",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407081Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000042",
+      "cycle": 42,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407104Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000043",
+      "cycle": 43,
+      "venue": "binance",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407114Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000044",
+      "cycle": 44,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407124Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000045",
+      "cycle": 45,
+      "venue": "okx",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407142Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000046",
+      "cycle": 46,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407152Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000047",
+      "cycle": 47,
+      "venue": "binance",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407162Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000048",
+      "cycle": 48,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407190Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000049",
+      "cycle": 49,
+      "venue": "okx",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407207Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000050",
+      "cycle": 50,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407224Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000051",
+      "cycle": 51,
+      "venue": "binance",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407234Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000052",
+      "cycle": 52,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407244Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000053",
+      "cycle": 53,
+      "venue": "okx",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407255Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000054",
+      "cycle": 54,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407274Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000055",
+      "cycle": 55,
+      "venue": "binance",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407291Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000056",
+      "cycle": 56,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407315Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000057",
+      "cycle": 57,
+      "venue": "okx",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407325Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000058",
+      "cycle": 58,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407336Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000059",
+      "cycle": 59,
+      "venue": "binance",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407346Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000060",
+      "cycle": 60,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407374Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000061",
+      "cycle": 61,
+      "venue": "okx",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407384Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000062",
+      "cycle": 62,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407394Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000063",
+      "cycle": 63,
+      "venue": "binance",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407411Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000064",
+      "cycle": 64,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407431Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000065",
+      "cycle": 65,
+      "venue": "okx",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407449Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000066",
+      "cycle": 66,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407465Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000067",
+      "cycle": 67,
+      "venue": "binance",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407475Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000068",
+      "cycle": 68,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407486Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000069",
+      "cycle": 69,
+      "venue": "okx",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407496Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000070",
+      "cycle": 70,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407519Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000071",
+      "cycle": 71,
+      "venue": "binance",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407529Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000072",
+      "cycle": 72,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407555Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000073",
+      "cycle": 73,
+      "venue": "okx",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407565Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000074",
+      "cycle": 74,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407575Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000075",
+      "cycle": 75,
+      "venue": "binance",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407592Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000076",
+      "cycle": 76,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407602Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000077",
+      "cycle": 77,
+      "venue": "okx",
+      "underlying": "SOL",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407619Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000078",
+      "cycle": 78,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407641Z"
+    },
+    {
+      "adr_id": "p77-77073-adr-000079",
+      "cycle": 79,
+      "venue": "binance",
+      "underlying": "ETH",
+      "action": "auto_hedge_or_de_risk_on_breach",
+      "severity": 0.0,
+      "reasons": [
+        "gross_position_above_limit",
+        "kill_switch_attestation_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T15:09:04.407652Z"
+    }
+  ]
+}

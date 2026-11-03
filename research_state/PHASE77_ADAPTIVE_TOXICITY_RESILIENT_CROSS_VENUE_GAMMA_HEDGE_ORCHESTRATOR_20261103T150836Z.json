@@ -1,0 +1,80 @@
+{
+  "cross_venue_routes": [
+    {
+      "authorized": true,
+      "cycle": 0,
+      "enforced": true,
+      "fragmentation_score": 0.284,
+      "id": "p77-77072-cvr-000000",
+      "route_throttle_factor": 1.0,
+      "target_venue": "okx",
+      "toxicity_score": 0.16,
+      "ts": "2026-11-03T15:08:36.801226Z",
+      "underlying": "BTC",
+      "venue": "deribit"
+    }
+  ],
+  "hedge_executions": [
+    {
+      "action": "cross_venue_delta_gamma_vega_hedge",
+      "cycle": 0,
+      "executed": true,
+      "id": "p77-77072-hxe-000000",
+      "paper_only": true,
+      "reasons": [],
+      "throttle_factor": 1.0,
+      "ts": "2026-11-03T15:08:36.801242Z",
+      "underlying": "BTC",
+      "venue": "deribit"
+    }
+  ],
+  "inventory_skew": [
+    {
+      "cycle": 0,
+      "delta_skew": -0.09152,
+      "gamma_skew": -0.06864,
+      "id": "p77-77072-isk-000000",
+      "inventory_skew": -0.1144,
+      "ts": "2026-11-03T15:08:36.801237Z",
+      "underlying": "BTC",
+      "vega_skew": -0.04576,
+      "venue": "deribit"
+    }
+  ],
+  "report": {
+    "composes": [
+      "PHASE77-GAMMA",
+      "PHASE76",
+      "PHASE75",
+      "PHASE74",
+      "PHASE73",
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE58",
+      "PHASE54",
+      "PHASE39"
+    ],
+    "cross_venue_routes_count": 1,
+    "cycles": 3,
+    "gates_ok": true,
+    "hedge_executions_count": 1,
+    "inventory_skew_count": 1,
+    "paper_only": true,
+    "phase": "PHASE77_ADAPTIVE_TOXICITY_RESILIENT_CROSS_VENUE_GAMMA_HEDGE_ORCHESTRATOR",
+    "seed": 77072,
+    "timestamp": "2026-11-03T15:08:36.801261Z",
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ]
+  }
+}
