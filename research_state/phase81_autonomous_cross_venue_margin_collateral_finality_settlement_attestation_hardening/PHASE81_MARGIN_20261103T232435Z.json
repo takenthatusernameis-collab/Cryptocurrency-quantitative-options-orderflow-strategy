@@ -1,0 +1,533 @@
+{
+  "phase": "PHASE81_AUTONOMOUS_CROSS_VENUE_MARGIN_COLLATERAL_FINALITY_SETTLEMENT_ATTESTATION_HARDENING_LOOP",
+  "paper_only": true,
+  "seed": 81072,
+  "cycles": 50,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "ok": true,
+  "gates": {
+    "margin_enforced": true,
+    "collateral_coverage_enforced": true,
+    "cross_venue_netting_ok": true,
+    "settlement_attestation_ok": true,
+    "finality_enforced": true,
+    "kill_switch_ok": true,
+    "auto_derisk_on_breach": true
+  },
+  "metrics": {
+    "margin_checks": 10,
+    "collateral_checks": 9,
+    "cross_venue_netting": 8,
+    "settlement_attestations": 8,
+    "finality_checks": 6,
+    "de_risk_events": 0
+  },
+  "components": {
+    "phase59_hardening": {
+      "gates_ok": true,
+      "posttrade_pass_rate": 0.98,
+      "halted": false
+    },
+    "phase75_tca": {
+      "fill_rate": 0.94,
+      "latency_p99_ms": 42.0,
+      "execution_quality_ok": true
+    },
+    "phase58_sor": {
+      "routes_ok": true
+    },
+    "phase59_frag": {
+      "fragmentation_ok": true
+    },
+    "phase37_routing": {
+      "routing_ok": true
+    },
+    "phase39_kill_switch": {
+      "halted": false
+    },
+    "phase54_risk_fusion": {
+      "risk_ok": true
+    },
+    "phase72_portfolio_margin": {
+      "portfolio_margin_ok": true
+    }
+  },
+  "margin_checks": [
+    {
+      "id": "p81m_mrg_048be5e73bd9",
+      "cycle": 0,
+      "regime": "trend",
+      "margin_utilization": 0.65,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577404Z"
+    },
+    {
+      "id": "p81m_mrg_c2a278b617a2",
+      "cycle": 5,
+      "regime": "ranging",
+      "margin_utilization": 0.7,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577451Z"
+    },
+    {
+      "id": "p81m_mrg_ae45aa5bfde1",
+      "cycle": 10,
+      "regime": "ranging",
+      "margin_utilization": 0.68,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577480Z"
+    },
+    {
+      "id": "p81m_mrg_85917fd1c8f2",
+      "cycle": 15,
+      "regime": "ranging",
+      "margin_utilization": 0.66,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577503Z"
+    },
+    {
+      "id": "p81m_mrg_37caa194609f",
+      "cycle": 20,
+      "regime": "ranging",
+      "margin_utilization": 0.71,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577524Z"
+    },
+    {
+      "id": "p81m_mrg_707907a210fc",
+      "cycle": 25,
+      "regime": "ranging",
+      "margin_utilization": 0.69,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577543Z"
+    },
+    {
+      "id": "p81m_mrg_1c9d47cfe8cb",
+      "cycle": 30,
+      "regime": "ranging",
+      "margin_utilization": 0.67,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577562Z"
+    },
+    {
+      "id": "p81m_mrg_5fe1bf0026a7",
+      "cycle": 35,
+      "regime": "trend",
+      "margin_utilization": 0.65,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577572Z"
+    },
+    {
+      "id": "p81m_mrg_f5c3025892b1",
+      "cycle": 40,
+      "regime": "ranging",
+      "margin_utilization": 0.7,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577594Z"
+    },
+    {
+      "id": "p81m_mrg_7e17ad489aab",
+      "cycle": 45,
+      "regime": "ranging",
+      "margin_utilization": 0.68,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:24:35.577617Z"
+    }
+  ],
+  "collateral_checks": [
+    {
+      "id": "p81m_col_2f2bb665bd0a",
+      "cycle": 0,
+      "regime": "trend",
+      "collateral_coverage": 1.25,
+      "haircut_ok": true,
+      "cross_margin_ok": true,
+      "ok": true,
+      "ts": "2026-11-03T23:24:35.577417Z"
+    },
+    {
+      "id": "p81m_col_9d969ab825bb",
+      "cycle": 6,
+      "regime": "ranging",
+      "collateral_coverage": 1.25,
+      "haircut_ok": true,
+      "cross_margin_ok": true,
+      "ok": true,
+      "ts": "2026-11-03T23:24:35.577458Z"
+    },
+    {
+      "id": "p81m_col_bd3a6e349ac9",
+      "cycle": 12,
+      "regime": "ranging",
+      "collateral_coverage": 1.25,
+      "haircut_ok": true,
+      "cross_margin_ok": true,
+      "ok": true,
+      "ts": "2026-11-03T23:24:35.577486Z"
+    },
+    {
+      "id": "p81m_col_f2d8f741e3f5",
+      "cycle": 18,
+      "regime": "ranging",
+      "collateral_coverage": 1.25,
+      "haircut_ok": true,
+      "cross_margin_ok": true,
+      "ok": true,
+      "ts": "2026-11-03T23:24:35.577511Z"
+    },
+    {
+      "id": "p81m_col_d282174b11bd",
+      "cycle": 24,
+      "regime": "ranging",
+      "collateral_coverage": 1.25,
+      "haircut_ok": true,
+      "cross_margin_ok": true,
+      "ok": true,
+      "ts": "2026-11-03T23:24:35.577538Z"
+    },
+    {
+      "id": "p81m_col_9b9a7d4d276a",
+      "cycle": 30,
+      "regime": "ranging",
+      "collateral_coverage": 1.25,
+      "haircut_ok": true,
+      "cross_margin_ok": true,
+      "ok": true,
+      "ts": "2026-11-03T23:24:35.577566Z"
+    },
+    {
+      "id": "p81m_col_1c8bc8899064",
+      "cycle": 36,
+      "regime": "ranging",
+      "collateral_coverage": 1.25,
+      "haircut_ok": true,
+      "cross_margin_ok": true,
+      "ok": true,
+      "ts": "2026-11-03T23:24:35.577584Z"
+    },
+    {
+      "id": "p81m_col_851a408693cf",
+      "cycle": 42,
+      "regime": "trend",
+      "collateral_coverage": 1.25,
+      "haircut_ok": true,
+      "cross_margin_ok": true,
+      "ok": true,
+      "ts": "2026-11-03T23:24:35.577604Z"
+    },
+    {
+      "id": "p81m_col_3ccee4b49344",
+      "cycle": 48,
+      "regime": "ranging",
+      "collateral_coverage": 1.25,
+      "haircut_ok": true,
+      "cross_margin_ok": true,
+      "ok": true,
+      "ts": "2026-11-03T23:24:35.577630Z"
+    }
+  ],
+  "settlement_attestations": [
+    {
+      "id": "p81m_satt_ee175b74b59b",
+      "cycle": 0,
+      "regime": "trend",
+      "settlement_finalized": true,
+      "proof_hash": "4e9032b12c841484a2af3b7ccd70a0c85d57bcdf848097899a585be9bac3172b",
+      "attestor_quorum": 3,
+      "ts": "2026-11-03T23:24:35.577430Z"
+    },
+    {
+      "id": "p81m_satt_f0d3048db4d4",
+      "cycle": 7,
+      "regime": "trend",
+      "settlement_finalized": true,
+      "proof_hash": "2ca449abd0910a61eebabe0038032cd9dd621ad1980177053ead81de1add0d70",
+      "attestor_quorum": 3,
+      "ts": "2026-11-03T23:24:35.577468Z"
+    },
+    {
+      "id": "p81m_satt_5226854949b1",
+      "cycle": 14,
+      "regime": "trend",
+      "settlement_finalized": true,
+      "proof_hash": "8cfd26547a60fb3b97d8c6e8b3f8226f1f8b49ad73acbb5647ed2cc18b343aa0",
+      "attestor_quorum": 3,
+      "ts": "2026-11-03T23:24:35.577495Z"
+    },
+    {
+      "id": "p81m_satt_6ab95d33b8ab",
+      "cycle": 21,
+      "regime": "trend",
+      "settlement_finalized": true,
+      "proof_hash": "ed2a68dec6f5479ebe8d9205d55124d8c518149b9e3ba0ec29986a9aac124b77",
+      "attestor_quorum": 3,
+      "ts": "2026-11-03T23:24:35.577533Z"
+    },
+    {
+      "id": "p81m_satt_35878073239e",
+      "cycle": 28,
+      "regime": "trend",
+      "settlement_finalized": true,
+      "proof_hash": "5631f6c916b87484ef987669cd3fb8ad1d75a605dbd97c0a82fc37845c7b2625",
+      "attestor_quorum": 3,
+      "ts": "2026-11-03T23:24:35.577557Z"
+    },
+    {
+      "id": "p81m_satt_bbda4545b802",
+      "cycle": 35,
+      "regime": "trend",
+      "settlement_finalized": true,
+      "proof_hash": "37496f06f3d3aa732a5547754b9e59ce3a1da1288068faae6ce5d9300a9c6c85",
+      "attestor_quorum": 3,
+      "ts": "2026-11-03T23:24:35.577579Z"
+    },
+    {
+      "id": "p81m_satt_c2307b33e185",
+      "cycle": 42,
+      "regime": "trend",
+      "settlement_finalized": true,
+      "proof_hash": "f9d10ef30bb19c0c01f752981ebc79eaecdd39307cfe0c53f7efddd981f42f89",
+      "attestor_quorum": 3,
+      "ts": "2026-11-03T23:24:35.577612Z"
+    },
+    {
+      "id": "p81m_satt_ae29bd620ed6",
+      "cycle": 49,
+      "regime": "trend",
+      "settlement_finalized": true,
+      "proof_hash": "251d5bdcd896084049830146fea2b53aac9c644efdb721f5646683c3987477a8",
+      "attestor_quorum": 3,
+      "ts": "2026-11-03T23:24:35.577638Z"
+    }
+  ],
+  "finality_checks": [
+    {
+      "id": "p81m_fin_fa27b3fd6ebf",
+      "cycle": 0,
+      "regime": "trend",
+      "block_finality_ok": true,
+      "venue_finality": {
+        "deribit": {
+          "finalized": true,
+          "finality_ms": 12.0
+        },
+        "okx": {
+          "finalized": true,
+          "finality_ms": 12.0
+        },
+        "bybit": {
+          "finalized": true,
+          "finality_ms": 12.0
+        },
+        "binance": {
+          "finalized": true,
+          "finality_ms": 12.0
+        }
+      },
+      "settlement_cleared": true,
+      "ts": "2026-11-03T23:24:35.577438Z"
+    },
+    {
+      "id": "p81m_fin_1a61f040bd50",
+      "cycle": 9,
+      "regime": "ranging",
+      "block_finality_ok": true,
+      "venue_finality": {
+        "deribit": {
+          "finalized": true,
+          "finality_ms": 13.0
+        },
+        "okx": {
+          "finalized": true,
+          "finality_ms": 13.0
+        },
+        "bybit": {
+          "finalized": true,
+          "finality_ms": 13.0
+        },
+        "binance": {
+          "finalized": true,
+          "finality_ms": 13.0
+        }
+      },
+      "settlement_cleared": true,
+      "ts": "2026-11-03T23:24:35.577475Z"
+    },
+    {
+      "id": "p81m_fin_a28ef8ed0e19",
+      "cycle": 18,
+      "regime": "ranging",
+      "block_finality_ok": true,
+      "venue_finality": {
+        "deribit": {
+          "finalized": true,
+          "finality_ms": 14.0
+        },
+        "okx": {
+          "finalized": true,
+          "finality_ms": 14.0
+        },
+        "bybit": {
+          "finalized": true,
+          "finality_ms": 14.0
+        },
+        "binance": {
+          "finalized": true,
+          "finality_ms": 14.0
+        }
+      },
+      "settlement_cleared": true,
+      "ts": "2026-11-03T23:24:35.577518Z"
+    },
+    {
+      "id": "p81m_fin_91c86d890344",
+      "cycle": 27,
+      "regime": "ranging",
+      "block_finality_ok": true,
+      "venue_finality": {
+        "deribit": {
+          "finalized": true,
+          "finality_ms": 15.0
+        },
+        "okx": {
+          "finalized": true,
+          "finality_ms": 15.0
+        },
+        "bybit": {
+          "finalized": true,
+          "finality_ms": 15.0
+        },
+        "binance": {
+          "finalized": true,
+          "finality_ms": 15.0
+        }
+      },
+      "settlement_cleared": true,
+      "ts": "2026-11-03T23:24:35.577549Z"
+    },
+    {
+      "id": "p81m_fin_b6ccef3003e7",
+      "cycle": 36,
+      "regime": "ranging",
+      "block_finality_ok": true,
+      "venue_finality": {
+        "deribit": {
+          "finalized": true,
+          "finality_ms": 16.0
+        },
+        "okx": {
+          "finalized": true,
+          "finality_ms": 16.0
+        },
+        "bybit": {
+          "finalized": true,
+          "finality_ms": 16.0
+        },
+        "binance": {
+          "finalized": true,
+          "finality_ms": 16.0
+        }
+      },
+      "settlement_cleared": true,
+      "ts": "2026-11-03T23:24:35.577589Z"
+    },
+    {
+      "id": "p81m_fin_036864c11098",
+      "cycle": 45,
+      "regime": "ranging",
+      "block_finality_ok": true,
+      "venue_finality": {
+        "deribit": {
+          "finalized": true,
+          "finality_ms": 17.0
+        },
+        "okx": {
+          "finalized": true,
+          "finality_ms": 17.0
+        },
+        "bybit": {
+          "finalized": true,
+          "finality_ms": 17.0
+        },
+        "binance": {
+          "finalized": true,
+          "finality_ms": 17.0
+        }
+      },
+      "settlement_cleared": true,
+      "ts": "2026-11-03T23:24:35.577622Z"
+    }
+  ],
+  "de_risk_events": [],
+  "ts": "2026-11-03T23:24:35.577656Z"
+}
