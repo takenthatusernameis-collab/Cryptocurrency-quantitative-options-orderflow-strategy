@@ -1,0 +1,111 @@
+{
+  "phase": "PHASE51_EXECUTION_ALPHA_FUSION_LOOP",
+  "timestamp": "2026-11-03T06:46:32.541439Z",
+  "seed": 5,
+  "paper_only": true,
+  "modes": "paper",
+  "cycles": 20,
+  "gates_ok": true,
+  "phase51_alpha_fusion": {
+    "gates_ok": true,
+    "n_alphas": 20,
+    "n_gate_passed": 15,
+    "avg_alpha_score": 1.165006344246835,
+    "avg_confidence": 0.7529833066656341,
+    "selected_features": [
+      "vwap_dev_bps",
+      "spread_bps",
+      "regime_prob",
+      "liquidity",
+      "toxicity",
+      "footprint",
+      "imbalance",
+      "ofi"
+    ]
+  },
+  "phase51_latency_aware_sor": {
+    "gates_ok": true,
+    "n_routes": 20,
+    "n_sliced": 11,
+    "avg_latency_ms": 4.1944739384097165,
+    "avg_slippage_bps": 1.0109650494741367,
+    "avg_expected_cost_bps": 6.213205520296702
+  },
+  "toxicity_mm50": {
+    "gates_ok": true,
+    "n_quotes": 36
+  },
+  "cross_venue_rv50": {
+    "gates_ok": true,
+    "n_opps": 0
+  },
+  "vol_surface_arb49": {
+    "gates_ok": true,
+    "n_signals": 0
+  },
+  "orderflow_delta_hedge49": {
+    "gates_ok": true,
+    "n_hedge_actions": 3
+  },
+  "alpha48_campaign": {
+    "gates_ok": true,
+    "n_qualified_alphas": 120
+  },
+  "arb47_campaign": {
+    "gates_ok": true,
+    "n_exploitable": 2160
+  },
+  "mm46_campaign": {
+    "gates_ok": true
+  },
+  "orderflow_alpha_campaign": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "risk_hedge_campaign": {
+    "gates_ok": true,
+    "halted": false
+  },
+  "resilience_campaign": {
+    "gates_ok": true
+  },
+  "capital_deployment": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "post_trade_reconciliation": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "cross_venue_settlement": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "phase39_kill_switches": {
+    "paper_only": true,
+    "gates_ok": true
+  },
+  "halt_executed": false,
+  "halt_events": [],
+  "slo_evaluations": 5,
+  "slo_alerts_fired": 5,
+  "integrated_with": [
+    "PHASE32_ORDERFLOW_ALPHA",
+    "PHASE39_KILL_SWITCHES",
+    "PHASE40_POST_TRADE_RECONCILIATION",
+    "PHASE41_CROSS_VENUE_SETTLEMENT",
+    "PHASE42_RISK_HEDGE_LOOP",
+    "PHASE44_LIVE_CAPITAL_DEPLOYMENT",
+    "PHASE45_RESILIENCE_CHAOS_FAILOVER",
+    "PHASE46_ADAPTIVE_MM",
+    "PHASE47_CROSS_VENUE_ARBITRAGE",
+    "PHASE48_REGIME_CONDITIONAL_OPTIONS",
+    "PHASE49_VOL_SURFACE_ARB",
+    "PHASE49_ORDERFLOW_DRIVEN_DELTA_HEDGE",
+    "PHASE50_TOXICITY_AWARE_OPTIONS_MM",
+    "PHASE50_CROSS_VENUE_RELATIVE_VALUE_EXECUTOR",
+    "PHASE51_ADAPTIVE_ORDERFLOW_ALPHA_FUSION",
+    "PHASE51_LATENCY_AWARE_OPTIONS_SOR",
+    "MONITORING_SLO"
+  ]
+}
