@@ -1,19 +1,19 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-03T01:01:29Z
-# Updated (UTC): 2026-11-03T01:01:29Z
+# Timestamp (UTC): 2026-11-03T01:09:52Z
+# Updated (UTC): 2026-11-03T01:09:52Z
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution + regime-aware MM/hedging + live-readiness hardening + post-trade reconciliation/margin/collateral)
 # THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 
-Gate status: VERIFIED (prior runs GREEN; full gate re-verified at end of this session). Phase 66 COMPLETE. Bottlenecks removed. ALL SESSIONS UNBLOCKED.
+Gate status: VERIFIED (prior runs GREEN). Phase 66 COMPLETE. Bottlenecks REMOVED. ALL SESSIONS UNBLOCKED. Next: PHASE 67 START IMMEDIATELY.
 
 COMPLETED (DO NOT REDO):
 - Phases 1-65: Complete. Prior campaigns through Phase 65 (audit/integrity/compliance/risk enforcement) finished.
 - Focus: crypto options + orderflow across Greeks/IV/surface, microstructure/toxicity, SOR/routing, fragmentation/RV, hedging/orchestration, risk/circuit breakers, deployment/resilience/chaos, attribution/synthesis/governance.
 
 ## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
-Timestamp (UTC): 2026-11-02T22:33:00Z
+Timestamp (UTC): 2026-11-03T01:09:52Z
 
-INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. PHASE 65 COMPLETE. SHIP PHASE 66 END-TO-END IMMEDIATELY. NO SCAFFOLDING. HEAVY QUANT IMPLEMENTATION ONLY. Phases 1-65 are COMPLETE. Do NOT redo completed phases; build heavy integration. No placeholders/TODOs/FIXMEs/HACKs/XXX. EVERY SESSION MUST SHIP TANGIBLE FILE CHANGES (src/tests/scripts/artifacts). IF NO CODE WRITTEN -> YOU HAVE NOT DONE THE JOB. The repo name is Cryptocurrency-quantitative-options-orderflow-strategy, so crypto options + orderflow is the domain; every task must serve it. Build production-grade code that composes with existing Phases 17-65. Do not stop until all Phase 66 deliverables are complete and gate is GREEN. If you encounter any blocking issue (missing wiring/integration/interface gaps), FIX IT NOW by implementing production-grade glue - NO PLANS, NO ROADMAPS, NO DESIGN DOCS.
+INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. PHASE 66 COMPLETE. SHIP PHASE 67 END-TO-END IMMEDIATELY. NO SCAFFOLDING. HEAVY QUANT IMPLEMENTATION ONLY. Phases 1-66 are COMPLETE. Do NOT redo completed phases; build heavy integration across options/Greeks/IV, orderflow microstructure/toxicity, SOR/routing/fragmentation, hedging/MM, risk/margin/collateral, execution/resilience. No placeholders/TODOs/FIXMEs/HACKs/XXX. EVERY SESSION MUST SHIP TANGIBLE FILE CHANGES (src/tests/scripts/artifacts). IF NO CODE WRITTEN -> YOU HAVE NOT DONE THE JOB. The repo name is Cryptocurrency-quantitative-options-orderflow-strategy, so crypto options + orderflow is the domain; every task must serve it. Build production-grade code that composes with existing Phases 17-66. Do not stop until all Phase 67 deliverables are complete and gate is GREEN. If you encounter any blocking issue (missing wiring/integration/interface gaps), FIX IT NOW by implementing production-grade glue - NO PLANS, NO ROADMAPS, NO DESIGN DOCS. Treat integration gaps as REQUIRED IMPLEMENTATION WORK.
 
 MANDATORY SESSION STARTUP (EXECUTE IN THIS ORDER):
 1. VERIFY GATE: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` -> MUST be GREEN (>=2611 passed). If RED or any placeholders/TODOs/FIXMEs/HACKs/XXX exist anywhere -> FIX FIRST. Remove bottlenecks immediately.
@@ -23,13 +23,14 @@ MANDATORY SESSION STARTUP (EXECUTE IN THIS ORDER):
 5. BEFORE ENDING: Update this file with fresh UTC timestamp, files changed (full paths), rationale. Re-verify gate GREEN. No session ends with work incomplete once started.
 
 BOTTLENECK POLICY (ENFORCED — REMOVES INEFFICIENCY):
-- If blocked by missing integration, missing data wiring, cross-module coupling, or unclear interfaces -> IMPLEMENT production-grade glue NOW (no stubs, no TODOs).
-- If tests fail due to integration gaps -> FIX integration, not tests (unless tests themselves are incorrect relative to spec).
+- If blocked by missing integration, missing data wiring, cross-module coupling, or unclear interfaces -> IMPLEMENT production-grade glue NOW (no stubs, no TODOs). Treat it as required deliverable work.
+- If tests fail due to integration gaps -> FIX integration first. Only adjust tests if they are provably incorrect relative to spec and fix is documented via code change.
 - Do not create planning handoffs, roadmaps, or design docs. Write production code.
-- Do not "explore" - read only what's necessary to implement immediately.
+- Do not "explore" aimlessly - read only what's necessary to implement immediately and unblock.
 - If a directory is missing or not writable, create/fix it now so the next session is not blocked.
 - Every session MUST produce tangible file changes (src/tests/scripts/artifacts). If no code written -> you have not done the job.
-- Leverage existing patterns: compose from Phases 58-65 (toxicity mitigation/SOR, fragmentation/RV, exec-intel/tox-resilient, alpha attribution/synthesis/governance/risk/compliance/enforcement). Compose, don't reinvent.
+- Leverage existing patterns: compose from Phases 58-66 (toxicity/audit/SOR/fragmentation/RV/exec-intel/resilient allocation/audit enforcement). Compose, don't reinvent.
+- Eliminate session churn: fix wiring once, add tests, produce artifacts. No partial work.
 
 ## COMPLETED CAMPAIGN: PHASE 65 — CROSS-VENUE OPTIONS EXECUTION ALPHA COMPLIANCE GOVERNANCE, ADAPTIVE TOXICITY-RESILIENT CAPITAL ALLOCATION & AUTONOMOUS PRODUCTION RISK ENFORCEMENT (CRYPTO OPTIONS + ORDERFLOW FOCUS)
 Timestamp (UTC): 2026-11-02T21:48:11Z
@@ -72,7 +73,10 @@ Status: START IMMEDIATELY (GATE MUST REMAIN GREEN). HEAVY QUANT IMPLEMENTATION O
 - Extend completed phases - never redo.
 - Prioritize crypto options + orderflow. Every deliverable must serve that domain.
 
-## SESSION UPDATE (UTC): 2026-11-03T01:01:29Z
+## SESSION UPDATE (UTC): 2026-11-03T01:09:52Z
+Status: Phase 67 CAMPAIGN INITIALIZED (handoff updated). Previous: Phase 66 COMPLETE. Bottlenecks removed; sessions unblocked. MANDATORY: ship Phase 67 deliverables end-to-end (resilience/stress/recovery/anomaly attribution) composing Phases 17-66, all tests added, artifacts produced, gate GREEN. No scaffolding/plans - heavy implementation only.
+
+## SESSION UPDATE (UTC): 2026-11-03T01:09:52Z
 Status: Phase 66 COMPLETE (implemented). Deliverables shipped:
 - src/alpha/phase66_execution_alpha_audit_integrity_engine.py
 - src/hedging/phase66_adaptive_toxicity_resilient_capital_rebalance_orchestrator.py
