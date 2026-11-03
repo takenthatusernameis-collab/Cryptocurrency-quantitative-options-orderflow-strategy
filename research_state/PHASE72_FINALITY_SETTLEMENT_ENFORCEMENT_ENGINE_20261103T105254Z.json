@@ -1,0 +1,49 @@
+{
+  "report": {
+    "phase": "PHASE72_FINALITY_SETTLEMENT_ENFORCEMENT_ENGINE",
+    "timestamp": "2026-11-03T10:52:54.834736Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 72002,
+    "cycles": 3,
+    "n_finality_checks": 1,
+    "n_settlement_failovers": 0,
+    "n_settlement_rollbacks": 0,
+    "n_finality_attestations": 1,
+    "avg_fin_ok": 0.996,
+    "finality_settlement_pass_rate": 1.0,
+    "composes": [
+      "PHASE72-MARGIN",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "finality_checks": [
+    {
+      "fc_id": "p72-72002-fc-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "fin_ok": 0.996,
+      "trade_finality_verified": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:52:54.834700Z"
+    }
+  ],
+  "settlement_failovers": [],
+  "settlement_rollbacks": [],
+  "finality_attestations": [
+    {
+      "fat_id": "p72-72002-fat-000000",
+      "cycle": 0,
+      "chain_intact": true,
+      "finality_hash": "sha256:p72:72002:0",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:52:54.834717Z"
+    }
+  ]
+}

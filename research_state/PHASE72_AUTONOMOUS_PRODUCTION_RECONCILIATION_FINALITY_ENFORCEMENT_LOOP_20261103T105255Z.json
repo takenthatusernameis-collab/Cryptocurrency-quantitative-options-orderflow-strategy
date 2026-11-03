@@ -1,0 +1,61 @@
+{
+  "report": {
+    "phase": "PHASE72_AUTONOMOUS_PRODUCTION_RECONCILIATION_FINALITY_ENFORCEMENT_LOOP",
+    "timestamp": "2026-11-03T10:52:55.022327Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 72003,
+    "cycles": 3,
+    "n_reconciliation_checks": 1,
+    "n_auto_reconciles": 1,
+    "n_rollbacks_finality": 0,
+    "n_finality_chains": 1,
+    "avg_recon_ok": 0.9955,
+    "production_reconciliation_finality_pass_rate": 0.0,
+    "composes": [
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "reconciliation_checks": [
+    {
+      "rchk_id": "p72-72003-rchk-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "recon_ok": 0.9955,
+      "action": "reconciliation_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:52:55.022280Z"
+    }
+  ],
+  "auto_reconciles": [
+    {
+      "ar_id": "p72-72003-ar-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.216,
+      "action": "auto_reconcile_on_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:52:55.022298Z"
+    }
+  ],
+  "rollbacks_finality": [],
+  "finality_chains": [
+    {
+      "fch_id": "p72-72003-fch-000000",
+      "cycle": 0,
+      "chain_ok": 0.998478,
+      "enforced": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:52:55.022309Z"
+    }
+  ]
+}
