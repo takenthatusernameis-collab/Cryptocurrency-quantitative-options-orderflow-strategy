@@ -1,0 +1,59 @@
+{
+  "report": {
+    "phase": "PHASE71_AUTONOMOUS_PRODUCTION_CERTIFICATION_ENFORCEMENT_LOOP",
+    "timestamp": "2026-11-03T10:37:53.865435Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7172,
+    "cycles": 3,
+    "n_certification_checks": 1,
+    "n_auto_contains": 1,
+    "n_rollbacks": 0,
+    "n_attestation_chains": 1,
+    "avg_cert_ok": 0.9955,
+    "production_certification_pass_rate": 0.0,
+    "composes": [
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "certification_checks": [
+    {
+      "cchk_id": "p71-7172-cchk-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "cert_ok": 0.9955,
+      "action": "production_certification_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.865388Z"
+    }
+  ],
+  "auto_contains": [
+    {
+      "acnt_id": "p71-7172-acnt-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.216,
+      "action": "auto_contain_on_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.865406Z"
+    }
+  ],
+  "rollbacks": [],
+  "attestation_chains": [
+    {
+      "atch_id": "p71-7172-atch-000000",
+      "cycle": 0,
+      "chain_ok": 0.998478,
+      "certified": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.865417Z"
+    }
+  ]
+}

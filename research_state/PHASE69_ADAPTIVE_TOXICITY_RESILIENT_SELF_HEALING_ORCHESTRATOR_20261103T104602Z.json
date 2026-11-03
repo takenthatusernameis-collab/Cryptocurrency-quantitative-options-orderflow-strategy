@@ -1,0 +1,263 @@
+{
+  "report": {
+    "phase": "PHASE69_ADAPTIVE_TOXICITY_RESILIENT_SELF_HEALING_ORCHESTRATOR",
+    "timestamp": "2026-11-03T10:46:02.154923Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 69061,
+    "cycles": 40,
+    "n_self_heal_failovers": 6,
+    "n_capital_rebalances": 5,
+    "n_hedging_self_heals": 8,
+    "n_self_heal_orch_attestations": 7,
+    "avg_failover_ok": 0.9953456,
+    "self_heal_orch_pass_rate": 0.125,
+    "composes": [
+      "PHASE68",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "self_heal_failovers": [
+    {
+      "fsh_id": "p69hedge_fsh_e10677a8a535",
+      "cycle": 0,
+      "venue": "deribit",
+      "failover_ok": 0.997316,
+      "mode": "cross_venue_failover_self_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.152971Z"
+    },
+    {
+      "fsh_id": "p69hedge_fsh_c97e8f6243d8",
+      "cycle": 7,
+      "venue": "binance",
+      "failover_ok": 0.9950774,
+      "mode": "cross_venue_failover_self_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153332Z"
+    },
+    {
+      "fsh_id": "p69hedge_fsh_50afac73ae33",
+      "cycle": 14,
+      "venue": "bybit",
+      "failover_ok": 0.9950228,
+      "mode": "cross_venue_failover_self_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153627Z"
+    },
+    {
+      "fsh_id": "p69hedge_fsh_4072b20a6186",
+      "cycle": 21,
+      "venue": "okx",
+      "failover_ok": 0.9956684,
+      "mode": "cross_venue_failover_self_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154026Z"
+    },
+    {
+      "fsh_id": "p69hedge_fsh_64b447379df4",
+      "cycle": 28,
+      "venue": "deribit",
+      "failover_ok": 0.9956138,
+      "mode": "cross_venue_failover_self_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154324Z"
+    },
+    {
+      "fsh_id": "p69hedge_fsh_5a78d9c25e41",
+      "cycle": 35,
+      "venue": "binance",
+      "failover_ok": 0.9933752,
+      "mode": "cross_venue_failover_self_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154618Z"
+    }
+  ],
+  "capital_rebalances": [
+    {
+      "cr_id": "p69hedge_cr_66e0ca27e0ef",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.5268,
+      "action": "capital_rebalance_self_heal_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153492Z"
+    },
+    {
+      "cr_id": "p69hedge_cr_497b6f258696",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.5047,
+      "action": "capital_rebalance_self_heal_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153784Z"
+    },
+    {
+      "cr_id": "p69hedge_cr_958028f58037",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.42425,
+      "action": "capital_rebalance_self_heal_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154105Z"
+    },
+    {
+      "cr_id": "p69hedge_cr_6b16a1bd3f4a",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.40215,
+      "action": "capital_rebalance_self_heal_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154402Z"
+    },
+    {
+      "cr_id": "p69hedge_cr_4e0252a9d9ed",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.56205,
+      "action": "capital_rebalance_self_heal_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154763Z"
+    }
+  ],
+  "hedging_self_heals": [
+    {
+      "hsh_id": "p69hedge_hsh_922c4885bf63",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.997523,
+      "self_healed": true,
+      "orch_self_heal_throttle_factor": 1.0,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153059Z"
+    },
+    {
+      "hsh_id": "p69hedge_hsh_0e9b1b70942e",
+      "cycle": 5,
+      "venue": "okx",
+      "hedge_ok": 0.99605725,
+      "self_healed": false,
+      "orch_self_heal_throttle_factor": 0.25,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153201Z"
+    },
+    {
+      "hsh_id": "p69hedge_hsh_373413495884",
+      "cycle": 10,
+      "venue": "bybit",
+      "hedge_ok": 0.9945915,
+      "self_healed": false,
+      "orch_self_heal_throttle_factor": 0.175,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153412Z"
+    },
+    {
+      "hsh_id": "p69hedge_hsh_011d43075fe3",
+      "cycle": 15,
+      "venue": "binance",
+      "hedge_ok": 0.99512775,
+      "self_healed": false,
+      "orch_self_heal_throttle_factor": 0.175,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153702Z"
+    },
+    {
+      "hsh_id": "p69hedge_hsh_6851da8900a3",
+      "cycle": 20,
+      "venue": "deribit",
+      "hedge_ok": 0.99630585,
+      "self_healed": false,
+      "orch_self_heal_throttle_factor": 0.25,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153949Z"
+    },
+    {
+      "hsh_id": "p69hedge_hsh_f3c4e88bf1a4",
+      "cycle": 25,
+      "venue": "okx",
+      "hedge_ok": 0.9948401,
+      "self_healed": false,
+      "orch_self_heal_throttle_factor": 0.175,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154240Z"
+    },
+    {
+      "hsh_id": "p69hedge_hsh_c8732ae1c800",
+      "cycle": 30,
+      "venue": "bybit",
+      "hedge_ok": 0.99537635,
+      "self_healed": false,
+      "orch_self_heal_throttle_factor": 0.25,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154482Z"
+    },
+    {
+      "hsh_id": "p69hedge_hsh_5a65eab4bd39",
+      "cycle": 35,
+      "venue": "binance",
+      "hedge_ok": 0.994,
+      "self_healed": false,
+      "orch_self_heal_throttle_factor": 0.175,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154689Z"
+    }
+  ],
+  "self_heal_orch_attestations": [
+    {
+      "soh_id": "p69hedge_soh_4b8e18df41bd",
+      "cycle": 0,
+      "self_healed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153133Z"
+    },
+    {
+      "soh_id": "p69hedge_soh_bc8bbb9a0507",
+      "cycle": 6,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153278Z"
+    },
+    {
+      "soh_id": "p69hedge_soh_d9fdb619fa3f",
+      "cycle": 12,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153571Z"
+    },
+    {
+      "soh_id": "p69hedge_soh_3fe21be0df53",
+      "cycle": 18,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.153889Z"
+    },
+    {
+      "soh_id": "p69hedge_soh_23fdf3e39f63",
+      "cycle": 24,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154184Z"
+    },
+    {
+      "soh_id": "p69hedge_soh_3d788b151ee9",
+      "cycle": 30,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154553Z"
+    },
+    {
+      "soh_id": "p69hedge_soh_c69ec4624b46",
+      "cycle": 36,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:46:02.154861Z"
+    }
+  ]
+}

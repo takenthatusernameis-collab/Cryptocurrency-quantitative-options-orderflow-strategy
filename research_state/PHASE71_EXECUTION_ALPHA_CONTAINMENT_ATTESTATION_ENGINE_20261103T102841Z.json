@@ -1,0 +1,290 @@
+{
+  "report": {
+    "phase": "PHASE71_EXECUTION_ALPHA_CONTAINMENT_ATTESTATION_ENGINE",
+    "timestamp": "2026-11-03T10:28:41.022438Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7170,
+    "cycles": 40,
+    "n_containments": 7,
+    "n_attestations": 6,
+    "n_certifications": 8,
+    "n_tamper_attestations": 5,
+    "avg_contain_ok": 0.995370126,
+    "containment_attestation_pass_rate": 0.125,
+    "composes": [
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "containments": [
+    {
+      "cnt_id": "p71-7170-cnt-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.2088,
+      "contain_ok": 0.9976032,
+      "action": "venue_quarantine_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022161Z"
+    },
+    {
+      "cnt_id": "p71-7170-cnt-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.36936,
+      "contain_ok": 0.99583704,
+      "action": "venue_quarantine_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022218Z"
+    },
+    {
+      "cnt_id": "p71-7170-cnt-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.52992,
+      "contain_ok": 0.9945,
+      "action": "venue_quarantine_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022260Z"
+    },
+    {
+      "cnt_id": "p71-7170-cnt-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.50848,
+      "contain_ok": 0.9945,
+      "action": "venue_quarantine_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022297Z"
+    },
+    {
+      "cnt_id": "p71-7170-cnt-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.4266,
+      "contain_ok": 0.9952074,
+      "action": "venue_quarantine_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022338Z"
+    },
+    {
+      "cnt_id": "p71-7170-cnt-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.40516,
+      "contain_ok": 0.99544324,
+      "action": "venue_quarantine_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022378Z"
+    },
+    {
+      "cnt_id": "p71-7170-cnt-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.56572,
+      "contain_ok": 0.9945,
+      "action": "venue_quarantine_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022419Z"
+    }
+  ],
+  "attestations": [
+    {
+      "att_id": "p71-7170-att-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "att_conf": 0.9897472,
+      "tamper_evident": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022173Z"
+    },
+    {
+      "att_id": "p71-7170-att-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "att_conf": 0.98862328,
+      "tamper_evident": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022228Z"
+    },
+    {
+      "att_id": "p71-7170-att-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "att_conf": 0.98859136,
+      "tamper_evident": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022273Z"
+    },
+    {
+      "att_id": "p71-7170-att-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "att_conf": 0.98892208,
+      "tamper_evident": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022324Z"
+    },
+    {
+      "att_id": "p71-7170-att-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "att_conf": 0.98889016,
+      "tamper_evident": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022367Z"
+    },
+    {
+      "att_id": "p71-7170-att-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "att_conf": 0.98776624,
+      "tamper_evident": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022404Z"
+    }
+  ],
+  "certifications": [
+    {
+      "crt_id": "p71-7170-crt-000000",
+      "cycle": 0,
+      "certified": true,
+      "contain_throttle_factor": 1.0,
+      "reasons": [],
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022180Z"
+    },
+    {
+      "crt_id": "p71-7170-crt-000005",
+      "cycle": 5,
+      "certified": false,
+      "contain_throttle_factor": 0.48,
+      "reasons": [
+        "containment_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022207Z"
+    },
+    {
+      "crt_id": "p71-7170-crt-000010",
+      "cycle": 10,
+      "certified": false,
+      "contain_throttle_factor": 0.3264,
+      "reasons": [
+        "containment_below_min",
+        "containment_sev_elevated"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022247Z"
+    },
+    {
+      "crt_id": "p71-7170-crt-000015",
+      "cycle": 15,
+      "certified": false,
+      "contain_throttle_factor": 0.48,
+      "reasons": [
+        "containment_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022281Z"
+    },
+    {
+      "crt_id": "p71-7170-crt-000020",
+      "cycle": 20,
+      "certified": false,
+      "contain_throttle_factor": 0.48,
+      "reasons": [
+        "containment_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022315Z"
+    },
+    {
+      "crt_id": "p71-7170-crt-000025",
+      "cycle": 25,
+      "certified": false,
+      "contain_throttle_factor": 0.48,
+      "reasons": [
+        "containment_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022348Z"
+    },
+    {
+      "crt_id": "p71-7170-crt-000030",
+      "cycle": 30,
+      "certified": false,
+      "contain_throttle_factor": 0.48,
+      "reasons": [
+        "containment_below_min"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022385Z"
+    },
+    {
+      "crt_id": "p71-7170-crt-000035",
+      "cycle": 35,
+      "certified": false,
+      "contain_throttle_factor": 0.3264,
+      "reasons": [
+        "containment_below_min",
+        "containment_sev_elevated"
+      ],
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022409Z"
+    }
+  ],
+  "tamper_attestations": [
+    {
+      "tatt_id": "p71-7170-tatt-000000",
+      "cycle": 0,
+      "chain_intact": true,
+      "attestation_hash": "sha256:p71:7170:0",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022187Z"
+    },
+    {
+      "tatt_id": "p71-7170-tatt-000009",
+      "cycle": 9,
+      "chain_intact": true,
+      "attestation_hash": "sha256:p71:7170:9",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022239Z"
+    },
+    {
+      "tatt_id": "p71-7170-tatt-000018",
+      "cycle": 18,
+      "chain_intact": true,
+      "attestation_hash": "sha256:p71:7170:18",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022305Z"
+    },
+    {
+      "tatt_id": "p71-7170-tatt-000027",
+      "cycle": 27,
+      "chain_intact": true,
+      "attestation_hash": "sha256:p71:7170:27",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022359Z"
+    },
+    {
+      "tatt_id": "p71-7170-tatt-000036",
+      "cycle": 36,
+      "chain_intact": true,
+      "attestation_hash": "sha256:p71:7170:36",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:28:41.022426Z"
+    }
+  ]
+}

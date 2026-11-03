@@ -1,0 +1,69 @@
+{
+  "report": {
+    "phase": "PHASE70_EXECUTION_ALPHA_AUTONOMOUS_RECOVERY_ENGINE",
+    "timestamp": "2026-11-03T10:37:53.348019Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7070,
+    "cycles": 3,
+    "n_recovery_playbooks": 1,
+    "n_recovery_attestations": 1,
+    "n_recovery_actions": 1,
+    "n_recovery_attribution_attestations": 1,
+    "avg_recovery_verify": 0.997802,
+    "recovery_pass_rate": 1.0,
+    "composes": [
+      "PHASE69",
+      "PHASE68",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "recovery_playbooks": [
+    {
+      "rp_id": "p70alpha_rp_7283a082fedc",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.1998,
+      "policy": "autonomous_recovery_playbook",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.347512Z"
+    }
+  ],
+  "recovery_attestations": [
+    {
+      "ra_id": "p70alpha_ra_228f48715d7b",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "confidence": 0.9474,
+      "recovery": "autonomous_recovery_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.347731Z"
+    }
+  ],
+  "recovery_actions": [
+    {
+      "ract_id": "p70alpha_ract_2f71627b4a19",
+      "cycle": 0,
+      "recovery_verify": 0.997802,
+      "recovered": true,
+      "recovery_throttle_factor": 1.0,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.347852Z"
+    }
+  ],
+  "recovery_attribution_attestations": [
+    {
+      "rat_id": "p70alpha_rat_7132915d3c24",
+      "cycle": 0,
+      "recovery_verify": 0.997802,
+      "recovered": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.347939Z"
+    }
+  ]
+}

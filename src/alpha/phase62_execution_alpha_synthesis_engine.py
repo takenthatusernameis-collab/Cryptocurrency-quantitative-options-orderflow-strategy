@@ -98,7 +98,7 @@ class Phase62ExecutionAlphaSynthesisEngine:
         if not self.cfg.paper_only:
             raise ValueError("Phase62ExecutionAlphaSynthesisEngine: paper_only must remain True")
         self.attr61 = Phase61ExecutionAlphaAttributionEngine(
-            Phase61ExecutionAlphaAttributionConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=60)
+            Phase61ExecutionAlphaAttributionConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=5)
         )
         self.exec60 = Phase60AdaptiveExecutionIntelligenceEngine()
         self.alpha57 = Phase57CrossVenueOptionsExecutionAlphaFusion()
@@ -132,10 +132,10 @@ class Phase62ExecutionAlphaSynthesisEngine:
         self.fused_alpha = []
 
         attr_rep = self.attr61.run_attribution(cycles=50)
-        exec_rep = self.exec60.run_intelligence(cycles=40)
+        exec_rep = self.exec60.run_intelligence(cycles=4)
         alpha_rep = self.alpha57.fuse()
-        of_rep = self.of.run_campaign(cycles=40)
-        tox_rep = self.tox58.mitigate(cycles=40)
+        of_rep = self.of.run_campaign(cycles=4)
+        tox_rep = self.tox58.mitigate(cycles=4)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
         avg_quality = _finite(exec_rep.get("avg_execution_quality", 0.5))

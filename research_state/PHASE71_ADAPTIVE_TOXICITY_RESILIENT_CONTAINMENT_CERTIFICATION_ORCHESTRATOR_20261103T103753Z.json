@@ -1,0 +1,55 @@
+{
+  "report": {
+    "phase": "PHASE71_ADAPTIVE_TOXICITY_RESILIENT_CONTAINMENT_CERTIFICATION_ORCHESTRATOR",
+    "timestamp": "2026-11-03T10:37:53.629517Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7171,
+    "cycles": 3,
+    "n_venue_quarantines": 1,
+    "n_capital_containments": 0,
+    "n_hedging_containments": 1,
+    "n_contain_cert_attestations": 1,
+    "avg_quarantine_ok": 0.997776,
+    "containment_certification_pass_rate": 0.0,
+    "composes": [
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "venue_quarantines": [
+    {
+      "vqu_id": "p71-7171-vqu-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "quarantine_ok": 0.997776,
+      "action": "venue_quarantine_enforced",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.629476Z"
+    }
+  ],
+  "capital_containments": [],
+  "hedging_containments": [
+    {
+      "hcont_id": "p71-7171-hcont-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.997776,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.629492Z"
+    }
+  ],
+  "contain_cert_attestations": [
+    {
+      "cca_id": "p71-7171-cca-000000",
+      "cycle": 0,
+      "certified": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.629500Z"
+    }
+  ]
+}

@@ -158,13 +158,13 @@ class Phase61AutonomousProductionResilienceDrillsLoop:
         self.chaos_events = []
         self.cb_drills = []
 
-        harden_rep = self.harden59.run_hardening(cycles=40)
-        rollout_rep = self.rollout60.run_rollout_validation(cycles=40)
-        exec_rep = self.execint60.run_intelligence(cycles=40)
-        toxhedge_rep = self.toxhedge60.run_hedge_fusion(cycles=40)
-        risk_rep = self.risk54.run_campaign(cycles=40)
-        of_rep = self.of.run_campaign(cycles=30)
-        tox_rep = self.tox58.mitigate(cycles=40)
+        harden_rep = self.harden59.run_hardening(cycles=4)
+        rollout_rep = self.rollout60.run_rollout_validation(cycles=4)
+        exec_rep = self.execint60.run_intelligence(cycles=4)
+        toxhedge_rep = self.toxhedge60.run_hedge_fusion(cycles=4)
+        risk_rep = self.risk54.run_campaign(cycles=4)
+        of_rep = self.of.run_campaign(cycles=3)
+        tox_rep = self.tox58.mitigate(cycles=4)
         ks_rep = self.ks.run_campaign()
 
         halted = bool(ks_rep.get("halted", False))

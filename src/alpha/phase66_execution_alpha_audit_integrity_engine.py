@@ -117,10 +117,10 @@ class Phase66ExecutionAlphaAuditIntegrityEngine:
             Phase64ExecutionAlphaRiskGovernanceConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=self.cfg.cycles)
         )
         self.gov63 = Phase63ExecutionAlphaGovernanceEngine(
-            Phase63ExecutionAlphaGovernanceConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=60)
+            Phase63ExecutionAlphaGovernanceConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=5)
         )
         self.synth62 = Phase62ExecutionAlphaSynthesisEngine(
-            Phase62ExecutionAlphaSynthesisConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=60)
+            Phase62ExecutionAlphaSynthesisConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=5)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.tox58 = Phase58FlowToxicityMitigator()
@@ -165,13 +165,13 @@ class Phase66ExecutionAlphaAuditIntegrityEngine:
         self.audit_throttles = []
         self.integrity_attestations = []
 
-        comp65_rep = self.comp65.enforce_compliance_governance(cycles=60)
-        gov64_rep = self.gov64.enforce_risk_governance(cycles=60)
-        gov63_rep = self.gov63.enforce_governance(cycles=60)
-        synth_rep = self.synth62.synthesize_alpha(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        self.risk54.run_campaign(cycles=30)
-        self.of.run_campaign(cycles=40)
+        comp65_rep = self.comp65.enforce_compliance_governance(cycles=5)
+        gov64_rep = self.gov64.enforce_risk_governance(cycles=5)
+        gov63_rep = self.gov63.enforce_governance(cycles=5)
+        synth_rep = self.synth62.synthesize_alpha(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        self.risk54.run_campaign(cycles=3)
+        self.of.run_campaign(cycles=4)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
 

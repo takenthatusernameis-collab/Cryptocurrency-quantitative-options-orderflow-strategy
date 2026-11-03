@@ -1,0 +1,55 @@
+{
+  "report": {
+    "phase": "PHASE69_ADAPTIVE_TOXICITY_RESILIENT_SELF_HEALING_ORCHESTRATOR",
+    "timestamp": "2026-11-03T10:37:53.950531Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 6971,
+    "cycles": 3,
+    "n_self_heal_failovers": 1,
+    "n_capital_rebalances": 0,
+    "n_hedging_self_heals": 1,
+    "n_self_heal_orch_attestations": 1,
+    "avg_failover_ok": 0.997316,
+    "self_heal_orch_pass_rate": 1.0,
+    "composes": [
+      "PHASE68",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "self_heal_failovers": [
+    {
+      "fsh_id": "p69hedge_fsh_f56f836f80e1",
+      "cycle": 0,
+      "venue": "deribit",
+      "failover_ok": 0.997316,
+      "mode": "cross_venue_failover_self_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.950264Z"
+    }
+  ],
+  "capital_rebalances": [],
+  "hedging_self_heals": [
+    {
+      "hsh_id": "p69hedge_hsh_78817a3d4a60",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.997523,
+      "self_healed": true,
+      "orch_self_heal_throttle_factor": 1.0,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.950383Z"
+    }
+  ],
+  "self_heal_orch_attestations": [
+    {
+      "soh_id": "p69hedge_soh_7bf1d357b879",
+      "cycle": 0,
+      "self_healed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.950466Z"
+    }
+  ]
+}

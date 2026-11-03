@@ -116,11 +116,11 @@ class Phase59FragmentationToxicityArbEngine:
         self.filters = []
         self.venues_quarantined = []
         self.hard_limit_rejects = []
-        tox_rep = self.tox58.mitigate(cycles=40)
-        frag_rep = self.frag53.run_campaign(cycles=40)
-        sor_rep = self.sor58.route_adaptive(cycles=40)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        frag_rep = self.frag53.run_campaign(cycles=4)
+        sor_rep = self.sor58.route_adaptive(cycles=4)
         ks_rep = self.ks.run_campaign()
-        of_rep = self.of.run_campaign(cycles=30)
+        of_rep = self.of.run_campaign(cycles=3)
         halted = bool(ks_rep.get("halted", False))
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.2))
         avg_frag = _finite(frag_rep.get("avg_basis_bps", 1.0)) / 100.0

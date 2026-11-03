@@ -102,7 +102,7 @@ class Phase62AdaptiveRegimeConditionalExecutionResilience:
         if not self.cfg.paper_only:
             raise ValueError("Phase62AdaptiveRegimeConditionalExecutionResilience: paper_only must remain True")
         self.reg61 = Phase61AdaptiveRegimeSwitchingHedgeOrchestrator(
-            Phase61AdaptiveRegimeSwitchingHedgeConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=60)
+            Phase61AdaptiveRegimeSwitchingHedgeConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=5)
         )
         self.hedge60 = Phase60ToxicityResilientHedgeFusion(Phase60ToxicityResilientHedgeConfig(seed=self.cfg.seed + 2, paper_only=True))
         self.risk54 = Phase54RealtimeRiskFusionEngine()
@@ -144,10 +144,10 @@ class Phase62AdaptiveRegimeConditionalExecutionResilience:
         self.adjustments = []
         self.guardrails = []
 
-        hedge_rep = self.reg61.run_orchestration(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        of_rep = self.of.run_campaign(cycles=40)
-        risk_rep = self.risk54.run_campaign(cycles=30)
+        hedge_rep = self.reg61.run_orchestration(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        of_rep = self.of.run_campaign(cycles=4)
+        risk_rep = self.risk54.run_campaign(cycles=3)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
 

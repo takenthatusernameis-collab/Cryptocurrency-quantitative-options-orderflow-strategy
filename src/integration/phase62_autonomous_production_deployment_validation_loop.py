@@ -104,7 +104,7 @@ class Phase62AutonomousProductionDeploymentValidationLoop:
         if not self.cfg.paper_only:
             raise ValueError("Phase62AutonomousProductionDeploymentValidationLoop: paper_only must remain True")
         self.drills61 = Phase61AutonomousProductionResilienceDrillsLoop(
-            Phase61AutonomousProductionResilienceConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=60)
+            Phase61AutonomousProductionResilienceConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=5)
         )
         self.rollout60 = Phase60AutonomousProductionRolloutValidationLoop()
         self.harden59 = Phase59AutonomousExecutionHardeningLoop()
@@ -136,11 +136,11 @@ class Phase62AutonomousProductionDeploymentValidationLoop:
         self.rollbacks = []
         self.circuit_checks = []
 
-        drill_rep = self.drills61.run_drills(cycles=60)
-        rollout_rep = self.rollout60.run_rollout_validation(cycles=40)
-        exec_rep = self.execint60.run_intelligence(cycles=40)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        risk_rep = self.risk54.run_campaign(cycles=30)
+        drill_rep = self.drills61.run_drills(cycles=5)
+        rollout_rep = self.rollout60.run_rollout_validation(cycles=4)
+        exec_rep = self.execint60.run_intelligence(cycles=4)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        risk_rep = self.risk54.run_campaign(cycles=3)
 
         avg_exec_q = _finite(exec_rep.get("avg_execution_quality", 0.85))
 

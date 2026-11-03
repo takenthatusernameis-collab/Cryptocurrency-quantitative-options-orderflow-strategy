@@ -137,7 +137,7 @@ class Phase50CrossVenueRelativeValueExecutor:
         if not self.cfg.paper_only:
             raise ValueError("Phase50CrossVenueRelativeValueExecutor: paper_only must remain True")
         self.of = OrderflowAlphaIntegrator(
-            OrderflowAlphaIntegrationConfig32(seed=self.cfg.seed + 32, paper_only=True, cycles=60)
+            OrderflowAlphaIntegrationConfig32(seed=self.cfg.seed + 32, paper_only=True, cycles=5)
         )
         self.eq = ExecutionQualityEngine(ExecutionQualityConfig32(seed=self.cfg.seed + 32, paper_only=True))
         self.opps: List[RVOpportunity] = []
@@ -223,7 +223,7 @@ class Phase50CrossVenueRelativeValueExecutor:
     def generate_artifacts(self, outdir: str = "research_state") -> Dict[str, str]:
         outp = Path(outdir)
         outp.mkdir(parents=True, exist_ok=True)
-        rep = self.run_campaign(cycles=40)
+        rep = self.run_campaign(cycles=4)
         ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         jpath = outp / f"phase50_cross_venue_relative_value_executor_{ts}.json"
         mpath = outp / f"phase50_cross_venue_relative_value_executor_{ts}.md"

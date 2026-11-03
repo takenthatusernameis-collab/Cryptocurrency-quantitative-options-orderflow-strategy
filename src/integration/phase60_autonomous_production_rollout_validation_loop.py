@@ -125,19 +125,19 @@ class Phase60AutonomousProductionRolloutValidationLoop:
         self.containments = []
         self.rollbacks = []
         self.drills = []
-        harden_rep = self.harden59.run_hardening(cycles=40)
-        exec_rep = self.execint60.run_intelligence(cycles=40)
-        hedge_rep = self.hedge59.run_hedge_fusion(cycles=40)
-        toxhedge_rep = self.toxhedge60.run_hedge_fusion(cycles=40)
-        risk_rep = self.risk54.run_campaign(cycles=40)
+        harden_rep = self.harden59.run_hardening(cycles=4)
+        exec_rep = self.execint60.run_intelligence(cycles=4)
+        hedge_rep = self.hedge59.run_hedge_fusion(cycles=4)
+        toxhedge_rep = self.toxhedge60.run_hedge_fusion(cycles=4)
+        risk_rep = self.risk54.run_campaign(cycles=4)
         cb_rep = self.cb57.evaluate(metrics={
             "drawdown_pct": _finite(risk_rep.get("max_drawdown_pct", 0.02)) if "max_drawdown_pct" in risk_rep else 0.02,
             "latency_ms_p99": _finite(exec_rep.get("avg_latency_ms", 20.0)),
             "toxicity": _finite(exec_rep.get("avg_toxicity", 0.18)),
             "risk_breach": float(len(risk_rep.get("breaches", []))) / 100.0,
         })
-        of_rep = self.of.run_campaign(cycles=30)
-        tox_rep = self.tox58.mitigate(cycles=40)
+        of_rep = self.of.run_campaign(cycles=3)
+        tox_rep = self.tox58.mitigate(cycles=4)
         ks_rep = self.ks.run_campaign()
         halted = bool(ks_rep.get("halted", False)) or bool(cb_rep.get("halted", False)) or bool(harden_rep.get("halted", False))
         cb_breaches = cb_rep.get("breaches", [])

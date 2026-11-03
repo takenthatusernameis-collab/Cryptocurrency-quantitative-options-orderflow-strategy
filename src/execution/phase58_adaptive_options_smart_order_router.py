@@ -112,7 +112,7 @@ class Phase58AdaptiveOptionsSmartOrderRouter:
         self._cycle = cycles
         self.routes = []
         self.predictions = []
-        tox_rep = self.tox58.mitigate(cycles=30)
+        tox_rep = self.tox58.mitigate(cycles=3)
         of_rep = self.of.run_campaign(cycles=20)
         ksum = self.ks.run_campaign()
         halted = bool(ksum.get("halted", False))

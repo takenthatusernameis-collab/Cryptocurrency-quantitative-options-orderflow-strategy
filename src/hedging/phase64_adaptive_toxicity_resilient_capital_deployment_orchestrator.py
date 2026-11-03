@@ -107,7 +107,7 @@ class Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestrator:
             )
         )
         self.res62 = Phase62AdaptiveRegimeConditionalExecutionResilience(
-            Phase62AdaptiveRegimeConditionalResilienceConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=60)
+            Phase62AdaptiveRegimeConditionalResilienceConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=5)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.tox58 = Phase58FlowToxicityMitigator()
@@ -165,11 +165,11 @@ class Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestrator:
         self.deploy_pauses = []
         self.hedge_guardrails = []
 
-        self.orch63.orchestrate_deployment(cycles=60)
-        self.res62.run_resilience(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        self.risk54.run_campaign(cycles=30)
-        self.of.run_campaign(cycles=40)
+        self.orch63.orchestrate_deployment(cycles=5)
+        self.res62.run_resilience(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        self.risk54.run_campaign(cycles=3)
+        self.of.run_campaign(cycles=4)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
 

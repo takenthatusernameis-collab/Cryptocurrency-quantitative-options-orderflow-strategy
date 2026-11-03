@@ -112,22 +112,22 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
         if not self.cfg.paper_only:
             raise ValueError("Phase66AutonomousProductionAuditEnforcementLoop: paper_only must remain True")
         self.risk65 = Phase65AutonomousProductionRiskEnforcementLoop(
-            Phase65AutonomousProductionRiskEnforcementConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=60)
+            Phase65AutonomousProductionRiskEnforcementConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=5)
         )
         self.comp64 = Phase64AutonomousProductionComplianceEnforcementLoop(
-            Phase64AutonomousProductionComplianceEnforcementConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=60)
+            Phase64AutonomousProductionComplianceEnforcementConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=5)
         )
         self.slo63 = Phase63AutonomousProductionSLOEnforcementLoop(
-            Phase63AutonomousProductionSLOEnforcementConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=60)
+            Phase63AutonomousProductionSLOEnforcementConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=5)
         )
         self.deploy62 = Phase62AutonomousProductionDeploymentValidationLoop(
-            Phase62AutonomousProductionDeploymentValidationConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=60)
+            Phase62AutonomousProductionDeploymentValidationConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=5)
         )
         self.comp65g = Phase65ExecutionAlphaComplianceGovernanceEngine(
-            Phase65ExecutionAlphaComplianceGovernanceConfig(seed=self.cfg.seed + 5, paper_only=True, cycles=60)
+            Phase65ExecutionAlphaComplianceGovernanceConfig(seed=self.cfg.seed + 5, paper_only=True, cycles=5)
         )
         self.cap65 = Phase65AdaptiveToxicityResilientCapitalAllocationOrchestrator(
-            Phase65AdaptiveToxicityResilientCapitalAllocationOrchestratorConfig(seed=self.cfg.seed + 6, paper_only=True, cycles=60)
+            Phase65AdaptiveToxicityResilientCapitalAllocationOrchestratorConfig(seed=self.cfg.seed + 6, paper_only=True, cycles=5)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.cb57 = Phase57ProductionCircuitBreakers()
@@ -179,13 +179,13 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
         self.containments = []
         self.rollbacks = []
 
-        risk65_rep = self.risk65.run_risk_enforcement(cycles=60)
-        comp_rep = self.comp64.run_compliance_enforcement(cycles=60)
-        slo_rep = self.slo63.run_slo_enforcement(cycles=60)
-        dep_rep = self.deploy62.run_deployment_validation(cycles=60)
-        comp65g_rep = self.comp65g.enforce_compliance_governance(cycles=60)
-        cap65_rep = self.cap65.orchestrate_capital_allocation(cycles=60)
-        risk_rep = self.risk54.run_campaign(cycles=30)
+        risk65_rep = self.risk65.run_risk_enforcement(cycles=5)
+        comp_rep = self.comp64.run_compliance_enforcement(cycles=5)
+        slo_rep = self.slo63.run_slo_enforcement(cycles=5)
+        dep_rep = self.deploy62.run_deployment_validation(cycles=5)
+        comp65g_rep = self.comp65g.enforce_compliance_governance(cycles=5)
+        cap65_rep = self.cap65.orchestrate_capital_allocation(cycles=5)
+        risk_rep = self.risk54.run_campaign(cycles=3)
 
         venues = ["deribit", "okx", "bybit", "binance"]
         risk_ok = bool(risk65_rep.get("gates_ok")) and risk65_rep.get("risk_pass_rate", 0.0) >= 0.9

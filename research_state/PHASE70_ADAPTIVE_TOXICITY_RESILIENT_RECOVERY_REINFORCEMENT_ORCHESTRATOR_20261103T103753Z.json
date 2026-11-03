@@ -1,0 +1,55 @@
+{
+  "report": {
+    "phase": "PHASE70_ADAPTIVE_TOXICITY_RESILIENT_RECOVERY_REINFORCEMENT_ORCHESTRATOR",
+    "timestamp": "2026-11-03T10:37:53.382012Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7071,
+    "cycles": 3,
+    "n_recovery_failovers": 1,
+    "n_capital_reinforcements": 0,
+    "n_hedging_reinforcements": 1,
+    "n_recovery_reinforce_attestations": 1,
+    "avg_failover_ok": 0.9974376,
+    "recovery_reinforce_pass_rate": 1.0,
+    "composes": [
+      "PHASE69",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "recovery_failovers": [
+    {
+      "frf_id": "p70hedge_frf_40ff36ca2a9c",
+      "cycle": 0,
+      "venue": "deribit",
+      "failover_ok": 0.9974376,
+      "mode": "cross_venue_failover_recovery",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.381706Z"
+    }
+  ],
+  "capital_reinforcements": [],
+  "hedging_reinforcements": [
+    {
+      "hre_id": "p70hedge_hre_1cc826f3c961",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.9976428,
+      "reinforced": true,
+      "orch_reinforce_throttle_factor": 1.0,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.381850Z"
+    }
+  ],
+  "recovery_reinforce_attestations": [
+    {
+      "rra_id": "p70hedge_rra_4d64737e046e",
+      "cycle": 0,
+      "reinforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.381942Z"
+    }
+  ]
+}

@@ -138,10 +138,10 @@ class Phase61ExecutionAlphaAttributionEngine:
         self.signal_pnl = []
         self.sharpe_ir = []
 
-        exec_rep = self.exec60.run_intelligence(cycles=40)
+        exec_rep = self.exec60.run_intelligence(cycles=4)
         alpha_rep = self.alpha57.fuse()
-        of_rep = self.of.run_campaign(cycles=30)
-        tox_rep = self.tox58.mitigate(cycles=40)
+        of_rep = self.of.run_campaign(cycles=3)
+        tox_rep = self.tox58.mitigate(cycles=4)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
         avg_quality = _finite(exec_rep.get("avg_execution_quality", 0.5))

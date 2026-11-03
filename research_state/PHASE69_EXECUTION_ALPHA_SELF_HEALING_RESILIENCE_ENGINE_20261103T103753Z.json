@@ -1,0 +1,69 @@
+{
+  "report": {
+    "phase": "PHASE69_EXECUTION_ALPHA_SELF_HEALING_RESILIENCE_ENGINE",
+    "timestamp": "2026-11-03T10:37:53.933878Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 6970,
+    "cycles": 3,
+    "n_self_heals": 1,
+    "n_resilience_attestations": 1,
+    "n_recovery_actions": 1,
+    "n_self_heal_attestations": 1,
+    "avg_recovery_verify": 0.997684,
+    "self_heal_pass_rate": 1.0,
+    "composes": [
+      "PHASE68",
+      "PHASE67",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "self_heals": [
+    {
+      "sh_id": "p69alpha_sh_a4bddec6e937",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.2016,
+      "policy": "auto_self_heal_resilience",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.933440Z"
+    }
+  ],
+  "resilience_attestations": [
+    {
+      "ra_id": "p69alpha_ra_d24288b4ab68",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "confidence": 0.9454,
+      "resilience": "self_healing_alpha_resilience_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.933616Z"
+    }
+  ],
+  "recovery_actions": [
+    {
+      "rec_id": "p69alpha_rec_af6fb5b9f5f9",
+      "cycle": 0,
+      "recovery_verify": 0.997684,
+      "self_healed": true,
+      "self_heal_throttle_factor": 1.0,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.933710Z"
+    }
+  ],
+  "self_heal_attestations": [
+    {
+      "sha_id": "p69alpha_sha_acc36cbe3bc0",
+      "cycle": 0,
+      "recovery_verify": 0.997684,
+      "self_healed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:37:53.933784Z"
+    }
+  ]
+}

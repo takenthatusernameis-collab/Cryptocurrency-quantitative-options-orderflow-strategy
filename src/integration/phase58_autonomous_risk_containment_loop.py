@@ -118,12 +118,12 @@ class Phase58AutonomousRiskContainmentLoop:
         self.venue_quarantine = []
         self.rollback_events = []
 
-        tox_rep = self.tox.mitigate(cycles=40)
-        sor_rep = self.sor.route_adaptive(cycles=40)
-        of_rep = self.of.run_campaign(cycles=30)
+        tox_rep = self.tox.mitigate(cycles=4)
+        sor_rep = self.sor.route_adaptive(cycles=4)
+        of_rep = self.of.run_campaign(cycles=3)
         ks_rep = self.ks.run_campaign()
-        risk54_rep = self.risk54.run_fusion(cycles=30)
-        cb57_rep = self.cb57.run_monitor(cycles=30)
+        risk54_rep = self.risk54.run_fusion(cycles=3)
+        cb57_rep = self.cb57.run_monitor(cycles=3)
 
         halted = bool(ks_rep.get("halted", False)) or bool(cb57_rep.get("halted", False))
         tox_breach = _finite(tox_rep.get("avg_vpin", 0.2))

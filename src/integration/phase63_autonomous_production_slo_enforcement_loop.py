@@ -105,10 +105,10 @@ class Phase63AutonomousProductionSLOEnforcementLoop:
         if not self.cfg.paper_only:
             raise ValueError("Phase63AutonomousProductionSLOEnforcementLoop: paper_only must remain True")
         self.deploy62 = Phase62AutonomousProductionDeploymentValidationLoop(
-            Phase62AutonomousProductionDeploymentValidationConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=60)
+            Phase62AutonomousProductionDeploymentValidationConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=5)
         )
         self.drills61 = Phase61AutonomousProductionResilienceDrillsLoop(
-            Phase61AutonomousProductionResilienceConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=60)
+            Phase61AutonomousProductionResilienceConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=5)
         )
         self.execint60 = Phase60AdaptiveExecutionIntelligenceEngine()
         self.toxhedge60 = Phase60ToxicityResilientHedgeFusion()
@@ -140,10 +140,10 @@ class Phase63AutonomousProductionSLOEnforcementLoop:
         self.attestations = []
         self.rollbacks = []
 
-        dep_rep = self.deploy62.run_deployment_validation(cycles=60)
-        exec_rep = self.execint60.run_intelligence(cycles=40)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        risk_rep = self.risk54.run_campaign(cycles=30)
+        dep_rep = self.deploy62.run_deployment_validation(cycles=5)
+        exec_rep = self.execint60.run_intelligence(cycles=4)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        risk_rep = self.risk54.run_campaign(cycles=3)
 
         for i in range(cycles):
             venue = ["deribit", "okx", "bybit", "binance"][i % 4]

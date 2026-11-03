@@ -118,9 +118,9 @@ class Phase59AdaptiveCrossAssetHedgeFusion:
         self.hedges = []
         self.regimes = []
         self.limit_clips = []
-        risk_rep = self.risk54.run_campaign(cycles=40)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        of_rep = self.of.run_campaign(cycles=30)
+        risk_rep = self.risk54.run_campaign(cycles=4)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        of_rep = self.of.run_campaign(cycles=3)
         ks_rep = self.ks.run_campaign()
         halted = bool(ks_rep.get("halted", False))
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.2))

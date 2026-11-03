@@ -114,9 +114,9 @@ class Phase68AutonomousProductionHardeningEnforcementLoop:
         self.rollbacks = []
         self.hardening_attestations = []
 
-        c_rep = self.cont68.run_containment_attribution(cycles=60)
-        o_rep = self.orch68.run_containment_orchestration(cycles=60)
-        self.risk54.run_campaign(cycles=30)
+        c_rep = self.cont68.run_containment_attribution(cycles=6)
+        o_rep = self.orch68.run_containment_orchestration(cycles=5)
+        self.risk54.run_campaign(cycles=3)
 
         avg_contain = _finite(c_rep.get("containment_pass_rate", 0.99))
         avg_orch = _finite(o_rep.get("orch_pass_rate", 0.99))

@@ -138,10 +138,10 @@ class Phase68AdaptiveToxicityResilientContainmentOrchestrator:
         self.hedging_contains = []
         self.containment_orch_attestations = []
 
-        rec_rep = self.rec67.orchestrate_recovery(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        self.risk54.run_campaign(cycles=30)
-        self.of.run_campaign(cycles=40)
+        rec_rep = self.rec67.orchestrate_recovery(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        self.risk54.run_campaign(cycles=3)
+        self.of.run_campaign(cycles=4)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
 

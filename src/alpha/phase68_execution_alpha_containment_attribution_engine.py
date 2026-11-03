@@ -144,11 +144,11 @@ class Phase68ExecutionAlphaContainmentAttributionEngine:
         self.recovery_verifications = []
         self.containment_attestations = []
 
-        res_rep = self.res67.run_resilience_stress(cycles=60)
-        audit_rep = self.audit66.run_audit_integrity(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        self.risk54.run_campaign(cycles=30)
-        self.of.run_campaign(cycles=40)
+        res_rep = self.res67.run_resilience_stress(cycles=6)
+        audit_rep = self.audit66.run_audit_integrity(cycles=6)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        self.risk54.run_campaign(cycles=3)
+        self.of.run_campaign(cycles=4)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
 

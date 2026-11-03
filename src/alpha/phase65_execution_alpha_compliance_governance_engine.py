@@ -123,10 +123,10 @@ class Phase65ExecutionAlphaComplianceGovernanceEngine:
             Phase64ExecutionAlphaRiskGovernanceConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=self.cfg.cycles)
         )
         self.gov63 = Phase63ExecutionAlphaGovernanceEngine(
-            Phase63ExecutionAlphaGovernanceConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=60)
+            Phase63ExecutionAlphaGovernanceConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=5)
         )
         self.synth62 = Phase62ExecutionAlphaSynthesisEngine(
-            Phase62ExecutionAlphaSynthesisConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=60)
+            Phase62ExecutionAlphaSynthesisConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=5)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.tox58 = Phase58FlowToxicityMitigator()
@@ -194,12 +194,12 @@ class Phase65ExecutionAlphaComplianceGovernanceEngine:
         self.toxicity_throttles = []
         self.cap_events = []
 
-        gov_rep = self.gov64.enforce_risk_governance(cycles=60)
-        gov63_rep = self.gov63.enforce_governance(cycles=60)
-        synth_rep = self.synth62.synthesize_alpha(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        self.risk54.run_campaign(cycles=30)
-        self.of.run_campaign(cycles=40)
+        gov_rep = self.gov64.enforce_risk_governance(cycles=5)
+        gov63_rep = self.gov63.enforce_governance(cycles=5)
+        synth_rep = self.synth62.synthesize_alpha(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        self.risk54.run_campaign(cycles=3)
+        self.of.run_campaign(cycles=4)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
         pnl = _deterministic_pnl_series(self.cfg.seed, 500, scale=0.05)

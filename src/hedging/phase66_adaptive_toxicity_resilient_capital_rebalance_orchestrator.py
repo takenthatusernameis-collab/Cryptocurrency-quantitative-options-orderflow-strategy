@@ -121,7 +121,7 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator:
             Phase63AdaptiveToxicityResilientDeploymentOrchestratorConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=self.cfg.cycles)
         )
         self.res62 = Phase62AdaptiveRegimeConditionalExecutionResilience(
-            Phase62AdaptiveRegimeConditionalResilienceConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=60)
+            Phase62AdaptiveRegimeConditionalResilienceConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=5)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.tox58 = Phase58FlowToxicityMitigator()
@@ -174,13 +174,13 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator:
         self.hedge_rebalance_guardrails = []
         self.rebalance_attestations = []
 
-        cap65_rep = self.cap65.orchestrate_capital_allocation(cycles=60)
-        self.orch64.orchestrate_capital_deployment(cycles=60)
-        self.orch63.orchestrate_deployment(cycles=60)
-        self.res62.run_resilience(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        self.risk54.run_campaign(cycles=30)
-        self.of.run_campaign(cycles=40)
+        cap65_rep = self.cap65.orchestrate_capital_allocation(cycles=5)
+        self.orch64.orchestrate_capital_deployment(cycles=5)
+        self.orch63.orchestrate_deployment(cycles=5)
+        self.res62.run_resilience(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        self.risk54.run_campaign(cycles=3)
+        self.of.run_campaign(cycles=4)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
 

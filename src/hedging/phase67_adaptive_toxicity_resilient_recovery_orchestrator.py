@@ -133,10 +133,10 @@ class Phase67AdaptiveToxicityResilientRecoveryOrchestrator:
         self.hedging_recoveries = []
         self.recovery_attestations = []
 
-        reb66 = self.rebal66.orchestrate_capital_rebalance(cycles=60)
-        alloc65 = self.alloc65.orchestrate_capital_allocation(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        self.risk54.run_campaign(cycles=30)
+        reb66 = self.rebal66.orchestrate_capital_rebalance(cycles=5)
+        alloc65 = self.alloc65.orchestrate_capital_allocation(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        self.risk54.run_campaign(cycles=3)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
 

@@ -1,0 +1,256 @@
+{
+  "report": {
+    "phase": "PHASE71_ADAPTIVE_TOXICITY_RESILIENT_CONTAINMENT_CERTIFICATION_ORCHESTRATOR",
+    "timestamp": "2026-11-03T10:27:29.665189Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7171,
+    "cycles": 40,
+    "n_venue_quarantines": 6,
+    "n_capital_containments": 5,
+    "n_hedging_containments": 8,
+    "n_contain_cert_attestations": 7,
+    "avg_quarantine_ok": 0.996201067,
+    "containment_certification_pass_rate": 0.0,
+    "composes": [
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "venue_quarantines": [
+    {
+      "vqu_id": "p71-7171-vqu-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "quarantine_ok": 0.997776,
+      "action": "venue_quarantine_enforced",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.664938Z"
+    },
+    {
+      "vqu_id": "p71-7171-vqu-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "quarantine_ok": 0.9958874,
+      "action": "venue_quarantine_enforced",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.664989Z"
+    },
+    {
+      "vqu_id": "p71-7171-vqu-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "quarantine_ok": 0.9958188,
+      "action": "venue_quarantine_enforced",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665031Z"
+    },
+    {
+      "vqu_id": "p71-7171-vqu-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "quarantine_ok": 0.9963964,
+      "action": "venue_quarantine_enforced",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665079Z"
+    },
+    {
+      "vqu_id": "p71-7171-vqu-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "quarantine_ok": 0.9963278,
+      "action": "venue_quarantine_enforced",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665118Z"
+    },
+    {
+      "vqu_id": "p71-7171-vqu-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "quarantine_ok": 0.995,
+      "action": "venue_quarantine_enforced",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665157Z"
+    }
+  ],
+  "capital_containments": [
+    {
+      "ccap_id": "p71-7171-ccap-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.53616,
+      "action": "capital_contain_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665015Z"
+    },
+    {
+      "ccap_id": "p71-7171-ccap-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.51604,
+      "action": "capital_contain_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665054Z"
+    },
+    {
+      "ccap_id": "p71-7171-ccap-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.4313,
+      "action": "capital_contain_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665092Z"
+    },
+    {
+      "ccap_id": "p71-7171-ccap-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.41118,
+      "action": "capital_contain_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665129Z"
+    },
+    {
+      "ccap_id": "p71-7171-ccap-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.57306,
+      "action": "capital_contain_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665171Z"
+    }
+  ],
+  "hedging_containments": [
+    {
+      "hcont_id": "p71-7171-hcont-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.997776,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.664949Z"
+    },
+    {
+      "hcont_id": "p71-7171-hcont-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "hedge_ok": 0.996427,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.664973Z"
+    },
+    {
+      "hcont_id": "p71-7171-hcont-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "hedge_ok": 0.995078,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665003Z"
+    },
+    {
+      "hcont_id": "p71-7171-hcont-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "hedge_ok": 0.995549,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665040Z"
+    },
+    {
+      "hcont_id": "p71-7171-hcont-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "hedge_ok": 0.9966662,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665070Z"
+    },
+    {
+      "hcont_id": "p71-7171-hcont-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "hedge_ok": 0.9953172,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665105Z"
+    },
+    {
+      "hcont_id": "p71-7171-hcont-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "hedge_ok": 0.9957882,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665135Z"
+    },
+    {
+      "hcont_id": "p71-7171-hcont-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "hedge_ok": 0.995,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665163Z"
+    }
+  ],
+  "contain_cert_attestations": [
+    {
+      "cca_id": "p71-7171-cca-000000",
+      "cycle": 0,
+      "certified": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.664955Z"
+    },
+    {
+      "cca_id": "p71-7171-cca-000006",
+      "cycle": 6,
+      "certified": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.664982Z"
+    },
+    {
+      "cca_id": "p71-7171-cca-000012",
+      "cycle": 12,
+      "certified": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665021Z"
+    },
+    {
+      "cca_id": "p71-7171-cca-000018",
+      "cycle": 18,
+      "certified": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665060Z"
+    },
+    {
+      "cca_id": "p71-7171-cca-000024",
+      "cycle": 24,
+      "certified": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665098Z"
+    },
+    {
+      "cca_id": "p71-7171-cca-000030",
+      "cycle": 30,
+      "certified": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665140Z"
+    },
+    {
+      "cca_id": "p71-7171-cca-000036",
+      "cycle": 36,
+      "certified": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:27:29.665177Z"
+    }
+  ]
+}

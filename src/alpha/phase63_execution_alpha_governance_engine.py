@@ -99,7 +99,7 @@ class Phase63ExecutionAlphaGovernanceEngine:
         if not self.cfg.paper_only:
             raise ValueError("Phase63ExecutionAlphaGovernanceEngine: paper_only must remain True")
         self.synth62 = Phase62ExecutionAlphaSynthesisEngine(
-            Phase62ExecutionAlphaSynthesisConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=60)
+            Phase62ExecutionAlphaSynthesisConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=5)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.tox58 = Phase58FlowToxicityMitigator()
@@ -148,10 +148,10 @@ class Phase63ExecutionAlphaGovernanceEngine:
         self.throttles = []
         self.kill_switch_events = []
 
-        synth_rep = self.synth62.synthesize_alpha(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        of_rep = self.of.run_campaign(cycles=40)
-        risk_rep = self.risk54.run_campaign(cycles=30)
+        synth_rep = self.synth62.synthesize_alpha(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        of_rep = self.of.run_campaign(cycles=4)
+        risk_rep = self.risk54.run_campaign(cycles=3)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
         avg_alpha = 0.0

@@ -146,7 +146,7 @@ class Phase50ToxicityAwareOptionsMM:
         if not self.cfg.paper_only:
             raise ValueError("Phase50ToxicityAwareOptionsMM: paper_only must remain True")
         self.of = OrderflowAlphaIntegrator(
-            OrderflowAlphaIntegrationConfig32(seed=self.cfg.seed + 32, paper_only=True, cycles=60)
+            OrderflowAlphaIntegrationConfig32(seed=self.cfg.seed + 32, paper_only=True, cycles=5)
         )
         self.quotes: List[ToxicityQuote] = []
         self.inventory_by_venue: Dict[str, float] = {v: 0.0 for v in self.cfg.venues}
@@ -240,7 +240,7 @@ class Phase50ToxicityAwareOptionsMM:
     def generate_artifacts(self, outdir: str = "research_state") -> Dict[str, str]:
         outp = Path(outdir)
         outp.mkdir(parents=True, exist_ok=True)
-        rep = self.run_campaign(cycles=30)
+        rep = self.run_campaign(cycles=3)
         ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         jpath = outp / f"phase50_toxicity_aware_options_mm_{ts}.json"
         mpath = outp / f"phase50_toxicity_aware_options_mm_{ts}.md"

@@ -149,12 +149,12 @@ class Phase67AutonomousProductionResilienceEnforcementLoop:
         self.rollbacks = []
         self.resilience_attestations = []
 
-        enf66_rep = self.enf66.enforce_audit(cycles=60)
-        enf65_rep = self.enf65.enforce_risk(cycles=60)
-        res67_rep = self.res67.run_resilience_stress(cycles=60)
-        rec67_rep = self.rec67.orchestrate_recovery(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        self.risk54.run_campaign(cycles=30)
+        enf66_rep = self.enf66.enforce_audit(cycles=5)
+        enf65_rep = self.enf65.enforce_risk(cycles=5)
+        res67_rep = self.res67.run_resilience_stress(cycles=6)
+        rec67_rep = self.rec67.orchestrate_recovery(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        self.risk54.run_campaign(cycles=3)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
 

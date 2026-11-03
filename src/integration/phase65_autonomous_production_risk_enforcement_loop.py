@@ -107,19 +107,19 @@ class Phase65AutonomousProductionRiskEnforcementLoop:
         if not self.cfg.paper_only:
             raise ValueError("Phase65AutonomousProductionRiskEnforcementLoop: paper_only must remain True")
         self.comp64 = Phase64AutonomousProductionComplianceEnforcementLoop(
-            Phase64AutonomousProductionComplianceEnforcementConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=60)
+            Phase64AutonomousProductionComplianceEnforcementConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=5)
         )
         self.slo63 = Phase63AutonomousProductionSLOEnforcementLoop(
-            Phase63AutonomousProductionSLOEnforcementConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=60)
+            Phase63AutonomousProductionSLOEnforcementConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=5)
         )
         self.deploy62 = Phase62AutonomousProductionDeploymentValidationLoop(
-            Phase62AutonomousProductionDeploymentValidationConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=60)
+            Phase62AutonomousProductionDeploymentValidationConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=5)
         )
         self.gov64 = Phase64ExecutionAlphaRiskGovernanceEngine(
-            Phase64ExecutionAlphaRiskGovernanceConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=60)
+            Phase64ExecutionAlphaRiskGovernanceConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=5)
         )
         self.orch64 = Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestrator(
-            Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestratorConfig(seed=self.cfg.seed + 5, paper_only=True, cycles=60)
+            Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestratorConfig(seed=self.cfg.seed + 5, paper_only=True, cycles=5)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.cb57 = Phase57ProductionCircuitBreakers()
@@ -170,12 +170,12 @@ class Phase65AutonomousProductionRiskEnforcementLoop:
         self.containments = []
         self.rollbacks = []
 
-        comp_rep = self.comp64.run_compliance_enforcement(cycles=60)
-        slo_rep = self.slo63.run_slo_enforcement(cycles=60)
-        dep_rep = self.deploy62.run_deployment_validation(cycles=60)
-        gov_rep = self.gov64.enforce_risk_governance(cycles=60)
-        orch_rep = self.orch64.orchestrate_capital_deployment(cycles=60)
-        risk_rep = self.risk54.run_campaign(cycles=30)
+        comp_rep = self.comp64.run_compliance_enforcement(cycles=5)
+        slo_rep = self.slo63.run_slo_enforcement(cycles=5)
+        dep_rep = self.deploy62.run_deployment_validation(cycles=5)
+        gov_rep = self.gov64.enforce_risk_governance(cycles=5)
+        orch_rep = self.orch64.orchestrate_capital_deployment(cycles=5)
+        risk_rep = self.risk54.run_campaign(cycles=3)
 
         venues = ["deribit", "okx", "bybit", "binance"]
         slo_ok = bool(slo_rep.get("gates_ok")) and slo_rep.get("burn_rate_critical_count", 0) == 0

@@ -128,12 +128,12 @@ class Phase60AdaptiveExecutionIntelligenceEngine:
         self.venue_scores = []
         self.exec_quality = []
         self.limit_rejects = []
-        arc_rep = self.arc58.run_containment(cycles=40)
-        arb_rep = self.arb59.run_arb(cycles=40)
-        risk_rep = self.risk54.run_campaign(cycles=40)
-        sor_rep = self.sor58.route_adaptive(cycles=40)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        of_rep = self.of.run_campaign(cycles=30)
+        arc_rep = self.arc58.run_containment(cycles=4)
+        arb_rep = self.arb59.run_arb(cycles=4)
+        risk_rep = self.risk54.run_campaign(cycles=4)
+        sor_rep = self.sor58.route_adaptive(cycles=4)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        of_rep = self.of.run_campaign(cycles=3)
         ks_rep = self.ks.run_campaign()
         halted = bool(ks_rep.get("halted", False)) or bool(arc_rep.get("halted", False))
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))

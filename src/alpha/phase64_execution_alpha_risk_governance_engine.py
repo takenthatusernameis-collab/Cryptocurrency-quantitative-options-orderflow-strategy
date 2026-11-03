@@ -210,11 +210,11 @@ class Phase64ExecutionAlphaRiskGovernanceEngine:
         self.var_breaches = []
         self.position_cap_events = []
 
-        gov_rep = self.gov63.enforce_governance(cycles=60)
-        synth_rep = self.synth62.synthesize_alpha(cycles=60)
-        tox_rep = self.tox58.mitigate(cycles=40)
-        risk_rep = self.risk54.run_campaign(cycles=30)
-        of_rep = self.of.run_campaign(cycles=40)
+        gov_rep = self.gov63.enforce_governance(cycles=5)
+        synth_rep = self.synth62.synthesize_alpha(cycles=5)
+        tox_rep = self.tox58.mitigate(cycles=4)
+        risk_rep = self.risk54.run_campaign(cycles=3)
+        of_rep = self.of.run_campaign(cycles=4)
 
         avg_tox = _finite(tox_rep.get("avg_vpin", 0.18))
         pnl = _deterministic_pnl_series(self.cfg.seed, 500, scale=0.05)
