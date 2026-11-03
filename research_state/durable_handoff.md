@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-03T01:09:52Z
-# Updated (UTC): 2026-11-03T01:09:52Z
+# Timestamp (UTC): 2026-11-03T01:12:00Z
+# Updated (UTC): 2026-11-03T01:12:00Z
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure + cross-venue execution + regime-aware MM/hedging + live-readiness hardening + post-trade reconciliation/margin/collateral)
 # THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 
@@ -11,7 +11,7 @@ COMPLETED (DO NOT REDO):
 - Focus: crypto options + orderflow across Greeks/IV/surface, microstructure/toxicity, SOR/routing, fragmentation/RV, hedging/orchestration, risk/circuit breakers, deployment/resilience/chaos, attribution/synthesis/governance.
 
 ## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
-Timestamp (UTC): 2026-11-03T01:09:52Z
+Timestamp (UTC): 2026-11-03T01:12:00Z
 
 INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. PHASE 66 COMPLETE. SHIP PHASE 67 END-TO-END IMMEDIATELY. NO SCAFFOLDING. HEAVY QUANT IMPLEMENTATION ONLY. Phases 1-66 are COMPLETE. Do NOT redo completed phases; build heavy integration across options/Greeks/IV, orderflow microstructure/toxicity, SOR/routing/fragmentation, hedging/MM, risk/margin/collateral, execution/resilience. No placeholders/TODOs/FIXMEs/HACKs/XXX. EVERY SESSION MUST SHIP TANGIBLE FILE CHANGES (src/tests/scripts/artifacts). IF NO CODE WRITTEN -> YOU HAVE NOT DONE THE JOB. The repo name is Cryptocurrency-quantitative-options-orderflow-strategy, so crypto options + orderflow is the domain; every task must serve it. Build production-grade code that composes with existing Phases 17-66. Do not stop until all Phase 67 deliverables are complete and gate is GREEN. If you encounter any blocking issue (missing wiring/integration/interface gaps), FIX IT NOW by implementing production-grade glue - NO PLANS, NO ROADMAPS, NO DESIGN DOCS. Treat integration gaps as REQUIRED IMPLEMENTATION WORK.
 
@@ -63,6 +63,29 @@ Status: START IMMEDIATELY (GATE MUST REMAIN GREEN). HEAVY QUANT IMPLEMENTATION O
 - Deterministic JSON/MD artifacts under research_state.
 - research_state/durable_handoff.md updated before ending.
 
+## NEXT CAMPAIGN: PHASE 67 — CROSS-VENUE OPTIONS EXECUTION RESILIENCE, STRESS RECOVERY & ANOMALY ATTRIBUTION (CRYPTO OPTIONS + ORDERFLOW FOCUS)
+Timestamp (UTC): 2026-11-03T01:12:00Z
+Status: START IMMEDIATELY (GATE MUST REMAIN GREEN). HEAVY QUANT IMPLEMENTATION ONLY - NO SCAFFOLDING, NO PLANS.
+
+### REQUIRED DELIVERABLES (SHIP ALL, NO PARTIALS) — PHASE 67
+**Core modules (src/):**
+- `src/alpha/phase67_execution_alpha_resilience_stress_engine.py` — Execution alpha resilience & stress: stress scenario injection, anomaly detection/attribution, recovery orchestration, deterministic; PAPER-ONLY. Compose Phases 17-66.
+- `src/hedging/phase67_adaptive_toxicity_resilient_recovery_orchestrator.py` — Adaptive toxicity-resilient recovery orchestrator: venue failover recovery, capital rebalance on stress, hedging recovery guardrails, deterministic; PAPER-ONLY. Compose Phases 17-66.
+- `src/integration/phase67_autonomous_production_resilience_enforcement_loop.py` — Autonomous production resilience enforcement: stress checks, auto-contain/rollback on anomaly, attestation, artifacts; composes Phases 17-66. PAPER-ONLY enforced.
+
+**Tests (tests/):**
+- `tests/test_phase67_execution_alpha_resilience_stress_engine.py`
+- `tests/test_phase67_adaptive_toxicity_resilient_recovery_orchestrator.py`
+- `tests/test_phase67_autonomous_production_resilience_enforcement_loop.py`
+
+### ACCEPTANCE CRITERIA — PHASE 67
+- All deliverables implemented/wired, tests added.
+- Gate GREEN: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` passes.
+- No placeholders/TODOs/FIXMEs/HACKs/XXX.
+- PAPER-ONLY enforced; live paths hard-gated + tested.
+- Deterministic JSON/MD artifacts under research_state.
+- research_state/durable_handoff.md updated before ending.
+
 ## CONSTRAINTS (NON-NEGOTIABLE):
 - NO placeholders/TODOs/FIXMEs/HACKs/XXX. Ever.
 - Keep ALL existing tests passing. Add tests, don't break.
@@ -83,3 +106,6 @@ Status: Phase 66 COMPLETE (implemented). Deliverables shipped:
 - src/integration/phase66_autonomous_production_audit_enforcement_loop.py
 Tests: tests/test_phase66_execution_alpha_audit_integrity_engine.py, tests/test_phase66_adaptive_toxicity_resilient_capital_rebalance_orchestrator.py, tests/test_phase66_autonomous_production_audit_enforcement_loop.py
 Composes Phases 17-65. PAPER-ONLY enforced. Deterministic artifacts. Gate re-verified; all prior tests intact. Bottlenecks removed. Ready for Phase 67.
+
+## SESSION UPDATE (UTC): 2026-11-03T01:12:00Z
+Status: Phase 67 CAMPAIGN SPECIFIED (handoff updated). Phase 66 COMPLETE. Bottlenecks removed; sessions unblocked. MANDATORY: ship Phase 67 deliverables end-to-end (resilience/stress/recovery/anomaly attribution) composing Phases 17-66, all tests added, artifacts produced, gate GREEN. No scaffolding/plans - heavy implementation only.
