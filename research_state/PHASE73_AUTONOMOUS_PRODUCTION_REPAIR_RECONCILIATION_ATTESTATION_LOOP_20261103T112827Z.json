@@ -1,0 +1,246 @@
+{
+  "report": {
+    "phase": "PHASE73_AUTONOMOUS_PRODUCTION_REPAIR_RECONCILIATION_ATTESTATION_LOOP",
+    "timestamp": "2026-11-03T11:28:27.850450Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7372,
+    "cycles": 40,
+    "n_repair_checks": 7,
+    "n_auto_repairs": 6,
+    "n_rollbacks_attestation": 2,
+    "n_repair_attestation_chains": 7,
+    "avg_repair_ok": 0.995,
+    "production_repair_reconciliation_attestation_pass_rate": 0.0,
+    "composes": [
+      "PHASE73-HARDEN",
+      "PHASE73-ATTEST",
+      "PHASE72-LOOP",
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "repair_checks": [
+    {
+      "rc_id": "p73-7372-rc-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "repair_ok": 0.995,
+      "chain_ok": 0.9984024,
+      "action": "production_repair_reconciliation_attestation_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850200Z"
+    },
+    {
+      "rc_id": "p73-7372-rc-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "repair_ok": 0.995,
+      "chain_ok": 0.99719028,
+      "action": "production_repair_reconciliation_attestation_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850243Z"
+    },
+    {
+      "rc_id": "p73-7372-rc-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "repair_ok": 0.995,
+      "chain_ok": 0.9965,
+      "action": "production_repair_reconciliation_attestation_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850280Z"
+    },
+    {
+      "rc_id": "p73-7372-rc-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "repair_ok": 0.995,
+      "chain_ok": 0.9965,
+      "action": "production_repair_reconciliation_attestation_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850322Z"
+    },
+    {
+      "rc_id": "p73-7372-rc-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "repair_ok": 0.995,
+      "chain_ok": 0.9967623,
+      "action": "production_repair_reconciliation_attestation_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850356Z"
+    },
+    {
+      "rc_id": "p73-7372-rc-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "repair_ok": 0.995,
+      "chain_ok": 0.99691518,
+      "action": "production_repair_reconciliation_attestation_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850391Z"
+    },
+    {
+      "rc_id": "p73-7372-rc-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "repair_ok": 0.995,
+      "chain_ok": 0.9965,
+      "action": "production_repair_reconciliation_attestation_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850430Z"
+    }
+  ],
+  "auto_repairs": [
+    {
+      "ar_id": "p73-7372-ar-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.2268,
+      "action": "auto_repair_on_production_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850211Z"
+    },
+    {
+      "ar_id": "p73-7372-ar-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "underlying": "ETH",
+      "severity": 0.42882,
+      "action": "auto_repair_on_production_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850260Z"
+    },
+    {
+      "ar_id": "p73-7372-ar-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "severity": 0.43584,
+      "action": "auto_repair_on_production_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850298Z"
+    },
+    {
+      "ar_id": "p73-7372-ar-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "underlying": "BTC",
+      "severity": 0.37452,
+      "action": "auto_repair_on_production_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850342Z"
+    },
+    {
+      "ar_id": "p73-7372-ar-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "severity": 0.38154,
+      "action": "auto_repair_on_production_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850379Z"
+    },
+    {
+      "ar_id": "p73-7372-ar-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "severity": 0.58356,
+      "action": "auto_repair_on_production_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850421Z"
+    }
+  ],
+  "rollbacks_attestation": [
+    {
+      "rab_id": "p73-7372-rab-000016",
+      "cycle": 16,
+      "venue": "deribit",
+      "action": "auto_rollback_on_attestation_critical",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850309Z"
+    },
+    {
+      "rab_id": "p73-7372-rab-000032",
+      "cycle": 32,
+      "venue": "deribit",
+      "action": "auto_rollback_on_attestation_critical",
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850408Z"
+    }
+  ],
+  "repair_attestation_chains": [
+    {
+      "rac_id": "p73-7372-rac-000000",
+      "cycle": 0,
+      "chain_ok": 0.9984024,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850218Z"
+    },
+    {
+      "rac_id": "p73-7372-rac-000006",
+      "cycle": 6,
+      "chain_ok": 0.99719028,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850250Z"
+    },
+    {
+      "rac_id": "p73-7372-rac-000012",
+      "cycle": 12,
+      "chain_ok": 0.9965,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850287Z"
+    },
+    {
+      "rac_id": "p73-7372-rac-000018",
+      "cycle": 18,
+      "chain_ok": 0.9965,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850328Z"
+    },
+    {
+      "rac_id": "p73-7372-rac-000024",
+      "cycle": 24,
+      "chain_ok": 0.9967623,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850363Z"
+    },
+    {
+      "rac_id": "p73-7372-rac-000030",
+      "cycle": 30,
+      "chain_ok": 0.99691518,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850398Z"
+    },
+    {
+      "rac_id": "p73-7372-rac-000036",
+      "cycle": 36,
+      "chain_ok": 0.9965,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T11:28:27.850437Z"
+    }
+  ]
+}
