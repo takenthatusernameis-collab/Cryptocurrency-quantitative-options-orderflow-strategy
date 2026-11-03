@@ -1,0 +1,155 @@
+{
+  "report": {
+    "phase": "PHASE72_FINALITY_SETTLEMENT_ENFORCEMENT_ENGINE",
+    "timestamp": "2026-11-03T13:26:08.902568Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7271,
+    "cycles": 40,
+    "n_finality_checks": 7,
+    "n_settlement_failovers": 1,
+    "n_settlement_rollbacks": 1,
+    "n_finality_attestations": 5,
+    "avg_fin_ok": 0.996,
+    "finality_settlement_pass_rate": 1.0,
+    "composes": [
+      "PHASE72-MARGIN",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "finality_checks": [
+    {
+      "fc_id": "p72-7271-fc-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "fin_ok": 0.996,
+      "trade_finality_verified": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902368Z"
+    },
+    {
+      "fc_id": "p72-7271-fc-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "fin_ok": 0.996,
+      "trade_finality_verified": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902405Z"
+    },
+    {
+      "fc_id": "p72-7271-fc-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "fin_ok": 0.996,
+      "trade_finality_verified": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902435Z"
+    },
+    {
+      "fc_id": "p72-7271-fc-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "fin_ok": 0.996,
+      "trade_finality_verified": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902458Z"
+    },
+    {
+      "fc_id": "p72-7271-fc-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "fin_ok": 0.996,
+      "trade_finality_verified": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902486Z"
+    },
+    {
+      "fc_id": "p72-7271-fc-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "fin_ok": 0.996,
+      "trade_finality_verified": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902513Z"
+    },
+    {
+      "fc_id": "p72-7271-fc-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "fin_ok": 0.996,
+      "trade_finality_verified": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902549Z"
+    }
+  ],
+  "settlement_failovers": [
+    {
+      "sfo_id": "p72-7271-sfo-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "severity": 0.53896,
+      "action": "settlement_failover",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902534Z"
+    }
+  ],
+  "settlement_rollbacks": [
+    {
+      "srb_id": "p72-7271-srb-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "action": "rollback_on_settlement_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902541Z"
+    }
+  ],
+  "finality_attestations": [
+    {
+      "fat_id": "p72-7271-fat-000000",
+      "cycle": 0,
+      "chain_intact": true,
+      "finality_hash": "sha256:p72:7271:0",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902379Z"
+    },
+    {
+      "fat_id": "p72-7271-fat-000009",
+      "cycle": 9,
+      "chain_intact": true,
+      "finality_hash": "sha256:p72:7271:9",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902420Z"
+    },
+    {
+      "fat_id": "p72-7271-fat-000018",
+      "cycle": 18,
+      "chain_intact": true,
+      "finality_hash": "sha256:p72:7271:18",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902464Z"
+    },
+    {
+      "fat_id": "p72-7271-fat-000027",
+      "cycle": 27,
+      "chain_intact": true,
+      "finality_hash": "sha256:p72:7271:27",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902500Z"
+    },
+    {
+      "fat_id": "p72-7271-fat-000036",
+      "cycle": 36,
+      "chain_intact": true,
+      "finality_hash": "sha256:p72:7271:36",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:08.902555Z"
+    }
+  ]
+}

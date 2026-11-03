@@ -1,0 +1,667 @@
+{
+  "report": {
+    "phase": "PHASE74_CONTINUOUS_SLO_OBSERVABILITY_ENFORCEMENT_ENGINE",
+    "timestamp": "2026-11-03T13:26:04.061385Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7471,
+    "cycles": 40,
+    "n_slo_evals": 7,
+    "n_observability_enforcements": 6,
+    "n_adversarial_validations": 8,
+    "n_slo_remediations": 40,
+    "avg_slo_ok": 0.995,
+    "continuous_slo_observability_pass_rate": 0.0,
+    "composes": [
+      "PHASE73-HARDEN",
+      "PHASE73-ATTEST",
+      "PHASE72-MARGIN",
+      "PHASE72-FINALITY",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "slo_evals": [
+    {
+      "se_id": "p74-7471-se-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "slo_ok": 0.995,
+      "obs_ok": 0.998352,
+      "anomaly_severity": 0.234,
+      "action": "continuous_slo_observability_enforcement_eval",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060882Z"
+    },
+    {
+      "se_id": "p74-7471-se-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "slo_ok": 0.995,
+      "obs_ok": 0.9971214,
+      "anomaly_severity": 0.4098,
+      "action": "continuous_slo_observability_enforcement_eval",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060966Z"
+    },
+    {
+      "se_id": "p74-7471-se-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "slo_ok": 0.995,
+      "obs_ok": 0.996,
+      "anomaly_severity": 0.5856,
+      "action": "continuous_slo_observability_enforcement_eval",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061040Z"
+    },
+    {
+      "se_id": "p74-7471-se-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "slo_ok": 0.995,
+      "obs_ok": 0.9960252,
+      "anomaly_severity": 0.5664,
+      "action": "continuous_slo_observability_enforcement_eval",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061115Z"
+    },
+    {
+      "se_id": "p74-7471-se-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "slo_ok": 0.995,
+      "obs_ok": 0.9966965,
+      "anomaly_severity": 0.4705,
+      "action": "continuous_slo_observability_enforcement_eval",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061189Z"
+    },
+    {
+      "se_id": "p74-7471-se-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "slo_ok": 0.995,
+      "obs_ok": 0.9968309,
+      "anomaly_severity": 0.4513,
+      "action": "continuous_slo_observability_enforcement_eval",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061262Z"
+    },
+    {
+      "se_id": "p74-7471-se-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "slo_ok": 0.995,
+      "obs_ok": 0.996,
+      "anomaly_severity": 0.6271,
+      "action": "continuous_slo_observability_enforcement_eval",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061346Z"
+    }
+  ],
+  "observability_enforcements": [
+    {
+      "oe_id": "p74-7471-oe-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "observability_ok": 0.998352,
+      "chain_intact": true,
+      "observability_enforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060892Z"
+    },
+    {
+      "oe_id": "p74-7471-oe-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "underlying": "ETH",
+      "observability_ok": 0.9969163,
+      "chain_intact": true,
+      "observability_enforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060982Z"
+    },
+    {
+      "oe_id": "p74-7471-oe-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "observability_ok": 0.9968456,
+      "chain_intact": true,
+      "observability_enforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061066Z"
+    },
+    {
+      "oe_id": "p74-7471-oe-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "underlying": "BTC",
+      "observability_ok": 0.9973118,
+      "chain_intact": true,
+      "observability_enforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061156Z"
+    },
+    {
+      "oe_id": "p74-7471-oe-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "observability_ok": 0.9972411,
+      "chain_intact": true,
+      "observability_enforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061237Z"
+    },
+    {
+      "oe_id": "p74-7471-oe-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "observability_ok": 0.996,
+      "chain_intact": true,
+      "observability_enforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061324Z"
+    }
+  ],
+  "adversarial_validations": [
+    {
+      "av_id": "p74-7471-av-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "anomaly_score": 0.234,
+      "adversarial_anomaly_detected": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060899Z"
+    },
+    {
+      "av_id": "p74-7471-av-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "underlying": "SOL",
+      "anomaly_score": 0.3805,
+      "adversarial_anomaly_detected": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060950Z"
+    },
+    {
+      "av_id": "p74-7471-av-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "anomaly_score": 0.527,
+      "adversarial_anomaly_detected": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061016Z"
+    },
+    {
+      "av_id": "p74-7471-av-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "underlying": "BTC",
+      "anomaly_score": 0.4785,
+      "adversarial_anomaly_detected": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061081Z"
+    },
+    {
+      "av_id": "p74-7471-av-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "anomaly_score": 0.3533,
+      "adversarial_anomaly_detected": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061141Z"
+    },
+    {
+      "av_id": "p74-7471-av-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "underlying": "ETH",
+      "anomaly_score": 0.4998,
+      "adversarial_anomaly_detected": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061205Z"
+    },
+    {
+      "av_id": "p74-7471-av-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "anomaly_score": 0.4513,
+      "adversarial_anomaly_detected": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061269Z"
+    },
+    {
+      "av_id": "p74-7471-av-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "anomaly_score": 0.5978,
+      "adversarial_anomaly_detected": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061330Z"
+    }
+  ],
+  "slo_remediations": [
+    {
+      "sr_id": "p74-7471-sr-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.234,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060905Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000001",
+      "cycle": 1,
+      "venue": "okx",
+      "underlying": "ETH",
+      "severity": 0.2633,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060915Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000002",
+      "cycle": 2,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "severity": 0.2926,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060924Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000003",
+      "cycle": 3,
+      "venue": "binance",
+      "underlying": "BTC",
+      "severity": 0.3219,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060933Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000004",
+      "cycle": 4,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "severity": 0.3512,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060941Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "underlying": "SOL",
+      "severity": 0.3805,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060956Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.4098,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060973Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "underlying": "ETH",
+      "severity": 0.4391,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060989Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000008",
+      "cycle": 8,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "severity": 0.4684,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.060998Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000009",
+      "cycle": 9,
+      "venue": "okx",
+      "underlying": "BTC",
+      "severity": 0.4977,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061007Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "severity": 0.527,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061022Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000011",
+      "cycle": 11,
+      "venue": "binance",
+      "underlying": "SOL",
+      "severity": 0.5563,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061031Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.5856,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061048Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000013",
+      "cycle": 13,
+      "venue": "okx",
+      "underlying": "ETH",
+      "severity": 0.4199,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061057Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "severity": 0.4492,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061072Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "underlying": "BTC",
+      "severity": 0.4785,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061087Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000016",
+      "cycle": 16,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "severity": 0.5078,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061096Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000017",
+      "cycle": 17,
+      "venue": "okx",
+      "underlying": "SOL",
+      "severity": 0.5371,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061105Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.5664,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061123Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000019",
+      "cycle": 19,
+      "venue": "binance",
+      "underlying": "ETH",
+      "severity": 0.324,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061132Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "severity": 0.3533,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061147Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "underlying": "BTC",
+      "severity": 0.3826,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061162Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000022",
+      "cycle": 22,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "severity": 0.4119,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061171Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000023",
+      "cycle": 23,
+      "venue": "binance",
+      "underlying": "SOL",
+      "severity": 0.4412,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061179Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.4705,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061196Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "underlying": "ETH",
+      "severity": 0.4998,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061211Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000026",
+      "cycle": 26,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "severity": 0.3341,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061220Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000027",
+      "cycle": 27,
+      "venue": "binance",
+      "underlying": "BTC",
+      "severity": 0.3634,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061229Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "severity": 0.3927,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061244Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000029",
+      "cycle": 29,
+      "venue": "okx",
+      "underlying": "SOL",
+      "severity": 0.422,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061252Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.4513,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061280Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000031",
+      "cycle": 31,
+      "venue": "binance",
+      "underlying": "ETH",
+      "severity": 0.4806,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061289Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000032",
+      "cycle": 32,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "severity": 0.5099,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061298Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000033",
+      "cycle": 33,
+      "venue": "okx",
+      "underlying": "BTC",
+      "severity": 0.5392,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061306Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000034",
+      "cycle": 34,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "severity": 0.5685,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061315Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "severity": 0.5978,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061337Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.6271,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061353Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000037",
+      "cycle": 37,
+      "venue": "okx",
+      "underlying": "ETH",
+      "severity": 0.6564,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061362Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000038",
+      "cycle": 38,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "severity": 0.414,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061371Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000039",
+      "cycle": 39,
+      "venue": "binance",
+      "underlying": "BTC",
+      "severity": 0.2483,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:26:04.061380Z"
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "report": {
+    "phase": "PHASE74_ADVERSARIAL_ANOMALY_VALIDATION_CONTAINMENT_ENGINE",
+    "timestamp": "2026-11-03T13:25:59.496056Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7473,
+    "cycles": 40,
+    "n_adv_scans": 7,
+    "n_validations": 6,
+    "n_containments": 4,
+    "n_auto_repairs": 3,
+    "avg_adversarial_severity": 0.454966,
+    "adversarial_anomaly_validation_containment_pass_rate": 0.142857,
+    "composes": [
+      "PHASE73-ATTEST",
+      "PHASE73-HARDEN",
+      "PHASE73-LOOP",
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "adv_scans": [
+    {
+      "as_id": "p74-7473-as-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "adversarial_severity": 0.2108,
+      "adversarial_safe": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495800Z"
+    },
+    {
+      "as_id": "p74-7473-as-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "adversarial_severity": 0.38864,
+      "adversarial_safe": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495856Z"
+    },
+    {
+      "as_id": "p74-7473-as-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "adversarial_severity": 0.56648,
+      "adversarial_safe": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495900Z"
+    },
+    {
+      "as_id": "p74-7473-as-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "adversarial_severity": 0.53632,
+      "adversarial_safe": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495936Z"
+    },
+    {
+      "as_id": "p74-7473-as-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "adversarial_severity": 0.455,
+      "adversarial_safe": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495970Z"
+    },
+    {
+      "as_id": "p74-7473-as-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "adversarial_severity": 0.42484,
+      "adversarial_safe": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.496004Z"
+    },
+    {
+      "as_id": "p74-7473-as-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "adversarial_severity": 0.60268,
+      "adversarial_safe": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.496037Z"
+    }
+  ],
+  "validations": [
+    {
+      "av_id": "p74-7473-av-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "validation_ok": 0.9990889,
+      "evidence_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495811Z"
+    },
+    {
+      "av_id": "p74-7473-av-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "validation_ok": 0.99888142,
+      "evidence_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495867Z"
+    },
+    {
+      "av_id": "p74-7473-av-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "validation_ok": 0.99888194,
+      "evidence_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495912Z"
+    },
+    {
+      "av_id": "p74-7473-av-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "validation_ok": 0.99893362,
+      "evidence_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495956Z"
+    },
+    {
+      "av_id": "p74-7473-av-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "validation_ok": 0.99893414,
+      "evidence_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495993Z"
+    },
+    {
+      "av_id": "p74-7473-av-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "validation_ok": 0.99872666,
+      "evidence_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.496029Z"
+    }
+  ],
+  "containments": [
+    {
+      "ac_id": "p74-7473-ac-000008",
+      "cycle": 8,
+      "venue": "deribit",
+      "contain_throttle_factor": 0.2024,
+      "reasons": [
+        "adversarial_severity_above_max",
+        "validation_pass_below_min"
+      ],
+      "action": "adversarial_containment_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495876Z"
+    },
+    {
+      "ac_id": "p74-7473-ac-000016",
+      "cycle": 16,
+      "venue": "deribit",
+      "contain_throttle_factor": 0.2024,
+      "reasons": [
+        "adversarial_severity_above_max",
+        "validation_pass_below_min"
+      ],
+      "action": "adversarial_containment_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495923Z"
+    },
+    {
+      "ac_id": "p74-7473-ac-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "contain_throttle_factor": 0.2024,
+      "reasons": [
+        "adversarial_severity_above_max",
+        "validation_pass_below_min"
+      ],
+      "action": "adversarial_containment_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495976Z"
+    },
+    {
+      "ac_id": "p74-7473-ac-000032",
+      "cycle": 32,
+      "venue": "deribit",
+      "contain_throttle_factor": 0.2024,
+      "reasons": [
+        "adversarial_severity_above_max",
+        "validation_pass_below_min"
+      ],
+      "action": "adversarial_containment_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.496015Z"
+    }
+  ],
+  "auto_repairs": [
+    {
+      "ar_id": "p74-7473-ar-000009",
+      "cycle": 9,
+      "venue": "okx",
+      "severity": 0.47756,
+      "action": "auto_repair_on_adversarial_anomaly",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495886Z"
+    },
+    {
+      "ar_id": "p74-7473-ar-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "severity": 0.53632,
+      "action": "auto_repair_on_adversarial_anomaly",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.495942Z"
+    },
+    {
+      "ar_id": "p74-7473-ar-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "severity": 0.60268,
+      "action": "auto_repair_on_adversarial_anomaly",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:25:59.496044Z"
+    }
+  ]
+}
