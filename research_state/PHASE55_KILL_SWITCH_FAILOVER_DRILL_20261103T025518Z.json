@@ -1,0 +1,184 @@
+{
+  "all_events_paper_only": true,
+  "backup_venues": [
+    "bybit",
+    "binance"
+  ],
+  "chaos_failover_triggered": false,
+  "cycles": 10,
+  "domain_focus": "crypto_options_orderflow_kill_switch_failover_drill",
+  "drift_breach_count": 5,
+  "drift_count": 5,
+  "drift_events": [
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 1,
+      "drift_id": "p55ksdrill_drift_57b9988bfb65",
+      "drift_pct": 0.022279808667260554,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-03T02:55:18.965340Z",
+      "venue": "deribit"
+    },
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 5,
+      "drift_id": "p55ksdrill_drift_dae78931fb83",
+      "drift_pct": 0.03761581780015579,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-03T02:55:18.974341Z",
+      "venue": "deribit"
+    },
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 6,
+      "drift_id": "p55ksdrill_drift_603200eaa9cb",
+      "drift_pct": 0.046134754063819026,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-03T02:55:18.976615Z",
+      "venue": "deribit"
+    },
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 7,
+      "drift_id": "p55ksdrill_drift_7436f2f4b660",
+      "drift_pct": 0.04561266439705372,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-03T02:55:18.978833Z",
+      "venue": "deribit"
+    },
+    {
+      "action": "investigate_and_quarantine_divergent_venue",
+      "backup_venue": "bybit",
+      "breach": true,
+      "cycle": 8,
+      "drift_id": "p55ksdrill_drift_baa0822ebe0b",
+      "drift_pct": 0.031112166698008693,
+      "paper_only": true,
+      "threshold_pct": 0.02,
+      "timestamp": "2026-11-03T02:55:18.981047Z",
+      "venue": "deribit"
+    }
+  ],
+  "drift_threshold_pct": 0.02,
+  "failover_count": 8,
+  "failover_events": [
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 2,
+      "failover_id": "p55ksdrill_chaos_failover_1b9700731691",
+      "from_venue": "deribit",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-03T02:55:18.967781Z",
+      "to_venue": "okx"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 3,
+      "failover_id": "p55ksdrill_chaos_failover_cef7cda47326",
+      "from_venue": "okx",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-03T02:55:18.969977Z",
+      "to_venue": "deribit"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 4,
+      "failover_id": "p55ksdrill_chaos_failover_1a19ca736762",
+      "from_venue": "deribit",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-03T02:55:18.972160Z",
+      "to_venue": "okx"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 5,
+      "failover_id": "p55ksdrill_chaos_failover_9b830caeb129",
+      "from_venue": "okx",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-03T02:55:18.974323Z",
+      "to_venue": "deribit"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 6,
+      "failover_id": "p55ksdrill_chaos_failover_ce8b593fb29a",
+      "from_venue": "deribit",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-03T02:55:18.976598Z",
+      "to_venue": "okx"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 7,
+      "failover_id": "p55ksdrill_chaos_failover_373b8704f712",
+      "from_venue": "okx",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-03T02:55:18.978816Z",
+      "to_venue": "deribit"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 8,
+      "failover_id": "p55ksdrill_chaos_failover_a0bb7184d120",
+      "from_venue": "deribit",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-03T02:55:18.981030Z",
+      "to_venue": "okx"
+    },
+    {
+      "action": "execute_backup_venue_failover",
+      "cycle": 9,
+      "failover_id": "p55ksdrill_chaos_failover_69ea3a63901f",
+      "from_venue": "okx",
+      "paper_only": true,
+      "reason": "phase55_chaos_failover_drill",
+      "timestamp": "2026-11-03T02:55:18.983236Z",
+      "to_venue": "deribit"
+    }
+  ],
+  "gates_ok": true,
+  "halt_count": 0,
+  "halt_events": [],
+  "halt_propagation_ok": true,
+  "integration": "Phase39+Phase45",
+  "kill_switch_halted": false,
+  "modes": "paper",
+  "paper_only": true,
+  "phase": "PHASE55_KILL_SWITCH_FAILOVER_DRILL",
+  "primary_venue": "deribit",
+  "recovery_count": 0,
+  "recovery_events": [],
+  "seed": 777,
+  "timestamp": "2026-11-03T02:55:18.986896Z",
+  "total_halted_cycles": 0,
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ]
+}
