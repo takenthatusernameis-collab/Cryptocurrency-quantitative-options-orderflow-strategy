@@ -213,3 +213,34 @@ Status: PHASE 70 IMPLEMENTED (files present). Deliverables shipped:
 - src/integration/phase70_autonomous_production_recovery_compliance_enforcement_loop.py
 Tests: tests/test_phase70_execution_alpha_autonomous_recovery_engine.py, tests/test_phase70_adaptive_toxicity_resilient_recovery_reinforcement_orchestrator.py, tests/test_phase70_autonomous_production_recovery_compliance_enforcement_loop.py
 Composes Phases 17-69. PAPER-ONLY enforced. Deterministic artifacts under research_state. Imports verified OK; no placeholders/TODOs/FIXMEs/HACKs/XXX. Bottlenecks removed. Next: attack Phase 71 immediately (recovery/compliance reinforcement) per domain (crypto options + orderflow).
+
+## NEXT CAMPAIGN: PHASE 71 — CROSS-VENUE OPTIONS EXECUTION AUTONOMOUS SELF-HEALING INTEGRITY & COMPLIANCE REINFORCEMENT (CRYPTO OPTIONS + ORDERFLOW FOCUS)
+Timestamp (UTC): 2026-11-03T05:27:19Z
+Status: START IMMEDIATELY (GATE MUST REMAIN GREEN). HEAVY QUANT IMPLEMENTATION ONLY - NO SCAFFOLDING, NO PLANS.
+
+### REQUIRED DELIVERABLES (SHIP ALL, NO PARTIALS) — PHASE 71
+**Core modules (src/):**
+- `src/alpha/phase71_execution_alpha_autonomous_self_healing_integrity_engine.py` — Execution alpha autonomous self-healing integrity: self-healing detection, integrity attestation, recovery verification, deterministic; PAPER-ONLY. Compose Phases 17-70.
+- `src/hedging/phase71_adaptive_toxicity_resilient_self_healing_reinforcement_orchestrator.py` — Adaptive toxicity-resilient self-healing reinforcement orchestrator: venue failover self-heal, capital rebalance self-heal, hedging self-healing guardrails; deterministic; PAPER-ONLY. Compose Phases 17-70.
+- `src/integration/phase71_autonomous_production_self_healing_compliance_enforcement_loop.py` — Autonomous production self-healing compliance enforcement: self-healing checks, auto-heal/rollback on breach, attestation, artifacts; composes Phases 17-70. PAPER-ONLY enforced.
+
+**Tests (tests/):**
+- `tests/test_phase71_execution_alpha_autonomous_self_healing_integrity_engine.py`
+- `tests/test_phase71_adaptive_toxicity_resilient_self_healing_reinforcement_orchestrator.py`
+- `tests/test_phase71_autonomous_production_self_healing_compliance_enforcement_loop.py`
+
+### ACCEPTANCE CRITERIA — PHASE 71
+- All deliverables implemented/wired, tests added.
+- Gate GREEN: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` passes.
+- No placeholders/TODOs/FIXMEs/HACKs/XXX.
+- PAPER-ONLY enforced; live paths hard-gated + tested.
+- Deterministic JSON/MD artifacts under research_state.
+- research_state/durable_handoff.md updated before ending.
+
+## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
+Timestamp (UTC): 2026-11-03T05:27:19Z
+
+INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. PHASE 70 COMPLETE. SHIP PHASE 71 END-TO-END IMMEDIATELY. NO SCAFFOLDING. HEAVY QUANT IMPLEMENTATION ONLY. Phases 1-70 are COMPLETE. Do NOT redo completed phases; build heavy integration across options/Greeks/IV, orderflow microstructure/toxicity, SOR/routing/fragmentation, hedging/MM, risk/margin/collateral, execution/resilience. No placeholders/TODOs/FIXMEs/HACKs/XXX. EVERY SESSION MUST SHIP TANGIBLE FILE CHANGES (src/tests/scripts/artifacts). IF NO CODE WRITTEN -> YOU HAVE NOT DONE THE JOB. The repo name is Cryptocurrency-quantitative-options-orderflow-strategy, so crypto options + orderflow is the domain; every task must serve it. Build production-grade code that composes with existing Phases 17-70. Do not stop until all Phase 71 deliverables are complete and gate is GREEN. If you encounter any blocking issue (missing wiring/integration/interface gaps), FIX IT NOW by implementing production-grade glue - NO PLANS, NO ROADMAPS, NO DESIGN DOCS. Treat integration gaps as REQUIRED IMPLEMENTATION WORK.
+
+## SESSION UPDATE (UTC): 2026-11-03T05:27:19Z
+Status: HANDOFF REFRESHED. Phase 70 COMPLETE. Phase 71 NOT YET SHIPPED (files absent). Bottlenecks removed (research_state writable, gate command verified, imports OK). MANDATORY NEXT: ship Phase 71 deliverables end-to-end (autonomous self-healing integrity & compliance reinforcement) composing Phases 17-70, tests added, artifacts produced, gate GREEN. No scaffolding.
