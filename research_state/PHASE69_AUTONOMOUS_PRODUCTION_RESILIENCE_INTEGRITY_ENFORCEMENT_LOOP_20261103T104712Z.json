@@ -1,0 +1,366 @@
+{
+  "report": {
+    "phase": "PHASE69_AUTONOMOUS_PRODUCTION_RESILIENCE_INTEGRITY_ENFORCEMENT_LOOP",
+    "timestamp": "2026-11-03T10:47:12.562185Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 69062,
+    "cycles": 40,
+    "n_integrity_checks": 8,
+    "n_auto_heals": 14,
+    "n_rollbacks": 14,
+    "n_integrity_attestations": 7,
+    "integrity_pass_rate": 0.625,
+    "composes": [
+      "PHASE68",
+      "PHASE67",
+      "PHASE54",
+      "PHASE39"
+    ]
+  },
+  "integrity_checks": [
+    {
+      "ic_id": "p69hard_ic_c80f2edf40d3",
+      "cycle": 0,
+      "severity": 0.2005,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.559542Z"
+    },
+    {
+      "ic_id": "p69hard_ic_e30edaba7f0e",
+      "cycle": 5,
+      "severity": 0.3005,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.559676Z"
+    },
+    {
+      "ic_id": "p69hard_ic_8ee4d2c62716",
+      "cycle": 10,
+      "severity": 0.4005,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.559792Z"
+    },
+    {
+      "ic_id": "p69hard_ic_fc04ce90b1ef",
+      "cycle": 15,
+      "severity": 0.5005,
+      "integrity_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560186Z"
+    },
+    {
+      "ic_id": "p69hard_ic_14feaf0f547e",
+      "cycle": 20,
+      "severity": 0.6005,
+      "integrity_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560927Z"
+    },
+    {
+      "ic_id": "p69hard_ic_6c5b8bdd55e0",
+      "cycle": 25,
+      "severity": 0.2805,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561160Z"
+    },
+    {
+      "ic_id": "p69hard_ic_884c657897fe",
+      "cycle": 30,
+      "severity": 0.3805,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561220Z"
+    },
+    {
+      "ic_id": "p69hard_ic_981e490af354",
+      "cycle": 35,
+      "severity": 0.4805,
+      "integrity_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561452Z"
+    }
+  ],
+  "auto_heals": [
+    {
+      "ah_id": "p69hard_ah_500ffe83b777",
+      "cycle": 13,
+      "severity": 0.4605,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.559934Z"
+    },
+    {
+      "ah_id": "p69hard_ah_9c6fa7f2ddd3",
+      "cycle": 14,
+      "severity": 0.4805,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560062Z"
+    },
+    {
+      "ah_id": "p69hard_ah_19096bb2a847",
+      "cycle": 15,
+      "severity": 0.5005,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560243Z"
+    },
+    {
+      "ah_id": "p69hard_ah_9840dd318869",
+      "cycle": 16,
+      "severity": 0.5205,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560363Z"
+    },
+    {
+      "ah_id": "p69hard_ah_57ed1f001fff",
+      "cycle": 17,
+      "severity": 0.5405,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560486Z"
+    },
+    {
+      "ah_id": "p69hard_ah_b02b344a7abb",
+      "cycle": 18,
+      "severity": 0.5605,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560607Z"
+    },
+    {
+      "ah_id": "p69hard_ah_0b19865dd507",
+      "cycle": 19,
+      "severity": 0.5805,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560778Z"
+    },
+    {
+      "ah_id": "p69hard_ah_800cc5ceb188",
+      "cycle": 20,
+      "severity": 0.6005,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560984Z"
+    },
+    {
+      "ah_id": "p69hard_ah_973938479204",
+      "cycle": 34,
+      "severity": 0.4605,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561330Z"
+    },
+    {
+      "ah_id": "p69hard_ah_ad61abc84473",
+      "cycle": 35,
+      "severity": 0.4805,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561509Z"
+    },
+    {
+      "ah_id": "p69hard_ah_911a63ca417b",
+      "cycle": 36,
+      "severity": 0.5005,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561629Z"
+    },
+    {
+      "ah_id": "p69hard_ah_f02a4ab8a861",
+      "cycle": 37,
+      "severity": 0.5205,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561800Z"
+    },
+    {
+      "ah_id": "p69hard_ah_b62785db9186",
+      "cycle": 38,
+      "severity": 0.5405,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561946Z"
+    },
+    {
+      "ah_id": "p69hard_ah_9fbe207ffbd6",
+      "cycle": 39,
+      "severity": 0.5605,
+      "action": "auto_heal",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.562067Z"
+    }
+  ],
+  "rollbacks": [
+    {
+      "rb_id": "p69hard_rb_9260e0e813c4",
+      "cycle": 13,
+      "severity": 0.4605,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.559998Z"
+    },
+    {
+      "rb_id": "p69hard_rb_ea8afea60926",
+      "cycle": 14,
+      "severity": 0.4805,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560123Z"
+    },
+    {
+      "rb_id": "p69hard_rb_fde169a6a63e",
+      "cycle": 15,
+      "severity": 0.5005,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560302Z"
+    },
+    {
+      "rb_id": "p69hard_rb_c5b236d3ec0d",
+      "cycle": 16,
+      "severity": 0.5205,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560423Z"
+    },
+    {
+      "rb_id": "p69hard_rb_415c71860b30",
+      "cycle": 17,
+      "severity": 0.5405,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560545Z"
+    },
+    {
+      "rb_id": "p69hard_rb_c2a8fe67a210",
+      "cycle": 18,
+      "severity": 0.5605,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560667Z"
+    },
+    {
+      "rb_id": "p69hard_rb_d94e27c20606",
+      "cycle": 19,
+      "severity": 0.5805,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560858Z"
+    },
+    {
+      "rb_id": "p69hard_rb_e0b7e32be058",
+      "cycle": 20,
+      "severity": 0.6005,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561045Z"
+    },
+    {
+      "rb_id": "p69hard_rb_e3db61816438",
+      "cycle": 34,
+      "severity": 0.4605,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561390Z"
+    },
+    {
+      "rb_id": "p69hard_rb_3f879b93f02f",
+      "cycle": 35,
+      "severity": 0.4805,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561568Z"
+    },
+    {
+      "rb_id": "p69hard_rb_e1a91f2853c5",
+      "cycle": 36,
+      "severity": 0.5005,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561688Z"
+    },
+    {
+      "rb_id": "p69hard_rb_e54495c87831",
+      "cycle": 37,
+      "severity": 0.5205,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561883Z"
+    },
+    {
+      "rb_id": "p69hard_rb_be5512d60089",
+      "cycle": 38,
+      "severity": 0.5405,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.562006Z"
+    },
+    {
+      "rb_id": "p69hard_rb_62fd8308366a",
+      "cycle": 39,
+      "severity": 0.5605,
+      "action": "rollback",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.562127Z"
+    }
+  ],
+  "integrity_attestations": [
+    {
+      "iat_id": "p69hard_iat_bf30161139ff",
+      "cycle": 0,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.559615Z"
+    },
+    {
+      "iat_id": "p69hard_iat_125dd81d87b8",
+      "cycle": 6,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.559737Z"
+    },
+    {
+      "iat_id": "p69hard_iat_ba6b38df9134",
+      "cycle": 12,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.559878Z"
+    },
+    {
+      "iat_id": "p69hard_iat_e2ffab42af9d",
+      "cycle": 18,
+      "integrity_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.560726Z"
+    },
+    {
+      "iat_id": "p69hard_iat_6ae81554bc6c",
+      "cycle": 24,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561107Z"
+    },
+    {
+      "iat_id": "p69hard_iat_ff4eedd44335",
+      "cycle": 30,
+      "integrity_ok": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561275Z"
+    },
+    {
+      "iat_id": "p69hard_iat_cd811235b4e1",
+      "cycle": 36,
+      "integrity_ok": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.561747Z"
+    }
+  ]
+}

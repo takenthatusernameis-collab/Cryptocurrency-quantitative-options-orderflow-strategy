@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-03T10:40:00Z
-# Updated (UTC): 2026-11-03T10:40:00Z
+# Timestamp (UTC): 2026-11-03T10:46:57Z
+# Updated (UTC): 2026-11-03T10:46:57Z
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV + orderflow microstructure/toxicity + cross-venue execution + regime-aware MM/hedging + live-readiness hardening + post-trade reconciliation/margin/collateral + autonomous resilience/recovery/compliance)
 # THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 

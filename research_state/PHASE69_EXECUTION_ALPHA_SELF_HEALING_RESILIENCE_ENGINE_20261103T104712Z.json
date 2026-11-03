@@ -1,0 +1,289 @@
+{
+  "report": {
+    "phase": "PHASE69_EXECUTION_ALPHA_SELF_HEALING_RESILIENCE_ENGINE",
+    "timestamp": "2026-11-03T10:47:12.626655Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 69060,
+    "cycles": 40,
+    "n_self_heals": 7,
+    "n_resilience_attestations": 6,
+    "n_recovery_actions": 8,
+    "n_self_heal_attestations": 6,
+    "avg_recovery_verify": 0.99594,
+    "self_heal_pass_rate": 0.5,
+    "composes": [
+      "PHASE68",
+      "PHASE67",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "self_heals": [
+    {
+      "sh_id": "p69alpha_sh_9b72a13da207",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.2016,
+      "policy": "auto_self_heal_resilience",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.624489Z"
+    },
+    {
+      "sh_id": "p69alpha_sh_13f2821c59c0",
+      "cycle": 6,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.37824,
+      "policy": "auto_self_heal_resilience",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.624917Z"
+    },
+    {
+      "sh_id": "p69alpha_sh_23bd3a28ee6e",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.37888,
+      "policy": "auto_self_heal_resilience",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625230Z"
+    },
+    {
+      "sh_id": "p69alpha_sh_028bc23ac196",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.32704,
+      "policy": "auto_self_heal_resilience",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625538Z"
+    },
+    {
+      "sh_id": "p69alpha_sh_1d9fddb0187b",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.32768,
+      "policy": "auto_self_heal_resilience",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625869Z"
+    },
+    {
+      "sh_id": "p69alpha_sh_0b2630c314de",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.50432,
+      "policy": "auto_self_heal_resilience",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.626191Z"
+    },
+    {
+      "sh_id": "p69alpha_sh_48e7c6424f0a",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.27648,
+      "policy": "auto_self_heal_resilience",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.626567Z"
+    }
+  ],
+  "resilience_attestations": [
+    {
+      "ra_id": "p69alpha_ra_4de993fcd710",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "confidence": 0.9454,
+      "resilience": "self_healing_alpha_resilience_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.624589Z"
+    },
+    {
+      "ra_id": "p69alpha_ra_c7de7bc84adc",
+      "cycle": 7,
+      "venue": "binance",
+      "underlying": "ETH",
+      "confidence": 0.96792,
+      "resilience": "self_healing_alpha_resilience_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625005Z"
+    },
+    {
+      "ra_id": "p69alpha_ra_56e4e8b346a6",
+      "cycle": 14,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "confidence": 0.99044,
+      "resilience": "self_healing_alpha_resilience_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625317Z"
+    },
+    {
+      "ra_id": "p69alpha_ra_0a1d5ed7d269",
+      "cycle": 21,
+      "venue": "okx",
+      "underlying": "BTC",
+      "confidence": 0.95684,
+      "resilience": "self_healing_alpha_resilience_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625699Z"
+    },
+    {
+      "ra_id": "p69alpha_ra_5a61794055d6",
+      "cycle": 28,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "confidence": 0.97936,
+      "resilience": "self_healing_alpha_resilience_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.626038Z"
+    },
+    {
+      "ra_id": "p69alpha_ra_68c0f77bd264",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "confidence": 0.94576,
+      "resilience": "self_healing_alpha_resilience_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.626355Z"
+    }
+  ],
+  "recovery_actions": [
+    {
+      "rec_id": "p69alpha_rec_9aa9f420a1e2",
+      "cycle": 0,
+      "recovery_verify": 0.997684,
+      "self_healed": true,
+      "self_heal_throttle_factor": 1.0,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.624673Z"
+    },
+    {
+      "rec_id": "p69alpha_rec_ad0e2d04ea70",
+      "cycle": 5,
+      "recovery_verify": 0.996212,
+      "self_healed": true,
+      "self_heal_throttle_factor": 1.0,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.624817Z"
+    },
+    {
+      "rec_id": "p69alpha_rec_9c11d166240a",
+      "cycle": 10,
+      "recovery_verify": 0.99474,
+      "self_healed": false,
+      "self_heal_throttle_factor": 0.2925,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625155Z"
+    },
+    {
+      "rec_id": "p69alpha_rec_be987cd27ce1",
+      "cycle": 15,
+      "recovery_verify": 0.995028,
+      "self_healed": false,
+      "self_heal_throttle_factor": 0.2925,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625460Z"
+    },
+    {
+      "rec_id": "p69alpha_rec_104382666e22",
+      "cycle": 20,
+      "recovery_verify": 0.9958408,
+      "self_healed": false,
+      "self_heal_throttle_factor": 0.45,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625627Z"
+    },
+    {
+      "rec_id": "p69alpha_rec_805979aa3ef6",
+      "cycle": 25,
+      "recovery_verify": 0.9961288,
+      "self_healed": true,
+      "self_heal_throttle_factor": 1.0,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625959Z"
+    },
+    {
+      "rec_id": "p69alpha_rec_e9b0da591590",
+      "cycle": 30,
+      "recovery_verify": 0.9946568,
+      "self_healed": false,
+      "self_heal_throttle_factor": 0.2925,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.626273Z"
+    },
+    {
+      "rec_id": "p69alpha_rec_1b18c0e04083",
+      "cycle": 35,
+      "recovery_verify": 0.9972296,
+      "self_healed": true,
+      "self_heal_throttle_factor": 1.0,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.626436Z"
+    }
+  ],
+  "self_heal_attestations": [
+    {
+      "sha_id": "p69alpha_sha_7eb5e5608d8d",
+      "cycle": 0,
+      "recovery_verify": 0.997684,
+      "self_healed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.624744Z"
+    },
+    {
+      "sha_id": "p69alpha_sha_7a6e115dcced",
+      "cycle": 7,
+      "recovery_verify": 0.9956232,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625087Z"
+    },
+    {
+      "sha_id": "p69alpha_sha_d6c0d273fed1",
+      "cycle": 14,
+      "recovery_verify": 0.9953224,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625397Z"
+    },
+    {
+      "sha_id": "p69alpha_sha_1abebe8e97eb",
+      "cycle": 21,
+      "recovery_verify": 0.9955464,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.625780Z"
+    },
+    {
+      "sha_id": "p69alpha_sha_51acb1bebf98",
+      "cycle": 28,
+      "recovery_verify": 0.9952456,
+      "self_healed": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.626126Z"
+    },
+    {
+      "sha_id": "p69alpha_sha_28ec87b8fe35",
+      "cycle": 35,
+      "recovery_verify": 0.9972296,
+      "self_healed": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T10:47:12.626505Z"
+    }
+  ]
+}
