@@ -1,0 +1,230 @@
+{
+  "report": {
+    "phase": "PHASE74_AUTONOMOUS_PRODUCTION_SLO_OBSERVABILITY_REPAIR_LOOP",
+    "timestamp": "2026-11-03T13:23:16.593137Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7474,
+    "cycles": 40,
+    "n_slo_repair_checks": 7,
+    "n_auto_repairs": 6,
+    "n_containment_attestations": 0,
+    "n_slo_observability_chains": 7,
+    "avg_slo_ok": 0.998612694,
+    "production_slo_observability_repair_pass_rate": 0.0,
+    "composes": [
+      "PHASE74-SLO",
+      "PHASE74-ADV",
+      "PHASE73-LOOP",
+      "PHASE73",
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "slo_repair_checks": [
+    {
+      "src_id": "p74-7474-src-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "slo_ok": 0.99882432,
+      "chain_ok": 0.99985336,
+      "action": "production_slo_observability_repair_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.592892Z"
+    },
+    {
+      "src_id": "p74-7474-src-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "slo_ok": 0.998670852,
+      "chain_ok": 0.999733996,
+      "action": "production_slo_observability_repair_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.592937Z"
+    },
+    {
+      "src_id": "p74-7474-src-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "slo_ok": 0.998517384,
+      "chain_ok": 0.999614632,
+      "action": "production_slo_observability_repair_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.592974Z"
+    },
+    {
+      "src_id": "p74-7474-src-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "slo_ok": 0.998539416,
+      "chain_ok": 0.999631768,
+      "action": "production_slo_observability_repair_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593012Z"
+    },
+    {
+      "src_id": "p74-7474-src-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "slo_ok": 0.99861543,
+      "chain_ok": 0.99969089,
+      "action": "production_slo_observability_repair_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593047Z"
+    },
+    {
+      "src_id": "p74-7474-src-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "slo_ok": 0.998637462,
+      "chain_ok": 0.999708026,
+      "action": "production_slo_observability_repair_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593083Z"
+    },
+    {
+      "src_id": "p74-7474-src-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "slo_ok": 0.998483994,
+      "chain_ok": 0.999588662,
+      "action": "production_slo_observability_repair_check",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593118Z"
+    }
+  ],
+  "auto_repairs": [
+    {
+      "ar_id": "p74-7474-ar-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.1952,
+      "action": "auto_repair_on_slo_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.592904Z"
+    },
+    {
+      "ar_id": "p74-7474-ar-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "underlying": "ETH",
+      "severity": 0.39414,
+      "action": "auto_repair_on_slo_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.592953Z"
+    },
+    {
+      "ar_id": "p74-7474-ar-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "severity": 0.39808,
+      "action": "auto_repair_on_slo_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.592993Z"
+    },
+    {
+      "ar_id": "p74-7474-ar-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "underlying": "BTC",
+      "severity": 0.34204,
+      "action": "auto_repair_on_slo_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593033Z"
+    },
+    {
+      "ar_id": "p74-7474-ar-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "severity": 0.34598,
+      "action": "auto_repair_on_slo_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593071Z"
+    },
+    {
+      "ar_id": "p74-7474-ar-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "severity": 0.54492,
+      "action": "auto_repair_on_slo_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593108Z"
+    }
+  ],
+  "containment_attestations": [],
+  "slo_observability_chains": [
+    {
+      "soc_id": "p74-7474-soc-000000",
+      "cycle": 0,
+      "chain_ok": 0.99985336,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.592913Z"
+    },
+    {
+      "soc_id": "p74-7474-soc-000006",
+      "cycle": 6,
+      "chain_ok": 0.999733996,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.592944Z"
+    },
+    {
+      "soc_id": "p74-7474-soc-000012",
+      "cycle": 12,
+      "chain_ok": 0.999614632,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.592982Z"
+    },
+    {
+      "soc_id": "p74-7474-soc-000018",
+      "cycle": 18,
+      "chain_ok": 0.999631768,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593019Z"
+    },
+    {
+      "soc_id": "p74-7474-soc-000024",
+      "cycle": 24,
+      "chain_ok": 0.99969089,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593054Z"
+    },
+    {
+      "soc_id": "p74-7474-soc-000030",
+      "cycle": 30,
+      "chain_ok": 0.999708026,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593090Z"
+    },
+    {
+      "soc_id": "p74-7474-soc-000036",
+      "cycle": 36,
+      "chain_ok": 0.999588662,
+      "looped": false,
+      "chain_intact": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:16.593124Z"
+    }
+  ]
+}

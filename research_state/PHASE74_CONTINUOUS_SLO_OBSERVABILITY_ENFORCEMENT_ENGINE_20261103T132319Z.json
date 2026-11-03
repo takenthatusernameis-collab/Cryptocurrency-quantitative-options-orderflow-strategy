@@ -1,0 +1,283 @@
+{
+  "report": {
+    "phase": "PHASE74_CONTINUOUS_SLO_OBSERVABILITY_ENFORCEMENT_ENGINE",
+    "timestamp": "2026-11-03T13:23:19.147241Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7472,
+    "cycles": 40,
+    "n_slo_checks": 8,
+    "n_observability_checks": 7,
+    "n_breach_enforcements": 6,
+    "n_auto_repairs": 1,
+    "avg_availability": 0.99923436,
+    "slo_observability_enforcement_pass_rate": 0.0,
+    "composes": [
+      "PHASE73-LOOP",
+      "PHASE73-HARDEN",
+      "PHASE73-ATTEST",
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "slo_checks": [
+    {
+      "sc_id": "p74-7472-sc-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "availability": 0.99934846,
+      "latency_p99_ms": 542.72,
+      "slo_compliant": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.146967Z"
+    },
+    {
+      "sc_id": "p74-7472-sc-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "underlying": "SOL",
+      "availability": 0.99925326,
+      "latency_p99_ms": 680.07,
+      "slo_compliant": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147010Z"
+    },
+    {
+      "sc_id": "p74-7472-sc-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "underlying": "ETH",
+      "availability": 0.99915806,
+      "latency_p99_ms": 733.42,
+      "slo_compliant": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147047Z"
+    },
+    {
+      "sc_id": "p74-7472-sc-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "underlying": "BTC",
+      "availability": 0.99916846,
+      "latency_p99_ms": 700.97,
+      "slo_compliant": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147082Z"
+    },
+    {
+      "sc_id": "p74-7472-sc-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "underlying": "SOL",
+      "availability": 0.99923374,
+      "latency_p99_ms": 707.93,
+      "slo_compliant": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147112Z"
+    },
+    {
+      "sc_id": "p74-7472-sc-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "underlying": "ETH",
+      "availability": 0.99924414,
+      "latency_p99_ms": 675.48,
+      "slo_compliant": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147146Z"
+    },
+    {
+      "sc_id": "p74-7472-sc-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "availability": 0.99914894,
+      "latency_p99_ms": 728.83,
+      "slo_compliant": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147174Z"
+    },
+    {
+      "sc_id": "p74-7472-sc-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "availability": 0.99931982,
+      "latency_p99_ms": 565.99,
+      "slo_compliant": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147211Z"
+    }
+  ],
+  "observability_checks": [
+    {
+      "oc_id": "p74-7472-oc-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "coverage": 0.99982008,
+      "traces_complete": true,
+      "metrics_complete": true,
+      "logs_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.146979Z"
+    },
+    {
+      "oc_id": "p74-7472-oc-000006",
+      "cycle": 6,
+      "venue": "bybit",
+      "coverage": 0.99969156,
+      "traces_complete": true,
+      "metrics_complete": true,
+      "logs_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147021Z"
+    },
+    {
+      "oc_id": "p74-7472-oc-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "coverage": 0.99968184,
+      "traces_complete": true,
+      "metrics_complete": true,
+      "logs_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147060Z"
+    },
+    {
+      "oc_id": "p74-7472-oc-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "coverage": 0.99973386,
+      "traces_complete": true,
+      "metrics_complete": true,
+      "logs_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147099Z"
+    },
+    {
+      "oc_id": "p74-7472-oc-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "coverage": 0.99972414,
+      "traces_complete": true,
+      "metrics_complete": true,
+      "logs_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147137Z"
+    },
+    {
+      "oc_id": "p74-7472-oc-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "coverage": 0.99959562,
+      "traces_complete": true,
+      "metrics_complete": true,
+      "logs_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147181Z"
+    },
+    {
+      "oc_id": "p74-7472-oc-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "coverage": 0.99976644,
+      "traces_complete": true,
+      "metrics_complete": true,
+      "logs_complete": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147227Z"
+    }
+  ],
+  "breach_enforcements": [
+    {
+      "be_id": "p74-7472-be-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "enforce_throttle_factor": 0.44,
+      "reasons": [
+        "slo_availability_below_min"
+      ],
+      "action": "slo_breach_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.146986Z"
+    },
+    {
+      "be_id": "p74-7472-be-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "enforce_throttle_factor": 0.44,
+      "reasons": [
+        "slo_availability_below_min"
+      ],
+      "action": "slo_breach_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147031Z"
+    },
+    {
+      "be_id": "p74-7472-be-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "enforce_throttle_factor": 0.44,
+      "reasons": [
+        "slo_availability_below_min"
+      ],
+      "action": "slo_breach_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147072Z"
+    },
+    {
+      "be_id": "p74-7472-be-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "enforce_throttle_factor": 0.44,
+      "reasons": [
+        "slo_availability_below_min"
+      ],
+      "action": "slo_breach_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147122Z"
+    },
+    {
+      "be_id": "p74-7472-be-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "enforce_throttle_factor": 0.44,
+      "reasons": [
+        "slo_availability_below_min"
+      ],
+      "action": "slo_breach_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147161Z"
+    },
+    {
+      "be_id": "p74-7472-be-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "enforce_throttle_factor": 0.44,
+      "reasons": [
+        "slo_availability_below_min"
+      ],
+      "action": "slo_breach_enforcement",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147217Z"
+    }
+  ],
+  "auto_repairs": [
+    {
+      "ar_id": "p74-7472-ar-000032",
+      "cycle": 32,
+      "venue": "deribit",
+      "severity": 0.4858,
+      "action": "auto_repair_on_slo_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T13:23:19.147195Z"
+    }
+  ]
+}
