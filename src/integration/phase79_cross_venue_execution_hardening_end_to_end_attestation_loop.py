@@ -18,7 +18,10 @@ from src.risk.phase75_cross_venue_options_execution_quality_tca_engine import (
 )
 from src.execution.phase58_adaptive_options_smart_order_router import Phase58AdaptiveOptionsSmartOrderRouter
 from src.liquidity.phase59_fragmentation_toxicity_arb_engine import Phase59FragmentationToxicityArbEngine
-from src.integration.phase37_orderflow_routing_loop import Phase37OrderflowRoutingLoop
+from src.integration.phase37_orderflow_routing_loop import (
+    Loop37Config,
+    Phase37OrderflowRoutingLoop,
+)
 from src.risk.phase39_kill_switches_circuit_breakers import (
     KillSwitchConfig39,
     Phase39KillSwitchesCircuitBreakers,
@@ -113,7 +116,19 @@ class Phase79CrossVenueExecutionHardeningEndToEndAttestationLoop:
         )
         self.sor58 = Phase58AdaptiveOptionsSmartOrderRouter()
         self.frag59 = Phase59FragmentationToxicityArbEngine()
-        self.route37 = Phase37OrderflowRoutingLoop()
+        self.route37 = Phase37OrderflowRoutingLoop(
+            Loop37Config(
+                symbols=list(self.cfg.underlyings),
+                venues=list(self.cfg.venues),
+                underlyings=list(self.cfg.underlyings),
+                expiries=["2026-12-31", "2027-01-31", "2027-02-28"],
+                modes="paper",
+                cycles=self.cfg.cycles,
+                seed=self.cfg.seed + 37,
+                paper_only=True,
+                outdir=self.cfg.outdir,
+            )
+        )
         self.ks = Phase39KillSwitchesCircuitBreakers(KillSwitchConfig39(seed=self.cfg.seed + 39, paper_only=True))
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.failovers: List[Dict[str, Any]] = []
@@ -146,7 +161,7 @@ class Phase79CrossVenueExecutionHardeningEndToEndAttestationLoop:
             tca_rep = self.tca75.run_cross_venue_options_execution_quality_tca(cycles=min(cycles, 12))
             sor_rep = self.sor58.route_adaptive(cycles=min(cycles, 8))
             frag_rep = self.frag59.run_arb(cycles=4)
-            route_rep = self.route37.run_cycle(cycles)
+            route_rep = self.route37.run()
             ks_rep = self.ks.run_campaign()
             risk_rep = self.risk54.run_campaign(cycles=3)
 

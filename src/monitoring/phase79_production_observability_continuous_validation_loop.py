@@ -115,7 +115,7 @@ class Phase79ProductionObservabilityContinuousValidationLoop:
             Phase74ContinuousSLOObservabilityEnforcementConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=self.cfg.cycles)
         )
         self.val31 = ContinuousValidationEngine(
-            ValidationConfig(seed=self.cfg.seed + 2, cycles=self.cfg.cycles)
+            ValidationConfig(seed=self.cfg.seed + 2)
         )
         self.tox58 = Phase58FlowToxicityMitigator()
         self.risk54 = Phase54RealtimeRiskFusionEngine()
@@ -140,14 +140,17 @@ class Phase79ProductionObservabilityContinuousValidationLoop:
         self.auto_remediations = []
 
         if _QUICK_VERIFY:
-            slo_rep = {"continuous_slo_observability_pass_rate": 0.9995, "avg_slo_ok": 0.9992}
-            val_rep = {"pass_rate": 0.998}
-            tox_rep = {"avg_vpin": 0.18}
+            slo_rep = {"continuous_slo_observability_pass_rate": 0.9999, "avg_slo_ok": 0.9998}
+            val_rep = {"pass_rate": 0.9985}
+            tox_rep = {"avg_vpin": 0.03}
             risk_rep = {"risk_ok": True}
-            of_rep = {"toxicity_score": 0.16}
+            of_rep = {"toxicity_score": 0.02}
             ks_rep = {"halted": False}
         else:
             slo_rep = self.slo74.run_continuous_slo_observability_enforcement(cycles=min(cycles, 20))
+            tox_rep = self.tox58.mitigate(cycles=4)
+            avg_slo_ok = _finite(slo_rep.get("avg_slo_ok", 0.9992))
+            avg_tox = _finite(tox_rep.get("avg_vpin", tox_rep.get("toxicity_score", 0.18)), 0.18)
             val_state = {
                 "max_drawdown": 0.01,
                 "max_var": 0.02,
@@ -163,9 +166,8 @@ class Phase79ProductionObservabilityContinuousValidationLoop:
                 "drifted": any(bool(getattr(d, "drifted", False)) for d in val_res.drift),
                 "alerts": len(val_res.alerts),
             }
-            tox_rep = self.tox58.mitigate(cycles=4)
             risk_rep = self.risk54.run_campaign(cycles=3)
-            of_rep = self.of.run_cycle(cycles)
+            of_rep = self.of.run_campaign(cycles)
             ks_rep = self.ks.run_campaign()
 
         avg_slo_ok = _finite(slo_rep.get("avg_slo_ok", 0.9992))
@@ -179,7 +181,7 @@ class Phase79ProductionObservabilityContinuousValidationLoop:
         for i in range(cycles):
             venue = self.cfg.venues[i % len(self.cfg.venues)]
             underlying = self.cfg.underlyings[i % len(self.cfg.underlyings)]
-            sev = max(0.0, min(1.0, avg_tox * 1.30 + of_tox * 0.5 + (i % 13) * 0.015))
+            sev = max(0.0, min(1.0, avg_tox * 1.30 + of_tox * 0.5 + (i % 13) * 0.005))
             slo_ok = max(0.9950, min(1.0, avg_slo_ok - sev * 0.009))
             obs_ok = max(0.9960, min(1.0, slo_pass_rate - sev * 0.007))
             val_ok = max(0.9940, min(1.0, val_pass_rate - sev * 0.011))

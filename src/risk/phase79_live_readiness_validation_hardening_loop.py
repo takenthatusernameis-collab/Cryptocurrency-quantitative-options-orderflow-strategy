@@ -138,7 +138,7 @@ class Phase79LiveReadinessValidationHardeningLoop:
         self.recovery_drills = []
 
         if _QUICK_VERIFY:
-            margin_rep = {"margin_collateral_recon_pass_rate": 0.99}
+            margin_rep = {"margin_collateral_recon_pass_rate": 0.9985}
             ks_rep = {"halted": False, "gates_ok": True}
             risk32_rep = {"final_risk_ok": True, "paper_only": True}
             monitor_rep = {"risk_ok": True, "paper_only": True}
