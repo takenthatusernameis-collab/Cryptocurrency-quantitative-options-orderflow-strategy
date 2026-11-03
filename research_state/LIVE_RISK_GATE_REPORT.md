@@ -1,6 +1,6 @@
 # LIVE_RISK_GATE_REPORT
 
-- Timestamp: 2026-11-02T22:53:52.799832Z
+- Timestamp: 2026-11-02T23:11:23.401175Z
 - Seed: 42
-- Git SHA: 05b754363b50c7ffd868c16e02b466c27caaa3a3
+- Git SHA: 1eb549ca531d7a8ffb9d88dc0c4f7865a21da7d3
 - Symbols: ['BTC', 'ETH']
