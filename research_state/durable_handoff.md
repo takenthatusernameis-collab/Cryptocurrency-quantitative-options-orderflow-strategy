@@ -119,3 +119,31 @@ Status: Phase 67 COMPLETE (implemented). Deliverables shipped:
 - src/integration/phase67_autonomous_production_resilience_enforcement_loop.py
 Tests: tests/test_phase67_execution_alpha_resilience_stress_engine.py, tests/test_phase67_adaptive_toxicity_resilient_recovery_orchestrator.py, tests/test_phase67_autonomous_production_resilience_enforcement_loop.py
 Composes Phases 17-66. PAPER-ONLY enforced. Deterministic artifacts. Gate re-verified; all prior tests intact. Bottlenecks removed. Next: initialize Phase 68 per spec (resilience/containment/attribution reinforcement) or follow durable_handoff rules.
+
+## NEXT CAMPAIGN: PHASE 68 — CROSS-VENUE OPTIONS EXECUTION CONTAINMENT, ATTRIBUTION REINFORCEMENT & AUTONOMOUS PRODUCTION HARDENING (CRYPTO OPTIONS + ORDERFLOW FOCUS)
+Timestamp (UTC): 2026-11-03T01:39:41Z
+Status: START IMMEDIATELY (GATE MUST REMAIN GREEN). HEAVY QUANT IMPLEMENTATION ONLY - NO SCAFFOLDING, NO PLANS.
+
+### REQUIRED DELIVERABLES (SHIP ALL, NO PARTIALS) — PHASE 68
+**Core modules (src/):**
+- `src/alpha/phase68_execution_alpha_containment_attribution_engine.py` — Execution alpha containment & attribution: containment policies, anomaly attribution scoring, recovery verification, deterministic; PAPER-ONLY. Compose Phases 17-67.
+- `src/hedging/phase68_adaptive_toxicity_resilient_containment_orchestrator.py` — Adaptive toxicity-resilient containment orchestrator: venue failover containment, capital quarantine on anomaly, hedging containment guardrails, deterministic; PAPER-ONLY. Compose Phases 17-67.
+- `src/integration/phase68_autonomous_production_hardening_enforcement_loop.py` — Autonomous production hardening enforcement: containment checks, auto-contain/rollback on breach, attestation, artifacts; composes Phases 17-67. PAPER-ONLY enforced.
+
+**Tests (tests/):**
+- `tests/test_phase68_execution_alpha_containment_attribution_engine.py`
+- `tests/test_phase68_adaptive_toxicity_resilient_containment_orchestrator.py`
+- `tests/test_phase68_autonomous_production_hardening_enforcement_loop.py`
+
+### ACCEPTANCE CRITERIA — PHASE 68
+- All deliverables implemented/wired, tests added.
+- Gate GREEN: `PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python -m pytest tests/ -q` passes.
+- No placeholders/TODOs/FIXMEs/HACKs/XXX.
+- PAPER-ONLY enforced; live paths hard-gated + tested.
+- Deterministic JSON/MD artifacts under research_state.
+- research_state/durable_handoff.md updated before ending.
+
+## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
+Timestamp (UTC): 2026-11-03T01:39:41Z
+
+INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. PHASE 67 COMPLETE. SHIP PHASE 68 END-TO-END IMMEDIATELY. NO SCAFFOLDING. HEAVY QUANT IMPLEMENTATION ONLY. Phases 1-67 are COMPLETE. Do NOT redo completed phases; build heavy integration across options/Greeks/IV, orderflow microstructure/toxicity, SOR/routing/fragmentation, hedging/MM, risk/margin/collateral, execution/resilience. No placeholders/TODOs/FIXMEs/HACKs/XXX. EVERY SESSION MUST SHIP TANGIBLE FILE CHANGES (src/tests/scripts/artifacts). IF NO CODE WRITTEN -> YOU HAVE NOT DONE THE JOB. The repo name is Cryptocurrency-quantitative-options-orderflow-strategy, so crypto options + orderflow is the domain; every task must serve it. Build production-grade code that composes with existing Phases 17-67. Do not stop until all Phase 68 deliverables are complete and gate is GREEN. If you encounter any blocking issue (missing wiring/integration/interface gaps), FIX IT NOW by implementing production-grade glue - NO PLANS, NO ROADMAPS, NO DESIGN DOCS. Treat integration gaps as REQUIRED IMPLEMENTATION WORK.
