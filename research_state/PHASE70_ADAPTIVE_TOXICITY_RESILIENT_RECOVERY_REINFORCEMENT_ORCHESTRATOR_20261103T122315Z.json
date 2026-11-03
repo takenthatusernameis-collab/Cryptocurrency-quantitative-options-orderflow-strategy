@@ -1,0 +1,263 @@
+{
+  "report": {
+    "phase": "PHASE70_ADAPTIVE_TOXICITY_RESILIENT_RECOVERY_REINFORCEMENT_ORCHESTRATOR",
+    "timestamp": "2026-11-03T12:23:15.525117Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7071,
+    "cycles": 40,
+    "n_recovery_failovers": 6,
+    "n_capital_reinforcements": 5,
+    "n_hedging_reinforcements": 8,
+    "n_recovery_reinforce_attestations": 7,
+    "avg_failover_ok": 0.99547776,
+    "recovery_reinforce_pass_rate": 0.125,
+    "composes": [
+      "PHASE69",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "recovery_failovers": [
+    {
+      "frf_id": "p70hedge_frf_40ff36ca2a9c",
+      "cycle": 0,
+      "venue": "deribit",
+      "failover_ok": 0.9974376,
+      "mode": "cross_venue_failover_recovery",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523096Z"
+    },
+    {
+      "frf_id": "p70hedge_frf_8dd0e8910296",
+      "cycle": 7,
+      "venue": "binance",
+      "failover_ok": 0.99520824,
+      "mode": "cross_venue_failover_recovery",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523480Z"
+    },
+    {
+      "frf_id": "p70hedge_frf_703d37ace319",
+      "cycle": 14,
+      "venue": "bybit",
+      "failover_ok": 0.99516288,
+      "mode": "cross_venue_failover_recovery",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523796Z"
+    },
+    {
+      "frf_id": "p70hedge_frf_9603fd1de334",
+      "cycle": 21,
+      "venue": "okx",
+      "failover_ok": 0.99579264,
+      "mode": "cross_venue_failover_recovery",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524208Z"
+    },
+    {
+      "frf_id": "p70hedge_frf_f5b278ae3482",
+      "cycle": 28,
+      "venue": "deribit",
+      "failover_ok": 0.99574728,
+      "mode": "cross_venue_failover_recovery",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524507Z"
+    },
+    {
+      "frf_id": "p70hedge_frf_77b86bd653c9",
+      "cycle": 35,
+      "venue": "binance",
+      "failover_ok": 0.99351792,
+      "mode": "cross_venue_failover_recovery",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524804Z"
+    }
+  ],
+  "capital_reinforcements": [
+    {
+      "cre_id": "p70hedge_cre_238d8defd412",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.52368,
+      "action": "capital_reinforce_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523647Z"
+    },
+    {
+      "cre_id": "p70hedge_cre_003c143c8b94",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.50092,
+      "action": "capital_reinforce_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523988Z"
+    },
+    {
+      "cre_id": "p70hedge_cre_35fe9c4edc3c",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.4219,
+      "action": "capital_reinforce_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524289Z"
+    },
+    {
+      "cre_id": "p70hedge_cre_efe954172789",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.39914,
+      "action": "capital_reinforce_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524586Z"
+    },
+    {
+      "cre_id": "p70hedge_cre_3fafc25bc368",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.55838,
+      "action": "capital_reinforce_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524977Z"
+    }
+  ],
+  "hedging_reinforcements": [
+    {
+      "hre_id": "p70hedge_hre_1cc826f3c961",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.9976428,
+      "reinforced": true,
+      "orch_reinforce_throttle_factor": 1.0,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523187Z"
+    },
+    {
+      "hre_id": "p70hedge_hre_93654558eabe",
+      "cycle": 5,
+      "venue": "okx",
+      "hedge_ok": 0.9961831,
+      "reinforced": false,
+      "orch_reinforce_throttle_factor": 0.2401,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523338Z"
+    },
+    {
+      "hre_id": "p70hedge_hre_fd2b4d7c1586",
+      "cycle": 10,
+      "venue": "bybit",
+      "hedge_ok": 0.9947234,
+      "reinforced": false,
+      "orch_reinforce_throttle_factor": 0.165669,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523564Z"
+    },
+    {
+      "hre_id": "p70hedge_hre_301befc137d2",
+      "cycle": 15,
+      "venue": "binance",
+      "hedge_ok": 0.9952657,
+      "reinforced": false,
+      "orch_reinforce_throttle_factor": 0.165669,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523900Z"
+    },
+    {
+      "hre_id": "p70hedge_hre_1b3b1f8053c8",
+      "cycle": 20,
+      "venue": "deribit",
+      "hedge_ok": 0.99642686,
+      "reinforced": false,
+      "orch_reinforce_throttle_factor": 0.2401,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524129Z"
+    },
+    {
+      "hre_id": "p70hedge_hre_6f2c4f8ba2cf",
+      "cycle": 25,
+      "venue": "okx",
+      "hedge_ok": 0.99496716,
+      "reinforced": false,
+      "orch_reinforce_throttle_factor": 0.165669,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524425Z"
+    },
+    {
+      "hre_id": "p70hedge_hre_2271e53edb6e",
+      "cycle": 30,
+      "venue": "bybit",
+      "hedge_ok": 0.99550946,
+      "reinforced": false,
+      "orch_reinforce_throttle_factor": 0.2401,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524667Z"
+    },
+    {
+      "hre_id": "p70hedge_hre_6d4fdac551ac",
+      "cycle": 35,
+      "venue": "binance",
+      "hedge_ok": 0.9945,
+      "reinforced": false,
+      "orch_reinforce_throttle_factor": 0.165669,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524899Z"
+    }
+  ],
+  "recovery_reinforce_attestations": [
+    {
+      "rra_id": "p70hedge_rra_4d64737e046e",
+      "cycle": 0,
+      "reinforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523267Z"
+    },
+    {
+      "rra_id": "p70hedge_rra_d2d251a58580",
+      "cycle": 6,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523421Z"
+    },
+    {
+      "rra_id": "p70hedge_rra_c35cee1ea956",
+      "cycle": 12,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.523729Z"
+    },
+    {
+      "rra_id": "p70hedge_rra_8d5f146692f9",
+      "cycle": 18,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524070Z"
+    },
+    {
+      "rra_id": "p70hedge_rra_d6f7b92e2e25",
+      "cycle": 24,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524370Z"
+    },
+    {
+      "rra_id": "p70hedge_rra_1df3cf9a8b18",
+      "cycle": 30,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.524738Z"
+    },
+    {
+      "rra_id": "p70hedge_rra_e764609f8aca",
+      "cycle": 36,
+      "reinforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:23:15.525057Z"
+    }
+  ]
+}
