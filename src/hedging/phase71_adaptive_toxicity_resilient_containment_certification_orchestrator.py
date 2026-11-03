@@ -7,14 +7,14 @@ from math import isfinite
 from pathlib import Path
 from typing import Any, Dict, List
 
-from src.execution.kill_switches_circuit_breakers import KillSwitchConfig39, Phase39KillSwitchesCircuitBreakers
+from src.risk.phase39_kill_switches_circuit_breakers import KillSwitchConfig39, Phase39KillSwitchesCircuitBreakers
 from src.hedging.phase70_adaptive_toxicity_resilient_recovery_reinforcement_orchestrator import (
     Phase70AdaptiveToxicityResilientRecoveryReinforcementConfig,
     Phase70AdaptiveToxicityResilientRecoveryReinforcementOrchestrator,
 )
-from src.orderflow.orderflow_alpha_integration import OrderflowAlphaIntegrationConfig32, OrderflowAlphaIntegrator
+from src.orderflow.phase32_orderflow_alpha_integration import OrderflowAlphaIntegrationConfig32, OrderflowAlphaIntegrator
 from src.risk.phase54_realtime_risk_fusion_engine import Phase54RealtimeRiskFusionEngine
-from src.risk.phase58_flow_toxicity_mitigator import Phase58FlowToxicityMitigator
+from src.orderflow.phase58_flow_toxicity_mitigator import Phase58FlowToxicityMitigator
 
 
 def _utc_now() -> str:

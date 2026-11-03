@@ -11,10 +11,10 @@ from src.alpha.phase70_execution_alpha_autonomous_recovery_engine import (
     Phase70ExecutionAlphaAutonomousRecoveryConfig,
     Phase70ExecutionAlphaAutonomousRecoveryEngine,
 )
-from src.execution.kill_switches_circuit_breakers import KillSwitchConfig39, Phase39KillSwitchesCircuitBreakers
-from src.orderflow.orderflow_alpha_integration import OrderflowAlphaIntegrationConfig32, OrderflowAlphaIntegrator
+from src.risk.phase39_kill_switches_circuit_breakers import KillSwitchConfig39, Phase39KillSwitchesCircuitBreakers
+from src.orderflow.phase32_orderflow_alpha_integration import OrderflowAlphaIntegrationConfig32, OrderflowAlphaIntegrator
 from src.risk.phase54_realtime_risk_fusion_engine import Phase54RealtimeRiskFusionEngine
-from src.risk.phase58_flow_toxicity_mitigator import Phase58FlowToxicityMitigator
+from src.orderflow.phase58_flow_toxicity_mitigator import Phase58FlowToxicityMitigator
 
 
 def _utc_now() -> str:

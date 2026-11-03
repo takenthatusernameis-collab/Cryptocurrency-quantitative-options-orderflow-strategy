@@ -15,7 +15,7 @@ from src.alpha.phase71_execution_alpha_containment_attestation_engine import (
     Phase71ExecutionAlphaContainmentAttestationConfig,
     Phase71ExecutionAlphaContainmentAttestationEngine,
 )
-from src.execution.kill_switches_circuit_breakers import KillSwitchConfig39, Phase39KillSwitchesCircuitBreakers
+from src.risk.phase39_kill_switches_circuit_breakers import KillSwitchConfig39, Phase39KillSwitchesCircuitBreakers
 from src.hedging.phase70_adaptive_toxicity_resilient_recovery_reinforcement_orchestrator import (
     Phase70AdaptiveToxicityResilientRecoveryReinforcementConfig,
     Phase70AdaptiveToxicityResilientRecoveryReinforcementOrchestrator,
@@ -24,9 +24,9 @@ from src.hedging.phase71_adaptive_toxicity_resilient_containment_certification_o
     Phase71AdaptiveToxicityResilientContainmentCertificationConfig,
     Phase71AdaptiveToxicityResilientContainmentCertificationOrchestrator,
 )
-from src.orderflow.orderflow_alpha_integration import OrderflowAlphaIntegrationConfig32, OrderflowAlphaIntegrator
+from src.orderflow.phase32_orderflow_alpha_integration import OrderflowAlphaIntegrationConfig32, OrderflowAlphaIntegrator
 from src.risk.phase54_realtime_risk_fusion_engine import Phase54RealtimeRiskFusionEngine
-from src.risk.phase58_flow_toxicity_mitigator import Phase58FlowToxicityMitigator
+from src.orderflow.phase58_flow_toxicity_mitigator import Phase58FlowToxicityMitigator
 
 
 def _utc_now() -> str:
