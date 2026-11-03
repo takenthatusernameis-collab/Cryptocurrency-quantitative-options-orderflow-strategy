@@ -1,0 +1,516 @@
+{
+  "phase": "PHASE83_AUTONOMOUS_CROSS_VENUE_CAPITAL_EFFICIENCY_LIQUIDITY_PROVISIONING_COLLATERAL_OPTIMIZATION_LOOP",
+  "paper_only": true,
+  "seed": 83011,
+  "cycles": 40,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "ok": true,
+  "gates": {
+    "capital_efficiency_target_met": true,
+    "liquidity_provisioning_ok": true,
+    "collateral_optimization_ok": true,
+    "margin_collateral_reconciliation_ok": true,
+    "risk_fusion_ok": true,
+    "kill_switch_ok": true,
+    "auto_de_risk_on_breach": true
+  },
+  "metrics": {
+    "capital_efficiency_checks": 8,
+    "liquidity_provisioning_checks": 7,
+    "collateral_optimization_checks": 7,
+    "margin_reconciliations": 6,
+    "risk_fusions": 5,
+    "de_risk_events": 40
+  },
+  "components": {
+    "phase30_capital_allocator": {
+      "allocations": 6,
+      "utilization_pct": 72.0
+    },
+    "phase20_capital_allocator": {
+      "valid": true,
+      "violations": []
+    },
+    "phase53_fragmentation_arb": {
+      "gates_ok": true,
+      "n_opps": 4,
+      "avg_basis_bps": 5.2
+    },
+    "phase72_margin_collateral": {
+      "margin_collateral_ok": true
+    },
+    "phase54_risk_fusion": {
+      "risk_ok": true
+    },
+    "phase39_kill_switch": {
+      "halted": false
+    }
+  },
+  "capital_efficiency": [
+    {
+      "id": "p83c_ce_a94bee94d3ed",
+      "cycle": 0,
+      "regime": "trend",
+      "capital_efficiency": 0.93,
+      "target": 0.78,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:36:25.554813Z"
+    },
+    {
+      "id": "p83c_ce_8e23b1f4aebd",
+      "cycle": 5,
+      "regime": "ranging",
+      "capital_efficiency": 0.85,
+      "target": 0.78,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:36:25.554881Z"
+    },
+    {
+      "id": "p83c_ce_17235bddca32",
+      "cycle": 10,
+      "regime": "ranging",
+      "capital_efficiency": 0.85,
+      "target": 0.78,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:36:25.554929Z"
+    },
+    {
+      "id": "p83c_ce_8a53fc2f1e6b",
+      "cycle": 15,
+      "regime": "ranging",
+      "capital_efficiency": 0.85,
+      "target": 0.78,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:36:25.554972Z"
+    },
+    {
+      "id": "p83c_ce_90e2e2063737",
+      "cycle": 20,
+      "regime": "ranging",
+      "capital_efficiency": 0.85,
+      "target": 0.78,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:36:25.555033Z"
+    },
+    {
+      "id": "p83c_ce_e39b2f7a08b9",
+      "cycle": 25,
+      "regime": "ranging",
+      "capital_efficiency": 0.85,
+      "target": 0.78,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:36:25.555076Z"
+    },
+    {
+      "id": "p83c_ce_375899182e58",
+      "cycle": 30,
+      "regime": "ranging",
+      "capital_efficiency": 0.85,
+      "target": 0.78,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:36:25.555107Z"
+    },
+    {
+      "id": "p83c_ce_38d25d9a02ce",
+      "cycle": 35,
+      "regime": "trend",
+      "capital_efficiency": 0.93,
+      "target": 0.78,
+      "ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:36:25.555143Z"
+    }
+  ],
+  "liquidity_provisioning": [
+    {
+      "id": "p83c_liq_551b4b63e92d",
+      "cycle": 0,
+      "regime": "trend",
+      "liquidity_score": 0.65,
+      "min_score": 0.5,
+      "provision_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-03T23:36:25.554826Z"
+    },
+    {
+      "id": "p83c_liq_83aa149de0aa",
+      "cycle": 6,
+      "regime": "ranging",
+      "liquidity_score": 0.77,
+      "min_score": 0.5,
+      "provision_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-03T23:36:25.554891Z"
+    },
+    {
+      "id": "p83c_liq_d89fcbdaeb37",
+      "cycle": 12,
+      "regime": "ranging",
+      "liquidity_score": 0.75,
+      "min_score": 0.5,
+      "provision_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-03T23:36:25.554945Z"
+    },
+    {
+      "id": "p83c_liq_ac9be13c13a5",
+      "cycle": 18,
+      "regime": "ranging",
+      "liquidity_score": 0.73,
+      "min_score": 0.5,
+      "provision_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-03T23:36:25.554996Z"
+    },
+    {
+      "id": "p83c_liq_99fe9d3f71cc",
+      "cycle": 24,
+      "regime": "ranging",
+      "liquidity_score": 0.71,
+      "min_score": 0.5,
+      "provision_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-03T23:36:25.555056Z"
+    },
+    {
+      "id": "p83c_liq_d89b93012848",
+      "cycle": 30,
+      "regime": "ranging",
+      "liquidity_score": 0.69,
+      "min_score": 0.5,
+      "provision_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-03T23:36:25.555111Z"
+    },
+    {
+      "id": "p83c_liq_546857b85fc1",
+      "cycle": 36,
+      "regime": "ranging",
+      "liquidity_score": 0.67,
+      "min_score": 0.5,
+      "provision_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-03T23:36:25.555157Z"
+    }
+  ],
+  "collateral_optimization": [
+    {
+      "id": "p83c_col_19f91c2db8c3",
+      "cycle": 0,
+      "regime": "trend",
+      "collateral_coverage": 1.3,
+      "min_coverage": 1.1,
+      "cross_margin_ok": true,
+      "optimization_ok": true,
+      "ts": "2026-11-03T23:36:25.554834Z"
+    },
+    {
+      "id": "p83c_col_6ac6ecadfd56",
+      "cycle": 6,
+      "regime": "ranging",
+      "collateral_coverage": 1.31,
+      "min_coverage": 1.1,
+      "cross_margin_ok": true,
+      "optimization_ok": true,
+      "ts": "2026-11-03T23:36:25.554896Z"
+    },
+    {
+      "id": "p83c_col_5df44a36f271",
+      "cycle": 12,
+      "regime": "ranging",
+      "collateral_coverage": 1.3,
+      "min_coverage": 1.1,
+      "cross_margin_ok": true,
+      "optimization_ok": true,
+      "ts": "2026-11-03T23:36:25.554950Z"
+    },
+    {
+      "id": "p83c_col_3af425fd4cdc",
+      "cycle": 18,
+      "regime": "ranging",
+      "collateral_coverage": 1.31,
+      "min_coverage": 1.1,
+      "cross_margin_ok": true,
+      "optimization_ok": true,
+      "ts": "2026-11-03T23:36:25.555000Z"
+    },
+    {
+      "id": "p83c_col_b5d39fc5b500",
+      "cycle": 24,
+      "regime": "ranging",
+      "collateral_coverage": 1.3,
+      "min_coverage": 1.1,
+      "cross_margin_ok": true,
+      "optimization_ok": true,
+      "ts": "2026-11-03T23:36:25.555061Z"
+    },
+    {
+      "id": "p83c_col_3ff7972c1d29",
+      "cycle": 30,
+      "regime": "ranging",
+      "collateral_coverage": 1.31,
+      "min_coverage": 1.1,
+      "cross_margin_ok": true,
+      "optimization_ok": true,
+      "ts": "2026-11-03T23:36:25.555116Z"
+    },
+    {
+      "id": "p83c_col_bb21776bd4db",
+      "cycle": 36,
+      "regime": "ranging",
+      "collateral_coverage": 1.3,
+      "min_coverage": 1.1,
+      "cross_margin_ok": true,
+      "optimization_ok": true,
+      "ts": "2026-11-03T23:36:25.555164Z"
+    }
+  ],
+  "margin_reconciliations": [
+    {
+      "id": "p83c_mc_f5193d76fbed",
+      "cycle": 0,
+      "regime": "trend",
+      "margin_collateral_ok": true,
+      "reconciled": true,
+      "ts": "2026-11-03T23:36:25.554840Z"
+    },
+    {
+      "id": "p83c_mc_d6811a870c7c",
+      "cycle": 7,
+      "regime": "trend",
+      "margin_collateral_ok": true,
+      "reconciled": true,
+      "ts": "2026-11-03T23:36:25.554905Z"
+    },
+    {
+      "id": "p83c_mc_e63decf63d2f",
+      "cycle": 14,
+      "regime": "trend",
+      "margin_collateral_ok": true,
+      "reconciled": true,
+      "ts": "2026-11-03T23:36:25.554961Z"
+    },
+    {
+      "id": "p83c_mc_7d58844960b1",
+      "cycle": 21,
+      "regime": "trend",
+      "margin_collateral_ok": true,
+      "reconciled": true,
+      "ts": "2026-11-03T23:36:25.555041Z"
+    },
+    {
+      "id": "p83c_mc_b9a5b7a6f003",
+      "cycle": 28,
+      "regime": "trend",
+      "margin_collateral_ok": true,
+      "reconciled": true,
+      "ts": "2026-11-03T23:36:25.555095Z"
+    },
+    {
+      "id": "p83c_mc_79c7b994017c",
+      "cycle": 35,
+      "regime": "trend",
+      "margin_collateral_ok": true,
+      "reconciled": true,
+      "ts": "2026-11-03T23:36:25.555146Z"
+    }
+  ],
+  "risk_fusions": [
+    {
+      "id": "p83c_rf_e72fdff6bc39",
+      "cycle": 0,
+      "regime": "trend",
+      "risk_ok": true,
+      "fused": true,
+      "ts": "2026-11-03T23:36:25.554844Z"
+    },
+    {
+      "id": "p83c_rf_e48a3fa97039",
+      "cycle": 8,
+      "regime": "ranging",
+      "risk_ok": true,
+      "fused": true,
+      "ts": "2026-11-03T23:36:25.554916Z"
+    },
+    {
+      "id": "p83c_rf_8dbbfde8cd00",
+      "cycle": 16,
+      "regime": "ranging",
+      "risk_ok": true,
+      "fused": true,
+      "ts": "2026-11-03T23:36:25.554981Z"
+    },
+    {
+      "id": "p83c_rf_ba907ff82a54",
+      "cycle": 24,
+      "regime": "ranging",
+      "risk_ok": true,
+      "fused": true,
+      "ts": "2026-11-03T23:36:25.555065Z"
+    },
+    {
+      "id": "p83c_rf_b8704f1bde4a",
+      "cycle": 32,
+      "regime": "ranging",
+      "risk_ok": true,
+      "fused": true,
+      "ts": "2026-11-03T23:36:25.555127Z"
+    }
+  ],
+  "de_risk_events": [
+    {
+      "id": "p83c_der_aad75a728a1b",
+      "cycle": 28,
+      "regime": "trend",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555098Z"
+    },
+    {
+      "id": "p83c_der_49c5f948372d",
+      "cycle": 29,
+      "regime": "ranging",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555102Z"
+    },
+    {
+      "id": "p83c_der_768ed91a58b4",
+      "cycle": 30,
+      "regime": "ranging",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555119Z"
+    },
+    {
+      "id": "p83c_der_4f7ed993f134",
+      "cycle": 31,
+      "regime": "ranging",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555123Z"
+    },
+    {
+      "id": "p83c_der_4ea3fb24c89a",
+      "cycle": 32,
+      "regime": "ranging",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555130Z"
+    },
+    {
+      "id": "p83c_der_69257b9b0d57",
+      "cycle": 33,
+      "regime": "ranging",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555134Z"
+    },
+    {
+      "id": "p83c_der_e4dee631318f",
+      "cycle": 34,
+      "regime": "ranging",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555138Z"
+    },
+    {
+      "id": "p83c_der_c8abca010a43",
+      "cycle": 35,
+      "regime": "trend",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555150Z"
+    },
+    {
+      "id": "p83c_der_dd071017fd3f",
+      "cycle": 36,
+      "regime": "ranging",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555167Z"
+    },
+    {
+      "id": "p83c_der_b175dcc5cea5",
+      "cycle": 37,
+      "regime": "ranging",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555171Z"
+    },
+    {
+      "id": "p83c_der_c37118d6b69e",
+      "cycle": 38,
+      "regime": "ranging",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555175Z"
+    },
+    {
+      "id": "p83c_der_1b4096eb0217",
+      "cycle": 39,
+      "regime": "shock",
+      "action": "auto_de_risk_capital_liquidity_collateral_breach",
+      "attested": true,
+      "ts": "2026-11-03T23:36:25.555178Z"
+    }
+  ],
+  "ts": "2026-11-03T23:36:25.555197Z"
+}

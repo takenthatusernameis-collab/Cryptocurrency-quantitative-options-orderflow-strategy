@@ -1,0 +1,279 @@
+{
+  "phase": "PHASE82_LIVE_EXIT_KILL_SWITCH_EVIDENCE_INTEGRITY_HARDENING_LOOP",
+  "paper_only": true,
+  "seed": 82039,
+  "cycles": 50,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "ok": true,
+  "gates": {
+    "evidence_chain_ok": true,
+    "attestation_quorum_ok": true,
+    "tamper_evident_ok": true,
+    "manual_reset_enforced": true,
+    "live_exit_hard_gated_paper_only": true,
+    "trigger_provenance_attested": true
+  },
+  "metrics": {
+    "kill_events": 0,
+    "evidence_chain_len": 9,
+    "attestations": 8,
+    "recoveries": 0,
+    "tamper_checks": 6,
+    "exit_events": 0,
+    "chain_head": "adeedd70c68c40d9"
+  },
+  "components": {
+    "phase39_kill_switch": {
+      "halted": false,
+      "triggers": []
+    },
+    "phase54_risk_fusion": {
+      "risk_ok": true
+    },
+    "phase44_governance": {
+      "governance_ok": true
+    },
+    "phase46_stress": {
+      "adversarial_ok": true
+    },
+    "phase59_execution_hardening": {
+      "gates_ok": true
+    }
+  },
+  "evidence_chain": [
+    {
+      "id": "p82k_ev_ebd1130a19aa",
+      "cycle": 0,
+      "regime": "trend",
+      "ev_hash": "a960796f06228d7c46e06165d813bd1221e1d0518e6840b56e425c6bdc07974d",
+      "prev_hash": "aeebad4a796fcc2e15dc4c6061b45ed9b373f26adfc798ca7d2d8cc58182718e",
+      "chain_head": "061e28e0aab28165266286ed3cda629df1cf3f47f595c264f279f0d4d893bbdc",
+      "signed": true,
+      "ts": "2026-11-03T23:32:06.618113Z"
+    },
+    {
+      "id": "p82k_ev_7cf3e60f6a70",
+      "cycle": 6,
+      "regime": "ranging",
+      "ev_hash": "2c9bdc4383bd1b089df498b92405dc324d0294ba92a75226b22e76635959f852",
+      "prev_hash": "061e28e0aab28165266286ed3cda629df1cf3f47f595c264f279f0d4d893bbdc",
+      "chain_head": "75b5058c99bbb0a6da3f3fd1b3c684c7f6d2b546c954e50f5be6bbc03839fd21",
+      "signed": true,
+      "ts": "2026-11-03T23:32:06.618148Z"
+    },
+    {
+      "id": "p82k_ev_2e8f6aae135e",
+      "cycle": 12,
+      "regime": "ranging",
+      "ev_hash": "8653d12a813aa46601e34a860b79a7f2996133c51c5787c1c65eef38d743b836",
+      "prev_hash": "75b5058c99bbb0a6da3f3fd1b3c684c7f6d2b546c954e50f5be6bbc03839fd21",
+      "chain_head": "5adf3a3a42871aeda82dc2859d7cb0e1b935d1c9dafd635aca7e0e70c3c305bf",
+      "signed": true,
+      "ts": "2026-11-03T23:32:06.618173Z"
+    },
+    {
+      "id": "p82k_ev_97c2ef4ef689",
+      "cycle": 18,
+      "regime": "ranging",
+      "ev_hash": "a20900983a4d70386547f0e81521974febcbf2d07f162661a8b1f162ac2854cf",
+      "prev_hash": "5adf3a3a42871aeda82dc2859d7cb0e1b935d1c9dafd635aca7e0e70c3c305bf",
+      "chain_head": "9e5425f60e3e375267ad3abeb878c1a7c66c95a1f4bb535a6aa887776987e650",
+      "signed": true,
+      "ts": "2026-11-03T23:32:06.618190Z"
+    },
+    {
+      "id": "p82k_ev_9d58ecb69749",
+      "cycle": 24,
+      "regime": "ranging",
+      "ev_hash": "a16c368444573c7152f12b1bd16637127f81e36b11835972a6be06fe0df41ebe",
+      "prev_hash": "9e5425f60e3e375267ad3abeb878c1a7c66c95a1f4bb535a6aa887776987e650",
+      "chain_head": "4d39de772f101dd222847d62cfde91562652515b6708627bcf4d97e601e341d9",
+      "signed": true,
+      "ts": "2026-11-03T23:32:06.618211Z"
+    },
+    {
+      "id": "p82k_ev_e1bbbf21f9e0",
+      "cycle": 30,
+      "regime": "ranging",
+      "ev_hash": "16281ff94c90ca97791125003c0643a5ff1f8d3e0418402d64c22b175af8613a",
+      "prev_hash": "4d39de772f101dd222847d62cfde91562652515b6708627bcf4d97e601e341d9",
+      "chain_head": "a849dbec290e775d942df75739e133ca5cd8782f0f00746629215b5dc4b505d9",
+      "signed": true,
+      "ts": "2026-11-03T23:32:06.618231Z"
+    },
+    {
+      "id": "p82k_ev_43431f82b80d",
+      "cycle": 36,
+      "regime": "ranging",
+      "ev_hash": "9d1c5c9e8dd1e65b7a11cfc74ece351a096b1b4318f10319c3d7719f444ab75e",
+      "prev_hash": "a849dbec290e775d942df75739e133ca5cd8782f0f00746629215b5dc4b505d9",
+      "chain_head": "2168fa909ad3300ebf8edada099fd3ccc38f4c014ab1b4cdaf0ce5071e354eff",
+      "signed": true,
+      "ts": "2026-11-03T23:32:06.618246Z"
+    },
+    {
+      "id": "p82k_ev_76606950f95e",
+      "cycle": 42,
+      "regime": "trend",
+      "ev_hash": "f39567adfae68f479901bfa0243d75e6d0a494da41898f087f1a89580768aafd",
+      "prev_hash": "2168fa909ad3300ebf8edada099fd3ccc38f4c014ab1b4cdaf0ce5071e354eff",
+      "chain_head": "28580c38256e505ad5804a4a0b85074e84aec610f588d7532fcd634bc2ed0e50",
+      "signed": true,
+      "ts": "2026-11-03T23:32:06.618261Z"
+    },
+    {
+      "id": "p82k_ev_c5cfb275ad6b",
+      "cycle": 48,
+      "regime": "ranging",
+      "ev_hash": "a959072cd2edb59fdf459a6c451af75162ba833f46f2d19dd1f7c7cfe3df50e8",
+      "prev_hash": "28580c38256e505ad5804a4a0b85074e84aec610f588d7532fcd634bc2ed0e50",
+      "chain_head": "adeedd70c68c40d9972cb03620b5ca0c45763bffad384e5abf66146e48319f3f",
+      "signed": true,
+      "ts": "2026-11-03T23:32:06.618280Z"
+    }
+  ],
+  "attestations": [
+    {
+      "id": "p82k_att_abce955f74fb",
+      "cycle": 0,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:32:06.618123Z"
+    },
+    {
+      "id": "p82k_att_d852f630083a",
+      "cycle": 7,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:32:06.618154Z"
+    },
+    {
+      "id": "p82k_att_7d224788a74f",
+      "cycle": 14,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:32:06.618178Z"
+    },
+    {
+      "id": "p82k_att_3d42609441b5",
+      "cycle": 21,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:32:06.618199Z"
+    },
+    {
+      "id": "p82k_att_f2c3f87ddb46",
+      "cycle": 28,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:32:06.618220Z"
+    },
+    {
+      "id": "p82k_att_85ab7c3f5787",
+      "cycle": 35,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:32:06.618236Z"
+    },
+    {
+      "id": "p82k_att_93885cc7c783",
+      "cycle": 42,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:32:06.618265Z"
+    },
+    {
+      "id": "p82k_att_c5f806e09a14",
+      "cycle": 49,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:32:06.618284Z"
+    }
+  ],
+  "tamper_checks": [
+    {
+      "id": "p82k_tamp_6622797f7b0a",
+      "cycle": 0,
+      "regime": "trend",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:32:06.618129Z"
+    },
+    {
+      "id": "p82k_tamp_0abdfdba70f4",
+      "cycle": 9,
+      "regime": "ranging",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:32:06.618160Z"
+    },
+    {
+      "id": "p82k_tamp_346ed2821b50",
+      "cycle": 18,
+      "regime": "ranging",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:32:06.618195Z"
+    },
+    {
+      "id": "p82k_tamp_93af35b1a8c4",
+      "cycle": 27,
+      "regime": "ranging",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:32:06.618216Z"
+    },
+    {
+      "id": "p82k_tamp_d32a6c8cbf8e",
+      "cycle": 36,
+      "regime": "ranging",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:32:06.618250Z"
+    },
+    {
+      "id": "p82k_tamp_94feae0075e9",
+      "cycle": 45,
+      "regime": "ranging",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:32:06.618270Z"
+    }
+  ],
+  "kill_events": [],
+  "exit_events": [],
+  "recoveries": [],
+  "ts": "2026-11-03T23:32:06.618300Z"
+}

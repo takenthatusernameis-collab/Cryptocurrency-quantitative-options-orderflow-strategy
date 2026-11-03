@@ -1,0 +1,311 @@
+{
+  "phase": "PHASE83_LIVE_EXIT_KILL_SWITCH_EVIDENCE_INTEGRITY_CROSS_VENUE_LOOP",
+  "paper_only": true,
+  "seed": 83039,
+  "cycles": 40,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "ok": true,
+  "gates": {
+    "evidence_chain_ok": true,
+    "attestation_quorum_ok": true,
+    "tamper_evident_ok": true,
+    "manual_reset_enforced": true,
+    "live_exit_hard_gated_paper_only": true,
+    "trigger_provenance_attested": true,
+    "cross_venue_kill_switch_ok": true
+  },
+  "metrics": {
+    "kill_events": 0,
+    "evidence_chain_len": 7,
+    "attestations": 6,
+    "recoveries": 0,
+    "tamper_checks": 5,
+    "exit_events": 0,
+    "chain_head": "2168fa909ad3300e"
+  },
+  "components": {
+    "phase39_kill_switch": {
+      "halted": false,
+      "triggers": []
+    },
+    "phase54_risk_fusion": {
+      "risk_ok": true
+    },
+    "phase44_governance": {
+      "governance_ok": true
+    },
+    "phase46_stress": {
+      "adversarial_ok": true
+    },
+    "phase59_execution_hardening": {
+      "gates_ok": true
+    }
+  },
+  "evidence_chain": [
+    {
+      "id": "p83k_ev_52c33523abfa",
+      "cycle": 0,
+      "regime": "trend",
+      "ev_hash": "a960796f06228d7c46e06165d813bd1221e1d0518e6840b56e425c6bdc07974d",
+      "prev_hash": "aeebad4a796fcc2e15dc4c6061b45ed9b373f26adfc798ca7d2d8cc58182718e",
+      "chain_head": "061e28e0aab28165266286ed3cda629df1cf3f47f595c264f279f0d4d893bbdc",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:35:40.492912Z"
+    },
+    {
+      "id": "p83k_ev_4e1781527edd",
+      "cycle": 6,
+      "regime": "ranging",
+      "ev_hash": "2c9bdc4383bd1b089df498b92405dc324d0294ba92a75226b22e76635959f852",
+      "prev_hash": "061e28e0aab28165266286ed3cda629df1cf3f47f595c264f279f0d4d893bbdc",
+      "chain_head": "75b5058c99bbb0a6da3f3fd1b3c684c7f6d2b546c954e50f5be6bbc03839fd21",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:35:40.492947Z"
+    },
+    {
+      "id": "p83k_ev_34eed15a2caf",
+      "cycle": 12,
+      "regime": "ranging",
+      "ev_hash": "8653d12a813aa46601e34a860b79a7f2996133c51c5787c1c65eef38d743b836",
+      "prev_hash": "75b5058c99bbb0a6da3f3fd1b3c684c7f6d2b546c954e50f5be6bbc03839fd21",
+      "chain_head": "5adf3a3a42871aeda82dc2859d7cb0e1b935d1c9dafd635aca7e0e70c3c305bf",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:35:40.492971Z"
+    },
+    {
+      "id": "p83k_ev_d55ad221891e",
+      "cycle": 18,
+      "regime": "ranging",
+      "ev_hash": "a20900983a4d70386547f0e81521974febcbf2d07f162661a8b1f162ac2854cf",
+      "prev_hash": "5adf3a3a42871aeda82dc2859d7cb0e1b935d1c9dafd635aca7e0e70c3c305bf",
+      "chain_head": "9e5425f60e3e375267ad3abeb878c1a7c66c95a1f4bb535a6aa887776987e650",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:35:40.492988Z"
+    },
+    {
+      "id": "p83k_ev_76d7fca15f4a",
+      "cycle": 24,
+      "regime": "ranging",
+      "ev_hash": "a16c368444573c7152f12b1bd16637127f81e36b11835972a6be06fe0df41ebe",
+      "prev_hash": "9e5425f60e3e375267ad3abeb878c1a7c66c95a1f4bb535a6aa887776987e650",
+      "chain_head": "4d39de772f101dd222847d62cfde91562652515b6708627bcf4d97e601e341d9",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:35:40.493042Z"
+    },
+    {
+      "id": "p83k_ev_87811ab7d98f",
+      "cycle": 30,
+      "regime": "ranging",
+      "ev_hash": "16281ff94c90ca97791125003c0643a5ff1f8d3e0418402d64c22b175af8613a",
+      "prev_hash": "4d39de772f101dd222847d62cfde91562652515b6708627bcf4d97e601e341d9",
+      "chain_head": "a849dbec290e775d942df75739e133ca5cd8782f0f00746629215b5dc4b505d9",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:35:40.493071Z"
+    },
+    {
+      "id": "p83k_ev_74c0ac1b07f4",
+      "cycle": 36,
+      "regime": "ranging",
+      "ev_hash": "9d1c5c9e8dd1e65b7a11cfc74ece351a096b1b4318f10319c3d7719f444ab75e",
+      "prev_hash": "a849dbec290e775d942df75739e133ca5cd8782f0f00746629215b5dc4b505d9",
+      "chain_head": "2168fa909ad3300ebf8edada099fd3ccc38f4c014ab1b4cdaf0ce5071e354eff",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-03T23:35:40.493088Z"
+    }
+  ],
+  "attestations": [
+    {
+      "id": "p83k_att_128ef5b48935",
+      "cycle": 0,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:35:40.492921Z"
+    },
+    {
+      "id": "p83k_att_45c9b5a6c830",
+      "cycle": 7,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:35:40.492953Z"
+    },
+    {
+      "id": "p83k_att_50382b7ac90a",
+      "cycle": 14,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:35:40.492977Z"
+    },
+    {
+      "id": "p83k_att_37695ac168db",
+      "cycle": 21,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:35:40.492997Z"
+    },
+    {
+      "id": "p83k_att_32b62ea01c0c",
+      "cycle": 28,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:35:40.493056Z"
+    },
+    {
+      "id": "p83k_att_431d57e123ab",
+      "cycle": 35,
+      "regime": "trend",
+      "evidence_integrity_ok": true,
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "manual_reset_required": true,
+      "ts": "2026-11-03T23:35:40.493077Z"
+    }
+  ],
+  "tamper_checks": [
+    {
+      "id": "p83k_tamp_5a987e80ed25",
+      "cycle": 0,
+      "regime": "trend",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:35:40.492927Z"
+    },
+    {
+      "id": "p83k_tamp_9134c8d2b18c",
+      "cycle": 9,
+      "regime": "ranging",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:35:40.492958Z"
+    },
+    {
+      "id": "p83k_tamp_f9c2ec6faaa6",
+      "cycle": 18,
+      "regime": "ranging",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:35:40.492992Z"
+    },
+    {
+      "id": "p83k_tamp_4745683d7d3d",
+      "cycle": 27,
+      "regime": "ranging",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:35:40.493051Z"
+    },
+    {
+      "id": "p83k_tamp_fda7abd4fd21",
+      "cycle": 36,
+      "regime": "ranging",
+      "tamper_detected": false,
+      "chain_continuity_ok": true,
+      "signature_valid": true,
+      "ts": "2026-11-03T23:35:40.493093Z"
+    }
+  ],
+  "kill_events": [],
+  "exit_events": [],
+  "recoveries": [],
+  "ts": "2026-11-03T23:35:40.493108Z"
+}
