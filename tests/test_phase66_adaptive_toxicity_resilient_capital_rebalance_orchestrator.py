@@ -14,7 +14,7 @@ def test_phase66_adaptive_toxicity_resilient_capital_rebalance_basic():
     assert rep["gates_ok"] is True
     assert rep["cycles"] == 40
     assert isinstance(rep["n_rebalance_triggers"], int)
-    assert isinstance(rep["n_rebalance_actions"], int)
+    assert isinstance(rep["n_venue_failover_rebalances"], int)
 
 
 def test_phase66_adaptive_toxicity_resilient_capital_rebalance_artifacts(tmp_path):
@@ -27,14 +27,14 @@ def test_phase66_adaptive_toxicity_resilient_capital_rebalance_artifacts(tmp_pat
     assert rep["md_path"].endswith(".md")
 
 
-def test_phase66_adaptive_toxicity_resilient_capital_rebalance_metrics_finite():
+def test_phase66_adaptive_toxicity_resilient_capital_rebalance_finite():
     e = Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator(
         Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestratorConfig(seed=66261, cycles=30)
     )
     rep = e.orchestrate_capital_rebalance(cycles=30)
     assert rep["paper_only"] is True
     assert isinstance(rep["rebalance_trigger_rate"], float)
-    assert isinstance(rep["rebalance_cap_pct"], float)
+    assert isinstance(rep["capital_rebalance_cap_pct"], float)
 
 
 def test_phase66_adaptive_toxicity_resilient_capital_rebalance_live_path_gated():

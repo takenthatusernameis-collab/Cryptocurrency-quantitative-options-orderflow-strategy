@@ -2,8 +2,8 @@
 Phase 66: Adaptive Toxicity-Resilient Capital Rebalance Orchestrator (crypto options + orderflow).
 
 Adaptive toxicity-resilient capital rebalance orchestrator: regime/toxicity-driven
-capital rebalance, venue failover rebalance, hedging rebalance guardrails, deterministic;
-PAPER-ONLY. Composes Phases 17-65.
+capital rebalance, venue failover rebalance, hedging rebalance guardrails, deterministic; PAPER-ONLY.
+Composes Phases 17-65.
 """
 from __future__ import annotations
 
@@ -22,6 +22,14 @@ from src.hedging.phase65_adaptive_toxicity_resilient_capital_allocation_orchestr
 from src.hedging.phase64_adaptive_toxicity_resilient_capital_deployment_orchestrator import (
     Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestrator,
     Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestratorConfig,
+)
+from src.hedging.phase63_adaptive_toxicity_resilient_deployment_orchestrator import (
+    Phase63AdaptiveToxicityResilientDeploymentOrchestrator,
+    Phase63AdaptiveToxicityResilientDeploymentOrchestratorConfig,
+)
+from src.hedging.phase62_adaptive_regime_conditional_execution_resilience import (
+    Phase62AdaptiveRegimeConditionalExecutionResilience,
+    Phase62AdaptiveRegimeConditionalResilienceConfig,
 )
 from src.orderflow.phase32_orderflow_alpha_integration import (
     OrderflowAlphaIntegrationConfig32,
@@ -80,11 +88,11 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestratorConfig:
     underlyings: tuple = ("BTC", "ETH", "SOL")
     venues: tuple = ("deribit", "okx", "bybit", "binance")
     cycles: int = 80
-    rebalance_trigger_toxicity: float = 0.31
-    rebalance_failover_threshold: float = 0.36
-    rebalance_cap_pct: float = 0.75
-    rebalance_cooldown_cycles: int = 3
-    hedging_rebalance_strict: bool = True
+    rebalance_interval: int = 8
+    toxicity_rebalance_threshold: float = 0.31
+    failover_rebalance_threshold: float = 0.34
+    capital_rebalance_cap_pct: float = 0.75
+    hedging_rebalance_guardrail_strict: bool = True
     outdir: str = "research_state"
 
     def __post_init__(self) -> None:
@@ -104,14 +112,16 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator:
         if not self.cfg.paper_only:
             raise ValueError("Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator: paper_only must remain True")
         self.cap65 = Phase65AdaptiveToxicityResilientCapitalAllocationOrchestrator(
-            Phase65AdaptiveToxicityResilientCapitalAllocationOrchestratorConfig(
-                seed=self.cfg.seed + 1, paper_only=True, cycles=self.cfg.cycles
-            )
+            Phase65AdaptiveToxicityResilientCapitalAllocationOrchestratorConfig(seed=self.cfg.seed + 1, paper_only=True, cycles=self.cfg.cycles)
         )
         self.orch64 = Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestrator(
-            Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestratorConfig(
-                seed=self.cfg.seed + 2, paper_only=True, cycles=self.cfg.cycles
-            )
+            Phase64AdaptiveToxicityResilientCapitalDeploymentOrchestratorConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=self.cfg.cycles)
+        )
+        self.orch63 = Phase63AdaptiveToxicityResilientDeploymentOrchestrator(
+            Phase63AdaptiveToxicityResilientDeploymentOrchestratorConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=self.cfg.cycles)
+        )
+        self.res62 = Phase62AdaptiveRegimeConditionalExecutionResilience(
+            Phase62AdaptiveRegimeConditionalResilienceConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=60)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.tox58 = Phase58FlowToxicityMitigator()
@@ -121,35 +131,37 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator:
         self.cb57 = Phase57ProductionCircuitBreakers()
         self.ks = Phase39KillSwitchesCircuitBreakers(KillSwitchConfig39(seed=self.cfg.seed + 39, paper_only=True))
         self.rebalance_triggers: List[Dict[str, Any]] = []
-        self.rebalance_actions: List[Dict[str, Any]] = []
+        self.capital_rebalances: List[Dict[str, Any]] = []
         self.venue_failover_rebalances: List[Dict[str, Any]] = []
         self.hedge_rebalance_guardrails: List[Dict[str, Any]] = []
-        self.rebalance_cooldowns: List[Dict[str, Any]] = []
+        self.rebalance_attestations: List[Dict[str, Any]] = []
         self._cycle = 0
-        self._last_rebalance_cycle = -10_000
 
-    def _rebalance_decision(self, toxicity: float, regime: str, drawdown_pct: float, cap_util: float) -> Dict[str, Any]:
-        trigger = False
+    def _rebalance_decision(self, toxicity: float, regime: str, alloc_paused: bool, failover: bool, drawdown_pct: float) -> Dict[str, Any]:
+        rebalance = False
         failover_rb = False
         reasons: List[str] = []
-        if toxicity >= self.cfg.rebalance_trigger_toxicity:
-            trigger = True
-            reasons.append("toxicity_trigger")
-        if toxicity >= self.cfg.rebalance_failover_threshold or regime == "high_toxicity":
-            trigger = True
+        if toxicity >= self.cfg.toxicity_rebalance_threshold:
+            rebalance = True
+            reasons.append("toxicity_rebalance")
+        if failover or toxicity >= self.cfg.failover_rebalance_threshold:
             failover_rb = True
-            reasons.append("toxicity_failover_rebalance")
+            rebalance = True
+            reasons.append("venue_failover_rebalance")
+        if alloc_paused:
+            rebalance = True
+            reasons.append("allocation_pause_rebalance")
         if drawdown_pct >= 0.07:
-            trigger = True
-            reasons.append("drawdown_trigger")
-        if cap_util >= 0.88:
-            trigger = True
-            reasons.append("cap_util_trigger")
-        hedge_mode = "hard" if (self.cfg.hedging_rebalance_strict and failover_rb) else ("tight" if trigger else "normal")
+            rebalance = True
+            reasons.append("drawdown_rebalance")
+        if regime == "high_toxicity":
+            rebalance = True
+            failover_rb = True
+        hedge_hard = self.cfg.hedging_rebalance_guardrail_strict and (failover_rb or regime == "high_toxicity")
         return {
-            "rebalance_triggered": bool(trigger),
+            "rebalance_triggered": bool(rebalance),
             "venue_failover_rebalance": bool(failover_rb),
-            "hedge_rebalance_mode": hedge_mode,
+            "hedge_guardrail_mode": "hard" if hedge_hard else ("tight" if regime == "elevated" else "normal"),
             "reasons": reasons,
         }
 
@@ -157,14 +169,15 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator:
         cycles = int(cycles or self.cfg.cycles)
         self._cycle = cycles
         self.rebalance_triggers = []
-        self.rebalance_actions = []
+        self.capital_rebalances = []
         self.venue_failover_rebalances = []
         self.hedge_rebalance_guardrails = []
-        self.rebalance_cooldowns = []
-        self._last_rebalance_cycle = -10_000
+        self.rebalance_attestations = []
 
-        cap_rep = self.cap65.orchestrate_capital_allocation(cycles=60)
+        cap65_rep = self.cap65.orchestrate_capital_allocation(cycles=60)
         self.orch64.orchestrate_capital_deployment(cycles=60)
+        self.orch63.orchestrate_deployment(cycles=60)
+        self.res62.run_resilience(cycles=60)
         tox_rep = self.tox58.mitigate(cycles=40)
         self.risk54.run_campaign(cycles=30)
         self.of.run_campaign(cycles=40)
@@ -174,95 +187,91 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator:
         for i in range(cycles):
             venue = self.cfg.venues[i % len(self.cfg.venues)]
             underlying = self.cfg.underlyings[i % len(self.cfg.underlyings)]
-            toxicity_i = max(0.0, min(1.0, avg_tox + (i % 13) * 0.016))
-            if toxicity_i >= 0.38:
+            toxicity_i = max(0.0, min(1.0, avg_tox + (i % 13) * 0.015))
+            if toxicity_i >= 0.37:
                 regime = "high_toxicity"
-            elif toxicity_i >= 0.24:
+            elif toxicity_i >= 0.23:
                 regime = "elevated"
             else:
                 regime = "normal"
-            drawdown_i = max(0.0, min(0.12, (i % 23) * 0.004))
-            cap_util_i = max(0.0, min(1.0, 0.58 + (i % 19) * 0.016))
-            dec = self._rebalance_decision(toxicity_i, regime, drawdown_i, cap_util_i)
-            in_cooldown = (i - self._last_rebalance_cycle) < self.cfg.rebalance_cooldown_cycles
-            if in_cooldown and dec["rebalance_triggered"]:
-                dec = {
-                    "rebalance_triggered": False,
-                    "venue_failover_rebalance": False,
-                    "hedge_rebalance_mode": "normal",
-                    "reasons": ["cooldown"],
-                }
-            if dec["rebalance_triggered"]:
-                self._last_rebalance_cycle = i
+            alloc_paused = (i % 11 == 0) and toxicity_i >= 0.29
+            failover = (i % 17 == 0) and toxicity_i >= 0.32
+            drawdown_i = max(0.0, min(0.12, (i % 19) * 0.005))
+            dec = self._rebalance_decision(toxicity_i, regime, alloc_paused, failover, drawdown_i)
+            rebalance_size_pct = (
+                round(float(_finite(self.cfg.capital_rebalance_cap_pct)), 6) if dec["rebalance_triggered"] else 0.0
+            )
 
-            self.rebalance_triggers.append(
-                serialize_metrics_strict(
-                    {
-                        "rb_trig_id": _make_id(self.cfg.seed, "rbt", i),
-                        "cycle": i,
-                        "venue": venue,
-                        "underlying": underlying,
-                        "regime": regime,
-                        "toxicity": round(float(_finite(toxicity_i)), 6),
-                        **dec,
-                        "paper_only": True,
-                        "timestamp": _utc_now(),
-                    }
-                )
-            )
-            if dec["rebalance_triggered"]:
-                reb_size = round(float(min(self.cfg.rebalance_cap_pct, 0.6 + (i % 5) * 0.05)), 6)
-                self.rebalance_actions.append(
+            if i % self.cfg.rebalance_interval == 0 or dec["rebalance_triggered"]:
+                self.rebalance_triggers.append(
                     serialize_metrics_strict(
                         {
-                            "rba_id": _make_id(self.cfg.seed, "rba", i),
+                            "rt_id": _make_id(self.cfg.seed, "rt", i),
                             "cycle": i,
                             "venue": venue,
-                            "rebalance_size_pct": reb_size,
-                            "rebalance_executed": True,
+                            "underlying": underlying,
+                            "toxicity": round(float(_finite(toxicity_i)), 6),
+                            "regime": regime,
+                            **dec,
                             "paper_only": True,
                             "timestamp": _utc_now(),
                         }
                     )
                 )
-            if dec["venue_failover_rebalance"]:
-                self.venue_failover_rebalances.append(
+                if dec["rebalance_triggered"]:
+                    self.capital_rebalances.append(
+                        serialize_metrics_strict(
+                            {
+                                "crb_id": _make_id(self.cfg.seed, "crb", i),
+                                "cycle": i,
+                                "venue": venue,
+                                "rebalance_size_pct": rebalance_size_pct,
+                                "capital_rebalance_cap_pct": self.cfg.capital_rebalance_cap_pct,
+                                "reasons": dec["reasons"],
+                                "paper_only": True,
+                                "timestamp": _utc_now(),
+                            }
+                        )
+                    )
+                if dec["venue_failover_rebalance"]:
+                    self.venue_failover_rebalances.append(
+                        serialize_metrics_strict(
+                            {
+                                "vfrb_id": _make_id(self.cfg.seed, "vfrb", i),
+                                "cycle": i,
+                                "venue": venue,
+                                "failover_rebalance_executed": True,
+                                "paper_only": True,
+                                "timestamp": _utc_now(),
+                            }
+                        )
+                    )
+                self.hedge_rebalance_guardrails.append(
                     serialize_metrics_strict(
                         {
-                            "vfr_id": _make_id(self.cfg.seed, "vfr", i),
+                            "hrg_id": _make_id(self.cfg.seed, "hrg", i),
                             "cycle": i,
                             "venue": venue,
-                            "failover_rebalance_executed": True,
+                            "mode": dec["hedge_guardrail_mode"],
+                            "strict": self.cfg.hedging_rebalance_guardrail_strict,
                             "paper_only": True,
                             "timestamp": _utc_now(),
                         }
                     )
                 )
-            self.hedge_rebalance_guardrails.append(
-                serialize_metrics_strict(
-                    {
-                        "hrg_id": _make_id(self.cfg.seed, "hrg", i),
-                        "cycle": i,
-                        "venue": venue,
-                        "mode": dec["hedge_rebalance_mode"],
-                        "strict": self.cfg.hedging_rebalance_strict,
-                        "paper_only": True,
-                        "timestamp": _utc_now(),
-                    }
-                )
-            )
-            if in_cooldown:
-                self.rebalance_cooldowns.append(
-                    serialize_metrics_strict(
-                        {
-                            "rcd_id": _make_id(self.cfg.seed, "rcd", i),
-                            "cycle": i,
-                            "cooldown_active": True,
-                            "paper_only": True,
-                            "timestamp": _utc_now(),
-                        }
+                if dec["rebalance_triggered"]:
+                    self.rebalance_attestations.append(
+                        serialize_metrics_strict(
+                            {
+                                "rba_id": _make_id(self.cfg.seed, "rba", i),
+                                "cycle": i,
+                                "rebalance_triggered": True,
+                                "attested": True,
+                                "paper_only": True,
+                                "timestamp": _utc_now(),
+                            }
+                        )
                     )
-                )
 
         rep = serialize_metrics_strict(
             {
@@ -273,22 +282,19 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator:
                 "seed": self.cfg.seed,
                 "cycles": cycles,
                 "n_rebalance_triggers": len(self.rebalance_triggers),
-                "n_rebalance_actions": len(self.rebalance_actions),
+                "n_capital_rebalances": len(self.capital_rebalances),
                 "n_venue_failover_rebalances": len(self.venue_failover_rebalances),
                 "n_hedge_rebalance_guardrails": len(self.hedge_rebalance_guardrails),
-                "n_rebalance_cooldowns": len(self.rebalance_cooldowns),
+                "n_rebalance_attestations": len(self.rebalance_attestations),
                 "rebalance_trigger_rate": round(
-                    float(
-                        sum(1 for x in self.rebalance_triggers if x.get("rebalance_triggered"))
-                        / max(1, len(self.rebalance_triggers))
-                    ),
+                    float(sum(1 for x in self.rebalance_triggers if x.get("rebalance_triggered")) / max(1, len(self.rebalance_triggers))),
                     6,
                 ),
-                "rebalance_cap_pct": self.cfg.rebalance_cap_pct,
-                "composes": ["PHASE65", "PHASE64", "PHASE57", "PHASE54", "PHASE39", "PHASE58"],
+                "capital_rebalance_cap_pct": self.cfg.capital_rebalance_cap_pct,
+                "composes": ["PHASE65", "PHASE64", "PHASE63", "PHASE62", "PHASE57", "PHASE54", "PHASE39", "PHASE58"],
             }
         )
-        _assert_finite(rep, "phase66_reb_rep")
+        _assert_finite(rep, "phase66_cap_reb_rep")
         return rep
 
     def generate_artifacts(self, outdir: str | None = None) -> Dict[str, Any]:
@@ -299,13 +305,13 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator:
             {
                 "report": rep,
                 "rebalance_triggers": self.rebalance_triggers,
-                "rebalance_actions": self.rebalance_actions,
+                "capital_rebalances": self.capital_rebalances,
                 "venue_failover_rebalances": self.venue_failover_rebalances,
                 "hedge_rebalance_guardrails": self.hedge_rebalance_guardrails,
-                "rebalance_cooldowns": self.rebalance_cooldowns,
+                "rebalance_attestations": self.rebalance_attestations,
             }
         )
-        _assert_finite(payload, "phase66_reb_payload")
+        _assert_finite(payload, "phase66_cap_reb_payload")
         ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         json_path = outdir / f"PHASE66_ADAPTIVE_TOXICITY_RESILIENT_CAPITAL_REBALANCE_ORCHESTRATOR_{ts}.json"
         md_path = outdir / f"PHASE66_ADAPTIVE_TOXICITY_RESILIENT_CAPITAL_REBALANCE_ORCHESTRATOR_{ts}.md"
@@ -317,11 +323,12 @@ class Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator:
             f"gates_ok: {rep['gates_ok']}",
             f"cycles: {rep['cycles']}",
             f"rebalance_trigger_rate: {rep['rebalance_trigger_rate']}",
-            f"n_rebalance_actions: {rep['n_rebalance_actions']}",
             f"n_venue_failover_rebalances: {rep['n_venue_failover_rebalances']}",
+            f"n_rebalance_attestations: {rep['n_rebalance_attestations']}",
+            f"capital_rebalance_cap_pct: {rep['capital_rebalance_cap_pct']}",
             "",
             "## Composes",
-            "- PHASE65, PHASE64, PHASE57, PHASE54, PHASE39, PHASE58",
+            "- PHASE65, PHASE64, PHASE63, PHASE62, PHASE57, PHASE54, PHASE39, PHASE58",
             "",
         ]
         md_path.write_text("\n".join(md))

@@ -1,8 +1,8 @@
 """
 Phase 66: Autonomous Production Audit Enforcement Loop (crypto options + orderflow).
 
-Autonomous production audit enforcement: audit checks, auto-contain/rollback on
-audit breach, attestation, artifacts; composes Phases 17-65. PAPER-ONLY enforced.
+Autonomous production audit enforcement: audit checks, auto-contain/rollback on audit breach,
+attestation, artifacts; composes Phases 17-65. PAPER-ONLY enforced.
 """
 from __future__ import annotations
 
@@ -22,13 +22,21 @@ from src.integration.phase64_autonomous_production_compliance_enforcement_loop i
     Phase64AutonomousProductionComplianceEnforcementLoop,
     Phase64AutonomousProductionComplianceEnforcementConfig,
 )
-from src.alpha.phase66_execution_alpha_audit_integrity_engine import (
-    Phase66ExecutionAlphaAuditIntegrityEngine,
-    Phase66ExecutionAlphaAuditIntegrityConfig,
+from src.integration.phase63_autonomous_production_slo_enforcement_loop import (
+    Phase63AutonomousProductionSLOEnforcementLoop,
+    Phase63AutonomousProductionSLOEnforcementConfig,
 )
-from src.hedging.phase66_adaptive_toxicity_resilient_capital_rebalance_orchestrator import (
-    Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator,
-    Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestratorConfig,
+from src.integration.phase62_autonomous_production_deployment_validation_loop import (
+    Phase62AutonomousProductionDeploymentValidationLoop,
+    Phase62AutonomousProductionDeploymentValidationConfig,
+)
+from src.alpha.phase65_execution_alpha_compliance_governance_engine import (
+    Phase65ExecutionAlphaComplianceGovernanceEngine,
+    Phase65ExecutionAlphaComplianceGovernanceConfig,
+)
+from src.hedging.phase65_adaptive_toxicity_resilient_capital_allocation_orchestrator import (
+    Phase65AdaptiveToxicityResilientCapitalAllocationOrchestrator,
+    Phase65AdaptiveToxicityResilientCapitalAllocationOrchestratorConfig,
 )
 from src.risk.phase39_kill_switches_circuit_breakers import (
     KillSwitchConfig39,
@@ -80,10 +88,11 @@ class Phase66AutonomousProductionAuditEnforcementConfig:
     seed: int = 66062
     paper_only: bool = True
     cycles: int = 80
-    audit_check_interval: int = 5
+    audit_check_interval: int = 4
     auto_contain_on_audit_breach: bool = True
     auto_rollback_on_audit_breach: bool = True
     audit_attestation_required: bool = True
+    integrity_breach_threshold: float = 0.994
     outdir: str = "research_state"
 
     def __post_init__(self) -> None:
@@ -108,11 +117,17 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
         self.comp64 = Phase64AutonomousProductionComplianceEnforcementLoop(
             Phase64AutonomousProductionComplianceEnforcementConfig(seed=self.cfg.seed + 2, paper_only=True, cycles=60)
         )
-        self.audit66 = Phase66ExecutionAlphaAuditIntegrityEngine(
-            Phase66ExecutionAlphaAuditIntegrityConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=60)
+        self.slo63 = Phase63AutonomousProductionSLOEnforcementLoop(
+            Phase63AutonomousProductionSLOEnforcementConfig(seed=self.cfg.seed + 3, paper_only=True, cycles=60)
         )
-        self.reb66 = Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestrator(
-            Phase66AdaptiveToxicityResilientCapitalRebalanceOrchestratorConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=60)
+        self.deploy62 = Phase62AutonomousProductionDeploymentValidationLoop(
+            Phase62AutonomousProductionDeploymentValidationConfig(seed=self.cfg.seed + 4, paper_only=True, cycles=60)
+        )
+        self.comp65g = Phase65ExecutionAlphaComplianceGovernanceEngine(
+            Phase65ExecutionAlphaComplianceGovernanceConfig(seed=self.cfg.seed + 5, paper_only=True, cycles=60)
+        )
+        self.cap65 = Phase65AdaptiveToxicityResilientCapitalAllocationOrchestrator(
+            Phase65AdaptiveToxicityResilientCapitalAllocationOrchestratorConfig(seed=self.cfg.seed + 6, paper_only=True, cycles=60)
         )
         self.risk54 = Phase54RealtimeRiskFusionEngine()
         self.cb57 = Phase57ProductionCircuitBreakers()
@@ -123,31 +138,31 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
         self.rollbacks: List[Dict[str, Any]] = []
         self._cycle = 0
 
-    def _audit_check(self, i: int, venue: str, risk_ok: bool, audit_ok: bool, rebalance_ok: bool) -> Dict[str, Any]:
+    def _audit_check(self, i: int, venue: str, integrity: float, reg_ok: bool, risk_ok: bool) -> Dict[str, Any]:
         checks = {
             "paper_only_enforced": True,
-            "risk_enforcement_compliant": bool(risk_ok),
-            "audit_integrity_compliant": bool(audit_ok),
-            "rebalance_orchestration_compliant": bool(rebalance_ok),
-            "kill_switch_audit_linkage": True,
             "audit_trail_complete": True,
+            "regulatory_integrity_ok": bool(reg_ok),
+            "risk_enforcement_ok": bool(risk_ok),
+            "kill_switch_audit_linked": True,
+            "attestation_required_met": self.cfg.audit_attestation_required,
         }
-        compliant = all(checks.values())
+        breach = integrity < self.cfg.integrity_breach_threshold or not all(checks.values())
         contain = False
         rb = False
         reasons: List[str] = []
-        if not compliant:
+        if breach:
             contain = self.cfg.auto_contain_on_audit_breach
-            reasons.append("audit_breach_detected")
-        if not compliant and self.cfg.auto_rollback_on_audit_breach and i % 9 == 0:
+            reasons.append("audit_breach")
+        if breach and self.cfg.auto_rollback_on_audit_breach and i % 6 == 0:
             rb = True
             contain = True
-            reasons.append("audit_rollback_triggered")
         return {
-            "check_id": _make_id(self.cfg.seed, "achk", i),
+            "chk_id": _make_id(self.cfg.seed, "achk", i),
             "cycle": i,
             "venue": venue,
-            "compliant": bool(compliant),
+            "compliant": bool(not breach),
+            "integrity_score": round(float(_finite(integrity)), 9),
             "checks": checks,
             "auto_contain": bool(contain),
             "auto_rollback": bool(rb),
@@ -164,20 +179,22 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
         self.containments = []
         self.rollbacks = []
 
-        risk_rep = self.risk65.run_risk_enforcement(cycles=60)
+        risk65_rep = self.risk65.run_risk_enforcement(cycles=60)
         comp_rep = self.comp64.run_compliance_enforcement(cycles=60)
-        audit_rep = self.audit66.audit_integrity(cycles=60)
-        reb_rep = self.reb66.orchestrate_capital_rebalance(cycles=60)
-        risk_fusion_rep = self.risk54.run_campaign(cycles=30)
+        slo_rep = self.slo63.run_slo_enforcement(cycles=60)
+        dep_rep = self.deploy62.run_deployment_validation(cycles=60)
+        comp65g_rep = self.comp65g.enforce_compliance_governance(cycles=60)
+        cap65_rep = self.cap65.orchestrate_capital_allocation(cycles=60)
+        risk_rep = self.risk54.run_campaign(cycles=30)
 
         venues = ["deribit", "okx", "bybit", "binance"]
-        risk_ok = bool(risk_rep.get("gates_ok")) and risk_rep.get("risk_pass_rate", 0.0) >= 0.9
-        audit_ok = bool(audit_rep.get("gates_ok")) and audit_rep.get("n_integrity_violations", 1) == 0
-        rebalance_ok = bool(reb_rep.get("gates_ok"))
+        risk_ok = bool(risk65_rep.get("gates_ok")) and risk65_rep.get("risk_pass_rate", 0.0) >= 0.9
+        reg_ok = bool(comp65g_rep.get("gates_ok"))
 
         for i in range(cycles):
             venue = venues[i % len(venues)]
-            chk = self._audit_check(i, venue, risk_ok, audit_ok, rebalance_ok)
+            integrity = max(0.993, min(1.0, 0.9996 - (i % 19) * 0.0003))
+            chk = self._audit_check(i, venue, integrity, reg_ok, risk_ok)
             self.audit_checks.append(serialize_metrics_strict(chk))
             if chk["compliant"]:
                 self.attestations.append(
@@ -187,7 +204,7 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
                             "cycle": i,
                             "venue": venue,
                             "audit_attested": True,
-                            "audit_check_id": chk["check_id"],
+                            "audit_check_id": chk["chk_id"],
                             "paper_only": True,
                             "timestamp": _utc_now(),
                         }
@@ -197,7 +214,7 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
                 self.containments.append(
                     serialize_metrics_strict(
                         {
-                            "contain_id": _make_id(self.cfg.seed, "acont", i),
+                            "cont_id": _make_id(self.cfg.seed, "acont", i),
                             "cycle": i,
                             "venue": venue,
                             "auto_contain_executed": True,
@@ -239,12 +256,11 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
                     6,
                 ),
                 "risk_ok": bool(risk_ok),
-                "audit_ok": bool(audit_ok),
-                "rebalance_ok": bool(rebalance_ok),
-                "composes": ["PHASE65", "PHASE64", "PHASE57", "PHASE54", "PHASE39"],
+                "reg_ok": bool(reg_ok),
+                "composes": ["PHASE65", "PHASE64", "PHASE63", "PHASE62", "PHASE57", "PHASE54", "PHASE39"],
             }
         )
-        _assert_finite(rep, "phase66_audit_enf_rep")
+        _assert_finite(rep, "phase66_audit_enforcement_rep")
         return rep
 
     def generate_artifacts(self, outdir: str | None = None) -> Dict[str, Any]:
@@ -260,7 +276,7 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
                 "rollbacks": self.rollbacks,
             }
         )
-        _assert_finite(payload, "phase66_audit_enf_payload")
+        _assert_finite(payload, "phase66_audit_enforcement_payload")
         ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         json_path = outdir / f"PHASE66_AUTONOMOUS_PRODUCTION_AUDIT_ENFORCEMENT_LOOP_{ts}.json"
         md_path = outdir / f"PHASE66_AUTONOMOUS_PRODUCTION_AUDIT_ENFORCEMENT_LOOP_{ts}.md"
@@ -277,7 +293,7 @@ class Phase66AutonomousProductionAuditEnforcementLoop:
             f"n_rollbacks: {rep['n_rollbacks']}",
             "",
             "## Composes",
-            "- PHASE65, PHASE64, PHASE57, PHASE54, PHASE39",
+            "- PHASE65, PHASE64, PHASE63, PHASE62, PHASE57, PHASE54, PHASE39",
             "",
         ]
         md_path.write_text("\n".join(md))
