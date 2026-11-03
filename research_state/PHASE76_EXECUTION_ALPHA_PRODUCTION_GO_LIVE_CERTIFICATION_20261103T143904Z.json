@@ -1,0 +1,122 @@
+{
+  "certification_gates": [
+    {
+      "certification_gate_pass": true,
+      "certification_pass_rate": 0.9965,
+      "certification_throttle_factor": 1.0,
+      "cycle": 0,
+      "enforced": true,
+      "go_live_certified": true,
+      "go_live_readiness_rate": 0.9968,
+      "id": "p76-7601-cg-000000",
+      "production_risk_score": 0.3725,
+      "reasons": [],
+      "ts": "2026-11-03T14:39:04.572909Z",
+      "underlying": "BTC",
+      "venue": "deribit"
+    },
+    {
+      "certification_gate_pass": true,
+      "certification_pass_rate": 0.9965,
+      "certification_throttle_factor": 1.0,
+      "cycle": 1,
+      "enforced": true,
+      "go_live_certified": true,
+      "go_live_readiness_rate": 0.9968,
+      "id": "p76-7601-cg-000001",
+      "production_risk_score": 0.396,
+      "reasons": [],
+      "ts": "2026-11-03T14:39:04.572934Z",
+      "underlying": "ETH",
+      "venue": "okx"
+    },
+    {
+      "certification_gate_pass": true,
+      "certification_pass_rate": 0.9965,
+      "certification_throttle_factor": 1.0,
+      "cycle": 2,
+      "enforced": true,
+      "go_live_certified": true,
+      "go_live_readiness_rate": 0.9968,
+      "id": "p76-7601-cg-000002",
+      "production_risk_score": 0.4195,
+      "reasons": [],
+      "ts": "2026-11-03T14:39:04.572947Z",
+      "underlying": "SOL",
+      "venue": "bybit"
+    }
+  ],
+  "go_live_readiness": [
+    {
+      "cycle": 0,
+      "finality_settlement_certified": false,
+      "go_live_readiness_rate": 0.9968,
+      "greeks_iv_surface_certified": false,
+      "id": "p76-7601-gr-000000",
+      "margin_collateral_certified": false,
+      "orderflow_toxicity_certified": true,
+      "tca_execution_quality_certified": true,
+      "ts": "2026-11-03T14:39:04.572915Z",
+      "underlying": "BTC",
+      "venue": "deribit"
+    }
+  ],
+  "production_blocks": [
+    {
+      "blocked": true,
+      "cycle": 0,
+      "id": "p76-7601-pb-000000",
+      "production_risk_score": 0.3725,
+      "reasons": [
+        "periodic_production_safety_block"
+      ],
+      "ts": "2026-11-03T14:39:04.572920Z",
+      "underlying": "BTC",
+      "venue": "deribit"
+    }
+  ],
+  "report": {
+    "certification_gates_count": 3,
+    "composes": [
+      "PHASE75-TRANSITION",
+      "PHASE75-TCA",
+      "PHASE74-SLO",
+      "PHASE74-HARDEN-EXT",
+      "PHASE73-HARDEN",
+      "PHASE73-ATTEST",
+      "PHASE72-MARGIN",
+      "PHASE72-FINALITY",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ],
+    "cycles": 3,
+    "gates_ok": true,
+    "go_live_readiness_count": 1,
+    "metrics": {
+      "certification_pass_rate_avg": 0.9965,
+      "go_live_readiness_rate_avg": 0.9968,
+      "production_risk_score_avg": 0.396
+    },
+    "paper_only": true,
+    "phase": "PHASE76_EXECUTION_ALPHA_PRODUCTION_GO_LIVE_CERTIFICATION_ENGINE",
+    "production_blocks_count": 1,
+    "seed": 7601,
+    "timestamp": "2026-11-03T14:39:04.572959Z",
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ]
+  }
+}

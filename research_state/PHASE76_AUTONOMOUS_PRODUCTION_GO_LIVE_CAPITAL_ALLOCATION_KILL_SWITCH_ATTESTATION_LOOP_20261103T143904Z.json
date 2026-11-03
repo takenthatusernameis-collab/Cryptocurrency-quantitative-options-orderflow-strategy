@@ -1,0 +1,117 @@
+{
+  "report": {
+    "phase": "PHASE76_AUTONOMOUS_PRODUCTION_GO_LIVE_CAPITAL_ALLOCATION_KILL_SWITCH_ATTESTATION_LOOP",
+    "timestamp": "2026-11-03T14:39:04.574503Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7603,
+    "cycles": 3,
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "n_capital_allocations": 1,
+    "n_kill_switch_attestations": 1,
+    "n_capital_rebalances": 1,
+    "n_capital_deallocations": 3,
+    "avg_allocation_ok": 0.99688,
+    "avg_kill_switch_attestation_ok": 0.997,
+    "composes": [
+      "PHASE76-CERT",
+      "PHASE76-FRAG",
+      "PHASE75-LOOP",
+      "PHASE74-LOOP",
+      "PHASE72-MARGIN",
+      "PHASE72-FINALITY",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "capital_allocations": [
+    {
+      "ca_id": "p76-7603-ca-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "allocated_capital_fraction": 0.15,
+      "allocation_ok": 0.99688,
+      "kill_switch_ok": 0.997,
+      "action": "real_time_capital_allocation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T14:39:04.574424Z"
+    }
+  ],
+  "kill_switch_attestations": [
+    {
+      "ka_id": "p76-7603-ka-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "kill_switch_armed": true,
+      "attestation_valid": true,
+      "attestation_hash": "sha256:p76:7603:0",
+      "attestation_ok": 0.997,
+      "paper_only": true,
+      "timestamp": "2026-11-03T14:39:04.574443Z"
+    }
+  ],
+  "capital_rebalances": [
+    {
+      "cr_id": "p76-7603-cr-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.14,
+      "action": "capital_rebalance_on_go_live_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T14:39:04.574454Z"
+    }
+  ],
+  "capital_deallocations": [
+    {
+      "cd_id": "p76-7603-cd-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "deallocated_fraction": 0.15,
+      "severity": 0.14,
+      "action": "capital_deallocation_on_kill_switch_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T14:39:04.574463Z"
+    },
+    {
+      "cd_id": "p76-7603-cd-000001",
+      "cycle": 1,
+      "venue": "okx",
+      "underlying": "ETH",
+      "deallocated_fraction": 0.15,
+      "severity": 0.15,
+      "action": "capital_deallocation_on_kill_switch_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T14:39:04.574479Z"
+    },
+    {
+      "cd_id": "p76-7603-cd-000002",
+      "cycle": 2,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "deallocated_fraction": 0.15,
+      "severity": 0.16,
+      "action": "capital_deallocation_on_kill_switch_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T14:39:04.574492Z"
+    }
+  ]
+}
