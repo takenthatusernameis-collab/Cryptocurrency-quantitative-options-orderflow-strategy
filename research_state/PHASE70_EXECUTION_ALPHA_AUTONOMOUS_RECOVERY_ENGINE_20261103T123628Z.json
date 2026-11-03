@@ -1,0 +1,289 @@
+{
+  "report": {
+    "phase": "PHASE70_EXECUTION_ALPHA_AUTONOMOUS_RECOVERY_ENGINE",
+    "timestamp": "2026-11-03T12:36:28.742729Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7070,
+    "cycles": 40,
+    "n_recovery_playbooks": 7,
+    "n_recovery_attestations": 6,
+    "n_recovery_actions": 8,
+    "n_recovery_attribution_attestations": 6,
+    "avg_recovery_verify": 0.99606625,
+    "recovery_pass_rate": 0.25,
+    "composes": [
+      "PHASE69",
+      "PHASE68",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "recovery_playbooks": [
+    {
+      "rp_id": "p70alpha_rp_7283a082fedc",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.1998,
+      "policy": "autonomous_recovery_playbook",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.740555Z"
+    },
+    {
+      "rp_id": "p70alpha_rp_447ac7cdf9dc",
+      "cycle": 6,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.37572,
+      "policy": "autonomous_recovery_playbook",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.740986Z"
+    },
+    {
+      "rp_id": "p70alpha_rp_2c385af02fa7",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.37564,
+      "policy": "autonomous_recovery_playbook",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741297Z"
+    },
+    {
+      "rp_id": "p70alpha_rp_7433e76b6c9d",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.32512,
+      "policy": "autonomous_recovery_playbook",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741605Z"
+    },
+    {
+      "rp_id": "p70alpha_rp_0f0e8691ea25",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.32504,
+      "policy": "autonomous_recovery_playbook",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741946Z"
+    },
+    {
+      "rp_id": "p70alpha_rp_bc3cd1943d0c",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.50096,
+      "policy": "autonomous_recovery_playbook",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.742266Z"
+    },
+    {
+      "rp_id": "p70alpha_rp_df53fd5044b8",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.27444,
+      "policy": "autonomous_recovery_playbook",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.742641Z"
+    }
+  ],
+  "recovery_attestations": [
+    {
+      "ra_id": "p70alpha_ra_228f48715d7b",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "confidence": 0.9474,
+      "recovery": "autonomous_recovery_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.740654Z"
+    },
+    {
+      "ra_id": "p70alpha_ra_424c31cbddbf",
+      "cycle": 7,
+      "venue": "binance",
+      "underlying": "ETH",
+      "confidence": 0.96992,
+      "recovery": "autonomous_recovery_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741073Z"
+    },
+    {
+      "ra_id": "p70alpha_ra_3f21b57fdadd",
+      "cycle": 14,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "confidence": 0.99244,
+      "recovery": "autonomous_recovery_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741385Z"
+    },
+    {
+      "ra_id": "p70alpha_ra_1cbd3bdcbce2",
+      "cycle": 21,
+      "venue": "okx",
+      "underlying": "BTC",
+      "confidence": 0.95884,
+      "recovery": "autonomous_recovery_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741766Z"
+    },
+    {
+      "ra_id": "p70alpha_ra_00b6c029ee12",
+      "cycle": 28,
+      "venue": "deribit",
+      "underlying": "ETH",
+      "confidence": 0.98136,
+      "recovery": "autonomous_recovery_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.742112Z"
+    },
+    {
+      "ra_id": "p70alpha_ra_719a1d61c5dc",
+      "cycle": 35,
+      "venue": "binance",
+      "underlying": "SOL",
+      "confidence": 0.94776,
+      "recovery": "autonomous_recovery_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.742430Z"
+    }
+  ],
+  "recovery_actions": [
+    {
+      "ract_id": "p70alpha_ract_2f71627b4a19",
+      "cycle": 0,
+      "recovery_verify": 0.997802,
+      "recovered": true,
+      "recovery_throttle_factor": 1.0,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.740740Z"
+    },
+    {
+      "ract_id": "p70alpha_ract_b7023d770e9b",
+      "cycle": 5,
+      "recovery_verify": 0.996336,
+      "recovered": false,
+      "recovery_throttle_factor": 0.44,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.740910Z"
+    },
+    {
+      "ract_id": "p70alpha_ract_3c3fa7302bc5",
+      "cycle": 10,
+      "recovery_verify": 0.99487,
+      "recovered": false,
+      "recovery_throttle_factor": 0.2816,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741222Z"
+    },
+    {
+      "ract_id": "p70alpha_ract_0a72df0887b5",
+      "cycle": 15,
+      "recovery_verify": 0.995164,
+      "recovered": false,
+      "recovery_throttle_factor": 0.2816,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741527Z"
+    },
+    {
+      "ract_id": "p70alpha_ract_29068b41a7be",
+      "cycle": 20,
+      "recovery_verify": 0.9959624,
+      "recovered": false,
+      "recovery_throttle_factor": 0.44,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741694Z"
+    },
+    {
+      "ract_id": "p70alpha_ract_eb6e88423d43",
+      "cycle": 25,
+      "recovery_verify": 0.9962564,
+      "recovered": false,
+      "recovery_throttle_factor": 0.44,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.742033Z"
+    },
+    {
+      "ract_id": "p70alpha_ract_89870d3ea1b9",
+      "cycle": 30,
+      "recovery_verify": 0.9947904,
+      "recovered": false,
+      "recovery_throttle_factor": 0.2816,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.742347Z"
+    },
+    {
+      "ract_id": "p70alpha_ract_3e84f4397c8d",
+      "cycle": 35,
+      "recovery_verify": 0.9973488,
+      "recovered": true,
+      "recovery_throttle_factor": 1.0,
+      "enforced": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.742511Z"
+    }
+  ],
+  "recovery_attribution_attestations": [
+    {
+      "rat_id": "p70alpha_rat_7132915d3c24",
+      "cycle": 0,
+      "recovery_verify": 0.997802,
+      "recovered": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.740809Z"
+    },
+    {
+      "rat_id": "p70alpha_rat_983e1c7204ef",
+      "cycle": 7,
+      "recovery_verify": 0.9957496,
+      "recovered": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741154Z"
+    },
+    {
+      "rat_id": "p70alpha_rat_ccadbcb41972",
+      "cycle": 14,
+      "recovery_verify": 0.9954572,
+      "recovered": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741465Z"
+    },
+    {
+      "rat_id": "p70alpha_rat_6ca3efdac468",
+      "cycle": 21,
+      "recovery_verify": 0.9956692,
+      "recovered": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.741868Z"
+    },
+    {
+      "rat_id": "p70alpha_rat_3500c137999c",
+      "cycle": 28,
+      "recovery_verify": 0.9953768,
+      "recovered": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.742202Z"
+    },
+    {
+      "rat_id": "p70alpha_rat_dde93a985848",
+      "cycle": 35,
+      "recovery_verify": 0.9973488,
+      "recovered": true,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:36:28.742579Z"
+    }
+  ]
+}

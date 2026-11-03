@@ -1,0 +1,100 @@
+{
+  "report": {
+    "phase": "PHASE74_CONTINUOUS_SLO_OBSERVABILITY_ENFORCEMENT_ENGINE",
+    "timestamp": "2026-11-03T12:35:07.929802Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7471,
+    "cycles": 3,
+    "n_slo_evals": 1,
+    "n_observability_enforcements": 1,
+    "n_adversarial_validations": 1,
+    "n_slo_remediations": 3,
+    "avg_slo_ok": 0.995,
+    "continuous_slo_observability_pass_rate": 0.0,
+    "composes": [
+      "PHASE73-HARDEN",
+      "PHASE73-ATTEST",
+      "PHASE72-MARGIN",
+      "PHASE72-FINALITY",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE54",
+      "PHASE41",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "slo_evals": [
+    {
+      "se_id": "p74-7471-se-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "slo_ok": 0.995,
+      "obs_ok": 0.998352,
+      "anomaly_severity": 0.234,
+      "action": "continuous_slo_observability_enforcement_eval",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:35:07.929733Z"
+    }
+  ],
+  "observability_enforcements": [
+    {
+      "oe_id": "p74-7471-oe-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "observability_ok": 0.998352,
+      "chain_intact": true,
+      "observability_enforced": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:35:07.929748Z"
+    }
+  ],
+  "adversarial_validations": [
+    {
+      "av_id": "p74-7471-av-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "anomaly_score": 0.234,
+      "adversarial_anomaly_detected": false,
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:35:07.929758Z"
+    }
+  ],
+  "slo_remediations": [
+    {
+      "sr_id": "p74-7471-sr-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.234,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:35:07.929770Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000001",
+      "cycle": 1,
+      "venue": "okx",
+      "underlying": "ETH",
+      "severity": 0.2633,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:35:07.929785Z"
+    },
+    {
+      "sr_id": "p74-7471-sr-000002",
+      "cycle": 2,
+      "venue": "bybit",
+      "underlying": "SOL",
+      "severity": 0.2926,
+      "action": "slo_remediation_on_observability_breach",
+      "paper_only": true,
+      "timestamp": "2026-11-03T12:35:07.929796Z"
+    }
+  ]
+}
