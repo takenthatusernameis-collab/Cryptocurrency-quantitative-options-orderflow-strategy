@@ -6,14 +6,14 @@ import sys
 sys.path.insert(0, "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy")
 
 from src.risk.phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v9 import (  # noqa: E402
-    Phase110CfgV9,
+    Phase110Cfg,
     Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityAutonomyV9Loop,
 )
 
 
-def test_phase110_v9_hardened_ultra_deep() -> None:
+def test_phase110_v9_hardened() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
-    cfg = Phase110CfgV9(cycles=240)
+    cfg = Phase110Cfg(cycles=240)
     loop = Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityAutonomyV9Loop(cfg)
     res = loop.run_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v9(cycles=240)
     assert isinstance(res, dict)

@@ -1,11 +1,11 @@
 # PHASE110 RESULT - phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v9
-- Timestamp: 20261104T194417Z
+- Timestamp: 20261104T194654Z
 - Phase: 110 v9
 - paper_only: True
 - cycles: 240
-- elapsed_s: 0.006018
+- elapsed_s: 0.00824
 - hash_chain_len: 0
-- SLO: p99_ms=79.00 err=0.000060 pass=0.999980
+- SLO: p99_ms=78.00 err=0.000060 pass=0.999980
 
 ## GATES
 - adverse_sel_slippage_fill_joint: True
@@ -52,11 +52,11 @@
 - stress_haircuts: True
 
 ## COUNTS
-- adverse_sel_slippage_fill: 240
-- chaos_failover_tamper: 240
-- cross_venue_sor: 240
-- gamma_dealer_hedge: 240
-- iv_surface: 240
-- orderflow: 240
-- post_trade_finality: 240
-- stress_haircut_margin: 240
+- adverse_sel_slippage_fill: 720
+- chaos_failover_tamper: 720
+- cross_venue_sor: 720
+- gamma_dealer_hedge: 720
+- iv_surface: 720
+- orderflow: 720
+- post_trade_finality: 720
+- stress_haircut_margin: 720
