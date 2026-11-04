@@ -1,8 +1,8 @@
 # PHASE94 Cross-Venue Settlement/Finality + Netting/Reconciliation Hardening (LATEST)
 
-Timestamp: 2026-11-04T10:01:33.877654Z
+Timestamp: 2026-11-04T10:13:28.872355Z
 
-OK: True
+OK: False
 
 Gates:
 
@@ -10,7 +10,7 @@ Gates:
 - evidence_chain: True
 - custody_clearing: True
 - settlement_finality: True
-- settlement_finality_hardened: True
+- settlement_finality_hardened: False
 - margin_collateral: True
 - liquidation_buffer_stress_hardening: True
 - live_readiness: True
@@ -33,7 +33,7 @@ Gates:
 - sor_optimal_routing_toxic_flow_guards: True
 - gamma_inventory_hedging_regime_aware_liquidity_provision_stress: True
 - paper_to_live_gate_attestation_quorum: True
-- deterministic_cross_venue_settlement_finality_hash_chain: True
+- deterministic_cross_venue_settlement_finality_hash_chain: False
 - adaptive_fragmentation_response: True
 - cross_venue_netting_reconciliation_hardening: True
 - custody_clearing_netting_reconciliation_attestation: True
