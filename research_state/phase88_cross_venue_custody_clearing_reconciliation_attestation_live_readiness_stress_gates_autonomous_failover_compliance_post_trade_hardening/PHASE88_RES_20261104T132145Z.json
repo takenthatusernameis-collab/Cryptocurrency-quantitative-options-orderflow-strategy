@@ -1,0 +1,1265 @@
+{
+  "phase": "PHASE88_CROSS_VENUE_CUSTODY_CLEARING_RECONCILIATION_ATTESTATION_LIVE_READINESS_STRESS_GATES_AUTONOMOUS_FAILOVER_COMPLIANCE_POST_TRADE_HARDENING_LOOP",
+  "paper_only": true,
+  "seed": 88001,
+  "cycles": 12,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "ok": false,
+  "gates": {
+    "evidence_chain_ok": true,
+    "evidence_chain_tamper_evident": true,
+    "evidence_hash_chain_quorum_ok": true,
+    "compliance_attestation_ok": true,
+    "governance_quorum_ok": true,
+    "resilience_failover_ok": true,
+    "recovery_guardrails_enforced": true,
+    "slo_attestation_ok": true,
+    "slo_attestation_quorum_ok": true,
+    "validation_pass_rate_ok": false,
+    "deterministic_paper_execution_ok": true,
+    "live_paths_hard_gated_paper_only": true,
+    "cross_venue_circuit_breaker_ok": true,
+    "cross_venue_kill_switch_ok": true,
+    "cross_venue_finality_attestation_ok": true,
+    "finality_settlement_reconciliation_ok": true,
+    "margin_collateral_attestation_ok": true,
+    "liquidation_buffer_guardrails_ok": true,
+    "live_readiness_attestation_ok": true,
+    "post_trade_attestation_ok": true,
+    "post_trade_reconciliation_ok": true,
+    "custody_clearing_attestation_ok": true,
+    "custody_clearing_chain_ok": true,
+    "custody_clearing_chain_tamper_evident": true,
+    "custody_clearing_quorum_ok": true,
+    "reconciliation_evidence_ok": true,
+    "audit_trail_tamper_evident_ok": true,
+    "live_readiness_stress_gate_ok": true,
+    "live_readiness_stress_gate_hard_gated_paper_only": true,
+    "autonomous_failover_ok": true,
+    "manual_reset_required": true
+  },
+  "metrics": {
+    "resilience_events": 3,
+    "recovery_events": 2,
+    "compliance_attestations": 2,
+    "governance_decisions": 2,
+    "circuit_breaker_events": 1,
+    "kill_events": 1,
+    "exit_events": 1,
+    "failover_events": 2,
+    "evidence_chain_len": 8,
+    "custody_clearing_chain_len": 3,
+    "reconciliation_evidence_events": 3,
+    "slo_attestations": 3,
+    "stress_gate_events": 3,
+    "paper_executions": 3,
+    "validations": 12,
+    "passed": 11,
+    "pass_rate": 0.916667,
+    "alerts": 1,
+    "audit_trail_events": 8,
+    "settlement_finality_attestations": 3,
+    "margin_collateral_attestations": 3,
+    "live_readiness_attestations": 2,
+    "post_trade_attestations": 3,
+    "reconciliation_events": 3,
+    "custody_clearing_attestations": 3,
+    "custody_quorum_rate": 1.0,
+    "stress_gate_ok_rate": 1.0,
+    "chain_head": "364149817abdf195",
+    "custody_chain_head": "e1f6b560f5f6bfe8"
+  },
+  "components": {
+    "phase39_kill_switch": {
+      "halted": false,
+      "triggers": []
+    },
+    "phase54_risk_fusion": {
+      "risk_ok": true,
+      "halted": false
+    },
+    "phase44_governance": {
+      "governance_ok": true
+    },
+    "phase46_stress": {
+      "adversarial_ok": true
+    },
+    "phase59_execution_hardening": {
+      "gates_ok": true
+    },
+    "phase83_observability": {
+      "ok": true,
+      "gates": {
+        "slo_attestation_ok": true
+      }
+    },
+    "phase85_resilience": {
+      "ok": true
+    },
+    "phase86_resilience_live_readiness_finality_settlement_margin_collateral": {
+      "ok": true
+    },
+    "phase87_cross_venue_settlement_finality": {
+      "ok": true
+    }
+  },
+  "resilience_events": [
+    {
+      "id": "p88r_res_3153b90d9f9d",
+      "cycle": 0,
+      "regime": "shock",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762608Z"
+    },
+    {
+      "id": "p88r_res_e98be4179c7c",
+      "cycle": 5,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762767Z"
+    },
+    {
+      "id": "p88r_res_3c09e69e87e8",
+      "cycle": 10,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762856Z"
+    }
+  ],
+  "recovery_events": [
+    {
+      "id": "p88r_rec_9d4e0176a9b4",
+      "cycle": 0,
+      "regime": "shock",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762615Z"
+    },
+    {
+      "id": "p88r_rec_db094bb1d211",
+      "cycle": 6,
+      "regime": "ranging",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762806Z"
+    }
+  ],
+  "compliance_attestations": [
+    {
+      "id": "p88r_comp_0578b8e95414",
+      "cycle": 0,
+      "regime": "shock",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v88",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762618Z"
+    },
+    {
+      "id": "p88r_comp_07a81b036f71",
+      "cycle": 7,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v88",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762813Z"
+    }
+  ],
+  "governance_decisions": [
+    {
+      "id": "p88r_gov_7983e769208e",
+      "cycle": 0,
+      "regime": "shock",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762620Z"
+    },
+    {
+      "id": "p88r_gov_a2b3804495b6",
+      "cycle": 8,
+      "regime": "ranging",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762823Z"
+    }
+  ],
+  "circuit_breaker_events": [
+    {
+      "id": "p88r_cb_61dd23aa0417",
+      "cycle": 0,
+      "regime": "shock",
+      "trigger": "cross_venue_stress",
+      "halt": true,
+      "provenance_attested": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762732Z"
+    }
+  ],
+  "kill_events": [
+    {
+      "id": "p88r_kill_88b27e4c6e1b",
+      "cycle": 0,
+      "regime": "shock",
+      "trigger": "adversarial_shock",
+      "halt": true,
+      "provenance_attested": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762734Z"
+    }
+  ],
+  "exit_events": [
+    {
+      "id": "p88r_exit_71de39572956",
+      "cycle": 0,
+      "regime": "shock",
+      "action": "live_exit_prepared_paper_only_cross_venue",
+      "position_flattened_simulated": true,
+      "orders_cancelled_simulated": true,
+      "evidence_attached": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762736Z"
+    }
+  ],
+  "failover_events": [
+    {
+      "id": "p88r_fo_90e18877e4a1",
+      "cycle": 0,
+      "regime": "shock",
+      "failover_authorized": true,
+      "cross_venue_failover_ready": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762721Z"
+    },
+    {
+      "id": "p88r_fo_f155ab9d02db",
+      "cycle": 8,
+      "regime": "ranging",
+      "failover_authorized": false,
+      "cross_venue_failover_ready": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762846Z"
+    }
+  ],
+  "evidence_chain": [
+    {
+      "id": "p88r_ev_87475875efac",
+      "cycle": 0,
+      "payload_hash": "7cf6560cfc655279ec55e2254404b8253270c1879de8521ef3693f6b090eb9b0",
+      "prev_hash": "5f822bcade468b20ed6f9eb57b2f5e04e60c520ece93ae5f155b80bcfdd8ceff",
+      "chain_head": "f62d677945811464a977a5b3f42203537b884883b5244bf34e0106bfd68af055",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T13:21:45.762637Z"
+    },
+    {
+      "id": "p88r_ev_19ec00067502",
+      "cycle": 0,
+      "payload_hash": "179e3158fccdfe2b350a893f93bdd44945989911d7e585d9420fea0509fc455c",
+      "prev_hash": "f62d677945811464a977a5b3f42203537b884883b5244bf34e0106bfd68af055",
+      "chain_head": "1aad50443aeedf4d7a36369da3e2b2084b3a0088f29c68199e2f5ac807ea6996",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T13:21:45.762655Z"
+    },
+    {
+      "id": "p88r_ev_07412e242087",
+      "cycle": 0,
+      "payload_hash": "e5044f9efcdf40e25c112602bc46221566d6dea312107801ee1b7f0cac6c5308",
+      "prev_hash": "1aad50443aeedf4d7a36369da3e2b2084b3a0088f29c68199e2f5ac807ea6996",
+      "chain_head": "96d59108c013d25372e589c9cc18f9a2592ba4892a891f2cecf46826b37d1580",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T13:21:45.762665Z"
+    },
+    {
+      "id": "p88r_ev_04203681493c",
+      "cycle": 4,
+      "payload_hash": "1744006e61b2ff8d23ffd120aadf3a245576b475751cfe0bae0706363493c302",
+      "prev_hash": "96d59108c013d25372e589c9cc18f9a2592ba4892a891f2cecf46826b37d1580",
+      "chain_head": "e7112e111aae12a11336251b1a9ce0248e4dde793fa8def9641740cf8bfa0bee",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T13:21:45.762752Z"
+    },
+    {
+      "id": "p88r_ev_a048f89b2d3c",
+      "cycle": 5,
+      "payload_hash": "a837553bdc2b8126df6885086c13333e2ac66231441597e16c63202ffa5e41f8",
+      "prev_hash": "e7112e111aae12a11336251b1a9ce0248e4dde793fa8def9641740cf8bfa0bee",
+      "chain_head": "465f8a0a6cd7dc6a84a129084b12a85031281ac357e7cbebde9d20a2e0879cbc",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T13:21:45.762776Z"
+    },
+    {
+      "id": "p88r_ev_07d17c81f658",
+      "cycle": 7,
+      "payload_hash": "bb7ec7a733f3471268310aec851b1680581fe8f9d5b26af90ccfe8ae7dbf56c9",
+      "prev_hash": "465f8a0a6cd7dc6a84a129084b12a85031281ac357e7cbebde9d20a2e0879cbc",
+      "chain_head": "51742122531f8a22a4b732a86428077f73afadf7e91a0adf70dc0f4e95b26524",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T13:21:45.762819Z"
+    },
+    {
+      "id": "p88r_ev_ef70d6fd073a",
+      "cycle": 8,
+      "payload_hash": "3c0c1ea44e5c706dce728dc95a647a193009f17d1fc853067465df92811085ac",
+      "prev_hash": "51742122531f8a22a4b732a86428077f73afadf7e91a0adf70dc0f4e95b26524",
+      "chain_head": "146e246650e7023184ba365cfa9ff06c64a4e85dbd44531c8855c926c778e18d",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T13:21:45.762833Z"
+    },
+    {
+      "id": "p88r_ev_21fb9959ac44",
+      "cycle": 10,
+      "payload_hash": "d7cb9d1fe8ed02f79dd775f3dc6a68eb6d63d88de1e05f31b2085f4691c715c6",
+      "prev_hash": "146e246650e7023184ba365cfa9ff06c64a4e85dbd44531c8855c926c778e18d",
+      "chain_head": "364149817abdf19541ad87b1a8c6a33e58e9d184bda1ec1232f4a6654b4093cc",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T13:21:45.762865Z"
+    }
+  ],
+  "custody_clearing_chain": [
+    {
+      "id": "p88r_cc_75a07d2cfb22",
+      "cycle": 0,
+      "payload_hash": "be44e11d8c6e281f26fe3826600c0db86ca1144fcda2fcf8d386a7ee7a30741c",
+      "prev_hash": "17d215a38984f180e64136897ae794afe4c11b49178beaa2b1112d782e777b01",
+      "chain_head": "d54ed47aa71a50067d287eb343f93a5041cbb0915f3adb737a4903b62e42e689",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "custody_clearing_attested": true,
+      "ts": "2026-11-04T13:21:45.762693Z"
+    },
+    {
+      "id": "p88r_cc_abd53ccdef79",
+      "cycle": 5,
+      "payload_hash": "c25ed3eb3c5ecbf2f7fee5e0da311acedbc943a06d9bc0dae534570d5e436290",
+      "prev_hash": "d54ed47aa71a50067d287eb343f93a5041cbb0915f3adb737a4903b62e42e689",
+      "chain_head": "aedb2a6406a6b0cafd0170d0eb0a9a021e5a8cb91266cf330460f3063fe57d5c",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "custody_clearing_attested": true,
+      "ts": "2026-11-04T13:21:45.762792Z"
+    },
+    {
+      "id": "p88r_cc_7c4a4b280890",
+      "cycle": 10,
+      "payload_hash": "32391f50ad0ed0e459c47f2a1facea28c34b1b3aac6278aebf59fe45d6839f7b",
+      "prev_hash": "aedb2a6406a6b0cafd0170d0eb0a9a021e5a8cb91266cf330460f3063fe57d5c",
+      "chain_head": "e1f6b560f5f6bfe8d5117ea0d84511b433e28cb72e943314fdd9d175bfa87165",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "custody_clearing_attested": true,
+      "ts": "2026-11-04T13:21:45.762879Z"
+    }
+  ],
+  "reconciliation_evidence_events": [
+    {
+      "id": "p88r_recnev_be0a9380fe10",
+      "cycle": 0,
+      "regime": "shock",
+      "type": "cross_venue_custody_clearing_reconciliation_evidence",
+      "evidence_id": "p88r_cc_75a07d2cfb22",
+      "chain_head": "d54ed47aa71a50067d287eb343f93a5041cbb0915f3adb737a4903b62e42e689",
+      "quorum_met": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762696Z"
+    },
+    {
+      "id": "p88r_recnev_df44ca64cf31",
+      "cycle": 5,
+      "regime": "ranging",
+      "type": "cross_venue_custody_clearing_reconciliation_evidence",
+      "evidence_id": "p88r_cc_abd53ccdef79",
+      "chain_head": "aedb2a6406a6b0cafd0170d0eb0a9a021e5a8cb91266cf330460f3063fe57d5c",
+      "quorum_met": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762795Z"
+    },
+    {
+      "id": "p88r_recnev_a11ce59c95e1",
+      "cycle": 10,
+      "regime": "ranging",
+      "type": "cross_venue_custody_clearing_reconciliation_evidence",
+      "evidence_id": "p88r_cc_7c4a4b280890",
+      "chain_head": "e1f6b560f5f6bfe8d5117ea0d84511b433e28cb72e943314fdd9d175bfa87165",
+      "quorum_met": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762881Z"
+    }
+  ],
+  "slo_attestations": [
+    {
+      "id": "satt0",
+      "cycle": 0,
+      "regime": "shock",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 40.0,
+      "error_rate_max": 0.003,
+      "live_readiness_slo_gates_hard_gated": true,
+      "ts": "2026-11-04T13:21:45.762641Z"
+    },
+    {
+      "id": "satt1",
+      "cycle": 4,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 40.0,
+      "error_rate_max": 0.003,
+      "live_readiness_slo_gates_hard_gated": true,
+      "ts": "2026-11-04T13:21:45.762744Z"
+    },
+    {
+      "id": "satt2",
+      "cycle": 8,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 40.0,
+      "error_rate_max": 0.003,
+      "live_readiness_slo_gates_hard_gated": true,
+      "ts": "2026-11-04T13:21:45.762825Z"
+    }
+  ],
+  "stress_gate_events": [
+    {
+      "id": "sg0",
+      "cycle": 0,
+      "regime": "shock",
+      "slo_ok": true,
+      "pass_rate_ok": true,
+      "gate_ok": true,
+      "p99_latency_ms": 45.0,
+      "error_rate": 0.00064,
+      "stress_p99_latency_ms_max": 70.0,
+      "stress_error_rate_max": 0.01,
+      "live_readiness_stress_gate_hard_gated_paper_only": true,
+      "ts": "2026-11-04T13:21:45.762710Z"
+    },
+    {
+      "id": "sg1",
+      "cycle": 4,
+      "regime": "ranging",
+      "slo_ok": true,
+      "pass_rate_ok": true,
+      "gate_ok": true,
+      "p99_latency_ms": 48.8,
+      "error_rate": 0.000592,
+      "stress_p99_latency_ms_max": 70.0,
+      "stress_error_rate_max": 0.01,
+      "live_readiness_stress_gate_hard_gated_paper_only": true,
+      "ts": "2026-11-04T13:21:45.762757Z"
+    },
+    {
+      "id": "sg2",
+      "cycle": 8,
+      "regime": "ranging",
+      "slo_ok": true,
+      "pass_rate_ok": true,
+      "gate_ok": true,
+      "p99_latency_ms": 62.1,
+      "error_rate": 0.000784,
+      "stress_p99_latency_ms_max": 70.0,
+      "stress_error_rate_max": 0.01,
+      "live_readiness_stress_gate_hard_gated_paper_only": true,
+      "ts": "2026-11-04T13:21:45.762837Z"
+    }
+  ],
+  "paper_executions": [
+    {
+      "id": "p88r_exec_16e81248e5cc",
+      "cycle": 0,
+      "regime": "shock",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": false,
+      "symbol": "BTC-PERP",
+      "venue": "deribit",
+      "side": "buy",
+      "px": 100000.0,
+      "qty": 0.01,
+      "notional_usd": 1000.0,
+      "fill_price": 0.0,
+      "fees_usd": 0.2,
+      "settled": false,
+      "finality_confirmed": false,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-04T13:21:45.762647Z"
+    },
+    {
+      "id": "p88r_exec_8e1887144393",
+      "cycle": 5,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "SOL-PERP",
+      "venue": "binance",
+      "side": "sell",
+      "px": 100165.5,
+      "qty": 0.0155,
+      "notional_usd": 1552.56525,
+      "fill_price": 100165.5,
+      "fees_usd": 0.31051305,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-04T13:21:45.762771Z"
+    },
+    {
+      "id": "p88r_exec_7af8d7adedb5",
+      "cycle": 10,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "ETH-PERP",
+      "venue": "okx",
+      "side": "buy",
+      "px": 100331.0,
+      "qty": 0.021,
+      "notional_usd": 2106.951,
+      "fill_price": 100331.0,
+      "fees_usd": 0.4213902,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-04T13:21:45.762859Z"
+    }
+  ],
+  "validations": [
+    {
+      "id": "val0",
+      "cycle": 0,
+      "regime": "shock",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": false,
+      "ts": "2026-11-04T13:21:45.762729Z"
+    },
+    {
+      "id": "val1",
+      "cycle": 1,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762738Z"
+    },
+    {
+      "id": "val2",
+      "cycle": 2,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762740Z"
+    },
+    {
+      "id": "val3",
+      "cycle": 3,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762742Z"
+    },
+    {
+      "id": "val4",
+      "cycle": 4,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762764Z"
+    },
+    {
+      "id": "val5",
+      "cycle": 5,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762804Z"
+    },
+    {
+      "id": "val6",
+      "cycle": 6,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762811Z"
+    },
+    {
+      "id": "val7",
+      "cycle": 7,
+      "regime": "trend",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762821Z"
+    },
+    {
+      "id": "val8",
+      "cycle": 8,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762852Z"
+    },
+    {
+      "id": "val9",
+      "cycle": 9,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762854Z"
+    },
+    {
+      "id": "val10",
+      "cycle": 10,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762891Z"
+    },
+    {
+      "id": "val11",
+      "cycle": 11,
+      "regime": "shock",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+custody+clearing+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T13:21:45.762893Z"
+    }
+  ],
+  "alerts": [
+    {
+      "id": "v0",
+      "cycle": 0,
+      "regime": "shock",
+      "type": "validation_fail",
+      "ts": "2026-11-04T13:21:45.762728Z"
+    }
+  ],
+  "audit_trail_events": [
+    {
+      "id": "p88r_audit_2b3a57ba5c7d",
+      "cycle": 0,
+      "tag": "custody_clearing_reconciliation_evidence",
+      "payload_hash": "be44e11d8c6e281f26fe3826600c0db86ca1144fcda2fcf8d386a7ee7a30741c",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T13:21:45.762703Z"
+    },
+    {
+      "id": "p88r_audit_dddab14f7b00",
+      "cycle": 0,
+      "tag": "live_readiness_stress_gate",
+      "payload_hash": "06d5f31afce3629ad25ae948b811cd66b93ba4991df29e7637a8432b5688d72a",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T13:21:45.762717Z"
+    },
+    {
+      "id": "p88r_audit_bdb0cbb8b17e",
+      "cycle": 0,
+      "tag": "autonomous_failover",
+      "payload_hash": "f1526b61eda9fb147bfca033b000ad10cda800e880871bca357ee2cc51915c18",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T13:21:45.762726Z"
+    },
+    {
+      "id": "p88r_audit_a0bb646aa34e",
+      "cycle": 4,
+      "tag": "live_readiness_stress_gate",
+      "payload_hash": "f34905c3ad38aca7b5c40787c71a14624f894a292d08db4f8583bba064e0c275",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T13:21:45.762763Z"
+    },
+    {
+      "id": "p88r_audit_14d81483fa34",
+      "cycle": 5,
+      "tag": "custody_clearing_reconciliation_evidence",
+      "payload_hash": "c25ed3eb3c5ecbf2f7fee5e0da311acedbc943a06d9bc0dae534570d5e436290",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T13:21:45.762800Z"
+    },
+    {
+      "id": "p88r_audit_2c1c4d1849d6",
+      "cycle": 8,
+      "tag": "live_readiness_stress_gate",
+      "payload_hash": "1506da4100e9f0d8544495bc07903a9c0467fad385d36e582cdbddc745024f08",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T13:21:45.762843Z"
+    },
+    {
+      "id": "p88r_audit_9b632578abae",
+      "cycle": 8,
+      "tag": "autonomous_failover",
+      "payload_hash": "638fd08b7e03c7fc8e5477d6548875dbbb1983cec230bd194150562690c72463",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T13:21:45.762850Z"
+    },
+    {
+      "id": "p88r_audit_1aa90cbaf14f",
+      "cycle": 10,
+      "tag": "custody_clearing_reconciliation_evidence",
+      "payload_hash": "32391f50ad0ed0e459c47f2a1facea28c34b1b3aac6278aebf59fe45d6839f7b",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T13:21:45.762886Z"
+    }
+  ],
+  "settlement_finality_attestations": [
+    {
+      "id": "p88r_sf_e9e32a0feb78",
+      "cycle": 0,
+      "regime": "shock",
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_finality_attested": true,
+      "evidence_hash_chain_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762658Z"
+    },
+    {
+      "id": "p88r_sf_24195aeb3001",
+      "cycle": 4,
+      "regime": "ranging",
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_finality_attested": true,
+      "evidence_hash_chain_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762747Z"
+    },
+    {
+      "id": "p88r_sf_465a9597ce81",
+      "cycle": 8,
+      "regime": "ranging",
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_finality_attested": true,
+      "evidence_hash_chain_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762827Z"
+    }
+  ],
+  "margin_collateral_attestations": [
+    {
+      "id": "p88r_mc_13ae799baafe",
+      "cycle": 0,
+      "regime": "shock",
+      "margin_collateral_ratio": 1.16,
+      "liquidation_buffer": 0.16,
+      "liquidation_buffer_ok": true,
+      "margin_collateral_ok": true,
+      "collateral_sufficient": true,
+      "paper_only": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762671Z"
+    },
+    {
+      "id": "p88r_mc_baccdd232f17",
+      "cycle": 5,
+      "regime": "ranging",
+      "margin_collateral_ratio": 1.16,
+      "liquidation_buffer": 0.16,
+      "liquidation_buffer_ok": true,
+      "margin_collateral_ok": true,
+      "collateral_sufficient": true,
+      "paper_only": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762779Z"
+    },
+    {
+      "id": "p88r_mc_5c22def494f4",
+      "cycle": 10,
+      "regime": "ranging",
+      "margin_collateral_ratio": 1.16,
+      "liquidation_buffer": 0.16,
+      "liquidation_buffer_ok": true,
+      "margin_collateral_ok": true,
+      "collateral_sufficient": true,
+      "paper_only": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762867Z"
+    }
+  ],
+  "live_readiness_attestations": [
+    {
+      "id": "p88r_lr_ad2fbb7a11dd",
+      "cycle": 0,
+      "regime": "shock",
+      "live_readiness_ok": true,
+      "paper_only": true,
+      "live_path_hard_gated": true,
+      "gates_armed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762674Z"
+    },
+    {
+      "id": "p88r_lr_727d0480b526",
+      "cycle": 6,
+      "regime": "ranging",
+      "live_readiness_ok": true,
+      "paper_only": true,
+      "live_path_hard_gated": true,
+      "gates_armed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762809Z"
+    }
+  ],
+  "post_trade_attestations": [
+    {
+      "id": "p88r_pta_a4414ddbb15d",
+      "cycle": 0,
+      "regime": "shock",
+      "exec_id": "p88r_exec_16e81248e5cc",
+      "venue": "deribit",
+      "symbol": "BTC-PERP",
+      "reconciled": true,
+      "settlement_reconciled": true,
+      "finality_reconciled": true,
+      "fees_reconciled": true,
+      "post_trade_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762706Z"
+    },
+    {
+      "id": "p88r_pta_40c6524864b8",
+      "cycle": 5,
+      "regime": "ranging",
+      "exec_id": "p88r_exec_8e1887144393",
+      "venue": "binance",
+      "symbol": "SOL-PERP",
+      "reconciled": true,
+      "settlement_reconciled": true,
+      "finality_reconciled": true,
+      "fees_reconciled": true,
+      "post_trade_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762802Z"
+    },
+    {
+      "id": "p88r_pta_1ca5db2c2514",
+      "cycle": 10,
+      "regime": "ranging",
+      "exec_id": "p88r_exec_7af8d7adedb5",
+      "venue": "okx",
+      "symbol": "ETH-PERP",
+      "reconciled": true,
+      "settlement_reconciled": true,
+      "finality_reconciled": true,
+      "fees_reconciled": true,
+      "post_trade_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762889Z"
+    }
+  ],
+  "reconciliation_events": [
+    {
+      "id": "p88r_recn_2e9e55541409",
+      "cycle": 0,
+      "regime": "shock",
+      "type": "finality_settlement_reconciliation",
+      "matched": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762667Z"
+    },
+    {
+      "id": "p88r_recn_b279236fabb2",
+      "cycle": 4,
+      "regime": "ranging",
+      "type": "finality_settlement_reconciliation",
+      "matched": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762755Z"
+    },
+    {
+      "id": "p88r_recn_7622b1e6237b",
+      "cycle": 8,
+      "regime": "ranging",
+      "type": "finality_settlement_reconciliation",
+      "matched": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T13:21:45.762835Z"
+    }
+  ],
+  "custody_clearing_attestations": [
+    {
+      "id": "p88r_cca_7c433f7f229f",
+      "cycle": 0,
+      "regime": "shock",
+      "venue_reports": {
+        "deribit": {
+          "custody_positions_reconciled": true,
+          "clearing_evidence_hash": "c6112cdd869d50e0",
+          "cleared": true,
+          "evidence_ok": true,
+          "paper_only": true
+        },
+        "okx": {
+          "custody_positions_reconciled": true,
+          "clearing_evidence_hash": "24f2e83aaa6aef3b",
+          "cleared": true,
+          "evidence_ok": true,
+          "paper_only": true
+        },
+        "binance": {
+          "custody_positions_reconciled": true,
+          "clearing_evidence_hash": "26a42d5de6faae0c",
+          "cleared": true,
+          "evidence_ok": true,
+          "paper_only": true
+        }
+      },
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "custody_clearing_ok": true,
+      "quorum_met": true,
+      "quorum_min": 4,
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762681Z"
+    },
+    {
+      "id": "p88r_cca_dab3aec204e9",
+      "cycle": 5,
+      "regime": "ranging",
+      "venue_reports": {
+        "deribit": {
+          "custody_positions_reconciled": true,
+          "clearing_evidence_hash": "5f16b24aefc5c1c4",
+          "cleared": true,
+          "evidence_ok": true,
+          "paper_only": true
+        },
+        "okx": {
+          "custody_positions_reconciled": true,
+          "clearing_evidence_hash": "a5de27d403b7d25d",
+          "cleared": true,
+          "evidence_ok": true,
+          "paper_only": true
+        },
+        "binance": {
+          "custody_positions_reconciled": true,
+          "clearing_evidence_hash": "ef9869bad9ed2163",
+          "cleared": true,
+          "evidence_ok": true,
+          "paper_only": true
+        }
+      },
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "custody_clearing_ok": true,
+      "quorum_met": true,
+      "quorum_min": 4,
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762784Z"
+    },
+    {
+      "id": "p88r_cca_88020726a94a",
+      "cycle": 10,
+      "regime": "ranging",
+      "venue_reports": {
+        "deribit": {
+          "custody_positions_reconciled": true,
+          "clearing_evidence_hash": "91159c6d721f2442",
+          "cleared": true,
+          "evidence_ok": true,
+          "paper_only": true
+        },
+        "okx": {
+          "custody_positions_reconciled": true,
+          "clearing_evidence_hash": "8e027347702170fe",
+          "cleared": true,
+          "evidence_ok": true,
+          "paper_only": true
+        },
+        "binance": {
+          "custody_positions_reconciled": true,
+          "clearing_evidence_hash": "3c26ea663164020c",
+          "cleared": true,
+          "evidence_ok": true,
+          "paper_only": true
+        }
+      },
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "custody_clearing_ok": true,
+      "quorum_met": true,
+      "quorum_min": 4,
+      "paper_only": true,
+      "ts": "2026-11-04T13:21:45.762872Z"
+    }
+  ],
+  "ts": "2026-11-04T13:21:45.762920Z"
+}
