@@ -1,71 +1,76 @@
-TIMESTAMP: 2026-11-04T00:25:37Z
+TIMESTAMP: 2026-11-04T00:47:40Z
 REPO: Cryptocurrency-quantitative-options-orderflow-strategy
-PRIORITY: P0 - EXECUTION CRITICAL PATH
+PRIORITY: P0 - CRYPTO OPTIONS ORDERFLOW CRITICAL PATH
 MODE: HEAVY IMPLEMENTATION (NO DOC-ONLY WORK)
 
-# OBJECTIVE (DO NOT DEVIATE)
-Make the strategy executable end-to-end with orderflow-driven signals wired into options execution, risk controls, and attribution. Treat passing tests as the gate to completion - remove every blocking bottleneck.
+# OBJECTIVE (NON-NEGOTIABLE)
+Wire cryptocurrency options + orderflow end-to-end: orderflow microstructure -> features/signals -> greeks-aware sizing -> execution/SOR with risk guards -> telemetry/attribution. Treat `pytest` as gate. Eliminate every bottleneck preventing significant progress.
 
-# INFERRED CONTEXT (BASED ON REPO STRUCTURE)
-- Large test suite (2799 tests collected) across phases 1..84, integration, adversarial/stress - integration gaps are likely failure mode
-- Core surfaces: `src/` (orderflow, signals, options/pricing/greeks, execution/SOR, risk, portfolio, telemetry), `tests/`, `research_state/` (extensive artifacts), `config/`, `scripts/`
-- Focus on wiring (orderflow -> signals -> sizing/greeks -> SOR/execution -> risk/telemetry/attribution), not re-documenting
+# CURRENT STATE (INFERRED)
+- 337 src modules, 197 test files, 2799 tests collected
+- Pipeline integration tests pass (3/3). Adversarial stress tests pass (25/25).
+- Large phase-based test suite suggests many integration seams may be partially wired or need hardening
+- Heavy artifacts in `research_state/` indicate prior campaign work
 
-# BOTTLENECKS TO REMOVE FIRST (BLOCKING)
-1. **Test health** - Run full suite and fix all failures until green. Do not skip/xfail without fixing root cause.
-2. **Import/dependency/config** - Resolve import errors, missing config, env issues blocking tests
-3. **Integration seams** - Connect orderflow microstructure to signal generation and options execution paths
-4. **Production hardening** - Wire guards/circuit breakers/kill switches/attestation where phase tests reference them
+# BLOCKERS TO ELIMINATE IMMEDIATELY
+1. **Full test health** - Run full suite in background/strategically; fix all failures with root-cause fixes (imports/config/cascades first). Never xfail/skip.
+2. **Orderflow->Options wiring gaps** - Ensure CVD/OFI/footprint/liquidations flow into signals that actually reach options execution paths (dealer gamma/flow references).
+3. **Execution/risk enforcement** - Verify pre-trade risk, guards, circuit breakers, kill-switch paths are enforced (no bypass) on any execution path touched by tests.
+4. **Integration seams** - Close gaps surfaced by high-phase/pipeline/integration tests; wire unimplemented stubs that block tested behavior.
 
-# HEAVY INITIAL TASK (MUST EXECUTE IN THIS ORDER)
+# MANDATORY EXECUTION SEQUENCE (HEAVY)
 
-## STEP 1: INVENTORY (QUICK MAP)
-- Map critical modules: `src/orderflow/`, `src/signals/` (or alpha/features), `src/options/`, `src/execution/`, `src/risk/`, `src/portfolio/`, `src/telemetry/`, `src/integration/`, `src/config/`
-- Review `config/`, `requirements.txt`, `mypy.ini`
-- Note `src/main.py` and pipeline orchestration
-
-## STEP 2: UNBLOCK TESTS (BLOCKING - HEAVY)
+## STEP 1: RAPID MAP (5-10 min)
 ```bash
 cd /home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy
-python -m pytest -q 2>&1 | tail -80
+ls src/orderflow src/signals src/options src/execution src/risk src/integration src/flow 2>&1 | head -40
+cat config/settings.yaml 2>&1 | head -80
+cat requirements.txt
 ```
-- Fix ALL failures. After each fix batch, re-run. If environment issue (deps), install/fix immediately.
-- Focus on first failures - often import/config cascade.
 
-## STEP 3: WIRE CRITICAL PATH (HEAVY IMPLEMENTATION)
-- **Orderflow ingestion -> features/signals**: Ensure orderflow microstructure consumed by signal generation
-- **Signals -> sizing/greeks-aware**: Flow to position sizing with greeks awareness
-- **Execution/SOR + risk checks**: Route through SOR with pre-trade risk/guards/circuit breakers enforced (no bypass)
-- **Telemetry/attribution**: Ensure hooks exist for executed paths
-- **Integration seams**: Close gaps revealed by integration/phase tests
+## STEP 2: UNBLOCK TESTS (BLOCKING)
+```bash
+python -m pytest -q 2>&1 | tail -60
+```
+- Triage first failures (imports/config/deps). Fix cascades. Re-run after each batch.
+- If deps missing, install from requirements.txt immediately.
+- Do not proceed until failures are understood and being fixed.
 
-## STEP 4: VERIFY END-TO-END (HARD GATE)
+## STEP 3: WIRE CRITICAL CRYPTO OPTIONS ORDERFLOW PATH (HEAVY)
+Prioritize wiring in this exact order:
+1. **Orderflow ingestion/features** (`src/orderflow/`, `src/features/orderflow*`, `src/ingestion/*`) - ensure trades/liquidations/footprint/CVD/OFI normalized and consumed
+2. **Signals** (`src/signals/`, `src/alpha/`, `src/flow/`) - flow orderflow features into composite signals with clear interfaces
+3. **Options + greeks** (`src/options/`, `src/features/gamma_exposure*`, `src/features/iv*`) - greeks-aware sizing, gamma exposure, IV surface integrated
+4. **Execution/SOR + risk** (`src/execution/`, `src/risk/`, `src/portfolio/`) - route through SOR with pre-trade checks, guards/circuit breakers/kill switches enforced
+5. **Integration/orchestration/telemetry/attribution** (`src/integration/`, `src/orchestration/`, `src/telemetry/`, `src/attribution/`) - close seams, ensure observability on executed paths
+
+## STEP 4: HARD GATE - FULL GREEN
 ```bash
 python -m pytest -q 2>&1 | tail -40
+python -m pytest tests/test_pipeline_integration.py -v 2>&1 | tail -10
 ```
-- All tests must pass. If any remain, return to STEP 2.
-- If pipeline integration tests exist, ensure they pass: `python -m pytest tests/test_pipeline_integration.py -v`
+ALL tests must pass. If any failures remain, return to STEP 2. No stopping while red.
+
+# IF ALREADY GREEN (FORCE HEAVY CAMPAIGN)
+Do NOT declare done. Execute deep integration hardening:
+1. Trace `tests/test_pipeline_integration.py` and every import it touches - harden all seams
+2. Sweep high-phase tests (phase 50+): identify unintegrated modules and wire them to exercised paths
+3. Strengthen crypto options orderflow integration (dealer gamma positioning/flow, liquidity, pin risk where tested)
+4. Stress adversarial paths: `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py` - keep green, add guards if brittle
+5. Run full suite repeatedly until stable under all collected tests
 
 # SUCCESS CRITERIA
-- [ ] `python -m pytest -q` passes with no errors/failures (blocking)
-- [ ] Orderflow -> signals -> execution critical path concretely wired (no unimplemented stubs blocking tested paths)
-- [ ] Risk/guards/circuit breakers enforced on execution paths touched
-- [ ] Changes minimal, correct, consistent with existing codebase style
+- [ ] `python -m pytest -q` exits 0 with no failures/errors
+- [ ] Concrete wiring: orderflow -> signals -> greeks-aware sizing -> execution/SOR with enforced risk guards
+- [ ] No unimplemented stubs blocking tested paths; integration seams closed
+- [ ] Changes minimal, idiomatic to codebase, tests updated only if fixing to match correct behavior
 
-# NEXT FOCUS CAMPAIGN (IF ALREADY GREEN - FORCE HEAVY WORK)
-If tests already pass, DO NOT stop. Run deep integration pass:
-1. Trace `tests/test_pipeline_integration.py` and harden seams it exercises
-2. Review high-phase tests (70+) for unintegrated components and wire them
-3. Strengthen integration between orderflow microstructure and options execution (dealer gamma/flow where referenced)
-4. Stress test critical paths: `tests/test_adversarial_stress.py`, `tests/test_backtest_stress_adversarial.py` - fix failures
-5. Re-run full suite until stable
+# RULES
+- HEAVY WORK ONLY. Code > commentary/docs.
+- REMOVE BOTTLENECKS. Implement missing pieces if they block tested behavior.
+- TEST-DRIVEN. Let tests dictate exact wiring/fixes.
+- NO COSMETIC SCOPE CREEP. Fix what blocks progress.
+- NO SKIPPING FAILING TESTS.
+- LEAVE NO OBVIOUS SEAM UNWIRED IF TESTS IMPLY IT.
 
-# RULES FOR THIS SESSION
-- HEAVY WORK ONLY. Prioritize code changes over summaries/docs
-- REMOVE BOTTLENECKS. If blocked by missing piece, implement it
-- TEST-DRIVEN UNBLOCKING. Let tests tell you what to wire/fix
-- NO SCOPE CREEP TO PURELY COSMETIC. Fix what blocks progress
-- LEAVE NO OBVIOUS SEAM UNWIRED IF TESTS IMPLY IT
-- DO NOT SKIP FAILING TESTS
-
-START NOW: Run STEP 1 + STEP 2 immediately.
+START NOW: STEP 1 + STEP 2 immediately. Do not summarize - act.
