@@ -1,62 +1,59 @@
-# PHASE110 RESULT - phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v9
-- Timestamp: 20261104T203213Z
-- Phase: 110 v9
-- paper_only: True
-- cycles: 240
-- elapsed_s: 0.007843
-- hash_chain_len: 0
-- SLO: p99_ms=78.00 err=0.000060 pass=0.999980
+# PHASE110 V9 RES (ULTRA-DEEP CROSS-VENUE SOR + POST-TRADE FINALITY + AUTONOMY) - 1793824496.5051038
 
-## GATES
-- adverse_sel_slippage_fill_joint: True
-- adverse_sel_slippage_fill_liquidity_regime_joint: True
-- adverse_selection_guard: True
-- all_ok: True
-- audit_trail_tamper_evident: True
-- autonomous_failover: True
-- autonomous_resilience_compliance_governance: True
-- chaos_failover_tamper: True
-- chaos_resilience: True
-- compliance_governance: True
-- cross_margin_correlated_crisis_stress_haircuts: True
-- cross_venue_routing_toxicity: True
-- cross_venue_sor_routing: True
+- phase: 110 name: phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v9 ver: 9
+- cycles: 240 finite_ok: True elapsed_sec: 0.0687
+- hash_chain_len: 8
+
+## Gates
 - evidence_chain: True
-- fill_probability_model: True
-- finite_numerics: True
-- fragmentation_routing: True
-- gamma_dealer_hedge_convexity_basis_rates: True
-- gamma_dealer_hedge_toxicity_adjusted: True
+- orderflow_toxicity_aware: True
+- cross_venue_sor_routing: True
 - gamma_dealer_positioning_inventory_hedging: True
-- idempotency_replay: True
-- iv_calibration_guard: True
-- iv_surface_greeks: True
-- latency_slippage_deep_model: True
-- liquidity_aware_hedge_sizing: True
-- live_execution_readiness: True
-- live_readiness_error_rate: True
-- live_readiness_latency_p99: True
-- live_readiness_pass_rate: True
+- fragmentation_routing: True
 - margin_collateral_netting: True
+- settlement_finality_reconciliation_post_trade: True
+- live_execution_readiness: True
+- slippage_model_calibration_guard: True
+- latency_slippage_deep_model: True
+- adverse_selection_guard: True
+- liquidity_aware_hedge_sizing: False
+- autonomous_failover: True
+- compliance_governance: True
+- chaos_resilience: True
+- idempotency_replay: True
+- fill_probability_model: True
+- stress_haircuts: True
+- finite_numerics: True
 - no_placeholders: True
+- audit_trail_tamper_evident: False
+- iv_surface_greeks: True
 - orderflow_microstructure: True
 - orderflow_microstructure_vpin: True
-- orderflow_toxicity_aware: True
-- orderflow_toxicity_regime_classification: True
-- post_trade_finality_reconciliation: True
-- post_trade_idempotent_replay_finality: True
-- settlement_finality_reconciliation_post_trade: True
-- slippage_model_calibration_guard: True
-- smile_skew_term_arb_sanity: True
+- adverse_sel_slippage_fill_joint: True
+- gamma_dealer_hedge_toxicity_adjusted: True
 - stress_haircut_margin: True
-- stress_haircuts: True
+- chaos_failover_tamper: True
+- cross_venue_routing_toxicity: True
+- post_trade_finality_reconciliation: True
+- iv_calibration_guard: True
+- smile_skew_term_arb_sanity: True
+- orderflow_toxicity_regime_classification: True
+- adverse_sel_slippage_fill_liquidity_regime_joint: True
+- gamma_dealer_hedge_convexity_basis_rates: True
+- cross_margin_correlated_crisis_stress_haircuts: True
+- post_trade_idempotent_replay_finality: True
+- autonomous_resilience_compliance_governance: False
+- live_readiness_latency_p99: True
+- live_readiness_error_rate: True
+- live_readiness_pass_rate: True
+- all_ok: False
 
-## COUNTS
-- adverse_sel_slippage_fill: 720
-- chaos_failover_tamper: 720
-- cross_venue_sor: 720
-- gamma_dealer_hedge: 720
-- iv_surface: 720
-- orderflow: 720
-- post_trade_finality: 720
-- stress_haircut_margin: 720
+## Hashes
+- iv: 5fd7146818bdfd44
+- of: 1b34d24e5a6f8bad
+- sor: 0d61db6e04842d7b
+- asf: fe5bf2523a55439b
+- gdh: fa395eaae8d88539
+- shm: 299ff56218e94eda
+- cft: 03986b8759e0c0a3
+- ptf: fc764b4c14fdfe01

@@ -11,7 +11,7 @@ from src.risk.phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_
 )
 
 
-def test_phase110_v9_hardened() -> None:
+def test_phase110_v9_ultra_deep() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     cfg = Phase110Cfg(cycles=240)
     loop = Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityAutonomyV9Loop(cfg)
