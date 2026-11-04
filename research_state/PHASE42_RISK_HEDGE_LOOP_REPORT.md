@@ -1,7 +1,7 @@
 # PHASE42 RISK HEDGE LOOP REPORT
 
-Timestamp: 2026-11-03T06:47:56Z
-Cycles: 8, Paper-only: true
+Timestamp: 2026-11-04T00:46:49Z
+Cycles: 20, Paper-only: true
 Greeks final risk_ok: True, Hedge exec_ok_all: True
-Limits all_ok: False, Breach cycles: 7
+Limits all_ok: False, Breach cycles: 15
 Integrated with Phases 39/40/41: OK
