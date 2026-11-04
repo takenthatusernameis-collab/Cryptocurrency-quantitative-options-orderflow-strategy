@@ -1,0 +1,842 @@
+{
+  "phase": "PHASE84_AUTONOMOUS_RESILIENCE_RECOVERY_COMPLIANCE_GOVERNANCE_HARDENING_LOOP",
+  "paper_only": true,
+  "seed": 84001,
+  "cycles": 10,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "ok": true,
+  "gates": {
+    "evidence_chain_ok": true,
+    "compliance_attestation_ok": true,
+    "governance_quorum_ok": true,
+    "resilience_failover_ok": true,
+    "recovery_guardrails_enforced": true,
+    "cross_venue_circuit_breaker_ok": true,
+    "live_paths_hard_gated_paper_only": true
+  },
+  "metrics": {
+    "resilience_events": 2,
+    "recovery_events": 2,
+    "compliance_attestations": 2,
+    "governance_decisions": 2,
+    "circuit_breaker_events": 0,
+    "evidence_chain_len": 1,
+    "chain_head": "927184836ad5c857"
+  },
+  "components": {
+    "phase39_kill_switch": {
+      "phase": "PHASE39_KILL_SWITCHES",
+      "timestamp_utc": "2026-11-04T11:28:37.237562Z",
+      "paper_only": true,
+      "n_cycles": 12,
+      "n_kill_events": 3,
+      "global_halts": 9,
+      "trading_enabled_cycles": 3,
+      "cycles": [
+        {
+          "cycle": 0,
+          "timestamp": "2026-11-04T11:28:37.237248Z",
+          "paper_only": true,
+          "regime": "normal",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 1,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 1,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 1,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 1,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [],
+          "global_halt": false,
+          "trading_enabled": true,
+          "action_taken": "none"
+        },
+        {
+          "cycle": 1,
+          "timestamp": "2026-11-04T11:28:37.237276Z",
+          "paper_only": true,
+          "regime": "stressed",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 2,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 2,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 2,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 2,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [],
+          "global_halt": false,
+          "trading_enabled": true,
+          "action_taken": "none"
+        },
+        {
+          "cycle": 2,
+          "timestamp": "2026-11-04T11:28:37.237299Z",
+          "paper_only": true,
+          "regime": "volatile",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 3,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 3,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 3,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 3,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [],
+          "global_halt": false,
+          "trading_enabled": true,
+          "action_taken": "none"
+        },
+        {
+          "cycle": 3,
+          "timestamp": "2026-11-04T11:28:37.237325Z",
+          "paper_only": true,
+          "regime": "crisis",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 4,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 4,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 4,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 4,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [
+            {
+              "event_id": "p39ks_global_b3c9b482f930",
+              "cycle": 3,
+              "level": "global",
+              "trigger": "crisis_regime",
+              "venue": "*",
+              "regime": "crisis",
+              "action": "global_halt_trading",
+              "timestamp": "2026-11-04T11:28:37.237317Z"
+            }
+          ],
+          "global_halt": true,
+          "trading_enabled": false,
+          "action_taken": "halt_all"
+        },
+        {
+          "cycle": 4,
+          "timestamp": "2026-11-04T11:28:37.237350Z",
+          "paper_only": true,
+          "regime": "normal",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 5,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 5,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 5,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 5,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [],
+          "global_halt": true,
+          "trading_enabled": false,
+          "action_taken": "halt_all"
+        },
+        {
+          "cycle": 5,
+          "timestamp": "2026-11-04T11:28:37.237371Z",
+          "paper_only": true,
+          "regime": "stressed",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 6,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 6,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 6,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 6,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [],
+          "global_halt": true,
+          "trading_enabled": false,
+          "action_taken": "halt_all"
+        },
+        {
+          "cycle": 6,
+          "timestamp": "2026-11-04T11:28:37.237400Z",
+          "paper_only": true,
+          "regime": "volatile",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 7,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 7,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 7,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 7,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [],
+          "global_halt": true,
+          "trading_enabled": false,
+          "action_taken": "halt_all"
+        },
+        {
+          "cycle": 7,
+          "timestamp": "2026-11-04T11:28:37.237425Z",
+          "paper_only": true,
+          "regime": "crisis",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 8,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 8,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 8,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 8,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [
+            {
+              "event_id": "p39ks_global_7bb0394d63a5",
+              "cycle": 7,
+              "level": "global",
+              "trigger": "crisis_regime",
+              "venue": "*",
+              "regime": "crisis",
+              "action": "global_halt_trading",
+              "timestamp": "2026-11-04T11:28:37.237417Z"
+            }
+          ],
+          "global_halt": true,
+          "trading_enabled": false,
+          "action_taken": "halt_all"
+        },
+        {
+          "cycle": 8,
+          "timestamp": "2026-11-04T11:28:37.237448Z",
+          "paper_only": true,
+          "regime": "normal",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 9,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 9,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 9,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 9,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [],
+          "global_halt": true,
+          "trading_enabled": false,
+          "action_taken": "halt_all"
+        },
+        {
+          "cycle": 9,
+          "timestamp": "2026-11-04T11:28:37.237469Z",
+          "paper_only": true,
+          "regime": "stressed",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 10,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 10,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 10,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 10,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [],
+          "global_halt": true,
+          "trading_enabled": false,
+          "action_taken": "halt_all"
+        },
+        {
+          "cycle": 10,
+          "timestamp": "2026-11-04T11:28:37.237489Z",
+          "paper_only": true,
+          "regime": "volatile",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 11,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 11,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 11,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 11,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [],
+          "global_halt": true,
+          "trading_enabled": false,
+          "action_taken": "halt_all"
+        },
+        {
+          "cycle": 11,
+          "timestamp": "2026-11-04T11:28:37.237544Z",
+          "paper_only": true,
+          "regime": "crisis",
+          "circuits": [
+            {
+              "venue": "deribit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 12,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "okx",
+              "state": "closed",
+              "failures": 0,
+              "successes": 12,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "bybit",
+              "state": "closed",
+              "failures": 0,
+              "successes": 12,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            },
+            {
+              "venue": "binance",
+              "state": "closed",
+              "failures": 0,
+              "successes": 12,
+              "last_trip": null,
+              "time_to_half_open_sec": 0.0
+            }
+          ],
+          "kill_events": [
+            {
+              "event_id": "p39ks_global_8683765710ba",
+              "cycle": 11,
+              "level": "global",
+              "trigger": "crisis_regime",
+              "venue": "*",
+              "regime": "crisis",
+              "action": "global_halt_trading",
+              "timestamp": "2026-11-04T11:28:37.237536Z"
+            }
+          ],
+          "global_halt": true,
+          "trading_enabled": false,
+          "action_taken": "halt_all"
+        }
+      ],
+      "kill_events": [
+        {
+          "event_id": "p39ks_global_b3c9b482f930",
+          "cycle": 3,
+          "level": "global",
+          "trigger": "crisis_regime",
+          "venue": "*",
+          "regime": "crisis",
+          "action": "global_halt_trading",
+          "timestamp": "2026-11-04T11:28:37.237317Z"
+        },
+        {
+          "event_id": "p39ks_global_7bb0394d63a5",
+          "cycle": 7,
+          "level": "global",
+          "trigger": "crisis_regime",
+          "venue": "*",
+          "regime": "crisis",
+          "action": "global_halt_trading",
+          "timestamp": "2026-11-04T11:28:37.237417Z"
+        },
+        {
+          "event_id": "p39ks_global_8683765710ba",
+          "cycle": 11,
+          "level": "global",
+          "trigger": "crisis_regime",
+          "venue": "*",
+          "regime": "crisis",
+          "action": "global_halt_trading",
+          "timestamp": "2026-11-04T11:28:37.237536Z"
+        }
+      ]
+    },
+    "phase54_risk_fusion": {
+      "phase": "PHASE54_REALTIME_RISK_FUSION_ENGINE",
+      "timestamp": "2026-11-04T11:28:37.469513Z",
+      "seed": 54054,
+      "paper_only": true,
+      "cycles": 10,
+      "gates_ok": true,
+      "slo_ok": false,
+      "risk_cycles_ok": true,
+      "critical_breaches": 0,
+      "total_breaches": 0,
+      "kill_switch_triggered": false,
+      "avg_fused_risk_score": 0.4549,
+      "max_fused_risk_score": 0.519,
+      "avg_adaptive_throttle": 1.0,
+      "final_equity": 994900.0,
+      "daily_pnl_usd": -51000.0,
+      "n_cycles": 10,
+      "n_breaches": 0
+    },
+    "phase44_governance": {
+      "governance_ok": true
+    },
+    "phase46_stress": {
+      "adversarial_ok": true
+    },
+    "phase59_execution_hardening": {
+      "phase": "PHASE59_AUTONOMOUS_EXECUTION_HARDENING_LOOP",
+      "timestamp": "2026-11-04T11:28:44.744121Z",
+      "seed": 59061,
+      "paper_only": true,
+      "cycles": 10,
+      "gates_ok": true,
+      "halted": false,
+      "n_failovers": 4,
+      "n_posttrade_validations": 4,
+      "posttrade_pass_rate": 1.0,
+      "n_containments": 4,
+      "n_rollbacks": 4,
+      "cb_breaches": 0,
+      "arc58_ok": true,
+      "arb59_ok": true,
+      "hedge59_ok": true,
+      "risk54_ok": true,
+      "cb57_ok": false,
+      "composed_phases": "17-58"
+    },
+    "phase83_observability": {
+      "phase": "PHASE83_CONTINUOUS_OBSERVABILITY_SLO_ATTESTATION_HARDENING_LOOP",
+      "ok": true,
+      "gates": {}
+    }
+  },
+  "resilience_events": [
+    {
+      "id": "p84r_res_028633929b82",
+      "cycle": 0,
+      "regime": "trend",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-04T11:28:44.744223Z"
+    },
+    {
+      "id": "p84r_res_dc97a555f4d2",
+      "cycle": 6,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-04T11:28:44.744258Z"
+    }
+  ],
+  "recovery_events": [
+    {
+      "id": "p84r_rec_cb3a8e9bea82",
+      "cycle": 0,
+      "regime": "trend",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-04T11:28:44.744227Z"
+    },
+    {
+      "id": "p84r_rec_ad35d97abb58",
+      "cycle": 7,
+      "regime": "trend",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-04T11:28:44.744260Z"
+    }
+  ],
+  "compliance_attestations": [
+    {
+      "id": "p84r_comp_b167117df5ea",
+      "cycle": 0,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v84",
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-04T11:28:44.744231Z"
+    },
+    {
+      "id": "p84r_comp_1c6ae9ffb19f",
+      "cycle": 8,
+      "regime": "ranging",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v84",
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-04T11:28:44.744263Z"
+    }
+  ],
+  "governance_decisions": [
+    {
+      "id": "p84r_gov_78310a848100",
+      "cycle": 0,
+      "regime": "trend",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-04T11:28:44.744234Z"
+    },
+    {
+      "id": "p84r_gov_086e1187997a",
+      "cycle": 9,
+      "regime": "ranging",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-04T11:28:44.744266Z"
+    }
+  ],
+  "circuit_breaker_events": [],
+  "evidence_chain": [
+    {
+      "id": "p84r_ev_54988c7dd157",
+      "cycle": 0,
+      "regime": "trend",
+      "ev_hash": "432c1b0413a732c360d45f09e61fb42dafde9ec6c7d604f3b8e75b1029ce9aa5",
+      "prev_hash": "3ec9bc533e1b0336bc794bf6245a3c1c251d443ce8ca90ba90a9ea65fb4897de",
+      "chain_head": "927184836ad5c857711d9f47cbffec83b0cd35d024d3e7d7bbda403ce49843bb",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-04T11:28:44.744252Z"
+    }
+  ],
+  "ts": "2026-11-04T11:28:44.744277Z"
+}
