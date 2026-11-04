@@ -1,11 +1,11 @@
 # PHASE109 RESULT - live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v6
-- Timestamp: 20261104T183646Z
+- Timestamp: 20261104T184135Z
 - Phase: 109
 - paper_only: True
-- cycles: 160
-- elapsed_s: 0.03174
-- hash_chain_len: 160
-- SLO: p99_ms=33.20 err=0.000540 pass=0.999108
+- cycles: 90
+- elapsed_s: 0.022274
+- hash_chain_len: 90
+- SLO: p99_ms=36.40 err=0.000444 pass=0.999024
 
 ## GATES
 - adverse_sel_slippage_fill_joint: True
@@ -52,33 +52,33 @@
 - stress_haircuts: True
 
 ## COUNTS
-- audit_trail_events: 160
-- autonomous_failover_events: 160
-- autonomous_resilience_events: 160
-- chaos_failover_tamper_events: 160
-- chaos_resilience_events: 160
-- compliance_governance_events: 160
-- convexity_basis_rates_events: 160
-- correlated_crisis_haircut_events: 160
-- cross_margin_netting_events: 160
-- cross_venue_routing_toxicity_events: 160
-- cross_venue_sor_events: 160
-- evidence_chain: 160
-- gamma_dealer_hedge_toxicity_events: 160
-- gamma_dealer_positioning_events: 160
-- hash_chain_events: 160
-- idempotency_replay_events: 160
-- idempotent_replay_finality_events: 160
-- iv_calibration_guard_events: 160
-- iv_surface_greeks_events: 160
-- liquidity_regime_joint_events: 160
-- orderflow_microstructure_vpin_events: 160
-- orderflow_toxicity_events: 160
-- post_trade_recon_events: 160
-- realtime_sor_events: 160
-- resilience_failover_events: 160
-- settlement_finality_events: 160
-- slippage_fill_joint_events: 160
-- smile_skew_term_arb_events: 160
-- stress_haircut_margin_events: 160
-- toxicity_regime_class_events: 160
+- audit_trail_events: 90
+- autonomous_failover_events: 90
+- autonomous_resilience_events: 90
+- chaos_failover_tamper_events: 90
+- chaos_resilience_events: 90
+- compliance_governance_events: 90
+- convexity_basis_rates_events: 90
+- correlated_crisis_haircut_events: 90
+- cross_margin_netting_events: 90
+- cross_venue_routing_toxicity_events: 90
+- cross_venue_sor_events: 90
+- evidence_chain: 90
+- gamma_dealer_hedge_toxicity_events: 90
+- gamma_dealer_positioning_events: 90
+- hash_chain_events: 90
+- idempotency_replay_events: 90
+- idempotent_replay_finality_events: 90
+- iv_calibration_guard_events: 90
+- iv_surface_greeks_events: 90
+- liquidity_regime_joint_events: 90
+- orderflow_microstructure_vpin_events: 90
+- orderflow_toxicity_events: 90
+- post_trade_recon_events: 90
+- realtime_sor_events: 90
+- resilience_failover_events: 90
+- settlement_finality_events: 90
+- slippage_fill_joint_events: 90
+- smile_skew_term_arb_events: 90
+- stress_haircut_margin_events: 90
+- toxicity_regime_class_events: 90
