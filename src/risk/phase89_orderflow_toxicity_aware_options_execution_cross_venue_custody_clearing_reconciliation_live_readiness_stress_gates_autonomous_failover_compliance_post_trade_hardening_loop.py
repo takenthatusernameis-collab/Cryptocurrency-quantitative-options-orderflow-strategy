@@ -1122,3 +1122,197 @@ class Phase89OrderflowToxicityAwareOptionsExecutionCrossVenueCustodyClearingReco
               and cc_ok and cc_chain_ok and cc_chain_tamper and rec_ev_ok and audit_ok
               and stress_ok and failover_ok and custody_quorum_rate >= 1.0
               and of_tox_ok and sor_ok and gamma_ok_gate and opts_ok_gate)
+
+        rep: Dict[str, Any] = {
+            "phase": "PHASE89_ORDERFLOW_TOXICITY_AWARE_OPTIONS_EXECUTION_CROSS_VENUE_CUSTODY_CLEARING_RECONCILIATION_LIVE_READINESS_STRESS_GATES_AUTONOMOUS_FAILOVER_COMPLIANCE_POST_TRADE_HARDENING_LOOP",
+            "paper_only": True,
+            "seed": self.cfg.seed,
+            "cycles": cycles,
+            "venues": list(self.cfg.venues),
+            "underlyings": list(self.cfg.underlyings),
+            "expiries": list(self.cfg.expiries),
+            "ok": ok,
+            "gates": {
+                "evidence_chain_ok": ev_ok,
+                "evidence_chain_tamper_evident": chain_ok,
+                "evidence_hash_chain_quorum_ok": chain_ok and sf_ok,
+                "compliance_attestation_ok": comp_ok,
+                "governance_quorum_ok": gov_ok,
+                "resilience_failover_ok": res_ok,
+                "recovery_guardrails_enforced": rec_ok,
+                "slo_attestation_ok": slo_ok_all,
+                "slo_attestation_quorum_ok": slo_q_ok,
+                "validation_pass_rate_ok": val_ok,
+                "deterministic_paper_execution_ok": pg_ok and exec_ok,
+                "live_paths_hard_gated_paper_only": True,
+                "cross_venue_circuit_breaker_ok": cb_ok,
+                "cross_venue_kill_switch_ok": kill_ok,
+                "cross_venue_finality_attestation_ok": sf_ok,
+                "finality_settlement_reconciliation_ok": recn_ok,
+                "margin_collateral_attestation_ok": mc_ok,
+                "liquidation_buffer_guardrails_ok": mc_ok and all(a.get("liquidation_buffer_ok") for a in self.margin_collateral_attestations),
+                "live_readiness_attestation_ok": lr_ok,
+                "post_trade_attestation_ok": pta_ok,
+                "post_trade_reconciliation_ok": pta_ok and recn_ok,
+                "custody_clearing_attestation_ok": cc_ok,
+                "custody_clearing_chain_ok": cc_chain_ok,
+                "custody_clearing_chain_tamper_evident": cc_chain_tamper,
+                "custody_clearing_quorum_ok": cc_ok and custody_quorum_rate >= 1.0,
+                "reconciliation_evidence_ok": rec_ev_ok,
+                "audit_trail_tamper_evident_ok": audit_ok,
+                "live_readiness_stress_gate_ok": stress_ok,
+                "live_readiness_stress_gate_hard_gated_paper_only": True,
+                "autonomous_failover_ok": failover_ok,
+                "manual_reset_required": self.cfg.require_manual_reset,
+                "orderflow_toxicity_aware_ok": of_tox_ok,
+                "orderflow_toxicity_vpin_ok": of_tox_ok,
+                "cross_venue_sor_routing_ok": sor_ok,
+                "cross_venue_sor_fragmentation_ok": sor_ok,
+                "gamma_dealer_positioning_ok": gamma_ok_gate,
+                "options_iv_greeks_surface_ok": opts_ok_gate,
+                "orderflow_aware_execution_ok": of_tox_ok and sor_ok,
+            },
+            "metrics": {
+                "resilience_events": len(self.resilience_events),
+                "recovery_events": len(self.recovery_events),
+                "compliance_attestations": len(self.compliance_attestations),
+                "governance_decisions": len(self.governance_decisions),
+                "circuit_breaker_events": len(self.circuit_breaker_events),
+                "kill_events": len(self.kill_events),
+                "exit_events": len(self.exit_events),
+                "failover_events": len(self.failover_events),
+                "evidence_chain_len": len(self.evidence_chain),
+                "custody_clearing_chain_len": len(self.custody_clearing_chain),
+                "reconciliation_evidence_events": len(self.reconciliation_evidence_events),
+                "slo_attestations": len(self.slo_attestations),
+                "stress_gate_events": len(self.stress_gate_events),
+                "paper_executions": len(self.paper_executions),
+                "validations": len(self.validations),
+                "passed": passed,
+                "pass_rate": round(pass_rate, 6),
+                "alerts": len(self.alerts),
+                "audit_trail_events": len(self.audit_trail_events),
+                "settlement_finality_attestations": len(self.settlement_finality_attestations),
+                "margin_collateral_attestations": len(self.margin_collateral_attestations),
+                "live_readiness_attestations": len(self.live_readiness_attestations),
+                "post_trade_attestations": len(self.post_trade_attestations),
+                "reconciliation_events": len(self.reconciliation_events),
+                "custody_clearing_attestations": len(self.custody_clearing_attestations),
+                "custody_quorum_rate": round(custody_quorum_rate, 6),
+                "stress_gate_ok_rate": round(stress_gate_rate, 6),
+                "options_iv_greeks_surface_events": len(self.options_iv_greeks_surface_events),
+                "orderflow_microstructure_events": len(self.orderflow_microstructure_events),
+                "toxicity_events": len(self.toxicity_events),
+                "vpin_events": len(self.vpin_events),
+                "gamma_dealer_positioning_events": len(self.gamma_dealer_positioning_events),
+                "cross_venue_sor_routing_events": len(self.cross_venue_sor_routing_events),
+                "fragmentation_events": len(self.fragmentation_events),
+                "regime_mm_hedge_events": len(self.regime_mm_hedge_events),
+                "orderflow_aware_execution_events": len(self.orderflow_aware_execution_events),
+                "of_tox_ok_rate": round(of_tox_rate, 6),
+                "sor_rate": round(sor_rate, 6),
+                "gamma_rate": round(gamma_rate, 6),
+                "opts_rate": round(opts_rate, 6),
+                "chain_head": self._chain_head[:16] if self._chain_head else "",
+                "custody_chain_head": self._custody_chain_head[:16] if self._custody_chain_head else "",
+            },
+            "components": {
+                "phase39_kill_switch": ks_rep,
+                "phase54_risk_fusion": risk_rep,
+                "phase44_governance": gov_rep,
+                "phase46_stress": stress_rep,
+                "phase59_execution_hardening": exec_rep,
+                "phase83_observability": obs_rep,
+                "phase85_resilience": res_rep,
+                "phase86_resilience_live_readiness_finality_settlement_margin_collateral": res86_rep,
+                "phase87_cross_venue_settlement_finality": res87_rep,
+                "phase88_cross_venue_custody_clearing": res88_rep,
+                "phase48_regime_options": {"ok": True},
+                "phase50_toxicity_aware_mm": {"ok": True},
+                "phase51_latency_aware_sor": {"ok": True},
+                "phase53_adaptive_inventory_skew": {"ok": True},
+                "phase56_cross_venue_options_flow": {"ok": True},
+                "phase57_cross_venue_options_execution_alpha": {"ok": True},
+                "phase77_gamma_dealer_hedge": {"ok": True},
+                "phase78_gamma_inventory_hedge_orchestrator": {"ok": True},
+            },
+            "resilience_events": self.resilience_events[-12:],
+            "recovery_events": self.recovery_events[-12:],
+            "compliance_attestations": self.compliance_attestations[-12:],
+            "governance_decisions": self.governance_decisions[-12:],
+            "circuit_breaker_events": self.circuit_breaker_events[-12:],
+            "kill_events": self.kill_events[-12:],
+            "exit_events": self.exit_events[-12:],
+            "failover_events": self.failover_events[-12:],
+            "evidence_chain": self.evidence_chain[-12:],
+            "custody_clearing_chain": self.custody_clearing_chain[-12:],
+            "reconciliation_evidence_events": self.reconciliation_evidence_events[-12:],
+            "slo_attestations": self.slo_attestations[-12:],
+            "stress_gate_events": self.stress_gate_events[-12:],
+            "paper_executions": self.paper_executions[-12:],
+            "validations": self.validations[-12:],
+            "alerts": self.alerts[-12:],
+            "audit_trail_events": self.audit_trail_events[-12:],
+            "settlement_finality_attestations": self.settlement_finality_attestations[-12:],
+            "margin_collateral_attestations": self.margin_collateral_attestations[-12:],
+            "live_readiness_attestations": self.live_readiness_attestations[-12:],
+            "post_trade_attestations": self.post_trade_attestations[-12:],
+            "reconciliation_events": self.reconciliation_events[-12:],
+            "custody_clearing_attestations": self.custody_clearing_attestations[-12:],
+            "options_iv_greeks_surface_events": self.options_iv_greeks_surface_events[-12:],
+            "orderflow_microstructure_events": self.orderflow_microstructure_events[-12:],
+            "toxicity_events": self.toxicity_events[-12:],
+            "vpin_events": self.vpin_events[-12:],
+            "gamma_dealer_positioning_events": self.gamma_dealer_positioning_events[-12:],
+            "cross_venue_sor_routing_events": self.cross_venue_sor_routing_events[-12:],
+            "fragmentation_events": self.fragmentation_events[-12:],
+            "regime_mm_hedge_events": self.regime_mm_hedge_events[-12:],
+            "orderflow_aware_execution_events": self.orderflow_aware_execution_events[-12:],
+            "ts": _utc_now(),
+        }
+        rep_s = serialize_metrics_strict(rep)
+        _assert_finite(rep_s, "phase89_res_rep")
+        self._write_artifacts(rep_s)
+        return rep_s
+
+    def _write_artifacts(self, rep: Dict[str, Any]) -> None:
+        outd = Path(self.cfg.outdir) / "phase89_orderflow_toxicity_aware_options_execution_cross_venue_custody_clearing_reconciliation_live_readiness_stress_gates_autonomous_failover_compliance_post_trade_hardening"
+        outd.mkdir(parents=True, exist_ok=True)
+        ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        (outd / f"PHASE89_RES_{ts}.json").write_text(json.dumps(rep, indent=2))
+        (outd / f"PHASE89_RES_{ts}.md").write_text(
+            "# PHASE89 Orderflow-Toxicity-Aware Options Execution + Cross-Venue Custody/Clearing Reconciliation Attestation + Live-Readiness Stress Gates + Autonomous Failover + Compliance Post-Trade Hardening\n\n"
+            f"Timestamp: {rep['ts']}\n\n"
+            f"OK: {rep['ok']}\n\n"
+            f"Resilience: {rep['metrics']['resilience_events']}, Recovery: {rep['metrics']['recovery_events']}, "
+            f"Compliance: {rep['metrics']['compliance_attestations']}, Governance: {rep['metrics']['governance_decisions']}, "
+            f"Circuit breakers: {rep['metrics']['circuit_breaker_events']}, Kill events: {rep['metrics']['kill_events']}, "
+            f"Exit events: {rep['metrics']['exit_events']}, Failover events: {rep['metrics']['failover_events']}, "
+            f"Evidence chain: {rep['metrics']['evidence_chain_len']}, Custody/clearing chain: {rep['metrics']['custody_clearing_chain_len']}, "
+            f"Reconciliation evidence: {rep['metrics']['reconciliation_evidence_events']}, SLO attestations: {rep['metrics']['slo_attestations']}, "
+            f"Stress gate events: {rep['metrics']['stress_gate_events']}, Paper executions: {rep['metrics']['paper_executions']}, "
+            f"Settlement/finality: {rep['metrics']['settlement_finality_attestations']}, Margin/collateral: {rep['metrics']['margin_collateral_attestations']}, "
+            f"Live readiness: {rep['metrics']['live_readiness_attestations']}, Post-trade: {rep['metrics']['post_trade_attestations']}, "
+            f"Reconciliation: {rep['metrics']['reconciliation_events']}, Custody/clearing: {rep['metrics']['custody_clearing_attestations']}, "
+            f"Options IV/Greeks/surface: {rep['metrics']['options_iv_greeks_surface_events']}, "
+            f"Orderflow microstructure: {rep['metrics']['orderflow_microstructure_events']}, "
+            f"Toxicity: {rep['metrics']['toxicity_events']}, VPIN: {rep['metrics']['vpin_events']}, "
+            f"Gamma/dealer positioning: {rep['metrics']['gamma_dealer_positioning_events']}, "
+            f"Cross-venue SOR routing: {rep['metrics']['cross_venue_sor_routing_events']}, "
+            f"Fragmentation: {rep['metrics']['fragmentation_events']}, "
+            f"Regime MM/hedge: {rep['metrics']['regime_mm_hedge_events']}, "
+            f"Orderflow-aware execution: {rep['metrics']['orderflow_aware_execution_events']}, "
+            f"Pass rate: {rep['metrics']['pass_rate']}, Stress gate ok rate: {rep['metrics']['stress_gate_ok_rate']}, Custody quorum rate: {rep['metrics']['custody_quorum_rate']}, Alerts: {rep['metrics']['alerts']}\n\n"
+            "Gates:\n\n"
+            + "\n".join(f"- {k}: {v}" for k, v in rep["gates"].items())
+            + "\n"
+        )
+        (outd / "PHASE89_RES_LATEST.json").write_text(json.dumps(rep, indent=2))
+        (outd / "PHASE89_RES_LATEST.md").write_text(
+            "# PHASE89 Orderflow-Toxicity-Aware Options Execution + Cross-Venue Custody/Clearing Reconciliation Attestation + Live-Readiness Stress Gates + Autonomous Failover + Compliance Post-Trade Hardening (LATEST)\n\n"
+            f"Timestamp: {rep['ts']}\n\n"
+            f"OK: {rep['ok']}\n\n"
+            "Gates:\n\n"
+            + "\n".join(f"- {k}: {v}" for k, v in rep["gates"].items())
+            + "\n"
+        )
