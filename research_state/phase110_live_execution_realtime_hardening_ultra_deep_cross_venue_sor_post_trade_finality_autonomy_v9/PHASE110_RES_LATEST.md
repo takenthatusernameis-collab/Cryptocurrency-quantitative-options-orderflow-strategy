@@ -1,7 +1,7 @@
-# PHASE110 V9 RES (ULTRA-DEEP CROSS-VENUE SOR + POST-TRADE FINALITY + AUTONOMY) - 1793824888.431866
+# PHASE110 V10 RES (ULTRA-DEEP CROSS-VENUE SOR + POST-TRADE FINALITY + AUTONOMY) - 1793825245.7075684
 
 - phase: 110 name: phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v9 ver: 9
-- cycles: 240 finite_ok: True elapsed_sec: 0.0718
+- cycles: 240 finite_ok: True elapsed_sec: 0.1242
 - hash_chain_len: 8
 
 ## Gates
@@ -49,11 +49,11 @@
 - all_ok: True
 
 ## Hashes
-- iv: 5fd7146818bdfd44
-- of: 1b34d24e5a6f8bad
-- sor: 0d61db6e04842d7b
-- asf: fe5bf2523a55439b
-- gdh: 52ed1bdad3afc4fd
-- shm: 299ff56218e94eda
-- cft: ec08db5c33ebf529
-- ptf: fc764b4c14fdfe01
+- iv: 76a3d4f886a66394
+- of: c3ae187fcada9e75
+- sor: 7590d5e8b6aeedaf
+- asf: da878c85955351b9
+- gdh: a37da088b43f8657
+- shm: ba7933e9fcddd344
+- cft: 2192d8d6f70fdcf7
+- ptf: 1f42d3feaece0913
