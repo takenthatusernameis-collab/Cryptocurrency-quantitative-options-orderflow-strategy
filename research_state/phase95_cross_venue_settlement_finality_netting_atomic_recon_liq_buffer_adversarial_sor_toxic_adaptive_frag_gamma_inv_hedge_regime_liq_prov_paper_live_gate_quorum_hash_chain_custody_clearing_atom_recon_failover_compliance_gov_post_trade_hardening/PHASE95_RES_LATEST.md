@@ -1,4 +1,4 @@
-# PHASE 95 RESULT (2026-11-04T11:04:05.281522Z)
+# PHASE 95 RESULT (2026-11-04T11:15:36.130465Z)
 
 - phase: 95
 - name: cross_venue_settlement_finality_netting_atomic_recon_liq_buffer_adversarial_sor_toxic_adaptive_frag_gamma_inv_hedge_regime_liq_prov_paper_live_gate_quorum_hash_chain_custody_clearing_atom_recon_failover_compliance_gov_post_trade_hardening
@@ -42,4 +42,4 @@
 - deterministic_settlement_finality_hash_chain_events_len: 12
 - paper_to_live_gate_attestations_len: 2
 - atomic_recon_events_len: 12
-- elapsed_s: 2.187986135482788
+- elapsed_s: 2.6572718620300293
