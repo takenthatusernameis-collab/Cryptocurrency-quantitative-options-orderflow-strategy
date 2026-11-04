@@ -1,0 +1,97 @@
+{
+  "cycles": 8,
+  "deployment": {
+    "gates_ok": true,
+    "paper_only": true
+  },
+  "domain_focus": "crypto_options_orderflow_liquidity_fragmentation_adaptive_inventory_skew_cross_asset_delta_vol_hedge_fusion",
+  "gates_ok": true,
+  "halt_count": 1,
+  "halt_events": [
+    {
+      "action": "halt_cross_asset_delta_vol_hedge_fusion_and_roll_back",
+      "auto_executed": true,
+      "cycle": 8,
+      "paper_only": true,
+      "reason": "phase53_breach_fragmentation_skew_flow_alloc_hedge_mm_rv_alpha_risk_resilience",
+      "severity": "critical",
+      "timestamp": "2026-11-04T00:57:06.962125Z",
+      "trigger_id": "p53_halt_7c0c2aa074d0"
+    }
+  ],
+  "integration": "Phases17-52+Phase53",
+  "kill_switches": {
+    "halted": false
+  },
+  "modes": "paper",
+  "paper_only": true,
+  "phase": "PHASE53_CROSS_ASSET_DELTA_VOL_HEDGE_FUSION_LOOP",
+  "phase46_mm": {
+    "gates_ok": false
+  },
+  "phase47_arb": {
+    "gates_ok": true
+  },
+  "phase48_alpha": {
+    "gates_ok": true
+  },
+  "phase49_hedge": {
+    "gates_ok": true
+  },
+  "phase49_vol_arb": {
+    "gates_ok": true
+  },
+  "phase50_mm": {
+    "gates_ok": true,
+    "n_quotes": 36
+  },
+  "phase50_rv": {
+    "gates_ok": true,
+    "n_opps": 0
+  },
+  "phase51_alpha_fusion": {
+    "gates_ok": true,
+    "n_alphas": 8
+  },
+  "phase51_sor": {
+    "gates_ok": true,
+    "n_orders": null
+  },
+  "phase52_flow_optimizer": {
+    "avg_toxicity": 0.195225,
+    "gates_ok": true
+  },
+  "phase52_liquidity_allocator": {
+    "gates_ok": true,
+    "n_allocations": 32,
+    "total_alloc_usd": 38400.0
+  },
+  "phase53_adaptive_inventory_skew": {
+    "avg_skew_bps": 6.5695,
+    "gates_ok": true,
+    "n_quotes": 8
+  },
+  "phase53_fragmentation_arb": {
+    "avg_basis_bps": 2.0125625,
+    "gates_ok": true,
+    "n_opps": 0
+  },
+  "recon": {
+    "gates_ok": true
+  },
+  "resilience": {
+    "gates_ok": false
+  },
+  "risk_hedge": {
+    "gates_ok": false
+  },
+  "seed": 557,
+  "settlement": {
+    "gates_ok": true
+  },
+  "slo": {
+    "alerts_fired": 5,
+    "evaluations": 5
+  },
+  "timestamp": "2026-11-04T00:57:06.963179Z"
+}

@@ -1,7 +1,7 @@
 # Phase 42 Orderflow Hedged Executor Report
 
-Seed: 53241
+Seed: 614
 Paper-only: true
 Cycles: 16
 Execution OK all: True
-Total hedge notional: 3640510.89
+Total hedge notional: 3391563.27

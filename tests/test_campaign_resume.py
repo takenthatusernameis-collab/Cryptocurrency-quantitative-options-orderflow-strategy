@@ -33,6 +33,12 @@ def test_durable_handoff_is_source_of_truth():
         or "phase 19" in tl
         or "phase 38" in tl
         or "phase 39" in tl
+        or "phase 80" in tl
+        or "phase 81" in tl
+        or "phase 82" in tl
+        or "phase 83" in tl
+        or "phase 84" in tl
+        or "phase 85" in tl
     )
 
 
