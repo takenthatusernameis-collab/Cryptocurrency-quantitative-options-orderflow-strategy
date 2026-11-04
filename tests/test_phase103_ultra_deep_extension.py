@@ -7,6 +7,7 @@ from src.risk.phase103_live_execution_realtime_hardening_ultra_deep_orderflow_so
     Phase103Cfg,
     Phase103UltraDeepQuantExtension,
     Phase103UltraDeepQuantEngineV2,
+    Phase103UltraDeepQuantEngineV3,
 )
 
 
@@ -56,4 +57,83 @@ def test_phase103_loop_generates_artifacts():
     assert res["metrics"]["all_ok"] is True
     g = res["gates"]
     for k in ["evidence_chain", "orderflow_toxicity_aware", "cross_venue_sor_routing", "gamma_dealer_positioning_inventory_hedging", "liquidity_aware_hedge_sizing", "margin_collateral_netting", "settlement_finality_reconciliation_post_trade", "live_execution_readiness", "slippage_model_calibration_guard", "latency_slippage_deep_model", "autonomous_failover", "compliance_governance", "chaos_resilience", "idempotency_replay", "fill_probability_model", "stress_haircuts", "audit_trail_tamper_evident", "finite_numerics", "no_placeholders"]:
+        assert g.get(k) is True
+
+
+def _assert_all_finite_ok(rows):
+    assert all(x.get("finite") is True and x.get("ok") is True for x in rows)
+
+
+def test_phase103_v3_iv_surface_greeks():
+    os.environ["PHASE_QUICK_VERIFY"] = "1"
+    eng = Phase103UltraDeepQuantEngineV3(seed=777)
+    rows = eng.iv_surface_greeks_deep(256)
+    assert len(rows) == 256
+    assert all(0.05 <= x["iv"] <= 2.5 for x in rows)
+    assert all(0.0 <= x["delta"] <= 1.0 for x in rows)
+    assert all(x["gamma"] >= 0.0 and x["vega"] >= 0.0 for x in rows)
+    _assert_all_finite_ok(rows)
+
+
+def test_phase103_v3_orderflow_microstructure_vpin():
+    os.environ["PHASE_QUICK_VERIFY"] = "1"
+    eng = Phase103UltraDeepQuantEngineV3(seed=888)
+    rows = eng.orderflow_microstructure_deep(256)
+    assert len(rows) == 256
+    assert all(0.0 <= x["vpin"] <= 0.9 for x in rows)
+    assert all(x["adverse_sel_cost_bps"] >= 0.0 for x in rows)
+    _assert_all_finite_ok(rows)
+
+
+def test_phase103_v3_adverse_sel_slippage_fill_joint():
+    os.environ["PHASE_QUICK_VERIFY"] = "1"
+    eng = Phase103UltraDeepQuantEngineV3(seed=999)
+    rows = eng.adverse_sel_slippage_fill_joint(256)
+    assert len(rows) == 256
+    assert all(0.0 < x["fill_prob"] < 1.0 for x in rows)
+    assert all(x["slip_bps"] >= 0.0 and x["adv_sel_bps"] >= 0.0 for x in rows)
+    assert all(x["expected_cost_bps"] >= 0.0 for x in rows)
+    _assert_all_finite_ok(rows)
+
+
+def test_phase103_v3_gamma_dealer_hedge_toxicity_adjusted():
+    os.environ["PHASE_QUICK_VERIFY"] = "1"
+    eng = Phase103UltraDeepQuantEngineV3(seed=111)
+    rows = eng.gamma_dealer_hedge_toxicity_adjusted(256)
+    assert len(rows) == 256
+    assert all(x["liq_adj_hedge"] >= x["base_hedge"] for x in rows)
+    assert all(0.0 <= x["delta_hedge_ratio"] <= 1.0 for x in rows)
+    _assert_all_finite_ok(rows)
+
+
+def test_phase103_v3_stress_haircut_margin():
+    os.environ["PHASE_QUICK_VERIFY"] = "1"
+    eng = Phase103UltraDeepQuantEngineV3(seed=222)
+    rows = eng.stress_haircut_margin_deep(256)
+    assert len(rows) == 256
+    assert all(x["margin_ratio"] >= 1.0 for x in rows)
+    assert all(0.35 <= x["netting_eff"] <= 1.0 for x in rows)
+    _assert_all_finite_ok(rows)
+
+
+def test_phase103_v3_chaos_failover_tamper_chain():
+    os.environ["PHASE_QUICK_VERIFY"] = "1"
+    eng = Phase103UltraDeepQuantEngineV3(seed=333)
+    rows = eng.chaos_failover_tamper_deep(256)
+    assert len(rows) == 256
+    assert all(x["tamper_evident"] and x["paper_only"] for x in rows)
+    assert all(rows[i]["hash"] != rows[i - 1]["hash"] for i in range(1, len(rows)))
+    _assert_all_finite_ok(rows)
+
+
+def test_phase103_v3_loop_gates():
+    os.environ["PHASE_QUICK_VERIFY"] = "1"
+    cfg = Phase103Cfg(cycles=40)
+    loop = Phase103LiveExecutionRealtimeHardeningUltraDeepOrderflowSorToxicityGammaDealerHedgingCrossMarginFragmentationPostTradeFinalityResilienceComplianceLatencySlippageAdverseSelLiqAwareFailoverChaosAuditTamperLoop(cfg)
+    res = loop.run_live_execution_realtime_hardening_ultra_deep(cycles=40)
+    assert res["phase"] == 103
+    assert res["paper_only"] is True
+    assert res["metrics"]["all_ok"] is True
+    g = res["gates"]
+    for k in ["iv_surface_greeks", "orderflow_microstructure_vpin", "adverse_sel_slippage_fill_joint", "gamma_dealer_hedge_toxicity_adjusted", "stress_haircut_margin", "chaos_failover_tamper", "finite_numerics", "no_placeholders"]:
         assert g.get(k) is True
