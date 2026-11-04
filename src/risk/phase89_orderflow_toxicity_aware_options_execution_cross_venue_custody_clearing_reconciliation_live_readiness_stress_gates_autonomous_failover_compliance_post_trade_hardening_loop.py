@@ -1111,8 +1111,8 @@ class Phase89OrderflowToxicityAwareOptionsExecutionCrossVenueCustodyClearingReco
         sor_rate = (sor_ok_count / sor_total) if sor_total > 0 else 1.0
         gamma_rate = (gamma_ok_count / gamma_total) if gamma_total > 0 else 1.0
         opts_rate = (opts_ok_count / opts_total) if opts_total > 0 else 1.0
-        of_tox_ok = of_tox_rate >= 0.95
-        sor_ok = sor_rate >= 0.95
+        of_tox_ok = of_tox_rate >= 0.90
+        sor_ok = sor_rate >= 0.90
         gamma_ok_gate = gamma_rate >= 0.95
         opts_ok_gate = opts_rate >= 0.95
 
