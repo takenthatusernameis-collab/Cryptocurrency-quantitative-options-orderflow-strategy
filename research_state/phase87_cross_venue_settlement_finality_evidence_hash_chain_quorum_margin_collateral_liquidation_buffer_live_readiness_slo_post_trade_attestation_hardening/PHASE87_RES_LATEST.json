@@ -2,7 +2,7 @@
   "phase": "PHASE87_CROSS_VENUE_SETTLEMENT_FINALITY_EVIDENCE_HASH_CHAIN_QUORUM_MARGIN_COLLATERAL_LIQUIDATION_BUFFER_LIVE_READINESS_SLO_POST_TRADE_ATTESTATION_HARDENING_LOOP",
   "paper_only": true,
   "seed": 87001,
-  "cycles": 24,
+  "cycles": 12,
   "venues": [
     "deribit",
     "okx",
@@ -40,26 +40,26 @@
     "manual_reset_required": true
   },
   "metrics": {
-    "resilience_events": 5,
-    "recovery_events": 4,
-    "compliance_attestations": 4,
-    "governance_decisions": 3,
+    "resilience_events": 3,
+    "recovery_events": 2,
+    "compliance_attestations": 2,
+    "governance_decisions": 2,
     "circuit_breaker_events": 1,
     "kill_events": 1,
     "exit_events": 1,
-    "evidence_chain_len": 15,
-    "slo_attestations": 6,
-    "paper_executions": 5,
-    "validations": 24,
-    "passed": 23,
-    "pass_rate": 0.958333,
+    "evidence_chain_len": 8,
+    "slo_attestations": 3,
+    "paper_executions": 3,
+    "validations": 12,
+    "passed": 11,
+    "pass_rate": 0.916667,
     "alerts": 1,
-    "settlement_finality_attestations": 6,
-    "margin_collateral_attestations": 5,
-    "live_readiness_attestations": 4,
-    "post_trade_attestations": 5,
-    "reconciliation_events": 6,
-    "chain_head": "34f19f308acb9a0d"
+    "settlement_finality_attestations": 3,
+    "margin_collateral_attestations": 3,
+    "live_readiness_attestations": 2,
+    "post_trade_attestations": 3,
+    "reconciliation_events": 3,
+    "chain_head": "766df773f4454465"
   },
   "components": {
     "phase39_kill_switch": {
@@ -105,7 +105,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250713Z"
+      "ts": "2026-11-04T09:28:46.489567Z"
     },
     {
       "id": "p87r_res_1e8031435566",
@@ -119,7 +119,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250899Z"
+      "ts": "2026-11-04T09:28:46.489748Z"
     },
     {
       "id": "p87r_res_2c06290505e5",
@@ -133,35 +133,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250998Z"
-    },
-    {
-      "id": "p87r_res_1f0a15848167",
-      "cycle": 15,
-      "regime": "ranging",
-      "action": "resilience_check",
-      "redundancy_ok": true,
-      "failover_ready": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251087Z"
-    },
-    {
-      "id": "p87r_res_c4165d165c2a",
-      "cycle": 20,
-      "regime": "ranging",
-      "action": "resilience_check",
-      "redundancy_ok": true,
-      "failover_ready": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251164Z"
+      "ts": "2026-11-04T09:28:46.489844Z"
     }
   ],
   "recovery_events": [
@@ -178,7 +150,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250731Z"
+      "ts": "2026-11-04T09:28:46.489587Z"
     },
     {
       "id": "p87r_rec_9f63d73925b9",
@@ -193,37 +165,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250935Z"
-    },
-    {
-      "id": "p87r_rec_df6ff9427517",
-      "cycle": 12,
-      "regime": "ranging",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251034Z"
-    },
-    {
-      "id": "p87r_rec_9e37e8a58bd3",
-      "cycle": 18,
-      "regime": "ranging",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251150Z"
+      "ts": "2026-11-04T09:28:46.489782Z"
     }
   ],
   "compliance_attestations": [
@@ -240,7 +182,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250741Z"
+      "ts": "2026-11-04T09:28:46.489595Z"
     },
     {
       "id": "p87r_comp_155bfdb24eed",
@@ -255,37 +197,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250947Z"
-    },
-    {
-      "id": "p87r_comp_39b8b2556683",
-      "cycle": 14,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v87",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251070Z"
-    },
-    {
-      "id": "p87r_comp_f2eccf2bc680",
-      "cycle": 21,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v87",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251218Z"
+      "ts": "2026-11-04T09:28:46.489794Z"
     }
   ],
   "governance_decisions": [
@@ -301,7 +213,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250745Z"
+      "ts": "2026-11-04T09:28:46.489600Z"
     },
     {
       "id": "p87r_gov_4f8c224a8cdf",
@@ -315,21 +227,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250966Z"
-    },
-    {
-      "id": "p87r_gov_25a166c8b455",
-      "cycle": 16,
-      "regime": "ranging",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251118Z"
+      "ts": "2026-11-04T09:28:46.489813Z"
     }
   ],
   "circuit_breaker_events": [
@@ -345,7 +243,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250849Z"
+      "ts": "2026-11-04T09:28:46.489699Z"
     }
   ],
   "kill_events": [
@@ -361,7 +259,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250853Z"
+      "ts": "2026-11-04T09:28:46.489703Z"
     }
   ],
   "exit_events": [
@@ -378,10 +276,55 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250857Z"
+      "ts": "2026-11-04T09:28:46.489707Z"
     }
   ],
   "evidence_chain": [
+    {
+      "id": "p87r_ev_28acc8906752",
+      "cycle": 0,
+      "payload_hash": "7cf6560cfc655279ec55e2254404b8253270c1879de8521ef3693f6b090eb9b0",
+      "prev_hash": "721c662ea1dcb68ab73feffd41b9caaa91f74a39d8750b5f5538787219b70e15",
+      "chain_head": "417bb6c6b0fba7bdc6f2063119c8e733d971a6769e49bad85c9e02dc37a43bdf",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T09:28:46.489621Z"
+    },
+    {
+      "id": "p87r_ev_12b2b8375e89",
+      "cycle": 0,
+      "payload_hash": "a8b13138d6e9e24c304d5d97c92545483e4bc7be573dc7b5596a22a8a88b6491",
+      "prev_hash": "417bb6c6b0fba7bdc6f2063119c8e733d971a6769e49bad85c9e02dc37a43bdf",
+      "chain_head": "372d54aecd328d834b43986e43e236460e83d81f9d9cc6d6b42a37a97a198382",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T09:28:46.489650Z"
+    },
+    {
+      "id": "p87r_ev_37750320c5e6",
+      "cycle": 0,
+      "payload_hash": "e5044f9efcdf40e25c112602bc46221566d6dea312107801ee1b7f0cac6c5308",
+      "prev_hash": "372d54aecd328d834b43986e43e236460e83d81f9d9cc6d6b42a37a97a198382",
+      "chain_head": "56106d911ce4d9c2df9772f8cc034001017e92f2d2e975659c049ae74b5f00b2",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "quorum": 4,
+      "ts": "2026-11-04T09:28:46.489666Z"
+    },
     {
       "id": "p87r_ev_b5c14b9a68c3",
       "cycle": 4,
@@ -395,7 +338,7 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T09:15:25.250888Z"
+      "ts": "2026-11-04T09:28:46.489737Z"
     },
     {
       "id": "p87r_ev_ab3b175d08e2",
@@ -410,7 +353,7 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T09:15:25.250918Z"
+      "ts": "2026-11-04T09:28:46.489765Z"
     },
     {
       "id": "p87r_ev_1ae9cbe81776",
@@ -425,7 +368,7 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T09:15:25.250958Z"
+      "ts": "2026-11-04T09:28:46.489805Z"
     },
     {
       "id": "p87r_ev_6acd076aecf8",
@@ -440,7 +383,7 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T09:15:25.250984Z"
+      "ts": "2026-11-04T09:28:46.489830Z"
     },
     {
       "id": "p87r_ev_2a06a0683a84",
@@ -455,112 +398,7 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T09:15:25.251015Z"
-    },
-    {
-      "id": "p87r_ev_dc65e16a75bb",
-      "cycle": 12,
-      "payload_hash": "3a2a07ea65b1ab4f71622e4f073a815dd56d1118c56e2d79d12c9aaf2c3eb44f",
-      "prev_hash": "766df773f44544658baee73eb889ff4c734a0e5a6741332adcd42a6ef0a3c962",
-      "chain_head": "ccd80adedfcd15619d3e410cea5c3570e3eaede3040f7ff631cbe7105981f5b5",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "ts": "2026-11-04T09:15:25.251052Z"
-    },
-    {
-      "id": "p87r_ev_e0d8fe09e0db",
-      "cycle": 14,
-      "payload_hash": "aae98d2723249018bc230f2ff5dd48e247e8969d2ffb74e6ed70db97501998c8",
-      "prev_hash": "ccd80adedfcd15619d3e410cea5c3570e3eaede3040f7ff631cbe7105981f5b5",
-      "chain_head": "30edeb9e447dc45652da408a20aec3a60d3baa9f0b484d015339fc48fd41408b",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "ts": "2026-11-04T09:15:25.251080Z"
-    },
-    {
-      "id": "p87r_ev_cbb958ad44c2",
-      "cycle": 15,
-      "payload_hash": "b71222a3b131688b5fcacb6a6bfbb203aa88b0a53222401c95c933f9a26d3cc6",
-      "prev_hash": "30edeb9e447dc45652da408a20aec3a60d3baa9f0b484d015339fc48fd41408b",
-      "chain_head": "d34203fde6d8f7153cc0f4595f425548dae6b6eaff7986f4c1c086496849cbbf",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "ts": "2026-11-04T09:15:25.251103Z"
-    },
-    {
-      "id": "p87r_ev_215955dc85c6",
-      "cycle": 16,
-      "payload_hash": "51814a0b65f7f4fcb5104e2743c876746717b6a3326c1435a976ffe18baf2cc5",
-      "prev_hash": "d34203fde6d8f7153cc0f4595f425548dae6b6eaff7986f4c1c086496849cbbf",
-      "chain_head": "9cf94175659ca236f33a2cd707d043c1cbb38f35f483f7da69365051b83dd52a",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "ts": "2026-11-04T09:15:25.251136Z"
-    },
-    {
-      "id": "p87r_ev_9e99298656b0",
-      "cycle": 20,
-      "payload_hash": "4fe95e13996cbbcb185e8dba25433b23d4597430961f332c3104883e7f923b59",
-      "prev_hash": "9cf94175659ca236f33a2cd707d043c1cbb38f35f483f7da69365051b83dd52a",
-      "chain_head": "fea4d5c087afb03f2142f63781a3e7e3818707eb690c7f8c9747a9288c3cb769",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "ts": "2026-11-04T09:15:25.251184Z"
-    },
-    {
-      "id": "p87r_ev_231475596a9e",
-      "cycle": 20,
-      "payload_hash": "1928fef1f84afe821f39017781d5e7efd2e600d822144345a7adf272b9282c14",
-      "prev_hash": "fea4d5c087afb03f2142f63781a3e7e3818707eb690c7f8c9747a9288c3cb769",
-      "chain_head": "05eed118c5524831f3da03f975477a6ad3b84988a15eaa62f169e07b9f039510",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "ts": "2026-11-04T09:15:25.251198Z"
-    },
-    {
-      "id": "p87r_ev_dbebb714bf60",
-      "cycle": 21,
-      "payload_hash": "2141678f864cf82e5d387cc2bae6f53560b85530c12acb6d11f1956762ce2e8d",
-      "prev_hash": "05eed118c5524831f3da03f975477a6ad3b84988a15eaa62f169e07b9f039510",
-      "chain_head": "34f19f308acb9a0d124fb0e17f9aaad39353bc7138ebedce968e19bac4c57208",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "ts": "2026-11-04T09:15:25.251230Z"
+      "ts": "2026-11-04T09:28:46.489860Z"
     }
   ],
   "slo_attestations": [
@@ -573,7 +411,7 @@
       "p99_latency_ms_max": 40.0,
       "error_rate_max": 0.003,
       "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T09:15:25.250776Z"
+      "ts": "2026-11-04T09:28:46.489628Z"
     },
     {
       "id": "satt1",
@@ -584,7 +422,7 @@
       "p99_latency_ms_max": 40.0,
       "error_rate_max": 0.003,
       "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T09:15:25.250872Z"
+      "ts": "2026-11-04T09:28:46.489721Z"
     },
     {
       "id": "satt2",
@@ -595,40 +433,7 @@
       "p99_latency_ms_max": 40.0,
       "error_rate_max": 0.003,
       "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T09:15:25.250969Z"
-    },
-    {
-      "id": "satt3",
-      "cycle": 12,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T09:15:25.251038Z"
-    },
-    {
-      "id": "satt4",
-      "cycle": 16,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T09:15:25.251122Z"
-    },
-    {
-      "id": "satt5",
-      "cycle": 20,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T09:15:25.251167Z"
+      "ts": "2026-11-04T09:28:46.489816Z"
     }
   ],
   "paper_executions": [
@@ -652,7 +457,7 @@
       "finality_confirmed": false,
       "cross_venue_routed": true,
       "evidence_attached": true,
-      "ts": "2026-11-04T09:15:25.250785Z"
+      "ts": "2026-11-04T09:28:46.489636Z"
     },
     {
       "id": "p87r_exec_62e29ca92608",
@@ -674,7 +479,7 @@
       "finality_confirmed": true,
       "cross_venue_routed": true,
       "evidence_attached": true,
-      "ts": "2026-11-04T09:15:25.250907Z"
+      "ts": "2026-11-04T09:28:46.489755Z"
     },
     {
       "id": "p87r_exec_3e505ccf33ba",
@@ -696,149 +501,105 @@
       "finality_confirmed": true,
       "cross_venue_routed": true,
       "evidence_attached": true,
-      "ts": "2026-11-04T09:15:25.251005Z"
-    },
-    {
-      "id": "p87r_exec_be555bf74c59",
-      "cycle": 15,
-      "regime": "ranging",
-      "paper_only": true,
-      "live_blocked": true,
-      "halted": false,
-      "filled": true,
-      "symbol": "BTC-PERP",
-      "venue": "deribit",
-      "side": "sell",
-      "px": 100496.5,
-      "qty": 0.0122,
-      "notional_usd": 1226.0573,
-      "fill_price": 100496.5,
-      "fees_usd": 0.24521146,
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_routed": true,
-      "evidence_attached": true,
-      "ts": "2026-11-04T09:15:25.251093Z"
-    },
-    {
-      "id": "p87r_exec_222637454463",
-      "cycle": 20,
-      "regime": "ranging",
-      "paper_only": true,
-      "live_blocked": true,
-      "halted": false,
-      "filled": true,
-      "symbol": "SOL-PERP",
-      "venue": "binance",
-      "side": "buy",
-      "px": 100662.0,
-      "qty": 0.0177,
-      "notional_usd": 1781.7174,
-      "fill_price": 100662.0,
-      "fees_usd": 0.35634348,
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_routed": true,
-      "evidence_attached": true,
-      "ts": "2026-11-04T09:15:25.251173Z"
+      "ts": "2026-11-04T09:28:46.489850Z"
     }
   ],
   "validations": [
     {
-      "id": "val12",
-      "cycle": 12,
+      "id": "val0",
+      "cycle": 0,
+      "regime": "shock",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
+      "ok": false,
+      "ts": "2026-11-04T09:28:46.489695Z"
+    },
+    {
+      "id": "val1",
+      "cycle": 1,
       "regime": "ranging",
       "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
       "ok": true,
-      "ts": "2026-11-04T09:15:25.251063Z"
+      "ts": "2026-11-04T09:28:46.489711Z"
     },
     {
-      "id": "val13",
-      "cycle": 13,
+      "id": "val2",
+      "cycle": 2,
       "regime": "ranging",
       "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
       "ok": true,
-      "ts": "2026-11-04T09:15:25.251066Z"
+      "ts": "2026-11-04T09:28:46.489715Z"
     },
     {
-      "id": "val14",
-      "cycle": 14,
+      "id": "val3",
+      "cycle": 3,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T09:28:46.489718Z"
+    },
+    {
+      "id": "val4",
+      "cycle": 4,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T09:28:46.489744Z"
+    },
+    {
+      "id": "val5",
+      "cycle": 5,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T09:28:46.489778Z"
+    },
+    {
+      "id": "val6",
+      "cycle": 6,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
+      "ok": true,
+      "ts": "2026-11-04T09:28:46.489790Z"
+    },
+    {
+      "id": "val7",
+      "cycle": 7,
       "regime": "trend",
       "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
       "ok": true,
-      "ts": "2026-11-04T09:15:25.251083Z"
+      "ts": "2026-11-04T09:28:46.489809Z"
     },
     {
-      "id": "val15",
-      "cycle": 15,
+      "id": "val8",
+      "cycle": 8,
       "regime": "ranging",
       "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
       "ok": true,
-      "ts": "2026-11-04T09:15:25.251115Z"
+      "ts": "2026-11-04T09:28:46.489837Z"
     },
     {
-      "id": "val16",
-      "cycle": 16,
+      "id": "val9",
+      "cycle": 9,
       "regime": "ranging",
       "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
       "ok": true,
-      "ts": "2026-11-04T09:15:25.251142Z"
+      "ts": "2026-11-04T09:28:46.489840Z"
     },
     {
-      "id": "val17",
-      "cycle": 17,
+      "id": "val10",
+      "cycle": 10,
       "regime": "ranging",
       "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
       "ok": true,
-      "ts": "2026-11-04T09:15:25.251146Z"
+      "ts": "2026-11-04T09:28:46.489872Z"
     },
     {
-      "id": "val18",
-      "cycle": 18,
-      "regime": "ranging",
-      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
-      "ok": true,
-      "ts": "2026-11-04T09:15:25.251157Z"
-    },
-    {
-      "id": "val19",
-      "cycle": 19,
-      "regime": "ranging",
-      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
-      "ok": true,
-      "ts": "2026-11-04T09:15:25.251160Z"
-    },
-    {
-      "id": "val20",
-      "cycle": 20,
-      "regime": "ranging",
-      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
-      "ok": true,
-      "ts": "2026-11-04T09:15:25.251214Z"
-    },
-    {
-      "id": "val21",
-      "cycle": 21,
-      "regime": "trend",
-      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
-      "ok": true,
-      "ts": "2026-11-04T09:15:25.251234Z"
-    },
-    {
-      "id": "val22",
-      "cycle": 22,
+      "id": "val11",
+      "cycle": 11,
       "regime": "shock",
       "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
       "ok": true,
-      "ts": "2026-11-04T09:15:25.251237Z"
-    },
-    {
-      "id": "val23",
-      "cycle": 23,
-      "regime": "ranging",
-      "suite": "options+orderflow+capital+liquidity+collateral+settlement+finality+posttrade",
-      "ok": true,
-      "ts": "2026-11-04T09:15:25.251240Z"
+      "ts": "2026-11-04T09:28:46.489875Z"
     }
   ],
   "alerts": [
@@ -847,7 +608,7 @@
       "cycle": 0,
       "regime": "shock",
       "type": "validation_fail",
-      "ts": "2026-11-04T09:15:25.250843Z"
+      "ts": "2026-11-04T09:28:46.489692Z"
     }
   ],
   "settlement_finality_attestations": [
@@ -865,7 +626,7 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T09:15:25.250806Z"
+      "ts": "2026-11-04T09:28:46.489655Z"
     },
     {
       "id": "p87r_sf_8df02dbebd4e",
@@ -881,7 +642,7 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T09:15:25.250876Z"
+      "ts": "2026-11-04T09:28:46.489726Z"
     },
     {
       "id": "p87r_sf_721b9496250a",
@@ -897,55 +658,7 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T09:15:25.250974Z"
-    },
-    {
-      "id": "p87r_sf_995bad9ab088",
-      "cycle": 12,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T09:15:25.251042Z"
-    },
-    {
-      "id": "p87r_sf_b7bb05794bfe",
-      "cycle": 16,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T09:15:25.251126Z"
-    },
-    {
-      "id": "p87r_sf_402dde1d39df",
-      "cycle": 20,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T09:15:25.251188Z"
+      "ts": "2026-11-04T09:28:46.489820Z"
     }
   ],
   "margin_collateral_attestations": [
@@ -964,7 +677,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250828Z"
+      "ts": "2026-11-04T09:28:46.489678Z"
     },
     {
       "id": "p87r_mc_3730c93342ee",
@@ -981,7 +694,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250923Z"
+      "ts": "2026-11-04T09:28:46.489771Z"
     },
     {
       "id": "p87r_mc_830bbac9b954",
@@ -998,41 +711,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.251020Z"
-    },
-    {
-      "id": "p87r_mc_e2d08caede1f",
-      "cycle": 15,
-      "regime": "ranging",
-      "margin_collateral_ratio": 1.16,
-      "liquidation_buffer": 0.16,
-      "liquidation_buffer_ok": true,
-      "margin_collateral_ok": true,
-      "collateral_sufficient": true,
-      "paper_only": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251108Z"
-    },
-    {
-      "id": "p87r_mc_96ad1d4486a5",
-      "cycle": 20,
-      "regime": "ranging",
-      "margin_collateral_ratio": 1.16,
-      "liquidation_buffer": 0.16,
-      "liquidation_buffer_ok": true,
-      "margin_collateral_ok": true,
-      "collateral_sufficient": true,
-      "paper_only": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251207Z"
+      "ts": "2026-11-04T09:28:46.489865Z"
     }
   ],
   "live_readiness_attestations": [
@@ -1049,7 +728,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250834Z"
+      "ts": "2026-11-04T09:28:46.489683Z"
     },
     {
       "id": "p87r_lr_0fdb7b4f8036",
@@ -1064,37 +743,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250940Z"
-    },
-    {
-      "id": "p87r_lr_5da3d069d14c",
-      "cycle": 12,
-      "regime": "ranging",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251060Z"
-    },
-    {
-      "id": "p87r_lr_6d73251eb418",
-      "cycle": 18,
-      "regime": "ranging",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251154Z"
+      "ts": "2026-11-04T09:28:46.489787Z"
     }
   ],
   "post_trade_attestations": [
@@ -1111,7 +760,7 @@
       "fees_reconciled": true,
       "post_trade_ok": true,
       "paper_only": true,
-      "ts": "2026-11-04T09:15:25.250839Z"
+      "ts": "2026-11-04T09:28:46.489688Z"
     },
     {
       "id": "p87r_pta_c6a57c6fd389",
@@ -1126,7 +775,7 @@
       "fees_reconciled": true,
       "post_trade_ok": true,
       "paper_only": true,
-      "ts": "2026-11-04T09:15:25.250928Z"
+      "ts": "2026-11-04T09:28:46.489775Z"
     },
     {
       "id": "p87r_pta_e201008076be",
@@ -1141,37 +790,7 @@
       "fees_reconciled": true,
       "post_trade_ok": true,
       "paper_only": true,
-      "ts": "2026-11-04T09:15:25.251024Z"
-    },
-    {
-      "id": "p87r_pta_d079ed77c2c0",
-      "cycle": 15,
-      "regime": "ranging",
-      "exec_id": "p87r_exec_be555bf74c59",
-      "venue": "deribit",
-      "symbol": "BTC-PERP",
-      "reconciled": true,
-      "settlement_reconciled": true,
-      "finality_reconciled": true,
-      "fees_reconciled": true,
-      "post_trade_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T09:15:25.251112Z"
-    },
-    {
-      "id": "p87r_pta_5cdc1d386c12",
-      "cycle": 20,
-      "regime": "ranging",
-      "exec_id": "p87r_exec_222637454463",
-      "venue": "binance",
-      "symbol": "SOL-PERP",
-      "reconciled": true,
-      "settlement_reconciled": true,
-      "finality_reconciled": true,
-      "fees_reconciled": true,
-      "post_trade_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T09:15:25.251211Z"
+      "ts": "2026-11-04T09:28:46.489869Z"
     }
   ],
   "reconciliation_events": [
@@ -1186,7 +805,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250822Z"
+      "ts": "2026-11-04T09:28:46.489672Z"
     },
     {
       "id": "p87r_recn_af38136ab3f3",
@@ -1199,7 +818,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250892Z"
+      "ts": "2026-11-04T09:28:46.489741Z"
     },
     {
       "id": "p87r_recn_10db0fb2e4a0",
@@ -1212,47 +831,8 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T09:15:25.250988Z"
-    },
-    {
-      "id": "p87r_recn_1713fa9e2f15",
-      "cycle": 12,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251056Z"
-    },
-    {
-      "id": "p87r_recn_f08ad73c7ec7",
-      "cycle": 16,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251140Z"
-    },
-    {
-      "id": "p87r_recn_777b3bf3d2bd",
-      "cycle": 20,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T09:15:25.251202Z"
+      "ts": "2026-11-04T09:28:46.489834Z"
     }
   ],
-  "ts": "2026-11-04T09:15:25.251275Z"
+  "ts": "2026-11-04T09:28:46.489904Z"
 }
