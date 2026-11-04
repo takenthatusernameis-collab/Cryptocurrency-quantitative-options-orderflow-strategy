@@ -1,8 +1,8 @@
 # PHASE86 Autonomous Resilience/Recovery/Compliance/Governance Live-Readiness Finality/Settlement/Margin/Collateral Attestation Hardening (LATEST)
 
-Timestamp: 2026-11-04T01:27:09.101652Z
+Timestamp: 2026-11-04T05:18:33.928129Z
 
-OK: True
+OK: False
 
 Gates:
 
@@ -14,7 +14,7 @@ Gates:
 - recovery_guardrails_enforced: True
 - slo_attestation_ok: True
 - slo_attestation_quorum_ok: True
-- validation_pass_rate_ok: True
+- validation_pass_rate_ok: False
 - deterministic_paper_execution_ok: True
 - live_paths_hard_gated_paper_only: True
 - cross_venue_circuit_breaker_ok: True

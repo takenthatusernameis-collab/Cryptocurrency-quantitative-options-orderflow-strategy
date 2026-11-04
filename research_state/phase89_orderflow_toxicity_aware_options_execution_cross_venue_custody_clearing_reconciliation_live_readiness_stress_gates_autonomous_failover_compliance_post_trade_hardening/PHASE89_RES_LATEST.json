@@ -2,7 +2,7 @@
   "phase": "PHASE89_ORDERFLOW_TOXICITY_AWARE_OPTIONS_EXECUTION_CROSS_VENUE_CUSTODY_CLEARING_RECONCILIATION_LIVE_READINESS_STRESS_GATES_AUTONOMOUS_FAILOVER_COMPLIANCE_POST_TRADE_HARDENING_LOOP",
   "paper_only": true,
   "seed": 89001,
-  "cycles": 96,
+  "cycles": 24,
   "venues": [
     "deribit",
     "okx",
@@ -18,7 +18,7 @@
     "7D",
     "30D"
   ],
-  "ok": true,
+  "ok": false,
   "gates": {
     "evidence_chain_ok": true,
     "evidence_chain_tamper_evident": true,
@@ -29,7 +29,7 @@
     "recovery_guardrails_enforced": true,
     "slo_attestation_ok": true,
     "slo_attestation_quorum_ok": true,
-    "validation_pass_rate_ok": true,
+    "validation_pass_rate_ok": false,
     "deterministic_paper_execution_ok": true,
     "live_paths_hard_gated_paper_only": true,
     "cross_venue_circuit_breaker_ok": true,
@@ -60,48 +60,48 @@
     "orderflow_aware_execution_ok": true
   },
   "metrics": {
-    "resilience_events": 20,
-    "recovery_events": 16,
-    "compliance_attestations": 14,
-    "governance_decisions": 12,
+    "resilience_events": 5,
+    "recovery_events": 4,
+    "compliance_attestations": 4,
+    "governance_decisions": 3,
     "circuit_breaker_events": 1,
     "kill_events": 1,
     "exit_events": 1,
-    "failover_events": 12,
-    "evidence_chain_len": 58,
-    "custody_clearing_chain_len": 20,
-    "reconciliation_evidence_events": 20,
-    "slo_attestations": 24,
-    "stress_gate_events": 24,
-    "paper_executions": 20,
-    "validations": 96,
-    "passed": 95,
-    "pass_rate": 0.989583,
-    "alerts": 5,
-    "audit_trail_events": 56,
-    "settlement_finality_attestations": 24,
-    "margin_collateral_attestations": 20,
-    "live_readiness_attestations": 16,
-    "post_trade_attestations": 20,
-    "reconciliation_events": 24,
-    "custody_clearing_attestations": 20,
+    "failover_events": 3,
+    "evidence_chain_len": 15,
+    "custody_clearing_chain_len": 5,
+    "reconciliation_evidence_events": 5,
+    "slo_attestations": 6,
+    "stress_gate_events": 6,
+    "paper_executions": 5,
+    "validations": 24,
+    "passed": 23,
+    "pass_rate": 0.958333,
+    "alerts": 1,
+    "audit_trail_events": 14,
+    "settlement_finality_attestations": 6,
+    "margin_collateral_attestations": 5,
+    "live_readiness_attestations": 4,
+    "post_trade_attestations": 5,
+    "reconciliation_events": 6,
+    "custody_clearing_attestations": 5,
     "custody_quorum_rate": 1.0,
-    "stress_gate_ok_rate": 0.916667,
-    "options_iv_greeks_surface_events": 24,
-    "orderflow_microstructure_events": 24,
-    "toxicity_events": 24,
-    "vpin_events": 24,
-    "gamma_dealer_positioning_events": 96,
-    "cross_venue_sor_routing_events": 96,
-    "fragmentation_events": 96,
-    "regime_mm_hedge_events": 96,
-    "orderflow_aware_execution_events": 20,
-    "of_tox_ok_rate": 0.916667,
-    "sor_rate": 0.916667,
+    "stress_gate_ok_rate": 1.0,
+    "options_iv_greeks_surface_events": 6,
+    "orderflow_microstructure_events": 6,
+    "toxicity_events": 6,
+    "vpin_events": 6,
+    "gamma_dealer_positioning_events": 24,
+    "cross_venue_sor_routing_events": 24,
+    "fragmentation_events": 24,
+    "regime_mm_hedge_events": 24,
+    "orderflow_aware_execution_events": 5,
+    "of_tox_ok_rate": 1.0,
+    "sor_rate": 1.0,
     "gamma_rate": 1.0,
     "opts_rate": 1.0,
-    "chain_head": "141cf8235d175ada",
-    "custody_chain_head": "e82fa283d6b83a51"
+    "chain_head": "e7283f9b287b541d",
+    "custody_chain_head": "eb71f80b3a8abb60"
   },
   "components": {
     "phase39_kill_switch": {
@@ -166,50 +166,8 @@
   },
   "resilience_events": [
     {
-      "id": "p89r_res_54ccdba92b55",
-      "cycle": 40,
-      "regime": "ranging",
-      "action": "resilience_check",
-      "redundancy_ok": true,
-      "failover_ready": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780394Z"
-    },
-    {
-      "id": "p89r_res_7a5f8ca577a0",
-      "cycle": 45,
-      "regime": "ranging",
-      "action": "resilience_check",
-      "redundancy_ok": true,
-      "failover_ready": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780790Z"
-    },
-    {
-      "id": "p89r_res_a5d9295ea305",
-      "cycle": 50,
-      "regime": "ranging",
-      "action": "resilience_check",
-      "redundancy_ok": true,
-      "failover_ready": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781090Z"
-    },
-    {
-      "id": "p89r_res_d86bb114c1c5",
-      "cycle": 55,
+      "id": "p89r_res_c7c7cb7992f2",
+      "cycle": 0,
       "regime": "shock",
       "action": "resilience_check",
       "redundancy_ok": true,
@@ -219,11 +177,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.781378Z"
+      "ts": "2026-11-04T05:18:33.938405Z"
     },
     {
-      "id": "p89r_res_c2e329396267",
-      "cycle": 60,
+      "id": "p89r_res_06393e31db52",
+      "cycle": 5,
       "regime": "ranging",
       "action": "resilience_check",
       "redundancy_ok": true,
@@ -233,11 +191,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.781693Z"
+      "ts": "2026-11-04T05:18:33.938838Z"
     },
     {
-      "id": "p89r_res_ca0ac09784dc",
-      "cycle": 65,
+      "id": "p89r_res_968956c48720",
+      "cycle": 10,
       "regime": "ranging",
       "action": "resilience_check",
       "redundancy_ok": true,
@@ -247,25 +205,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782051Z"
+      "ts": "2026-11-04T05:18:33.939125Z"
     },
     {
-      "id": "p89r_res_911e0e4b07dc",
-      "cycle": 70,
-      "regime": "trend",
-      "action": "resilience_check",
-      "redundancy_ok": true,
-      "failover_ready": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782306Z"
-    },
-    {
-      "id": "p89r_res_baf9117278eb",
-      "cycle": 75,
+      "id": "p89r_res_2e273981541f",
+      "cycle": 15,
       "regime": "ranging",
       "action": "resilience_check",
       "redundancy_ok": true,
@@ -275,11 +219,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782622Z"
+      "ts": "2026-11-04T05:18:33.939390Z"
     },
     {
-      "id": "p89r_res_2015d76190de",
-      "cycle": 80,
+      "id": "p89r_res_9204e5dac350",
+      "cycle": 20,
       "regime": "ranging",
       "action": "resilience_check",
       "redundancy_ok": true,
@@ -289,160 +233,13 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782898Z"
-    },
-    {
-      "id": "p89r_res_16ca1400afc0",
-      "cycle": 85,
-      "regime": "ranging",
-      "action": "resilience_check",
-      "redundancy_ok": true,
-      "failover_ready": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.783249Z"
-    },
-    {
-      "id": "p89r_res_546c8f23a083",
-      "cycle": 90,
-      "regime": "ranging",
-      "action": "resilience_check",
-      "redundancy_ok": true,
-      "failover_ready": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.783553Z"
-    },
-    {
-      "id": "p89r_res_29217ffc74ab",
-      "cycle": 95,
-      "regime": "ranging",
-      "action": "resilience_check",
-      "redundancy_ok": true,
-      "failover_ready": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.784325Z"
+      "ts": "2026-11-04T05:18:33.939684Z"
     }
   ],
   "recovery_events": [
     {
-      "id": "p89r_rec_3ff164bc639a",
-      "cycle": 24,
-      "regime": "ranging",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.779421Z"
-    },
-    {
-      "id": "p89r_rec_aa15b75e9173",
-      "cycle": 30,
-      "regime": "ranging",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.779841Z"
-    },
-    {
-      "id": "p89r_rec_b494e08e8d55",
-      "cycle": 36,
-      "regime": "ranging",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780237Z"
-    },
-    {
-      "id": "p89r_rec_65e493664866",
-      "cycle": 42,
-      "regime": "trend",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780624Z"
-    },
-    {
-      "id": "p89r_rec_85902988493a",
-      "cycle": 48,
-      "regime": "ranging",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780939Z"
-    },
-    {
-      "id": "p89r_rec_523391b1f8ba",
-      "cycle": 54,
-      "regime": "ranging",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781347Z"
-    },
-    {
-      "id": "p89r_rec_e14c11a713ca",
-      "cycle": 60,
-      "regime": "ranging",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781699Z"
-    },
-    {
-      "id": "p89r_rec_76d74a1b63bd",
-      "cycle": 66,
+      "id": "p89r_rec_dbaff7015415",
+      "cycle": 0,
       "regime": "shock",
       "recovery_authorized": true,
       "manual_reset_pending": true,
@@ -453,11 +250,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782149Z"
+      "ts": "2026-11-04T05:18:33.938417Z"
     },
     {
-      "id": "p89r_rec_a8000482ac9d",
-      "cycle": 72,
+      "id": "p89r_rec_9e4bc847ba29",
+      "cycle": 6,
       "regime": "ranging",
       "recovery_authorized": true,
       "manual_reset_pending": true,
@@ -468,11 +265,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782443Z"
+      "ts": "2026-11-04T05:18:33.938937Z"
     },
     {
-      "id": "p89r_rec_46a2ea77a363",
-      "cycle": 78,
+      "id": "p89r_rec_e81c224068e9",
+      "cycle": 12,
       "regime": "ranging",
       "recovery_authorized": true,
       "manual_reset_pending": true,
@@ -483,26 +280,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782850Z"
+      "ts": "2026-11-04T05:18:33.939243Z"
     },
     {
-      "id": "p89r_rec_9fcda1d2c4d9",
-      "cycle": 84,
-      "regime": "trend",
-      "recovery_authorized": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.783145Z"
-    },
-    {
-      "id": "p89r_rec_11edd933afbe",
-      "cycle": 90,
+      "id": "p89r_rec_f19fe1973f15",
+      "cycle": 18,
       "regime": "ranging",
       "recovery_authorized": true,
       "manual_reset_pending": true,
@@ -513,10 +295,40 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.783556Z"
+      "ts": "2026-11-04T05:18:33.939635Z"
     }
   ],
   "compliance_attestations": [
+    {
+      "id": "p89r_comp_e116274eee1e",
+      "cycle": 0,
+      "regime": "shock",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v89",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T05:18:33.938422Z"
+    },
+    {
+      "id": "p89r_comp_e76b9c83f9e4",
+      "cycle": 7,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v89",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T05:18:33.938968Z"
+    },
     {
       "id": "p89r_comp_067cd44e578c",
       "cycle": 14,
@@ -530,7 +342,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.778841Z"
+      "ts": "2026-11-04T05:18:33.939349Z"
     },
     {
       "id": "p89r_comp_e447a1b6ab7b",
@@ -545,157 +357,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.779338Z"
-    },
-    {
-      "id": "p89r_comp_4cfefd2e597a",
-      "cycle": 28,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.779714Z"
-    },
-    {
-      "id": "p89r_comp_cb742429502c",
-      "cycle": 35,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780119Z"
-    },
-    {
-      "id": "p89r_comp_77fb6e02b56d",
-      "cycle": 42,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780628Z"
-    },
-    {
-      "id": "p89r_comp_0d25b6b2ab52",
-      "cycle": 49,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781053Z"
-    },
-    {
-      "id": "p89r_comp_8bc3e7fd23ac",
-      "cycle": 56,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781509Z"
-    },
-    {
-      "id": "p89r_comp_c408243e1d96",
-      "cycle": 63,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781905Z"
-    },
-    {
-      "id": "p89r_comp_f533192a88ea",
-      "cycle": 70,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782310Z"
-    },
-    {
-      "id": "p89r_comp_604330a7842f",
-      "cycle": 77,
-      "regime": "shock",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782813Z"
-    },
-    {
-      "id": "p89r_comp_e54515143186",
-      "cycle": 84,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.783148Z"
-    },
-    {
-      "id": "p89r_comp_3561c0b56c66",
-      "cycle": 91,
-      "regime": "trend",
-      "compliant": true,
-      "audit_trail_complete": true,
-      "policy_version": "v89",
-      "signer_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.784156Z"
+      "ts": "2026-11-04T05:18:33.939837Z"
     }
   ],
   "governance_decisions": [
@@ -711,7 +373,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.777708Z"
+      "ts": "2026-11-04T05:18:33.938426Z"
     },
     {
       "id": "p89r_gov_7fcf3f745cce",
@@ -725,7 +387,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.778390Z"
+      "ts": "2026-11-04T05:18:33.939006Z"
     },
     {
       "id": "p89r_gov_430e10f56e04",
@@ -739,133 +401,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.778990Z"
-    },
-    {
-      "id": "p89r_gov_e245e1ee4a0c",
-      "cycle": 24,
-      "regime": "ranging",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.779425Z"
-    },
-    {
-      "id": "p89r_gov_5b1ad70c4cea",
-      "cycle": 32,
-      "regime": "ranging",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.779968Z"
-    },
-    {
-      "id": "p89r_gov_fcb4575075ff",
-      "cycle": 40,
-      "regime": "ranging",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780398Z"
-    },
-    {
-      "id": "p89r_gov_f073e9d0c04c",
-      "cycle": 48,
-      "regime": "ranging",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780943Z"
-    },
-    {
-      "id": "p89r_gov_c58dd897f949",
-      "cycle": 56,
-      "regime": "trend",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781513Z"
-    },
-    {
-      "id": "p89r_gov_54c639482abe",
-      "cycle": 64,
-      "regime": "ranging",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781943Z"
-    },
-    {
-      "id": "p89r_gov_f4ba9659133e",
-      "cycle": 72,
-      "regime": "ranging",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782447Z"
-    },
-    {
-      "id": "p89r_gov_c3035801d07e",
-      "cycle": 80,
-      "regime": "ranging",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782902Z"
-    },
-    {
-      "id": "p89r_gov_b7e08bc2361f",
-      "cycle": 88,
-      "regime": "shock",
-      "approved": true,
-      "quorum_met": true,
-      "separation_of_duties": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.783401Z"
+      "ts": "2026-11-04T05:18:33.939512Z"
     }
   ],
   "circuit_breaker_events": [
@@ -881,7 +417,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.777978Z"
+      "ts": "2026-11-04T05:18:33.938676Z"
     }
   ],
   "kill_events": [
@@ -897,7 +433,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.777982Z"
+      "ts": "2026-11-04T05:18:33.938680Z"
     }
   ],
   "exit_events": [
@@ -914,7 +450,7 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.777986Z"
+      "ts": "2026-11-04T05:18:33.938684Z"
     }
   ],
   "failover_events": [
@@ -933,7 +469,7 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.777957Z"
+      "ts": "2026-11-04T05:18:33.938655Z"
     },
     {
       "id": "p89r_fo_666e1efb2ed5",
@@ -950,7 +486,7 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.778497Z"
+      "ts": "2026-11-04T05:18:33.939086Z"
     },
     {
       "id": "p89r_fo_bf5e301ebd16",
@@ -967,169 +503,16 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.779082Z"
-    },
-    {
-      "id": "p89r_fo_48ad75d92084",
-      "cycle": 24,
-      "regime": "ranging",
-      "failover_authorized": false,
-      "cross_venue_failover_ready": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.779542Z"
-    },
-    {
-      "id": "p89r_fo_2184f0639174",
-      "cycle": 32,
-      "regime": "ranging",
-      "failover_authorized": false,
-      "cross_venue_failover_ready": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780054Z"
-    },
-    {
-      "id": "p89r_fo_5848b28a5e1a",
-      "cycle": 40,
-      "regime": "ranging",
-      "failover_authorized": false,
-      "cross_venue_failover_ready": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780582Z"
-    },
-    {
-      "id": "p89r_fo_622c073af036",
-      "cycle": 48,
-      "regime": "ranging",
-      "failover_authorized": false,
-      "cross_venue_failover_ready": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781034Z"
-    },
-    {
-      "id": "p89r_fo_eda7d24b5995",
-      "cycle": 56,
-      "regime": "trend",
-      "failover_authorized": false,
-      "cross_venue_failover_ready": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781608Z"
-    },
-    {
-      "id": "p89r_fo_94f03c22835e",
-      "cycle": 64,
-      "regime": "ranging",
-      "failover_authorized": false,
-      "cross_venue_failover_ready": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782032Z"
-    },
-    {
-      "id": "p89r_fo_01053129bca5",
-      "cycle": 72,
-      "regime": "ranging",
-      "failover_authorized": false,
-      "cross_venue_failover_ready": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782560Z"
-    },
-    {
-      "id": "p89r_fo_caf28282293f",
-      "cycle": 80,
-      "regime": "ranging",
-      "failover_authorized": false,
-      "cross_venue_failover_ready": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783058Z"
-    },
-    {
-      "id": "p89r_fo_5154b3f92abc",
-      "cycle": 88,
-      "regime": "shock",
-      "failover_authorized": true,
-      "cross_venue_failover_ready": true,
-      "manual_reset_pending": true,
-      "guardrails_enforced": true,
-      "safe_to_resume": false,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783512Z"
+      "ts": "2026-11-04T05:18:33.939598Z"
     }
   ],
   "evidence_chain": [
     {
-      "id": "p89r_ev_db64bda9d511",
-      "cycle": 76,
-      "payload_hash": "3a64d2865a941b89739aa061f0b4051d72918522179a2ca2db0d1ee5009dd65e",
-      "prev_hash": "a15eb9e96def294a69a07eff4c13d01da9809ebd5bd3c0d5b7a2e2b1fe02efb9",
-      "chain_head": "af3fccb91238e43ce784d8325f797ae854a6a55aa667e5557af1903a13fc4e5f",
+      "id": "p89r_ev_3755cfe6ca6b",
+      "cycle": 4,
+      "payload_hash": "1744006e61b2ff8d23ffd120aadf3a245576b475751cfe0bae0706363493c302",
+      "prev_hash": "13385b538c7a2b006d8746f0b4321fb3ee2d376ec0b699d009cf7cc6d6e711c4",
+      "chain_head": "b2a0749d651d31f81c336fbd4a488acc7ad59bbbbf28ba2296f09212612c08ee",
       "signed": true,
       "venues": [
         "deribit",
@@ -1137,14 +520,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.782779Z"
+      "ts": "2026-11-04T05:18:33.938810Z"
     },
     {
-      "id": "p89r_ev_e2867ed65497",
-      "cycle": 77,
-      "payload_hash": "f4dabd7b9870d72429f0d231bea100e68c1e276769e7e7b29237488c3575ee2a",
-      "prev_hash": "af3fccb91238e43ce784d8325f797ae854a6a55aa667e5557af1903a13fc4e5f",
-      "chain_head": "caeb99c706430eb3c48451956c06237e915baeff5501c90a855cb10bad66aa18",
+      "id": "p89r_ev_dc2de78b153d",
+      "cycle": 5,
+      "payload_hash": "00ae9aa35587c6c7f643f781ddeaf31b8530defd9e105657ddddd3540362caf5",
+      "prev_hash": "b2a0749d651d31f81c336fbd4a488acc7ad59bbbbf28ba2296f09212612c08ee",
+      "chain_head": "6db96fc3ec933beb7c10e00dfddaa030990bbde88d08ac32e2ed55b5894bd008",
       "signed": true,
       "venues": [
         "deribit",
@@ -1152,14 +535,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.782824Z"
+      "ts": "2026-11-04T05:18:33.938876Z"
     },
     {
-      "id": "p89r_ev_a05a2d3fee70",
-      "cycle": 80,
-      "payload_hash": "19366c63ef1f8ead3be20001a9eb0ef5f7ddd9bdb63a45e5ca59f9ce0b5bed97",
-      "prev_hash": "caeb99c706430eb3c48451956c06237e915baeff5501c90a855cb10bad66aa18",
-      "chain_head": "135b447f686bcc38560e376a3877c5b9e0299cddbdd248b309aa0ed012f6c328",
+      "id": "p89r_ev_a2e6067a0807",
+      "cycle": 7,
+      "payload_hash": "855f0fe79bcbaa6c8b927e20073b51b035ad9db011a510507e7a7bfbfe91cd2d",
+      "prev_hash": "6db96fc3ec933beb7c10e00dfddaa030990bbde88d08ac32e2ed55b5894bd008",
+      "chain_head": "b1be673b0f77a016a16c7857b047a833298039cd6a6c088177adde28ac5d4bb0",
       "signed": true,
       "venues": [
         "deribit",
@@ -1167,14 +550,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.782963Z"
+      "ts": "2026-11-04T05:18:33.938979Z"
     },
     {
-      "id": "p89r_ev_b87c988c7214",
-      "cycle": 80,
-      "payload_hash": "a25786bafd751b0bd51185db176ac4b8510d3acb5779d90957dd7a0600fc57c2",
-      "prev_hash": "135b447f686bcc38560e376a3877c5b9e0299cddbdd248b309aa0ed012f6c328",
-      "chain_head": "d7b464e84451bdd963d897b3b2817499252ba40c2795278a8e8f06acff17f739",
+      "id": "p89r_ev_cce48bc715a6",
+      "cycle": 8,
+      "payload_hash": "3c0c1ea44e5c706dce728dc95a647a193009f17d1fc853067465df92811085ac",
+      "prev_hash": "b1be673b0f77a016a16c7857b047a833298039cd6a6c088177adde28ac5d4bb0",
+      "chain_head": "9db0c12e67cbc425f63eca91949e1766ea817c5fd91522ceb926f56c29cd5fb2",
       "signed": true,
       "venues": [
         "deribit",
@@ -1182,14 +565,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.782982Z"
+      "ts": "2026-11-04T05:18:33.939061Z"
     },
     {
-      "id": "p89r_ev_42b6177ec6ae",
-      "cycle": 84,
-      "payload_hash": "c5037d806e92b6713c155293eaf22b1dcd144eb55fd33acfc6b89360face37d9",
-      "prev_hash": "d7b464e84451bdd963d897b3b2817499252ba40c2795278a8e8f06acff17f739",
-      "chain_head": "608c5a06e0a53b3bc6280e60d14ca07f6bae710ad85e908bcf026f9f75d0325d",
+      "id": "p89r_ev_dd88518c63c4",
+      "cycle": 10,
+      "payload_hash": "f3dca0336774af4d68e941c0c5f65332e0a9bfb623177385730349b5e819bbda",
+      "prev_hash": "9db0c12e67cbc425f63eca91949e1766ea817c5fd91522ceb926f56c29cd5fb2",
+      "chain_head": "a070b60dde18e2d4b0bf3fdd6af9ece1e3558491c07513e72c0c0f905baa52bb",
       "signed": true,
       "venues": [
         "deribit",
@@ -1197,14 +580,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.783159Z"
+      "ts": "2026-11-04T05:18:33.939161Z"
     },
     {
-      "id": "p89r_ev_ec9262737b28",
-      "cycle": 84,
-      "payload_hash": "3ee6c78453310be5065a64ecf3df5525198fe58c13fe0e544bf7ba0a4cee3465",
-      "prev_hash": "608c5a06e0a53b3bc6280e60d14ca07f6bae710ad85e908bcf026f9f75d0325d",
-      "chain_head": "3d52d586aee4b1200661dcb576a0de2e2ccccb3841245d732c06e4ae222e4066",
+      "id": "p89r_ev_4fccbcfd2fa6",
+      "cycle": 12,
+      "payload_hash": "3a2a07ea65b1ab4f71622e4f073a815dd56d1118c56e2d79d12c9aaf2c3eb44f",
+      "prev_hash": "a070b60dde18e2d4b0bf3fdd6af9ece1e3558491c07513e72c0c0f905baa52bb",
+      "chain_head": "66f758865399bce18ab1529cf06336e1afe4a0fd673be84da41a6ed97a238437",
       "signed": true,
       "venues": [
         "deribit",
@@ -1212,14 +595,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.783218Z"
+      "ts": "2026-11-04T05:18:33.939297Z"
     },
     {
-      "id": "p89r_ev_2a53ab19fb96",
-      "cycle": 85,
-      "payload_hash": "420ad2b679fbaac051aacf973d38113999bd5c93100be2eac7ef859a1959c39e",
-      "prev_hash": "3d52d586aee4b1200661dcb576a0de2e2ccccb3841245d732c06e4ae222e4066",
-      "chain_head": "88140bfe15713a13531c2b28081e04ba93157287eb479ee9957e470465c3dc50",
+      "id": "p89r_ev_534256840b31",
+      "cycle": 14,
+      "payload_hash": "92957631e35c2502dec76a65e2055641c01084cfddb96b7b5b7a10b495842623",
+      "prev_hash": "66f758865399bce18ab1529cf06336e1afe4a0fd673be84da41a6ed97a238437",
+      "chain_head": "09fed6513b7b4212d044aff429b7cce44346f2f78037afea56f8c0945bb7edbe",
       "signed": true,
       "venues": [
         "deribit",
@@ -1227,14 +610,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.783288Z"
+      "ts": "2026-11-04T05:18:33.939360Z"
     },
     {
-      "id": "p89r_ev_b3702139ce86",
-      "cycle": 88,
-      "payload_hash": "8a41c291eb8894ddad419012d8979deb25ff5d539578d41db2314688d6f41077",
-      "prev_hash": "88140bfe15713a13531c2b28081e04ba93157287eb479ee9957e470465c3dc50",
-      "chain_head": "f6451fa614f3c8dbe2af001f44a292b45680e171822757f682d1b3692e810a7a",
+      "id": "p89r_ev_0ba2ac75fcbf",
+      "cycle": 15,
+      "payload_hash": "585c4ab70b9a67a51760c7ca60d52f2b7188059dd3c38f115bac8ec35f4eb40b",
+      "prev_hash": "09fed6513b7b4212d044aff429b7cce44346f2f78037afea56f8c0945bb7edbe",
+      "chain_head": "455375af399f11b12b130dbc8b00c85a71ed2d8ba1738f0bd685cb1171e42176",
       "signed": true,
       "venues": [
         "deribit",
@@ -1242,14 +625,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.783475Z"
+      "ts": "2026-11-04T05:18:33.939425Z"
     },
     {
-      "id": "p89r_ev_735eb0f35574",
-      "cycle": 90,
-      "payload_hash": "e77343b9e925f988fa6c44c1e733a646a4f7f470d44c29ceb430d574e6a7edc7",
-      "prev_hash": "f6451fa614f3c8dbe2af001f44a292b45680e171822757f682d1b3692e810a7a",
-      "chain_head": "d92fba8548a8baefe369be59231e5369c6d8f8905374c3e74c55aa386fad12c4",
+      "id": "p89r_ev_1e93140ba6a8",
+      "cycle": 16,
+      "payload_hash": "51814a0b65f7f4fcb5104e2743c876746717b6a3326c1435a976ffe18baf2cc5",
+      "prev_hash": "455375af399f11b12b130dbc8b00c85a71ed2d8ba1738f0bd685cb1171e42176",
+      "chain_head": "328cf25a481e0cf51915fde50849dc8dbca9a4be26f3fbb2a08cfba9e257b296",
       "signed": true,
       "venues": [
         "deribit",
@@ -1257,14 +640,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.784085Z"
+      "ts": "2026-11-04T05:18:33.939573Z"
     },
     {
-      "id": "p89r_ev_c29b026b58c4",
-      "cycle": 91,
-      "payload_hash": "f138880f3b714ab5e75cd7f78128f0d58b5edc6a5717e02c782b8c8aa3e9b8a4",
-      "prev_hash": "d92fba8548a8baefe369be59231e5369c6d8f8905374c3e74c55aa386fad12c4",
-      "chain_head": "27e4a55f3a05763d0f365e6f4c1cf94976304a5a3a172c083c2fef8ab42bbd3a",
+      "id": "p89r_ev_4426ee6705c2",
+      "cycle": 20,
+      "payload_hash": "9c77e9e5efe22a1b3dab9ebf466d2045757c4011a2c4cbab7400a7226b49b54d",
+      "prev_hash": "328cf25a481e0cf51915fde50849dc8dbca9a4be26f3fbb2a08cfba9e257b296",
+      "chain_head": "5b83f2bf40457d70704dcac23c6f7657f463ee372c8d7b20a5949e7805c80e40",
       "signed": true,
       "venues": [
         "deribit",
@@ -1272,14 +655,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.784169Z"
+      "ts": "2026-11-04T05:18:33.939743Z"
     },
     {
-      "id": "p89r_ev_597767cf630d",
-      "cycle": 92,
-      "payload_hash": "0ba053142741ae8f0520612905ecb0268384bca1d0de8c19a3065dbb69c345d1",
-      "prev_hash": "27e4a55f3a05763d0f365e6f4c1cf94976304a5a3a172c083c2fef8ab42bbd3a",
-      "chain_head": "b2e5b090546f0f788f66873d2bce03f8addf25a088646a956ae61c52f3b2037c",
+      "id": "p89r_ev_6804cfd8a7b7",
+      "cycle": 20,
+      "payload_hash": "1928fef1f84afe821f39017781d5e7efd2e600d822144345a7adf272b9282c14",
+      "prev_hash": "5b83f2bf40457d70704dcac23c6f7657f463ee372c8d7b20a5949e7805c80e40",
+      "chain_head": "65b292592a71808da9d85564fdc749d57752a1b6cedc5df68d970fa902743d1a",
       "signed": true,
       "venues": [
         "deribit",
@@ -1287,14 +670,14 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.784251Z"
+      "ts": "2026-11-04T05:18:33.939763Z"
     },
     {
-      "id": "p89r_ev_91dd3055aad3",
-      "cycle": 95,
-      "payload_hash": "a8602879016341a97a140a90273277b52e9a83fc11cda025486207d446ea9916",
-      "prev_hash": "b2e5b090546f0f788f66873d2bce03f8addf25a088646a956ae61c52f3b2037c",
-      "chain_head": "141cf8235d175ada4f877d53aca44585b962a78aef70a6e45abfc56f200ce836",
+      "id": "p89r_ev_0ac641c0844d",
+      "cycle": 21,
+      "payload_hash": "430e698c89c7a186973395c3d6bcd7c0fd95827aef03f79e348d609c3d0fa520",
+      "prev_hash": "65b292592a71808da9d85564fdc749d57752a1b6cedc5df68d970fa902743d1a",
+      "chain_head": "e7283f9b287b541dd429c27b26563acda6d31a524063f61cae35baf1116fb217",
       "signed": true,
       "venues": [
         "deribit",
@@ -1302,16 +685,16 @@
         "binance"
       ],
       "quorum": 4,
-      "ts": "2026-11-04T05:12:49.784364Z"
+      "ts": "2026-11-04T05:18:33.939848Z"
     }
   ],
   "custody_clearing_chain": [
     {
-      "id": "p89r_cc_9a4142ad85b8",
-      "cycle": 40,
-      "payload_hash": "e0bae8d5b04e76149df6f7aecdb3c19fce91dcb66de0ff0dbc029c6f8b301f6a",
-      "prev_hash": "259c1feef73f6384c9377b239c836c6300038ad80f6ecfe3752c12a35478b005",
-      "chain_head": "337e623a700973205fbba52684a9786ea2df2c01e107b89dcb6673328caf4145",
+      "id": "p89r_cc_e68a021eeb61",
+      "cycle": 0,
+      "payload_hash": "f2b13c67aef5135dc093d55acb27f3f48a64fc15c83bd89b343ceda93ee7685e",
+      "prev_hash": "a80fbad8d0d8bc5d72a82fcf3240c40f1f8a5fba39ee020238d57efe3e348d86",
+      "chain_head": "34039310b5063959a301e8ae0f20da012b3cd3ed8bbca382c77997a668bda34c",
       "signed": true,
       "venues": [
         "deribit",
@@ -1320,14 +703,14 @@
       ],
       "quorum": 4,
       "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.780540Z"
+      "ts": "2026-11-04T05:18:33.938611Z"
     },
     {
-      "id": "p89r_cc_afaa07eaecb6",
-      "cycle": 45,
-      "payload_hash": "317767bdd199a840144b22dd8b31f8348cc796eb529211ef4138514617098379",
-      "prev_hash": "337e623a700973205fbba52684a9786ea2df2c01e107b89dcb6673328caf4145",
-      "chain_head": "36b1630e65bf28a839f23559ee4a015710a2f4a95bd624726832a2e9b79f867d",
+      "id": "p89r_cc_f75e41d792ae",
+      "cycle": 5,
+      "payload_hash": "9ffbdee1a827b0621b34f4f19082ea4ed89b4dc6961ed703c918aa1e1d0ce9c3",
+      "prev_hash": "34039310b5063959a301e8ae0f20da012b3cd3ed8bbca382c77997a668bda34c",
+      "chain_head": "92dae53bc5cae105a12c30290b657906702ac4b4f76120841ac617cc9e116a08",
       "signed": true,
       "venues": [
         "deribit",
@@ -1336,14 +719,14 @@
       ],
       "quorum": 4,
       "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.780867Z"
+      "ts": "2026-11-04T05:18:33.938910Z"
     },
     {
-      "id": "p89r_cc_3a263d34f442",
-      "cycle": 50,
-      "payload_hash": "ddab991ecf6659654f23a84d89bcdd5067690eff2d36ae749f78d6ad681654bb",
-      "prev_hash": "36b1630e65bf28a839f23559ee4a015710a2f4a95bd624726832a2e9b79f867d",
-      "chain_head": "8715816d60a424d89edeb3f0782a7b35cef5ddc42170f5d7d11a79be39fbc828",
+      "id": "p89r_cc_6e5badd3ca7d",
+      "cycle": 10,
+      "payload_hash": "77eef4c3e196c47e12f7d518e85d6d8a46dbdbfec889cf9298dd1eb64f82ec0d",
+      "prev_hash": "92dae53bc5cae105a12c30290b657906702ac4b4f76120841ac617cc9e116a08",
+      "chain_head": "4e6f3e84457030da1b6f7eb9e50dcc25913ed389b81f287538ccebd1ec96ff71",
       "signed": true,
       "venues": [
         "deribit",
@@ -1352,14 +735,14 @@
       ],
       "quorum": 4,
       "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.781195Z"
+      "ts": "2026-11-04T05:18:33.939193Z"
     },
     {
-      "id": "p89r_cc_5aba774d0fea",
-      "cycle": 55,
-      "payload_hash": "1d8e9aae0a72d33d6d2014c5a6fe95c7c1fb03542b06670048edf0e9622e95ee",
-      "prev_hash": "8715816d60a424d89edeb3f0782a7b35cef5ddc42170f5d7d11a79be39fbc828",
-      "chain_head": "919d6246dc975e96f33a1b2403195b1dbad5e56bd5ac00c9c6d2373afec2053d",
+      "id": "p89r_cc_4d4e4dab98e3",
+      "cycle": 15,
+      "payload_hash": "72c928f581ad94855e1dd2498bec5d95ccab5e96acfe063cb129b272a8f3788d",
+      "prev_hash": "4e6f3e84457030da1b6f7eb9e50dcc25913ed389b81f287538ccebd1ec96ff71",
+      "chain_head": "2047aded7f1b81997da3b0aa42981cf2206aaf31ab57b53d67939412ba4160ec",
       "signed": true,
       "venues": [
         "deribit",
@@ -1368,14 +751,14 @@
       ],
       "quorum": 4,
       "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.781479Z"
+      "ts": "2026-11-04T05:18:33.939456Z"
     },
     {
-      "id": "p89r_cc_d8313d584615",
-      "cycle": 60,
-      "payload_hash": "47bb183bbcb172c9b735636442bacd4b7ae6ac93492764d89b20386a8177c18f",
-      "prev_hash": "919d6246dc975e96f33a1b2403195b1dbad5e56bd5ac00c9c6d2373afec2053d",
-      "chain_head": "32272a7059660aca55cbea5cd83306eb48c89bb9b250dbe7ef0bce553a622f37",
+      "id": "p89r_cc_84dc299b0b03",
+      "cycle": 20,
+      "payload_hash": "252221fcd65f6c27a7d025eb40689c51141ace23141cfb4f4df764d54644733c",
+      "prev_hash": "2047aded7f1b81997da3b0aa42981cf2206aaf31ab57b53d67939412ba4160ec",
+      "chain_head": "eb71f80b3a8abb60628a70a1dcb4e16cc57f1d9ed72aafbcb48677ac6cb44261",
       "signed": true,
       "venues": [
         "deribit",
@@ -1384,706 +767,258 @@
       ],
       "quorum": 4,
       "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.781818Z"
-    },
-    {
-      "id": "p89r_cc_7e0d4c587823",
-      "cycle": 65,
-      "payload_hash": "0d17ff844ea9681007f79ce4c8e9ddfb90838b3883296b57986d40d0b4db56ac",
-      "prev_hash": "32272a7059660aca55cbea5cd83306eb48c89bb9b250dbe7ef0bce553a622f37",
-      "chain_head": "682eb9ecabb8ab443215c297303e7cb1ba1f1a732efd3be09552635bc0baca1a",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.782122Z"
-    },
-    {
-      "id": "p89r_cc_3327c01d6bc7",
-      "cycle": 70,
-      "payload_hash": "25d43f020b9875bf4a58fb61d8fe17377c0fa977c0e6d82fb14aee4100110654",
-      "prev_hash": "682eb9ecabb8ab443215c297303e7cb1ba1f1a732efd3be09552635bc0baca1a",
-      "chain_head": "0b68a1d161ef481845e4fdb47cfc737d7f031cd645512441d8281fe411d9ce3d",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.782395Z"
-    },
-    {
-      "id": "p89r_cc_6c448b49688c",
-      "cycle": 75,
-      "payload_hash": "2d2c87e07a3488363453352eb13e4c1a3bc2aa61e11e12f0f5731f46c3143015",
-      "prev_hash": "0b68a1d161ef481845e4fdb47cfc737d7f031cd645512441d8281fe411d9ce3d",
-      "chain_head": "6c51a2d2e1ccf2fa77cb822acd0a663e016718f90c6e30c90d3cc5a7a9516389",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.782694Z"
-    },
-    {
-      "id": "p89r_cc_3ece997fc615",
-      "cycle": 80,
-      "payload_hash": "24c9833c7352c26ca660f0ff1566cd04ec677522017787245621d99fe19d2e26",
-      "prev_hash": "6c51a2d2e1ccf2fa77cb822acd0a663e016718f90c6e30c90d3cc5a7a9516389",
-      "chain_head": "414ae220df0b70f54a5534f800b776e697cfc2c1902456e96fb77830ad18b456",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.783015Z"
-    },
-    {
-      "id": "p89r_cc_559d362e3272",
-      "cycle": 85,
-      "payload_hash": "ef57ca5cab42926d906cc94fd0fc3fa174d411c5bd39260f91b33339cf25e315",
-      "prev_hash": "414ae220df0b70f54a5534f800b776e697cfc2c1902456e96fb77830ad18b456",
-      "chain_head": "39632b8c5b625154a4df9d915b387ca07887971d9bfc4ea73db17ba647c108cb",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.783326Z"
-    },
-    {
-      "id": "p89r_cc_706bc7279678",
-      "cycle": 90,
-      "payload_hash": "68469bee8a0f71e8a512e112bce07057c966a4456f40ce3565f9dddc66d521d6",
-      "prev_hash": "39632b8c5b625154a4df9d915b387ca07887971d9bfc4ea73db17ba647c108cb",
-      "chain_head": "235e1b804ec592f67567e8b9c501d89470a3f51e84210da7888592cd0f15d94c",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.784125Z"
-    },
-    {
-      "id": "p89r_cc_b7b2b7b9c954",
-      "cycle": 95,
-      "payload_hash": "1c12e2f93b2438682459b448c01a3c81462db166c8b1bc244691718664168928",
-      "prev_hash": "235e1b804ec592f67567e8b9c501d89470a3f51e84210da7888592cd0f15d94c",
-      "chain_head": "e82fa283d6b83a51cf04ac5b067efca13f7701c6bb617fd9f92e589716fa9355",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "quorum": 4,
-      "custody_clearing_attested": true,
-      "ts": "2026-11-04T05:12:49.784396Z"
+      "ts": "2026-11-04T05:18:33.939794Z"
     }
   ],
   "reconciliation_evidence_events": [
     {
-      "id": "p89r_recnev_5b51ac8a6071",
-      "cycle": 40,
-      "regime": "ranging",
-      "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_9a4142ad85b8",
-      "chain_head": "337e623a700973205fbba52684a9786ea2df2c01e107b89dcb6673328caf4145",
-      "quorum_met": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780545Z"
-    },
-    {
-      "id": "p89r_recnev_55155884d440",
-      "cycle": 45,
-      "regime": "ranging",
-      "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_afaa07eaecb6",
-      "chain_head": "36b1630e65bf28a839f23559ee4a015710a2f4a95bd624726832a2e9b79f867d",
-      "quorum_met": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780871Z"
-    },
-    {
-      "id": "p89r_recnev_39f981232dca",
-      "cycle": 50,
-      "regime": "ranging",
-      "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_3a263d34f442",
-      "chain_head": "8715816d60a424d89edeb3f0782a7b35cef5ddc42170f5d7d11a79be39fbc828",
-      "quorum_met": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781199Z"
-    },
-    {
-      "id": "p89r_recnev_8238097066bf",
-      "cycle": 55,
+      "id": "p89r_recnev_88ab67fb6b33",
+      "cycle": 0,
       "regime": "shock",
       "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_5aba774d0fea",
-      "chain_head": "919d6246dc975e96f33a1b2403195b1dbad5e56bd5ac00c9c6d2373afec2053d",
+      "evidence_id": "p89r_cc_e68a021eeb61",
+      "chain_head": "34039310b5063959a301e8ae0f20da012b3cd3ed8bbca382c77997a668bda34c",
       "quorum_met": 4,
       "venues": [
         "deribit",
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.781485Z"
+      "ts": "2026-11-04T05:18:33.938616Z"
     },
     {
-      "id": "p89r_recnev_a82ac4a67eab",
-      "cycle": 60,
+      "id": "p89r_recnev_8ef2db592602",
+      "cycle": 5,
       "regime": "ranging",
       "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_d8313d584615",
-      "chain_head": "32272a7059660aca55cbea5cd83306eb48c89bb9b250dbe7ef0bce553a622f37",
+      "evidence_id": "p89r_cc_f75e41d792ae",
+      "chain_head": "92dae53bc5cae105a12c30290b657906702ac4b4f76120841ac617cc9e116a08",
       "quorum_met": 4,
       "venues": [
         "deribit",
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.781824Z"
+      "ts": "2026-11-04T05:18:33.938914Z"
     },
     {
-      "id": "p89r_recnev_20ee02966b57",
-      "cycle": 65,
+      "id": "p89r_recnev_1c4c128e27cb",
+      "cycle": 10,
       "regime": "ranging",
       "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_7e0d4c587823",
-      "chain_head": "682eb9ecabb8ab443215c297303e7cb1ba1f1a732efd3be09552635bc0baca1a",
+      "evidence_id": "p89r_cc_6e5badd3ca7d",
+      "chain_head": "4e6f3e84457030da1b6f7eb9e50dcc25913ed389b81f287538ccebd1ec96ff71",
       "quorum_met": 4,
       "venues": [
         "deribit",
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782126Z"
+      "ts": "2026-11-04T05:18:33.939197Z"
     },
     {
-      "id": "p89r_recnev_0270bd9965bf",
-      "cycle": 70,
-      "regime": "trend",
-      "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_3327c01d6bc7",
-      "chain_head": "0b68a1d161ef481845e4fdb47cfc737d7f031cd645512441d8281fe411d9ce3d",
-      "quorum_met": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782399Z"
-    },
-    {
-      "id": "p89r_recnev_50357d6df064",
-      "cycle": 75,
+      "id": "p89r_recnev_aa4008fae365",
+      "cycle": 15,
       "regime": "ranging",
       "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_6c448b49688c",
-      "chain_head": "6c51a2d2e1ccf2fa77cb822acd0a663e016718f90c6e30c90d3cc5a7a9516389",
+      "evidence_id": "p89r_cc_4d4e4dab98e3",
+      "chain_head": "2047aded7f1b81997da3b0aa42981cf2206aaf31ab57b53d67939412ba4160ec",
       "quorum_met": 4,
       "venues": [
         "deribit",
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782698Z"
+      "ts": "2026-11-04T05:18:33.939484Z"
     },
     {
-      "id": "p89r_recnev_3b829d40f13d",
-      "cycle": 80,
+      "id": "p89r_recnev_0e5b9f39695a",
+      "cycle": 20,
       "regime": "ranging",
       "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_3ece997fc615",
-      "chain_head": "414ae220df0b70f54a5534f800b776e697cfc2c1902456e96fb77830ad18b456",
+      "evidence_id": "p89r_cc_84dc299b0b03",
+      "chain_head": "eb71f80b3a8abb60628a70a1dcb4e16cc57f1d9ed72aafbcb48677ac6cb44261",
       "quorum_met": 4,
       "venues": [
         "deribit",
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.783020Z"
-    },
-    {
-      "id": "p89r_recnev_59bc8fd9b599",
-      "cycle": 85,
-      "regime": "ranging",
-      "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_559d362e3272",
-      "chain_head": "39632b8c5b625154a4df9d915b387ca07887971d9bfc4ea73db17ba647c108cb",
-      "quorum_met": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.783330Z"
-    },
-    {
-      "id": "p89r_recnev_f8f769b6e7a6",
-      "cycle": 90,
-      "regime": "ranging",
-      "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_706bc7279678",
-      "chain_head": "235e1b804ec592f67567e8b9c501d89470a3f51e84210da7888592cd0f15d94c",
-      "quorum_met": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.784130Z"
-    },
-    {
-      "id": "p89r_recnev_c7a5c9dde292",
-      "cycle": 95,
-      "regime": "ranging",
-      "type": "cross_venue_custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "evidence_id": "p89r_cc_b7b2b7b9c954",
-      "chain_head": "e82fa283d6b83a51cf04ac5b067efca13f7701c6bb617fd9f92e589716fa9355",
-      "quorum_met": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.784400Z"
+      "ts": "2026-11-04T05:18:33.939799Z"
     }
   ],
   "slo_attestations": [
     {
-      "id": "satt12",
-      "cycle": 48,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.780947Z"
-    },
-    {
-      "id": "satt13",
-      "cycle": 52,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.781242Z"
-    },
-    {
-      "id": "satt14",
-      "cycle": 56,
-      "regime": "trend",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.781528Z"
-    },
-    {
-      "id": "satt15",
-      "cycle": 60,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.781703Z"
-    },
-    {
-      "id": "satt16",
-      "cycle": 64,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.781947Z"
-    },
-    {
-      "id": "satt17",
-      "cycle": 68,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.782201Z"
-    },
-    {
-      "id": "satt18",
-      "cycle": 72,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.782451Z"
-    },
-    {
-      "id": "satt19",
-      "cycle": 76,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.782720Z"
-    },
-    {
-      "id": "satt20",
-      "cycle": 80,
-      "regime": "ranging",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.782908Z"
-    },
-    {
-      "id": "satt21",
-      "cycle": 84,
-      "regime": "trend",
-      "slo_attestation_ok": true,
-      "signer_quorum": 4,
-      "p99_latency_ms_max": 40.0,
-      "error_rate_max": 0.003,
-      "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.783163Z"
-    },
-    {
-      "id": "satt22",
-      "cycle": 88,
+      "id": "satt0",
+      "cycle": 0,
       "regime": "shock",
       "slo_attestation_ok": true,
       "signer_quorum": 4,
       "p99_latency_ms_max": 40.0,
       "error_rate_max": 0.003,
       "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.783405Z"
+      "ts": "2026-11-04T05:18:33.938453Z"
     },
     {
-      "id": "satt23",
-      "cycle": 92,
+      "id": "satt1",
+      "cycle": 4,
       "regime": "ranging",
       "slo_attestation_ok": true,
       "signer_quorum": 4,
       "p99_latency_ms_max": 40.0,
       "error_rate_max": 0.003,
       "live_readiness_slo_gates_hard_gated": true,
-      "ts": "2026-11-04T05:12:49.784195Z"
+      "ts": "2026-11-04T05:18:33.938756Z"
+    },
+    {
+      "id": "satt2",
+      "cycle": 8,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 40.0,
+      "error_rate_max": 0.003,
+      "live_readiness_slo_gates_hard_gated": true,
+      "ts": "2026-11-04T05:18:33.939010Z"
+    },
+    {
+      "id": "satt3",
+      "cycle": 12,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 40.0,
+      "error_rate_max": 0.003,
+      "live_readiness_slo_gates_hard_gated": true,
+      "ts": "2026-11-04T05:18:33.939246Z"
+    },
+    {
+      "id": "satt4",
+      "cycle": 16,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 40.0,
+      "error_rate_max": 0.003,
+      "live_readiness_slo_gates_hard_gated": true,
+      "ts": "2026-11-04T05:18:33.939516Z"
+    },
+    {
+      "id": "satt5",
+      "cycle": 20,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 40.0,
+      "error_rate_max": 0.003,
+      "live_readiness_slo_gates_hard_gated": true,
+      "ts": "2026-11-04T05:18:33.939688Z"
     }
   ],
   "stress_gate_events": [
     {
-      "id": "sg12",
-      "cycle": 48,
-      "regime": "ranging",
+      "id": "sg0",
+      "cycle": 0,
+      "regime": "shock",
       "slo_ok": true,
       "pass_rate_ok": true,
       "gate_ok": true,
-      "p99_latency_ms": 44.1,
-      "error_rate": 0.000544,
-      "stress_p99_latency_ms_max": 70.0,
-      "stress_error_rate_max": 0.01,
-      "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.781018Z"
-    },
-    {
-      "id": "sg13",
-      "cycle": 52,
-      "regime": "ranging",
-      "slo_ok": true,
-      "pass_rate_ok": true,
-      "gate_ok": true,
-      "p99_latency_ms": 57.4,
-      "error_rate": 0.000736,
-      "stress_p99_latency_ms_max": 70.0,
-      "stress_error_rate_max": 0.01,
-      "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.781308Z"
-    },
-    {
-      "id": "sg14",
-      "cycle": 56,
-      "regime": "trend",
-      "slo_ok": true,
-      "pass_rate_ok": true,
-      "gate_ok": true,
-      "p99_latency_ms": 38.3,
-      "error_rate": 0.000496,
-      "stress_p99_latency_ms_max": 70.0,
-      "stress_error_rate_max": 0.01,
-      "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.781592Z"
-    },
-    {
-      "id": "sg15",
-      "cycle": 60,
-      "regime": "ranging",
-      "slo_ok": true,
-      "pass_rate_ok": true,
-      "gate_ok": true,
-      "p99_latency_ms": 51.6,
-      "error_rate": 0.000688,
-      "stress_p99_latency_ms_max": 70.0,
-      "stress_error_rate_max": 0.01,
-      "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.781843Z"
-    },
-    {
-      "id": "sg16",
-      "cycle": 64,
-      "regime": "ranging",
-      "slo_ok": true,
-      "pass_rate_ok": true,
-      "gate_ok": true,
-      "p99_latency_ms": 38.0,
-      "error_rate": 0.000448,
-      "stress_p99_latency_ms_max": 70.0,
-      "stress_error_rate_max": 0.01,
-      "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.782016Z"
-    },
-    {
-      "id": "sg17",
-      "cycle": 68,
-      "regime": "ranging",
-      "slo_ok": true,
-      "pass_rate_ok": true,
-      "gate_ok": true,
-      "p99_latency_ms": 51.3,
+      "p99_latency_ms": 45.0,
       "error_rate": 0.00064,
       "stress_p99_latency_ms_max": 70.0,
       "stress_error_rate_max": 0.01,
       "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.782266Z"
+      "ts": "2026-11-04T05:18:33.938637Z"
     },
     {
-      "id": "sg18",
-      "cycle": 72,
+      "id": "sg1",
+      "cycle": 4,
       "regime": "ranging",
       "slo_ok": true,
       "pass_rate_ok": true,
       "gate_ok": true,
-      "p99_latency_ms": 32.2,
-      "error_rate": 0.0004,
-      "stress_p99_latency_ms_max": 70.0,
-      "stress_error_rate_max": 0.01,
-      "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.782544Z"
-    },
-    {
-      "id": "sg19",
-      "cycle": 76,
-      "regime": "ranging",
-      "slo_ok": true,
-      "pass_rate_ok": true,
-      "gate_ok": true,
-      "p99_latency_ms": 45.5,
+      "p99_latency_ms": 48.8,
       "error_rate": 0.000592,
       "stress_p99_latency_ms_max": 70.0,
       "stress_error_rate_max": 0.01,
       "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.782792Z"
+      "ts": "2026-11-04T05:18:33.938819Z"
     },
     {
-      "id": "sg20",
-      "cycle": 80,
+      "id": "sg2",
+      "cycle": 8,
       "regime": "ranging",
       "slo_ok": true,
       "pass_rate_ok": true,
       "gate_ok": true,
-      "p99_latency_ms": 58.8,
+      "p99_latency_ms": 62.1,
       "error_rate": 0.000784,
       "stress_p99_latency_ms_max": 70.0,
       "stress_error_rate_max": 0.01,
       "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.783041Z"
+      "ts": "2026-11-04T05:18:33.939070Z"
     },
     {
-      "id": "sg21",
-      "cycle": 84,
-      "regime": "trend",
+      "id": "sg3",
+      "cycle": 12,
+      "regime": "ranging",
       "slo_ok": true,
       "pass_rate_ok": true,
       "gate_ok": true,
-      "p99_latency_ms": 45.2,
+      "p99_latency_ms": 43.0,
       "error_rate": 0.000544,
       "stress_p99_latency_ms_max": 70.0,
       "stress_error_rate_max": 0.01,
       "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.783231Z"
+      "ts": "2026-11-04T05:18:33.939310Z"
     },
     {
-      "id": "sg22",
-      "cycle": 88,
-      "regime": "shock",
-      "slo_ok": false,
-      "pass_rate_ok": true,
-      "gate_ok": false,
-      "p99_latency_ms": 87.75,
-      "error_rate": 0.0011776,
-      "stress_p99_latency_ms_max": 70.0,
-      "stress_error_rate_max": 0.01,
-      "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.783490Z"
-    },
-    {
-      "id": "sg23",
-      "cycle": 92,
+      "id": "sg4",
+      "cycle": 16,
       "regime": "ranging",
       "slo_ok": true,
       "pass_rate_ok": true,
       "gate_ok": true,
-      "p99_latency_ms": 39.4,
+      "p99_latency_ms": 56.3,
+      "error_rate": 0.000736,
+      "stress_p99_latency_ms_max": 70.0,
+      "stress_error_rate_max": 0.01,
+      "live_readiness_stress_gate_hard_gated_paper_only": true,
+      "ts": "2026-11-04T05:18:33.939582Z"
+    },
+    {
+      "id": "sg5",
+      "cycle": 20,
+      "regime": "ranging",
+      "slo_ok": true,
+      "pass_rate_ok": true,
+      "gate_ok": true,
+      "p99_latency_ms": 37.2,
       "error_rate": 0.000496,
       "stress_p99_latency_ms_max": 70.0,
       "stress_error_rate_max": 0.01,
       "live_readiness_stress_gate_hard_gated_paper_only": true,
-      "ts": "2026-11-04T05:12:49.784260Z"
+      "ts": "2026-11-04T05:18:33.939818Z"
     }
   ],
   "paper_executions": [
     {
-      "id": "p89r_exec_e28e25bdcafa",
-      "cycle": 40,
-      "regime": "ranging",
-      "paper_only": true,
-      "live_blocked": true,
-      "halted": false,
-      "filled": true,
-      "symbol": "ETH-PERP",
-      "option_symbol": "ETH-7D-C",
-      "venue": "okx",
-      "side": "buy",
-      "px": 101324.0,
-      "qty": 0.0111,
-      "notional_usd": 1124.6964,
-      "fill_price": 101324.0,
-      "fees_usd": 0.22493928,
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_routed": true,
-      "orderflow_toxicity_aware": true,
-      "options_iv_greeks_surface": true,
-      "gamma_dealer_positioning": true,
-      "sor_routing_fragmentation": true,
-      "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.780451Z"
-    },
-    {
-      "id": "p89r_exec_86f1ad50c47c",
-      "cycle": 45,
-      "regime": "ranging",
-      "paper_only": true,
-      "live_blocked": true,
-      "halted": false,
-      "filled": true,
-      "symbol": "BTC-PERP",
-      "option_symbol": "BTC-1D-C",
-      "venue": "deribit",
-      "side": "sell",
-      "px": 101489.5,
-      "qty": 0.0166,
-      "notional_usd": 1684.7257,
-      "fill_price": 101489.5,
-      "fees_usd": 0.33694514,
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_routed": true,
-      "orderflow_toxicity_aware": true,
-      "options_iv_greeks_surface": true,
-      "gamma_dealer_positioning": true,
-      "sor_routing_fragmentation": true,
-      "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.780820Z"
-    },
-    {
-      "id": "p89r_exec_8a288b06dfe0",
-      "cycle": 50,
-      "regime": "ranging",
-      "paper_only": true,
-      "live_blocked": true,
-      "halted": false,
-      "filled": true,
-      "symbol": "SOL-PERP",
-      "option_symbol": "SOL-30D-C",
-      "venue": "binance",
-      "side": "buy",
-      "px": 101655.0,
-      "qty": 0.0221,
-      "notional_usd": 2246.5755,
-      "fill_price": 101655.0,
-      "fees_usd": 0.4493151,
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_routed": true,
-      "orderflow_toxicity_aware": true,
-      "options_iv_greeks_surface": true,
-      "gamma_dealer_positioning": true,
-      "sor_routing_fragmentation": true,
-      "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.781151Z"
-    },
-    {
-      "id": "p89r_exec_21514bb8da77",
-      "cycle": 55,
+      "id": "p89r_exec_4f95df6d904d",
+      "cycle": 0,
       "regime": "shock",
       "paper_only": true,
       "live_blocked": true,
       "halted": false,
       "filled": false,
-      "symbol": "ETH-PERP",
-      "option_symbol": "ETH-7D-C",
-      "venue": "okx",
-      "side": "sell",
-      "px": 101820.5,
-      "qty": 0.0133,
-      "notional_usd": 1354.21265,
+      "symbol": "BTC-PERP",
+      "option_symbol": "BTC-1D-C",
+      "venue": "deribit",
+      "side": "buy",
+      "px": 100000.0,
+      "qty": 0.01,
+      "notional_usd": 1000.0,
       "fill_price": 0.0,
-      "fees_usd": 0.27084253,
+      "fees_usd": 0.2,
       "settled": false,
       "finality_confirmed": false,
       "cross_venue_routed": true,
@@ -2092,38 +1027,11 @@
       "gamma_dealer_positioning": true,
       "sor_routing_fragmentation": true,
       "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.781414Z"
+      "ts": "2026-11-04T05:18:33.938530Z"
     },
     {
-      "id": "p89r_exec_75044aa0310a",
-      "cycle": 60,
-      "regime": "ranging",
-      "paper_only": true,
-      "live_blocked": true,
-      "halted": false,
-      "filled": true,
-      "symbol": "BTC-PERP",
-      "option_symbol": "BTC-1D-C",
-      "venue": "deribit",
-      "side": "buy",
-      "px": 101986.0,
-      "qty": 0.0188,
-      "notional_usd": 1917.3368,
-      "fill_price": 101986.0,
-      "fees_usd": 0.38346736,
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_routed": true,
-      "orderflow_toxicity_aware": true,
-      "options_iv_greeks_surface": true,
-      "gamma_dealer_positioning": true,
-      "sor_routing_fragmentation": true,
-      "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.781749Z"
-    },
-    {
-      "id": "p89r_exec_f63bee1d373b",
-      "cycle": 65,
+      "id": "p89r_exec_c3613ba1233e",
+      "cycle": 5,
       "regime": "ranging",
       "paper_only": true,
       "live_blocked": true,
@@ -2133,38 +1041,11 @@
       "option_symbol": "SOL-30D-C",
       "venue": "binance",
       "side": "sell",
-      "px": 102151.5,
-      "qty": 0.01,
-      "notional_usd": 1021.515,
-      "fill_price": 102151.5,
-      "fees_usd": 0.204303,
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_routed": true,
-      "orderflow_toxicity_aware": true,
-      "options_iv_greeks_surface": true,
-      "gamma_dealer_positioning": true,
-      "sor_routing_fragmentation": true,
-      "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.782076Z"
-    },
-    {
-      "id": "p89r_exec_d662e763941f",
-      "cycle": 70,
-      "regime": "trend",
-      "paper_only": true,
-      "live_blocked": true,
-      "halted": false,
-      "filled": true,
-      "symbol": "ETH-PERP",
-      "option_symbol": "ETH-7D-C",
-      "venue": "okx",
-      "side": "buy",
-      "px": 102317.0,
+      "px": 100165.5,
       "qty": 0.0155,
-      "notional_usd": 1585.9135,
-      "fill_price": 102317.0,
-      "fees_usd": 0.3171827,
+      "notional_usd": 1552.56525,
+      "fill_price": 100165.5,
+      "fees_usd": 0.31051305,
       "settled": true,
       "finality_confirmed": true,
       "cross_venue_routed": true,
@@ -2173,65 +1054,11 @@
       "gamma_dealer_positioning": true,
       "sor_routing_fragmentation": true,
       "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.782349Z"
+      "ts": "2026-11-04T05:18:33.938863Z"
     },
     {
-      "id": "p89r_exec_442a9a46e04b",
-      "cycle": 75,
-      "regime": "ranging",
-      "paper_only": true,
-      "live_blocked": true,
-      "halted": false,
-      "filled": true,
-      "symbol": "BTC-PERP",
-      "option_symbol": "BTC-1D-C",
-      "venue": "deribit",
-      "side": "sell",
-      "px": 102482.5,
-      "qty": 0.021,
-      "notional_usd": 2152.1325,
-      "fill_price": 102482.5,
-      "fees_usd": 0.4304265,
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_routed": true,
-      "orderflow_toxicity_aware": true,
-      "options_iv_greeks_surface": true,
-      "gamma_dealer_positioning": true,
-      "sor_routing_fragmentation": true,
-      "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.782647Z"
-    },
-    {
-      "id": "p89r_exec_48407e8fdc2e",
-      "cycle": 80,
-      "regime": "ranging",
-      "paper_only": true,
-      "live_blocked": true,
-      "halted": false,
-      "filled": true,
-      "symbol": "SOL-PERP",
-      "option_symbol": "SOL-30D-C",
-      "venue": "binance",
-      "side": "buy",
-      "px": 102648.0,
-      "qty": 0.0122,
-      "notional_usd": 1252.3056,
-      "fill_price": 102648.0,
-      "fees_usd": 0.25046112,
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_routed": true,
-      "orderflow_toxicity_aware": true,
-      "options_iv_greeks_surface": true,
-      "gamma_dealer_positioning": true,
-      "sor_routing_fragmentation": true,
-      "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.782951Z"
-    },
-    {
-      "id": "p89r_exec_89ae046dff71",
-      "cycle": 85,
+      "id": "p89r_exec_0484c099e7b2",
+      "cycle": 10,
       "regime": "ranging",
       "paper_only": true,
       "live_blocked": true,
@@ -2240,12 +1067,12 @@
       "symbol": "ETH-PERP",
       "option_symbol": "ETH-7D-C",
       "venue": "okx",
-      "side": "sell",
-      "px": 102813.5,
-      "qty": 0.0177,
-      "notional_usd": 1819.79895,
-      "fill_price": 102813.5,
-      "fees_usd": 0.36395979,
+      "side": "buy",
+      "px": 100331.0,
+      "qty": 0.021,
+      "notional_usd": 2106.951,
+      "fill_price": 100331.0,
+      "fees_usd": 0.4213902,
       "settled": true,
       "finality_confirmed": true,
       "cross_venue_routed": true,
@@ -2254,11 +1081,11 @@
       "gamma_dealer_positioning": true,
       "sor_routing_fragmentation": true,
       "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.783276Z"
+      "ts": "2026-11-04T05:18:33.939149Z"
     },
     {
-      "id": "p89r_exec_94af3d1600f5",
-      "cycle": 90,
+      "id": "p89r_exec_c33480ac90be",
+      "cycle": 15,
       "regime": "ranging",
       "paper_only": true,
       "live_blocked": true,
@@ -2267,12 +1094,12 @@
       "symbol": "BTC-PERP",
       "option_symbol": "BTC-1D-C",
       "venue": "deribit",
-      "side": "buy",
-      "px": 102979.0,
-      "qty": 0.0232,
-      "notional_usd": 2389.1128,
-      "fill_price": 102979.0,
-      "fees_usd": 0.47782256,
+      "side": "sell",
+      "px": 100496.5,
+      "qty": 0.0122,
+      "notional_usd": 1226.0573,
+      "fill_price": 100496.5,
+      "fees_usd": 0.24521146,
       "settled": true,
       "finality_confirmed": true,
       "cross_venue_routed": true,
@@ -2281,11 +1108,11 @@
       "gamma_dealer_positioning": true,
       "sor_routing_fragmentation": true,
       "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.784071Z"
+      "ts": "2026-11-04T05:18:33.939413Z"
     },
     {
-      "id": "p89r_exec_04368a742654",
-      "cycle": 95,
+      "id": "p89r_exec_368c7b89940f",
+      "cycle": 20,
       "regime": "ranging",
       "paper_only": true,
       "live_blocked": true,
@@ -2294,12 +1121,12 @@
       "symbol": "SOL-PERP",
       "option_symbol": "SOL-30D-C",
       "venue": "binance",
-      "side": "sell",
-      "px": 103144.5,
-      "qty": 0.0144,
-      "notional_usd": 1485.2808,
-      "fill_price": 103144.5,
-      "fees_usd": 0.29705616,
+      "side": "buy",
+      "px": 100662.0,
+      "qty": 0.0177,
+      "notional_usd": 1781.7174,
+      "fill_price": 100662.0,
+      "fees_usd": 0.35634348,
       "settled": true,
       "finality_confirmed": true,
       "cross_venue_routed": true,
@@ -2308,105 +1135,105 @@
       "gamma_dealer_positioning": true,
       "sor_routing_fragmentation": true,
       "evidence_attached": true,
-      "ts": "2026-11-04T05:12:49.784351Z"
+      "ts": "2026-11-04T05:18:33.939731Z"
     }
   ],
   "validations": [
     {
-      "id": "val84",
-      "cycle": 84,
+      "id": "val12",
+      "cycle": 12,
+      "regime": "ranging",
+      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
+      "ok": true,
+      "ts": "2026-11-04T05:18:33.939324Z"
+    },
+    {
+      "id": "val13",
+      "cycle": 13,
+      "regime": "ranging",
+      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
+      "ok": true,
+      "ts": "2026-11-04T05:18:33.939345Z"
+    },
+    {
+      "id": "val14",
+      "cycle": 14,
       "regime": "trend",
       "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
       "ok": true,
-      "ts": "2026-11-04T05:12:49.783245Z"
+      "ts": "2026-11-04T05:18:33.939386Z"
     },
     {
-      "id": "val85",
-      "cycle": 85,
+      "id": "val15",
+      "cycle": 15,
       "regime": "ranging",
       "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
       "ok": true,
-      "ts": "2026-11-04T05:12:49.783351Z"
+      "ts": "2026-11-04T05:18:33.939508Z"
     },
     {
-      "id": "val86",
-      "cycle": 86,
+      "id": "val16",
+      "cycle": 16,
       "regime": "ranging",
       "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
       "ok": true,
-      "ts": "2026-11-04T05:12:49.783377Z"
+      "ts": "2026-11-04T05:18:33.939609Z"
     },
     {
-      "id": "val87",
-      "cycle": 87,
+      "id": "val17",
+      "cycle": 17,
       "regime": "ranging",
       "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
       "ok": true,
-      "ts": "2026-11-04T05:12:49.783397Z"
+      "ts": "2026-11-04T05:18:33.939631Z"
     },
     {
-      "id": "val88",
-      "cycle": 88,
+      "id": "val18",
+      "cycle": 18,
+      "regime": "ranging",
+      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
+      "ok": true,
+      "ts": "2026-11-04T05:18:33.939660Z"
+    },
+    {
+      "id": "val19",
+      "cycle": 19,
+      "regime": "ranging",
+      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
+      "ok": true,
+      "ts": "2026-11-04T05:18:33.939680Z"
+    },
+    {
+      "id": "val20",
+      "cycle": 20,
+      "regime": "ranging",
+      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
+      "ok": true,
+      "ts": "2026-11-04T05:18:33.939832Z"
+    },
+    {
+      "id": "val21",
+      "cycle": 21,
+      "regime": "trend",
+      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
+      "ok": true,
+      "ts": "2026-11-04T05:18:33.939870Z"
+    },
+    {
+      "id": "val22",
+      "cycle": 22,
       "regime": "shock",
       "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
       "ok": true,
-      "ts": "2026-11-04T05:12:49.783527Z"
+      "ts": "2026-11-04T05:18:33.939892Z"
     },
     {
-      "id": "val89",
-      "cycle": 89,
+      "id": "val23",
+      "cycle": 23,
       "regime": "ranging",
       "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
       "ok": true,
-      "ts": "2026-11-04T05:12:49.783549Z"
-    },
-    {
-      "id": "val90",
-      "cycle": 90,
-      "regime": "ranging",
-      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
-      "ok": true,
-      "ts": "2026-11-04T05:12:49.784151Z"
-    },
-    {
-      "id": "val91",
-      "cycle": 91,
-      "regime": "trend",
-      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
-      "ok": true,
-      "ts": "2026-11-04T05:12:49.784191Z"
-    },
-    {
-      "id": "val92",
-      "cycle": 92,
-      "regime": "ranging",
-      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
-      "ok": true,
-      "ts": "2026-11-04T05:12:49.784274Z"
-    },
-    {
-      "id": "val93",
-      "cycle": 93,
-      "regime": "ranging",
-      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
-      "ok": true,
-      "ts": "2026-11-04T05:12:49.784299Z"
-    },
-    {
-      "id": "val94",
-      "cycle": 94,
-      "regime": "ranging",
-      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
-      "ok": true,
-      "ts": "2026-11-04T05:12:49.784321Z"
-    },
-    {
-      "id": "val95",
-      "cycle": 95,
-      "regime": "ranging",
-      "suite": "crypto-options+orderflow-microstructure+toxicity-vpin+greeks-iv-surface+gamma-dealer-positioning+sor-routing-fragmentation+custody-clearing+settlement-finality+post-trade",
-      "ok": true,
-      "ts": "2026-11-04T05:12:49.784421Z"
+      "ts": "2026-11-04T05:18:33.939911Z"
     }
   ],
   "alerts": [
@@ -2415,113 +1242,15 @@
       "cycle": 0,
       "regime": "shock",
       "type": "validation_fail",
-      "ts": "2026-11-04T05:12:49.777970Z"
-    },
-    {
-      "id": "tox1",
-      "cycle": 44,
-      "regime": "shock",
-      "type": "orderflow_toxicity_breach",
-      "vpin": 0.352,
-      "toxicity": 0.357,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780719Z"
-    },
-    {
-      "id": "s2",
-      "cycle": 44,
-      "regime": "shock",
-      "type": "live_readiness_stress_gate_breach",
-      "p99_latency_ms": 94.8,
-      "error_rate": 0.0012544,
-      "pass_rate": 1.0,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780768Z"
-    },
-    {
-      "id": "tox3",
-      "cycle": 88,
-      "regime": "shock",
-      "type": "orderflow_toxicity_breach",
-      "vpin": 0.416,
-      "toxicity": 0.442,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783427Z"
-    },
-    {
-      "id": "s4",
-      "cycle": 88,
-      "regime": "shock",
-      "type": "live_readiness_stress_gate_breach",
-      "p99_latency_ms": 87.75,
-      "error_rate": 0.0011776,
-      "pass_rate": 1.0,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783487Z"
+      "ts": "2026-11-04T05:18:33.938668Z"
     }
   ],
   "audit_trail_events": [
     {
-      "id": "p89r_audit_247260485d6e",
-      "cycle": 75,
-      "tag": "custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "payload_hash": "2d2c87e07a3488363453352eb13e4c1a3bc2aa61e11e12f0f5731f46c3143015",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.782708Z"
-    },
-    {
-      "id": "p89r_audit_fa0743d63550",
-      "cycle": 76,
-      "tag": "live_readiness_stress_gate",
-      "payload_hash": "ce91188baef1a70d526c0fd6a4e199c4f0fcf1248f0d3daff79ad403c013d1eb",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.782804Z"
-    },
-    {
-      "id": "p89r_audit_b83d82885676",
-      "cycle": 80,
-      "tag": "custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "payload_hash": "24c9833c7352c26ca660f0ff1566cd04ec677522017787245621d99fe19d2e26",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.783030Z"
-    },
-    {
-      "id": "p89r_audit_bde58b2b786e",
-      "cycle": 80,
-      "tag": "live_readiness_stress_gate",
-      "payload_hash": "424c073da586795c1669b3332a6c9e6f2a31c825f78748a8962edbaf4650915d",
-      "signed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.783053Z"
-    },
-    {
-      "id": "p89r_audit_60aab5c1e921",
-      "cycle": 80,
+      "id": "p89r_audit_683bc68e0d11",
+      "cycle": 0,
       "tag": "autonomous_failover",
-      "payload_hash": "a09e0525f221a8971435db155e5d8f1010cce4ef46b4931d0b0b8343b799925b",
+      "payload_hash": "f1526b61eda9fb147bfca033b000ad10cda800e880871bca357ee2cc51915c18",
       "signed": true,
       "venues": [
         "deribit",
@@ -2529,13 +1258,13 @@
         "binance"
       ],
       "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.783071Z"
+      "ts": "2026-11-04T05:18:33.938664Z"
     },
     {
-      "id": "p89r_audit_9dada4dc3d64",
-      "cycle": 84,
+      "id": "p89r_audit_27596e880e44",
+      "cycle": 4,
       "tag": "live_readiness_stress_gate",
-      "payload_hash": "d474955cbe397dad58ba0fa22de3943e732df554649406a6f525c50081ad4a93",
+      "payload_hash": "f34905c3ad38aca7b5c40787c71a14624f894a292d08db4f8583bba064e0c275",
       "signed": true,
       "venues": [
         "deribit",
@@ -2543,13 +1272,13 @@
         "binance"
       ],
       "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.783241Z"
+      "ts": "2026-11-04T05:18:33.938830Z"
     },
     {
-      "id": "p89r_audit_72987ba2c1ec",
-      "cycle": 85,
+      "id": "p89r_audit_42f5d70fa08c",
+      "cycle": 5,
       "tag": "custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "payload_hash": "ef57ca5cab42926d906cc94fd0fc3fa174d411c5bd39260f91b33339cf25e315",
+      "payload_hash": "9ffbdee1a827b0621b34f4f19082ea4ed89b4dc6961ed703c918aa1e1d0ce9c3",
       "signed": true,
       "venues": [
         "deribit",
@@ -2557,13 +1286,13 @@
         "binance"
       ],
       "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.783343Z"
+      "ts": "2026-11-04T05:18:33.938924Z"
     },
     {
-      "id": "p89r_audit_c9dc03d64b1c",
-      "cycle": 88,
+      "id": "p89r_audit_a612c0cf594c",
+      "cycle": 8,
       "tag": "live_readiness_stress_gate",
-      "payload_hash": "6f5c633972427321a93753b830e69944a8af8ec8978a400973e909cef2d65dcd",
+      "payload_hash": "1506da4100e9f0d8544495bc07903a9c0467fad385d36e582cdbddc745024f08",
       "signed": true,
       "venues": [
         "deribit",
@@ -2571,13 +1300,13 @@
         "binance"
       ],
       "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.783506Z"
+      "ts": "2026-11-04T05:18:33.939081Z"
     },
     {
-      "id": "p89r_audit_3628a4149285",
-      "cycle": 88,
+      "id": "p89r_audit_79271e6f1589",
+      "cycle": 8,
       "tag": "autonomous_failover",
-      "payload_hash": "e9227fa3a8dc40b39ecc7cb639a68fb51086a0f4b5b2fd614c5c410df4116758",
+      "payload_hash": "638fd08b7e03c7fc8e5477d6548875dbbb1983cec230bd194150562690c72463",
       "signed": true,
       "venues": [
         "deribit",
@@ -2585,13 +1314,13 @@
         "binance"
       ],
       "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.783523Z"
+      "ts": "2026-11-04T05:18:33.939095Z"
     },
     {
-      "id": "p89r_audit_12ea4929d50e",
-      "cycle": 90,
+      "id": "p89r_audit_d0faa44392fb",
+      "cycle": 10,
       "tag": "custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "payload_hash": "68469bee8a0f71e8a512e112bce07057c966a4456f40ce3565f9dddc66d521d6",
+      "payload_hash": "77eef4c3e196c47e12f7d518e85d6d8a46dbdbfec889cf9298dd1eb64f82ec0d",
       "signed": true,
       "venues": [
         "deribit",
@@ -2599,13 +1328,13 @@
         "binance"
       ],
       "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.784143Z"
+      "ts": "2026-11-04T05:18:33.939208Z"
     },
     {
-      "id": "p89r_audit_91a6d062bf60",
-      "cycle": 92,
+      "id": "p89r_audit_fb0c926caa09",
+      "cycle": 12,
       "tag": "live_readiness_stress_gate",
-      "payload_hash": "cca6c99c14f9c5b69eb4dc1cf2d126cc92d67849e74ccb5c5ca15df8b3b1cd76",
+      "payload_hash": "fc00a39d02ca242869496d3c7214ed3939f939864574a22bd3559faf1616b304",
       "signed": true,
       "venues": [
         "deribit",
@@ -2613,13 +1342,13 @@
         "binance"
       ],
       "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.784271Z"
+      "ts": "2026-11-04T05:18:33.939320Z"
     },
     {
-      "id": "p89r_audit_c3cb4351d80e",
-      "cycle": 95,
+      "id": "p89r_audit_6a07789b13d8",
+      "cycle": 15,
       "tag": "custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
-      "payload_hash": "1c12e2f93b2438682459b448c01a3c81462db166c8b1bc244691718664168928",
+      "payload_hash": "72c928f581ad94855e1dd2498bec5d95ccab5e96acfe063cb129b272a8f3788d",
       "signed": true,
       "venues": [
         "deribit",
@@ -2627,173 +1356,69 @@
         "binance"
       ],
       "tamper_evident": true,
-      "ts": "2026-11-04T05:12:49.784413Z"
+      "ts": "2026-11-04T05:18:33.939499Z"
+    },
+    {
+      "id": "p89r_audit_46af2f493afc",
+      "cycle": 16,
+      "tag": "live_readiness_stress_gate",
+      "payload_hash": "7becfaed658c39a1a5c02c52d24810fb306bd0f6f432e39cd4dc7ee45cde108d",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T05:18:33.939592Z"
+    },
+    {
+      "id": "p89r_audit_a97136a4751d",
+      "cycle": 16,
+      "tag": "autonomous_failover",
+      "payload_hash": "31c242ff720ca6a7612c176e729ee9589de983f0a3d89df45c4ef89697435fc9",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T05:18:33.939606Z"
+    },
+    {
+      "id": "p89r_audit_c6ffdb5fb2da",
+      "cycle": 20,
+      "tag": "custody_clearing_reconciliation_evidence_orderflow_toxicity_aware",
+      "payload_hash": "252221fcd65f6c27a7d025eb40689c51141ace23141cfb4f4df764d54644733c",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T05:18:33.939809Z"
+    },
+    {
+      "id": "p89r_audit_765b6f2279a1",
+      "cycle": 20,
+      "tag": "live_readiness_stress_gate",
+      "payload_hash": "b8f8847a7cb0a7f86c8a0793e16fe945c9d0ded4893f7dc3258cbfe301c177f0",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "tamper_evident": true,
+      "ts": "2026-11-04T05:18:33.939829Z"
     }
   ],
   "settlement_finality_attestations": [
     {
-      "id": "p89r_sf_39eee94a9da5",
-      "cycle": 48,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780992Z"
-    },
-    {
-      "id": "p89r_sf_5fcc1d27ac3d",
-      "cycle": 52,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781286Z"
-    },
-    {
-      "id": "p89r_sf_1cb4552462cc",
-      "cycle": 56,
-      "regime": "trend",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781573Z"
-    },
-    {
-      "id": "p89r_sf_fcb529540edf",
-      "cycle": 60,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781770Z"
-    },
-    {
-      "id": "p89r_sf_6e852d5dfca1",
-      "cycle": 64,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781994Z"
-    },
-    {
-      "id": "p89r_sf_45b5f3ca277e",
-      "cycle": 68,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782247Z"
-    },
-    {
-      "id": "p89r_sf_28f84d555470",
-      "cycle": 72,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782516Z"
-    },
-    {
-      "id": "p89r_sf_e90998858a5e",
-      "cycle": 76,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782769Z"
-    },
-    {
-      "id": "p89r_sf_5360a16919bc",
-      "cycle": 80,
-      "regime": "ranging",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782973Z"
-    },
-    {
-      "id": "p89r_sf_088c49254eda",
-      "cycle": 84,
-      "regime": "trend",
-      "settled": true,
-      "finality_confirmed": true,
-      "cross_venue_finality_attested": true,
-      "evidence_hash_chain_quorum": 4,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783208Z"
-    },
-    {
-      "id": "p89r_sf_4408b39c0ee8",
-      "cycle": 88,
+      "id": "p89r_sf_fb2b33cf4e8e",
+      "cycle": 0,
       "regime": "shock",
       "settled": true,
       "finality_confirmed": true,
@@ -2805,11 +1430,11 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783449Z"
+      "ts": "2026-11-04T05:18:33.938557Z"
     },
     {
-      "id": "p89r_sf_2f1084efc93a",
-      "cycle": 92,
+      "id": "p89r_sf_505df7d46775",
+      "cycle": 4,
       "regime": "ranging",
       "settled": true,
       "finality_confirmed": true,
@@ -2821,64 +1446,77 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784240Z"
+      "ts": "2026-11-04T05:18:33.938798Z"
+    },
+    {
+      "id": "p89r_sf_7ccd2c0d2975",
+      "cycle": 8,
+      "regime": "ranging",
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_finality_attested": true,
+      "evidence_hash_chain_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939050Z"
+    },
+    {
+      "id": "p89r_sf_a79d236f0af5",
+      "cycle": 12,
+      "regime": "ranging",
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_finality_attested": true,
+      "evidence_hash_chain_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939286Z"
+    },
+    {
+      "id": "p89r_sf_8dc2009aed33",
+      "cycle": 16,
+      "regime": "ranging",
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_finality_attested": true,
+      "evidence_hash_chain_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939561Z"
+    },
+    {
+      "id": "p89r_sf_eee8e5ec83a1",
+      "cycle": 20,
+      "regime": "ranging",
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_finality_attested": true,
+      "evidence_hash_chain_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939752Z"
     }
   ],
   "margin_collateral_attestations": [
     {
-      "id": "p89r_mc_a6ed79c8cca4",
-      "cycle": 40,
-      "regime": "ranging",
-      "margin_collateral_ratio": 1.16,
-      "liquidation_buffer": 0.16,
-      "liquidation_buffer_ok": true,
-      "margin_collateral_ok": true,
-      "collateral_sufficient": true,
-      "paper_only": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780514Z"
-    },
-    {
-      "id": "p89r_mc_70d7dd9bf31c",
-      "cycle": 45,
-      "regime": "ranging",
-      "margin_collateral_ratio": 1.16,
-      "liquidation_buffer": 0.16,
-      "liquidation_buffer_ok": true,
-      "margin_collateral_ok": true,
-      "collateral_sufficient": true,
-      "paper_only": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780842Z"
-    },
-    {
-      "id": "p89r_mc_651e66287756",
-      "cycle": 50,
-      "regime": "ranging",
-      "margin_collateral_ratio": 1.16,
-      "liquidation_buffer": 0.16,
-      "liquidation_buffer_ok": true,
-      "margin_collateral_ok": true,
-      "collateral_sufficient": true,
-      "paper_only": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781173Z"
-    },
-    {
-      "id": "p89r_mc_104cef34673b",
-      "cycle": 55,
+      "id": "p89r_mc_1066965edb85",
+      "cycle": 0,
       "regime": "shock",
       "margin_collateral_ratio": 1.16,
       "liquidation_buffer": 0.16,
@@ -2891,11 +1529,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.781437Z"
+      "ts": "2026-11-04T05:18:33.938579Z"
     },
     {
-      "id": "p89r_mc_244a08302b52",
-      "cycle": 60,
+      "id": "p89r_mc_c2303e484185",
+      "cycle": 5,
       "regime": "ranging",
       "margin_collateral_ratio": 1.16,
       "liquidation_buffer": 0.16,
@@ -2908,11 +1546,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.781789Z"
+      "ts": "2026-11-04T05:18:33.938886Z"
     },
     {
-      "id": "p89r_mc_356b7adddada",
-      "cycle": 65,
+      "id": "p89r_mc_f0eb3d212cb7",
+      "cycle": 10,
       "regime": "ranging",
       "margin_collateral_ratio": 1.16,
       "liquidation_buffer": 0.16,
@@ -2925,28 +1563,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782097Z"
+      "ts": "2026-11-04T05:18:33.939170Z"
     },
     {
-      "id": "p89r_mc_8476a7ca3213",
-      "cycle": 70,
-      "regime": "trend",
-      "margin_collateral_ratio": 1.16,
-      "liquidation_buffer": 0.16,
-      "liquidation_buffer_ok": true,
-      "margin_collateral_ok": true,
-      "collateral_sufficient": true,
-      "paper_only": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782370Z"
-    },
-    {
-      "id": "p89r_mc_b60084efbd91",
-      "cycle": 75,
+      "id": "p89r_mc_ae5396456c36",
+      "cycle": 15,
       "regime": "ranging",
       "margin_collateral_ratio": 1.16,
       "liquidation_buffer": 0.16,
@@ -2959,11 +1580,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782672Z"
+      "ts": "2026-11-04T05:18:33.939434Z"
     },
     {
-      "id": "p89r_mc_ea6951bb1083",
-      "cycle": 80,
+      "id": "p89r_mc_2abf960146a0",
+      "cycle": 20,
       "regime": "ranging",
       "margin_collateral_ratio": 1.16,
       "liquidation_buffer": 0.16,
@@ -2976,169 +1597,13 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782991Z"
-    },
-    {
-      "id": "p89r_mc_cf7b8083e588",
-      "cycle": 85,
-      "regime": "ranging",
-      "margin_collateral_ratio": 1.16,
-      "liquidation_buffer": 0.16,
-      "liquidation_buffer_ok": true,
-      "margin_collateral_ok": true,
-      "collateral_sufficient": true,
-      "paper_only": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.783298Z"
-    },
-    {
-      "id": "p89r_mc_de8075031cba",
-      "cycle": 90,
-      "regime": "ranging",
-      "margin_collateral_ratio": 1.16,
-      "liquidation_buffer": 0.16,
-      "liquidation_buffer_ok": true,
-      "margin_collateral_ok": true,
-      "collateral_sufficient": true,
-      "paper_only": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.784095Z"
-    },
-    {
-      "id": "p89r_mc_f5d913ef9ba3",
-      "cycle": 95,
-      "regime": "ranging",
-      "margin_collateral_ratio": 1.16,
-      "liquidation_buffer": 0.16,
-      "liquidation_buffer_ok": true,
-      "margin_collateral_ok": true,
-      "collateral_sufficient": true,
-      "paper_only": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.784373Z"
+      "ts": "2026-11-04T05:18:33.939772Z"
     }
   ],
   "live_readiness_attestations": [
     {
-      "id": "p89r_lr_a41374530b1b",
-      "cycle": 24,
-      "regime": "ranging",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.779521Z"
-    },
-    {
-      "id": "p89r_lr_341ed51af24a",
-      "cycle": 30,
-      "regime": "ranging",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.779894Z"
-    },
-    {
-      "id": "p89r_lr_71b3b9ee80e7",
-      "cycle": 36,
-      "regime": "ranging",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780304Z"
-    },
-    {
-      "id": "p89r_lr_27e5ff8824ad",
-      "cycle": 42,
-      "regime": "trend",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.780662Z"
-    },
-    {
-      "id": "p89r_lr_124b546fdb20",
-      "cycle": 48,
-      "regime": "ranging",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781013Z"
-    },
-    {
-      "id": "p89r_lr_756e01942b05",
-      "cycle": 54,
-      "regime": "ranging",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781371Z"
-    },
-    {
-      "id": "p89r_lr_d3ab52a9e1bb",
-      "cycle": 60,
-      "regime": "ranging",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781793Z"
-    },
-    {
-      "id": "p89r_lr_cf049a1ad9ad",
-      "cycle": 66,
+      "id": "p89r_lr_fea28ca87e6d",
+      "cycle": 0,
       "regime": "shock",
       "live_readiness_ok": true,
       "paper_only": true,
@@ -3149,11 +1614,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782172Z"
+      "ts": "2026-11-04T05:18:33.938584Z"
     },
     {
-      "id": "p89r_lr_296d2816e880",
-      "cycle": 72,
+      "id": "p89r_lr_5c018ada2d45",
+      "cycle": 6,
       "regime": "ranging",
       "live_readiness_ok": true,
       "paper_only": true,
@@ -3164,11 +1629,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782539Z"
+      "ts": "2026-11-04T05:18:33.938960Z"
     },
     {
-      "id": "p89r_lr_a2bcf353e9fe",
-      "cycle": 78,
+      "id": "p89r_lr_d272ac42bb49",
+      "cycle": 12,
       "regime": "ranging",
       "live_readiness_ok": true,
       "paper_only": true,
@@ -3179,26 +1644,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.782872Z"
+      "ts": "2026-11-04T05:18:33.939305Z"
     },
     {
-      "id": "p89r_lr_4ff1afeb4b64",
-      "cycle": 84,
-      "regime": "trend",
-      "live_readiness_ok": true,
-      "paper_only": true,
-      "live_path_hard_gated": true,
-      "gates_armed": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.783226Z"
-    },
-    {
-      "id": "p89r_lr_398a86099384",
-      "cycle": 90,
+      "id": "p89r_lr_cbd76b1dfcae",
+      "cycle": 18,
       "regime": "ranging",
       "live_readiness_ok": true,
       "paper_only": true,
@@ -3209,83 +1659,15 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.784099Z"
+      "ts": "2026-11-04T05:18:33.939657Z"
     }
   ],
   "post_trade_attestations": [
     {
-      "id": "p89r_pta_cd5a175e5577",
-      "cycle": 40,
-      "regime": "ranging",
-      "exec_id": "p89r_exec_e28e25bdcafa",
-      "venue": "okx",
-      "symbol": "ETH-PERP",
-      "option_symbol": "ETH-7D-C",
-      "reconciled": true,
-      "settlement_reconciled": true,
-      "finality_reconciled": true,
-      "fees_reconciled": true,
-      "post_trade_ok": true,
-      "orderflow_toxicity_aware_verified": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780562Z"
-    },
-    {
-      "id": "p89r_pta_590947acece3",
-      "cycle": 45,
-      "regime": "ranging",
-      "exec_id": "p89r_exec_86f1ad50c47c",
-      "venue": "deribit",
-      "symbol": "BTC-PERP",
-      "option_symbol": "BTC-1D-C",
-      "reconciled": true,
-      "settlement_reconciled": true,
-      "finality_reconciled": true,
-      "fees_reconciled": true,
-      "post_trade_ok": true,
-      "orderflow_toxicity_aware_verified": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780886Z"
-    },
-    {
-      "id": "p89r_pta_aaa753d8197e",
-      "cycle": 50,
-      "regime": "ranging",
-      "exec_id": "p89r_exec_8a288b06dfe0",
-      "venue": "binance",
-      "symbol": "SOL-PERP",
-      "option_symbol": "SOL-30D-C",
-      "reconciled": true,
-      "settlement_reconciled": true,
-      "finality_reconciled": true,
-      "fees_reconciled": true,
-      "post_trade_ok": true,
-      "orderflow_toxicity_aware_verified": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781213Z"
-    },
-    {
-      "id": "p89r_pta_870f2f4f5953",
-      "cycle": 55,
+      "id": "p89r_pta_d070a45b485a",
+      "cycle": 0,
       "regime": "shock",
-      "exec_id": "p89r_exec_21514bb8da77",
-      "venue": "okx",
-      "symbol": "ETH-PERP",
-      "option_symbol": "ETH-7D-C",
-      "reconciled": true,
-      "settlement_reconciled": true,
-      "finality_reconciled": true,
-      "fees_reconciled": true,
-      "post_trade_ok": true,
-      "orderflow_toxicity_aware_verified": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781501Z"
-    },
-    {
-      "id": "p89r_pta_77679a965418",
-      "cycle": 60,
-      "regime": "ranging",
-      "exec_id": "p89r_exec_75044aa0310a",
+      "exec_id": "p89r_exec_4f95df6d904d",
       "venue": "deribit",
       "symbol": "BTC-PERP",
       "option_symbol": "BTC-1D-C",
@@ -3296,13 +1678,13 @@
       "post_trade_ok": true,
       "orderflow_toxicity_aware_verified": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781839Z"
+      "ts": "2026-11-04T05:18:33.938631Z"
     },
     {
-      "id": "p89r_pta_d946f93b7f10",
-      "cycle": 65,
+      "id": "p89r_pta_4d69ed51a85b",
+      "cycle": 5,
       "regime": "ranging",
-      "exec_id": "p89r_exec_f63bee1d373b",
+      "exec_id": "p89r_exec_c3613ba1233e",
       "venue": "binance",
       "symbol": "SOL-PERP",
       "option_symbol": "SOL-30D-C",
@@ -3313,13 +1695,13 @@
       "post_trade_ok": true,
       "orderflow_toxicity_aware_verified": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782141Z"
+      "ts": "2026-11-04T05:18:33.938929Z"
     },
     {
-      "id": "p89r_pta_1c27ba2b41a3",
-      "cycle": 70,
-      "regime": "trend",
-      "exec_id": "p89r_exec_d662e763941f",
+      "id": "p89r_pta_2c39c53d371e",
+      "cycle": 10,
+      "regime": "ranging",
+      "exec_id": "p89r_exec_0484c099e7b2",
       "venue": "okx",
       "symbol": "ETH-PERP",
       "option_symbol": "ETH-7D-C",
@@ -3330,13 +1712,13 @@
       "post_trade_ok": true,
       "orderflow_toxicity_aware_verified": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782414Z"
+      "ts": "2026-11-04T05:18:33.939212Z"
     },
     {
-      "id": "p89r_pta_dbf05cc3d63b",
-      "cycle": 75,
+      "id": "p89r_pta_9becce482c4e",
+      "cycle": 15,
       "regime": "ranging",
-      "exec_id": "p89r_exec_442a9a46e04b",
+      "exec_id": "p89r_exec_c33480ac90be",
       "venue": "deribit",
       "symbol": "BTC-PERP",
       "option_symbol": "BTC-1D-C",
@@ -3347,13 +1729,13 @@
       "post_trade_ok": true,
       "orderflow_toxicity_aware_verified": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782713Z"
+      "ts": "2026-11-04T05:18:33.939504Z"
     },
     {
-      "id": "p89r_pta_877124ea2366",
-      "cycle": 80,
+      "id": "p89r_pta_705cbddc25d6",
+      "cycle": 20,
       "regime": "ranging",
-      "exec_id": "p89r_exec_48407e8fdc2e",
+      "exec_id": "p89r_exec_368c7b89940f",
       "venue": "binance",
       "symbol": "SOL-PERP",
       "option_symbol": "SOL-30D-C",
@@ -3364,194 +1746,13 @@
       "post_trade_ok": true,
       "orderflow_toxicity_aware_verified": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783034Z"
-    },
-    {
-      "id": "p89r_pta_81bc6af45eab",
-      "cycle": 85,
-      "regime": "ranging",
-      "exec_id": "p89r_exec_89ae046dff71",
-      "venue": "okx",
-      "symbol": "ETH-PERP",
-      "option_symbol": "ETH-7D-C",
-      "reconciled": true,
-      "settlement_reconciled": true,
-      "finality_reconciled": true,
-      "fees_reconciled": true,
-      "post_trade_ok": true,
-      "orderflow_toxicity_aware_verified": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783348Z"
-    },
-    {
-      "id": "p89r_pta_4e2cfa8dfcf1",
-      "cycle": 90,
-      "regime": "ranging",
-      "exec_id": "p89r_exec_94af3d1600f5",
-      "venue": "deribit",
-      "symbol": "BTC-PERP",
-      "option_symbol": "BTC-1D-C",
-      "reconciled": true,
-      "settlement_reconciled": true,
-      "finality_reconciled": true,
-      "fees_reconciled": true,
-      "post_trade_ok": true,
-      "orderflow_toxicity_aware_verified": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784148Z"
-    },
-    {
-      "id": "p89r_pta_64f71563cbed",
-      "cycle": 95,
-      "regime": "ranging",
-      "exec_id": "p89r_exec_04368a742654",
-      "venue": "binance",
-      "symbol": "SOL-PERP",
-      "option_symbol": "SOL-30D-C",
-      "reconciled": true,
-      "settlement_reconciled": true,
-      "finality_reconciled": true,
-      "fees_reconciled": true,
-      "post_trade_ok": true,
-      "orderflow_toxicity_aware_verified": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784418Z"
+      "ts": "2026-11-04T05:18:33.939813Z"
     }
   ],
   "reconciliation_events": [
     {
-      "id": "p89r_recn_60e639da42e0",
-      "cycle": 48,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781009Z"
-    },
-    {
-      "id": "p89r_recn_56b98bf20471",
-      "cycle": 52,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781303Z"
-    },
-    {
-      "id": "p89r_recn_ba70f113ef89",
-      "cycle": 56,
-      "regime": "trend",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781588Z"
-    },
-    {
-      "id": "p89r_recn_1a4503c35cd0",
-      "cycle": 60,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.781784Z"
-    },
-    {
-      "id": "p89r_recn_f3d6f4dd27e9",
-      "cycle": 64,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782011Z"
-    },
-    {
-      "id": "p89r_recn_2c4884dcf7d0",
-      "cycle": 68,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782262Z"
-    },
-    {
-      "id": "p89r_recn_cf4c3ff85809",
-      "cycle": 72,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782535Z"
-    },
-    {
-      "id": "p89r_recn_94b2dbb61994",
-      "cycle": 76,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782783Z"
-    },
-    {
-      "id": "p89r_recn_78e31f0f3058",
-      "cycle": 80,
-      "regime": "ranging",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.782986Z"
-    },
-    {
-      "id": "p89r_recn_6a3f24b19bff",
-      "cycle": 84,
-      "regime": "trend",
-      "type": "finality_settlement_reconciliation",
-      "matched": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "ts": "2026-11-04T05:12:49.783222Z"
-    },
-    {
-      "id": "p89r_recn_bd93c651b3a4",
-      "cycle": 88,
+      "id": "p89r_recn_0cf74b40158a",
+      "cycle": 0,
       "regime": "shock",
       "type": "finality_settlement_reconciliation",
       "matched": true,
@@ -3560,11 +1761,11 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.783480Z"
+      "ts": "2026-11-04T05:18:33.938574Z"
     },
     {
-      "id": "p89r_recn_d585a923fb9e",
-      "cycle": 92,
+      "id": "p89r_recn_88a31c2a820e",
+      "cycle": 4,
       "regime": "ranging",
       "type": "finality_settlement_reconciliation",
       "matched": true,
@@ -3573,146 +1774,84 @@
         "okx",
         "binance"
       ],
-      "ts": "2026-11-04T05:12:49.784255Z"
+      "ts": "2026-11-04T05:18:33.938814Z"
+    },
+    {
+      "id": "p89r_recn_dca356851b79",
+      "cycle": 8,
+      "regime": "ranging",
+      "type": "finality_settlement_reconciliation",
+      "matched": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T05:18:33.939065Z"
+    },
+    {
+      "id": "p89r_recn_68a2d7dd3692",
+      "cycle": 12,
+      "regime": "ranging",
+      "type": "finality_settlement_reconciliation",
+      "matched": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T05:18:33.939301Z"
+    },
+    {
+      "id": "p89r_recn_998a5ee24396",
+      "cycle": 16,
+      "regime": "ranging",
+      "type": "finality_settlement_reconciliation",
+      "matched": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T05:18:33.939577Z"
+    },
+    {
+      "id": "p89r_recn_e2243df6e03a",
+      "cycle": 20,
+      "regime": "ranging",
+      "type": "finality_settlement_reconciliation",
+      "matched": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "ts": "2026-11-04T05:18:33.939767Z"
     }
   ],
   "custody_clearing_attestations": [
     {
-      "id": "p89r_cca_1c0b9fd56278",
-      "cycle": 40,
-      "regime": "ranging",
-      "venue_reports": {
-        "deribit": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "46e03c3344f21d48",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "okx": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "7974b6ee163b8af3",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "binance": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "7277c30e0d61402a",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        }
-      },
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "custody_clearing_ok": true,
-      "quorum_met": true,
-      "quorum_min": 4,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780524Z"
-    },
-    {
-      "id": "p89r_cca_ca4362019175",
-      "cycle": 45,
-      "regime": "ranging",
-      "venue_reports": {
-        "deribit": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "a6274c0d07b6727c",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "okx": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "4a6de9a6ac87445a",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "binance": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "de0e8f747766c70d",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        }
-      },
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "custody_clearing_ok": true,
-      "quorum_met": true,
-      "quorum_min": 4,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780853Z"
-    },
-    {
-      "id": "p89r_cca_552a8a9d18fd",
-      "cycle": 50,
-      "regime": "ranging",
-      "venue_reports": {
-        "deribit": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "e1002f8760961ef8",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "okx": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "6f56371d3bf60c07",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "binance": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "a26c2ba6a37e353b",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        }
-      },
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "custody_clearing_ok": true,
-      "quorum_met": true,
-      "quorum_min": 4,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781182Z"
-    },
-    {
-      "id": "p89r_cca_ac4ad4873d6e",
-      "cycle": 55,
+      "id": "p89r_cca_aa1750596e3d",
+      "cycle": 0,
       "regime": "shock",
       "venue_reports": {
         "deribit": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "bd5d1d77b6a521a7",
+          "clearing_evidence_hash": "ecdb70e4ea98539c",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "okx": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "d422a98235aaf025",
+          "clearing_evidence_hash": "b440d041b8046351",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "binance": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "7803fabe12df7b15",
+          "clearing_evidence_hash": "5f6c48ba89a4f2ce",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
@@ -3727,30 +1866,30 @@
       "quorum_met": true,
       "quorum_min": 4,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781448Z"
+      "ts": "2026-11-04T05:18:33.938594Z"
     },
     {
-      "id": "p89r_cca_5066971f33ab",
-      "cycle": 60,
+      "id": "p89r_cca_0e813c2297c3",
+      "cycle": 5,
       "regime": "ranging",
       "venue_reports": {
         "deribit": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "f42af91a830f3e9d",
+          "clearing_evidence_hash": "2bd42a4e88f844e9",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "okx": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "05b29cb9e2bbe5d2",
+          "clearing_evidence_hash": "d7ac80c2051eced6",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "binance": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "4a515200c0390888",
+          "clearing_evidence_hash": "32894740a4777ef6",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
@@ -3765,30 +1904,30 @@
       "quorum_met": true,
       "quorum_min": 4,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781804Z"
+      "ts": "2026-11-04T05:18:33.938895Z"
     },
     {
-      "id": "p89r_cca_78baefd58790",
-      "cycle": 65,
+      "id": "p89r_cca_aa865943ddea",
+      "cycle": 10,
       "regime": "ranging",
       "venue_reports": {
         "deribit": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "3d1126d1bdc96b2d",
+          "clearing_evidence_hash": "6e78948758355e96",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "okx": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "67ec2a844197c5ca",
+          "clearing_evidence_hash": "fb8d12ed0fadac11",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "binance": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "cc07aba88e08190b",
+          "clearing_evidence_hash": "395080336d24fe07",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
@@ -3803,68 +1942,30 @@
       "quorum_met": true,
       "quorum_min": 4,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782106Z"
+      "ts": "2026-11-04T05:18:33.939179Z"
     },
     {
-      "id": "p89r_cca_f7025b17a18d",
-      "cycle": 70,
-      "regime": "trend",
-      "venue_reports": {
-        "deribit": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "e8a5aa102e030466",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "okx": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "2c80c38d09e6652c",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "binance": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "73062049d44f0ea0",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        }
-      },
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "custody_clearing_ok": true,
-      "quorum_met": true,
-      "quorum_min": 4,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782382Z"
-    },
-    {
-      "id": "p89r_cca_3da653ee0ae8",
-      "cycle": 75,
+      "id": "p89r_cca_b36b4c4b9fc4",
+      "cycle": 15,
       "regime": "ranging",
       "venue_reports": {
         "deribit": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "980493af2e10e744",
+          "clearing_evidence_hash": "b4524c77d14e7f3d",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "okx": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "dae1a3093657fe92",
+          "clearing_evidence_hash": "2db9b41dfeb74747",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "binance": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "1870dbb243ce1705",
+          "clearing_evidence_hash": "93ec852ae030aa08",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
@@ -3879,30 +1980,30 @@
       "quorum_met": true,
       "quorum_min": 4,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782680Z"
+      "ts": "2026-11-04T05:18:33.939443Z"
     },
     {
-      "id": "p89r_cca_cacda336536e",
-      "cycle": 80,
+      "id": "p89r_cca_0c5953df0ad5",
+      "cycle": 20,
       "regime": "ranging",
       "venue_reports": {
         "deribit": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "f73496528dacc00c",
+          "clearing_evidence_hash": "89a4cb79b17b639c",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "okx": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "9b68624bffb372be",
+          "clearing_evidence_hash": "8cdb4795c520d9b8",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
         },
         "binance": {
           "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "e1442b1ee0dacec2",
+          "clearing_evidence_hash": "51afe7ffe9e964df",
           "cleared": true,
           "evidence_ok": true,
           "paper_only": true
@@ -3917,335 +2018,41 @@
       "quorum_met": true,
       "quorum_min": 4,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782999Z"
-    },
-    {
-      "id": "p89r_cca_55791928f40b",
-      "cycle": 85,
-      "regime": "ranging",
-      "venue_reports": {
-        "deribit": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "77c4b254785b39b2",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "okx": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "a6866cd0cb4abca6",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "binance": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "52b0bd5d2199d3aa",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        }
-      },
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "custody_clearing_ok": true,
-      "quorum_met": true,
-      "quorum_min": 4,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783306Z"
-    },
-    {
-      "id": "p89r_cca_cb9455e7d623",
-      "cycle": 90,
-      "regime": "ranging",
-      "venue_reports": {
-        "deribit": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "f826b9c2c566da8e",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "okx": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "923eefbd4388a3ee",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "binance": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "c59ae044ec9b6e94",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        }
-      },
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "custody_clearing_ok": true,
-      "quorum_met": true,
-      "quorum_min": 4,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784108Z"
-    },
-    {
-      "id": "p89r_cca_8db707f25e64",
-      "cycle": 95,
-      "regime": "ranging",
-      "venue_reports": {
-        "deribit": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "b54f98ab3c7056cb",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "okx": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "82956dfb109c0ce2",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        },
-        "binance": {
-          "custody_positions_reconciled": true,
-          "clearing_evidence_hash": "823654fc6358f82d",
-          "cleared": true,
-          "evidence_ok": true,
-          "paper_only": true
-        }
-      },
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "custody_clearing_ok": true,
-      "quorum_met": true,
-      "quorum_min": 4,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784382Z"
+      "ts": "2026-11-04T05:18:33.939781Z"
     }
   ],
   "options_iv_greeks_surface_events": [
     {
-      "id": "p89r_opts_7a6b92d32596",
-      "cycle": 48,
-      "regime": "ranging",
+      "id": "p89r_opts_fc1a479904fa",
+      "cycle": 0,
+      "regime": "shock",
       "underlying": "BTC",
       "expiry": "1D",
-      "iv": 0.586,
-      "iv_surface_skew": 0.11,
-      "term_structure": 0.06,
-      "greeks": {
-        "delta": 0.49,
-        "gamma": 0.027,
-        "vega": 0.12,
-        "theta": -0.08,
-        "rho": 0.04
-      },
-      "options_iv_greeks_surface_enabled": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780953Z"
-    },
-    {
-      "id": "p89r_opts_1aea979e2284",
-      "cycle": 52,
-      "regime": "ranging",
-      "underlying": "ETH",
-      "expiry": "7D",
-      "iv": 0.634,
-      "iv_surface_skew": 0.1,
-      "term_structure": 0.06,
-      "greeks": {
-        "delta": 0.41,
-        "gamma": 0.021,
-        "vega": 0.16,
-        "theta": -0.08,
-        "rho": 0.045
-      },
-      "options_iv_greeks_surface_enabled": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781248Z"
-    },
-    {
-      "id": "p89r_opts_731b609a7851",
-      "cycle": 56,
-      "regime": "trend",
-      "underlying": "SOL",
-      "expiry": "30D",
-      "iv": 0.574,
-      "iv_surface_skew": 0.09,
-      "term_structure": 0.06,
-      "greeks": {
-        "delta": 0.33,
-        "gamma": 0.015,
-        "vega": 0.14,
-        "theta": -0.08,
-        "rho": 0.05
-      },
-      "options_iv_greeks_surface_enabled": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781534Z"
-    },
-    {
-      "id": "p89r_opts_0bd2d07414d6",
-      "cycle": 60,
-      "regime": "ranging",
-      "underlying": "BTC",
-      "expiry": "1D",
-      "iv": 0.622,
+      "iv": 0.55,
       "iv_surface_skew": 0.08,
       "term_structure": 0.06,
       "greeks": {
         "delta": 0.25,
-        "gamma": 0.023,
+        "gamma": 0.015,
         "vega": 0.12,
         "theta": -0.08,
         "rho": 0.04
       },
       "options_iv_greeks_surface_enabled": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781709Z"
+      "ts": "2026-11-04T05:18:33.938481Z"
     },
     {
-      "id": "p89r_opts_a871a4ba0bad",
-      "cycle": 64,
-      "regime": "ranging",
-      "underlying": "ETH",
-      "expiry": "7D",
-      "iv": 0.562,
-      "iv_surface_skew": 0.12,
-      "term_structure": 0.06,
-      "greeks": {
-        "delta": 0.57,
-        "gamma": 0.017,
-        "vega": 0.16,
-        "theta": -0.08,
-        "rho": 0.045
-      },
-      "options_iv_greeks_surface_enabled": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781953Z"
-    },
-    {
-      "id": "p89r_opts_4d3ecc3ad013",
-      "cycle": 68,
-      "regime": "ranging",
-      "underlying": "SOL",
-      "expiry": "30D",
-      "iv": 0.61,
-      "iv_surface_skew": 0.11,
-      "term_structure": 0.06,
-      "greeks": {
-        "delta": 0.49,
-        "gamma": 0.025,
-        "vega": 0.14,
-        "theta": -0.08,
-        "rho": 0.05
-      },
-      "options_iv_greeks_surface_enabled": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782209Z"
-    },
-    {
-      "id": "p89r_opts_5f473da46241",
-      "cycle": 72,
-      "regime": "ranging",
-      "underlying": "BTC",
-      "expiry": "1D",
-      "iv": 0.55,
-      "iv_surface_skew": 0.1,
-      "term_structure": 0.06,
-      "greeks": {
-        "delta": 0.41,
-        "gamma": 0.019,
-        "vega": 0.12,
-        "theta": -0.08,
-        "rho": 0.04
-      },
-      "options_iv_greeks_surface_enabled": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782456Z"
-    },
-    {
-      "id": "p89r_opts_15011b691cf2",
-      "cycle": 76,
+      "id": "p89r_opts_5e2110b112dd",
+      "cycle": 4,
       "regime": "ranging",
       "underlying": "ETH",
       "expiry": "7D",
       "iv": 0.598,
-      "iv_surface_skew": 0.09,
-      "term_structure": 0.06,
-      "greeks": {
-        "delta": 0.33,
-        "gamma": 0.027,
-        "vega": 0.16,
-        "theta": -0.08,
-        "rho": 0.045
-      },
-      "options_iv_greeks_surface_enabled": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782726Z"
-    },
-    {
-      "id": "p89r_opts_f60e281cbf33",
-      "cycle": 80,
-      "regime": "ranging",
-      "underlying": "SOL",
-      "expiry": "30D",
-      "iv": 0.646,
-      "iv_surface_skew": 0.08,
-      "term_structure": 0.06,
-      "greeks": {
-        "delta": 0.25,
-        "gamma": 0.021,
-        "vega": 0.14,
-        "theta": -0.08,
-        "rho": 0.05
-      },
-      "options_iv_greeks_surface_enabled": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782914Z"
-    },
-    {
-      "id": "p89r_opts_de8d62117be9",
-      "cycle": 84,
-      "regime": "trend",
-      "underlying": "BTC",
-      "expiry": "1D",
-      "iv": 0.586,
       "iv_surface_skew": 0.12,
       "term_structure": 0.06,
       "greeks": {
         "delta": 0.57,
-        "gamma": 0.015,
-        "vega": 0.12,
-        "theta": -0.08,
-        "rho": 0.04
-      },
-      "options_iv_greeks_surface_enabled": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783169Z"
-    },
-    {
-      "id": "p89r_opts_e7b1af565606",
-      "cycle": 88,
-      "regime": "shock",
-      "underlying": "ETH",
-      "expiry": "7D",
-      "iv": 0.634,
-      "iv_surface_skew": 0.11,
-      "term_structure": 0.06,
-      "greeks": {
-        "delta": 0.49,
         "gamma": 0.023,
         "vega": 0.16,
         "theta": -0.08,
@@ -4253,19 +2060,19 @@
       },
       "options_iv_greeks_surface_enabled": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783410Z"
+      "ts": "2026-11-04T05:18:33.938763Z"
     },
     {
-      "id": "p89r_opts_80d93a9a7f2e",
-      "cycle": 92,
+      "id": "p89r_opts_0b53f7754222",
+      "cycle": 8,
       "regime": "ranging",
       "underlying": "SOL",
       "expiry": "30D",
-      "iv": 0.574,
-      "iv_surface_skew": 0.1,
+      "iv": 0.646,
+      "iv_surface_skew": 0.11,
       "term_structure": 0.06,
       "greeks": {
-        "delta": 0.41,
+        "delta": 0.49,
         "gamma": 0.017,
         "vega": 0.14,
         "theta": -0.08,
@@ -4273,193 +2080,73 @@
       },
       "options_iv_greeks_surface_enabled": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784201Z"
+      "ts": "2026-11-04T05:18:33.939016Z"
+    },
+    {
+      "id": "p89r_opts_9c72bb172d45",
+      "cycle": 12,
+      "regime": "ranging",
+      "underlying": "BTC",
+      "expiry": "1D",
+      "iv": 0.586,
+      "iv_surface_skew": 0.1,
+      "term_structure": 0.06,
+      "greeks": {
+        "delta": 0.41,
+        "gamma": 0.025,
+        "vega": 0.12,
+        "theta": -0.08,
+        "rho": 0.04
+      },
+      "options_iv_greeks_surface_enabled": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939252Z"
+    },
+    {
+      "id": "p89r_opts_9feee1d85a12",
+      "cycle": 16,
+      "regime": "ranging",
+      "underlying": "ETH",
+      "expiry": "7D",
+      "iv": 0.634,
+      "iv_surface_skew": 0.09,
+      "term_structure": 0.06,
+      "greeks": {
+        "delta": 0.33,
+        "gamma": 0.019,
+        "vega": 0.16,
+        "theta": -0.08,
+        "rho": 0.045
+      },
+      "options_iv_greeks_surface_enabled": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939522Z"
+    },
+    {
+      "id": "p89r_opts_e6fc68681ae6",
+      "cycle": 20,
+      "regime": "ranging",
+      "underlying": "SOL",
+      "expiry": "30D",
+      "iv": 0.574,
+      "iv_surface_skew": 0.08,
+      "term_structure": 0.06,
+      "greeks": {
+        "delta": 0.25,
+        "gamma": 0.027,
+        "vega": 0.14,
+        "theta": -0.08,
+        "rho": 0.05
+      },
+      "options_iv_greeks_surface_enabled": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939694Z"
     }
   ],
   "orderflow_microstructure_events": [
     {
-      "id": "p89r_ofm_d2e145760039",
-      "cycle": 48,
-      "regime": "ranging",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": -0.08,
-      "vpin": 0.3,
-      "vpin_ok": true,
-      "absorption": 0.64,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780958Z"
-    },
-    {
-      "id": "p89r_ofm_05379c38a8a2",
-      "cycle": 52,
-      "regime": "ranging",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": 0.24,
-      "vpin": 0.24,
-      "vpin_ok": true,
-      "absorption": 0.56,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781253Z"
-    },
-    {
-      "id": "p89r_ofm_8331ade4dca8",
-      "cycle": 56,
-      "regime": "trend",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": -0.32,
-      "vpin": 0.18,
-      "vpin_ok": true,
-      "absorption": 0.48,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781539Z"
-    },
-    {
-      "id": "p89r_ofm_25fb2c455331",
-      "cycle": 60,
-      "regime": "ranging",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": 0.0,
-      "vpin": 0.26,
-      "vpin_ok": true,
-      "absorption": 0.4,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781716Z"
-    },
-    {
-      "id": "p89r_ofm_45c45cc4ecae",
-      "cycle": 64,
-      "regime": "ranging",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": 0.32,
-      "vpin": 0.2,
-      "vpin_ok": true,
-      "absorption": 0.72,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781958Z"
-    },
-    {
-      "id": "p89r_ofm_3a4cffbadda0",
-      "cycle": 68,
-      "regime": "ranging",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": -0.24,
-      "vpin": 0.28,
-      "vpin_ok": true,
-      "absorption": 0.64,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782214Z"
-    },
-    {
-      "id": "p89r_ofm_bb5f131b8314",
-      "cycle": 72,
-      "regime": "ranging",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": 0.08,
-      "vpin": 0.22,
-      "vpin_ok": true,
-      "absorption": 0.56,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782478Z"
-    },
-    {
-      "id": "p89r_ofm_c50d48bf515f",
-      "cycle": 76,
-      "regime": "ranging",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": 0.4,
-      "vpin": 0.3,
-      "vpin_ok": true,
-      "absorption": 0.48,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782731Z"
-    },
-    {
-      "id": "p89r_ofm_be4efa31b735",
-      "cycle": 80,
-      "regime": "ranging",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": -0.16,
-      "vpin": 0.24,
-      "vpin_ok": true,
-      "absorption": 0.4,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782919Z"
-    },
-    {
-      "id": "p89r_ofm_a259ed8104d9",
-      "cycle": 84,
-      "regime": "trend",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "imbalance": 0.16,
-      "vpin": 0.18,
-      "vpin_ok": true,
-      "absorption": 0.72,
-      "sweep_prob": 0.12,
-      "microstructure_ok": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783174Z"
-    },
-    {
-      "id": "p89r_ofm_462311d2393f",
-      "cycle": 88,
+      "id": "p89r_ofm_51f3041009b8",
+      "cycle": 0,
       "regime": "shock",
       "venues": [
         "deribit",
@@ -4467,17 +2154,17 @@
         "binance"
       ],
       "imbalance": -0.4,
-      "vpin": 0.416,
-      "vpin_ok": false,
-      "absorption": 0.64,
+      "vpin": 0.288,
+      "vpin_ok": true,
+      "absorption": 0.4,
       "sweep_prob": 0.12,
       "microstructure_ok": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783417Z"
+      "ts": "2026-11-04T05:18:33.938492Z"
     },
     {
-      "id": "p89r_ofm_42ce7651a1cd",
-      "cycle": 92,
+      "id": "p89r_ofm_8c68554d8928",
+      "cycle": 4,
       "regime": "ranging",
       "venues": [
         "deribit",
@@ -4485,347 +2172,221 @@
         "binance"
       ],
       "imbalance": -0.08,
+      "vpin": 0.26,
+      "vpin_ok": true,
+      "absorption": 0.72,
+      "sweep_prob": 0.12,
+      "microstructure_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.938769Z"
+    },
+    {
+      "id": "p89r_ofm_37e86fcddc85",
+      "cycle": 8,
+      "regime": "ranging",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "imbalance": 0.24,
       "vpin": 0.2,
+      "vpin_ok": true,
+      "absorption": 0.64,
+      "sweep_prob": 0.12,
+      "microstructure_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939021Z"
+    },
+    {
+      "id": "p89r_ofm_6315874b2726",
+      "cycle": 12,
+      "regime": "ranging",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "imbalance": -0.32,
+      "vpin": 0.28,
       "vpin_ok": true,
       "absorption": 0.56,
       "sweep_prob": 0.12,
       "microstructure_ok": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784209Z"
+      "ts": "2026-11-04T05:18:33.939258Z"
+    },
+    {
+      "id": "p89r_ofm_4008e79f5e61",
+      "cycle": 16,
+      "regime": "ranging",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "imbalance": 0.0,
+      "vpin": 0.22,
+      "vpin_ok": true,
+      "absorption": 0.48,
+      "sweep_prob": 0.12,
+      "microstructure_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939528Z"
+    },
+    {
+      "id": "p89r_ofm_b10139e9fe93",
+      "cycle": 20,
+      "regime": "ranging",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "imbalance": 0.32,
+      "vpin": 0.3,
+      "vpin_ok": true,
+      "absorption": 0.4,
+      "sweep_prob": 0.12,
+      "microstructure_ok": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939700Z"
     }
   ],
   "toxicity_events": [
     {
-      "id": "p89r_tox_2ed1873245f4",
-      "cycle": 48,
-      "regime": "ranging",
-      "toxicity": 0.16,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.16,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780964Z"
-    },
-    {
-      "id": "p89r_tox_a383cff45080",
-      "cycle": 52,
-      "regime": "ranging",
-      "toxicity": 0.26,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.26,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781257Z"
-    },
-    {
-      "id": "p89r_tox_4f148bfded4c",
-      "cycle": 56,
-      "regime": "trend",
-      "toxicity": 0.21,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.21,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781543Z"
-    },
-    {
-      "id": "p89r_tox_03f2ff69c3c1",
-      "cycle": 60,
-      "regime": "ranging",
-      "toxicity": 0.16,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.16,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781719Z"
-    },
-    {
-      "id": "p89r_tox_e44cf862cd67",
-      "cycle": 64,
-      "regime": "ranging",
-      "toxicity": 0.26,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.26,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781964Z"
-    },
-    {
-      "id": "p89r_tox_443f02e813e6",
-      "cycle": 68,
-      "regime": "ranging",
-      "toxicity": 0.21,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.21,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782220Z"
-    },
-    {
-      "id": "p89r_tox_f5205f0f77fc",
-      "cycle": 72,
-      "regime": "ranging",
-      "toxicity": 0.16,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.16,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782482Z"
-    },
-    {
-      "id": "p89r_tox_cc587d1a7083",
-      "cycle": 76,
-      "regime": "ranging",
-      "toxicity": 0.26,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.26,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782734Z"
-    },
-    {
-      "id": "p89r_tox_bcf42d47304e",
-      "cycle": 80,
-      "regime": "ranging",
-      "toxicity": 0.21,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.21,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782922Z"
-    },
-    {
-      "id": "p89r_tox_949166da0b75",
-      "cycle": 84,
-      "regime": "trend",
-      "toxicity": 0.16,
-      "toxicity_ok": true,
-      "adverse_selection_risk": 0.16,
-      "orderflow_toxicity_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783178Z"
-    },
-    {
-      "id": "p89r_tox_bb84cb0806e0",
-      "cycle": 88,
+      "id": "p89r_tox_b9b84a80f4b3",
+      "cycle": 0,
       "regime": "shock",
-      "toxicity": 0.442,
-      "toxicity_ok": false,
-      "adverse_selection_risk": 0.442,
+      "toxicity": 0.272,
+      "toxicity_ok": true,
+      "adverse_selection_risk": 0.272,
       "orderflow_toxicity_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783420Z"
+      "ts": "2026-11-04T05:18:33.938496Z"
     },
     {
-      "id": "p89r_tox_b102935256ed",
-      "cycle": 92,
+      "id": "p89r_tox_105e9615dcf3",
+      "cycle": 4,
+      "regime": "ranging",
+      "toxicity": 0.26,
+      "toxicity_ok": true,
+      "adverse_selection_risk": 0.26,
+      "orderflow_toxicity_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.938772Z"
+    },
+    {
+      "id": "p89r_tox_bfa9ac7d084d",
+      "cycle": 8,
       "regime": "ranging",
       "toxicity": 0.21,
       "toxicity_ok": true,
       "adverse_selection_risk": 0.21,
       "orderflow_toxicity_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784212Z"
+      "ts": "2026-11-04T05:18:33.939025Z"
+    },
+    {
+      "id": "p89r_tox_89af178cd4f6",
+      "cycle": 12,
+      "regime": "ranging",
+      "toxicity": 0.16,
+      "toxicity_ok": true,
+      "adverse_selection_risk": 0.16,
+      "orderflow_toxicity_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939261Z"
+    },
+    {
+      "id": "p89r_tox_efb9386b65e5",
+      "cycle": 16,
+      "regime": "ranging",
+      "toxicity": 0.26,
+      "toxicity_ok": true,
+      "adverse_selection_risk": 0.26,
+      "orderflow_toxicity_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939531Z"
+    },
+    {
+      "id": "p89r_tox_5ddc97928058",
+      "cycle": 20,
+      "regime": "ranging",
+      "toxicity": 0.21,
+      "toxicity_ok": true,
+      "adverse_selection_risk": 0.21,
+      "orderflow_toxicity_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939703Z"
     }
   ],
   "vpin_events": [
     {
-      "id": "p89r_vpin_18df76dbbd25",
-      "cycle": 48,
-      "regime": "ranging",
-      "vpin": 0.3,
+      "id": "p89r_vpin_6d0538a3f7fb",
+      "cycle": 0,
+      "regime": "shock",
+      "vpin": 0.288,
       "vpin_ok": true,
       "threshold_max_vpin": 0.3,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780970Z"
+      "ts": "2026-11-04T05:18:33.938500Z"
     },
     {
-      "id": "p89r_vpin_8e8c7297bab8",
-      "cycle": 52,
-      "regime": "ranging",
-      "vpin": 0.24,
-      "vpin_ok": true,
-      "threshold_max_vpin": 0.3,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781260Z"
-    },
-    {
-      "id": "p89r_vpin_562d9e9f1aa8",
-      "cycle": 56,
-      "regime": "trend",
-      "vpin": 0.18,
-      "vpin_ok": true,
-      "threshold_max_vpin": 0.3,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781547Z"
-    },
-    {
-      "id": "p89r_vpin_5b43152fb6e6",
-      "cycle": 60,
+      "id": "p89r_vpin_0f2fd7a94186",
+      "cycle": 4,
       "regime": "ranging",
       "vpin": 0.26,
       "vpin_ok": true,
       "threshold_max_vpin": 0.3,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781723Z"
+      "ts": "2026-11-04T05:18:33.938776Z"
     },
     {
-      "id": "p89r_vpin_736019903dfb",
-      "cycle": 64,
+      "id": "p89r_vpin_cec85e4d2d66",
+      "cycle": 8,
       "regime": "ranging",
       "vpin": 0.2,
       "vpin_ok": true,
       "threshold_max_vpin": 0.3,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781968Z"
+      "ts": "2026-11-04T05:18:33.939028Z"
     },
     {
-      "id": "p89r_vpin_90746e0e8ea7",
-      "cycle": 68,
+      "id": "p89r_vpin_35d4e3fc9858",
+      "cycle": 12,
       "regime": "ranging",
       "vpin": 0.28,
       "vpin_ok": true,
       "threshold_max_vpin": 0.3,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782224Z"
+      "ts": "2026-11-04T05:18:33.939264Z"
     },
     {
-      "id": "p89r_vpin_0d6fffc9b91c",
-      "cycle": 72,
+      "id": "p89r_vpin_0d3d1eab494c",
+      "cycle": 16,
       "regime": "ranging",
       "vpin": 0.22,
       "vpin_ok": true,
       "threshold_max_vpin": 0.3,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782488Z"
+      "ts": "2026-11-04T05:18:33.939535Z"
     },
     {
-      "id": "p89r_vpin_4bc28d2791cb",
-      "cycle": 76,
+      "id": "p89r_vpin_e6c38231e9f2",
+      "cycle": 20,
       "regime": "ranging",
       "vpin": 0.3,
       "vpin_ok": true,
       "threshold_max_vpin": 0.3,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782738Z"
-    },
-    {
-      "id": "p89r_vpin_fd7777244444",
-      "cycle": 80,
-      "regime": "ranging",
-      "vpin": 0.24,
-      "vpin_ok": true,
-      "threshold_max_vpin": 0.3,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782928Z"
-    },
-    {
-      "id": "p89r_vpin_fc5ec1f0b282",
-      "cycle": 84,
-      "regime": "trend",
-      "vpin": 0.18,
-      "vpin_ok": true,
-      "threshold_max_vpin": 0.3,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783182Z"
-    },
-    {
-      "id": "p89r_vpin_49c7f20e90fd",
-      "cycle": 88,
-      "regime": "shock",
-      "vpin": 0.416,
-      "vpin_ok": false,
-      "threshold_max_vpin": 0.3,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783424Z"
-    },
-    {
-      "id": "p89r_vpin_fd9d1c397ac5",
-      "cycle": 92,
-      "regime": "ranging",
-      "vpin": 0.2,
-      "vpin_ok": true,
-      "threshold_max_vpin": 0.3,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784216Z"
+      "ts": "2026-11-04T05:18:33.939707Z"
     }
   ],
   "gamma_dealer_positioning_events": [
     {
-      "id": "p89r_gamma_98391c145d86",
-      "cycle": 84,
-      "regime": "trend",
-      "net_gamma": 0.0,
-      "dealer_net_short": false,
-      "gamma_dealer_positioning_enabled": true,
-      "hedge_pressure": 0.0,
-      "inventory_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783186Z"
-    },
-    {
-      "id": "p89r_gamma_dfc5ef440dc6",
-      "cycle": 85,
-      "regime": "ranging",
-      "net_gamma": 0.12,
-      "dealer_net_short": false,
-      "gamma_dealer_positioning_enabled": true,
-      "hedge_pressure": 0.096,
-      "inventory_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783254Z"
-    },
-    {
-      "id": "p89r_gamma_7783ecf43725",
-      "cycle": 86,
-      "regime": "ranging",
-      "net_gamma": 0.24,
-      "dealer_net_short": false,
-      "gamma_dealer_positioning_enabled": true,
-      "hedge_pressure": 0.192,
-      "inventory_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783358Z"
-    },
-    {
-      "id": "p89r_gamma_96e5b7b7f722",
-      "cycle": 87,
-      "regime": "ranging",
-      "net_gamma": 0.36,
-      "dealer_net_short": false,
-      "gamma_dealer_positioning_enabled": true,
-      "hedge_pressure": 0.288,
-      "inventory_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783382Z"
-    },
-    {
-      "id": "p89r_gamma_54df6cfbadb1",
-      "cycle": 88,
-      "regime": "shock",
-      "net_gamma": 0.48,
-      "dealer_net_short": false,
-      "gamma_dealer_positioning_enabled": true,
-      "hedge_pressure": 0.384,
-      "inventory_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783432Z"
-    },
-    {
-      "id": "p89r_gamma_87591bde9f8f",
-      "cycle": 89,
-      "regime": "ranging",
-      "net_gamma": 0.6,
-      "dealer_net_short": false,
-      "gamma_dealer_positioning_enabled": true,
-      "hedge_pressure": 0.48,
-      "inventory_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783532Z"
-    },
-    {
-      "id": "p89r_gamma_aa39e0bd8df6",
-      "cycle": 90,
+      "id": "p89r_gamma_ca6d49d80a4a",
+      "cycle": 12,
       "regime": "ranging",
       "net_gamma": 0.72,
       "dealer_net_short": false,
@@ -4833,35 +2394,35 @@
       "hedge_pressure": 0.576,
       "inventory_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783561Z"
+      "ts": "2026-11-04T05:18:33.939269Z"
     },
     {
-      "id": "p89r_gamma_81ed1b41465e",
-      "cycle": 91,
-      "regime": "trend",
+      "id": "p89r_gamma_f7acd4e0db2a",
+      "cycle": 13,
+      "regime": "ranging",
       "net_gamma": -0.72,
       "dealer_net_short": true,
       "gamma_dealer_positioning_enabled": true,
       "hedge_pressure": 0.576,
       "inventory_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784174Z"
+      "ts": "2026-11-04T05:18:33.939329Z"
     },
     {
-      "id": "p89r_gamma_1d4a820fb518",
-      "cycle": 92,
-      "regime": "ranging",
+      "id": "p89r_gamma_02ccb86a81ff",
+      "cycle": 14,
+      "regime": "trend",
       "net_gamma": -0.6,
       "dealer_net_short": true,
       "gamma_dealer_positioning_enabled": true,
       "hedge_pressure": 0.48,
       "inventory_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784221Z"
+      "ts": "2026-11-04T05:18:33.939365Z"
     },
     {
-      "id": "p89r_gamma_e35aabf3ab27",
-      "cycle": 93,
+      "id": "p89r_gamma_26b091dbf2b9",
+      "cycle": 15,
       "regime": "ranging",
       "net_gamma": -0.48,
       "dealer_net_short": true,
@@ -4869,11 +2430,11 @@
       "hedge_pressure": 0.384,
       "inventory_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784280Z"
+      "ts": "2026-11-04T05:18:33.939395Z"
     },
     {
-      "id": "p89r_gamma_f33d05e0467d",
-      "cycle": 94,
+      "id": "p89r_gamma_c6e79d8ff1b3",
+      "cycle": 16,
       "regime": "ranging",
       "net_gamma": -0.36,
       "dealer_net_short": true,
@@ -4881,11 +2442,11 @@
       "hedge_pressure": 0.288,
       "inventory_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784306Z"
+      "ts": "2026-11-04T05:18:33.939540Z"
     },
     {
-      "id": "p89r_gamma_bd00799581c8",
-      "cycle": 95,
+      "id": "p89r_gamma_eeaf5218f54f",
+      "cycle": 17,
       "regime": "ranging",
       "net_gamma": -0.24,
       "dealer_net_short": true,
@@ -4893,14 +2454,86 @@
       "hedge_pressure": 0.192,
       "inventory_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784330Z"
+      "ts": "2026-11-04T05:18:33.939615Z"
+    },
+    {
+      "id": "p89r_gamma_cf5fb4676c4c",
+      "cycle": 18,
+      "regime": "ranging",
+      "net_gamma": -0.12,
+      "dealer_net_short": true,
+      "gamma_dealer_positioning_enabled": true,
+      "hedge_pressure": 0.096,
+      "inventory_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939640Z"
+    },
+    {
+      "id": "p89r_gamma_79effb94b44c",
+      "cycle": 19,
+      "regime": "ranging",
+      "net_gamma": 0.0,
+      "dealer_net_short": false,
+      "gamma_dealer_positioning_enabled": true,
+      "hedge_pressure": 0.0,
+      "inventory_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939665Z"
+    },
+    {
+      "id": "p89r_gamma_4b65dc9fb82a",
+      "cycle": 20,
+      "regime": "ranging",
+      "net_gamma": 0.12,
+      "dealer_net_short": false,
+      "gamma_dealer_positioning_enabled": true,
+      "hedge_pressure": 0.096,
+      "inventory_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939712Z"
+    },
+    {
+      "id": "p89r_gamma_28f4f2ee578e",
+      "cycle": 21,
+      "regime": "trend",
+      "net_gamma": 0.24,
+      "dealer_net_short": false,
+      "gamma_dealer_positioning_enabled": true,
+      "hedge_pressure": 0.192,
+      "inventory_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939853Z"
+    },
+    {
+      "id": "p89r_gamma_50a90f07460a",
+      "cycle": 22,
+      "regime": "shock",
+      "net_gamma": 0.36,
+      "dealer_net_short": false,
+      "gamma_dealer_positioning_enabled": true,
+      "hedge_pressure": 0.288,
+      "inventory_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939875Z"
+    },
+    {
+      "id": "p89r_gamma_2e7b3056655e",
+      "cycle": 23,
+      "regime": "ranging",
+      "net_gamma": 0.48,
+      "dealer_net_short": false,
+      "gamma_dealer_positioning_enabled": true,
+      "hedge_pressure": 0.384,
+      "inventory_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939896Z"
     }
   ],
   "cross_venue_sor_routing_events": [
     {
-      "id": "p89r_sor_575780f02b13",
-      "cycle": 84,
-      "regime": "trend",
+      "id": "p89r_sor_765fe94f3d81",
+      "cycle": 12,
+      "regime": "ranging",
       "best_venue": "deribit",
       "venues": [
         "deribit",
@@ -4912,11 +2545,11 @@
       "sor_enabled": true,
       "latency_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783191Z"
+      "ts": "2026-11-04T05:18:33.939274Z"
     },
     {
-      "id": "p89r_sor_35f99fbd7f4b",
-      "cycle": 85,
+      "id": "p89r_sor_ca47bc0ff918",
+      "cycle": 13,
       "regime": "ranging",
       "best_venue": "okx",
       "venues": [
@@ -4929,114 +2562,12 @@
       "sor_enabled": true,
       "latency_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783259Z"
+      "ts": "2026-11-04T05:18:33.939334Z"
     },
     {
-      "id": "p89r_sor_b36632ebc3d2",
-      "cycle": 86,
-      "regime": "ranging",
-      "best_venue": "binance",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "fragmentation": 0.18,
-      "routed_cross_venue": true,
-      "sor_enabled": true,
-      "latency_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783364Z"
-    },
-    {
-      "id": "p89r_sor_3d4b1cf88de0",
-      "cycle": 87,
-      "regime": "ranging",
-      "best_venue": "deribit",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "fragmentation": 0.21,
-      "routed_cross_venue": true,
-      "sor_enabled": true,
-      "latency_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783387Z"
-    },
-    {
-      "id": "p89r_sor_ffae10c9be6c",
-      "cycle": 88,
-      "regime": "shock",
-      "best_venue": "okx",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "fragmentation": 0.336,
-      "routed_cross_venue": false,
-      "sor_enabled": true,
-      "latency_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783437Z"
-    },
-    {
-      "id": "p89r_sor_789846cada1e",
-      "cycle": 89,
-      "regime": "ranging",
-      "best_venue": "binance",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "fragmentation": 0.27,
-      "routed_cross_venue": false,
-      "sor_enabled": true,
-      "latency_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783537Z"
-    },
-    {
-      "id": "p89r_sor_65490665e3ea",
-      "cycle": 90,
-      "regime": "ranging",
-      "best_venue": "deribit",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "fragmentation": 0.12,
-      "routed_cross_venue": false,
-      "sor_enabled": true,
-      "latency_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784050Z"
-    },
-    {
-      "id": "p89r_sor_16802ee9d959",
-      "cycle": 91,
+      "id": "p89r_sor_deb9ed4e424b",
+      "cycle": 14,
       "regime": "trend",
-      "best_venue": "okx",
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "fragmentation": 0.15,
-      "routed_cross_venue": false,
-      "sor_enabled": true,
-      "latency_aware": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784180Z"
-    },
-    {
-      "id": "p89r_sor_46e6d4284ef3",
-      "cycle": 92,
-      "regime": "ranging",
       "best_venue": "binance",
       "venues": [
         "deribit",
@@ -5048,11 +2579,11 @@
       "sor_enabled": true,
       "latency_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784227Z"
+      "ts": "2026-11-04T05:18:33.939370Z"
     },
     {
-      "id": "p89r_sor_81510eccefd7",
-      "cycle": 93,
+      "id": "p89r_sor_84009974edaa",
+      "cycle": 15,
       "regime": "ranging",
       "best_venue": "deribit",
       "venues": [
@@ -5065,11 +2596,11 @@
       "sor_enabled": true,
       "latency_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784285Z"
+      "ts": "2026-11-04T05:18:33.939399Z"
     },
     {
-      "id": "p89r_sor_7c6cdfe08d6d",
-      "cycle": 94,
+      "id": "p89r_sor_bc65759357e6",
+      "cycle": 16,
       "regime": "ranging",
       "best_venue": "okx",
       "venues": [
@@ -5082,11 +2613,11 @@
       "sor_enabled": true,
       "latency_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784311Z"
+      "ts": "2026-11-04T05:18:33.939545Z"
     },
     {
-      "id": "p89r_sor_23f3a125775f",
-      "cycle": 95,
+      "id": "p89r_sor_45dc284f4909",
+      "cycle": 17,
       "regime": "ranging",
       "best_venue": "binance",
       "venues": [
@@ -5099,97 +2630,115 @@
       "sor_enabled": true,
       "latency_aware": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784334Z"
+      "ts": "2026-11-04T05:18:33.939620Z"
+    },
+    {
+      "id": "p89r_sor_b7f697d2a751",
+      "cycle": 18,
+      "regime": "ranging",
+      "best_venue": "deribit",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "fragmentation": 0.12,
+      "routed_cross_venue": true,
+      "sor_enabled": true,
+      "latency_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939645Z"
+    },
+    {
+      "id": "p89r_sor_5611cc99a6e7",
+      "cycle": 19,
+      "regime": "ranging",
+      "best_venue": "okx",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "fragmentation": 0.15,
+      "routed_cross_venue": true,
+      "sor_enabled": true,
+      "latency_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939669Z"
+    },
+    {
+      "id": "p89r_sor_4115f3469d42",
+      "cycle": 20,
+      "regime": "ranging",
+      "best_venue": "binance",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "fragmentation": 0.18,
+      "routed_cross_venue": true,
+      "sor_enabled": true,
+      "latency_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939716Z"
+    },
+    {
+      "id": "p89r_sor_e47dea2d7be0",
+      "cycle": 21,
+      "regime": "trend",
+      "best_venue": "deribit",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "fragmentation": 0.21,
+      "routed_cross_venue": true,
+      "sor_enabled": true,
+      "latency_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939859Z"
+    },
+    {
+      "id": "p89r_sor_9f9484969216",
+      "cycle": 22,
+      "regime": "shock",
+      "best_venue": "okx",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "fragmentation": 0.336,
+      "routed_cross_venue": true,
+      "sor_enabled": true,
+      "latency_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939881Z"
+    },
+    {
+      "id": "p89r_sor_232f6661bf41",
+      "cycle": 23,
+      "regime": "ranging",
+      "best_venue": "binance",
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "fragmentation": 0.27,
+      "routed_cross_venue": true,
+      "sor_enabled": true,
+      "latency_aware": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939901Z"
     }
   ],
   "fragmentation_events": [
     {
-      "id": "p89r_frag_3881de914c56",
-      "cycle": 84,
-      "regime": "trend",
-      "fragmentation": 0.12,
-      "fragmentation_ok": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783195Z"
-    },
-    {
-      "id": "p89r_frag_ec9186b71a42",
-      "cycle": 85,
-      "regime": "ranging",
-      "fragmentation": 0.15,
-      "fragmentation_ok": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783263Z"
-    },
-    {
-      "id": "p89r_frag_7db6051a75a5",
-      "cycle": 86,
-      "regime": "ranging",
-      "fragmentation": 0.18,
-      "fragmentation_ok": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783367Z"
-    },
-    {
-      "id": "p89r_frag_bc50844013a3",
-      "cycle": 87,
-      "regime": "ranging",
-      "fragmentation": 0.21,
-      "fragmentation_ok": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783390Z"
-    },
-    {
-      "id": "p89r_frag_273afd55b3e1",
-      "cycle": 88,
-      "regime": "shock",
-      "fragmentation": 0.336,
-      "fragmentation_ok": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783441Z"
-    },
-    {
-      "id": "p89r_frag_a490a3854e3d",
-      "cycle": 89,
-      "regime": "ranging",
-      "fragmentation": 0.27,
-      "fragmentation_ok": true,
-      "venues": [
-        "deribit",
-        "okx",
-        "binance"
-      ],
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783541Z"
-    },
-    {
-      "id": "p89r_frag_66d9aa7ede33",
-      "cycle": 90,
+      "id": "p89r_frag_525e43e32837",
+      "cycle": 12,
       "regime": "ranging",
       "fragmentation": 0.12,
       "fragmentation_ok": true,
@@ -5199,12 +2748,12 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784059Z"
+      "ts": "2026-11-04T05:18:33.939278Z"
     },
     {
-      "id": "p89r_frag_042a3bdac9a0",
-      "cycle": 91,
-      "regime": "trend",
+      "id": "p89r_frag_9404d196a916",
+      "cycle": 13,
+      "regime": "ranging",
       "fragmentation": 0.15,
       "fragmentation_ok": true,
       "venues": [
@@ -5213,12 +2762,12 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784183Z"
+      "ts": "2026-11-04T05:18:33.939338Z"
     },
     {
-      "id": "p89r_frag_f045d11df465",
-      "cycle": 92,
-      "regime": "ranging",
+      "id": "p89r_frag_46304fed970d",
+      "cycle": 14,
+      "regime": "trend",
       "fragmentation": 0.18,
       "fragmentation_ok": true,
       "venues": [
@@ -5227,11 +2776,11 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784231Z"
+      "ts": "2026-11-04T05:18:33.939373Z"
     },
     {
-      "id": "p89r_frag_e62a4421035a",
-      "cycle": 93,
+      "id": "p89r_frag_835990d15406",
+      "cycle": 15,
       "regime": "ranging",
       "fragmentation": 0.21,
       "fragmentation_ok": true,
@@ -5241,11 +2790,11 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784291Z"
+      "ts": "2026-11-04T05:18:33.939403Z"
     },
     {
-      "id": "p89r_frag_6fa7b4c7c9f4",
-      "cycle": 94,
+      "id": "p89r_frag_f52bfe477a5b",
+      "cycle": 16,
       "regime": "ranging",
       "fragmentation": 0.24,
       "fragmentation_ok": true,
@@ -5255,11 +2804,11 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784314Z"
+      "ts": "2026-11-04T05:18:33.939549Z"
     },
     {
-      "id": "p89r_frag_135f3810ae27",
-      "cycle": 95,
+      "id": "p89r_frag_d8fe97b8325a",
+      "cycle": 17,
       "regime": "ranging",
       "fragmentation": 0.27,
       "fragmentation_ok": true,
@@ -5269,288 +2818,288 @@
         "binance"
       ],
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784340Z"
+      "ts": "2026-11-04T05:18:33.939624Z"
+    },
+    {
+      "id": "p89r_frag_0aa83eef3d73",
+      "cycle": 18,
+      "regime": "ranging",
+      "fragmentation": 0.12,
+      "fragmentation_ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939649Z"
+    },
+    {
+      "id": "p89r_frag_10ce3671a2e3",
+      "cycle": 19,
+      "regime": "ranging",
+      "fragmentation": 0.15,
+      "fragmentation_ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939673Z"
+    },
+    {
+      "id": "p89r_frag_1919906aca5a",
+      "cycle": 20,
+      "regime": "ranging",
+      "fragmentation": 0.18,
+      "fragmentation_ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939720Z"
+    },
+    {
+      "id": "p89r_frag_a73c25b9eae3",
+      "cycle": 21,
+      "regime": "trend",
+      "fragmentation": 0.21,
+      "fragmentation_ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939863Z"
+    },
+    {
+      "id": "p89r_frag_1563ec603e35",
+      "cycle": 22,
+      "regime": "shock",
+      "fragmentation": 0.336,
+      "fragmentation_ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939884Z"
+    },
+    {
+      "id": "p89r_frag_186592ffb282",
+      "cycle": 23,
+      "regime": "ranging",
+      "fragmentation": 0.27,
+      "fragmentation_ok": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939904Z"
     }
   ],
   "regime_mm_hedge_events": [
     {
-      "id": "p89r_rmh_5358875b887c",
-      "cycle": 84,
+      "id": "p89r_rmh_9e9e26037851",
+      "cycle": 12,
+      "regime": "ranging",
+      "regime_aware": true,
+      "inventory_aware": true,
+      "gamma_hedged": true,
+      "delta_neutral_target": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939282Z"
+    },
+    {
+      "id": "p89r_rmh_f2511284cb35",
+      "cycle": 13,
+      "regime": "ranging",
+      "regime_aware": true,
+      "inventory_aware": true,
+      "gamma_hedged": true,
+      "delta_neutral_target": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939342Z"
+    },
+    {
+      "id": "p89r_rmh_8213bb85635b",
+      "cycle": 14,
       "regime": "trend",
+      "regime_aware": true,
+      "inventory_aware": true,
+      "gamma_hedged": true,
+      "delta_neutral_target": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939382Z"
+    },
+    {
+      "id": "p89r_rmh_edf82e52ac6a",
+      "cycle": 15,
+      "regime": "ranging",
+      "regime_aware": true,
+      "inventory_aware": true,
+      "gamma_hedged": true,
+      "delta_neutral_target": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939406Z"
+    },
+    {
+      "id": "p89r_rmh_3cb8458ca80b",
+      "cycle": 16,
+      "regime": "ranging",
+      "regime_aware": true,
+      "inventory_aware": true,
+      "gamma_hedged": true,
+      "delta_neutral_target": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939557Z"
+    },
+    {
+      "id": "p89r_rmh_36c3740fb7cd",
+      "cycle": 17,
+      "regime": "ranging",
+      "regime_aware": true,
+      "inventory_aware": true,
+      "gamma_hedged": true,
+      "delta_neutral_target": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939628Z"
+    },
+    {
+      "id": "p89r_rmh_b8ede117ed42",
+      "cycle": 18,
+      "regime": "ranging",
+      "regime_aware": true,
+      "inventory_aware": true,
+      "gamma_hedged": true,
+      "delta_neutral_target": true,
+      "paper_only": true,
+      "ts": "2026-11-04T05:18:33.939652Z"
+    },
+    {
+      "id": "p89r_rmh_cf9f6525fadc",
+      "cycle": 19,
+      "regime": "ranging",
       "regime_aware": true,
       "inventory_aware": true,
       "gamma_hedged": false,
       "delta_neutral_target": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783199Z"
+      "ts": "2026-11-04T05:18:33.939677Z"
     },
     {
-      "id": "p89r_rmh_a6508a4c2365",
-      "cycle": 85,
+      "id": "p89r_rmh_6fd1ce8c7685",
+      "cycle": 20,
       "regime": "ranging",
       "regime_aware": true,
       "inventory_aware": true,
       "gamma_hedged": true,
       "delta_neutral_target": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783267Z"
+      "ts": "2026-11-04T05:18:33.939724Z"
     },
     {
-      "id": "p89r_rmh_e9d61f279a81",
-      "cycle": 86,
-      "regime": "ranging",
+      "id": "p89r_rmh_0572fb6900e5",
+      "cycle": 21,
+      "regime": "trend",
       "regime_aware": true,
       "inventory_aware": true,
       "gamma_hedged": true,
       "delta_neutral_target": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783374Z"
+      "ts": "2026-11-04T05:18:33.939867Z"
     },
     {
-      "id": "p89r_rmh_ece608a8b6c5",
-      "cycle": 87,
-      "regime": "ranging",
-      "regime_aware": true,
-      "inventory_aware": true,
-      "gamma_hedged": true,
-      "delta_neutral_target": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783394Z"
-    },
-    {
-      "id": "p89r_rmh_78aa3708befb",
-      "cycle": 88,
+      "id": "p89r_rmh_3777ab7a5463",
+      "cycle": 22,
       "regime": "shock",
       "regime_aware": true,
       "inventory_aware": true,
-      "gamma_hedged": false,
+      "gamma_hedged": true,
       "delta_neutral_target": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783445Z"
+      "ts": "2026-11-04T05:18:33.939888Z"
     },
     {
-      "id": "p89r_rmh_3381127748d2",
-      "cycle": 89,
-      "regime": "ranging",
-      "regime_aware": true,
-      "inventory_aware": true,
-      "gamma_hedged": false,
-      "delta_neutral_target": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783545Z"
-    },
-    {
-      "id": "p89r_rmh_371ae00cd512",
-      "cycle": 90,
-      "regime": "ranging",
-      "regime_aware": true,
-      "inventory_aware": true,
-      "gamma_hedged": false,
-      "delta_neutral_target": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784064Z"
-    },
-    {
-      "id": "p89r_rmh_8a918da43588",
-      "cycle": 91,
-      "regime": "trend",
-      "regime_aware": true,
-      "inventory_aware": true,
-      "gamma_hedged": false,
-      "delta_neutral_target": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784188Z"
-    },
-    {
-      "id": "p89r_rmh_2287b9cb8e3b",
-      "cycle": 92,
+      "id": "p89r_rmh_35b4d783cff6",
+      "cycle": 23,
       "regime": "ranging",
       "regime_aware": true,
       "inventory_aware": true,
       "gamma_hedged": true,
       "delta_neutral_target": true,
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784235Z"
-    },
-    {
-      "id": "p89r_rmh_53cdc0b4eb72",
-      "cycle": 93,
-      "regime": "ranging",
-      "regime_aware": true,
-      "inventory_aware": true,
-      "gamma_hedged": true,
-      "delta_neutral_target": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784296Z"
-    },
-    {
-      "id": "p89r_rmh_94820f857a48",
-      "cycle": 94,
-      "regime": "ranging",
-      "regime_aware": true,
-      "inventory_aware": true,
-      "gamma_hedged": true,
-      "delta_neutral_target": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784318Z"
-    },
-    {
-      "id": "p89r_rmh_85e2f3224e26",
-      "cycle": 95,
-      "regime": "ranging",
-      "regime_aware": true,
-      "inventory_aware": true,
-      "gamma_hedged": true,
-      "delta_neutral_target": true,
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784344Z"
+      "ts": "2026-11-04T05:18:33.939908Z"
     }
   ],
   "orderflow_aware_execution_events": [
     {
-      "id": "p89r_ofexec_df0352b86c5c",
-      "cycle": 40,
-      "regime": "ranging",
-      "orderflow_toxicity_aware_execution": true,
-      "options_iv_greeks_surface_consumed": true,
-      "gamma_dealer_positioning_consumed": true,
-      "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_e28e25bdcafa",
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780490Z"
-    },
-    {
-      "id": "p89r_ofexec_066c911145da",
-      "cycle": 45,
-      "regime": "ranging",
-      "orderflow_toxicity_aware_execution": false,
-      "options_iv_greeks_surface_consumed": true,
-      "gamma_dealer_positioning_consumed": true,
-      "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_86f1ad50c47c",
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.780837Z"
-    },
-    {
-      "id": "p89r_ofexec_33e8dd7d57e1",
-      "cycle": 50,
-      "regime": "ranging",
-      "orderflow_toxicity_aware_execution": true,
-      "options_iv_greeks_surface_consumed": true,
-      "gamma_dealer_positioning_consumed": true,
-      "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_8a288b06dfe0",
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781168Z"
-    },
-    {
-      "id": "p89r_ofexec_bb3276979424",
-      "cycle": 55,
+      "id": "p89r_ofexec_0fcc41409435",
+      "cycle": 0,
       "regime": "shock",
       "orderflow_toxicity_aware_execution": true,
       "options_iv_greeks_surface_consumed": true,
       "gamma_dealer_positioning_consumed": true,
       "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_21514bb8da77",
+      "exec_id": "p89r_exec_4f95df6d904d",
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781432Z"
+      "ts": "2026-11-04T05:18:33.938552Z"
     },
     {
-      "id": "p89r_ofexec_66a93d476935",
-      "cycle": 60,
+      "id": "p89r_ofexec_f5c4ab8633eb",
+      "cycle": 5,
       "regime": "ranging",
       "orderflow_toxicity_aware_execution": true,
       "options_iv_greeks_surface_consumed": true,
       "gamma_dealer_positioning_consumed": true,
       "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_75044aa0310a",
+      "exec_id": "p89r_exec_c3613ba1233e",
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.781766Z"
+      "ts": "2026-11-04T05:18:33.938881Z"
     },
     {
-      "id": "p89r_ofexec_a6f3ab56b451",
-      "cycle": 65,
+      "id": "p89r_ofexec_8198b560af69",
+      "cycle": 10,
       "regime": "ranging",
       "orderflow_toxicity_aware_execution": true,
       "options_iv_greeks_surface_consumed": true,
       "gamma_dealer_positioning_consumed": true,
       "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_f63bee1d373b",
+      "exec_id": "p89r_exec_0484c099e7b2",
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782092Z"
+      "ts": "2026-11-04T05:18:33.939165Z"
     },
     {
-      "id": "p89r_ofexec_03eb45773519",
-      "cycle": 70,
-      "regime": "trend",
-      "orderflow_toxicity_aware_execution": true,
-      "options_iv_greeks_surface_consumed": true,
-      "gamma_dealer_positioning_consumed": true,
-      "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_d662e763941f",
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782365Z"
-    },
-    {
-      "id": "p89r_ofexec_3db1a48c3078",
-      "cycle": 75,
+      "id": "p89r_ofexec_b7ef7355d33e",
+      "cycle": 15,
       "regime": "ranging",
       "orderflow_toxicity_aware_execution": true,
       "options_iv_greeks_surface_consumed": true,
       "gamma_dealer_positioning_consumed": true,
       "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_442a9a46e04b",
+      "exec_id": "p89r_exec_c33480ac90be",
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782667Z"
+      "ts": "2026-11-04T05:18:33.939429Z"
     },
     {
-      "id": "p89r_ofexec_e64244241761",
-      "cycle": 80,
+      "id": "p89r_ofexec_1d380831ddd3",
+      "cycle": 20,
       "regime": "ranging",
       "orderflow_toxicity_aware_execution": true,
       "options_iv_greeks_surface_consumed": true,
       "gamma_dealer_positioning_consumed": true,
       "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_48407e8fdc2e",
+      "exec_id": "p89r_exec_368c7b89940f",
       "paper_only": true,
-      "ts": "2026-11-04T05:12:49.782968Z"
-    },
-    {
-      "id": "p89r_ofexec_57000f88d24b",
-      "cycle": 85,
-      "regime": "ranging",
-      "orderflow_toxicity_aware_execution": true,
-      "options_iv_greeks_surface_consumed": true,
-      "gamma_dealer_positioning_consumed": true,
-      "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_89ae046dff71",
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.783293Z"
-    },
-    {
-      "id": "p89r_ofexec_4b65f3074681",
-      "cycle": 90,
-      "regime": "ranging",
-      "orderflow_toxicity_aware_execution": false,
-      "options_iv_greeks_surface_consumed": true,
-      "gamma_dealer_positioning_consumed": true,
-      "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_94af3d1600f5",
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784089Z"
-    },
-    {
-      "id": "p89r_ofexec_8c62446755e0",
-      "cycle": 95,
-      "regime": "ranging",
-      "orderflow_toxicity_aware_execution": true,
-      "options_iv_greeks_surface_consumed": true,
-      "gamma_dealer_positioning_consumed": true,
-      "sor_routing_consumed": true,
-      "exec_id": "p89r_exec_04368a742654",
-      "paper_only": true,
-      "ts": "2026-11-04T05:12:49.784368Z"
+      "ts": "2026-11-04T05:18:33.939748Z"
     }
   ],
-  "ts": "2026-11-04T05:12:49.784566Z"
+  "ts": "2026-11-04T05:18:33.939971Z"
 }
