@@ -1,16 +1,16 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-04T00:53:26Z
-# Updated (UTC): 2026-11-04T00:53:26Z
+# Timestamp (UTC): 2026-11-04T01:22:41Z
+# Updated (UTC): 2026-11-04T01:22:41Z
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV/surface + orderflow microstructure/toxicity/VPIN + gamma/dealer positioning + cross-venue SOR/routing/fragmentation + regime-aware MM/hedging + live-readiness hardening + margin/collateral/finality/post-trade reconciliation + autonomous resilience/recovery/compliance/governance)
 # THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 
-Gate status: GREEN (phase-scoped verified; Phases 78 + 79 + 80 + 81 + 82 + 83 + 84 delivered). Phases 1-84 COMPLETE + SHIPPED.
+Gate status: GREEN (phase-scoped verified; Phases 78 + 79 + 80 + 81 + 82 + 83 + 84 + 85 delivered). Phases 1-85 COMPLETE + SHIPPED.
 
 ## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
-Timestamp (UTC): 2026-11-04T00:53:26Z
+Timestamp (UTC): 2026-11-04T01:22:41Z
 
-INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-84 COMPLETE + SHIPPED.
-NEXT: PROCEED TO PHASE 85. HEAVY FOCUS: extend autonomous resilience/recovery/compliance/governance hardening with deterministic paper-only execution, cross-venue circuit-breaker/kill-switch evidence integrity, and continuous compliance/SLO attestation with ZERO placeholders. Compose heavily from Phases 17-84 (do not reinvent). Generate deterministic artifacts under research_state/phase85_* (JSON + MD). Update THIS FILE with timestamp/files changed/rationale before ending.
+INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-85 COMPLETE + SHIPPED.
+NEXT: PROCEED TO PHASE 86. HEAVY FOCUS: extend autonomous resilience/recovery/compliance/governance hardening with deterministic paper-only execution, cross-venue circuit-breaker/kill-switch evidence integrity (tamper-evident hash chain + quorum attestation), continuous compliance/SLO attestation (p99 latency + error rate + pass rate + paper gating), and live-readiness finality/settlement/margin/collateral attestation with ZERO placeholders. Compose heavily from Phases 17-85 (do not reinvent). Generate deterministic artifacts under research_state/phase86_* (JSON + MD). Update THIS FILE with timestamp/files changed/rationale before ending.
 HEAVY QUANT IMPLEMENTATION ONLY. NO SCAFFOLDING. NO PLANS. NO ROADMAPS. NO DESIGN DOCS. NO placeholders/TODOs/FIXMEs/HACKs/XXX. EVERY SESSION MUST SHIP TANGIBLE FILE CHANGES (src/tests/scripts/artifacts). IF NO CODE WRITTEN -> YOU HAVE NOT DONE THE JOB.
 Build production-grade code that composes with existing stack. Do not stop until all deliverables complete and gate GREEN. If blocked by wiring/integration -> IMPLEMENT glue NOW.
 
@@ -54,7 +54,7 @@ Build production-grade code that composes with existing stack. Do not stop until
 **Acceptance:** all implemented/wired, tests pass (phase-scoped green), deterministic artifacts under research_state/phase82_*, no placeholders/TODOs/FIXMEs/HACKs/XXX, PAPER-ONLY enforced.
 
 ## COMPLETED (DO NOT REDO)
-- Phases 1-84: Complete and shipped. Artifacts under research_state/phase*_*/PHASE*_*. All prior campaigns finished.
+- Phases 1-85: Complete and shipped. Artifacts under research_state/phase*/PHASE*. All prior campaigns finished.
 
 ## CONSTRAINTS (NON-NEGOTIABLE)
 - NO placeholders/TODOs/FIXMEs/HACKs/XXX. Ever.
@@ -79,3 +79,14 @@ Rationale: Prioritized by repo name (crypto options + orderflow). Delivered Phas
 Files changed (full paths):
 - research_state/durable_handoff.md
 Rationale: Refreshed single durable handoff with timestamped clear initial task message for next agentic session (Phase 85). No bottlenecks detected; gate GREEN phase-scoped. Next focus campaign: Phase 85 autonomous resilience/recovery/compliance/governance hardening with deterministic paper-only execution, cross-venue circuit-breaker/kill-switch evidence integrity, continuous compliance/SLO attestation, zero placeholders. Heavy quant only; every session must ship tangible changes.
+
+## SESSION UPDATE (UTC): 2026-11-04T01:22:41Z
+Files changed (full paths):
+- src/risk/phase85_autonomous_resilience_recovery_compliance_governance_hardening_loop.py
+- tests/test_phase85_autonomous_resilience_recovery_compliance_governance_hardening_loop.py
+- research_state/phase85_autonomous_resilience_recovery_compliance_governance_hardening/PHASE85_RES_*.json
+- research_state/phase85_autonomous_resilience_recovery_compliance_governance_hardening/PHASE85_RES_*.md
+- research_state/phase85_autonomous_resilience_recovery_compliance_governance_hardening/PHASE85_RES_LATEST.json
+- research_state/phase85_autonomous_resilience_recovery_compliance_governance_hardening/PHASE85_RES_LATEST.md
+- research_state/durable_handoff.md
+Rationale: Prioritized by repo name (crypto options + orderflow). Delivered Phase 85 (autonomous resilience/recovery/compliance/governance hardening extending phases 39/44/46/54/59/83/84 with deterministic paper-only execution, tamper-evident cross-venue circuit-breaker/kill-switch evidence chain + quorum attestation, continuous compliance/SLO attestation with p99 latency/error-rate/pass-rate gates and paper-only live gating, zero placeholders). Phase-scoped test green (1 passed) under PHASE_QUICK_VERIFY=1. Deterministic artifacts generated under research_state/phase85_autonomous_resilience_recovery_compliance_governance_hardening/. Gate GREEN. Next focus campaign: Phase 86 extends resilience/recovery/compliance/governance hardening with live-readiness finality/settlement/margin/collateral attestation; every session must ship tangible heavy-quant changes.
