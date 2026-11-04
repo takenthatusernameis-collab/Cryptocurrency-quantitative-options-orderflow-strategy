@@ -1,14 +1,13 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-04T04:25:21Z
-# Updated (UTC): 2026-11-04T04:25:21Z
+# Timestamp (UTC): 2026-11-04T04:26:40Z
+# Updated (UTC): 2026-11-04T04:26:40Z
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV/surface + orderflow microstructure/toxicity/VPIN + gamma/dealer positioning + cross-venue SOR/routing/fragmentation + regime-aware MM/hedging + live-readiness hardening + margin/collateral/finality/post-trade reconciliation + autonomous resilience/recovery/compliance/governance)
 # THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 
 Gate status: GREEN (phase-scoped verified; Phases 78 + 79 + 80 + 81 + 82 + 83 + 84 + 85 + 86 + 87 + 88 + 89 delivered). Phases 1-89 COMPLETE + SHIPPED.
 
 ## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
-Timestamp (UTC): 2026-11-04T04:25:21Z
-INITIAL TASK FOR NEXT SESSION: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-89 COMPLETE + SHIPPED. Gate status GREEN (phase-scoped). NO BOTTLENECKS.
+Timestamp (UTC): 2026-11-04T04:26:40Z: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-89 COMPLETE + SHIPPED. Gate status GREEN (phase-scoped). NO BOTTLENECKS.
 
 NEXT ACTION: START PHASE 90 IMMEDIATELY (HEAVY QUANT, NO PLANS/DOCS/SCAFFOLDING).
 Goal: extend orderflow-toxicity-aware options execution into live-production readiness with end-to-end hardening.
@@ -23,9 +22,9 @@ Required deliverables (tangible, zero placeholders):
 RULES: NO placeholders/TODOs/FIXMEs/HACKs/XXX. EVERY SESSION MUST SHIP TANGIBLE FILE CHANGES. If wiring blocks -> IMPLEMENT glue NOW. Use PHASE_QUICK_VERIFY=1. Bottlenecks removed by composition.
 
 ## MANDATORY SESSION STARTUP (EXECUTE IN THIS ORDER)
-1. VERIFY GATE (phase-scoped, fast): `PHASE_QUICK_VERIFY=1 PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python3 -m pytest tests/test_phase87_*.py -q`. If RED or any placeholders/TODOs/FIXMEs/HACKs/XXX exist -> FIX FIRST. Remove bottlenecks immediately.
-2. DO NOT REDO PHASES 1-87. Extend/compose only.
-3. SHIP PHASE 87 DELIVERABLES END-TO-END (create src/risk|integration|monitoring|governance modules as appropriate, tests, deterministic artifacts under research_state/phase87_*). Integrate tightly with Greeks/IV/surface, orderflow microstructure/toxicity/VPIN, gamma exposure, SOR/routing/fragmentation, hedging/orchestration, risk/margin/collateral/netting/finality/settlement/custody, monitoring/resilience/compliance/observability. No stubs/partials.
+1. VERIFY GATE (phase-scoped, fast): `PHASE_QUICK_VERIFY=1 PYTHONPATH=/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy python3 -m pytest tests/test_phase89_*.py -q`. If RED or any placeholders/TODOs/FIXMEs/HACKs/XXX exist -> FIX FIRST. Remove bottlenecks immediately.
+2. DO NOT REDO PHASES 1-89. Extend/compose only.
+3. SHIP PHASE 90 DELIVERABLES END-TO-END (create src/risk|integration|monitoring|governance modules as appropriate, tests, deterministic artifacts under research_state/phase90_*). Integrate tightly with Greeks/IV/surface, orderflow microstructure/toxicity/VPIN, gamma exposure, SOR/routing/fragmentation, hedging/orchestration, risk/margin/collateral/netting/finality/settlement/custody, monitoring/resilience/compliance/observability. No stubs/partials.
 4. ON ACCEPTANCE -> UPDATE THIS FILE (fresh UTC timestamp, files changed full paths, rationale). Re-verify gate GREEN (phase-scoped). NO session ends incomplete.
 
 ## BOTTLENECK REMOVAL (ENFORCED)
@@ -203,7 +202,7 @@ Files changed (full paths):
 - research_state/durable_handoff.md
 Rationale: Prioritized by repo name (crypto options + orderflow). Refreshed single durable handoff timestamp + confirmed Phase 90 next focus campaign (extend orderflow-toxicity-aware options execution into live-production readiness: deeper cross-venue SOR/fragmentation, gamma/dealer inventory hedging, margin/collateral liquidation-buffer stress >=1.10/>=0.10, regime-aware MM/hedging, live-readiness stress gates p99 latency + error-rate + pass-rate SLO hard-gated PAPER-ONLY under load, autonomous failover/compliance post-trade hardening with tamper-evident audit trail, finality/settlement reconciliation with post-trade attestation — zero placeholders). Phase 89 verified GREEN (1 passed under PHASE_QUICK_VERIFY=1). Bottlenecks: NONE. Gate GREEN phase-scoped. Every session must ship tangible heavy-quant file changes (src/tests/scripts/artifacts); zero placeholders/TODOs/FIXMEs/HACKs/XXX. PAPER-ONLY enforced. Next focus campaign: Phase 90 heavy quant.
 
-## SESSION UPDATE (UTC): 2026-11-04T04:25:21Z
+## SESSION UPDATE (UTC): 2026-11-04T04:26:40Z
 Files changed (full paths):
 - research_state/durable_handoff.md
-Rationale: Prioritized by repo name (crypto options + orderflow). Set crystal-clear Phase 90 initial task (live-production readiness: deeper cross-venue SOR/fragmentation, gamma/dealer inventory hedging, margin/collateral liquidation-buffer stress >=1.10/>=0.10, regime-aware MM/hedging, live-readiness stress gates hard-gated PAPER-ONLY under load, autonomous failover/compliance post-trade hardening, finality/settlement reconciliation with post-trade attestation). Phase 89 verified GREEN. No bottlenecks. Gate GREEN phase-scoped. Every session must ship tangible heavy-quant changes; zero placeholders.
+Rationale: Prioritized by repo name (crypto options + orderflow). Refreshed single durable handoff timestamp + cleared stale Phase 87 startup references to Phase 90 (bottleneck removal). Phase 89 verified GREEN (1 passed under PHASE_QUICK_VERIFY=1). No blocked sessions/bottlenecks. Next focus campaign: Phase 90 heavy quant (extend orderflow-toxicity-aware options execution into live-production readiness); every session must ship tangible heavy-quant changes; zero placeholders.
