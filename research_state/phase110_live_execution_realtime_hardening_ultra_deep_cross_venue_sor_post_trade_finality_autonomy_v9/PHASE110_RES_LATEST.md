@@ -1,7 +1,7 @@
-# PHASE110 V9 RES (ULTRA-DEEP CROSS-VENUE SOR + POST-TRADE FINALITY + AUTONOMY) - 1793824496.5051038
+# PHASE110 V9 RES (ULTRA-DEEP CROSS-VENUE SOR + POST-TRADE FINALITY + AUTONOMY) - 1793824615.4072993
 
 - phase: 110 name: phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v9 ver: 9
-- cycles: 240 finite_ok: True elapsed_sec: 0.0687
+- cycles: 240 finite_ok: True elapsed_sec: 0.0721
 - hash_chain_len: 8
 
 ## Gates
@@ -16,7 +16,7 @@
 - slippage_model_calibration_guard: True
 - latency_slippage_deep_model: True
 - adverse_selection_guard: True
-- liquidity_aware_hedge_sizing: False
+- liquidity_aware_hedge_sizing: True
 - autonomous_failover: True
 - compliance_governance: True
 - chaos_resilience: True
@@ -25,7 +25,7 @@
 - stress_haircuts: True
 - finite_numerics: True
 - no_placeholders: True
-- audit_trail_tamper_evident: False
+- audit_trail_tamper_evident: True
 - iv_surface_greeks: True
 - orderflow_microstructure: True
 - orderflow_microstructure_vpin: True
@@ -42,18 +42,18 @@
 - gamma_dealer_hedge_convexity_basis_rates: True
 - cross_margin_correlated_crisis_stress_haircuts: True
 - post_trade_idempotent_replay_finality: True
-- autonomous_resilience_compliance_governance: False
+- autonomous_resilience_compliance_governance: True
 - live_readiness_latency_p99: True
 - live_readiness_error_rate: True
 - live_readiness_pass_rate: True
-- all_ok: False
+- all_ok: True
 
 ## Hashes
 - iv: 5fd7146818bdfd44
 - of: 1b34d24e5a6f8bad
 - sor: 0d61db6e04842d7b
 - asf: fe5bf2523a55439b
-- gdh: fa395eaae8d88539
+- gdh: 52ed1bdad3afc4fd
 - shm: 299ff56218e94eda
-- cft: 03986b8759e0c0a3
+- cft: ec08db5c33ebf529
 - ptf: fc764b4c14fdfe01
