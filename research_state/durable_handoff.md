@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-04T15:31:59Z
-# Updated (UTC): 2026-11-04T15:31:59Z
+# Timestamp (UTC): 2026-11-04T15:42:27Z
+# Updated (UTC): 2026-11-04T15:42:27Z
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV/surface + orderflow microstructure/toxicity/VPIN + gamma/dealer positioning + cross-venue SOR/routing/fragmentation + regime-aware MM/hedging + live-readiness hardening + margin/collateral/finality/post-trade reconciliation + autonomous resilience/recovery/compliance/governance)
 # THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 
@@ -11,7 +11,7 @@ BOTTLENECK REMOVAL (this refresh):
 - tests/test_phase107_*.py passes with PHASE_QUICK_VERIFY=1; all gates ok:true including iv_calibration_guard, smile_skew_term_arb_sanity, orderflow_toxicity_regime_classification, adverse_sel_slippage_fill_liquidity_regime_joint, gamma_dealer_hedge_convexity_basis_rates, cross_margin_correlated_crisis_stress_haircuts, post_trade_idempotent_replay_finality, live_readiness_latency_p99/error_rate/pass_rate, chaos_failover_tamper, cross_venue_routing_toxicity. Deterministic artifacts under research_state/phase107_*/ (PHASE107_RES_LATEST.json/.md + timestamped). Next session must NOT coast — extend to Phase 108 with deeper cross-venue/live-readiness/post-trade hardening composed from existing engines. Implement glue immediately if wiring blocks.
 
 ## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
-Timestamp (UTC): 2026-11-04T15:31:59Z: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-107 COMPLETE + SHIPPED. Gate status GREEN (phase-scoped). NOW EXECUTE PHASE_108_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V5 (HEAVY QUANT, NO PLANS/DOCS/SCAFFOLDING/ZEROS).
+Timestamp (UTC): 2026-11-04T15:42:27Z: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-107 COMPLETE + SHIPPED. Gate status GREEN (phase-scoped). NOW EXECUTE PHASE_108_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V5 (HEAVY QUANT, NO PLANS/DOCS/SCAFFOLDING/ZEROS).
 
 NEXT ACTION: CREATE/EXTEND PHASE_108 with tangible, concrete code + tests + artifacts. Focus ultra-deep: crypto options IV surface calibration guards + smile/skew/term-structure arbitrage sanity, cross-venue SOR fragmentation/routing toxicity-aware + optimal execution slippage surface, orderflow microstructure VPIN/signature/footprint + toxicity regime classification, adverse selection × slippage × fill-probability joint model with liquidity regimes, gamma/dealer positioning inventory hedging with convexity-aware toxicity-adjusted sizing and basis/rates, cross-margin/netting/stress haircuts under correlated crisis, post-trade reconciliation/idempotent replay/finality/settlement, autonomous failover/circuit breakers/chaos, compliance/governance + tamper-evident audit chain, latency/p99/error-rate/pass-rate SLOs with live-readiness gates. Compose from existing engines (101/102/103/104/105/106/107) — NO duplication. If wiring blocks -> IMPLEMENT glue NOW.
 
