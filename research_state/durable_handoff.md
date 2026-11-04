@@ -1,13 +1,13 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-04T12:21:18Z
-# Updated (UTC): 2026-11-04T12:21:18Z
+# Timestamp (UTC): 2026-11-04T13:03:13Z
+# Updated (UTC): 2026-11-04T13:03:13Z
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV/surface + orderflow microstructure/toxicity/VPIN + gamma/dealer positioning + cross-venue SOR/routing/fragmentation + regime-aware MM/hedging + live-readiness hardening + margin/collateral/finality/post-trade reconciliation + autonomous resilience/recovery/compliance/governance)
 # THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 
 Gate status: GREEN (phase-scoped verified; Phases 90-102 passed under PHASE_QUICK_VERIFY=1 — 13 passed). Phases 1-102 COMPLETE + SHIPPED. NO BOTTLENECKS DETECTED. NO BLOCKED SESSIONS. research_state/ writable.
 
 ## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
-Timestamp (UTC): 2026-11-04T12:21:18Z: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-102 COMPLETE + SHIPPED. Gate status GREEN (phase-scoped). Actively executing PHASE_103_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP.
+Timestamp (UTC): 2026-11-04T13:03:13Z: PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-102 COMPLETE + SHIPPED. Gate status GREEN (phase-scoped). Actively executing PHASE_103_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP.
 
 NEXT ACTION: BOOTSTRAP AND IMMEDIATELY EXECUTE PHASE_103_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP (HEAVY QUANT, NO PLANS/DOCS/SCAFFOLDING/ZEROS). Ship concrete Phase 103 modules/tests/artifacts that extend live execution realtime hardening beyond Phase 102 with ultra-deep focus. Compose heavily from Phase 101/102 engines — NO duplication.
 
@@ -47,7 +47,7 @@ RULES: NO placeholders/TODOs/FIXMEs/HACKs/XXX. EVERY SESSION MUST SHIP TANGIBLE 
 3. BOOTSTRAP/EXTEND PHASE_103 IMMEDIATELY: if tests/test_phase103_* missing, create src/risk/phase103_*.py composing from Phase 101/102; add tests/test_phase103_*.py; generate deterministic artifacts under research_state/phase103_*/ with all required gates. Wire ultra-deep: orderflow microstructure + VPIN/toxicity + adverse selection, cross-venue fragmentation-aware SOR + fill prob + slippage calibration, gamma/dealer inventory + liquidity-aware hedging, cross-margin/netting/stress haircuts, post-trade/finality/idempotent reconciliation, chaos/autonomous failover/circuit breakers, compliance/governance + tamper-evident audit. No stubs.
 4. ON ACCEPTANCE -> UPDATE THIS FILE (fresh UTC timestamp, files changed full paths, rationale). Re-verify gate GREEN (phase-scoped). NO session ends incomplete.
 
-## SESSION UPDATE (UTC): 2026-11-04T12:21:18Z
+## SESSION UPDATE (UTC): 2026-11-04T13:03:13Z
 Files changed (full paths):
 - /home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state/durable_handoff.md
 Rationale: Prioritized by repo name (CRYPTO OPTIONS + ORDERFLOW QUANT). Refreshed durable handoff as single source of truth for PHASE_103_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP with crystal-clear initial task, mandatory heavy-quant deliverables, explicit bottleneck removal directives, and evidence-first artifact requirements. Gate remains GREEN (90-102). Next session must bootstrap/extend Phase 103 with tangible src/tests/artifacts, composition over duplication, PAPER-ONLY, finite numerics, no placeholders.
