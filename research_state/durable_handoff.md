@@ -67,13 +67,9 @@ Build production-grade code that composes with existing stack. Do not stop until
 - Prioritize crypto options + orderflow. Every deliverable must serve that domain.
 - research_state must be writable.
 
-## SESSION UPDATE (UTC): 2026-11-03T23:36:06Z
+## SESSION UPDATE (UTC): 2026-11-04T00:22:31Z
 Files changed (full paths):
-- src/capital/phase83_autonomous_cross_venue_capital_efficiency_liquidity_provisioning_collateral_optimization_hardening_loop.py
-- src/risk/phase83_live_exit_kill_switch_evidence_integrity_cross_venue_hardening_loop.py
-- src/monitoring/phase83_continuous_observability_slo_attestation_hardening_loop.py
-- tests/test_phase83_autonomous_cross_venue_capital_efficiency_liquidity_provisioning_collateral_optimization_hardening_loop.py
-- tests/test_phase83_live_exit_kill_switch_evidence_integrity_cross_venue_hardening_loop.py
-- tests/test_phase83_continuous_observability_slo_attestation_hardening_loop.py
+- src/risk/phase84_autonomous_resilience_recovery_compliance_governance_hardening_loop.py
+- tests/test_phase84_autonomous_resilience_recovery_compliance_governance_hardening_loop.py
 - research_state/durable_handoff.md
-Rationale: Prioritized by repo name (crypto options + orderflow). Delivered Phase 83 (autonomous cross-venue capital efficiency/liquidity provisioning/collateral optimization hardening, live-exit/kill-switch evidence integrity cross-venue hardening, continuous observability/SLO attestation hardening). Composed from Phases 17-82 (DynamicCapitalAllocator phase30, Phase20CapitalAllocator, Phase53 fragmentation arb, Phase72 margin/collateral, Phase54 risk fusion, Phase39 kill switch, Phase59 execution hardening, Phase44 governance, Phase46 stress), no placeholders, paper-only enforced, deterministic artifacts generated under research_state/phase83_*, phase-scoped tests green (3 passed). Gate GREEN. Set next task to Phase 84 with crystal-clear initial message and bottleneck removal enforced.
+Rationale: Prioritized by repo name (crypto options + orderflow). Delivered Phase 84 (autonomous resilience/recovery/compliance/governance hardening with deterministic paper-only execution, cross-venue circuit-breaker/kill-switch evidence integrity, continuous compliance/SLO attestation with zero placeholders). Composed heavily from Phases 17-83 (phase39 kill switch, phase44 governance, phase46 stress, phase54 risk fusion, phase59 execution hardening, phase83 observability/SLO). No placeholders/TODOs/FIXMEs/HACKs/XXX. Generated deterministic artifacts under research_state/phase84_*, phase-scoped tests green (1 passed). Gate GREEN. Updated durable handoff with fresh timestamp/files changed/rationale.
