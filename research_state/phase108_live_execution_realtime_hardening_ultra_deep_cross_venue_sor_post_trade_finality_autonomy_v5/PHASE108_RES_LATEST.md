@@ -1,11 +1,11 @@
 # PHASE108 RESULT - live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v5
-- Timestamp: 20261104T173552Z
+- Timestamp: 20261104T183646Z
 - Phase: 108
 - paper_only: True
-- cycles: 144
-- elapsed_s: 0.022845
-- hash_chain_len: 144
-- SLO: p99_ms=35.20 err=0.000608 pass=0.999140
+- cycles: 80
+- elapsed_s: 0.019176
+- hash_chain_len: 80
+- SLO: p99_ms=37.60 err=0.000608 pass=0.999300
 
 ## GATES
 - adverse_sel_slippage_fill_joint: True
@@ -53,32 +53,32 @@
 - stress_haircuts: True
 
 ## COUNTS
-- audit_trail_events: 144
-- autonomous_failover_events: 144
-- chaos_failover_tamper_events: 144
-- chaos_resilience_events: 144
-- compliance_governance_events: 144
-- convexity_basis_rates_events: 144
-- correlated_crisis_haircut_events: 144
-- cross_margin_netting_events: 144
-- cross_venue_routing_toxicity_events: 144
-- cross_venue_sor_events: 144
-- evidence_chain: 144
-- gamma_dealer_hedge_toxicity_events: 144
-- gamma_dealer_positioning_events: 144
-- hash_chain_events: 144
-- idempotency_replay_events: 144
-- idempotent_replay_finality_events: 144
-- iv_calibration_guard_events: 144
-- iv_surface_greeks_events: 144
-- liquidity_regime_joint_events: 144
-- orderflow_microstructure_vpin_events: 144
-- orderflow_toxicity_events: 144
-- post_trade_recon_events: 144
-- realtime_sor_events: 144
-- resilience_failover_events: 144
-- settlement_finality_events: 144
-- slippage_fill_joint_events: 144
-- smile_skew_term_arb_events: 144
-- stress_haircut_margin_events: 144
-- toxicity_regime_class_events: 144
+- audit_trail_events: 80
+- autonomous_failover_events: 80
+- chaos_failover_tamper_events: 80
+- chaos_resilience_events: 80
+- compliance_governance_events: 80
+- convexity_basis_rates_events: 80
+- correlated_crisis_haircut_events: 80
+- cross_margin_netting_events: 80
+- cross_venue_routing_toxicity_events: 80
+- cross_venue_sor_events: 80
+- evidence_chain: 80
+- gamma_dealer_hedge_toxicity_events: 80
+- gamma_dealer_positioning_events: 80
+- hash_chain_events: 80
+- idempotency_replay_events: 80
+- idempotent_replay_finality_events: 80
+- iv_calibration_guard_events: 80
+- iv_surface_greeks_events: 80
+- liquidity_regime_joint_events: 80
+- orderflow_microstructure_vpin_events: 80
+- orderflow_toxicity_events: 80
+- post_trade_recon_events: 80
+- realtime_sor_events: 80
+- resilience_failover_events: 80
+- settlement_finality_events: 80
+- slippage_fill_joint_events: 80
+- smile_skew_term_arb_events: 80
+- stress_haircut_margin_events: 80
+- toxicity_regime_class_events: 80
