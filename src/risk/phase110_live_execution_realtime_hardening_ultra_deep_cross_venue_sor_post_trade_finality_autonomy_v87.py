@@ -372,8 +372,8 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "scr_custody_reconciliation_break_management_v80": all(x.get("scr_custody_reconciliation_break_management_v80") for x in scr87),
             "scr_nomination_allocation_settlement_finality_v80": all(x.get("scr_nomination_allocation_settlement_finality_v80") for x in scr87),
             "scr_worm_append_only_ledger_attestation_v80": all(x.get("scr_worm_append_only_ledger_attestation_v80") for x in scr87),
-            "composition_mm_v87": bool(mm87_comp and all(x.get("mm_deep_v88") for x in mm87_comp)),
-            "composition_scr_v87": bool(scr87_comp and all(x.get("scr_deep_v88") for x in scr87_comp)),
+            "composition_mm_v87": bool(mm87_comp and all(x.get("mm_deep_v87") for x in mm87_comp)),
+            "composition_scr_v87": bool(scr87_comp and all(x.get("scr_deep_v87") for x in scr87_comp)),
         }
 
         gates["all_ok"] = all(bool(v) for v in gates.values())
