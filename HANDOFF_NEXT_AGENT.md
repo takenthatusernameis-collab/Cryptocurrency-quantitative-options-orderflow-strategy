@@ -1,7 +1,9 @@
-# RETIRED - SUPERSEDED BY research_state/durable_handoff.md
-# This root handoff is retired. The single source of truth for the next agent session is:
-#   research_state/durable_handoff.md  (SINGLE DURABLE HANDOFF - READ FIRST)
-# Timestamp (UTC): 2026-11-04T23:22:00Z
-# Reason: durable handoff is authoritative; all active focus campaign state lives there (Phase 110 v20 SHIPPED+GREEN; next campaign v21 via composition over v20/v19).
+# POINTER — SINGLE DURABLE HANDOFF (AUTHORITATIVE)
+**Timestamp (UTC): 2026-11-05T10:22:47Z**
 
-RETIRED
+This file is a pointer only. The **only** source of truth for the next agent session is:
+- `research_state/durable_handoff.md`
+
+Gate re-verified (phase-scoped, 2026-11-05T10:22:47Z): v46-v50 **5 passed** (`PHASE_QUICK_VERIFY=1`). No blocked sessions. No bottlenecks.
+
+**Next campaign (MANDATORY, HEAVY QUANT):** `PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V51` — ship tangible v51 src + tests + deterministic artifacts via composition over v50 (V54 extends V53, v53 deep gates + v52 composition). Read `research_state/durable_handoff.md` for the full crystal-clear initial task message and required deliverables. Do not explore/scaffold/placeholder.
