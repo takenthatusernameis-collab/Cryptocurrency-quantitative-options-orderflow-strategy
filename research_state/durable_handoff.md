@@ -1,14 +1,14 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE — READ FIRST)
-# Timestamp (UTC): 2026-11-05T21:03:25Z
+# Timestamp (UTC): 2026-11-05T21:08:59Z
 # Repo (inferred): Cryptocurrency-quantitative-options-orderflow-strategy
 # Domain priority (NON-NEGOTIABLE): CRYPTO OPTIONS + ORDERFLOW QUANT — crypto options pricing/Greeks/IV/surface (SABR/RBergomi/VG/jump-diffusion/local-stochastic/hybrid no-arb), orderflow microstructure/toxicity/VPIN/lead-lag/MEV/adversarial detection, adverse selection×slippage×fill, gamma/dealer/vanna/charm positioning/hedging, cross-venue SOR/routing/fragmentation/latency-jitter/atomic PvP-DvP, regime-aware MM/hedging, cross-margin/collateral/netting/haircuts/liquidation/stress/contagion, post-trade finality/settlement/custody/reconciliation/novation/clearing/attestation/WORM/ZK/Merkle/BFT, observability/attribution/TCA/paper-to-live, autonomous resilience/recovery/compliance/governance/chaos/zero-trust. PAPER-ONLY, finite, deterministic, seeded.
 #
 # ONLY SOURCE OF TRUTH. `HANDOFF_NEXT_AGENT.md` and `research_state/INITIAL_TASK_HANDOFF.md` are pointers to this file.
 
 ## CRYSTAL-CLEAR INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (MANDATORY, HEAVY WORK, NO DEVIATION)
-**Timestamp (UTC): 2026-11-05T21:03:25Z | Gate: GREEN (phase-scoped, re-verified) | NO BLOCKED SESSIONS | NO BOTTLENECKS | `research_state/` writable | v79-v86 SHIPPED+GREEN — v87 ABSENT — SHIP NEXT IMMEDIATELY**
+**Timestamp (UTC): 2026-11-05T21:08:59Z | Gate: GREEN (phase-scoped, re-verified this session) | NO BLOCKED SESSIONS | NO BOTTLENECKS | `research_state/` writable | v79-v86 SHIPPED+GREEN — v87 ABSENT — SHIP NEXT IMMEDIATELY**
 
-Phases 1-109 COMPLETE+SHIPPED. Phase 110 v8-v86 COMPLETE+SHIPPED+GREEN. Gate re-verified (`PHASE_QUICK_VERIFY=1`, `PYTHONPATH=$PWD`): **v79+v80+v81+v82+v83+v84+v85+v86 => 8 passed**. v86 artifacts green/finite (`version:"v86"`, `engine:Phase110UltraDeepQuantEngineV89`, `all_ok/finite_ok/gates.all_ok:true`, `seed:1111166`, `cycles:86`). v86 src+test hygiene CLEAN (0 TODO/FIXME/HACK/XXX/placeholder). **v87 src/test/artifacts ABSENT repo-wide — MANDATORY HEAVY CAMPAIGN: SHIP v87 NOW. NO EXPLORATION. NO SCAFFOLDING. NO PLACEHOLDERS.**
+Phases 1-109 COMPLETE+SHIPPED. Phase 110 v8-v86 COMPLETE+SHIPPED+GREEN. Gate re-verified this session (`PHASE_QUICK_VERIFY=1`, `PYTHONPATH=$PWD`): **v79+v80+v81+v82+v83+v84+v85+v86 => 8 passed**. v86 artifacts green/finite (`research_state/phase110_*_v86/PHASE110_RES_LATEST.json`: `version:"v86"`, `engine:Phase110UltraDeepQuantEngineV89`, `all_ok/finite_ok/gates.all_ok:true`, `seed:1111166`, `cycles:86`). v86 src+test hygiene CLEAN (0 TODO/FIXME/HACK/XXX/placeholder). **v87 src/test/artifacts ABSENT repo-wide — MANDATORY HEAVY CAMPAIGN: SHIP v87 NOW. NO EXPLORATION. NO SCAFFOLDING. NO PLACEHOLDERS.** Read v86 implementation (`src/risk/phase110...v86.py`, `tests/test_phase110...v86.py`) as the composition template, then implement v87 directly.
 
 ### INFERRED PRIMARY OBJECTIVE (BASED ON REPO NAME + PRIOR PATTERN)
 This is a **cryptocurrency quantitative options + orderflow strategy** repo. The natural continuation from v86 is to harden **live execution realism + realtime cross-venue routing + post-trade finality/autonomy** with deeper quant coverage. Treat v87 as the next concrete, testable hardening step in that direction. Every method must be real, finite, deterministic, and integrated via composition over v86.
@@ -49,12 +49,15 @@ This is a **cryptocurrency quantitative options + orderflow strategy** repo. The
 - **Hard rules:** PAPER-ONLY; finite numerics; deterministic/seeded; no NaN/Inf; no TODO/FIXME/HACK/XXX/placeholder. Extend/compose only over prior shipped versions. Fail fast on non-finite/placeholder leakage. If wiring/import/cycle blocks progress: implement minimal glue NOW (do not stall). Do not regress Phases 1-109 or v8-v86.
 - **Bottleneck removal rule:** if any session becomes blocked/inefficient, remove the blocker immediately (fix broken imports/tests, resolve path/env issues, repair stale pointers) before taking new scope. **Current status: NO blocked sessions. NO bottlenecks. `research_state/` writable.**
 
-### BOTTLENECK/STATUS (2026-11-05T21:03:25Z)
-- Gate re-verified context: v79-v86 `8 passed` (`PHASE_QUICK_VERIFY=1`, `PYTHONPATH=$PWD`).
-- v86 artifacts green/finite (`version:"v86"`, `engine:Phase110UltraDeepQuantEngineV89`, `all_ok/finite_ok/gates.all_ok:true`). v86 src+test hygiene CLEAN.
-- **No blocked sessions. No bottlenecks. `research_state/` writable. v87 src/test/artifacts ABSENT repo-wide.**
-- **ACTION REQUIRED NOW (CANNOT DEFER):** Ship `PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V87` with real implementation, passing tests, and deterministic `research_state/phase110_*_v87/PHASE110_RES_LATEST.*` artifacts.
+### BOTTLENECK/STATUS (2026-11-05T21:08:59Z)
+- Gate re-verified this session: v79-v86 `8 passed` (`PHASE_QUICK_VERIFY=1`, `PYTHONPATH=$PWD`).
+- v86 artifacts green/finite (`version:"v86"`, `engine:Phase110UltraDeepQuantEngineV89`, `all_ok/finite_ok/gates.all_ok:true`, `seed:1111166`, `cycles:86`, `cycles/research_state` shows `phase110_*_v86` present). v86 src+test hygiene CLEAN (0 markers).
+- **No blocked sessions. No bottlenecks. `research_state/` writable.** v87 src/test/artifacts ABSENT repo-wide. `research_state` is large (~4.8G) but writable; avoid copying historical artifacts. Repo-wide grep shows `no_placeholders`/`no_stubs_placeholders` strings in older shipped modules as compliance metadata — do **not** treat these as blockers; hygiene enforcement for this campaign applies to **v87 src+test** (and any new files you touch).
+- Full pytest suite not run in this session (prior run timed out); phase-scoped gate is the required pre-work gate.
 
-### FILES CHANGED THIS SESSION (2026-11-05T21:03:25Z)
-- Updated authoritative `research_state/durable_handoff.md` with strongest inferred timestamped crystal-clear initial task message for next agent (v87) based on repo name/domain priority.
-- Synced pointers `HANDOFF_NEXT_AGENT.md` and `research_state/INITIAL_TASK_HANDOFF.md` to match.
+### ACTION REQUIRED NOW (CANNOT DEFER)
+Ship `PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V87` with real implementation, passing tests, and deterministic `research_state/phase110_*_v87/PHASE110_RES_LATEST.*` artifacts.
+
+### FILES CHANGED THIS SESSION (2026-11-05T21:08:59Z)
+- Updated authoritative `research_state/durable_handoff.md` (fresh UTC) with clearest inferred timestamped initial task message for next agent (v87), re-verified gate status, and bottleneck clarity.
+- Synced `HANDOFF_NEXT_AGENT.md` and `research_state/INITIAL_TASK_HANDOFF.md` pointers/timestamps.

@@ -1,7 +1,7 @@
-# PHASE110 V9 RES (ULTRA-DEEP CROSS-VENUE SOR + POST-TRADE FINALITY + AUTONOMY) - 1793837868.636057
+# PHASE110 V11 RES (ULTRA-DEEP CROSS-VENUE SOR + POST-TRADE FINALITY + AUTONOMY) - 1793912810.138414
 
 - phase: 110 name: phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v9 ver: 9
-- cycles: 240 finite_ok: True elapsed_sec: 0.0684
+- cycles: 320 finite_ok: True elapsed_sec: 0.0231
 - hash_chain_len: 8
 
 ## Gates
@@ -43,17 +43,25 @@
 - cross_margin_correlated_crisis_stress_haircuts: True
 - post_trade_idempotent_replay_finality: True
 - autonomous_resilience_compliance_governance: True
+- iv_vol_of_vol_surface: True
+- orderflow_bayesian_toxicity: True
+- sor_mev_resistant_routing: True
+- adverse_sel_shortfall_joint: True
+- gamma_dealer_hedge_term_structure: True
+- margin_jump_to_default_stress: True
+- autonomous_bft_tamper: True
+- post_trade_atomic_finality: True
 - live_readiness_latency_p99: True
 - live_readiness_error_rate: True
 - live_readiness_pass_rate: True
 - all_ok: True
 
 ## Hashes
-- iv: 5fd7146818bdfd44
-- of: 1b34d24e5a6f8bad
-- sor: 0d61db6e04842d7b
-- asf: fe5bf2523a55439b
-- gdh: 52ed1bdad3afc4fd
-- shm: 299ff56218e94eda
-- cft: ec08db5c33ebf529
-- ptf: fc764b4c14fdfe01
+- iv: dc5ab8f8c25ed21e0507a74403183f87a2d627048937798debe1c5e0f0468374
+- of: 4cb50a429d6c09941f23c36f3ce655d50bb61e6fed4d96dff936108971ea8802
+- sor: b0011558dc0dfa0a1e23ca092e6d43ee61a4c9c60510fa73609796299d3b4971
+- asf: 054aabc41c328611cc017db694955fea113ae2f4ed1bb8c79d1fe5449c62b390
+- gdh: b8fcc6d89d0cb105051b3e7d10e91bd3ddfba1f1c7bd3cfc3406b77ee71fbc1a
+- shm: 50330918610255c70fd50ec5dc19cd71e97ea43675a745cbd23a8fafde59e02e
+- cft: eb3d7efa01e1314520212dc9fed2ed74b9801e3619a041f84f24ab1ae7faea88
+- ptf: 43b1bc1820bcba14bb2b0e737f8d91d517b6efbd4f5619a6cf5ab2b522b0a39a
