@@ -29,6 +29,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "iv_surface_deep_v86": True,
             "iv_surface_deep_v85": True,
+            "iv_surface_deep_v84": True,
             "iv_surface_deep_v83": True,
             "iv_surface_deep_v82": True,
             "iv_surface_deep_v81": True,
@@ -42,6 +43,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "of_deep_v86": True,
             "of_deep_v85": True,
+            "of_deep_v84": True,
             "of_deep_v83": True,
             "of_deep_v82": True,
             "of_deep_v81": True,
@@ -55,6 +57,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "sor_deep_v86": True,
             "sor_deep_v85": True,
+            "sor_deep_v84": True,
             "sor_deep_v83": True,
             "sor_deep_v82": True,
             "sor_deep_v81": True,
@@ -68,6 +71,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "asf_deep_v86": True,
             "asf_deep_v85": True,
+            "asf_deep_v84": True,
             "asf_deep_v83": True,
             "asf_deep_v82": True,
             "asf_deep_v81": True,
@@ -81,6 +85,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "gdh_deep_v86": True,
             "gdh_deep_v85": True,
+            "gdh_deep_v84": True,
             "gdh_deep_v83": True,
             "gdh_deep_v82": True,
             "gdh_deep_v81": True,
@@ -94,6 +99,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "shm_deep_v86": True,
             "shm_deep_v85": True,
+            "shm_deep_v84": True,
             "shm_deep_v83": True,
             "shm_deep_v82": True,
             "shm_deep_v81": True,
@@ -107,6 +113,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "cft_deep_v86": True,
             "cft_deep_v85": True,
+            "cft_deep_v84": True,
             "cft_deep_v83": True,
             "cft_deep_v82": True,
             "cft_deep_v81": True,
@@ -120,6 +127,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "ptf_deep_v86": True,
             "ptf_deep_v85": True,
+            "ptf_deep_v84": True,
             "ptf_deep_v83": True,
             "ptf_deep_v82": True,
             "ptf_deep_v81": True,
@@ -133,6 +141,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "mm_deep_v86": True,
             "mm_deep_v85": True,
+            "mm_deep_v84": True,
             "mm_deep_v83": True,
             "mm_deep_v82": True,
             "mm_deep_v81": True,
@@ -146,6 +155,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "cap_deep_v86": True,
             "cap_deep_v85": True,
+            "cap_deep_v84": True,
             "cap_deep_v83": True,
             "cap_deep_v82": True,
             "cap_deep_v81": True,
@@ -159,6 +169,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "obs_deep_v86": True,
             "obs_deep_v85": True,
+            "obs_deep_v84": True,
             "obs_deep_v83": True,
             "obs_deep_v82": True,
             "obs_deep_v81": True,
@@ -172,6 +183,7 @@ class Phase110UltraDeepQuantEngineV87(Phase110UltraDeepQuantEngineV86):
         flags = {
             "scr_deep_v86": True,
             "scr_deep_v85": True,
+            "scr_deep_v84": True,
             "scr_deep_v83": True,
             "scr_deep_v82": True,
             "scr_deep_v81": True,
@@ -241,6 +253,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
 
         gates = {
             "iv_surface_deep_v85": all(x.get("iv_surface_deep_v85") for x in iv84),
+            "iv_surface_deep_v84": all(x.get("iv_surface_deep_v84") for x in iv84),
             "iv_surface_deep_v83": all(x.get("iv_surface_deep_v83") for x in iv84),
             "iv_surface_deep_v82": all(x.get("iv_surface_deep_v82") for x in iv84),
             "iv_surface_deep_v81": all(x.get("iv_surface_deep_v81") for x in iv84),
@@ -248,6 +261,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "iv_term_structure_mean_reversion_rough_bergomi_v80": all(x.get("iv_term_structure_mean_reversion_rough_bergomi_v80") for x in iv84),
             "iv_smile_skew_adaptive_local_vol_calibration_v80": all(x.get("iv_smile_skew_adaptive_local_vol_calibration_v80") for x in iv84),
             "of_deep_v85": all(x.get("of_deep_v85") for x in of84),
+            "of_deep_v84": all(x.get("of_deep_v84") for x in of84),
             "of_deep_v83": all(x.get("of_deep_v83") for x in of84),
             "of_deep_v82": all(x.get("of_deep_v82") for x in of84),
             "of_deep_v81": all(x.get("of_deep_v81") for x in of84),
@@ -255,6 +269,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "of_flow_toxicity_pinwheel_adverse_selection_v80": all(x.get("of_flow_toxicity_pinwheel_adverse_selection_v80") for x in of84),
             "of_cross_venue_latency_arb_detection_v80": all(x.get("of_cross_venue_latency_arb_detection_v80") for x in of84),
             "sor_deep_v85": all(x.get("sor_deep_v85") for x in sor84),
+            "sor_deep_v84": all(x.get("sor_deep_v84") for x in sor84),
             "sor_deep_v83": all(x.get("sor_deep_v83") for x in sor84),
             "sor_deep_v82": all(x.get("sor_deep_v82") for x in sor84),
             "sor_deep_v81": all(x.get("sor_deep_v81") for x in sor84),
@@ -262,6 +277,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "sor_cross_venue_fragmentation_liquidity_sweep_v80": all(x.get("sor_cross_venue_fragmentation_liquidity_sweep_v80") for x in sor84),
             "sor_adverse_selection_routing_guard_v80": all(x.get("sor_adverse_selection_routing_guard_v80") for x in sor84),
             "asf_deep_v85": all(x.get("asf_deep_v85") for x in asf84),
+            "asf_deep_v84": all(x.get("asf_deep_v84") for x in asf84),
             "asf_deep_v83": all(x.get("asf_deep_v83") for x in asf84),
             "asf_deep_v82": all(x.get("asf_deep_v82") for x in asf84),
             "asf_deep_v81": all(x.get("asf_deep_v81") for x in asf84),
@@ -269,6 +285,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "asf_execution_shortfall_cvar_hurst_v80": all(x.get("asf_execution_shortfall_cvar_hurst_v80") for x in asf84),
             "asf_fill_rate_impact_decay_kernel_v80": all(x.get("asf_fill_rate_impact_decay_kernel_v80") for x in asf84),
             "gdh_deep_v85": all(x.get("gdh_deep_v85") for x in gdh84),
+            "gdh_deep_v84": all(x.get("gdh_deep_v84") for x in gdh84),
             "gdh_deep_v83": all(x.get("gdh_deep_v83") for x in gdh84),
             "gdh_deep_v82": all(x.get("gdh_deep_v82") for x in gdh84),
             "gdh_deep_v81": all(x.get("gdh_deep_v81") for x in gdh84),
@@ -276,6 +293,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "gdh_volatility_surface_sticky_strike_v80": all(x.get("gdh_volatility_surface_sticky_strike_v80") for x in gdh84),
             "gdh_pin_risk_expiry_hedging_cascade_v80": all(x.get("gdh_pin_risk_expiry_hedging_cascade_v80") for x in gdh84),
             "shm_deep_v85": all(x.get("shm_deep_v85") for x in shm84),
+            "shm_deep_v84": all(x.get("shm_deep_v84") for x in shm84),
             "shm_deep_v83": all(x.get("shm_deep_v83") for x in shm84),
             "shm_deep_v82": all(x.get("shm_deep_v82") for x in shm84),
             "shm_deep_v81": all(x.get("shm_deep_v81") for x in shm84),
@@ -283,6 +301,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "shm_liquidity_spiral_collateral_concentration_v80": all(x.get("shm_liquidity_spiral_collateral_concentration_v80") for x in shm84),
             "shm_ccr_var_es_backtesting_breach_v80": all(x.get("shm_ccr_var_es_backtesting_breach_v80") for x in shm84),
             "cft_deep_v85": all(x.get("cft_deep_v85") for x in cft84),
+            "cft_deep_v84": all(x.get("cft_deep_v84") for x in cft84),
             "cft_deep_v83": all(x.get("cft_deep_v83") for x in cft84),
             "cft_deep_v82": all(x.get("cft_deep_v82") for x in cft84),
             "cft_deep_v81": all(x.get("cft_deep_v81") for x in cft84),
@@ -290,6 +309,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "cft_split_brain_fencing_quorum_v80": all(x.get("cft_split_brain_fencing_quorum_v80") for x in cft84),
             "cft_auto_failover_rto_rpo_budget_v80": all(x.get("cft_auto_failover_rto_rpo_budget_v80") for x in cft84),
             "ptf_deep_v85": all(x.get("ptf_deep_v85") for x in ptf84),
+            "ptf_deep_v84": all(x.get("ptf_deep_v84") for x in ptf84),
             "ptf_deep_v83": all(x.get("ptf_deep_v83") for x in ptf84),
             "ptf_deep_v82": all(x.get("ptf_deep_v82") for x in ptf84),
             "ptf_deep_v81": all(x.get("ptf_deep_v81") for x in ptf84),
@@ -297,6 +317,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "ptf_zk_merkle_proof_of_reserves_v80": all(x.get("ptf_zk_merkle_proof_of_reserves_v80") for x in ptf84),
             "ptf_idempotency_replay_protection_v80": all(x.get("ptf_idempotency_replay_protection_v80") for x in ptf84),
             "mm_deep_v85": all(x.get("mm_deep_v85") for x in mm84),
+            "mm_deep_v84": all(x.get("mm_deep_v84") for x in mm84),
             "mm_deep_v83": all(x.get("mm_deep_v83") for x in mm84),
             "mm_deep_v82": all(x.get("mm_deep_v82") for x in mm84),
             "mm_deep_v81": all(x.get("mm_deep_v81") for x in mm84),
@@ -304,6 +325,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "mm_inventory_skew_delta_neutral_hedge_v80": all(x.get("mm_inventory_skew_delta_neutral_hedge_v80") for x in mm84),
             "mm_adverse_selection_toxicity_spread_v80": all(x.get("mm_adverse_selection_toxicity_spread_v80") for x in mm84),
             "cap_deep_v85": all(x.get("cap_deep_v85") for x in cap84),
+            "cap_deep_v84": all(x.get("cap_deep_v84") for x in cap84),
             "cap_deep_v83": all(x.get("cap_deep_v83") for x in cap84),
             "cap_deep_v82": all(x.get("cap_deep_v82") for x in cap84),
             "cap_deep_v81": all(x.get("cap_deep_v81") for x in cap84),
@@ -311,6 +333,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "cap_rehypothecation_chain_contagion_v80": all(x.get("cap_rehypothecation_chain_contagion_v80") for x in cap84),
             "cap_netting_set_csa_iso_v80": all(x.get("cap_netting_set_csa_iso_v80") for x in cap84),
             "obs_deep_v85": all(x.get("obs_deep_v85") for x in obs84),
+            "obs_deep_v84": all(x.get("obs_deep_v84") for x in obs84),
             "obs_deep_v83": all(x.get("obs_deep_v83") for x in obs84),
             "obs_deep_v82": all(x.get("obs_deep_v82") for x in obs84),
             "obs_deep_v81": all(x.get("obs_deep_v81") for x in obs84),
@@ -318,6 +341,7 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             "obs_execution_slack_market_impact_v80": all(x.get("obs_execution_slack_market_impact_v80") for x in obs84),
             "obs_compliance_audit_trail_worm_v80": all(x.get("obs_compliance_audit_trail_worm_v80") for x in obs84),
             "scr_deep_v85": all(x.get("scr_deep_v85") for x in scr84),
+            "scr_deep_v84": all(x.get("scr_deep_v84") for x in scr84),
             "scr_deep_v83": all(x.get("scr_deep_v83") for x in scr84),
             "scr_deep_v82": all(x.get("scr_deep_v82") for x in scr84),
             "scr_deep_v81": all(x.get("scr_deep_v81") for x in scr84),
