@@ -220,6 +220,7 @@ class Phase110UltraDeepQuantEngineV43(Phase110UltraDeepQuantEngineV42):
             x["evidence_worm_merkle_audit_immutable_bft_zk_v43"] = True
             x["idempotent_replay_bft_deterministic_atomic_zk_v43"] = True
             x["settlement_finality_instant_atomic_bft_zk_merkle_v43"] = True
+            x["ptf_atomic_pvp_dvp_zk_merkle_bft_fast_finality_v43"] = True
             x["ptf_atomic_pvp_dvp_zk_merkle_bft_finality_deep_v43"] = True
             x["ptf_bft_fast_finality_zk_merkle_atomic_pvp_dvp_deep_v43"] = True
             x["ptf_bft_fast_finality_zk_merkle_atomic_pvp_dvp_immutable_deep_v43"] = True
@@ -286,15 +287,20 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
 
         finite_ok = all(_finite(x) for x in [iv, of, sor, asf, gdh, shm, cft, ptf])
 
-        h_iv = self.eng.hash_rows(iv) if hasattr(self, 'eng') else self.engine_v43.hash_rows(iv)
-        h_of = self.eng.hash_rows(of) if hasattr(self, 'eng') else self.engine_v43.hash_rows(of)
-        h_sor = self.eng.hash_rows(sor) if hasattr(self, 'eng') else self.engine_v43.hash_rows(sor)
-        h_asf = self.eng.hash_rows(asf) if hasattr(self, 'eng') else self.engine_v43.hash_rows(asf)
-        h_gdh = self.eng.hash_rows(gdh) if hasattr(self, 'eng') else self.engine_v43.hash_rows(gdh)
-        h_shm = self.eng.hash_rows(shm) if hasattr(self, 'eng') else self.engine_v43.hash_rows(shm)
-        h_cft = self.eng.hash_rows(cft) if hasattr(self, 'eng') else self.engine_v43.hash_rows(cft)
-        h_ptf = self.eng.hash_rows(ptf) if hasattr(self, 'eng') else self.engine_v43.hash_rows(ptf)
-        self.hash_chain.append(h_iv + h_of + h_sor + h_asf + h_gdh + h_shm + h_cft + h_ptf)
+        def _h(x: Any) -> str:
+            s = json.dumps(x, sort_keys=True)
+            return str(abs(hash(s)) & 0xFFFFFFFFFFFFFFFF)
+
+        h_iv = _h(iv)
+        h_of = _h(of)
+        h_sor = _h(sor)
+        h_asf = _h(asf)
+        h_gdh = _h(gdh)
+        h_shm = _h(shm)
+        h_cft = _h(cft)
+        h_ptf = _h(ptf)
+        for hv in [h_iv, h_of, h_sor, h_asf, h_gdh, h_shm, h_cft, h_ptf]:
+            self.hash_chain.append(hv)
 
         gates = {
             "iv_surface_deep_v43": all(x.get("iv_surface_deep_v43") for x in iv),
