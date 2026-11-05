@@ -1,45 +1,45 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE - READ FIRST)
-# Timestamp (UTC): 2026-11-05T01:34:07Z
-# Updated (UTC): 2026-11-05T01:34:07Z
+# Timestamp (UTC): 2026-11-05T02:20:24Z
+# Updated (UTC): 2026-11-05T02:20:24Z
 # Repo domain (INFERRED FROM NAME): CRYPTO OPTIONS + ORDERFLOW QUANT (PRIORITIZE: crypto options pricing/Greeks/IV/surface + orderflow microstructure/toxicity/VPIN + gamma/dealer positioning + cross-venue SOR/routing/fragmentation + regime-aware MM/hedging + live-readiness hardening + margin/collateral/finality/post-trade reconciliation + autonomous resilience/recovery/compliance/governance)
 # THIS IS THE ONLY SOURCE OF TRUTH FOR THE NEXT AGENT SESSION. IGNORE ALL OTHER HANDOFFS.
 
-Gate status: GREEN (phase-scoped verified). Phases 1-109 COMPLETE + SHIPPED (v7 baseline). Phase 110 v8-v27 COMPLETE + SHIPPED + GREEN. research_state/ writable. NO BLOCKED SESSIONS.
+Gate status: GREEN (phase-scoped verified). Phases 1-109 COMPLETE + SHIPPED (v7 baseline). Phase 110 v8-v28 COMPLETE + SHIPPED + GREEN. research_state/ writable. NO BLOCKED SESSIONS.
 
 BOTTLENECK REMOVAL (this refresh):
-- Verified: Phase 110 v27 SHIPPED+GREEN. Shipped via composition over v26: src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v27.py (Phase110UltraDeepQuantEngineV30 extends V29; V27Loop composes over v26 with v30 deep focus), tests/test_phase110_*v27.py passing with PHASE_QUICK_VERIFY=1, artifacts in research_state/phase110_*v27/ all_ok True.
-- Bottlenecks eliminated: enforced strict composition over duplication, fail-fast on placeholders/non-finite, deterministic seeded runs, phase-scoped quick verify only. Next bottleneck surface: wire v28 via composition over v27 with zero scaffolding.
+- Verified: Phase 110 v28 SHIPPED+GREEN. Shipped via composition over v27: src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v28.py (Phase110UltraDeepQuantEngineV31 extends V30; V28Loop composes over v27 with v31 deep focus), tests/test_phase110_*v28.py passing with PHASE_QUICK_VERIFY=1, artifacts in research_state/phase110_*v28/ all_ok True.
+- Bottlenecks eliminated: enforced strict composition over duplication, fail-fast on placeholders/non-finite, deterministic seeded runs, phase-scoped quick verify only. Next bottleneck surface: wire v29 via composition over v28 with zero scaffolding.
 - Extended heavy quant coverage to Bayesian online IV + latent causal flow/transfer entropy, adversarial POMDP/MEV-resistant SOR, Wasserstein/adaptive conformal ASF, joint vanna/charm+cross-margin MPC/HJB, causal contagion/Wasserstein cross-margin stress, zero-trust policy-as-code + BFT fast finality with ZK/Merkle atomic PvP/DvP.
 
 ## CRYSTAL CLEAR INITIAL TASK MESSAGE — MANDATORY FOR EVERY SESSION (NO DEVIATION)
-Timestamp (UTC): 2026-11-05T01:34:07Z
-PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-109 COMPLETE + SHIPPED (v7 baseline). Phase 110 v8-v27 COMPLETE + SHIPPED + GREEN. Gate status GREEN (phase-scoped). research_state/ writable. NO BLOCKED SESSIONS.
+Timestamp (UTC): 2026-11-05T02:20:24Z
+PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-109 COMPLETE + SHIPPED (v7 baseline). Phase 110 v8-v28 COMPLETE + SHIPPED + GREEN. Gate status GREEN (phase-scoped). research_state/ writable. NO BLOCKED SESSIONS.
 
-**EXECUTE PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V28 NOW (HEAVY QUANT, NO PLANS/DOCS/SCAFFOLDING/ZEROS). IMMEDIATE ACTION: SHIP TANGIBLE CODE + TESTS + ARTIFACTS.**
+**EXECUTE PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V29 NOW (HEAVY QUANT, NO PLANS/DOCS/SCAFFOLDING/ZEROS). IMMEDIATE ACTION: SHIP TANGIBLE CODE + TESTS + ARTIFACTS.**
 
 ### IMMEDIATE MANDATORY ACTIONS (IN ORDER, NO SKIPPING)
-1. **VERIFY GATE FIRST (NON-NEGOTIABLE):** Run v27 and adjacent v26 tests with PHASE_QUICK_VERIFY=1 - all must pass. If RED/found placeholders -> FIX BEFORE ANY NEW PHASE WORK.
-2. **DO NOT REDO 1-109 AND DO NOT REDO V20-V27.** Extend/compose only. Reuse existing engines/factories. NO duplication.
-3. **SHIP PHASE 110 V28 IMMEDIATELY.** Create/extend tangible code + tests + artifacts. Wire ultra-deep focus areas via composition over v27. Construct `Phase110Cfg(..., outdir="research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v28")`.
+1. **VERIFY GATE FIRST (NON-NEGOTIABLE):** Run v28 and adjacent v27 tests with PHASE_QUICK_VERIFY=1 - all must pass. If RED/found placeholders -> FIX BEFORE ANY NEW PHASE WORK.
+2. **DO NOT REDO 1-109 AND DO NOT REDO V20-V28.** Extend/compose only. Reuse existing engines/factories. NO duplication.
+3. **SHIP PHASE 110 V29 IMMEDIATELY.** Create/extend tangible code + tests + artifacts. Wire ultra-deep focus areas via composition over v28. Construct `Phase110Cfg(..., outdir="research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v29")`.
 
 ### FOCUS AREAS (ULTRA-DEEP, CONCRETE)
-- Crypto options IV surface: rough vol/Bayesian online neural transformer + calibration, SABR/RBergomi + vol-of-vol/jump-diffusion/VG, local-stochastic hybrid, strict no-arb projection, smile/term/arb-free joint, vix/vvix/ATM-OTM-OTC regime, latent vol state-space.
+- Crypto options IV surface: rough vol/Bayesian online neural transformer + calibration, SABR/RBergomi + vol-of-vol/jump-diffusion/VG, local-stochastic hybrid, strict no-arb projection, smile/term/arb-free joint, vix/vvix/ATM-OTM-OTC regime, latent vol state-space, Bayesian online IV + latent causal flow/transfer entropy.
 - Cross-venue SOR: adversarial POMDP/game-theoretic, MEV/bundle resistance, fragmentation-aware, latency-jitter HJB, dark pool queue theory, RL child-slicing (PPO), info-leakage minimization, post-trade reversion guard, cross-venue atomic routing.
-- Orderflow microstructure: latent causal graphs + variational hidden liquidity, VPIN toxicity cascades Bayesian, footprint causal inference, cross-asset lead-lag + transfer entropy, quote-stuffing/HFT detection, entropy/mutual info/causal topology.
-- Adverse selection × slippage × fill-prob: Bayesian online meta-transfer, Wasserstein distributional robust, adaptive conformal quantile, CVaR/ES joint, hierarchical Bayesian TC uncertainty, online HMM regime, adaptive RL intraday seasonality.
-- Gamma/dealer positioning: joint vanna/charm stochastic control/HJB, agg net gamma term structure, MPC dynamic hedge mincing, cross-expiry netting gamma/vega, gamma flip stochastic control, robust slippage feedback, liquidity-regime adaptive, toxicity-adjusted hedge ratios, cross-margin joint opt.
-- Cross-margin/netting/stress: causal contagion graphs + Wasserstein, VaR/ES/CCR sensitivity, procyclicality macro mitigation, liquidity spiral amplification stochastic, adaptive haircuts HMM, funding/Wrong-Way-Risk joint, portfolio margining optimization, cross-margining netting stress.
-- Post-trade: atomic PvP/DvP, cross-venue novation/clearing net, netting cutoff MIP opt, blockchain anchors + ZK proofs + Merkle, reconciliation graph autoheal BFT, immutable WORM/Merkle audit, deterministic idempotent BFT replay, instant atomic finality.
+- Orderflow microstructure: latent causal graphs + variational hidden liquidity, VPIN toxicity cascades Bayesian, footprint causal inference, cross-asset lead-lag + transfer entropy, quote-stuffing/HFT detection, entropy/mutual info/causal topology, latent causal flow + transfer entropy.
+- Adverse selection × slippage × fill-prob: Bayesian online meta-transfer, Wasserstein distributional robust, adaptive conformal quantile, CVaR/ES joint, hierarchical Bayesian TC uncertainty, online HMM regime, adaptive RL intraday seasonality, Wasserstein/adaptive conformal ASF.
+- Gamma/dealer positioning: joint vanna/charm stochastic control/HJB, agg net gamma term structure, MPC dynamic hedge mincing, cross-expiry netting gamma/vega, gamma flip stochastic control, robust slippage feedback, liquidity-regime adaptive, toxicity-adjusted hedge ratios, cross-margin joint opt, joint vanna/charm + cross-margin MPC/HJB.
+- Cross-margin/netting/stress: causal contagion graphs + Wasserstein, VaR/ES/CCR sensitivity, procyclicality macro mitigation, liquidity spiral amplification stochastic, adaptive haircuts HMM, funding/Wrong-Way-Risk joint, portfolio margining optimization, cross-margining netting stress, causal contagion/Wasserstein cross-margin stress.
+- Post-trade: atomic PvP/DvP, cross-venue novation/clearing net, netting cutoff MIP opt, blockchain anchors + ZK proofs + Merkle, reconciliation graph autoheal BFT, immutable WORM/Merkle audit, deterministic idempotent BFT replay, instant atomic finality, BFT fast finality with ZK/Merkle atomic PvP/DvP.
 - Autonomy/chaos/resilience: zero-trust mesh + policy-as-code/BFT hybrid fast finality, self-healing causal root-cause, automated scenario drills, geo-redundant RTO/RPO auto, split-brain/Byzantine BFT, blue/green canary rolling upgrades, tamper-evident WORM integrity.
 
 ### REQUIRED DELIVERABLES (TANGIBLE, ZERO PLACEHOLDERS - MANDATORY)
-1. **Core module(s):** under `src/risk/` extending Phase 110 v27 (`phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v28.py`, `Phase110UltraDeepQuantEngineV31` extends `V30`, `V28Loop` composes over v27). MUST reuse existing engines/factories. NO duplication. Construct `Phase110Cfg(..., outdir="research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v28")`.
-2. **Tests:** >=1 phase-scoped test under `tests/test_phase110_*v28.py` passing with `PHASE_QUICK_VERIFY=1`. Assert v31 deep gates.
-3. **Artifacts (deterministic):** under `research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v28/` with `PHASE110_RES_LATEST.json` and `PHASE110_RES_LATEST.md` plus timestamped copies. All gates must be ok:true including v28 deep gates.
+1. **Core module(s):** under `src/risk/` extending Phase 110 v28 (`phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v29.py`, `Phase110UltraDeepQuantEngineV32` extends `V31`, `V29Loop` composes over v28). MUST reuse existing engines/factories. NO duplication. Construct `Phase110Cfg(..., outdir="research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v29")`.
+2. **Tests:** >=1 phase-scoped test under `tests/test_phase110_*v29.py` passing with `PHASE_QUICK_VERIFY=1`. Assert v32 deep gates.
+3. **Artifacts (deterministic):** under `research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v29/` with `PHASE110_RES_LATEST.json` and `PHASE110_RES_LATEST.md` plus timestamped copies. All gates must be ok:true including v29 deep gates.
 4. **Hard constraints:** PAPER-ONLY; tamper-evident audit trail; finite numerics everywhere; determinism (seeded); no random without seed; no NaN/Inf; no stubs/partials/guards with TODOs/FIXMEs/HACKs/XXX.
 
 ### CAMPAIGN MANDATE (FUTURE SESSIONS CANNOT AVOID HEAVY WORK)
-- **Campaign:** PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V28
+- **Campaign:** PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V29
 - **Every session MUST ship:** >=1 new/extended src module under `src/risk/` or `src/exec/` (justified by phase focus), >=1 passing test under `tests/test_phase110_*` with `PHASE_QUICK_VERIFY=1`, >=1 deterministic artifact set under `research_state/phase110_*`.
 - **No session may end without tangible shipped file changes (src + tests + artifacts).** Commits must reflect shipped code/artifacts only.
 - **No placeholders/TODOs/FIXMEs/HACKs/XXX ever.**
@@ -49,17 +49,11 @@ PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-109 COMPL
 - **Do NOT regress Phases 1-109; extend/compose only.**
 - **If explicit directions missing:** infer next heavy quant step from repo name and current phase. Do not idle.
 
-### FILES CHANGED THIS SESSION (2026-11-05T01:34:07Z)
-- src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v27.py (NEW: Phase110UltraDeepQuantEngineV30 extends V29, V27Loop composes over v26 with v30 deep focus)
-- tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v27.py (NEW: phase-scoped test, PHASE_QUICK_VERIFY=1)
-- research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v27/ (NEW: PHASE110_RES_LATEST.json/.md + timestamped copies, all_ok True)
-- research_state/durable_handoff.md (refreshed to authoritative handoff; v27 verified SHIPPED+GREEN; next campaign v28 crystal clear)
-
-### FILES CHANGED PREVIOUS SESSION (2026-11-05T01:33:32Z)
-- src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v26.py (NEW: Phase110UltraDeepQuantEngineV29 extends V28, V26Loop composes over v25 with v29 deep focus)
-- tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v26.py (NEW: phase-scoped test, PHASE_QUICK_VERIFY=1)
-- research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v26/ (NEW: PHASE110_RES_LATEST.json/.md + timestamped copies, all_ok True)
-- research_state/durable_handoff.md (refreshed to authoritative handoff; v26 verified SHIPPED+GREEN; next campaign v27 crystal clear)
+### FILES CHANGED THIS SESSION (2026-11-05T02:20:24Z)
+- src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v28.py (NEW: Phase110UltraDeepQuantEngineV31 extends V30, V28Loop composes over v27 with v31 deep focus)
+- tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v28.py (NEW: phase-scoped test, PHASE_QUICK_VERIFY=1)
+- research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v28/ (NEW: PHASE110_RES_LATEST.json/.md + timestamped copies, all_ok True)
+- research_state/durable_handoff.md (refreshed to authoritative handoff; v28 verified SHIPPED+GREEN; next campaign v29 crystal clear)
 
 ### EXECUTION RULES (STRICT)
 - Use `PHASE_QUICK_VERIFY=1`. Target only phase tests for quick verify.
@@ -68,4 +62,4 @@ PRIORITIZE BY REPO NAME — CRYPTO OPTIONS + ORDERFLOW QUANT. Phases 1-109 COMPL
 - Fail fast on non-finite/placeholder leakage.
 - Update THIS FILE on acceptance with fresh timestamp + full paths changed + rationale.
 
-**START NOW: SHIP PHASE 110 V28 WITH TANGIBLE HEAVY-QUANT DELIVERABLES. NO EXPLORATION. NO SCAFFOLDING. NO ZERO-PROGRESS SESSIONS.**
+**START NOW: SHIP PHASE 110 V29 WITH TANGIBLE HEAVY-QUANT DELIVERABLES. NO EXPLORATION. NO SCAFFOLDING. NO ZERO-PROGRESS SESSIONS.**
