@@ -1,0 +1,1353 @@
+{
+  "phase": "PHASE85_AUTONOMOUS_RESILIENCE_RECOVERY_COMPLIANCE_GOVERNANCE_HARDENING_LOOP",
+  "paper_only": true,
+  "seed": 85001,
+  "cycles": 55,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "ok": true,
+  "gates": {
+    "evidence_chain_ok": true,
+    "evidence_chain_tamper_evident": true,
+    "compliance_attestation_ok": true,
+    "governance_quorum_ok": true,
+    "resilience_failover_ok": true,
+    "recovery_guardrails_enforced": true,
+    "slo_attestation_ok": true,
+    "slo_attestation_quorum_ok": true,
+    "validation_pass_rate_ok": true,
+    "deterministic_paper_execution_ok": true,
+    "live_paths_hard_gated_paper_only": true,
+    "cross_venue_circuit_breaker_ok": true,
+    "cross_venue_kill_switch_ok": true,
+    "manual_reset_required": true
+  },
+  "metrics": {
+    "resilience_events": 11,
+    "recovery_events": 10,
+    "compliance_attestations": 8,
+    "governance_decisions": 7,
+    "circuit_breaker_events": 1,
+    "kill_events": 1,
+    "exit_events": 1,
+    "evidence_chain_len": 18,
+    "slo_attestations": 14,
+    "paper_executions": 11,
+    "validations": 55,
+    "passed": 54,
+    "pass_rate": 0.981818,
+    "alerts": 1,
+    "chain_head": "7f593aba894436ef"
+  },
+  "components": {
+    "phase39_kill_switch": {
+      "halted": false,
+      "triggers": []
+    },
+    "phase54_risk_fusion": {
+      "risk_ok": true,
+      "halted": false
+    },
+    "phase44_governance": {
+      "governance_ok": true
+    },
+    "phase46_stress": {
+      "adversarial_ok": true
+    },
+    "phase59_execution_hardening": {
+      "gates_ok": true
+    },
+    "phase83_observability": {
+      "ok": true,
+      "gates": {
+        "slo_attestation_ok": true
+      }
+    },
+    "phase84_resilience": {
+      "ok": true
+    }
+  },
+  "resilience_events": [
+    {
+      "id": "p85r_res_a2e69754f974",
+      "cycle": 0,
+      "regime": "shock",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607457Z"
+    },
+    {
+      "id": "p85r_res_1412d81f2b49",
+      "cycle": 5,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607572Z"
+    },
+    {
+      "id": "p85r_res_fa100c964cfa",
+      "cycle": 10,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607644Z"
+    },
+    {
+      "id": "p85r_res_5e47221f3bfb",
+      "cycle": 15,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607712Z"
+    },
+    {
+      "id": "p85r_res_cba6bb6222cc",
+      "cycle": 20,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607774Z"
+    },
+    {
+      "id": "p85r_res_c83702a62b2d",
+      "cycle": 25,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607827Z"
+    },
+    {
+      "id": "p85r_res_b924bad4d6ec",
+      "cycle": 30,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607879Z"
+    },
+    {
+      "id": "p85r_res_7f8989c7d8c4",
+      "cycle": 35,
+      "regime": "trend",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607923Z"
+    },
+    {
+      "id": "p85r_res_87f4b059f464",
+      "cycle": 40,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607976Z"
+    },
+    {
+      "id": "p85r_res_531904f22f92",
+      "cycle": 45,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608027Z"
+    },
+    {
+      "id": "p85r_res_ddf1066838be",
+      "cycle": 50,
+      "regime": "ranging",
+      "action": "resilience_check",
+      "redundancy_ok": true,
+      "failover_ready": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608084Z"
+    }
+  ],
+  "recovery_events": [
+    {
+      "id": "p85r_rec_9def39fb717a",
+      "cycle": 0,
+      "regime": "shock",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607466Z"
+    },
+    {
+      "id": "p85r_rec_bd9b714ee762",
+      "cycle": 6,
+      "regime": "ranging",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607602Z"
+    },
+    {
+      "id": "p85r_rec_0a938aa83e48",
+      "cycle": 12,
+      "regime": "ranging",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607692Z"
+    },
+    {
+      "id": "p85r_rec_8d3f4bbcd1b4",
+      "cycle": 18,
+      "regime": "ranging",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607753Z"
+    },
+    {
+      "id": "p85r_rec_432b0d7dc7cb",
+      "cycle": 24,
+      "regime": "ranging",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607814Z"
+    },
+    {
+      "id": "p85r_rec_f4852cccbe62",
+      "cycle": 30,
+      "regime": "ranging",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607882Z"
+    },
+    {
+      "id": "p85r_rec_fa2716ef34cb",
+      "cycle": 36,
+      "regime": "ranging",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607949Z"
+    },
+    {
+      "id": "p85r_rec_f6f306b72970",
+      "cycle": 42,
+      "regime": "trend",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608008Z"
+    },
+    {
+      "id": "p85r_rec_9f296eb55f03",
+      "cycle": 48,
+      "regime": "ranging",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608064Z"
+    },
+    {
+      "id": "p85r_rec_3e702cd7d773",
+      "cycle": 54,
+      "regime": "ranging",
+      "recovery_authorized": true,
+      "manual_reset_pending": true,
+      "guardrails_enforced": true,
+      "safe_to_resume": false,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608117Z"
+    }
+  ],
+  "compliance_attestations": [
+    {
+      "id": "p85r_comp_3315d344cf77",
+      "cycle": 0,
+      "regime": "shock",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v85",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607472Z"
+    },
+    {
+      "id": "p85r_comp_04fedb8a8ea7",
+      "cycle": 7,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v85",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607610Z"
+    },
+    {
+      "id": "p85r_comp_14f9e9822ae2",
+      "cycle": 14,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v85",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607706Z"
+    },
+    {
+      "id": "p85r_comp_aad0dfb7d997",
+      "cycle": 21,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v85",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607801Z"
+    },
+    {
+      "id": "p85r_comp_ef0bf70f146e",
+      "cycle": 28,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v85",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607866Z"
+    },
+    {
+      "id": "p85r_comp_c61669817d4a",
+      "cycle": 35,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v85",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607926Z"
+    },
+    {
+      "id": "p85r_comp_2ba2b2ecb3b0",
+      "cycle": 42,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v85",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608011Z"
+    },
+    {
+      "id": "p85r_comp_9fc6c9b34fdc",
+      "cycle": 49,
+      "regime": "trend",
+      "compliant": true,
+      "audit_trail_complete": true,
+      "policy_version": "v85",
+      "signer_quorum": 4,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608077Z"
+    }
+  ],
+  "governance_decisions": [
+    {
+      "id": "p85r_gov_71af7f9db097",
+      "cycle": 0,
+      "regime": "shock",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607476Z"
+    },
+    {
+      "id": "p85r_gov_2a8c76a92522",
+      "cycle": 8,
+      "regime": "ranging",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607617Z"
+    },
+    {
+      "id": "p85r_gov_2b37c959a3e7",
+      "cycle": 16,
+      "regime": "ranging",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607739Z"
+    },
+    {
+      "id": "p85r_gov_ca39d5923ab8",
+      "cycle": 24,
+      "regime": "ranging",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607818Z"
+    },
+    {
+      "id": "p85r_gov_e0cf58d21e68",
+      "cycle": 32,
+      "regime": "ranging",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607908Z"
+    },
+    {
+      "id": "p85r_gov_5f44afa27071",
+      "cycle": 40,
+      "regime": "ranging",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607980Z"
+    },
+    {
+      "id": "p85r_gov_190b636eddb1",
+      "cycle": 48,
+      "regime": "ranging",
+      "approved": true,
+      "quorum_met": true,
+      "separation_of_duties": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608068Z"
+    }
+  ],
+  "circuit_breaker_events": [
+    {
+      "id": "p85r_cb_82d1a4800ca7",
+      "cycle": 0,
+      "regime": "shock",
+      "trigger": "cross_venue_stress",
+      "halt": true,
+      "provenance_attested": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607539Z"
+    }
+  ],
+  "kill_events": [
+    {
+      "id": "p85r_kill_3c4485cb6e60",
+      "cycle": 0,
+      "regime": "shock",
+      "trigger": "adversarial_shock",
+      "halt": true,
+      "provenance_attested": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607543Z"
+    }
+  ],
+  "exit_events": [
+    {
+      "id": "p85r_exit_474c18cb1654",
+      "cycle": 0,
+      "regime": "shock",
+      "action": "live_exit_prepared_paper_only_cross_venue",
+      "position_flattened_simulated": true,
+      "orders_cancelled_simulated": true,
+      "evidence_attached": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607547Z"
+    }
+  ],
+  "evidence_chain": [
+    {
+      "id": "p85r_ev_2e6b7becf2a5",
+      "cycle": 18,
+      "payload_hash": "be40358cb9426bceca86f874ae318373c3f22f05b21694770149d4bf67e128ed",
+      "prev_hash": "8087071cd4a737b66075e5afc3161ed986ea4a5bda16822c034403a88f139499",
+      "chain_head": "8c59bd63825533f4f533fa2448a70b6c310e58c6bee3c254f4d57d61baa8d35c",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607764Z"
+    },
+    {
+      "id": "p85r_ev_25abfd15c088",
+      "cycle": 20,
+      "payload_hash": "353e7fb6ff27358985cdd1dac08434b2be9a915ff4f152aec7b0cdb9eb9e7214",
+      "prev_hash": "8c59bd63825533f4f533fa2448a70b6c310e58c6bee3c254f4d57d61baa8d35c",
+      "chain_head": "6e0a7194ddb589a1898c4fccf01ca4c082db511e271f51f531dc8255a038673b",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607794Z"
+    },
+    {
+      "id": "p85r_ev_8d4128e89008",
+      "cycle": 25,
+      "payload_hash": "f4306c1063ad3664fa1ee8d965fca4294ded42648ecbe3787139608d79d155ec",
+      "prev_hash": "6e0a7194ddb589a1898c4fccf01ca4c082db511e271f51f531dc8255a038673b",
+      "chain_head": "8cf0d36afc88a79211284a386df92c8b3e64ce6f6920b5394c140f8082a02e87",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607843Z"
+    },
+    {
+      "id": "p85r_ev_0039ae8770ec",
+      "cycle": 27,
+      "payload_hash": "9a77d95d5a81055f174d18aabc2f9ab757c283514205880ee5ce0937093c2fd6",
+      "prev_hash": "8cf0d36afc88a79211284a386df92c8b3e64ce6f6920b5394c140f8082a02e87",
+      "chain_head": "56035d17fcd41056498993588e76c09fd12925d984e84fdb542f339c672436f3",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607859Z"
+    },
+    {
+      "id": "p85r_ev_365f36306c5a",
+      "cycle": 30,
+      "payload_hash": "4f06dccf39cc6e61cac9c622fa568e1c02acf2bae44eeceebf9108fabd694acc",
+      "prev_hash": "56035d17fcd41056498993588e76c09fd12925d984e84fdb542f339c672436f3",
+      "chain_head": "7fd1957bc9a527458adab1f64d9d90f2e03803823fe6595694aa5f7b4da4d5e4",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607898Z"
+    },
+    {
+      "id": "p85r_ev_9a25e675f785",
+      "cycle": 35,
+      "payload_hash": "e957520063d854e3cf5362079e3d02312dff8a2602c1277387519eb14c6d66a9",
+      "prev_hash": "7fd1957bc9a527458adab1f64d9d90f2e03803823fe6595694aa5f7b4da4d5e4",
+      "chain_head": "9500865f4913251b8a1c525e09ba67fca4acf05da6ebaf2dbe5ac417af71a3bb",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607942Z"
+    },
+    {
+      "id": "p85r_ev_cb72233f2e76",
+      "cycle": 36,
+      "payload_hash": "4f8b989cc8ae6c5c775816e545a0aa73b44c3ab8d78889faeb68f0696cf6ad7b",
+      "prev_hash": "9500865f4913251b8a1c525e09ba67fca4acf05da6ebaf2dbe5ac417af71a3bb",
+      "chain_head": "a99247973539242128f3534ed41220ba45263acf57ea2701c139b096cf62b789",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607958Z"
+    },
+    {
+      "id": "p85r_ev_65de93751820",
+      "cycle": 40,
+      "payload_hash": "25eb87fcda60c7df3b2d06e2c7f3e3916ad0589812865678396b42457f9a9860",
+      "prev_hash": "a99247973539242128f3534ed41220ba45263acf57ea2701c139b096cf62b789",
+      "chain_head": "3e960eb30fcfb24ffa9ec2192f53d295417f7e67c3acb06e9184974913877648",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.607998Z"
+    },
+    {
+      "id": "p85r_ev_1477caa82080",
+      "cycle": 45,
+      "payload_hash": "c820bc64d76b825177055937a63ef709b05dbc56fa4c6752944b445d475ea905",
+      "prev_hash": "3e960eb30fcfb24ffa9ec2192f53d295417f7e67c3acb06e9184974913877648",
+      "chain_head": "5768d2a1950270c3e7fc4e7afe8c8de024306f6a60f8ea5885a6e213c28002a1",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608036Z"
+    },
+    {
+      "id": "p85r_ev_b9635ea10fc0",
+      "cycle": 45,
+      "payload_hash": "ec9435a8d2ab94d8890f0a96276f92f514239efcdc30368ef7cc85699fe30abd",
+      "prev_hash": "5768d2a1950270c3e7fc4e7afe8c8de024306f6a60f8ea5885a6e213c28002a1",
+      "chain_head": "fb9c3355ac70a4bafef8261bd513552088004c2abf582fac306be84e89e2b5a1",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608052Z"
+    },
+    {
+      "id": "p85r_ev_9cfcd66dd19e",
+      "cycle": 50,
+      "payload_hash": "9bf2673933c0da03aa61d59d8766cbde997c77703156f91450c4164b33c83307",
+      "prev_hash": "fb9c3355ac70a4bafef8261bd513552088004c2abf582fac306be84e89e2b5a1",
+      "chain_head": "f813b674b7aba4b3c3eb421f28ba9631530e555285a0b873beb8bbcdfebd9b02",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608099Z"
+    },
+    {
+      "id": "p85r_ev_9961a72496fb",
+      "cycle": 54,
+      "payload_hash": "f52a9004084af1a30682dcc31120ba469824b55972458816eec9580da155bbee",
+      "prev_hash": "f813b674b7aba4b3c3eb421f28ba9631530e555285a0b873beb8bbcdfebd9b02",
+      "chain_head": "7f593aba894436efcb19a8a1be8b243abdb41c10f28006ea1a9d806a3710be07",
+      "signed": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "bybit",
+        "binance"
+      ],
+      "ts": "2026-11-05T23:00:18.608127Z"
+    }
+  ],
+  "slo_attestations": [
+    {
+      "id": "satt2",
+      "cycle": 8,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.607621Z"
+    },
+    {
+      "id": "satt3",
+      "cycle": 12,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.607696Z"
+    },
+    {
+      "id": "satt4",
+      "cycle": 16,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.607743Z"
+    },
+    {
+      "id": "satt5",
+      "cycle": 20,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.607778Z"
+    },
+    {
+      "id": "satt6",
+      "cycle": 24,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.607821Z"
+    },
+    {
+      "id": "satt7",
+      "cycle": 28,
+      "regime": "trend",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.607870Z"
+    },
+    {
+      "id": "satt8",
+      "cycle": 32,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.607911Z"
+    },
+    {
+      "id": "satt9",
+      "cycle": 36,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.607962Z"
+    },
+    {
+      "id": "satt10",
+      "cycle": 40,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.607983Z"
+    },
+    {
+      "id": "satt11",
+      "cycle": 44,
+      "regime": "shock",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.608020Z"
+    },
+    {
+      "id": "satt12",
+      "cycle": 48,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.608071Z"
+    },
+    {
+      "id": "satt13",
+      "cycle": 52,
+      "regime": "ranging",
+      "slo_attestation_ok": true,
+      "signer_quorum": 4,
+      "p99_latency_ms_max": 45.0,
+      "error_rate_max": 0.004,
+      "ts": "2026-11-05T23:00:18.608108Z"
+    }
+  ],
+  "paper_executions": [
+    {
+      "id": "p85r_exec_f625b6e8731b",
+      "cycle": 0,
+      "regime": "shock",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": false,
+      "symbol": "BTC-PERP",
+      "venue": "deribit",
+      "side": "buy",
+      "px": 100000.0,
+      "qty": 0.01,
+      "notional_usd": 1000.0,
+      "fill_price": 0.0,
+      "fees_usd": 0.2,
+      "settled": false,
+      "finality_confirmed": false,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.607512Z"
+    },
+    {
+      "id": "p85r_exec_0a22334e1fa1",
+      "cycle": 5,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "SOL-PERP",
+      "venue": "okx",
+      "side": "sell",
+      "px": 100158.5,
+      "qty": 0.015,
+      "notional_usd": 1502.3775,
+      "fill_price": 100158.5,
+      "fees_usd": 0.3004755,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.607580Z"
+    },
+    {
+      "id": "p85r_exec_4a6033ab4a6b",
+      "cycle": 10,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "ETH-PERP",
+      "venue": "bybit",
+      "side": "buy",
+      "px": 100317.0,
+      "qty": 0.02,
+      "notional_usd": 2006.34,
+      "fill_price": 100317.0,
+      "fees_usd": 0.401268,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.607651Z"
+    },
+    {
+      "id": "p85r_exec_4e76dac8f438",
+      "cycle": 15,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "BTC-PERP",
+      "venue": "binance",
+      "side": "sell",
+      "px": 100475.5,
+      "qty": 0.012,
+      "notional_usd": 1205.706,
+      "fill_price": 100475.5,
+      "fees_usd": 0.2411412,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.607719Z"
+    },
+    {
+      "id": "p85r_exec_9bef60b8557d",
+      "cycle": 20,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "SOL-PERP",
+      "venue": "deribit",
+      "side": "buy",
+      "px": 100634.0,
+      "qty": 0.017,
+      "notional_usd": 1710.778,
+      "fill_price": 100634.0,
+      "fees_usd": 0.3421556,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.607784Z"
+    },
+    {
+      "id": "p85r_exec_58fde276f316",
+      "cycle": 25,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "ETH-PERP",
+      "venue": "okx",
+      "side": "sell",
+      "px": 100792.5,
+      "qty": 0.022,
+      "notional_usd": 2217.435,
+      "fill_price": 100792.5,
+      "fees_usd": 0.443487,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.607833Z"
+    },
+    {
+      "id": "p85r_exec_d98c2a09104c",
+      "cycle": 30,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "BTC-PERP",
+      "venue": "bybit",
+      "side": "buy",
+      "px": 100951.0,
+      "qty": 0.014,
+      "notional_usd": 1413.314,
+      "fill_price": 100951.0,
+      "fees_usd": 0.2826628,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.607888Z"
+    },
+    {
+      "id": "p85r_exec_6690cc502ad2",
+      "cycle": 35,
+      "regime": "trend",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "SOL-PERP",
+      "venue": "binance",
+      "side": "sell",
+      "px": 101109.5,
+      "qty": 0.019,
+      "notional_usd": 1921.0805,
+      "fill_price": 101109.5,
+      "fees_usd": 0.3842161,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.607932Z"
+    },
+    {
+      "id": "p85r_exec_dc51e32e1e53",
+      "cycle": 40,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "ETH-PERP",
+      "venue": "deribit",
+      "side": "buy",
+      "px": 101268.0,
+      "qty": 0.011,
+      "notional_usd": 1113.948,
+      "fill_price": 101268.0,
+      "fees_usd": 0.2227896,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.607988Z"
+    },
+    {
+      "id": "p85r_exec_b5245a16302a",
+      "cycle": 45,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "BTC-PERP",
+      "venue": "okx",
+      "side": "sell",
+      "px": 101426.5,
+      "qty": 0.016,
+      "notional_usd": 1622.824,
+      "fill_price": 101426.5,
+      "fees_usd": 0.3245648,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.608042Z"
+    },
+    {
+      "id": "p85r_exec_c22835de59b5",
+      "cycle": 50,
+      "regime": "ranging",
+      "paper_only": true,
+      "live_blocked": true,
+      "halted": false,
+      "filled": true,
+      "symbol": "SOL-PERP",
+      "venue": "bybit",
+      "side": "buy",
+      "px": 101585.0,
+      "qty": 0.021,
+      "notional_usd": 2133.285,
+      "fill_price": 101585.0,
+      "fees_usd": 0.426657,
+      "settled": true,
+      "finality_confirmed": true,
+      "cross_venue_routed": true,
+      "evidence_attached": true,
+      "ts": "2026-11-05T23:00:18.608089Z"
+    }
+  ],
+  "validations": [
+    {
+      "id": "val43",
+      "cycle": 43,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608017Z"
+    },
+    {
+      "id": "val44",
+      "cycle": 44,
+      "regime": "shock",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608023Z"
+    },
+    {
+      "id": "val45",
+      "cycle": 45,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608055Z"
+    },
+    {
+      "id": "val46",
+      "cycle": 46,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608058Z"
+    },
+    {
+      "id": "val47",
+      "cycle": 47,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608061Z"
+    },
+    {
+      "id": "val48",
+      "cycle": 48,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608074Z"
+    },
+    {
+      "id": "val49",
+      "cycle": 49,
+      "regime": "trend",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608080Z"
+    },
+    {
+      "id": "val50",
+      "cycle": 50,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608102Z"
+    },
+    {
+      "id": "val51",
+      "cycle": 51,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608105Z"
+    },
+    {
+      "id": "val52",
+      "cycle": 52,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608110Z"
+    },
+    {
+      "id": "val53",
+      "cycle": 53,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608113Z"
+    },
+    {
+      "id": "val54",
+      "cycle": 54,
+      "regime": "ranging",
+      "suite": "options+orderflow+capital+liquidity+collateral+settlement",
+      "ok": true,
+      "ts": "2026-11-05T23:00:18.608130Z"
+    }
+  ],
+  "alerts": [
+    {
+      "id": "v0",
+      "cycle": 0,
+      "regime": "shock",
+      "type": "validation_fail",
+      "ts": "2026-11-05T23:00:18.607531Z"
+    }
+  ],
+  "ts": "2026-11-05T23:00:18.608165Z"
+}

@@ -1,0 +1,281 @@
+{
+  "phase": "PHASE80_LIVE_EXIT_KILL_SWITCH_EVIDENCE_INTEGRITY_LOOP",
+  "paper_only": true,
+  "seed": 80039,
+  "cycles": 40,
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "ok": true,
+  "gates": {
+    "kill_switch_enabled": true,
+    "live_exit_enforced": true,
+    "evidence_chain_integrity_ok": true,
+    "attestation_quorum_ok": true,
+    "tamper_evident_audit_ok": true,
+    "trigger_provenance_ok": true,
+    "precommit_attestation_ok": true,
+    "auto_exit_on_breach": true,
+    "require_manual_reset": true
+  },
+  "metrics": {
+    "kill_events": 1,
+    "exit_events": 1,
+    "evidence_chain_len": 7,
+    "attestations": 6,
+    "recoveries": 1,
+    "tamper_checks": 5
+  },
+  "components": {
+    "phase39_kill_switch": {
+      "halted": false,
+      "global_halt": false
+    },
+    "phase54_risk_fusion": {
+      "risk_ok": true
+    },
+    "phase44_governance": {
+      "governance_ok": true
+    },
+    "phase46_stress": {
+      "resilient": true
+    },
+    "phase59_execution_hardening": {
+      "gates_ok": true
+    }
+  },
+  "kill_events": [
+    {
+      "id": "p80ks_kev_1766c66a64ce",
+      "cycle": 0,
+      "regime": "stress",
+      "level": "hard",
+      "trigger": "drawdown_breach",
+      "venue": "global",
+      "action": "halt_trading",
+      "provenance": {
+        "source": "risk_fusion",
+        "rule_id": "KS-80-001"
+      },
+      "ts": "2026-11-05T23:00:50.115144Z"
+    }
+  ],
+  "exit_events": [
+    {
+      "id": "p80ks_exev_b576fb64f543",
+      "cycle": 0,
+      "regime": "stress",
+      "action": "live_exit_reduce_flatten",
+      "paper_only": true,
+      "attested": true,
+      "ts": "2026-11-05T23:00:50.115154Z"
+    }
+  ],
+  "evidence_chain": [
+    {
+      "id": "p80ks_ev_443f098b4b9f",
+      "cycle": 0,
+      "regime": "stress",
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "event_ref": "p80ks_kev_1766c66a64ce",
+      "trigger_provenance_ok": true,
+      "ts": "2026-11-05T23:00:50.115161Z",
+      "hash": "b862a8ffcf7e22e1c488b3e9aacdd36a4a2a94c680f6587d65e664f322193432"
+    },
+    {
+      "id": "p80ks_ev_ea6a142e27a4",
+      "cycle": 6,
+      "regime": "ranging",
+      "prev_hash": "b862a8ffcf7e22e1c488b3e9aacdd36a4a2a94c680f6587d65e664f322193432",
+      "event_ref": "p80ks_kev_1766c66a64ce",
+      "trigger_provenance_ok": true,
+      "ts": "2026-11-05T23:00:50.115198Z",
+      "hash": "c9285dadde9ee44029165b498080dfe9877be3ba9e2101344ce8095bd1fa23cb"
+    },
+    {
+      "id": "p80ks_ev_186a2671bed3",
+      "cycle": 12,
+      "regime": "ranging",
+      "prev_hash": "c9285dadde9ee44029165b498080dfe9877be3ba9e2101344ce8095bd1fa23cb",
+      "event_ref": "p80ks_kev_1766c66a64ce",
+      "trigger_provenance_ok": true,
+      "ts": "2026-11-05T23:00:50.115223Z",
+      "hash": "da71ea48ac9f1fb6b78a386053f333c192eb8d82e9253205a14a8c058d800952"
+    },
+    {
+      "id": "p80ks_ev_7ee74dc86c12",
+      "cycle": 18,
+      "regime": "ranging",
+      "prev_hash": "da71ea48ac9f1fb6b78a386053f333c192eb8d82e9253205a14a8c058d800952",
+      "event_ref": "p80ks_kev_1766c66a64ce",
+      "trigger_provenance_ok": true,
+      "ts": "2026-11-05T23:00:50.115241Z",
+      "hash": "8d9fef6f804b79d50c52814c93a6b1a41fdc6188df4a7c1835ea12212f6401c0"
+    },
+    {
+      "id": "p80ks_ev_109fbfa75b13",
+      "cycle": 24,
+      "regime": "ranging",
+      "prev_hash": "8d9fef6f804b79d50c52814c93a6b1a41fdc6188df4a7c1835ea12212f6401c0",
+      "event_ref": "p80ks_kev_1766c66a64ce",
+      "trigger_provenance_ok": true,
+      "ts": "2026-11-05T23:00:50.115260Z",
+      "hash": "4e507461f7d62f110c7367e2eb2e4936b0b05699772ad0ec71b8aed7d3b7731b"
+    },
+    {
+      "id": "p80ks_ev_8b4f0c62c4a9",
+      "cycle": 30,
+      "regime": "ranging",
+      "prev_hash": "4e507461f7d62f110c7367e2eb2e4936b0b05699772ad0ec71b8aed7d3b7731b",
+      "event_ref": "p80ks_kev_1766c66a64ce",
+      "trigger_provenance_ok": true,
+      "ts": "2026-11-05T23:00:50.115280Z",
+      "hash": "d970d0223728e2134832fe7da568bc195fe5546f283cd3b71c93d21d2c04faee"
+    },
+    {
+      "id": "p80ks_ev_16bccbfd916b",
+      "cycle": 36,
+      "regime": "ranging",
+      "prev_hash": "d970d0223728e2134832fe7da568bc195fe5546f283cd3b71c93d21d2c04faee",
+      "event_ref": "p80ks_kev_1766c66a64ce",
+      "trigger_provenance_ok": true,
+      "ts": "2026-11-05T23:00:50.115296Z",
+      "hash": "bb463466387ea35324b5d937c267cc3250eab3d398e69cdbed6ba613c684382f"
+    }
+  ],
+  "attestations": [
+    {
+      "id": "p80ks_att_f94215c287f2",
+      "cycle": 0,
+      "regime": "stress",
+      "evidence_head": "b862a8ffcf7e22e1c488b3e9aacdd36a4a2a94c680f6587d65e664f322193432",
+      "chain_len": 1,
+      "signers": 3,
+      "quorum_ok": true,
+      "precommit_ok": true,
+      "ts": "2026-11-05T23:00:50.115179Z"
+    },
+    {
+      "id": "p80ks_att_f6aed1c667ee",
+      "cycle": 7,
+      "regime": "ranging",
+      "evidence_head": "c9285dadde9ee44029165b498080dfe9877be3ba9e2101344ce8095bd1fa23cb",
+      "chain_len": 2,
+      "signers": 3,
+      "quorum_ok": true,
+      "precommit_ok": true,
+      "ts": "2026-11-05T23:00:50.115212Z"
+    },
+    {
+      "id": "p80ks_att_e8003585c54e",
+      "cycle": 14,
+      "regime": "ranging",
+      "evidence_head": "da71ea48ac9f1fb6b78a386053f333c192eb8d82e9253205a14a8c058d800952",
+      "chain_len": 3,
+      "signers": 3,
+      "quorum_ok": true,
+      "precommit_ok": true,
+      "ts": "2026-11-05T23:00:50.115235Z"
+    },
+    {
+      "id": "p80ks_att_b7235e3a9145",
+      "cycle": 21,
+      "regime": "ranging",
+      "evidence_head": "8d9fef6f804b79d50c52814c93a6b1a41fdc6188df4a7c1835ea12212f6401c0",
+      "chain_len": 4,
+      "signers": 3,
+      "quorum_ok": true,
+      "precommit_ok": true,
+      "ts": "2026-11-05T23:00:50.115255Z"
+    },
+    {
+      "id": "p80ks_att_8dcad527e416",
+      "cycle": 28,
+      "regime": "ranging",
+      "evidence_head": "4e507461f7d62f110c7367e2eb2e4936b0b05699772ad0ec71b8aed7d3b7731b",
+      "chain_len": 5,
+      "signers": 3,
+      "quorum_ok": true,
+      "precommit_ok": true,
+      "ts": "2026-11-05T23:00:50.115275Z"
+    },
+    {
+      "id": "p80ks_att_c41f2299fd4a",
+      "cycle": 35,
+      "regime": "ranging",
+      "evidence_head": "d970d0223728e2134832fe7da568bc195fe5546f283cd3b71c93d21d2c04faee",
+      "chain_len": 6,
+      "signers": 3,
+      "quorum_ok": true,
+      "precommit_ok": true,
+      "ts": "2026-11-05T23:00:50.115292Z"
+    }
+  ],
+  "recoveries": [
+    {
+      "id": "p80ks_rec_7a380689a95f",
+      "cycle": 0,
+      "regime": "stress",
+      "recovered": true,
+      "manual_reset_ok": true,
+      "post_recovery_validation_passed": true,
+      "ts": "2026-11-05T23:00:50.115190Z"
+    }
+  ],
+  "tamper_checks": [
+    {
+      "id": "p80ks_tc_0c0590e0cf17",
+      "cycle": 0,
+      "regime": "stress",
+      "chain_integrity_ok": true,
+      "tamper_detected": false,
+      "hash_mismatch_count": 0,
+      "ts": "2026-11-05T23:00:50.115185Z"
+    },
+    {
+      "id": "p80ks_tc_f3ec5b66cc65",
+      "cycle": 9,
+      "regime": "ranging",
+      "chain_integrity_ok": true,
+      "tamper_detected": false,
+      "hash_mismatch_count": 0,
+      "ts": "2026-11-05T23:00:50.115218Z"
+    },
+    {
+      "id": "p80ks_tc_9694e96273db",
+      "cycle": 18,
+      "regime": "ranging",
+      "chain_integrity_ok": true,
+      "tamper_detected": false,
+      "hash_mismatch_count": 0,
+      "ts": "2026-11-05T23:00:50.115251Z"
+    },
+    {
+      "id": "p80ks_tc_061de83c9672",
+      "cycle": 27,
+      "regime": "ranging",
+      "chain_integrity_ok": true,
+      "tamper_detected": false,
+      "hash_mismatch_count": 0,
+      "ts": "2026-11-05T23:00:50.115271Z"
+    },
+    {
+      "id": "p80ks_tc_6361afec2051",
+      "cycle": 36,
+      "regime": "ranging",
+      "chain_integrity_ok": true,
+      "tamper_detected": false,
+      "hash_mismatch_count": 0,
+      "ts": "2026-11-05T23:00:50.115305Z"
+    }
+  ],
+  "ts": "2026-11-05T23:00:50.115322Z"
+}
