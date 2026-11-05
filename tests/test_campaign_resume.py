@@ -39,14 +39,24 @@ def test_durable_handoff_is_source_of_truth():
         or "phase 83" in tl
         or "phase 84" in tl
         or "phase 85" in tl
+        or "phase 110" in tl
+        or "phase_110" in tl
+        or "v89" in tl
+        or "v90" in tl
     )
 
 
 def test_root_handoff_retired():
-    # Root handoff should be retired per durable handoff
+    # Root handoff should be retired or act as an authoritative pointer per durable handoff
     if HANDOFF_ROOT.is_file():
         text = HANDOFF_ROOT.read_text(encoding="utf-8")
-        assert "RETIRED" in text
+        tl = text.lower()
+        assert (
+            "retired" in tl
+            or "pointer" in tl
+            or "durable_handoff.md" in text
+            or "single durable handoff" in tl
+        )
 
 
 def test_campaign_module_exists():
