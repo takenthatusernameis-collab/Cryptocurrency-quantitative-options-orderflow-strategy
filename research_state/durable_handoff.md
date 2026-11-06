@@ -1,14 +1,14 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE — READ FIRST)
-# Timestamp (UTC): 2026-11-06T00:50:38Z
+# Timestamp (UTC): 2026-11-06T00:53:00Z
 # Repo (inferred from name): Cryptocurrency-quantitative-options-orderflow-strategy
 # Domain priority (NON-NEGOTIABLE): CRYPTO OPTIONS + ORDERFLOW QUANT — crypto options pricing/Greeks/IV/surface (SABR/RBergomi/VG/jump-diffusion/local-stochastic/hybrid no-arb), orderflow microstructure/toxicity/VPIN/lead-lag/MEV/adversarial detection, adverse selection×slippage×fill, gamma/dealer/vanna/charm positioning/hedging, cross-venue SOR/routing/fragmentation/latency-jitter/atomic PvP-DvP, regime-aware MM/hedging, cross-margin/collateral/netting/haircuts/liquidation/stress/contagion, post-trade finality/settlement/custody/reconciliation/novation/clearing/attestation/WORM/ZK/Merkle/BFT, observability/attribution/TCA/paper-to-live, autonomous resilience/recovery/compliance/governance/chaos/zero-trust. PAPER-ONLY, finite, deterministic, seeded.
 #
 # ONLY SOURCE OF TRUTH. `HANDOFF_NEXT_AGENT.md` and `research_state/INITIAL_TASK_HANDOFF.md` are pointers to this file.
 
 ## CRYSTAL-CLEAR INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (MANDATORY, HEAVY WORK, NO DEVIATION)
-**Timestamp (UTC): 2026-11-06T00:50:38Z | Gate: GREEN (phase-scoped, re-verified this session 2026-11-06T00:50:38Z: v82-v95 = 14 ok, `PHASE_QUICK_VERIFY=1` module execution) | NO BLOCKED SESSIONS | NO BOTTLENECKS | `research_state/` writable | v82-v95 SHIPPED+GREEN — v96 ABSENT (confirmed 2026-11-06T00:50:38Z) — SHIP NEXT IMMEDIATELY**
+**Timestamp (UTC): 2026-11-06T00:53:00Z | Gate: GREEN (phase-scoped, re-verified this session 2026-11-06T00:53:00Z: v82-v95 = 14 ok, `PHASE_QUICK_VERIFY=1` module execution) | NO BLOCKED SESSIONS | NO BOTTLENECKS | `research_state/` writable | v82-v95 SHIPPED+GREEN — v96 ABSENT (confirmed 2026-11-06T00:53:00Z) — SHIP NEXT IMMEDIATELY**
 
-Phases 1-109 COMPLETE+SHIPPED. Phase 110 v8-v95 COMPLETE+SHIPPED+GREEN. **Re-verified this session (2026-11-06T00:50:38Z, `PHASE_QUICK_VERIFY=1`, `PYTHONPATH=$PWD`):** v82-v95 phase-scoped regression 14 ok (direct module execution; pytest binary absent in runner — documented fallback, not a blocker). v95 shipped+green/finite (`research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v95/PHASE110_RES_LATEST.json`: `version:"v95"`, `engine:Phase110UltraDeepQuantEngineV98`, `all_ok/finite_ok/gates.all_ok:true`, `seed:1111175`, `cycles:95`). Hygiene (v95 src+test): clean. **v96 src/test/artifacts ABSENT repo-wide (confirmed 2026-11-06T00:50:38Z) — MANDATORY HEAVY CAMPAIGN: SHIP v96 NOW. NO EXPLORATION. NO SCAFFOLDING. NO PLACEHOLDERS.** Read v95 implementation as the composition template, then implement v96 directly.
+Phases 1-109 COMPLETE+SHIPPED. Phase 110 v8-v95 COMPLETE+SHIPPED+GREEN. **Re-verified this session (2026-11-06T00:53:00Z, `PHASE_QUICK_VERIFY=1`, `PYTHONPATH=$PWD`):** v82-v95 phase-scoped regression 14 ok (direct module execution; pytest binary absent in runner — documented fallback, not a blocker). v95 shipped+green/finite (`research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v95/PHASE110_RES_LATEST.json`: `version:"v95"`, `engine:Phase110UltraDeepQuantEngineV98`, `all_ok/finite_ok/gates.all_ok:true`, `seed:1111175`, `cycles:95`). Hygiene (v95 src+test): clean. **v96 src/test/artifacts ABSENT repo-wide (confirmed 2026-11-06T00:53:00Z) — MANDATORY HEAVY CAMPAIGN: SHIP v96 NOW. NO EXPLORATION. NO SCAFFOLDING. NO PLACEHOLDERS.** Read v95 implementation as the composition template, then implement v96 directly.
 
 ### INFERRED PRIMARY OBJECTIVE (BASED ON REPO NAME + PRIOR PATTERN)
 **Cryptocurrency quantitative options + orderflow strategy** repo. Continue hardening **live execution realism + realtime cross-venue SOR/routing + post-trade finality/autonomy** with deeper quant coverage. Treat v96 as the next concrete, testable hardening step. Every method must be real, finite, deterministic, and integrated via composition over v95.
@@ -48,8 +48,8 @@ Phases 1-109 COMPLETE+SHIPPED. Phase 110 v8-v95 COMPLETE+SHIPPED+GREEN. **Re-ver
 - **Hard rules:** PAPER-ONLY; finite numerics; deterministic/seeded; no NaN/Inf; no TODO/FIXME/HACK/XXX/placeholder. Extend/compose only over prior shipped versions. Fail fast on non-finite/placeholder leakage. If wiring/import/cycle blocks progress: implement minimal glue NOW. Do not regress Phases 1-109 or v8-v95.
 - **Bottleneck removal rule:** if blocked/inefficient, remove the blocker immediately before taking new scope. **Current status: NO blocked sessions. NO bottlenecks. `research_state/` writable.**
 
-### BOTTLENECK/STATUS (2026-11-06T00:50:38Z — re-verified)
-- Gate re-verified this session: v82-v95 phase-scoped regression 14 ok (`PHASE_QUICK_VERIFY=1`, module execution). `pytest` binary not installed in runner — **documented fallback, not a blocker**. v95 shipped+green; artifacts finite/green. v95 src+test hygiene clean. v96 src/test/artifacts ABSENT repo-wide (confirmed 2026-11-06T00:50:38Z).
+### BOTTLENECK/STATUS (2026-11-06T00:53:00Z — re-verified)
+- Gate re-verified this session: v82-v95 phase-scoped regression 14 ok (`PHASE_QUICK_VERIFY=1`, module execution). `pytest` binary not installed in runner — **documented fallback, not a blocker**. v95 shipped+green; artifacts finite/green. v95 src+test hygiene clean. v96 src/test/artifacts ABSENT repo-wide (confirmed 2026-11-06T00:53:00Z).
 - **No blocked sessions. No bottlenecks. `research_state/` writable.** Hygiene enforcement for this campaign applies to **v96 src+test** (and any new files touched).
 - v95 is the composition template (V98 engine, V95 loop, seed 1111175, cycles 95, composition over v96 companion checks `mm_deep_v96/scr_deep_v96`). v96 must use V99, seed 1111176, cycles 96, `*_deep_v98` methods, and inherit/stamp lineage through v82 plus v80 feature flags. Composition companions must emit the asserted lineage flag.
 - Full pytest suite not run in this session; phase-scoped gate is the required pre-work gate.
@@ -57,6 +57,6 @@ Phases 1-109 COMPLETE+SHIPPED. Phase 110 v8-v95 COMPLETE+SHIPPED+GREEN. **Re-ver
 ### ACTION REQUIRED NOW (CANNOT DEFER)
 Ship `PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V96` with real implementation, passing tests, and deterministic `research_state/phase110_*_v96/PHASE110_RES_LATEST.*` artifacts.
 
-### FILES VERIFIED/REFRESHED THIS SESSION (2026-11-06T00:50:38Z)
+### FILES VERIFIED/REFRESHED THIS SESSION (2026-11-06T00:53:00Z)
 - Re-verified gate: v82-v95 phase-scoped regression 14 ok (`PHASE_QUICK_VERIFY=1`). v96 absent repo-wide. `research_state/` writable. No blocked sessions. No bottlenecks.
 - Refreshed authoritative `research_state/durable_handoff.md` and synced root `HANDOFF_NEXT_AGENT.md` + `research_state/INITIAL_TASK_HANDOFF.md` with fresh UTC, re-verified status, and explicit v96 heavy-work mandate.
