@@ -1,0 +1,28 @@
+{
+  "artifact_type": "environment_evidence",
+  "generated_at": "2026-11-06T23:42:40Z",
+  "campaign": "NEXT6-20261106T232509Z-CONTINUOUS-VALIDATION-RECON-SLO-HARDENING",
+  "python": {
+    "executable": ".venv/bin/python",
+    "version": "3.12.3 (main, Aug 31 2026, 08:31:10) [GCC 13.3.0]",
+    "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/.venv/bin/python"
+  },
+  "dependencies": {
+    "pydantic": "imported_ok",
+    "pytest": "imported_ok",
+    "mypy": "imported_ok",
+    "pandas": "imported_ok",
+    "numpy": "imported_ok",
+    "yaml": "imported_ok",
+    "scipy": "imported_ok"
+  },
+  "paper_only_guard": {
+    "live_trading_enabled": false,
+    "trading_mode": "paper",
+    "source": "src/config/secrets.py:68-69",
+    "verified_at": "2026-11-06T23:42:40Z"
+  },
+  "workspace_root": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy",
+  "required_prefix": "PYTHONPATH=<workspace_root>",
+  "notes": "System python3 lacks pydantic; .venv/bin/python is the canonical interpreter for all campaigns/tests/mypy in this session."
+}
