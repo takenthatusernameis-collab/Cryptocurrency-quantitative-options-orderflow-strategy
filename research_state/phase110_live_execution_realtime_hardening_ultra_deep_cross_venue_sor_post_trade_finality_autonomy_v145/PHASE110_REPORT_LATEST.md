@@ -3,4 +3,4 @@
 - all_ok: True
 - finite_ok: True
 - hash_chain_len: 145
-- elapsed_sec: 1.891371
+- elapsed_sec: 1.489944

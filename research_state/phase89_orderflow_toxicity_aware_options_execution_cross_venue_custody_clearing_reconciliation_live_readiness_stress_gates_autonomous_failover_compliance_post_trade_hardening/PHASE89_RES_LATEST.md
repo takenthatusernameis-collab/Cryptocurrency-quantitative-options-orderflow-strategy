@@ -1,8 +1,8 @@
 # PHASE89 Orderflow-Toxicity-Aware Options Execution + Cross-Venue Custody/Clearing Reconciliation Attestation + Live-Readiness Stress Gates + Autonomous Failover + Compliance Post-Trade Hardening (LATEST)
 
-Timestamp: 2026-11-05T23:00:18.545344Z
+Timestamp: 2026-11-06T17:29:43.261152Z
 
-OK: True
+OK: False
 
 Gates:
 
@@ -15,7 +15,7 @@ Gates:
 - recovery_guardrails_enforced: True
 - slo_attestation_ok: True
 - slo_attestation_quorum_ok: True
-- validation_pass_rate_ok: True
+- validation_pass_rate_ok: False
 - deterministic_paper_execution_ok: True
 - live_paths_hard_gated_paper_only: True
 - cross_venue_circuit_breaker_ok: True

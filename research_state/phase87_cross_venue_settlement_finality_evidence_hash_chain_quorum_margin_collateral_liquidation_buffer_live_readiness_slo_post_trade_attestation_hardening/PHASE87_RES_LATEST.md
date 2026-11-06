@@ -1,8 +1,8 @@
 # PHASE87 Cross-Venue Settlement Finality Evidence Hash-Chain Quorum + Margin/Collateral + Liquidation Buffer + Live-Readiness SLO + Post-Trade Attestation Hardening (LATEST)
 
-Timestamp: 2026-11-05T23:00:18.591087Z
+Timestamp: 2026-11-06T17:29:43.254632Z
 
-OK: True
+OK: False
 
 Gates:
 
@@ -16,7 +16,7 @@ Gates:
 - slo_attestation_ok: True
 - slo_attestation_quorum_ok: True
 - live_readiness_slo_gates_hard_gated_paper_only: True
-- validation_pass_rate_ok: True
+- validation_pass_rate_ok: False
 - deterministic_paper_execution_ok: True
 - live_paths_hard_gated_paper_only: True
 - cross_venue_circuit_breaker_ok: True
