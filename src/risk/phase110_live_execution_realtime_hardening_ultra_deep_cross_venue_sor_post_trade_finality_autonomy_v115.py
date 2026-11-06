@@ -32,8 +32,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "iv_surface_volatility_clustering_neural_sde_heston_v80": True,
                 "iv_term_structure_mean_reversion_rough_bergomi_v80": True,
                 "iv_smile_skew_adaptive_local_vol_calibration_v80": True,
+                "iv_surface_options_orderflow_lead_lag_v114": True,
+                "iv_surface_cross_venue_arbitrage_surveillance_v114": True,
                 "iv_surface_options_orderflow_lead_lag_v115": True,
                 "iv_surface_cross_venue_arbitrage_surveillance_v115": True,
+                "iv_surface_deep_v117": True,
             }
         )
         return self._stamp(super().iv_surface_greeks_deep_v116(n=n), flags)
@@ -45,8 +48,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "of_order_book_imbalance_microprice_adversarial_spoofing_v80": True,
                 "of_flow_toxicity_pinwheel_adverse_selection_v80": True,
                 "of_cross_venue_latency_arb_detection_v80": True,
+                "of_vpin_real_time_toxicity_monitor_v114": True,
+                "of_orderflow_imbalance_options_greeks_coupling_v114": True,
                 "of_vpin_real_time_toxicity_monitor_v115": True,
                 "of_orderflow_imbalance_options_greeks_coupling_v115": True,
+                "of_deep_v117": True,
             }
         )
         return self._stamp(super().orderflow_microstructure_deep_v116(n=n), flags)
@@ -58,8 +64,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "sor_smart_order_router_latency_arb_mev_bundle_v80": True,
                 "sor_cross_venue_fragmentation_liquidity_sweep_v80": True,
                 "sor_adverse_selection_routing_guard_v80": True,
+                "sor_atomic_pvp_dvp_cross_venue_settlement_v114": True,
+                "sor_latency_jitter_routing_resilience_v114": True,
                 "sor_atomic_pvp_dvp_cross_venue_settlement_v115": True,
                 "sor_latency_jitter_routing_resilience_v115": True,
+                "sor_deep_v117": True,
             }
         )
         return self._stamp(super().cross_venue_sor_toxicity_opt_deep_v116(n=n), flags)
@@ -71,8 +80,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "asf_adverse_selection_slippage_joint_bayesian_v80": True,
                 "asf_execution_shortfall_cvar_hurst_v80": True,
                 "asf_fill_rate_impact_decay_kernel_v80": True,
+                "asf_options_adverse_selection_mev_v114": True,
+                "asf_slippage_fill_lead_lag_orderflow_v114": True,
                 "asf_options_adverse_selection_mev_v115": True,
                 "asf_slippage_fill_lead_lag_orderflow_v115": True,
+                "asf_deep_v117": True,
             }
         )
         return self._stamp(super().adverse_sel_slippage_fill_joint_deep_v116(n=n), flags)
@@ -84,8 +96,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "gdh_dealer_gamma_flip_vanna_charm_hedge_v80": True,
                 "gdh_volatility_surface_sticky_strike_v80": True,
                 "gdh_pin_risk_expiry_hedging_cascade_v80": True,
+                "gdh_dealer_gamma_hedge_options_orderflow_v114": True,
+                "gdh_vanna_charm_hedge_latency_v114": True,
                 "gdh_dealer_gamma_hedge_options_orderflow_v115": True,
                 "gdh_vanna_charm_hedge_latency_v115": True,
+                "gdh_deep_v117": True,
             }
         )
         return self._stamp(super().gamma_dealer_hedge_toxicity_adjusted_deep_v116(n=n), flags)
@@ -97,8 +112,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "shm_margin_haircut_procyclicality_stress_v80": True,
                 "shm_liquidity_spiral_collateral_concentration_v80": True,
                 "shm_ccr_var_es_backtesting_breach_v80": True,
+                "shm_options_margin_haircut_stress_v114": True,
+                "shm_cross_margin_contagion_stress_v114": True,
                 "shm_options_margin_haircut_stress_v115": True,
                 "shm_cross_margin_contagion_stress_v115": True,
+                "shm_deep_v117": True,
             }
         )
         return self._stamp(super().stress_haircut_margin_deep_v116(n=n), flags)
@@ -110,8 +128,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "cft_zero_trust_chaos_mesh_fault_injection_v80": True,
                 "cft_split_brain_fencing_quorum_v80": True,
                 "cft_auto_failover_rto_rpo_budget_v80": True,
+                "cft_zero_trust_options_execution_v114": True,
+                "cft_post_trade_autonomy_failover_v114": True,
                 "cft_zero_trust_options_execution_v115": True,
                 "cft_post_trade_autonomy_failover_v115": True,
+                "cft_deep_v117": True,
             }
         )
         return self._stamp(super().chaos_failover_tamper_deep_v116(n=n), flags)
@@ -123,8 +144,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "ptf_atomic_settlement_dv_p_p_vp_timelock_v80": True,
                 "ptf_zk_merkle_proof_of_reserves_v80": True,
                 "ptf_idempotency_replay_protection_v80": True,
+                "ptf_options_settlement_finality_worm_v114": True,
+                "ptf_attestation_merkle_bft_v114": True,
                 "ptf_options_settlement_finality_worm_v115": True,
                 "ptf_attestation_merkle_bft_v115": True,
+                "ptf_deep_v117": True,
             }
         )
         return self._stamp(super().post_trade_finality_attestation_deep_v116(n=n), flags)
@@ -136,8 +160,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "mm_regime_switching_inventory_avellaneda_v80": True,
                 "mm_inventory_skew_delta_neutral_hedge_v80": True,
                 "mm_adverse_selection_toxicity_spread_v80": True,
+                "mm_options_orderflow_regime_switch_v114": True,
+                "mm_delta_neutral_hedge_cross_venue_v114": True,
                 "mm_options_orderflow_regime_switch_v115": True,
                 "mm_delta_neutral_hedge_cross_venue_v115": True,
+                "mm_deep_v117": True,
             }
         )
         return self._stamp(super().regime_mm_hedge_deep_v116(n=n), flags)
@@ -149,8 +176,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "cap_collateral_haircut_var_margin_call_v80": True,
                 "cap_rehypothecation_chain_contagion_v80": True,
                 "cap_netting_set_csa_iso_v80": True,
+                "cap_options_cross_margin_netting_v114": True,
+                "cap_collateral_liquidation_stress_v114": True,
                 "cap_options_cross_margin_netting_v115": True,
                 "cap_collateral_liquidation_stress_v115": True,
+                "cap_deep_v117": True,
             }
         )
         return self._stamp(super().collateral_margin_netting_deep_v116(n=n), flags)
@@ -162,8 +192,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "obs_pnl_attribution_factor_brinson_tca_v80": True,
                 "obs_execution_slack_market_impact_v80": True,
                 "obs_compliance_audit_trail_worm_v80": True,
+                "obs_options_tca_attribution_v114": True,
+                "obs_paper_to_live_attestation_v114": True,
                 "obs_options_tca_attribution_v115": True,
                 "obs_paper_to_live_attestation_v115": True,
+                "obs_deep_v117": True,
             }
         )
         return self._stamp(super().observability_attribution_tca_deep_v116(n=n), flags)
@@ -175,17 +208,20 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
                 "scr_custody_reconciliation_break_management_v80": True,
                 "scr_nomination_allocation_settlement_finality_v80": True,
                 "scr_worm_append_only_ledger_attestation_v80": True,
+                "scr_options_settlement_custody_v114": True,
+                "scr_settlement_finality_attestation_chain_v114": True,
                 "scr_options_settlement_custody_v115": True,
                 "scr_settlement_finality_attestation_chain_v115": True,
+                "scr_deep_v117": True,
             }
         )
         return self._stamp(super().settlement_custody_resilience_deep_v116(n=n), flags)
 
-    def regime_mm_hedge_deep_v114(self, n: int = 120):
-        return self._stamp(super().regime_mm_hedge_deep_v114(n=n), {"mm_deep_v114": True})
+    def regime_mm_hedge_deep_v115(self, n: int = 120):
+        return self._stamp(super().regime_mm_hedge_deep_v115(n=n), {"mm_deep_v115": True})
 
-    def settlement_custody_resilience_deep_v114(self, n: int = 120):
-        return self._stamp(super().settlement_custody_resilience_deep_v114(n=n), {"scr_deep_v114": True})
+    def settlement_custody_resilience_deep_v115(self, n: int = 120):
+        return self._stamp(super().settlement_custody_resilience_deep_v115(n=n), {"scr_deep_v115": True})
 
 
 class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityAutonomyV115Loop(
@@ -226,8 +262,8 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
         obs = self.engine.observability_attribution_tca_deep_v117(n=n)
         scr = self.engine.settlement_custody_resilience_deep_v117(n=n)
 
-        mm_comp = self.engine.regime_mm_hedge_deep_v114(n=120)
-        scr_comp = self.engine.settlement_custody_resilience_deep_v114(n=120)
+        mm_comp = self.engine.regime_mm_hedge_deep_v115(n=120)
+        scr_comp = self.engine.settlement_custody_resilience_deep_v115(n=120)
 
         hashes = []
         for i in range(c):
@@ -272,8 +308,8 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             for v in range(115, 81, -1):
                 gates[f"{prefix}_v{v}"] = self._all_flag(rows, f"{prefix}_v{v}")
 
-        gates["composition_mm_v115"] = bool(mm_comp and self._all_flag(mm_comp, "mm_deep_v114"))
-        gates["composition_scr_v115"] = bool(scr_comp and self._all_flag(scr_comp, "scr_deep_v114"))
+        gates["composition_mm_v115"] = bool(mm_comp and self._all_flag(mm_comp, "mm_deep_v115"))
+        gates["composition_scr_v115"] = bool(scr_comp and self._all_flag(scr_comp, "scr_deep_v115"))
 
         gates["all_ok"] = all(bool(v) for v in gates.values())
 
