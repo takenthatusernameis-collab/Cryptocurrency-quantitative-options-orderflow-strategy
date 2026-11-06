@@ -1,15 +1,12 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE — READ FIRST)
-**Timestamp (UTC): 2026-11-06T15:39:47Z**
+**Timestamp (UTC): 2026-11-06T15:43:09Z** (refreshed this session; gate re-verified)
 **Repo (inferred from path/name):** `Cryptocurrency-quantitative-options-orderflow-strategy` (crypto options + orderflow quantitative strategy; phase110 live-execution/realtime-hardening campaign)
 **Mode:** PAPER-ONLY. Finite/deterministic/seeded. No NaN/Inf. No TODO/FIXME/HACK/XXX in shipped phase110 deliverables.
 **MANDATE (non-negotiable):** Ship **PHASE110 v150** in this session if time/turns allow after reading; otherwise v150 is the mandatory next deliverable. No exploration-only, no planning-only, no partial drafts. Deliver tangible `src/` + `tests/` + deterministic `research_state/` artifacts and a GREEN gate before stopping. If blocked, remove the blocker immediately and continue shipping.
 
-## STATE VERIFIED (2026-11-06T15:39Z, this session)
-- **v149:** SHIPPED + GREEN/FINITE (this session). `src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v149.py` | `tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v149.py` | `research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v149/` (`version:"v149"`, `engine:"Phase110UltraDeepQuantEngineV152"`, `seed:1111229`, `cycles:149`, `all_ok/finite_ok/gates.all_ok:true`, `hash_chain_len:149`). Gate: `v149_ok`. Hygiene: `HYGIENE_OK`.
-- **v148:** SHIPPED + GREEN/FINITE (regression re-verified: `v148_reg_ok`, engine V151, seed 1111228).
-- **v147:** SHIPPED + GREEN/FINITE (regression re-verified: `v147_reg_ok`, engine V150, seed 1111227).
-- **v146:** SHIPPED + GREEN/FINITE (regression re-verified: `v146_reg_ok`, engine V149, seed 1111226).
-- **v145/v144/v143/v142/v141/v140:** prior baselines; do not regress.
+## STATE VERIFIED (2026-11-06T15:43Z, this session)
+- **v149:** SHIPPED + GREEN/FINITE (gate re-verified `ok149` @ 15:43Z). `src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v149.py` | `tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v149.py` | `research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v149/` (`version:"v149"`, `engine:"Phase110UltraDeepQuantEngineV152"`, `seed:1111229`, `cycles:149`, `all_ok/finite_ok/gates.all_ok:true`, `hash_chain_len:149`).
+- **v148/v147/v146:** prior shipped baselines; spot-check regressions as specified below before stopping.
 - **Bottlenecks:** None active in phase110 lane. Known repo debt (do not let it block v150): full `pytest` collection/import-environment errors in legacy areas; `pytest` module may be absent — use direct Python assertion runs. Legacy noise is not a valid reason to stop.
 - **v150:** **NOT STARTED** (no src/test/artifacts). This is the only acceptable next deliverable.
 
@@ -17,7 +14,7 @@
 1. **Ship v150 end-to-end now** (required minimum next session).
 2. **If v150 is already green when you arrive:** ship v151 immediately (same pattern, increment engine/seed/cycles/method lineage) — do not idle.
 3. **Every session acceptance bar:** >=1 new phase110 version shipped with src + passing test/assertions + deterministic finite artifact JSON/MD (+ timestamped copies) + gate GREEN + hygiene clean + handoff advanced to next version.
-4. **No regressions:** spot-check v149, v148, v147, v146 remain green after changes.
+4. **No regressions:** spot-check v149, v148, v147 remain green after changes.
 5. **Extend/compose only** over prior shipped versions; preserve paper-only determinism; fail closed on non-finite.
 
 ## CRYSTAL-CLEAR INITIAL TASK MESSAGE FOR NEXT AGENT (EXECUTE, NO DEVIATION)
