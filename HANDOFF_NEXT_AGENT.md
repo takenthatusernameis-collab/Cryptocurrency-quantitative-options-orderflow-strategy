@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE — READ FIRST)
-**Timestamp (UTC): 2026-11-06T15:43:09Z** (refreshed this session; gate re-verified)
+**Timestamp (UTC): 2026-11-06T15:44:46Z** (refreshed this session; gate re-verified)
 **Repo (inferred from path/name):** `Cryptocurrency-quantitative-options-orderflow-strategy` (crypto options + orderflow quantitative strategy; phase110 live-execution/realtime-hardening campaign)
 **Mode:** PAPER-ONLY. Finite/deterministic/seeded. No NaN/Inf. No TODO/FIXME/HACK/XXX in shipped phase110 deliverables.
 **MANDATE (non-negotiable):** Ship **PHASE110 v150** in this session if time/turns allow after reading; otherwise v150 is the mandatory next deliverable. No exploration-only, no planning-only, no partial drafts. Deliver tangible `src/` + `tests/` + deterministic `research_state/` artifacts and a GREEN gate before stopping. If blocked, remove the blocker immediately and continue shipping.
