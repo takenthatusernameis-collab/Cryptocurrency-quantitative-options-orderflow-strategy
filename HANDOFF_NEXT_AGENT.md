@@ -98,3 +98,27 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 - Conventions: Python 3.10, pydantic>=2.5, pandas/numpy/pyyaml/scipy; no comments unless asked; UTC ISO-8601 timestamps.
 
 **Next agent instruction:** Execute Task `NEXT-20261106T192549Z-E2E-LIVE-TRADING-READINESS` in order. Do not run full 375-file pytest suite. Do not refactor phase79/80/phase110 mega-files. Focus on the paper E2E integrated campaign with genuine reconciliation freshness (`>= 0.99`), non-flat backtest evidence, and delta-neutral hedge attribution. Leave the handoff updated with a concrete next checkpoint after completion.
+
+
+## CHECKPOINT (2026-11-06T19:48:11Z) — Task NEXT-20261106T192549Z-E2E-LIVE-TRADING-READINESS COMPLETE
+- **E2E campaign:** `e2e_readiness_1` completed (7/7 steps). Artifacts in `research_state/INTEGRATED_*`, summary in `research_state/E2E_READINESS_20261106T194811Z.json`.
+- **Reconciliation freshness:** `freshness=0.999981`, `slo_reconciliation_freshness` met (true, `current_value=0.9999806364377339 >= 0.99`). Wired via `ContinuousMonitor.record_reconciliation()` + cycle.
+- **Non-flat backtest:** `BACKTEST_E2E_20261106T194848Z.json` from synthetic run — `total_trades=2`, `equity_final=100000.15976002 != 100000`, `sharpe_ratio=6.343775995217426` finite, `max_drawdown=1.2000999999872875e-06 < 0.2`.
+- **Hedge attribution:** `HEDGE_ATTRIBUTION_20261106T194811Z.json` shows `options_hedging_total_pnl=-5506.821031969527` with component attribution (delta hedge) and evidence refs to integrated steps.
+
+### NEXT CONCRETE CHECKPOINT (do first)
+**Task ID:** `NEXT2-20261106T194811Z-MULTI-VENUE-EVIDENCE`
+
+**Priority:** P0 (extend END2END_LIVE_TRADING_READINESS to multi-venue with real schema + gates)
+
+**Steps:**
+1. **Materialize multi-venue features** — Extend feature pipeline to emit `data/processed/<venue>_<symbol>_<ts>.json|parquet` with metadata (schema/version/venue/symbol/timestamp). Verify: `data/processed/` has >=3 venue-symbol files (Deribit/OKX/Binance × BTC/ETH). Update `src/pipelines/build_features.py` if needed.
+2. **Wire composite orderflow signals** — Validate `CompositeSignalGenerator` + `OrderflowSignalGenerator` thresholds are config-driven; ensure no hard gate yields 0 trades on valid flow. Add regression test if thresholds change.
+3. **Delta-neutral hedge PnL separation** — In campaign output, ensure directional vs hedge PnL are explicitly split (not just total). Persist full attribution in `research_state/HEDGE_ATTRIBUTION_<UTC>.json` with both components.
+4. **Run multi-venue aware E2E** — Execute `scripts/run_integrated_campaign.py` with appropriate params and save `research_state/E2E_READINESS_MULTI_VENUE_<UTC>.json`. Require `reconciliation.slo_met == true` and `reconciliation.freshness >= 0.99`.
+5. **Non-flat backtest per scenario** — Save `research_state/BACKTEST_E2E_MULTI_<UTC>.json` with `total_trades > 0`, `equity_final != initial_capital`, finite ratios, `max_drawdown < 0.2`.
+6. **Gates check** — Targeted tests (105+ related) green; scoped mypy on touched modules clean or noise documented. All incidents acked with evidence.
+
+**Artifacts required:** multi-venue processed files, `E2E_READINESS_MULTI_VENUE_<UTC>.json`, `BACKTEST_E2E_MULTI_<UTC>.json`, updated `HEDGE_ATTRIBUTION_<UTC>.json`. Update this file with next checkpoint after completion.
+
+**Entry points:** `PYTHONPATH=<root> python scripts/run_integrated_campaign.py run --campaign-id mv_e2e_1 --seed 123 --n-points 600 --train-window 150 --test-window 50 --step-size 50` (adjust as needed). Focus on evidence/gates, not refactoring mega-files.
