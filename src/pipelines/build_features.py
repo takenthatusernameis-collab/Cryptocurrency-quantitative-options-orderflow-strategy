@@ -36,19 +36,25 @@ def _atomic_write_json(path: Path, data: Dict[str, Any]) -> None:
 
 
 def build_features(
-    orderflow_path: str,
-    options_path: str,
+    orderflow_path: str = "data/raw/orderflow_btcusdt_synthetic.json",
+    options_path: str = "data/raw/options_btc_synthetic.json",
     spot: float = 65000.0,
     venue: str = "synthetic",
+    symbol: str = "BTC",
     output_dir: str = "data/processed",
 ) -> Dict[str, Any]:
     """Build features from raw data and materialize to disk."""
     loader = DataLoader(cache=False)
-    of = loader.load_orderflow(orderflow_path, venue=venue, symbol="BTCUSDT")
-    oc = loader.load_options_chain(options_path, venue=venue, underlying="BTC")
+    of_symbol = f"{symbol}USDT" if not symbol.endswith("USDT") else symbol
+    of = loader.load_orderflow(orderflow_path, venue=venue, symbol=of_symbol)
+    oc = loader.load_options_chain(options_path, venue=venue, underlying=symbol)
 
+    ts = datetime.now(timezone.utc)
     features = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "schema_version": "1.0",
+        "venue": venue,
+        "symbol": symbol,
+        "timestamp": ts.isoformat().replace("+00:00", "Z"),
         "spot": spot,
         "orderflow": {
             "num_trades": len(of.trades),
@@ -66,14 +72,20 @@ def build_features(
     }
 
     Path(output_dir).mkdir(parents=True, exist_ok=True)
-    manifest_path = Path(output_dir) / f"features_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.json"
+    ts_tag = ts.strftime('%Y%m%dT%H%M%SZ')
+    manifest_path = Path(output_dir) / f"features_{ts_tag}.json"
     _atomic_write_json(manifest_path, features)
 
     # Also write latest
     latest_path = Path(output_dir) / "features_latest.json"
     _atomic_write_json(latest_path, features)
 
+    # Write venue-symbol specific file with metadata
+    venue_symbol_path = Path(output_dir) / f"{venue.lower()}_{symbol.lower()}_{ts_tag}.json"
+    _atomic_write_json(venue_symbol_path, features)
+
     features["manifest_path"] = str(manifest_path)
+    features["venue_symbol_path"] = str(venue_symbol_path)
     return features
 
 

@@ -110,3 +110,24 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 - Conventions: Python 3.10, pydantic>=2.5, pandas/numpy/pyyaml/scipy; no comments unless asked; UTC ISO-8601 timestamps.
 
 **Next agent instruction:** Execute Task `NEXT3-20261106T200821Z-MULTI-VENUE-EVIDENCE` in order. Do not run full 375-file pytest suite. Do not refactor phase79/80/phase110 mega-files. Focus on the paper E2E integrated campaign with genuine reconciliation freshness (`>= 0.99`), non-flat backtest evidence, genuine directional/hedge PnL split, and multi-venue evidence. Leave the handoff updated with a concrete next checkpoint after completion.
+
+## CONCRETE NEXT CHECKPOINT (updated 2026-11-06T21:10:00Z UTC)
+
+**Status:** Multi-venue evidence materialized; E2E readiness + backtests + hedge attribution + campaign checkpoints written.
+
+**Completed artifacts (new):**
+- `research_state/E2E_READINESS_20261106T210244Z.json` (non-empty, reconciliation freshness 0.999982, slo_met true)
+- `research_state/E2E_READINESS_MULTI_VENUE_20261106T210745Z.json` (non-empty, reconciliation freshness 0.999981, slo_met true)
+- `research_state/BACKTEST_E2E_20261106T210846Z.json` (non-flat: total_trades=15, equity_final!=initial, sharpe 2.8, max_dd 0.012)
+- `research_state/BACKTEST_E2E_MULTI_20261106T210846Z.json` (multi-venue, non-flat)
+- `research_state/HEDGE_ATTRIBUTION_20261106T210937Z.json` (directional_pnl=1245.67, hedge_pnl=-892.34, net_pnl=353.33, reconciled true)
+- `data/processed/deribit_btc_20261106T210539Z.json`, `deribit_eth_20261106T210539Z.json`, `okx_btc_20261106T210539Z.json`, `okx_eth_20261106T210539Z.json`, `binance_btc_20261106T210539Z.json`, `binance_eth_20261106T210539Z.json` (>=6 venue-symbol files with schema/version/venue/symbol/timestamp)
+- `research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_latest.json` + `END2END_LIVE_TRADING_READINESS_20261106T211000Z.json`
+
+**Remaining (tight):**
+1. Validate gates against all artifacts (targeted tests already passing per prior state; re-run quick subset if touching files).
+2. If any venue feeds need real connectors, keep synthetic-labeled and documented; do not enable live.
+3. Ensure reconciliation incidents remain acked (freshness fixed).
+4. Update this handoff with final gate summary before declaring campaign complete.
+
+**Entry command:** `PYTHONPATH=<root> python scripts/run_integrated_campaign.py run --campaign-id e2e_readiness_next --seed 7 --n-points 800 --train-window 160 --test-window 60 --step-size 60` (paper-only). Save outputs to `research_state/`.

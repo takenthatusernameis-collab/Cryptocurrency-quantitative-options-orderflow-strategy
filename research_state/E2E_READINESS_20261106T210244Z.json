@@ -1,0 +1,59 @@
+{
+  "status": "completed",
+  "campaign_id": "e2e_readiness_1",
+  "seed": 42,
+  "timestamp": "2026-11-06T19:48:11.135626Z",
+  "steps_completed": 7,
+  "steps_total": 7,
+  "artifacts": [
+    "research_state/INTEGRATED_STEP_data_ingestion_2026-11-06T19:48:11.181298Z.json",
+    "research_state/INTEGRATED_STEP_feature_engineering_2026-11-06T19:48:11.231106Z.json",
+    "research_state/INTEGRATED_STEP_regime_classification_2026-11-06T19:48:11.243038Z.json",
+    "research_state/INTEGRATED_STEP_walkforward_oos_2026-11-06T19:48:11.263766Z.json",
+    "research_state/INTEGRATED_STEP_portfolio_scaling_2026-11-06T19:48:11.280491Z.json",
+    "research_state/INTEGRATED_STEP_options_hedging_2026-11-06T19:48:11.311219Z.json",
+    "research_state/INTEGRATED_CAMPAIGN_2026-11-06T19:48:11.135626Z.json",
+    "research_state/INTEGRATED_CAMPAIGN_SUMMARY_2026-11-06T19:48:11.135626Z.json",
+    "research_state/INTEGRATED_CAMPAIGN_REGIMES_2026-11-06T19:48:11.135626Z.json"
+  ],
+  "integrated_metrics": {
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "seed": 42,
+    "purge": 10,
+    "embargo": 5,
+    "allocation_mode": "risk_parity",
+    "vol_target": 0.1,
+    "turnover_cap": 0.05,
+    "initial_capital": 100000.0,
+    "portfolio_overall_out_of_sample_return": 0.0,
+    "portfolio_overall_out_of_sample_sharpe": 0.0,
+    "portfolio_stability_ratio": 0.0,
+    "portfolio_num_windows": 10,
+    "options_hedging_total_pnl": -5506.821031969527,
+    "options_hedging_symbols": 3,
+    "artifacts_emitted": 9
+  },
+  "reconciliation": {
+    "freshness": 0.999982,
+    "slo": {
+      "slo_id": "slo_reconciliation_freshness",
+      "name": "Reconciliation Freshness",
+      "sli_type": "reconciliation_freshness",
+      "target": 0.99,
+      "current_value": 0.9999817450841267,
+      "met": true,
+      "error_budget_remaining": 0.5,
+      "window_sec": 60.0,
+      "num_measurements": 1,
+      "evaluated_at": "2026-11-01T00:00:42Z",
+      "labels": {
+        "component": "reconciliation"
+      }
+    },
+    "slo_met": true
+  }
+}

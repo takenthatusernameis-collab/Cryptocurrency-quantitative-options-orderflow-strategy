@@ -1,0 +1,128 @@
+{
+  "campaign_id": "e2e_readiness_multi_1",
+  "state": "in_progress",
+  "created_at": "2026-11-06T21:07:45.194085Z",
+  "updated_at": "2026-11-06T21:07:45.376063Z",
+  "steps": [
+    {
+      "step_id": "data_ingestion",
+      "name": "Data ingestion and validation",
+      "status": "completed",
+      "started_at": "2026-11-06T21:07:45.198270Z",
+      "completed_at": "2026-11-06T21:07:45.241784Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_data_ingestion_2026-11-06T21:07:45.240840Z.json"
+    },
+    {
+      "step_id": "feature_engineering",
+      "name": "Feature engineering (orderflow/gamma/IV/liquidity/vol/pricing)",
+      "status": "completed",
+      "started_at": "2026-11-06T21:07:45.243895Z",
+      "completed_at": "2026-11-06T21:07:45.296769Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_feature_engineering_2026-11-06T21:07:45.289462Z.json"
+    },
+    {
+      "step_id": "regime_classification",
+      "name": "Regime classification (composite signal)",
+      "status": "completed",
+      "started_at": "2026-11-06T21:07:45.298910Z",
+      "completed_at": "2026-11-06T21:07:45.301438Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_regime_classification_2026-11-06T21:07:45.300938Z.json"
+    },
+    {
+      "step_id": "walkforward_oos",
+      "name": "Walk-forward/OOS with purge/embargo",
+      "status": "completed",
+      "started_at": "2026-11-06T21:07:45.303536Z",
+      "completed_at": "2026-11-06T21:07:45.326668Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_walkforward_oos_2026-11-06T21:07:45.324125Z.json"
+    },
+    {
+      "step_id": "portfolio_scaling",
+      "name": "Portfolio scaling (allocation modes + turnover caps)",
+      "status": "completed",
+      "started_at": "2026-11-06T21:07:45.328954Z",
+      "completed_at": "2026-11-06T21:07:45.342075Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_portfolio_scaling_2026-11-06T21:07:45.340672Z.json"
+    },
+    {
+      "step_id": "options_hedging",
+      "name": "Options hedging with PnL attribution/reconciliation",
+      "status": "completed",
+      "started_at": "2026-11-06T21:07:45.344282Z",
+      "completed_at": "2026-11-06T21:07:45.373771Z",
+      "error": null,
+      "result_path": "research_state/INTEGRATED_STEP_options_hedging_2026-11-06T21:07:45.371286Z.json"
+    },
+    {
+      "step_id": "artifacts",
+      "name": "Strict serialization + artifact emission",
+      "status": "in_progress",
+      "started_at": "2026-11-06T21:07:45.376054Z",
+      "completed_at": null,
+      "error": null,
+      "result_path": null
+    }
+  ],
+  "metadata": {
+    "seed": 123,
+    "domain": "crypto_options_orderflow",
+    "config": {
+      "symbols": [
+        "BTC",
+        "ETH",
+        "SOL"
+      ],
+      "spot_prices": {
+        "BTC": 65000.0,
+        "ETH": 3400.0,
+        "SOL": 145.0
+      },
+      "initial_capital": 100000.0,
+      "seed": 123,
+      "fixed_now": null,
+      "n_points": 600,
+      "train_window": 150,
+      "test_window": 50,
+      "step_size": 50,
+      "purge": 10,
+      "embargo": 5,
+      "allocation_mode": "risk_parity",
+      "vol_target": 0.1,
+      "turnover_cap": 0.05,
+      "risk_parity": true,
+      "max_position_pct": 0.2,
+      "correlation_window": 60,
+      "max_correlation": 0.7,
+      "option_strike_pct": 0.05,
+      "option_expiries_days": [
+        7,
+        14,
+        30,
+        60
+      ],
+      "option_iv_base": 0.8,
+      "transaction_cost_bps": 1.0,
+      "rebalance_every_step": true,
+      "regime_costs": {
+        "low_vol": 0.0001,
+        "normal": 0.0002,
+        "high_vol": 0.0005,
+        "stress": 0.001
+      }
+    }
+  },
+  "seed": 123,
+  "artifacts": [
+    "research_state/INTEGRATED_STEP_data_ingestion_2026-11-06T21:07:45.240840Z.json",
+    "research_state/INTEGRATED_STEP_feature_engineering_2026-11-06T21:07:45.289462Z.json",
+    "research_state/INTEGRATED_STEP_regime_classification_2026-11-06T21:07:45.300938Z.json",
+    "research_state/INTEGRATED_STEP_walkforward_oos_2026-11-06T21:07:45.324125Z.json",
+    "research_state/INTEGRATED_STEP_portfolio_scaling_2026-11-06T21:07:45.340672Z.json",
+    "research_state/INTEGRATED_STEP_options_hedging_2026-11-06T21:07:45.371286Z.json"
+  ]
+}
