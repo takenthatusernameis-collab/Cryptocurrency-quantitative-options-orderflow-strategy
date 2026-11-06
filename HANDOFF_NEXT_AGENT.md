@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — Cryptocurrency quantitative options orderflow strategy
 
-Generated: 2026-11-06T20:08:21Z (UTC)
+Generated: 2026-11-06T20:21:51Z (UTC)
 Repo: `Cryptocurrency-quantitative-options-orderflow-strategy`
 Branch: `main` (verify with `git status --short`)
 Priority basis: Repo name => **Crypto options orderflow (multi-venue) + execution/hedging + reconciliation gates**. All other work must serve this campaign until gates pass.
@@ -31,7 +31,7 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 
 ## SINGLE INITIAL TASK (durable — do first, no skipping)
 
-**Task ID:** `NEXT3-20261106T200821Z-MULTI-VENUE-EVIDENCE` (supersedes `NEXT2`; same P0 scope, now the active initial task)
+**Task ID:** `NEXT3-20261106T202151Z-MULTI-VENUE-EVIDENCE` (supersedes `NEXT2`; same P0 scope, now the active initial task)
 **Priority:** P0 (campaign gate `END2END_LIVE_TRADING_READINESS`)
 **Time budget:** Complete this campaign before any new feature scope.
 
