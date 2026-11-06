@@ -294,6 +294,10 @@ class SLOMonitor:
                         expected_burn_per_sec: float,
                         alert_threshold_multiplier: float = 2.0) -> Optional[BurnRateAlert]:
         """Check if error budget is burning faster than expected."""
+        with self._lock:
+            slo = self._slo_defs.get(slo_id)
+        if slo is None or not slo.enabled:
+            return None
         ev = self.evaluate_slo(slo_id)
         if ev is None or ev.error_budget_remaining <= 0:
             return None
