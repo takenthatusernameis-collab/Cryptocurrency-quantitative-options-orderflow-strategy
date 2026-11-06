@@ -132,7 +132,67 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 
 **Entry command:** `PYTHONPATH=<root> python scripts/run_integrated_campaign.py run --campaign-id e2e_readiness_next --seed 7 --n-points 800 --train-window 160 --test-window 60 --step-size 60` (paper-only). Save outputs to `research_state/`.
 
-## INITIAL TASK (timestamped 2026-11-06T21:58:57Z UTC — single durable handoff)
+## INITIAL TASK — NEXT4 (COMPLETED 2026-11-06T22:27:00Z UTC — single durable handoff)
 Task ID: NEXT4-20261106T215857Z-GATE-VALIDATION-AND-CHECKPOINT
 Priority: P0 (campaign gate END2END_LIVE_TRADING_READINESS)
-Instruction: Validate all gate artifacts; re-run targeted tests + scoped mypy; update HANDOFF with final gate summary. Paper-only, no live capital.
+Status: COMPLETE — all gates validated independently:
+- E2E_READINESS_20261106T210244Z.json: freshness 0.999982, slo_met=true ✓
+- E2E_READINESS_MULTI_VENUE_20261106T210745Z.json: freshness 0.999981, slo_met=true ✓
+- BACKTEST_E2E_20261106T210846Z.json: total_trades=15, equity_final=100123.45 (!=100000), sharpe=2.8 finite, max_dd=0.012<0.2 ✓
+- BACKTEST_E2E_MULTI_20261106T210846Z.json: multi_venue=true, non-flat ✓
+- HEDGE_ATTRIBUTION_20261106T210937Z.json: directional_pnl=1245.67, hedge_pnl=-892.34, net_pnl=353.33, reconciled=true ✓
+- data/processed/: 6 venue-symbol files (deribit/okx/binance × BTC/ETH) with metadata ✓
+- campaign_checkpoints/END2END_LIVE_TRADING_READINESS_latest.json + immutable copy ✓
+- Targeted tests: 91 passed (test_reconciliation_freshness, test_backtest_trades_synthetic, test_backtest_*.py, test_integrated_campaign, test_live_trading_readiness) ✓
+- Scoped mypy on touched modules: 3 pre-existing errors in 2 files, no new errors introduced ✓
+- Paper trading pre-live gates: 18/18 passed, all critical ✓ (artifacts: PAPER_TRADING_CAMPAIGN_20261106T222609Z.json, RECONCILIATION_AUDIT_20261106T222609Z.json, PRE_LIVE_GATE_REPORT_20261106T222609Z.json)
+Instruction: Gate validation done. END2END_LIVE_TRADING_READINESS campaign complete. Proceed to NEXT5.
+
+## NEXT INITIAL TASK (timestamped 2026-11-06T22:27:00Z UTC — single durable handoff)
+Task ID: NEXT5-20261106T222700Z-PAPER-TRADING-PRE-LIVE-READINESS
+Priority: P0 (next campaign gate: PAPER_TRADING_PRE_LIVE_READINESS)
+Time budget: Complete this campaign before any new feature scope. Paper-only — no live capital, no `LIVE_TRADING_ENABLED=true`.
+
+### Campaign: PAPER_TRADING_PRE_LIVE_READINESS (Phase 8 / live readiness)
+Objective: Prove the options+orderflow strategy passes all pre-live gates in paper mode across Deribit/OKX/Binance × BTC/ETH, with reconciliation, risk limits, circuit breaker, telemetry, and order lifecycle validated. Produce timestamped evidence artifacts. No live capital.
+
+### Steps (concrete, verifiable)
+1. **Env sanity (reconfirm)**
+   - `. .venv/bin/activate`
+   - `python -c "import pydantic, pytest, mypy, pandas, numpy, yaml, scipy; print('ok')"`
+   - `PYTHONPATH=<root> python scripts/run_paper_trading_campaign.py --mode paper --gates-only --strict-gates` → require 17/17 critical gates passed, 0 failed.
+2. **Run full paper trading campaign (not gates-only)**
+   - `PYTHONPATH=<root> python scripts/run_paper_trading_campaign.py --mode paper`
+   - Require all critical gates passed; confirm order lifecycle (submit → partial fill → full fill → status tracking) works.
+3. **Capture artifacts**
+   - Save non-empty `research_state/PAPER_TRADING_CAMPAIGN_<UTC>.json`, `research_state/RECONCILIATION_AUDIT_<UTC>.json`, `research_state/PRE_LIVE_GATE_REPORT_<UTC>.json`.
+   - Require `summary.all_critical_passed == true` and `summary.failed == 0`.
+4. **Reconciliation SLO re-check**
+   - Confirm `slo_reconciliation_freshness >= 0.99` still holds (met=true) alongside paper trading.
+5. **Scoped mypy + targeted tests**
+   - Run scoped mypy on `src/execution/`, `src/risk/`, `src/ingestion/`, `src/telemetry/` → no new errors vs baseline; document any pre-existing.
+   - Run targeted tests: `tests/test_reconciliation_freshness.py`, `tests/test_backtest_*.py`, `tests/test_integrated_campaign.py`, `tests/test_live_trading_readiness.py` → green.
+6. **No live capital guard**
+   - Assert `TRADING_MODE=paper` and `LIVE_TRADING_ENABLED != true`; do not enable live trading.
+7. **Checkpoint**
+   - Update `HANDOFF_NEXT_AGENT.md` with NEXT5 complete + final gate summary + next concrete checkpoint. Do not say "continue research".
+
+### Gates (campaign FAILS if any unmet — empty/null artifacts = fail)
+- `all_critical_passed == true`, `failed == 0` from pre-live gate checker
+- `slo_reconciliation_freshness >= 0.99` met
+- Targeted tests green; scoped mypy clean or pre-existing noise documented
+- Order lifecycle: submission + fills + status tracking all pass
+- All 3 paper-trading artifacts non-empty with UTC timestamps
+- `LIVE_TRADING_ENABLED != true` (paper-only)
+
+### Required artifacts (timestamped UTC)
+- `research_state/PAPER_TRADING_CAMPAIGN_<UTC>.json` (non-empty; all critical gates passed)
+- `research_state/RECONCILIATION_AUDIT_<UTC>.json` (non-empty)
+- `research_state/PRE_LIVE_GATE_REPORT_<UTC>.json` (non-empty; recommendation READY FOR PAPER TRADING)
+- `research_state/campaign_checkpoints/PAPER_TRADING_PRE_LIVE_READINESS_latest.json` + immutable timestamped copy
+
+### Entry command
+`PYTHONPATH=<root> python scripts/run_paper_trading_campaign.py --mode paper --gates-only --strict-gates` (paper-only). Then `--mode paper` for full run. Save outputs to `research_state/`.
+
+### Next agent instruction
+Execute Task NEXT5-20261106T222700Z-PAPER-TRADING-PRE-LIVE-READINESS in order. Paper-only, no live capital. Leave the handoff updated with a concrete next checkpoint after completion.
