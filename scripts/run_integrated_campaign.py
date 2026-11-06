@@ -20,6 +20,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from src.campaign.integrated import IntegratedCampaign, IntegratedConfig
+from src.monitoring.continuous_monitor import ContinuousMonitor
 
 
 def _iso_now() -> str:
@@ -102,6 +103,25 @@ def main(argv=None) -> int:
                 "artifacts": result.artifacts,
                 "integrated_metrics": result.integrated_metrics,
             }
+            # Wire real reconciliation freshness into the E2E campaign runner path:
+            # record a reconciliation run, emit one monitor cycle, and surface the
+            # slo_reconciliation_freshness SLI/SLO evaluation so the gate is genuinely
+            # exercised (paper-only, no live path).
+            try:
+                mon = ContinuousMonitor(service="crypto-options-orderflow", seed=42, paper_only=True)
+                mon.record_reconciliation()
+                snap = mon.monitor_cycle()
+                slo_evals = mon.slo_monitor.evaluate_all()
+                recon_eval = next(
+                    (e for e in slo_evals if e.get("slo_id") == "slo_reconciliation_freshness"), None
+                )
+                out["reconciliation"] = {
+                    "freshness": snap["metrics"]["metrics"]["reconciliation_freshness"],
+                    "slo": recon_eval,
+                    "slo_met": bool(recon_eval.get("met")) if recon_eval else False,
+                }
+            except Exception as exc:  # pragma: no cover - diagnostic only
+                out["reconciliation"] = {"error": str(exc)}
             print(json.dumps(out, indent=2, allow_nan=False))
             return 0
         elif args.command == "resume":

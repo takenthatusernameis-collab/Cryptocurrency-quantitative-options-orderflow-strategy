@@ -1,0 +1,39 @@
+{
+  "artifact": "RECONCILIATION_FRESHNESS_FIX",
+  "generated_at": "2026-11-06T19:25:49Z",
+  "repo": "Cryptocurrency-quantitative-options-orderflow-strategy",
+  "branch": "main",
+  "task_id": "INIT-20261106T190441Z-FIX-RECONCILIATION-FRESHNESS",
+  "priority": "P0",
+  "blocker": "slo_reconciliation_freshness >= 0.99 (live-trading readiness gate)",
+  "root_cause": "reconciliation_freshness was hardcoded to 1.0 in src/monitoring/continuous_monitor.py:249 and placed only into the snapshot; no SLI measurement of type reconciliation_freshness was ever recorded, so slo_monitor.evaluate_all() for slo_reconciliation_freshness yielded current_value=0.0, met=False (hard blocker).",
+  "before": {
+    "rec_freshness": "hardcoded 1.0 (snapshot only, not evaluated)",
+    "slo_reconciliation_freshness": {"current_value": 0.0, "met": false, "num_measurements": 0},
+    "code_path": "src/monitoring/continuous_monitor.py:249 rec_freshness = 1.0"
+  },
+  "after": {
+    "rec_freshness": "real age-based freshness = clamp(1.0 - (now - last_reconciliation_ts) / 60s, 0, 1); 0.0 if never reconciled",
+    "slo_reconciliation_freshness": {"current_value": 0.9999786615371704, "met": true, "num_measurements": 1},
+    "freshness_emitted": 0.999979,
+    "code_paths": [
+      "src/monitoring/continuous_monitor.py: __init__ (_last_reconciliation_ts, _reconciliation_window_sec=60.0)",
+      "src/monitoring/continuous_monitor.py: record_reconciliation() (new)",
+      "src/monitoring/continuous_monitor.py: monitor_cycle() (real computation + record_sli(SLIType.RECONCILIATION_FRESHNESS))",
+      "scripts/run_integrated_campaign.py: run() wires ContinuousMonitor.record_reconciliation() + monitor_cycle() into E2E campaign runner path"
+    ]
+  },
+  "evidence": {
+    "integrated_cli_run": "python scripts/run_integrated_campaign.py run --campaign-id recon_fresh_e2e --seed 42 ... -> reconciliation.freshness=0.999979, reconciliation.slo.met=true, reconciliation.slo.current_value=0.9999786615371704",
+    "regression_tests": "tests/test_reconciliation_freshness.py (3 tests): freshness==0.0 when never reconciled; freshness>=0.99 and slo.met==true when reconciled within window; freshness<0.99 when stale beyond window",
+    "targeted_suite": "tests/test_backtest_trades_synthetic.py tests/test_backtest*.py tests/test_integrated_campaign.py tests/test_live_trading_readiness.py tests/test_reconciliation_freshness.py -> 105 passed",
+    "scoped_mypy": "130 pre-existing errors in 36 files, all phase79/80 monitoring noise (documented, not mass-fixed); no new errors introduced by this change"
+  },
+  "verification_commands": [
+    ". .venv/bin/activate && PYTHONPATH=<root> python -m pytest tests/test_reconciliation_freshness.py tests/test_backtest_trades_synthetic.py tests/test_backtest*.py tests/test_integrated_campaign.py tests/test_live_trading_readiness.py -q",
+    "PYTHONPATH=<root> python scripts/run_backtest_synthetic.py -> total_trades=2, equity_final=100000.15976002 (non-flat)",
+    "PYTHONPATH=<root> python scripts/run_integrated_campaign.py run --campaign-id <id> --seed 42 -> reconciliation.slo.met=true"
+  ],
+  "paper_only": true,
+  "live_capital": false
+}

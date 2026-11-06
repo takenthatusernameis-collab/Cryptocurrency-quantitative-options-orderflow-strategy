@@ -173,6 +173,8 @@ class ContinuousMonitor:
         self._error_samples: Deque[float] = deque(maxlen=10000)
         self._throughput_samples: Deque[float] = deque(maxlen=10000)
         self._health_status = HealthStatus.PASS
+        self._last_reconciliation_ts: Optional[float] = None
+        self._reconciliation_window_sec = 60.0
         register_default_dependency_checks(self.health_checker)
         register_default_slos(self.slo_monitor)
         self._register_default_thresholds()
@@ -221,6 +223,16 @@ class ContinuousMonitor:
         self.metrics.observe("monitor_throughput_per_sec", v, labels or {})
         observability_logger.debug("monitor_throughput_recorded", value_per_sec=v, labels=labels or {})
 
+    def record_reconciliation(self) -> None:
+        """Record that a reconciliation run completed at real wall-clock time.
+
+        Used by the E2E/campaign runner path so reconciliation freshness is
+        genuinely emitted from the monitor cycle instead of a hardcoded constant.
+        Strictly paper-only aware: no live path is enabled.
+        """
+        with self._lock:
+            self._last_reconciliation_ts = time.time()
+
     # ------------------------------------------------------------- cycle
     def monitor_cycle(self) -> Dict[str, Any]:
         """Run one continuous monitoring cycle: health + SLO + alerts + snapshot."""
@@ -246,7 +258,22 @@ class ContinuousMonitor:
                 50.0 if health.status == HealthStatus.WARN else 0.0)
 
             fill_rate = 1.0
-            rec_freshness = 1.0
+
+            # Real reconciliation freshness: age of last reconciliation run vs
+            # the slo_reconciliation_freshness window (60s). Never hardcoded.
+            now = time.time()
+            if self._last_reconciliation_ts is None:
+                rec_freshness = 0.0
+            else:
+                age = now - self._last_reconciliation_ts
+                rec_freshness = max(0.0, min(1.0, 1.0 - age / self._reconciliation_window_sec))
+            # Emit as an SLI measurement so slo_reconciliation_freshness is
+            # genuinely evaluated by evaluate_all() (not just snapshot-placed).
+            self.slo_monitor.record_sli(
+                SLIType.RECONCILIATION_FRESHNESS,
+                rec_freshness,
+                labels={"component": "reconciliation", "service": self.service},
+            )
 
             snap_metrics = SnapshotMetrics(
                 latency_p99_ms=round(latency_p99, 6),

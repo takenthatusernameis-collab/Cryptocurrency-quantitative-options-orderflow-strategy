@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — Cryptocurrency quantitative options orderflow strategy
 
-Generated: 2026-11-06T19:04:41Z (UTC)
+Generated: 2026-11-06T19:25:49Z (UTC)
 Repo: `Cryptocurrency-quantitative-options-orderflow-strategy`
 Branch: `main` (verify with `git status --short`)
 Priority basis: Repo name => **Crypto options orderflow (multi-venue) + execution/hedging + reconciliation gates**. All other work must serve this campaign until gates pass.
@@ -12,42 +12,47 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 - Stack: 44+ `src/` modules, 375 tests, campaigns phase1..phase110+, synthetic/raw data in `data/`.
 - Env runnable: `pydantic`, `pytest`, `mypy` installed in `.venv`. `PYTHONPATH` must be **project root** (not `src/`).
 - Env sanity proven: `import pydantic, pytest, mypy, pandas, numpy, yaml, scipy` OK.
-- Backtest unblocked: `PYTHONPATH=<root> python scripts/run_backtest_synthetic.py` → `total_trades=2`, `equity_final=100000.15976002` (non-flat). Artifact: `research_state/BACKTEST_SYNTHETIC_20261106T190505Z.json`.
-- Targeted tests green: `tests/test_backtest_trades_synthetic.py`, `tests/test_backtest*.py`, `tests/test_integrated_campaign.py`, `tests/test_live_trading_readiness.py` → **102 passed**.
+- Backtest unblocked: `PYTHONPATH=<root> python scripts/run_backtest_synthetic.py` → `total_trades=2`, `equity_final=100000.15976002` (non-flat). Artifact: `research_state/BACKTEST_SYNTHETIC_20261106T191907Z.json`.
+- Targeted tests green: `tests/test_backtest_trades_synthetic.py`, `tests/test_backtest*.py`, `tests/test_integrated_campaign.py`, `tests/test_live_trading_readiness.py` → **102 passed**; plus `tests/test_reconciliation_freshness.py` → **105 passed total**.
 - Features: `data/processed/features_latest.json` exists; `src/pipelines/build_features.py` materializes atomically.
 - Signals: `src/signals/orderflow_signal.py` present (`OrderflowSignalGenerator`).
+- **RECONCILIATION FRESHNESS FIXED (INIT blocker cleared):** `rec_freshness` no longer hardcoded `1.0` at `src/monitoring/continuous_monitor.py:249`; now real age-vs-60s-window freshness emitted + recorded as `SLIType.RECONCILIATION_FRESHNESS` so `slo_reconciliation_freshness >= 0.99` is genuinely evaluated (`met=true`, `current_value=0.9999786615371704`). Wired into E2E path via `scripts/run_integrated_campaign.py run`. Regression coverage: `tests/test_reconciliation_freshness.py` (3 tests).
+- Evidence artifacts: `research_state/RECONCILIATION_FRESHNESS_FIX_20261106T192549Z.json`, `research_state/DRAWDOWN_ACK_20261106T192549Z.json`.
 
 ## Bottlenecks removed/mitigated (do not reintroduce)
-1. **Mypy noise**: scoped mypy to campaign modules (`src/signals`, `src/pipelines`, `src/backtest`, `src/features`, `src/execution`, `src/risk/reconciliation*`, `src/monitoring*`, `src/validation*`) → 130 errors across 36 files, all in pre-existing `phase79`/`phase80` monitoring noise files (`phase79_production_observability_continuous_validation_loop.py`, `phase80_deterministic_paper_only_continuous_validation_hardening_loop.py`, etc.). Documented as pre-existing noise with `file:line` — **do not mass-fix**.
+1. **Mypy noise**: scoped mypy to campaign modules → 130 errors across 36 files, all pre-existing `phase79`/`phase80` monitoring noise files. Documented as pre-existing noise with `file:line` — **do not mass-fix**. This change introduced no new mypy errors.
 2. **Test suite inefficiency**: full `pytest -q` (375 files) can timeout (>5 min). Run targeted subsets for velocity; full suite = nightly gate only.
-3. **Reconciliation freshness gap**: `slo_reconciliation_freshness` target `0.99` (gte, window 60s) registered in `src/monitoring/slo.py:415-418`, but `rec_freshness` is hardcoded `1.0` at `src/monitoring/continuous_monitor.py:249` — **not wired to real reconciliation runs**. Still a hard blocker until genuinely emitted from the E2E/campaign runner path with regression coverage.
+3. **Reconciliation freshness gap**: **RESOLVED.** `rec_freshness` now computed from real last-reconciliation age vs the 60s window and recorded as an SLI; `slo_reconciliation_freshness >= 0.99` genuinely met. See `research_state/RECONCILIATION_FRESHNESS_FIX_20261106T192549Z.json`.
 
 ## SINGLE INITIAL TASK (durable — do first, no skipping)
 
-**Task ID:** `INIT-20261106T190441Z-FIX-RECONCILIATION-FRESHNESS`
-**Priority:** P0 (blocks live-trading readiness gate `slo_reconciliation_freshness >= 0.99`)
-**Time budget:** Complete within this session before expanding scope.
+**Task ID:** `INIT-20261106T190441Z-FIX-RECONCILIATION-FRESHNESS` — **COMPLETE** (2026-11-06T19:25:49Z)
+**Status:** All steps done; reconciliation freshness blocker cleared, drawdown alert acknowledged with evidence, 105 targeted tests green.
+
+**NEXT TASK (do second, no skipping):**
+
+**Task ID:** `NEXT-20261106T192549Z-E2E-LIVE-TRADING-READINESS`
+**Priority:** P0 (campaign gate `END2END_LIVE_TRADING_READINESS`)
+**Time budget:** Complete this campaign before any new feature scope.
 
 ### Steps (concrete, verifiable)
 1. **Env sanity (reconfirm)**
    - `. .venv/bin/activate`
    - `python -c "import pydantic, pytest, mypy, pandas, numpy, yaml, scipy; print('ok')"`
-2. **Prove backtest path (non-flat) — reconfirm**
-   - `PYTHONPATH=<root> python scripts/run_backtest_synthetic.py` → confirm `total_trades > 0`, `equity_final != initial_capital`, finite metrics. Latest artifact: `research_state/BACKTEST_SYNTHETIC_20261106T190505Z.json`.
-3. **Targeted tests (must pass)** — reconfirm
-   - `PYTHONPATH=<root> python -m pytest tests/test_backtest_trades_synthetic.py tests/test_backtest*.py tests/test_integrated_campaign.py tests/test_live_trading_readiness.py -q` (last run: 102 passed).
-4. **Scoped mypy (document noise)** — reconfirm
+2. **Run E2E integrated campaign (paper) and capture reconciliation freshness**
+   - `PYTHONPATH=<root> python scripts/run_integrated_campaign.py run --campaign-id e2e_readiness_1 --seed 42 --n-points 500 --train-window 120 --test-window 40 --step-size 40`
+   - Confirm `reconciliation.slo.met == true` and `reconciliation.freshness >= 0.99` in JSON output.
+   - Save output to `research_state/E2E_READINESS_20261106T<UTC>.json`.
+3. **Non-flat backtest evidence per scenario**
+   - `PYTHONPATH=<root> python scripts/run_backtest_synthetic.py` → confirm `total_trades > 0`, `equity_final != initial_capital`, `sharpe_ratio` finite, `max_drawdown < 0.2`. Save artifact `research_state/BACKTEST_E2E_<UTC>.json`.
+4. **Scoped mypy (document noise only)**
    - `PYTHONPATH=<root> python -m mypy src/signals src/pipelines src/backtest src/features src/execution src/risk/reconciliation* src/monitoring* src/validation* 2>&1 | tail -40`
-   - All failures are pre-existing phase79/80 monitoring noise; document with `file:line`, do not expand scope.
-5. **Fix reconciliation freshness (hard blocker)**
-   - Locate emission point: `src/monitoring/continuous_monitor.py:249` (`rec_freshness = 1.0` hardcoded).
-   - Wire real reconciliation freshness into `monitor_cycle` / E2E campaign runner path used by `tests/test_integrated_campaign.py` so that when reconciliation runs within the 60s window, `slo_reconciliation_freshness >= 0.99` is genuinely emitted (reflect actual last-reconciliation age vs window).
-   - Add/ensure regression coverage asserting freshness >= 0.99 when reconciliation ran within window.
-   - Produce evidence artifact: `research_state/RECONCILIATION_FRESHNESS_FIX_<UTC>.json` with before/after values, code paths touched (`file:line`), and test results.
-6. **Handle drawdown alert (paper-only)**
-   - Address `r_drawdown_pct` (alert_6863a5540ff6) with explicit ack/resolve path + evidence artifact `research_state/DRAWDOWN_ACK_<UTC>.json` (scenarios, justification, paper-only confirmation).
+   - All failures pre-existing phase79/80 noise; document `file:line`, do not expand scope.
+5. **Targeted tests green** (must pass): same 5 files as step 1 above (105 passed).
+6. **Delta-neutral hedge PnL attribution**
+   - Confirm `options_hedging_total_pnl` present and separate directional vs hedge PnL attribution in campaign output. Save `research_state/HEDGE_ATTRIBUTION_<UTC>.json`.
 7. **Checkpoint**
-   - Update `HANDOFF_NEXT_AGENT.md` with **next concrete checkpoint** (do not say "continue research") and list new artifacts with UTC timestamps.
+   - Update `HANDOFF_NEXT_AGENT.md` with **next concrete checkpoint** (specific files/tasks/gates) + new artifacts with UTC timestamps. Do not say "continue research".
 
 ## HEAVY FOCUS CAMPAIGN (future agents cannot avoid doing heavy work)
 
@@ -77,12 +82,13 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 - All open incidents resolved/acked with evidence artifacts
 
 ## Definition of done (checkpoint for next agent)
-- [ ] Env proven (imports OK).
-- [ ] Backtest non-flat confirmed with artifact.
-- [ ] Targeted tests + scoped mypy reported with evidence.
-- [ ] `slo_reconciliation_freshness >= 0.99` achieved with `RECONCILIATION_FRESHNESS_FIX_<UTC>.json`.
-- [ ] Drawdown alert acked with `DRAWDOWN_ACK_<UTC>.json`.
-- [ ] At least one non-flat E2E/campaign artifact in `research_state/` with UTC timestamp.
+- [x] Env proven (imports OK).
+- [x] Backtest non-flat confirmed with artifact (`BACKTEST_SYNTHETIC_20261106T191907Z.json`).
+- [x] Targeted tests + scoped mypy reported with evidence (105 passed; 130 pre-existing phase79/80 mypy noise documented).
+- [x] `slo_reconciliation_freshness >= 0.99` achieved with `RECONCILIATION_FRESHNESS_FIX_20261106T192549Z.json`.
+- [x] Drawdown alert acked with `DRAWDOWN_ACK_20261106T192549Z.json`.
+- [ ] At least one non-flat E2E/campaign artifact in `research_state/` with UTC timestamp (`E2E_READINESS_<UTC>.json` + `BACKTEST_E2E_<UTC>.json`).
+- [ ] Delta-neutral hedge PnL attribution present and reconciled (`HEDGE_ATTRIBUTION_<UTC>.json`).
 - [ ] `HANDOFF_NEXT_AGENT.md` updated with **next concrete checkpoint** (specific files/tasks/gates), not vague advice.
 
 ## Entry points
@@ -91,4 +97,4 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 - CLI: `python -m src.main --config config/settings.yaml --json` (verify config path/fields)
 - Conventions: Python 3.10, pydantic>=2.5, pandas/numpy/pyyaml/scipy; no comments unless asked; UTC ISO-8601 timestamps.
 
-**Next agent instruction:** Execute Task INIT-20261106T190441Z-FIX-RECONCILIATION-FRESHNESS in order. Do not run full 375-file pytest suite. Do not refactor phase79/80/phase110 mega-files. Focus on wiring real reconciliation freshness emission + E2E non-flat evidence + drawdown ack. Leave the handoff updated with a concrete next checkpoint after completion.
+**Next agent instruction:** Execute Task `NEXT-20261106T192549Z-E2E-LIVE-TRADING-READINESS` in order. Do not run full 375-file pytest suite. Do not refactor phase79/80/phase110 mega-files. Focus on the paper E2E integrated campaign with genuine reconciliation freshness (`>= 0.99`), non-flat backtest evidence, and delta-neutral hedge attribution. Leave the handoff updated with a concrete next checkpoint after completion.

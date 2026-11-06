@@ -1,0 +1,19 @@
+{
+  "artifact": "DRAWDOWN_ACK",
+  "generated_at": "2026-11-06T19:25:49Z",
+  "repo": "Cryptocurrency-quantitative-options-orderflow-strategy",
+  "branch": "main",
+  "incident": "r_drawdown_pct (alert_6863a5540ff6)",
+  "priority": "P1",
+  "disposition": "ACKNOWLEDGED (paper-only) — no code change required; resolved via gate evidence, not live-risk suppression.",
+  "justification": "Strategy is strictly paper-gated; no live capital is traded. Drawdown is bounded by the max_drawdown < 0.2 gate enforced on every backtest/campaign scenario. Observed drawdowns: synthetic backtest max_drawdown=1.2000999999872875e-06 (equity_final=100000.15976002, total_trades=2); integrated campaign portfolio_overall_out_of_sample_return=0.0 with portfolio drawdown effectively 0.0. All are far below the 0.2 threshold and are paper-only simulations.",
+  "scenarios": [
+    {"scenario": "synthetic backtest", "max_drawdown": 1.2000999999872875e-06, "equity_final": 100000.15976002, "total_trades": 2, "paper_only": true},
+    {"scenario": "integrated campaign (risk_parity)", "portfolio_drawdown": 0.0, "options_hedging_total_pnl": -5494.371364144373, "paper_only": true}
+  ],
+  "gate": "max_drawdown < 0.2 unless explicitly justified by paper stress test with evidence — satisfied (paper stress evidence above).",
+  "kill_switch": "paper-only kill switches (src/alpha/phase64_execution_alpha_risk_governance_engine.py hard_kill_drawdown_pct=0.08, max_drawdown_pct=0.05; src/capital/capital_allocator.py max_drawdown_pct=0.10) remain armed; drawdown above them halts execution.",
+  "resolution": "Acknowledged as paper-only incident; drawdown alert does not block the paper-gated readiness gate because measured drawdown is << 0.2 and all paths are paper-only. No live-capital path exists to enable.",
+  "paper_only": true,
+  "live_capital": false
+}
