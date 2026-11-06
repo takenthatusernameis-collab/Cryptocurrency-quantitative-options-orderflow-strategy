@@ -262,8 +262,8 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
         obs = self.engine.observability_attribution_tca_deep_v118(n=n)
         scr = self.engine.settlement_custody_resilience_deep_v118(n=n)
 
-        mm_comp = self.engine.regime_mm_hedge_deep_v115(n=120)
-        scr_comp = self.engine.settlement_custody_resilience_deep_v115(n=120)
+        mm_comp = self.engine.regime_mm_hedge_deep_v116(n=120)
+        scr_comp = self.engine.settlement_custody_resilience_deep_v116(n=120)
 
         hashes = []
         for i in range(c):
