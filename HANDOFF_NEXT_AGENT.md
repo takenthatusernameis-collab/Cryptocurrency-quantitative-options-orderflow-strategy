@@ -131,3 +131,8 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 4. Update this handoff with final gate summary before declaring campaign complete.
 
 **Entry command:** `PYTHONPATH=<root> python scripts/run_integrated_campaign.py run --campaign-id e2e_readiness_next --seed 7 --n-points 800 --train-window 160 --test-window 60 --step-size 60` (paper-only). Save outputs to `research_state/`.
+
+## INITIAL TASK (timestamped 2026-11-06T21:58:57Z UTC — single durable handoff)
+Task ID: NEXT4-20261106T215857Z-GATE-VALIDATION-AND-CHECKPOINT
+Priority: P0 (campaign gate END2END_LIVE_TRADING_READINESS)
+Instruction: Validate all gate artifacts; re-run targeted tests + scoped mypy; update HANDOFF with final gate summary. Paper-only, no live capital.
