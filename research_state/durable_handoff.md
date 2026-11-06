@@ -1,21 +1,21 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE — READ FIRST)
-**Timestamp (UTC): 2026-11-06T10:57:41Z**
+**Timestamp (UTC): 2026-11-06T10:58:53Z**
 **Repo (inferred):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **MANDATE:** Ship **v132 NOW**. No exploration/planning-only. Tangible `src/` + `tests/` + deterministic `research_state/` artifacts required. Gate must be GREEN before ending session.
 
-## CURRENT STATE (re-verified this session)
-- **v131:** SHIPPED+GREEN/FINITE (this session). `src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v131.py`, test `tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v131.py` (1 passed), artifacts in `research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v131/` (`version:"v131"`, `engine:"Phase110UltraDeepQuantEngineV134"`, `seed:1111211`, `all_ok/finite_ok/gates.all_ok:true`, `cycles:131`, `hash_chain_len:131`). v131 hygiene CLEAN (0 forbidden tokens).
-- **v130:** SHIPPED+GREEN/FINITE (regression 1 passed). `engine:"Phase110UltraDeepQuantEngineV133"`, `seed:1111210`, `all_ok/finite_ok/gates.all_ok:true`, `cycles:130`.
-- **v129:** SHIPPED+GREEN/FINITE (regression 1 passed). `engine:"Phase110UltraDeepQuantEngineV132"`, `seed:1111209`, `all_ok/finite_ok/gates.all_ok:true`, `cycles:129`.
-- **Gate:** v131/v130/v129 green. No bottlenecks. Fix any blocker immediately as part of v132 work.
-- **Hygiene:** ZERO `TODO/FIXME/HACK/XXX/placeholder/PLACEHOLDER` in v129-v131 src+test+artifacts.
+## CURRENT STATE (re-verified 2026-11-06T10:58:53Z)
+- **v131:** SHIPPED+GREEN/FINITE. `src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v131.py`, test `tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v131.py` (PASS), artifacts `research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v131/` (`version:"v131"`, `engine:"Phase110UltraDeepQuantEngineV134"`, `seed:1111211`, `all_ok/finite_ok/gates.all_ok:true`, `cycles:131`). Gate re-verified: `ok131`.
+- **v130:** SHIPPED+GREEN/FINITE (regression PASS). `engine:"Phase110UltraDeepQuantEngineV133"`, `seed:1111210`, cycles 130.
+- **v129:** SHIPPED+GREEN/FINITE (regression PASS). `engine:"Phase110UltraDeepQuantEngineV132"`, `seed:1111209`, cycles 129.
+- **Bottlenecks:** None. v131/v130 gates green. Hygiene: ZERO `TODO/FIXME/HACK/XXX/placeholder/PLACEHOLDER` in v129-v131 src+test+artifacts.
 - **Repo note:** Full suite has 171 collection errors in unrelated legacy tests (import/environment debt); phase110 targets are green. Do not let legacy collection noise block v132 delivery.
+- **v132:** NOT STARTED (no src/test/artifacts). This is the next required delivery.
 
 ## CRYSTAL-CLEAR INITIAL TASK MESSAGE FOR NEXT AGENT (HEAVY, NO DEVIATION)
 
 **OBJECTIVE:** Implement and ship `PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V132` end-to-end.
 
-**STEP 1 — VERIFY GATE FIRST**
+**STEP 1 — VERIFY GATE FIRST (do not skip)**
 ```bash
 cd /home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy
 PYTHONPATH=$PWD PHASE_QUICK_VERIFY=1 python3 -c "
@@ -24,6 +24,7 @@ r=Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityA
 "
 PYTHONPATH=$PWD python3 -m pytest -q tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v131.py
 ```
+If gate fails, fix it immediately before proceeding.
 
 **STEP 2 — CREATE SRC** `src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v132.py`
 - Import from v131: `Phase110Cfg`, `Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityAutonomyV131Loop`, `Phase110UltraDeepQuantEngineV134`
@@ -47,9 +48,9 @@ PYTHONPATH=$PWD python3 -m pytest -q tests/test_phase110_live_execution_realtime
 - Test: `tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v132.py` (PHASE_QUICK_VERIFY=1). `_assert_domain_gates(g, prefix, start=130, end=83)`. Assert compositions v132, all_ok/finite_ok/gates.all_ok true, version/seed/engine correct.
 - Artifacts: deterministic `research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v132/PHASE110_RES_LATEST.json` + `.md` (+ timestamped copies), finite.
 
-**STEP 4 — VERIFY, HYGIENE, SYNC HANDOFF**
+**STEP 4 — VERIFY, HYGIENE, SYNC HANDOFF (required before session end)**
 - Run v132 test; spot-check v131/v130 still green. Do not regress prior phases.
-- Grep for forbidden tokens on v132 src+test+artifacts → empty.
+- `grep -rn 'TODO\|FIXME\|HACK\|XXX\|placeholder\|PLACEHOLDER'` on v132 src+test+artifacts → must be empty.
 - Update handoff to point to **v133** and sync `HANDOFF_NEXT_AGENT.md`, `research_state/durable_handoff.md`, `research_state/INITIAL_TASK_HANDOFF.md`.
 - **Do not end without tangible src+test+artifacts and gate GREEN.**
 
