@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — Cryptocurrency quantitative options orderflow strategy
 
-Generated: 2026-11-06T17:46:28Z (UTC)
+Generated: 2026-11-06T18:11:33Z (UTC)
 Repo: `Cryptocurrency-quantitative-options-orderflow-strategy`
 Branch: `main` (verify with `git status --short`)
 Priority basis: Repo name => **Crypto options orderflow (multi-venue) + execution/hedging + reconciliation gates**. All other work must serve this campaign until gates pass.
