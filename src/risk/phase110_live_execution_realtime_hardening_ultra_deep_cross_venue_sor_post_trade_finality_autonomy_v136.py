@@ -34,7 +34,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "iv_surface_deep_v138": True,
             }
         )
-        return self._stamp(super().iv_surface_greeks_deep_v136(n=n), flags)
+        return self._stamp(super().iv_surface_greeks_deep_v137(n=n), flags)
 
     def orderflow_microstructure_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("of")
@@ -44,7 +44,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "of_deep_v138": True,
             }
         )
-        return self._stamp(super().orderflow_microstructure_deep_v136(n=n), flags)
+        return self._stamp(super().orderflow_microstructure_deep_v137(n=n), flags)
 
     def cross_venue_sor_toxicity_opt_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("sor")
@@ -55,7 +55,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "sor_deep_v138": True,
             }
         )
-        return self._stamp(super().cross_venue_sor_toxicity_opt_deep_v136(n=n), flags)
+        return self._stamp(super().cross_venue_sor_toxicity_opt_deep_v137(n=n), flags)
 
     def adverse_sel_slippage_fill_joint_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("asf")
@@ -66,7 +66,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "asf_deep_v138": True,
             }
         )
-        return self._stamp(super().adverse_sel_slippage_fill_joint_deep_v136(n=n), flags)
+        return self._stamp(super().adverse_sel_slippage_fill_joint_deep_v137(n=n), flags)
 
     def gamma_dealer_hedge_toxicity_adjusted_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("gdh")
@@ -77,7 +77,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "gdh_deep_v138": True,
             }
         )
-        return self._stamp(super().gamma_dealer_hedge_toxicity_adjusted_deep_v136(n=n), flags)
+        return self._stamp(super().gamma_dealer_hedge_toxicity_adjusted_deep_v137(n=n), flags)
 
     def stress_haircut_margin_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("shm")
@@ -88,7 +88,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "shm_deep_v138": True,
             }
         )
-        return self._stamp(super().stress_haircut_margin_deep_v136(n=n), flags)
+        return self._stamp(super().stress_haircut_margin_deep_v137(n=n), flags)
 
     def chaos_failover_tamper_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("cft")
@@ -99,7 +99,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "cft_deep_v138": True,
             }
         )
-        return self._stamp(super().chaos_failover_tamper_deep_v136(n=n), flags)
+        return self._stamp(super().chaos_failover_tamper_deep_v137(n=n), flags)
 
     def post_trade_finality_attestation_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("ptf")
@@ -110,7 +110,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "ptf_deep_v138": True,
             }
         )
-        return self._stamp(super().post_trade_finality_attestation_deep_v136(n=n), flags)
+        return self._stamp(super().post_trade_finality_attestation_deep_v137(n=n), flags)
 
     def regime_mm_hedge_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("mm")
@@ -121,7 +121,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "mm_deep_v138": True,
             }
         )
-        return self._stamp(super().regime_mm_hedge_deep_v136(n=n), flags)
+        return self._stamp(super().regime_mm_hedge_deep_v137(n=n), flags)
 
     def collateral_margin_netting_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("cap")
@@ -132,7 +132,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "cap_deep_v138": True,
             }
         )
-        return self._stamp(super().collateral_margin_netting_deep_v136(n=n), flags)
+        return self._stamp(super().collateral_margin_netting_deep_v137(n=n), flags)
 
     def observability_attribution_tca_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("obs")
@@ -143,7 +143,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "obs_deep_v138": True,
             }
         )
-        return self._stamp(super().observability_attribution_tca_deep_v136(n=n), flags)
+        return self._stamp(super().observability_attribution_tca_deep_v137(n=n), flags)
 
     def settlement_custody_resilience_deep_v138(self, n: int = 1400):
         flags = _lineage_flags("scr")
@@ -154,7 +154,7 @@ class Phase110UltraDeepQuantEngineV139(Phase110UltraDeepQuantEngineV138):
                 "scr_deep_v138": True,
             }
         )
-        return self._stamp(super().settlement_custody_resilience_deep_v136(n=n), flags)
+        return self._stamp(super().settlement_custody_resilience_deep_v137(n=n), flags)
 
     def regime_mm_hedge_deep_v137(self, n: int = 120):
         return self._stamp(super().regime_mm_hedge_deep_v136(n=n), {"mm_deep_v137": True})
@@ -249,8 +249,8 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             for v in range(134, 86, -1):
                 gates[f"{prefix}_v{v}"] = self._all_flag(rows, f"{prefix}_v{v}")
 
-        gates["composition_mm_v136"] = bool(mm_comp and self._all_flag(mm_comp, "mm_deep_v136"))
-        gates["composition_scr_v136"] = bool(scr_comp and self._all_flag(scr_comp, "scr_deep_v136"))
+        gates["composition_mm_v136"] = bool(mm_comp and self._all_flag(mm_comp, "mm_deep_v137"))
+        gates["composition_scr_v136"] = bool(scr_comp and self._all_flag(scr_comp, "scr_deep_v137"))
 
         gates["all_ok"] = all(bool(v) for v in gates.values())
 
