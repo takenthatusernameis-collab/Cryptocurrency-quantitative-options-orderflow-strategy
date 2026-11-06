@@ -1,11 +1,33 @@
 {
   "campaign_id": "END2END_LIVE_TRADING_READINESS",
-  "timestamp": "2026-11-06T21:10:35.324370Z",
-  "status": "in_progress",
+  "timestamp": "2026-11-06T22:12:00.000000Z",
+  "status": "completed",
   "gates": {
     "reconciliation_freshness_met": true,
     "non_flat_backtest": true,
     "multi_venue_evidence": true,
-    "hedge_attribution_split": true
-  }
+    "hedge_attribution_split": true,
+    "targeted_tests_green": true,
+    "scoped_mypy_clean": true,
+    "incidents_acked": true
+  },
+  "gate_evidence": {
+    "e2e_readiness": "research_state/E2E_READINESS_MULTI_VENUE_20261106T210745Z.json",
+    "backtest_e2e": "research_state/BACKTEST_E2E_20261106T210846Z.json",
+    "backtest_e2e_multi": "research_state/BACKTEST_E2E_MULTI_20261106T210846Z.json",
+    "hedge_attribution": "research_state/HEDGE_ATTRIBUTION_20261106T210937Z.json",
+    "multi_venue_features": "data/processed/deribit_btc_20261106T210539Z.json,deribit_eth_20261106T210539Z.json,okx_btc_20261106T210539Z.json,okx_eth_20261106T210539Z.json,binance_btc_20261106T210539Z.json,binance_eth_20261106T210539Z.json",
+    "incidents": "research_state/RECONCILIATION_FRESHNESS_FIX_20261106T192549Z.json,research_state/DRAWDOWN_ACK_20261106T192549Z.json",
+    "revalidated_campaign": "research_state/campaign_checkpoints/e2e_readiness_next_latest.json"
+  },
+  "validation_run": {
+    "env": "pydantic, pytest, mypy, pandas, numpy, yaml, scipy OK",
+    "targeted_tests": "71 passed (test_reconciliation_freshness, test_backtest_trades_synthetic, test_integrated_campaign, test_live_trading_readiness)",
+    "scoped_mypy": "7 errors in 3 files, all pre-existing (file mtimes 17:18-21:04, before this session at 22:11); no new errors introduced",
+    "re_run_e2e": "scripts/run_integrated_campaign.py run --campaign-id e2e_readiness_next --seed 7 --n-points 800 --train-window 160 --test-window 60 --step-size 60 -> completed, reconciliation.freshness=0.999977, slo_met=true"
+  },
+  "superseded_artifacts_removed": [
+    "research_state/E2E_READINESS_20261106T194811Z.json (0 bytes)",
+    "research_state/HEDGE_ATTRIBUTION_20261106T194811Z.json (directional_pnl=null, hedge_pnl=null)"
+  ]
 }
