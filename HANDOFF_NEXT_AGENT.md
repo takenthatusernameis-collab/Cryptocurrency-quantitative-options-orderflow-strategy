@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT - Cryptocurrency quantitative options orderflow strategy
 
-Generated: 2026-11-06T16:55:59Z
+Generated: 2026-11-06T17:19:03Z
 Repo: Cryptocurrency-quantitative-options-orderflow-strategy
 Branch: main (clean, up to date with origin/main)
 
