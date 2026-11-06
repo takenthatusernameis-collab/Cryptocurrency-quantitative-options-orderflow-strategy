@@ -196,3 +196,42 @@ Objective: Prove the options+orderflow strategy passes all pre-live gates in pap
 
 ### Next agent instruction
 Execute Task NEXT5-20261106T222700Z-PAPER-TRADING-PRE-LIVE-READINESS in order. Paper-only, no live capital. Leave the handoff updated with a concrete next checkpoint after completion.
+## INITIAL TASK — NEXT6 (timestamped 2026-11-06T22:38:35Z UTC — single durable handoff)
+Task ID: NEXT6-20261106T223835Z-CONTINUOUS-VALIDATION-AND-MONITORING
+Priority: P0 (campaign gate: CONTINUOUS_VALIDATION_AND_MONITORING)
+Status: NOT STARTED — execute now.
+Time budget: Complete before any new feature scope. Paper-only — no live capital, no LIVE_TRADING_ENABLED=true.
+
+### Campaign: CONTINUOUS_VALIDATION_AND_MONITORING (Phase 9 / production hardening)
+Objective: Prove the options+orderflow strategy sustains reconciliation SLO, risk limits, telemetry, and incident runbooks under repeated paper runs across Deribit/OKX/Binance × BTC/ETH, with automated continuous validation and a go/no-go report. No live capital.
+
+### Steps (concrete, verifiable)
+1. Env sanity: `. .venv/bin/activate && python -c "import pydantic, pytest, mypy, pandas, numpy, yaml, scipy; print('ok')"`
+2. Run continuous validation loop: `PYTHONPATH=<root> python scripts/run_continuous_validation.py --mode paper --iterations 5 --strict` → require all iterations pass, 0 failed.
+3. Re-run paper trading campaign: `PYTHONPATH=<root> python scripts/run_paper_trading_campaign.py --mode paper` → all critical gates passed.
+4. Reconciliation SLO re-check: slo_reconciliation_freshness >= 0.99 met=true alongside monitoring.
+5. Scoped mypy on src/monitoring/, src/telemetry/, src/risk/, src/execution/ → no new errors; document pre-existing.
+6. Targeted tests: tests/test_reconciliation_freshness.py, tests/test_backtest_*.py, tests/test_integrated_campaign.py, tests/test_live_trading_readiness.py → green.
+7. No live capital guard: TRADING_MODE=paper, LIVE_TRADING_ENABLED != true.
+8. Checkpoint: update HANDOFF_NEXT_AGENT.md with NEXT6 complete + final gate summary + next concrete checkpoint.
+
+### Gates (campaign FAILS if any unmet)
+- all_critical_passed == true, failed == 0
+- slo_reconciliation_freshness >= 0.99 met
+- continuous validation: 5/5 iterations passed
+- targeted tests green; scoped mypy clean or pre-existing noise documented
+- 3 artifacts non-empty with UTC timestamps
+- LIVE_TRADING_ENABLED != true
+
+### Required artifacts (timestamped UTC)
+- research_state/CONTINUOUS_VALIDATION_<UTC>.json (non-empty; 5/5 iterations)
+- research_state/PAPER_TRADING_CAMPAIGN_<UTC>.json (non-empty)
+- research_state/RECONCILIATION_AUDIT_<UTC>.json (non-empty)
+- research_state/PRE_LIVE_GATE_REPORT_<UTC>.json (non-empty; recommendation READY)
+- research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json + immutable timestamped copy
+
+### Entry command
+`PYTHONPATH=<root> python scripts/run_continuous_validation.py --mode paper --iterations 5 --strict` then `PYTHONPATH=<root> python scripts/run_paper_trading_campaign.py --mode paper`. Save outputs to research_state/.
+
+### Next agent instruction
+Execute Task NEXT6-20261106T223835Z-CONTINUOUS-VALIDATION-AND-MONITORING in order. Paper-only, no live capital. Leave the handoff updated with a concrete next checkpoint after completion.
