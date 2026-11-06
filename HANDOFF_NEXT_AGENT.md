@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — Cryptocurrency quantitative options orderflow strategy
 
-Generated: 2026-11-06T19:25:49Z (UTC)
+Generated: 2026-11-06T20:08:21Z (UTC)
 Repo: `Cryptocurrency-quantitative-options-orderflow-strategy`
 Branch: `main` (verify with `git status --short`)
 Priority basis: Repo name => **Crypto options orderflow (multi-venue) + execution/hedging + reconciliation gates**. All other work must serve this campaign until gates pass.
@@ -12,26 +12,26 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 - Stack: 44+ `src/` modules, 375 tests, campaigns phase1..phase110+, synthetic/raw data in `data/`.
 - Env runnable: `pydantic`, `pytest`, `mypy` installed in `.venv`. `PYTHONPATH` must be **project root** (not `src/`).
 - Env sanity proven: `import pydantic, pytest, mypy, pandas, numpy, yaml, scipy` OK.
-- Backtest unblocked: `PYTHONPATH=<root> python scripts/run_backtest_synthetic.py` → `total_trades=2`, `equity_final=100000.15976002` (non-flat). Artifact: `research_state/BACKTEST_SYNTHETIC_20261106T191907Z.json`.
+- Backtest real & non-flat: `research_state/BACKTEST_E2E_20261106T194848Z.json` — `total_trades=2`, `equity_final=100000.15976002 != 100000`, `sharpe_ratio=6.343775995217426` finite, `max_drawdown=1.2000999999872875e-06 < 0.2`. ✓
 - Targeted tests green: `tests/test_backtest_trades_synthetic.py`, `tests/test_backtest*.py`, `tests/test_integrated_campaign.py`, `tests/test_live_trading_readiness.py` → **102 passed**; plus `tests/test_reconciliation_freshness.py` → **105 passed total**.
 - Features: `data/processed/features_latest.json` exists; `src/pipelines/build_features.py` materializes atomically.
-- Signals: `src/signals/orderflow_signal.py` present (`OrderflowSignalGenerator`).
-- **RECONCILIATION FRESHNESS FIXED (INIT blocker cleared):** `rec_freshness` no longer hardcoded `1.0` at `src/monitoring/continuous_monitor.py:249`; now real age-vs-60s-window freshness emitted + recorded as `SLIType.RECONCILIATION_FRESHNESS` so `slo_reconciliation_freshness >= 0.99` is genuinely evaluated (`met=true`, `current_value=0.9999786615371704`). Wired into E2E path via `scripts/run_integrated_campaign.py run`. Regression coverage: `tests/test_reconciliation_freshness.py` (3 tests).
+- Signals: `src/signals/orderflow_signal.py` present (`OrderflowSignalGenerator`); `src/signals/composite.py` (`CompositeSignalGenerator`).
+- **RECONCILIATION FRESHNESS FIXED (INIT blocker cleared):** `rec_freshness` now computed from real last-reconciliation age vs the 60s window and recorded as `SLIType.RECONCILIATION_FRESHNESS` so `slo_reconciliation_freshness >= 0.99` is genuinely evaluated (`met=true`). Regression coverage: `tests/test_reconciliation_freshness.py` (3 tests).
 - Evidence artifacts: `research_state/RECONCILIATION_FRESHNESS_FIX_20261106T192549Z.json`, `research_state/DRAWDOWN_ACK_20261106T192549Z.json`.
 
 ## Bottlenecks removed/mitigated (do not reintroduce)
 1. **Mypy noise**: scoped mypy to campaign modules → 130 errors across 36 files, all pre-existing `phase79`/`phase80` monitoring noise files. Documented as pre-existing noise with `file:line` — **do not mass-fix**. This change introduced no new mypy errors.
 2. **Test suite inefficiency**: full `pytest -q` (375 files) can timeout (>5 min). Run targeted subsets for velocity; full suite = nightly gate only.
-3. **Reconciliation freshness gap**: **RESOLVED.** `rec_freshness` now computed from real last-reconciliation age vs the 60s window and recorded as an SLI; `slo_reconciliation_freshness >= 0.99` genuinely met. See `research_state/RECONCILIATION_FRESHNESS_FIX_20261106T192549Z.json`.
+3. **Reconciliation freshness gap**: **RESOLVED.** `rec_freshness` now computed from real last-reconciliation age vs the 60s window and recorded as an SLI; `slo_reconciliation_freshness >= 0.99` genuinely met.
+
+## Bottlenecks still open (clear FIRST — significant progress blocked until done)
+4. **E2E readiness artifact EMPTY:** `research_state/E2E_READINESS_20261106T194811Z.json` is 0 lines. Checkpoint at 19:48:11Z claimed `NEXT-...-E2E-LIVE-TRADING-READINESS` complete (7/7 steps) but no non-empty readiness artifact exists. Re-run integrated campaign and save a non-empty `E2E_READINESS_<UTC>.json` before declaring done.
+5. **Hedge attribution not genuinely split:** `research_state/HEDGE_ATTRIBUTION_20261106T194811Z.json` has `directional_pnl=null`, `hedge_pnl=null`, single `delta_hedge` component only. Gate "Delta-neutral hedge PnL attribution present and reconciled" is only nominally met. Produce explicit directional vs hedge split.
+6. **Multi-venue evidence NOT started:** `data/processed/` has only single-venue `features_latest.json` (2026-10-31). No `data/processed/<venue>_<symbol>_<ts>.json|parquet` files for Deribit/OKX/Binance × BTC/ETH. No `E2E_READINESS_MULTI*` / `BACKTEST_E2E_MULTI*` artifacts. No `research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_latest.json` + immutable timestamped copy. **This is the heavy focus campaign.**
 
 ## SINGLE INITIAL TASK (durable — do first, no skipping)
 
-**Task ID:** `INIT-20261106T190441Z-FIX-RECONCILIATION-FRESHNESS` — **COMPLETE** (2026-11-06T19:25:49Z)
-**Status:** All steps done; reconciliation freshness blocker cleared, drawdown alert acknowledged with evidence, 105 targeted tests green.
-
-**NEXT TASK (do second, no skipping):**
-
-**Task ID:** `NEXT-20261106T192549Z-E2E-LIVE-TRADING-READINESS`
+**Task ID:** `NEXT3-20261106T200821Z-MULTI-VENUE-EVIDENCE` (supersedes `NEXT2`; same P0 scope, now the active initial task)
 **Priority:** P0 (campaign gate `END2END_LIVE_TRADING_READINESS`)
 **Time budget:** Complete this campaign before any new feature scope.
 
@@ -39,24 +39,29 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 1. **Env sanity (reconfirm)**
    - `. .venv/bin/activate`
    - `python -c "import pydantic, pytest, mypy, pandas, numpy, yaml, scipy; print('ok')"`
-2. **Run E2E integrated campaign (paper) and capture reconciliation freshness**
+2. **Clear empty-artifact bottleneck: re-run E2E integrated campaign (paper) and capture reconciliation freshness**
    - `PYTHONPATH=<root> python scripts/run_integrated_campaign.py run --campaign-id e2e_readiness_1 --seed 42 --n-points 500 --train-window 120 --test-window 40 --step-size 40`
    - Confirm `reconciliation.slo.met == true` and `reconciliation.freshness >= 0.99` in JSON output.
-   - Save output to `research_state/E2E_READINESS_20261106T<UTC>.json`.
-3. **Non-flat backtest evidence per scenario**
-   - `PYTHONPATH=<root> python scripts/run_backtest_synthetic.py` → confirm `total_trades > 0`, `equity_final != initial_capital`, `sharpe_ratio` finite, `max_drawdown < 0.2`. Save artifact `research_state/BACKTEST_E2E_<UTC>.json`.
-4. **Scoped mypy (document noise only)**
-   - `PYTHONPATH=<root> python -m mypy src/signals src/pipelines src/backtest src/features src/execution src/risk/reconciliation* src/monitoring* src/validation* 2>&1 | tail -40`
-   - All failures pre-existing phase79/80 noise; document `file:line`, do not expand scope.
-5. **Targeted tests green** (must pass): same 5 files as step 1 above (105 passed).
-6. **Delta-neutral hedge PnL attribution**
-   - Confirm `options_hedging_total_pnl` present and separate directional vs hedge PnL attribution in campaign output. Save `research_state/HEDGE_ATTRIBUTION_<UTC>.json`.
-7. **Checkpoint**
+   - Save non-empty output to `research_state/E2E_READINESS_20261106T<UTC>.json`.
+3. **Materialize multi-venue features**
+   - Extend feature pipeline to emit `data/processed/<venue>_<symbol>_<ts>.json|parquet` with metadata (schema/version/venue/symbol/timestamp).
+   - Verify `data/processed/` has >=3 venue-symbol files (Deribit/OKX/Binance × BTC/ETH). Update `src/pipelines/build_features.py` if needed.
+4. **Wire composite orderflow signals**
+   - Validate `CompositeSignalGenerator` + `OrderflowSignalGenerator` thresholds are config-driven; ensure no hard gate yields 0 trades on valid directional flow. Add regression test if thresholds change.
+5. **Delta-neutral hedge PnL separation**
+   - In campaign output, ensure directional vs hedge PnL are explicitly split (not just total, not null). Persist full attribution in `research_state/HEDGE_ATTRIBUTION_<UTC>.json` with both components.
+6. **Run multi-venue aware E2E**
+   - Execute `scripts/run_integrated_campaign.py` with appropriate params and save `research_state/E2E_READINESS_MULTI_VENUE_<UTC>.json`. Require `reconciliation.slo_met == true` and `reconciliation.freshness >= 0.99`.
+7. **Non-flat backtest per scenario**
+   - Save `research_state/BACKTEST_E2E_MULTI_<UTC>.json` with `total_trades > 0`, `equity_final != initial_capital`, finite ratios, `max_drawdown < 0.2`.
+8. **Gates check**
+   - Targeted tests (105+ related) green; scoped mypy on touched modules clean or noise documented. All incidents acked with evidence artifacts.
+9. **Checkpoint**
    - Update `HANDOFF_NEXT_AGENT.md` with **next concrete checkpoint** (specific files/tasks/gates) + new artifacts with UTC timestamps. Do not say "continue research".
 
 ## HEAVY FOCUS CAMPAIGN (future agents cannot avoid doing heavy work)
 
-**Campaign:** `END2END_LIVE_TRADING_READINESS`
+**Campaign:** `END2END_LIVE_TRADING_READINESS` (multi-venue extension)
 **Objective:** Produce non-flat, reconciled, multi-venue end-to-end evidence that the options+orderflow strategy can trade under controls (paper-gated). No live capital.
 
 ### Scope (all required)
@@ -64,31 +69,38 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 - **Signals:** Use `src/signals/orderflow_signal.py` + `CompositeSignalGenerator`. Remove/configure any hard gate yielding 0 trades on valid directional flow. Thresholds config-driven and unit-tested.
 - **Execution/backtest:** Event-driven with fees/slippage/position sizing/risk limits. Evaluate cross-venue orderflow arbitrage (paper). Implement delta-neutral options hedging leg with real position tracking; separate PnL attribution (directional vs hedge).
 - **Reconciliation/monitoring:** Emit reconciliation freshness (must satisfy `slo_reconciliation_freshness >= 0.99`). Resolve/ack all open incidents with evidence.
-- **Pipelines:** Complete `src/pipelines/` for reproducible runs; wire `scripts/` entrypoint (e.g. `scripts/run_e2e_campaign.py` or extend existing) producing campaign report.
+- **Pipelines:** Complete `src/pipelines/` for reproducible runs; wire `scripts/` entrypoint producing campaign report.
 
 ### Required artifacts (timestamped UTC)
+- `research_state/E2E_READINESS_<UTC>.json` (non-empty; clears bottleneck #4)
 - `research_state/BACKTEST_E2E_<UTC>.json` (and/or full campaign report)
+- `research_state/E2E_READINESS_MULTI_VENUE_<UTC>.json`
+- `research_state/BACKTEST_E2E_MULTI_<UTC>.json`
 - `research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_latest.json` + immutable timestamped copy
-- Processed feature files under `data/processed/` with metadata
+- Processed feature files under `data/processed/` with metadata (>=3 venue-symbol files)
 - Incident resolution evidence under `research_state/` (reconciliation freshness fix, drawdown ack)
-- Delta-neutral hedge attribution report (separate directional vs hedge PnL)
+- Delta-neutral hedge attribution report (separate directional vs hedge PnL; not null)
 
-### Gates (campaign FAILS if any unmet)
+### Gates (campaign FAILS if any unmet — empty/null artifacts = fail)
 - `total_trades > 0` and `equity_final != initial_capital` (non-flat) for at least primary scenario; report per scenario
 - `sharpe_ratio` finite; `max_drawdown < 0.2` unless explicitly justified by paper stress test with evidence
 - `slo_reconciliation_freshness >= 0.99` (met)
 - Targeted tests green; scoped `mypy` clean (phase79/80 documented as noise)
-- Delta-neutral hedge PnL attribution present and reconciled
+- Delta-neutral hedge PnL attribution present and reconciled (directional and hedge both non-null)
 - All open incidents resolved/acked with evidence artifacts
+- `data/processed/` contains >=3 multi-venue venue-symbol files
 
 ## Definition of done (checkpoint for next agent)
 - [x] Env proven (imports OK).
-- [x] Backtest non-flat confirmed with artifact (`BACKTEST_SYNTHETIC_20261106T191907Z.json`).
+- [x] Backtest non-flat confirmed with artifact (`BACKTEST_E2E_20261106T194848Z.json`).
 - [x] Targeted tests + scoped mypy reported with evidence (105 passed; 130 pre-existing phase79/80 mypy noise documented).
 - [x] `slo_reconciliation_freshness >= 0.99` achieved with `RECONCILIATION_FRESHNESS_FIX_20261106T192549Z.json`.
 - [x] Drawdown alert acked with `DRAWDOWN_ACK_20261106T192549Z.json`.
-- [ ] At least one non-flat E2E/campaign artifact in `research_state/` with UTC timestamp (`E2E_READINESS_<UTC>.json` + `BACKTEST_E2E_<UTC>.json`).
-- [ ] Delta-neutral hedge PnL attribution present and reconciled (`HEDGE_ATTRIBUTION_<UTC>.json`).
+- [ ] Non-empty E2E readiness artifact in `research_state/` with UTC timestamp (`E2E_READINESS_<UTC>.json`) — clears empty-file bottleneck.
+- [ ] Delta-neutral hedge PnL attribution split (directional + hedge both non-null) (`HEDGE_ATTRIBUTION_<UTC>.json`).
+- [ ] >=3 multi-venue processed files under `data/processed/` with metadata.
+- [ ] `E2E_READINESS_MULTI_VENUE_<UTC>.json` + `BACKTEST_E2E_MULTI_<UTC>.json` with gates met.
+- [ ] `campaign_checkpoints/END2END_LIVE_TRADING_READINESS_latest.json` + immutable timestamped copy.
 - [ ] `HANDOFF_NEXT_AGENT.md` updated with **next concrete checkpoint** (specific files/tasks/gates), not vague advice.
 
 ## Entry points
@@ -97,28 +109,4 @@ Deliver a **live-trading-ready, paper-gated** crypto **options orderflow** strat
 - CLI: `python -m src.main --config config/settings.yaml --json` (verify config path/fields)
 - Conventions: Python 3.10, pydantic>=2.5, pandas/numpy/pyyaml/scipy; no comments unless asked; UTC ISO-8601 timestamps.
 
-**Next agent instruction:** Execute Task `NEXT-20261106T192549Z-E2E-LIVE-TRADING-READINESS` in order. Do not run full 375-file pytest suite. Do not refactor phase79/80/phase110 mega-files. Focus on the paper E2E integrated campaign with genuine reconciliation freshness (`>= 0.99`), non-flat backtest evidence, and delta-neutral hedge attribution. Leave the handoff updated with a concrete next checkpoint after completion.
-
-
-## CHECKPOINT (2026-11-06T19:48:11Z) — Task NEXT-20261106T192549Z-E2E-LIVE-TRADING-READINESS COMPLETE
-- **E2E campaign:** `e2e_readiness_1` completed (7/7 steps). Artifacts in `research_state/INTEGRATED_*`, summary in `research_state/E2E_READINESS_20261106T194811Z.json`.
-- **Reconciliation freshness:** `freshness=0.999981`, `slo_reconciliation_freshness` met (true, `current_value=0.9999806364377339 >= 0.99`). Wired via `ContinuousMonitor.record_reconciliation()` + cycle.
-- **Non-flat backtest:** `BACKTEST_E2E_20261106T194848Z.json` from synthetic run — `total_trades=2`, `equity_final=100000.15976002 != 100000`, `sharpe_ratio=6.343775995217426` finite, `max_drawdown=1.2000999999872875e-06 < 0.2`.
-- **Hedge attribution:** `HEDGE_ATTRIBUTION_20261106T194811Z.json` shows `options_hedging_total_pnl=-5506.821031969527` with component attribution (delta hedge) and evidence refs to integrated steps.
-
-### NEXT CONCRETE CHECKPOINT (do first)
-**Task ID:** `NEXT2-20261106T194811Z-MULTI-VENUE-EVIDENCE`
-
-**Priority:** P0 (extend END2END_LIVE_TRADING_READINESS to multi-venue with real schema + gates)
-
-**Steps:**
-1. **Materialize multi-venue features** — Extend feature pipeline to emit `data/processed/<venue>_<symbol>_<ts>.json|parquet` with metadata (schema/version/venue/symbol/timestamp). Verify: `data/processed/` has >=3 venue-symbol files (Deribit/OKX/Binance × BTC/ETH). Update `src/pipelines/build_features.py` if needed.
-2. **Wire composite orderflow signals** — Validate `CompositeSignalGenerator` + `OrderflowSignalGenerator` thresholds are config-driven; ensure no hard gate yields 0 trades on valid flow. Add regression test if thresholds change.
-3. **Delta-neutral hedge PnL separation** — In campaign output, ensure directional vs hedge PnL are explicitly split (not just total). Persist full attribution in `research_state/HEDGE_ATTRIBUTION_<UTC>.json` with both components.
-4. **Run multi-venue aware E2E** — Execute `scripts/run_integrated_campaign.py` with appropriate params and save `research_state/E2E_READINESS_MULTI_VENUE_<UTC>.json`. Require `reconciliation.slo_met == true` and `reconciliation.freshness >= 0.99`.
-5. **Non-flat backtest per scenario** — Save `research_state/BACKTEST_E2E_MULTI_<UTC>.json` with `total_trades > 0`, `equity_final != initial_capital`, finite ratios, `max_drawdown < 0.2`.
-6. **Gates check** — Targeted tests (105+ related) green; scoped mypy on touched modules clean or noise documented. All incidents acked with evidence.
-
-**Artifacts required:** multi-venue processed files, `E2E_READINESS_MULTI_VENUE_<UTC>.json`, `BACKTEST_E2E_MULTI_<UTC>.json`, updated `HEDGE_ATTRIBUTION_<UTC>.json`. Update this file with next checkpoint after completion.
-
-**Entry points:** `PYTHONPATH=<root> python scripts/run_integrated_campaign.py run --campaign-id mv_e2e_1 --seed 123 --n-points 600 --train-window 150 --test-window 50 --step-size 50` (adjust as needed). Focus on evidence/gates, not refactoring mega-files.
+**Next agent instruction:** Execute Task `NEXT3-20261106T200821Z-MULTI-VENUE-EVIDENCE` in order. Do not run full 375-file pytest suite. Do not refactor phase79/80/phase110 mega-files. Focus on the paper E2E integrated campaign with genuine reconciliation freshness (`>= 0.99`), non-flat backtest evidence, genuine directional/hedge PnL split, and multi-venue evidence. Leave the handoff updated with a concrete next checkpoint after completion.
