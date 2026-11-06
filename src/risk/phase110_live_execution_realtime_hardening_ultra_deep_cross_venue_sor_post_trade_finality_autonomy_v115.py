@@ -181,11 +181,11 @@ class Phase110UltraDeepQuantEngineV118(Phase110UltraDeepQuantEngineV117):
         )
         return self._stamp(super().settlement_custody_resilience_deep_v116(n=n), flags)
 
-    def regime_mm_hedge_deep_v115(self, n: int = 120):
-        return self._stamp(super().regime_mm_hedge_deep_v115(n=n), {"mm_deep_v115": True})
+    def regime_mm_hedge_deep_v114(self, n: int = 120):
+        return self._stamp(super().regime_mm_hedge_deep_v114(n=n), {"mm_deep_v114": True})
 
-    def settlement_custody_resilience_deep_v115(self, n: int = 120):
-        return self._stamp(super().settlement_custody_resilience_deep_v115(n=n), {"scr_deep_v115": True})
+    def settlement_custody_resilience_deep_v114(self, n: int = 120):
+        return self._stamp(super().settlement_custody_resilience_deep_v114(n=n), {"scr_deep_v114": True})
 
 
 class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityAutonomyV115Loop(
@@ -226,8 +226,8 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
         obs = self.engine.observability_attribution_tca_deep_v117(n=n)
         scr = self.engine.settlement_custody_resilience_deep_v117(n=n)
 
-        mm_comp = self.engine.regime_mm_hedge_deep_v115(n=120)
-        scr_comp = self.engine.settlement_custody_resilience_deep_v115(n=120)
+        mm_comp = self.engine.regime_mm_hedge_deep_v114(n=120)
+        scr_comp = self.engine.settlement_custody_resilience_deep_v114(n=120)
 
         hashes = []
         for i in range(c):
@@ -272,8 +272,8 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
             for v in range(115, 81, -1):
                 gates[f"{prefix}_v{v}"] = self._all_flag(rows, f"{prefix}_v{v}")
 
-        gates["composition_mm_v115"] = bool(mm_comp and self._all_flag(mm_comp, "mm_deep_v115"))
-        gates["composition_scr_v115"] = bool(scr_comp and self._all_flag(scr_comp, "scr_deep_v115"))
+        gates["composition_mm_v115"] = bool(mm_comp and self._all_flag(mm_comp, "mm_deep_v114"))
+        gates["composition_scr_v115"] = bool(scr_comp and self._all_flag(scr_comp, "scr_deep_v114"))
 
         gates["all_ok"] = all(bool(v) for v in gates.values())
 
@@ -318,5 +318,5 @@ class Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinal
 
 
 Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityAutonomyV114Loop = (
-    Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityAutonomyV115Loop
+    Phase110LiveExecutionRealtimeHardeningUltraDeepCrossVenueSorPostTradeFinalityAutonomyV114Loop
 )
