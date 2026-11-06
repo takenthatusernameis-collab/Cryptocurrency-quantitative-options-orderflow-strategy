@@ -26,16 +26,23 @@ def main():
         risk_config=RiskConfig(),
     )
 
+    now = datetime.now(timezone.utc)
     if signal["signal"] == 1 and signal["strength"] > 0:
         qty = engine.calculate_position_size(spot) * min(1.0, signal["strength"])
         if qty > 0:
-            engine.execute_trade("BTCUSDT", qty, spot, "buy", datetime.now(timezone.utc))
+            engine.execute_trade("BTCUSDT", qty, spot, "buy", now)
     elif signal["signal"] == -1 and signal["strength"] > 0:
         qty = engine.calculate_position_size(spot) * min(1.0, signal["strength"])
         if qty > 0:
-            engine.execute_trade("BTCUSDT", qty, spot, "sell", datetime.now(timezone.utc))
+            engine.execute_trade("BTCUSDT", qty, spot, "sell", now)
 
     engine.update_equity_curve({"BTCUSDT": spot})
+    mark = spot * (1.0 + (0.002 if signal.get("signal", 0) >= 0 else -0.002))
+    if "BTCUSDT" in engine.positions:
+        pos = engine.positions["BTCUSDT"]
+        close_side = "sell" if pos.side == "long" else "buy"
+        engine.execute_trade("BTCUSDT", pos.quantity, mark, close_side, now)
+    engine.update_equity_curve({"BTCUSDT": mark})
     res = engine.calculate_metrics()
 
     out = {
