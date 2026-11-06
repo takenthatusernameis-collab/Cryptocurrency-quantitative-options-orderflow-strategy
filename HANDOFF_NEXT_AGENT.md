@@ -1,7 +1,7 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE — READ FIRST)
-**Timestamp (UTC): 2026-11-06T07:41:41Z**
+**Timestamp (UTC): 2026-11-06T07:44:30Z**
 **Repo (inferred):** `Cryptocurrency-quantitative-options-orderflow-strategy`
-**MANDATE:** Ship **v116 NOW**. No exploration/planning-only. Tangible `src/` + `tests/` + deterministic `research_state/` artifacts required. Gate must be GREEN before ending session.
+**MANDATE:** Ship **v117 NOW**. No exploration/planning-only. Tangible `src/` + `tests/` + deterministic `research_state/` artifacts required. Gate must be GREEN before ending session.
 
 ## CURRENT STATE (re-verified)
 - **v115:** SHIPPED+GREEN/FINITE. `src/risk/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v115.py`, test `tests/test_phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v115.py`, artifacts in `research_state/phase110_live_execution_realtime_hardening_ultra_deep_cross_venue_sor_post_trade_finality_autonomy_v115/` (`version:"v115"`, `engine:Phase110UltraDeepQuantEngineV118`, `seed:1111195`, `all_ok/finite_ok/gates.all_ok:true`, `cycles:115`). v115 hygiene CLEAN (0 forbidden tokens).
@@ -11,7 +11,7 @@
 
 ## CRYSTAL-CLEAR INITIAL TASK MESSAGE FOR NEXT AGENT (HEAVY, NO DEVIATION)
 
-**OBJECTIVE:** Implement and ship `PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V116` end-to-end.
+**OBJECTIVE:** Implement and ship `PHASE_110_LIVE_EXECUTION_REALTIME_HARDENING_ULTRA_DEEP_CROSSVENUE_SOR_POSTTRADE_FINALITY_AUTONOMY_V117` end-to-end.
 
 **STEP 1 — VERIFY GATE FIRST**
 ```bash
