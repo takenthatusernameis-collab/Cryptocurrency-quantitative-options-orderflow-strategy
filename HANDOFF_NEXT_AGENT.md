@@ -1,5 +1,5 @@
 # SINGLE DURABLE HANDOFF (AUTHORITATIVE — READ FIRST)
-**Timestamp (UTC): 2026-11-06T10:48:47Z**
+**Timestamp (UTC): 2026-11-06T10:51:37Z**
 **Repo (inferred):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **MANDATE:** Ship **v131 NOW**. No exploration/planning-only. Tangible `src/` + `tests/` + deterministic `research_state/` artifacts required. Gate must be GREEN before ending session.
 
