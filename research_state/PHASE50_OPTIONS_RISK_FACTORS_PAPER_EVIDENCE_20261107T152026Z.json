@@ -1,0 +1,448 @@
+{
+  "artifact_type": "PHASE50_OPTIONS_RISK_FACTORS_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-07T15:20:26.139916Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "advisory": true,
+  "no_external_venue_mutation": true,
+  "seed": 50052,
+  "cycles": 40,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "campaign": {
+    "paper_only": true,
+    "total_cycles": 40,
+    "gates_ok": true,
+    "n_rv_opps": 12,
+    "n_rv_exploitable": 12,
+    "avg_rv_net_edge_bps": 0.733866666666667,
+    "n_mm_quotes": 12,
+    "n_mm_shaded": 12,
+    "n_mm_greeks_neutral": 0,
+    "avg_mm_spread_bps": 8.0,
+    "integrated_loop_gates_ok": true,
+    "halt_executed": true
+  },
+  "rv_surface": {
+    "phase": "PHASE50_CROSS_VENUE_RELATIVE_VALUE_EXECUTOR",
+    "paper_only": true,
+    "seed": 50052,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "expiries": [
+      "7D",
+      "30D"
+    ],
+    "gates_ok": true,
+    "n_opps": 12,
+    "n_exploitable": 12,
+    "avg_net_edge_bps": 0.733866666666667,
+    "rows": [
+      {
+        "underlying": "BTC",
+        "expiry": "7D",
+        "symbol": "BTC-USD",
+        "n_opps": 3,
+        "n_exploitable": 3,
+        "avg_net_edge_bps": 0.733866666666667,
+        "paper_only": true
+      },
+      {
+        "underlying": "BTC",
+        "expiry": "30D",
+        "symbol": "BTC-USD",
+        "n_opps": 3,
+        "n_exploitable": 3,
+        "avg_net_edge_bps": 0.733866666666667,
+        "paper_only": true
+      },
+      {
+        "underlying": "ETH",
+        "expiry": "7D",
+        "symbol": "ETH-USD",
+        "n_opps": 3,
+        "n_exploitable": 3,
+        "avg_net_edge_bps": 0.733866666666667,
+        "paper_only": true
+      },
+      {
+        "underlying": "ETH",
+        "expiry": "30D",
+        "symbol": "ETH-USD",
+        "n_opps": 3,
+        "n_exploitable": 3,
+        "avg_net_edge_bps": 0.733866666666667,
+        "paper_only": true
+      }
+    ]
+  },
+  "greeks_surface": {
+    "phase": "PHASE50_TOXICITY_AWARE_OPTIONS_MM",
+    "paper_only": true,
+    "seed": 50052,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "expiries": [
+      "7D",
+      "30D"
+    ],
+    "gates_ok": true,
+    "n_quotes": 12,
+    "n_shaded": 12,
+    "n_greeks_neutral": 0,
+    "avg_spread_bps": 8.0,
+    "rows": [
+      {
+        "venue": "deribit",
+        "underlying": "BTC",
+        "symbol": "BTC-USD",
+        "paper_only": true
+      },
+      {
+        "venue": "deribit",
+        "underlying": "ETH",
+        "symbol": "ETH-USD",
+        "paper_only": true
+      },
+      {
+        "venue": "okx",
+        "underlying": "BTC",
+        "symbol": "BTC-USD",
+        "paper_only": true
+      },
+      {
+        "venue": "okx",
+        "underlying": "ETH",
+        "symbol": "ETH-USD",
+        "paper_only": true
+      },
+      {
+        "venue": "binance",
+        "underlying": "BTC",
+        "symbol": "BTC-USD",
+        "paper_only": true
+      },
+      {
+        "venue": "binance",
+        "underlying": "ETH",
+        "symbol": "ETH-USD",
+        "paper_only": true
+      }
+    ]
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "underlying": "BTC",
+      "symbol": "BTC-USD",
+      "rv_probe": {
+        "venue": "deribit",
+        "underlying": "BTC",
+        "symbol": "BTC-USD",
+        "n_rv_opps": 4,
+        "avg_rv_bps": 1.6976000000000002,
+        "avg_net_edge_bps": 0.7376000000000003,
+        "avg_tca_est_slip_bps": 0.96,
+        "n_exploitable": 4,
+        "deterministic_probe_id": "p50rf_rv_f9bde2e81f95",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "mm_probe": {
+        "venue": "deribit",
+        "underlying": "BTC",
+        "symbol": "BTC-USD",
+        "n_quotes": 2,
+        "avg_spread_bps": 8.0,
+        "n_shaded": 2,
+        "n_greeks_neutral": 0,
+        "avg_delta": 0.1,
+        "avg_gamma": 0.02,
+        "avg_vega": 0.15,
+        "deterministic_probe_id": "p50rf_mm_37443cf30eb1",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "deterministic_probe_id": "p50rf_cov_d04631d6dd8e",
+      "probe_finite": true,
+      "campaign_rv_n_opps": 4,
+      "campaign_mm_n_quotes": 2,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "underlying": "ETH",
+      "symbol": "ETH-USD",
+      "rv_probe": {
+        "venue": "deribit",
+        "underlying": "ETH",
+        "symbol": "ETH-USD",
+        "n_rv_opps": 4,
+        "avg_rv_bps": 1.6976000000000002,
+        "avg_net_edge_bps": 0.7376000000000003,
+        "avg_tca_est_slip_bps": 0.96,
+        "n_exploitable": 4,
+        "deterministic_probe_id": "p50rf_rv_5ba8819de835",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "mm_probe": {
+        "venue": "deribit",
+        "underlying": "ETH",
+        "symbol": "ETH-USD",
+        "n_quotes": 2,
+        "avg_spread_bps": 8.0,
+        "n_shaded": 2,
+        "n_greeks_neutral": 0,
+        "avg_delta": 0.1,
+        "avg_gamma": 0.02,
+        "avg_vega": 0.15,
+        "deterministic_probe_id": "p50rf_mm_af9d713eebbc",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "deterministic_probe_id": "p50rf_cov_474ef525f10b",
+      "probe_finite": true,
+      "campaign_rv_n_opps": 4,
+      "campaign_mm_n_quotes": 2,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "underlying": "BTC",
+      "symbol": "BTC-USD",
+      "rv_probe": {
+        "venue": "okx",
+        "underlying": "BTC",
+        "symbol": "BTC-USD",
+        "n_rv_opps": 4,
+        "avg_rv_bps": 1.6880000000000002,
+        "avg_net_edge_bps": 0.7280000000000002,
+        "avg_tca_est_slip_bps": 0.96,
+        "n_exploitable": 4,
+        "deterministic_probe_id": "p50rf_rv_703dd72d7574",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "mm_probe": {
+        "venue": "okx",
+        "underlying": "BTC",
+        "symbol": "BTC-USD",
+        "n_quotes": 2,
+        "avg_spread_bps": 8.0,
+        "n_shaded": 2,
+        "n_greeks_neutral": 0,
+        "avg_delta": 0.1,
+        "avg_gamma": 0.02,
+        "avg_vega": 0.15,
+        "deterministic_probe_id": "p50rf_mm_968d38e772c8",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "deterministic_probe_id": "p50rf_cov_b1093b75bfc6",
+      "probe_finite": true,
+      "campaign_rv_n_opps": 4,
+      "campaign_mm_n_quotes": 2,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "underlying": "ETH",
+      "symbol": "ETH-USD",
+      "rv_probe": {
+        "venue": "okx",
+        "underlying": "ETH",
+        "symbol": "ETH-USD",
+        "n_rv_opps": 4,
+        "avg_rv_bps": 1.6880000000000002,
+        "avg_net_edge_bps": 0.7280000000000002,
+        "avg_tca_est_slip_bps": 0.96,
+        "n_exploitable": 4,
+        "deterministic_probe_id": "p50rf_rv_e7bc66486c45",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "mm_probe": {
+        "venue": "okx",
+        "underlying": "ETH",
+        "symbol": "ETH-USD",
+        "n_quotes": 2,
+        "avg_spread_bps": 8.0,
+        "n_shaded": 2,
+        "n_greeks_neutral": 0,
+        "avg_delta": 0.1,
+        "avg_gamma": 0.02,
+        "avg_vega": 0.15,
+        "deterministic_probe_id": "p50rf_mm_ad3ad6dbbb65",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "deterministic_probe_id": "p50rf_cov_b07b73f5e137",
+      "probe_finite": true,
+      "campaign_rv_n_opps": 4,
+      "campaign_mm_n_quotes": 2,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "underlying": "BTC",
+      "symbol": "BTC-USD",
+      "rv_probe": {
+        "venue": "binance",
+        "underlying": "BTC",
+        "symbol": "BTC-USD",
+        "n_rv_opps": 4,
+        "avg_rv_bps": 1.6960000000000002,
+        "avg_net_edge_bps": 0.7360000000000002,
+        "avg_tca_est_slip_bps": 0.96,
+        "n_exploitable": 4,
+        "deterministic_probe_id": "p50rf_rv_18a4ad19a51f",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "mm_probe": {
+        "venue": "binance",
+        "underlying": "BTC",
+        "symbol": "BTC-USD",
+        "n_quotes": 2,
+        "avg_spread_bps": 8.0,
+        "n_shaded": 2,
+        "n_greeks_neutral": 0,
+        "avg_delta": 0.1,
+        "avg_gamma": 0.02,
+        "avg_vega": 0.15,
+        "deterministic_probe_id": "p50rf_mm_4cf936587172",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "deterministic_probe_id": "p50rf_cov_8de87c46fad9",
+      "probe_finite": true,
+      "campaign_rv_n_opps": 4,
+      "campaign_mm_n_quotes": 2,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "underlying": "ETH",
+      "symbol": "ETH-USD",
+      "rv_probe": {
+        "venue": "binance",
+        "underlying": "ETH",
+        "symbol": "ETH-USD",
+        "n_rv_opps": 4,
+        "avg_rv_bps": 1.6960000000000002,
+        "avg_net_edge_bps": 0.7360000000000002,
+        "avg_tca_est_slip_bps": 0.96,
+        "n_exploitable": 4,
+        "deterministic_probe_id": "p50rf_rv_16f090c5a00b",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "mm_probe": {
+        "venue": "binance",
+        "underlying": "ETH",
+        "symbol": "ETH-USD",
+        "n_quotes": 2,
+        "avg_spread_bps": 8.0,
+        "n_shaded": 2,
+        "n_greeks_neutral": 0,
+        "avg_delta": 0.1,
+        "avg_gamma": 0.02,
+        "avg_vega": 0.15,
+        "deterministic_probe_id": "p50rf_mm_b293cf30c1bb",
+        "probe_finite": true,
+        "paper_only": true
+      },
+      "deterministic_probe_id": "p50rf_cov_daca7711bdeb",
+      "probe_finite": true,
+      "campaign_rv_n_opps": 4,
+      "campaign_mm_n_quotes": 2,
+      "paper_only": true
+    }
+  ],
+  "integrated_loop": {
+    "phase": "PHASE50_OPTIONS_ORDERFLOW_EXECUTION_LOOP",
+    "paper_only": true,
+    "cycles": 20,
+    "gates_ok": true,
+    "halt_executed": true,
+    "halt_events": 1,
+    "slo_alerts_fired": 5,
+    "toxicity_mm50_gates_ok": true,
+    "cross_venue_rv50_gates_ok": true,
+    "risk_hedge_campaign_gates_ok": false,
+    "resilience_campaign_gates_ok": false,
+    "phase39_kill_switches_gates_ok": true
+  },
+  "determinism": {
+    "deterministic_seeded": true,
+    "rv_same_seed_reproduces_surface": true,
+    "mm_same_seed_reproduces_surface": true,
+    "same_seed_cycles_reproduce_surface": true,
+    "bounds_ok": true,
+    "bounds": {
+      "all_rv_net_edge_finite": true,
+      "all_rv_slippage_non_negative": true,
+      "all_mm_spread_non_negative": true,
+      "all_mm_spread_bounded": true,
+      "all_venues_in_scope": true,
+      "all_underlyings_in_scope": true
+    }
+  },
+  "risk_posture": {
+    "paper_only": true,
+    "kill_switch_slo_posture": "armed_paper",
+    "gates_ok": true,
+    "halt_executed": true,
+    "halt_events": 1,
+    "slo_alerts_fired": 5,
+    "no_external_venue_mutation": true,
+    "next9_unblocked": false,
+    "live_trading_enabled": false
+  },
+  "evidence_refs": [
+    "src/execution/phase50_cross_venue_relative_value_executor.py",
+    "src/marketmaking/phase50_toxicity_aware_options_mm.py",
+    "src/integration/phase50_options_orderflow_execution_loop.py",
+    "scripts/generate_phase50_options_risk_factors_paper_evidence.py",
+    "tests/test_generate_phase50_options_risk_factors_paper_evidence.py"
+  ],
+  "cross_refs": [
+    "research_state/PHASE42_GREEKS_RISK_PAPER_EVIDENCE_20261107T130556Z.json",
+    "research_state/PHASE46_EXECUTION_PAPER_EVIDENCE_20261107T132047Z.json",
+    "research_state/PHASE51_LATENCY_AWARE_OPTIONS_SOR_PAPER_EVIDENCE_20261107T142001Z.json",
+    "research_state/PHASE39_LIVE_READINESS_PAPER_EVIDENCE_20261107T141256Z.json",
+    "research_state/CONTINUOUS_VALIDATION_20261107T140506Z.json",
+    "research_state/PAPER_OPS_SESSION_GATE_20261107T150604Z.json"
+  ],
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}

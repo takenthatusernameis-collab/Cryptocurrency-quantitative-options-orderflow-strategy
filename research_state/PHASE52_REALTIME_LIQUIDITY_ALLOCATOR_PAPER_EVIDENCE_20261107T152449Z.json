@@ -1,0 +1,212 @@
+{
+  "artifact_type": "PHASE52_REALTIME_LIQUIDITY_ALLOCATOR_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-07T15:24:49.663414Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "advisory": true,
+  "no_external_venue_mutation": true,
+  "seed": 52052,
+  "cycles": 60,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "p1_blocker": "P1 primary (Phase50 options risk-factors paper evidence) blocked: no importable src/**/phase50*options*risk*factor* module located. Present phase50 sources are src/marketmaking/phase50_toxicity_aware_options_mm.py and src/execution/phase50_cross_venue_relative_value_executor.py (neither is a Greeks/risk-factor decomposition module). Alternate heavy evidence delivered for phase52 realtime liquidity allocation (paper-only).",
+  "campaign": {
+    "paper_only": true,
+    "cycles": 60,
+    "gates_ok": true,
+    "n_allocations": 180,
+    "n_slices": 720,
+    "n_tca": 60,
+    "total_alloc_usd": 216000.0,
+    "avg_toxicity": 0.19,
+    "halted_by_kill_switch": false
+  },
+  "allocation_surface": {
+    "phase": "PHASE52_REALTIME_LIQUIDITY_ALLOCATOR",
+    "paper_only": true,
+    "seed": 52052,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "tenors": [
+      "1D",
+      "7D",
+      "30D"
+    ],
+    "strikes": [
+      "ATM",
+      "25D"
+    ],
+    "gates_ok": true,
+    "n_allocations": 180,
+    "total_alloc_usd": 216000.0,
+    "max_alloc_usd": 500000.0
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "underlying": "BTC",
+      "symbol": "BTC-USD",
+      "deterministic_probe_alloc_id": "p52alloc_alloc_842398b1acd7",
+      "probe_alloc_usd": 1200.0,
+      "probe_frag_penalty": 0.000175,
+      "probe_tox_adj_factor": 0.943,
+      "probe_alloc_finite": true,
+      "probe_gates_ok": true,
+      "probe_n_allocations": 8,
+      "probe_total_alloc_usd": 9600.0,
+      "campaign_n_allocations": 60,
+      "campaign_total_alloc_usd": 72000.0,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "underlying": "ETH",
+      "symbol": "ETH-USD",
+      "deterministic_probe_alloc_id": "p52alloc_alloc_9cfea74ab083",
+      "probe_alloc_usd": 1200.0,
+      "probe_frag_penalty": 0.000175,
+      "probe_tox_adj_factor": 0.943,
+      "probe_alloc_finite": true,
+      "probe_gates_ok": true,
+      "probe_n_allocations": 8,
+      "probe_total_alloc_usd": 9600.0,
+      "campaign_n_allocations": 0,
+      "campaign_total_alloc_usd": 0.0,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "underlying": "BTC",
+      "symbol": "BTC-USD",
+      "deterministic_probe_alloc_id": "p52alloc_alloc_5f3507223d4a",
+      "probe_alloc_usd": 1200.0,
+      "probe_frag_penalty": 0.000175,
+      "probe_tox_adj_factor": 0.943,
+      "probe_alloc_finite": true,
+      "probe_gates_ok": true,
+      "probe_n_allocations": 8,
+      "probe_total_alloc_usd": 9600.0,
+      "campaign_n_allocations": 0,
+      "campaign_total_alloc_usd": 0.0,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "underlying": "ETH",
+      "symbol": "ETH-USD",
+      "deterministic_probe_alloc_id": "p52alloc_alloc_a061a11aaee9",
+      "probe_alloc_usd": 1200.0,
+      "probe_frag_penalty": 0.000175,
+      "probe_tox_adj_factor": 0.943,
+      "probe_alloc_finite": true,
+      "probe_gates_ok": true,
+      "probe_n_allocations": 8,
+      "probe_total_alloc_usd": 9600.0,
+      "campaign_n_allocations": 60,
+      "campaign_total_alloc_usd": 72000.0,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "underlying": "BTC",
+      "symbol": "BTC-USD",
+      "deterministic_probe_alloc_id": "p52alloc_alloc_cef9703f9819",
+      "probe_alloc_usd": 1200.0,
+      "probe_frag_penalty": 0.000175,
+      "probe_tox_adj_factor": 0.943,
+      "probe_alloc_finite": true,
+      "probe_gates_ok": true,
+      "probe_n_allocations": 8,
+      "probe_total_alloc_usd": 9600.0,
+      "campaign_n_allocations": 60,
+      "campaign_total_alloc_usd": 72000.0,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "underlying": "ETH",
+      "symbol": "ETH-USD",
+      "deterministic_probe_alloc_id": "p52alloc_alloc_dc4094946ad6",
+      "probe_alloc_usd": 1200.0,
+      "probe_frag_penalty": 0.000175,
+      "probe_tox_adj_factor": 0.943,
+      "probe_alloc_finite": true,
+      "probe_gates_ok": true,
+      "probe_n_allocations": 8,
+      "probe_total_alloc_usd": 9600.0,
+      "campaign_n_allocations": 0,
+      "campaign_total_alloc_usd": 0.0,
+      "paper_only": true
+    }
+  ],
+  "slicing_tca_summary": {
+    "paper_only": true,
+    "n_slices": 720,
+    "n_tca": 60,
+    "avg_slice_usd": 300.0,
+    "avg_est_slippage_bps": 1.85,
+    "max_est_slippage_bps": 1.85,
+    "slice_alloc_linked": true
+  },
+  "determinism": {
+    "deterministic_seeded": true,
+    "same_seed_cycles_reproduce_surface": true,
+    "bounds_ok": true,
+    "bounds": {
+      "all_alloc_non_negative": true,
+      "all_alloc_within_max": true,
+      "all_frag_bounded": true,
+      "all_tox_adj_bounded": true,
+      "all_slices_positive": true,
+      "all_tca_slippage_non_negative": true,
+      "all_venues_in_scope": true,
+      "all_underlyings_in_scope": true
+    }
+  },
+  "risk_posture": {
+    "paper_only": true,
+    "kill_switch_slo_posture": "armed_paper",
+    "gates_ok": true,
+    "halted_by_kill_switch": false,
+    "avg_toxicity": 0.19,
+    "no_external_venue_mutation": true,
+    "next9_unblocked": false,
+    "live_trading_enabled": false
+  },
+  "evidence_refs": [
+    "src/execution/phase52_realtime_liquidity_allocator.py",
+    "scripts/generate_phase52_realtime_liquidity_allocator_paper_evidence.py",
+    "tests/test_generate_phase52_realtime_liquidity_allocator_paper_evidence.py"
+  ],
+  "cross_refs": [
+    "src/marketmaking/phase50_toxicity_aware_options_mm.py",
+    "src/execution/phase50_cross_venue_relative_value_executor.py",
+    "research_state/PHASE51_LATENCY_AWARE_OPTIONS_SOR_PAPER_EVIDENCE_20261107T142001Z.json",
+    "research_state/PHASE46_EXECUTION_PAPER_EVIDENCE_20261107T132047Z.json",
+    "research_state/CONTINUOUS_VALIDATION_20261107T140506Z.json",
+    "research_state/PAPER_OPS_SESSION_GATE_20261107T142904Z.json"
+  ],
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}
