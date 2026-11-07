@@ -1,0 +1,252 @@
+{
+  "artifact_type": "PHASE58_ADAPTIVE_OPTIONS_SMART_ORDER_ROUTER_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-07T17:18:54.619022Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "advisory": true,
+  "no_external_venue_mutation": true,
+  "seed": 58058,
+  "cycles": 80,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "campaign": {
+    "paper_only": true,
+    "phase": "PHASE58_ADAPTIVE_OPTIONS_SMART_ORDER_ROUTER",
+    "cycles": 80,
+    "probe_total_cycles": 80,
+    "gates_ok": true,
+    "slo_ok": true,
+    "n_routes": 80,
+    "avg_route_score": 0.780647475,
+    "avg_fill_pred": 0.8346937499999999,
+    "tox58_integration_ok": true,
+    "kill_switch_halted": false,
+    "source_seed": 58058
+  },
+  "sor_routing_surface": {
+    "paper_only": true,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "deterministic_replay_equal": true,
+    "bounds_ok": true,
+    "bounds": {
+      "avg_route_score_finite_0_1": true,
+      "avg_fill_pred_finite_0_1": true,
+      "avg_latency_ms_finite_nonneg": true,
+      "avg_slippage_bps_finite_nonneg": true,
+      "n_routes_positive": true,
+      "campaign_gates_ok": true,
+      "all_reports_paper_only": true
+    },
+    "coverage_pairs": 6,
+    "avg_route_score": 0.780647475,
+    "avg_fill_pred": 0.83469375,
+    "avg_latency_ms": 9.65245,
+    "avg_slippage_bps": 2.65735,
+    "avg_toxicity_penalty_bps": 2.01225
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "deterministic_probe_route_id": "p58sor:deribit:BTC-USD:58058",
+      "probe_cycle": 0,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_n_routes": 8,
+      "probe_avg_route_score": 0.780647475,
+      "probe_avg_fill_pred": 0.83469375,
+      "probe_avg_latency_ms": 9.65245,
+      "probe_avg_slippage_bps": 2.65735,
+      "probe_avg_toxicity_penalty_bps": 2.01225,
+      "probe_avg_fragmentation_penalty_bps": 0.5,
+      "probe_finite": true,
+      "campaign_cycles": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "deterministic_probe_route_id": "p58sor:deribit:ETH-USD:58059",
+      "probe_cycle": 0,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_n_routes": 8,
+      "probe_avg_route_score": 0.780647475,
+      "probe_avg_fill_pred": 0.83469375,
+      "probe_avg_latency_ms": 9.65245,
+      "probe_avg_slippage_bps": 2.65735,
+      "probe_avg_toxicity_penalty_bps": 2.01225,
+      "probe_avg_fragmentation_penalty_bps": 0.5,
+      "probe_finite": true,
+      "campaign_cycles": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "deterministic_probe_route_id": "p58sor:okx:BTC-USD:58158",
+      "probe_cycle": 0,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_n_routes": 8,
+      "probe_avg_route_score": 0.780647475,
+      "probe_avg_fill_pred": 0.83469375,
+      "probe_avg_latency_ms": 9.65245,
+      "probe_avg_slippage_bps": 2.65735,
+      "probe_avg_toxicity_penalty_bps": 2.01225,
+      "probe_avg_fragmentation_penalty_bps": 0.5,
+      "probe_finite": true,
+      "campaign_cycles": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "deterministic_probe_route_id": "p58sor:okx:ETH-USD:58159",
+      "probe_cycle": 0,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_n_routes": 8,
+      "probe_avg_route_score": 0.780647475,
+      "probe_avg_fill_pred": 0.83469375,
+      "probe_avg_latency_ms": 9.65245,
+      "probe_avg_slippage_bps": 2.65735,
+      "probe_avg_toxicity_penalty_bps": 2.01225,
+      "probe_avg_fragmentation_penalty_bps": 0.5,
+      "probe_finite": true,
+      "campaign_cycles": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "deterministic_probe_route_id": "p58sor:binance:BTC-USD:58258",
+      "probe_cycle": 0,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_n_routes": 8,
+      "probe_avg_route_score": 0.780647475,
+      "probe_avg_fill_pred": 0.83469375,
+      "probe_avg_latency_ms": 9.65245,
+      "probe_avg_slippage_bps": 2.65735,
+      "probe_avg_toxicity_penalty_bps": 2.01225,
+      "probe_avg_fragmentation_penalty_bps": 0.5,
+      "probe_finite": true,
+      "campaign_cycles": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "deterministic_probe_route_id": "p58sor:binance:ETH-USD:58259",
+      "probe_cycle": 0,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_n_routes": 8,
+      "probe_avg_route_score": 0.780647475,
+      "probe_avg_fill_pred": 0.83469375,
+      "probe_avg_latency_ms": 9.65245,
+      "probe_avg_slippage_bps": 2.65735,
+      "probe_avg_toxicity_penalty_bps": 2.01225,
+      "probe_avg_fragmentation_penalty_bps": 0.5,
+      "probe_finite": true,
+      "campaign_cycles": 8,
+      "paper_only": true
+    }
+  ],
+  "tca_slippage_latency_summary": {
+    "paper_only": true,
+    "coverage_rows": 6,
+    "avg_latency_ms": 9.65245,
+    "min_latency_ms": 9.65245,
+    "max_latency_ms": 9.65245,
+    "avg_slippage_bps": 2.65735,
+    "min_slippage_bps": 2.65735,
+    "max_slippage_bps": 2.65735,
+    "avg_toxicity_penalty_bps": 2.01225,
+    "avg_fill_pred": 0.83469375,
+    "halted_rows": 0
+  },
+  "risk_posture": {
+    "paper_only": true,
+    "kill_switch_slo_posture": "armed_paper",
+    "halted_coverage_rows": 0,
+    "all_coverage_gates_ok": true,
+    "slo_posture_recorded": true,
+    "next9_unblocked": false,
+    "live_trading_enabled": false,
+    "no_external_venue_mutation": true
+  },
+  "evidence_refs": [
+    "scripts/generate_phase58_adaptive_options_smart_order_router_paper_evidence.py",
+    "src/execution/phase58_adaptive_options_smart_order_router.py",
+    "src/execution/phase51_latency_aware_options_sor.py",
+    "src/orderflow/phase58_flow_toxicity_mitigator.py",
+    "src/risk/phase39_kill_switches_circuit_breakers.py",
+    "src/telemetry/serialization.py",
+    "research_state/PHASE59_FRAGMENTATION_TOXICITY_ARB_PAPER_EVIDENCE_20261107T170655Z.json",
+    "research_state/PHASE58_FLOW_TOXICITY_MITIGATOR_PAPER_EVIDENCE_20261107T165643Z.json",
+    "research_state/PHASE56_CROSS_VENUE_OPTIONS_FLOW_SYNTHESIZER_PAPER_EVIDENCE_20261107T162958Z.json",
+    "research_state/PHASE55_CROSS_VENUE_ORDERFLOW_EXECUTION_VALIDATOR_PAPER_EVIDENCE_20261107T163505Z.json",
+    "research_state/PHASE54_CROSS_ASSET_OPTIONS_FLOW_SYNTHESIZER_PAPER_EVIDENCE_20261107T161211Z.json",
+    "research_state/PHASE53_CROSS_MARGIN_STRESS_PROPAGATION_PAPER_EVIDENCE_20261107T152913Z.json",
+    "research_state/PHASE52_REALTIME_LIQUIDITY_ALLOCATOR_PAPER_EVIDENCE_20261107T152449Z.json",
+    "research_state/PHASE51_LATENCY_AWARE_OPTIONS_SOR_PAPER_EVIDENCE_20261107T142001Z.json",
+    "research_state/CONTINUOUS_VALIDATION_20261107T160845Z.json",
+    "research_state/PAPER_OPS_SESSION_GATE_20261107T171620Z.json"
+  ],
+  "cross_refs": [
+    "phase58_adaptive_options_smart_order_router.py:Phase58AdaptiveOptionsSmartOrderRouter/Phase58AdaptiveOptionsSORConfig",
+    "PHASE59_FRAGMENTATION_TOXICITY_ARB_PAPER_EVIDENCE_20261107T170655Z.json",
+    "PHASE58_FLOW_TOXICITY_MITIGATOR_PAPER_EVIDENCE_20261107T165643Z.json",
+    "PHASE51_LATENCY_AWARE_OPTIONS_SOR_PAPER_EVIDENCE_20261107T142001Z.json"
+  ],
+  "determinism": {
+    "deterministic_seeded": true,
+    "same_seed_cycles_reproduce_surface": true,
+    "bounds_ok": true,
+    "bounds": {
+      "avg_route_score_finite_0_1": true,
+      "avg_fill_pred_finite_0_1": true,
+      "avg_latency_ms_finite_nonneg": true,
+      "avg_slippage_bps_finite_nonneg": true,
+      "n_routes_positive": true,
+      "campaign_gates_ok": true,
+      "all_reports_paper_only": true
+    }
+  },
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}
