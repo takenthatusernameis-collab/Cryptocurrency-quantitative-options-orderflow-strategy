@@ -1,0 +1,192 @@
+{
+  "campaign_type": "paper_trading",
+  "mode": "paper",
+  "timestamp": "2026-11-07T00:13:44.128231+00:00",
+  "seed": 42,
+  "gates": [
+    {
+      "gate": "secrets_loaded",
+      "passed": true,
+      "critical": false,
+      "details": "Secrets manager initialized",
+      "timestamp": "2026-11-07T00:13:44.079855+00:00"
+    },
+    {
+      "gate": "trading_mode_configured",
+      "passed": true,
+      "critical": true,
+      "details": "Mode: paper",
+      "timestamp": "2026-11-07T00:13:44.079877+00:00"
+    },
+    {
+      "gate": "live_trading_safety",
+      "passed": true,
+      "critical": true,
+      "details": "Live trading safety check",
+      "timestamp": "2026-11-07T00:13:44.079882+00:00"
+    },
+    {
+      "gate": "deribit_adapter_init",
+      "passed": true,
+      "critical": true,
+      "details": "Deribit adapter initialized",
+      "timestamp": "2026-11-07T00:13:44.079988+00:00"
+    },
+    {
+      "gate": "okx_adapter_init",
+      "passed": true,
+      "critical": true,
+      "details": "OKX adapter initialized",
+      "timestamp": "2026-11-07T00:13:44.080020+00:00"
+    },
+    {
+      "gate": "binance_adapter_init",
+      "passed": true,
+      "critical": true,
+      "details": "Binance adapter initialized",
+      "timestamp": "2026-11-07T00:13:44.080044+00:00"
+    },
+    {
+      "gate": "risk_manager_init",
+      "passed": true,
+      "critical": true,
+      "details": "Risk manager initialized",
+      "timestamp": "2026-11-07T00:13:44.080118+00:00"
+    },
+    {
+      "gate": "circuit_breaker_init",
+      "passed": true,
+      "critical": true,
+      "details": "Circuit breaker initialized",
+      "timestamp": "2026-11-07T00:13:44.080122+00:00"
+    },
+    {
+      "gate": "risk_integrator_init",
+      "passed": true,
+      "critical": true,
+      "details": "Risk integrator initialized",
+      "timestamp": "2026-11-07T00:13:44.080125+00:00"
+    },
+    {
+      "gate": "live_trading_engine_init",
+      "passed": true,
+      "critical": true,
+      "details": "Paper mode: True",
+      "timestamp": "2026-11-07T00:13:44.080150+00:00"
+    },
+    {
+      "gate": "order_submission",
+      "passed": true,
+      "critical": true,
+      "details": "Order submitted: live_c28bd42",
+      "timestamp": "2026-11-07T00:13:44.127484+00:00"
+    },
+    {
+      "gate": "order_fills_partial_full",
+      "passed": true,
+      "critical": true,
+      "details": "Partial and full fills processed",
+      "timestamp": "2026-11-07T00:13:44.127614+00:00"
+    },
+    {
+      "gate": "order_status_tracking",
+      "passed": true,
+      "critical": true,
+      "details": "Order state: filled",
+      "timestamp": "2026-11-07T00:13:44.127925+00:00"
+    },
+    {
+      "gate": "position_reconciliation",
+      "passed": true,
+      "critical": true,
+      "details": "Position reconciliation matched",
+      "timestamp": "2026-11-07T00:13:44.127960+00:00"
+    },
+    {
+      "gate": "margin_check",
+      "passed": true,
+      "critical": true,
+      "details": "Margin ratio: 2.00",
+      "timestamp": "2026-11-07T00:13:44.127975+00:00"
+    },
+    {
+      "gate": "pnl_reconciliation",
+      "passed": true,
+      "critical": true,
+      "details": "PnL reconciliation matched",
+      "timestamp": "2026-11-07T00:13:44.128107+00:00"
+    },
+    {
+      "gate": "telemetry_monitor_init",
+      "passed": true,
+      "critical": false,
+      "details": "Telemetry monitor initialized",
+      "timestamp": "2026-11-07T00:13:44.128141+00:00"
+    },
+    {
+      "gate": "all_critical_gates_passed",
+      "passed": true,
+      "critical": true,
+      "details": "17/17 gates passed",
+      "timestamp": "2026-11-07T00:13:44.128152+00:00"
+    }
+  ],
+  "summary": {
+    "total_gates": 18,
+    "passed": 18,
+    "failed": 0,
+    "all_critical_passed": true
+  },
+  "trading_engine_summary": {
+    "paper_mode": true,
+    "halted": false,
+    "halt_reason": "",
+    "total_orders": 1,
+    "filled_orders": 1,
+    "partially_filled_orders": 0,
+    "cancelled_orders": 0,
+    "rejected_orders": 0,
+    "total_fills": 2,
+    "total_reconciliations": 0,
+    "matched_reconciliations": 0,
+    "reconciliation_match_rate": 1.0
+  },
+  "reconciliation_audit": {
+    "halted": false,
+    "halt_reason": "",
+    "total_position_reconciliations": 1,
+    "unmatched_positions": 0,
+    "critical_unmatched": 0,
+    "total_margin_checks": 1,
+    "total_alerts": 0,
+    "alerts": [],
+    "recent_position_recons": [
+      {
+        "symbol": "BTC",
+        "local_quantity": 0.1,
+        "exchange_quantity": 0.1,
+        "local_notional": 10000.0,
+        "exchange_notional": 10000.0,
+        "quantity_diff": 0.0,
+        "notional_diff": 0.0,
+        "matched": true,
+        "severity": "low",
+        "timestamp": "2026-11-07T00:13:44.127955+00:00"
+      }
+    ],
+    "recent_margin_checks": [
+      {
+        "required_margin": 5000.0,
+        "available_margin": 10000.0,
+        "margin_ratio": 2.0,
+        "sufficient": true,
+        "warning_threshold": 1.5,
+        "critical_threshold": 1.2,
+        "action": "ok",
+        "timestamp": "2026-11-07T00:13:44.127972+00:00"
+      }
+    ]
+  },
+  "secrets_redacted": true,
+  "strict_serialization": true
+}
