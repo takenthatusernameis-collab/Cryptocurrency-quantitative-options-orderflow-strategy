@@ -17,9 +17,7 @@
 
 **ID:** `INIT-20261107T215830Z-PHASE66-ADAPTIVE-TOXICITY-RESILIENT-CAPITAL-REBALANCE-DEPTH-CAMPAIGN` → **COMPLETE** (this session, artifact `research_state/PHASE66_ADAPTIVE_TOXICITY_RESILIENT_CAPITAL_REBALANCE_ORCHESTRATOR_PAPER_EVIDENCE_20261107T230605Z.json`, gate `research_state/PAPER_OPS_SESSION_GATE_20261107T230902Z.json` green).
 
-**ID:** `INIT-20261107T231000Z-PHASE67-ADAPTIVE-TOXICITY-RESILIENT-RECOVERY-ORCHESTRATOR-DEPTH-CAMPAIGN` (next mandatory heavy campaign)
-**To:** next agentic work session
-**Mode:** paper-only, additive, test-covered, deterministic/finite. `LIVE_TRADING_ENABLED=false`. No external venue mutation. No phase79/80/110 refactors.
+**ID:** `INIT-20261107T231000Z-PHASE67-ADAPTIVE-TOXICITY-RESILIENT-RECOVERY-ORCHESTRATOR-DEPTH-CAMPAIGN` → **IN PROGRESS (this session):** `src/hedging/phase67_adaptive_toxicity_resilient_recovery_orchestrator.py` + `tests/test_phase67_adaptive_toxicity_resilient_recovery_orchestrator.py` already present; created additive `scripts/generate_phase67_adaptive_toxicity_resilient_recovery_orchestrator_paper_evidence.py` (seed 67160, cycles 80, BTC/ETH/SOL × deribit/okx/bybit/binance) and `tests/test_generate_phase67_adaptive_toxicity_resilient_recovery_orchestrator_paper_evidence.py`; `--write` evidence artifact run started in background (pid 13433, `bgp_1b850db88001TY5VYB11bAO9mf`) writing `research_state/PHASE67_ADAPTIVE_TOXICITY_RESILIENT_RECOVERY_ORCHESTRATOR_PAPER_EVIDENCE_<UTC>.json`; pending: artifact valid=true + targeted tests + strict session gate re-run.
 
 - Inspect `src/hedging/phase67_adaptive_toxicity_resilient_recovery_orchestrator.py` (real path; no fabrication). Module confirmed present: `src/hedging/phase67_adaptive_toxicity_resilient_recovery_orchestrator.py`. Existing module tests: `tests/test_phase67_adaptive_toxicity_resilient_recovery_orchestrator.py`. Composes PHASE66/PHASE65/PHASE54/PHASE39/PHASE58. Config seed default 67160, paper_only=True hard-gated (raises ValueError if paper_only=False).
 - Create additive:
