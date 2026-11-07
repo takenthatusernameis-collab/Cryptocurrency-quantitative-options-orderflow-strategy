@@ -1,0 +1,41 @@
+{
+  "artifact": "PAPER_OPS_SESSION_REFRESH",
+  "timestamp_utc": "20261107T051152Z",
+  "paper_only": true,
+  "live_trading_enabled_default_false": true,
+  "env_example_live_trading_enabled_false": true,
+  "tracked_diff_clean_of_live_enabling": true,
+  "readiness": {
+    "artifact": "research_state/PAPER_OPS_READINESS_SNAPSHOT_20261107T050904Z.json",
+    "strict_green": true,
+    "paper_ops_ready": true,
+    "cv_fresh_for_material_decisions": true,
+    "next9_blocked_until_explicit_human_approval_recorded": true,
+    "no_live_capital": true
+  },
+  "next9_validation": {
+    "artifact": "research_state/NEXT9_APPROVAL_VALIDATION_20261107T050920Z.json",
+    "next9_unblocked": false,
+    "checkpoint_decision": "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL"
+  },
+  "cv_latest": {
+    "checkpoint": "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
+    "referenced_ts_utc": "20261107T045148Z",
+    "age_hours_approx": 0.38,
+    "stale_gt_2h": false,
+    "note": "Readiness reports cv_fresh_for_material_decisions=true; rerun strict CV only if >2h stale or evidence needed."
+  },
+  "paper_evidence": {
+    "latest_green": "PAPER_TRADING_CAMPAIGN_20261107T023814Z.json",
+    "summary": "18/18, 0 failed"
+  },
+  "tests": {
+    "targeted_guardrail_tests_run": false,
+    "reason": "pytest not installed in environment; no code changed this session"
+  },
+  "scoped_mypy_baseline": "40 errors / 13 files (pre-existing; unchanged this session)",
+  "next_required": [
+    "P1 heavy tangible paper-safe improvement with tests/artifacts",
+    "Keep NEXT9 blocked without validated A1-A7 additive approval artifact"
+  ]
+}
