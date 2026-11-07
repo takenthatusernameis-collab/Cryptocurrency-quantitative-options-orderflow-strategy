@@ -57,3 +57,11 @@ PYTHONPATH=. python scripts/run_integrated_campaign.py run --help
 
 ## No live enablement
 This runbook does **not** authorize live trading. Live capital enablement requires a separate, explicitly approved campaign (NEXT8 review-only proposal). `LIVE_TRADING_ENABLED` must remain `false`.
+
+## Venue-ops incident procedures (paper-only, advisory)
+- **Rate limit:** on rate limit / 429 / throttling, back off, retry with jitter, record `rate limit` event; never bypass limits.
+- **Partial fill:** on partial fill, reconcile filled vs requested, adjust hedging delta, log `partial fill` and re-evaluate.
+- **Reject:** on order reject / rejection, inspect reason, do not auto-resubmit blindly, log `reject`, escalate if repeated.
+- **Maintenance:** during venue maintenance / downtime, halt new orders, monitor recovery, log `maintenance`.
+- **Kill-switch:** on kill-switch / emergency halt, stop all paper orders immediately and record incident.
+- **Reconciliation:** run reconciliation after each incident; confirm position/delta match before resuming paper ops.
