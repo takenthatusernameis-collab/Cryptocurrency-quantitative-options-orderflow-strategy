@@ -1,0 +1,197 @@
+{
+  "artifact_type": "DRIFT_DETECTION_REPORT",
+  "timestamp_utc": "2026-11-07T11:09:20.279904Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "thresholds": {
+    "pnl_drift_threshold": 0.05,
+    "greeks_drift_threshold": 0.08,
+    "fills_drift_threshold": 0.1,
+    "latency_drift_ms_threshold": 50.0,
+    "anomaly_threshold": 0.7
+  },
+  "flags": {
+    "schema_valid": true,
+    "evidence_cited": true,
+    "within_bounds_requires_fresh_cv": true,
+    "cv_checkpoint_green": true,
+    "phase20_within_bounds": true,
+    "health_slo_present": true,
+    "alert_audit_present": true,
+    "observability_present": true,
+    "resilience_present": true,
+    "unresolved_alerts_bounded": true,
+    "deterministic_pass": true,
+    "advisory_only": true,
+    "cross_venue_latency_drift_breakdown_present": true
+  },
+  "warn_flags": [
+    "cross_venue_latency_drift_breakdown_emitted_advisory"
+  ],
+  "phase20_summary": {
+    "present": true,
+    "report": "PHASE20_DRIFT_DETECTION_REPORT",
+    "timestamp": "2026-11-01T13:35:37.169785Z",
+    "anomaly_count": 0,
+    "anomaly_score": 0.0,
+    "within_bounds": true,
+    "alerts_count": 0
+  },
+  "cv_summary": {
+    "present": true,
+    "timestamp": "2026-11-07T10:28:17.938716Z",
+    "all_critical_passed": true,
+    "iterations_5_5": true,
+    "reconciliation_freshness_met": true,
+    "reconciliation_measurements": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "monitoring_summary": {
+    "health_status": "pass",
+    "unresolved_alerts": 1,
+    "observability_entries": 254
+  },
+  "cross_venue_latency_drift_breakdown": {
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC",
+      "ETH"
+    ],
+    "per_venue": {
+      "deribit": {
+        "ewma_ms": 26.463255330779738,
+        "samples": 10,
+        "max_sample_ms": 46.83038807194083,
+        "within_limit": true,
+        "taker_fee_bps": 5.0,
+        "avg_slippage_bps": 0.0,
+        "max_slippage_bps": 0.0,
+        "fills": 0,
+        "latency_drift_ms_vs_baseline": 11.463255330779738,
+        "latency_drift_within_threshold": true,
+        "routing_ok": true
+      },
+      "okx": {
+        "ewma_ms": 23.73728872468208,
+        "samples": 10,
+        "max_sample_ms": 44.91866362728827,
+        "within_limit": true,
+        "taker_fee_bps": 5.0,
+        "avg_slippage_bps": 0.0,
+        "max_slippage_bps": 0.0,
+        "fills": 0,
+        "latency_drift_ms_vs_baseline": 8.737288724682081,
+        "latency_drift_within_threshold": true,
+        "routing_ok": true
+      },
+      "binance": {
+        "ewma_ms": 28.460784055498948,
+        "samples": 10,
+        "max_sample_ms": 44.26328464518245,
+        "within_limit": true,
+        "taker_fee_bps": 4.0,
+        "avg_slippage_bps": 0.0,
+        "max_slippage_bps": 0.0,
+        "fills": 0,
+        "latency_drift_ms_vs_baseline": 13.460784055498948,
+        "latency_drift_within_threshold": true,
+        "routing_ok": true
+      }
+    },
+    "per_symbol": {
+      "BTC": {
+        "venues": {
+          "deribit": {
+            "ewma_ms": 26.463255330779738,
+            "taker_fee_bps": 5.0,
+            "avg_slippage_bps": 0.0,
+            "max_slippage_bps": 0.0,
+            "fills": 0
+          },
+          "okx": {
+            "ewma_ms": 23.73728872468208,
+            "taker_fee_bps": 5.0,
+            "avg_slippage_bps": 0.0,
+            "max_slippage_bps": 0.0,
+            "fills": 0
+          },
+          "binance": {
+            "ewma_ms": 28.460784055498948,
+            "taker_fee_bps": 4.0,
+            "avg_slippage_bps": 0.0,
+            "max_slippage_bps": 0.0,
+            "fills": 0
+          }
+        },
+        "gross_notional_usd": 0.0,
+        "net_delta_usd": 0.0,
+        "delta_drift": 0.0049999999999999906,
+        "gamma_drift": 0.0005000000000000004,
+        "vega_drift": 0.001999999999999995
+      },
+      "ETH": {
+        "venues": {
+          "deribit": {
+            "ewma_ms": 26.463255330779738,
+            "taker_fee_bps": 5.0,
+            "avg_slippage_bps": 0.0,
+            "max_slippage_bps": 0.0,
+            "fills": 0
+          },
+          "okx": {
+            "ewma_ms": 23.73728872468208,
+            "taker_fee_bps": 5.0,
+            "avg_slippage_bps": 0.0,
+            "max_slippage_bps": 0.0,
+            "fills": 0
+          },
+          "binance": {
+            "ewma_ms": 28.460784055498948,
+            "taker_fee_bps": 4.0,
+            "avg_slippage_bps": 0.0,
+            "max_slippage_bps": 0.0,
+            "fills": 0
+          }
+        },
+        "gross_notional_usd": 0.0,
+        "net_delta_usd": 0.0,
+        "delta_drift": 0.0049999999999999906,
+        "gamma_drift": 0.0005000000000000004,
+        "vega_drift": 0.001999999999999995
+      }
+    },
+    "latency_drift_ms_threshold": 50.0,
+    "baseline_latency_ms": 15.0,
+    "current_latency_ms": 18.0,
+    "global_latency_drift_ms": 3.0,
+    "within_latency_threshold": true,
+    "crossvenue_paper_only": true,
+    "routing_ok": true,
+    "phase20_within_bounds": true
+  },
+  "evidence_refs": [
+    "research_state/PHASE20_DRIFT_DETECTION_REPORT.json",
+    "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
+    "research_state/OBSERVABILITY_REPORT_20261107T102817Z.json",
+    "research_state/ALERT_AUDIT_20261107T102817Z.json",
+    "research_state/HEALTH_SLO_REPORT_20261107T102817Z.json",
+    "research_state/RESILIENCE_AUDIT_20261107T102817Z.json",
+    "research_state/CONTINUOUS_VALIDATION_20261107T102817Z.json",
+    "research_state/CROSSVENUE_ORCHESTRATION_REPORT.json",
+    "research_state/PHASE37_CROSS_VENUE_ROUTING_REPORT.json"
+  ],
+  "deterministic": true,
+  "advisory": true,
+  "strictness": "enhanced_extraction_v2",
+  "cross_venue_latency_drift": true
+}

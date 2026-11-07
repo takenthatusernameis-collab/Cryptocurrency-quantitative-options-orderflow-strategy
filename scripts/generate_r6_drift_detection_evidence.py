@@ -323,7 +323,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         default=False,
         help="Advisory/default-off: emit cross-venue per-symbol latency/drift breakdown rows; no live mutation; does not grant approvals",
     )
-    ap.parse_args(argv)
+    args = ap.parse_args(argv)
     ts = _utc()
     RS.mkdir(parents=True, exist_ok=True)
     d = gen_r6_strict(ts, cross_venue_latency_drift=args.cross_venue_latency_drift)
