@@ -2,11 +2,11 @@
 Repo: `Cryptocurrency-quantitative-options-orderflow-strategy`
 Branch: `main`
 Workspace: `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
-Session time (UTC): **2026-11-07T05:11:52Z**
+Session time (UTC): **2026-11-07T05:17:31Z**
 Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: BLOCKED.** `LIVE_TRADING_ENABLED=false` (`src/config/secrets.py:69` default false; `.env.example:15` `LIVE_TRADING_ENABLED=false`). Tracked live-enabling changes: **none** (verified `git diff --name-only HEAD` clean). No live capital. No live-enabling code/config. No NEXT9 implementation before recorded A1–A7 approvals in a validated additive artifact.
 
 ## TIMESTAMPED INITIAL TASK MESSAGE — HEAVY CAMPAIGN (MANDATORY)
-**ID:** `INIT-20261107T051152Z-PAPER-OPS-NEXT9-BLOCKED-HEAVY`
+**ID:** `INIT-20261107T051731Z-PAPER-OPS-NEXT9-BLOCKED-HEAVY`
 **To:** next agentic work session
 **Mode:** paper-only. `LIVE_TRADING_ENABLED=false`. No live capital.
 
@@ -33,8 +33,8 @@ Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: B
 
 ## Session 2026-11-07T05:11:52Z — P0 refresh (paper-only)
 - **P0 guardrails verified:** `git diff --name-only HEAD` clean; `LIVE_TRADING_ENABLED` default false (`src/config/secrets.py:69`); `.env.example` keeps `LIVE_TRADING_ENABLED=false`. No live capital.
-- **P0 readiness strict green:** `research_state/PAPER_OPS_READINESS_SNAPSHOT_20261107T050904Z.json` → `paper_ops_ready=true`, `cv_fresh_for_material_decisions=true`, `next9_blocked_until_explicit_human_approval_recorded=true`, `no_live_capital=true`.
-- **P0 NEXT9 deterministic block:** `research_state/NEXT9_APPROVAL_VALIDATION_20261107T050920Z.json` (`PYTHONPATH=. python3 scripts/validate_next9_approval_artifact.py --check-current --write`) → `next9_unblocked=false`, checkpoint `NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL`, A1–A7 unapproved/missing required fields.
+- **P0 readiness strict green:** `research_state/PAPER_OPS_READINESS_SNAPSHOT_20261107T051725Z.json` → `paper_ops_ready=true`, `cv_fresh_for_material_decisions=true`, `next9_blocked_until_explicit_human_approval_recorded=true`, `no_live_capital=true`.
+- **P0 NEXT9 deterministic block:** `research_state/NEXT9_APPROVAL_VALIDATION_20261107T051725Z.json` (`PYTHONPATH=. python3 scripts/validate_next9_approval_artifact.py --check-current --write`) → `next9_unblocked=false`, checkpoint `NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL`, A1–A7 unapproved/missing required fields.
 - **P0 CV freshness:** latest checkpoint `research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json` references `CONTINUOUS_VALIDATION_20261107T045148Z` (~0.38h old, green 5/5, recon freshness met `[1,1,1,1,1]`, paper-only). Not rerun.
 - **P0 paper evidence:** `PAPER_TRADING_CAMPAIGN_20261107T023814Z.json` remains latest cited green (18/18, 0 failed).
 - **P1 heavy tangible work:** **NOT COMPLETED this session** (environment constraint). `.venv` absent; system Python lacks `pytest`/`pydantic`/`numpy`/`pandas`; `find` for pytest timed out — targeted guardrail tests could not be executed without restoring deps. **Bottleneck remains open.**
@@ -46,7 +46,7 @@ Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: B
 - **P0 guardrails/readiness (ok):** strict green; no tracked live-enabling changes.
 - **P0 NEXT9 validation (ok, still blocked):** deterministic validation confirms `next9_unblocked=false`.
 - **CV/paper evidence (ok):** CV `045148Z` fresh; paper `023814Z` 18/18.
-- **OPEN — test/deps environment:** no `.venv`; missing `pytest`/`pydantic`/`numpy`/`pandas` in available Python; this blocks P1 test-backed delivery. Next agent must restore a working test environment first (e.g., activate/create project venv, install `requirements.txt` + test deps) and then complete heavy P1 work with targeted tests.
+- **RESOLVED — test/deps environment:** deps installed into system Python 3.12 via `pip install -r requirements.txt` (pytest 9.2.0, pydantic, numpy, pandas, scipy). Targeted guardrail tests 21/21 pass. Bottleneck removed; P1 heavy work can proceed. `.venv` still absent — recreate if isolation desired.
 - **P0 human approvals missing (cannot be removed by agent):** A1–A7 unapproved — NEXT9 blocked.
 - **R1 schema nuance:** consume `summary.*` + checkpoints.
 - **R2 pre-existing scoped mypy debt:** 40/13 monitoring/telemetry/validation; no new errors.
@@ -54,8 +54,8 @@ Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: B
 - **Historical CI diagnostics noise:** `research_state/workflow_run_diagnostics.jsonl` not paper-gate/live evidence.
 
 ## Verified ground truth (cite these)
-- **Readiness:** `scripts/check_paper_ops_readiness.py`; `research_state/PAPER_OPS_READINESS_SNAPSHOT_20261107T050904Z.json` (strict green, NEXT9 blocked, `cv_fresh_for_material_decisions=true`).
-- **NEXT9 approval validation:** `scripts/validate_next9_approval_artifact.py`; `tests/test_next9_approval_artifact_validation.py`; `research_state/NEXT9_APPROVAL_VALIDATION_20261107T050920Z.json` (`next9_unblocked=false`).
+- **Readiness:** `scripts/check_paper_ops_readiness.py`; `research_state/PAPER_OPS_READINESS_SNAPSHOT_20261107T051725Z.json` (strict green, NEXT9 blocked, `cv_fresh_for_material_decisions=true`).
+- **NEXT9 approval validation:** `scripts/validate_next9_approval_artifact.py`; `tests/test_next9_approval_artifact_validation.py`; `research_state/NEXT9_APPROVAL_VALIDATION_20261107T051725Z.json` (`next9_unblocked=false`).
 - **Session refresh:** `research_state/PAPER_OPS_SESSION_REFRESH_20261107T051152Z.json`.
 - **Strict CV latest checkpoint:** `research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json` → references `CONTINUOUS_VALIDATION_20261107T045148Z` (5/5, 0 failed, recon freshness met `[1,1,1,1,1]`, paper-only). Raw/additive CV artifacts in `research_state/`.
 - **Paper campaign:** `PAPER_TRADING_CAMPAIGN_20261107T023814Z.json` (18/18, 0 failed, summary all_critical_passed true), `RECONCILIATION_AUDIT_20261107T023814Z.json`, `PRE_LIVE_GATE_REPORT_20261107T023814Z.json`.
@@ -74,3 +74,11 @@ Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: B
 - Repo priority (paper-gated): crypto options orderflow (Deribit/OKX/Binance × BTC/ETH) → features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **No live capital.**
 
 ## Next agent: start by running P0 readiness + NEXT9 validation, confirm CV freshness, restore test deps if needed, then complete P1 heavy tangible work + targeted tests + additive artifact + handoff update.
+
+## Session 2026-11-07T05:17:31Z — P0 refresh + bottleneck removal (paper-only)
+- **P0 guardrails verified:** `git diff --name-only HEAD` clean; `LIVE_TRADING_ENABLED` default false; `.env.example` keeps false. No live capital.
+- **P0 readiness strict green:** `research_state/PAPER_OPS_READINESS_SNAPSHOT_20261107T051725Z.json` → paper_ops_ready=true, cv_fresh=true, next9_blocked=true, no_live_capital=true.
+- **P0 NEXT9 deterministic block:** `research_state/NEXT9_APPROVAL_VALIDATION_20261107T051725Z.json` → next9_unblocked=false, `NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL`, A1–A7 unapproved.
+- **Bottleneck removed:** installed requirements into system Python 3.12; targeted tests 21/21 pass. P1 heavy tangible work now unblocked.
+- **P1 heavy work:** NOT YET COMPLETED — next agent must execute ≥1 substantial paper-safe improvement + targeted tests + additive artifact + handoff update.
+- **NEXT9:** remains BLOCKED.
