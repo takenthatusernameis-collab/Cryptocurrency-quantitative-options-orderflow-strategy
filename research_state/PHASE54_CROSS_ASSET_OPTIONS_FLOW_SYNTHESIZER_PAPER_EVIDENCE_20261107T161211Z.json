@@ -1,0 +1,234 @@
+{
+  "artifact_type": "PHASE54_CROSS_ASSET_OPTIONS_FLOW_SYNTHESIZER_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-07T16:12:11.406642Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "advisory": true,
+  "no_external_venue_mutation": true,
+  "seed": 54054,
+  "cycles": 60,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "campaign": {
+    "paper_only": true,
+    "phase": "PHASE54_CROSS_ASSET_OPTIONS_FLOW_SYNTHESIZER",
+    "cycles": 60,
+    "total_cycles": 60,
+    "gates_ok": true,
+    "slo_ok": false,
+    "avg_regime_fusion_score": 0.61375,
+    "avg_toxicity": 0.19261250000000002,
+    "n_syntheses": 60,
+    "n_routes": 60,
+    "avg_route_throttle_mult": 0.95,
+    "kill_switch_halted": false,
+    "source_seed": 54054
+  },
+  "flow_synthesis_surface": {
+    "paper_only": true,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "deterministic_replay_equal": true,
+    "bounds_ok": true,
+    "bounds": {
+      "all_route_throttles_in_0_25_0_95": true,
+      "all_toxicity_finite_0_1": true,
+      "all_regime_fusion_scores_finite_0_1": true,
+      "campaign_gates_ok": true,
+      "all_reports_paper_only": true
+    },
+    "coverage_pairs": 6,
+    "regimes_present_surface": [
+      "flow_dominant"
+    ]
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "deterministic_probe_route_id": "p54route:deribit:BTC-USD:54054",
+      "probe_cycle": 0,
+      "probe_regime_fusion_score": 0.59325,
+      "probe_toxicity": 0.19261250000000002,
+      "probe_route_throttle_mult": 0.95,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 8,
+      "campaign_n_syntheses": 8,
+      "campaign_n_routes": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "deterministic_probe_route_id": "p54route:deribit:ETH-USD:54055",
+      "probe_cycle": 0,
+      "probe_regime_fusion_score": 0.59325,
+      "probe_toxicity": 0.19261250000000002,
+      "probe_route_throttle_mult": 0.95,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 8,
+      "campaign_n_syntheses": 8,
+      "campaign_n_routes": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "deterministic_probe_route_id": "p54route:okx:BTC-USD:54154",
+      "probe_cycle": 0,
+      "probe_regime_fusion_score": 0.59325,
+      "probe_toxicity": 0.19261250000000002,
+      "probe_route_throttle_mult": 0.95,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 8,
+      "campaign_n_syntheses": 8,
+      "campaign_n_routes": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "deterministic_probe_route_id": "p54route:okx:ETH-USD:54155",
+      "probe_cycle": 0,
+      "probe_regime_fusion_score": 0.59325,
+      "probe_toxicity": 0.19261250000000002,
+      "probe_route_throttle_mult": 0.95,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 8,
+      "campaign_n_syntheses": 8,
+      "campaign_n_routes": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "deterministic_probe_route_id": "p54route:binance:BTC-USD:54254",
+      "probe_cycle": 0,
+      "probe_regime_fusion_score": 0.59325,
+      "probe_toxicity": 0.19261250000000002,
+      "probe_route_throttle_mult": 0.95,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 8,
+      "campaign_n_syntheses": 8,
+      "campaign_n_routes": 8,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "deterministic_probe_route_id": "p54route:binance:ETH-USD:54255",
+      "probe_cycle": 0,
+      "probe_regime_fusion_score": 0.59325,
+      "probe_toxicity": 0.19261250000000002,
+      "probe_route_throttle_mult": 0.95,
+      "probe_gates_ok": true,
+      "probe_kill_switch_halted": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 8,
+      "campaign_n_syntheses": 8,
+      "campaign_n_routes": 8,
+      "paper_only": true
+    }
+  ],
+  "flow_stress_summary": {
+    "paper_only": true,
+    "n_syntheses": 60,
+    "n_routes": 60,
+    "avg_regime_fusion_score": 0.59325,
+    "min_regime_fusion_score": 0.59325,
+    "max_regime_fusion_score": 0.59325,
+    "avg_toxicity": 0.1926125,
+    "avg_route_throttle_mult": 0.9499999999999998,
+    "max_route_throttle_mult": 0.95,
+    "kill_switch_halted_rows": 0,
+    "coverage_rows": 6
+  },
+  "risk_posture": {
+    "paper_only": true,
+    "kill_switch_slo_posture": "armed_paper",
+    "halted_coverage_rows": 0,
+    "all_coverage_gates_ok": true,
+    "slo_posture_recorded": false,
+    "next9_unblocked": false,
+    "live_trading_enabled": false,
+    "no_external_venue_mutation": true
+  },
+  "evidence_refs": [
+    "scripts/generate_phase54_cross_asset_options_flow_synthesizer_paper_evidence.py",
+    "src/flow/phase54_cross_asset_options_flow_synthesizer.py",
+    "src/orderflow/phase32_orderflow_alpha_integration.py",
+    "src/orderflow/phase52_toxicity_resilient_flow_optimizer.py",
+    "src/risk/phase39_kill_switches_circuit_breakers.py",
+    "src/monitoring/slo.py",
+    "research_state/PHASE53_CROSS_MARGIN_STRESS_PROPAGATION_PAPER_EVIDENCE_20261107T152913Z.json",
+    "research_state/PHASE52_REALTIME_LIQUIDITY_ALLOCATOR_PAPER_EVIDENCE_20261107T152449Z.json",
+    "research_state/PHASE51_LATENCY_AWARE_OPTIONS_SOR_PAPER_EVIDENCE_20261107T142001Z.json",
+    "research_state/PHASE50_OPTIONS_RISK_FACTORS_PAPER_EVIDENCE_20261107T152026Z.json",
+    "research_state/CONTINUOUS_VALIDATION_20261107T160845Z.json",
+    "research_state/PAPER_OPS_SESSION_GATE_20261107T160721Z.json"
+  ],
+  "cross_refs": [
+    "phase54_cross_asset_options_flow_synthesizer.py:Phase54CrossAssetOptionsFlowSynthesizer/Phase54FlowSynthConfig",
+    "phase52_toxicity_resilient_flow_optimizer.py:Phase52ToxicityResilientFlowOptimizer",
+    "phase39_kill_switches_circuit_breakers.py:Phase39KillSwitchesCircuitBreakers",
+    "PHASE53_CROSS_MARGIN_STRESS_PROPAGATION_PAPER_EVIDENCE_20261107T152913Z.json",
+    "PHASE52_REALTIME_LIQUIDITY_ALLOCATOR_PAPER_EVIDENCE_20261107T152449Z.json",
+    "PHASE51_LATENCY_AWARE_OPTIONS_SOR_PAPER_EVIDENCE_20261107T142001Z.json",
+    "PHASE50_OPTIONS_RISK_FACTORS_PAPER_EVIDENCE_20261107T152026Z.json"
+  ],
+  "determinism": {
+    "deterministic_seeded": true,
+    "same_seed_cycles_reproduce_surface": true,
+    "bounds_ok": true,
+    "bounds": {
+      "all_route_throttles_in_0_25_0_95": true,
+      "all_toxicity_finite_0_1": true,
+      "all_regime_fusion_scores_finite_0_1": true,
+      "campaign_gates_ok": true,
+      "all_reports_paper_only": true
+    }
+  },
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}
