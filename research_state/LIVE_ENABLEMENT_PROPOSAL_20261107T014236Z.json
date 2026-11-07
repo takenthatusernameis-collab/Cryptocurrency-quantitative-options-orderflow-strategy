@@ -1,0 +1,270 @@
+{
+  "proposal_id": "LIVE_ENABLEMENT_PROPOSAL_20261107T014236Z",
+  "campaign_id": "LIVE_ENABLEMENT_PROPOSAL_REVIEW_ONLY",
+  "task_id": "NEXT8-20261107T010101Z-LIVE-ENABLEMENT-PROPOSAL-REVIEW-ONLY",
+  "generated_at_utc": "2026-11-07T01:42:36Z",
+  "mode": "review_only",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "live_enablement_decision": "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL",
+  "guardrail": "This proposal is review-only. It does NOT authorize live capital, does NOT enable live trading, and does NOT set LIVE_TRADING_ENABLED=true. Any future live-enablement implementation requires a separately defined, explicitly human-approved campaign with its own gates/checkpoints and zero ambiguity.",
+  "prerequisites_cited": {
+    "END2END_LIVE_TRADING_READINESS": {
+      "checkpoint_latest": "research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_latest.json",
+      "checkpoint_immutable": "research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_20261106T211035Z.json",
+      "status": "completed",
+      "timestamp": "2026-11-06T22:12:00.000000Z",
+      "gates": {
+        "reconciliation_freshness_met": true,
+        "non_flat_backtest": true,
+        "multi_venue_evidence": true,
+        "hedge_attribution_split": true,
+        "targeted_tests_green": true,
+        "scoped_mypy_clean": true,
+        "incidents_acked": true
+      }
+    },
+    "PAPER_TRADING_PRE_LIVE_READINESS": {
+      "checkpoint_latest": "research_state/campaign_checkpoints/PAPER_TRADING_PRE_LIVE_READINESS_latest.json",
+      "checkpoint_immutable": "research_state/campaign_checkpoints/PAPER_TRADING_PRE_LIVE_READINESS_20261106T232349Z.json",
+      "status": "completed",
+      "timestamp": "2026-11-06T23:23:49Z",
+      "gates": {
+        "all_critical_passed": true,
+        "failed": 0,
+        "slo_reconciliation_freshness_met": true,
+        "order_lifecycle_validated": true,
+        "artifacts_non_empty": true,
+        "no_live_capital": true
+      }
+    },
+    "CONTINUOUS_VALIDATION_AND_MONITORING": {
+      "checkpoint_latest": "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
+      "checkpoint_immutable": "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_20261107T001342Z.json",
+      "status": "completed",
+      "timestamp": "2026-11-07T00:13:42Z",
+      "gates": {
+        "all_critical_passed": true,
+        "iterations_5_5": true,
+        "iterations_passed_zero_failed": true,
+        "reconciliation_freshness_gte_0_99_met_with_measurements": true,
+        "paper_only": true,
+        "live_trading_not_enabled": true
+      },
+      "reconciliation_freshness": {
+        "slo_id": "slo_reconciliation_freshness",
+        "target_gte": 0.99,
+        "met": true,
+        "all_iterations_met": true,
+        "all_iterations_have_measurements": true,
+        "measurements_per_iteration": [1, 1, 1, 1, 1]
+      }
+    },
+    "PAPER_RUNBOOK_DRILL_AND_GO_NO_GO": {
+      "checkpoint_latest": "research_state/campaign_checkpoints/PAPER_RUNBOOK_DRILL_AND_GO_NO_GO_latest.json",
+      "checkpoint_immutable": "research_state/campaign_checkpoints/PAPER_RUNBOOK_DRILL_AND_GO_NO_GO_20261107T010101Z.json",
+      "status": "completed",
+      "timestamp": "2026-11-07T01:01:01.410961+00:00",
+      "recommendation": "GO for continued paper operations / NO-GO for live capital enablement",
+      "gates": {
+        "paper_runs_3plus_all_critical_zero_failed": true,
+        "cv_reconciliation_freshness_gte_0_99_met_with_measurements": true,
+        "incident_drill_reconciliation_drawdown_risk": true,
+        "runbook_present": true,
+        "all_prerequisites_cited": true,
+        "live_trading_not_enabled": true
+      }
+    },
+    "GO_NO_GO_REPORT": "research_state/GO_NO_GO_REPORT_20261107T010101Z.json",
+    "RUNBOOK": "docs/PAPER_RUNBOOK.md",
+    "INCIDENT_DRILL": "research_state/INCIDENT_DRILL_20261107T010035Z.json",
+    "PAPER_RUNS": [
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002933Z_run1.json",
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002937Z_run2.json",
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002941Z_run3.json"
+    ]
+  },
+  "paper_gates_summary": {
+    "all_prerequisite_campaigns_completed": true,
+    "paper_runs_count": 3,
+    "paper_runs_all_critical_passed": true,
+    "paper_runs_failed": 0,
+    "reconciliation_freshness_target_gte": 0.99,
+    "reconciliation_freshness_met_with_measurements": true,
+    "incident_drill_all_passed": true,
+    "go_no_go_recommendation": "GO for continued paper operations / NO-GO for live capital enablement",
+    "live_capital_authorized": false
+  },
+  "residual_risks": [
+    {
+      "id": "R1",
+      "area": "paper_campaign_schema",
+      "description": "Indexed paper campaign JSON files expose canonical pass/fail in summary.all_critical_passed/failed; some top-level/report fields may be null. Ops/proposal consumers must read summary/checkpoint evidence, not ad-hoc top-level fields.",
+      "mitigation": "Bind future gates to summary.* and campaign checkpoints; add schema assertion in any live-enablement preflight.",
+      "severity": "medium"
+    },
+    {
+      "id": "R2",
+      "area": "mypy_debt",
+      "description": "Pre-existing scoped mypy debt: 40 errors in 13 files under src/monitoring src/telemetry src/validation (phase74/79/80 hardening), unchanged in this review campaign.",
+      "mitigation": "Do not mass-refactor phase79/80/110 mega-files. Require scoped mypy no-new-errors for touched paths in any future implementation campaign; schedule dedicated debt reduction if touching those modules.",
+      "severity": "medium"
+    },
+    {
+      "id": "R3",
+      "area": "venue_operational",
+      "description": "Paper evidence validates controlled flows; real venue behavior (partial fills, rejects, rate limits, maintenance windows, margin/option-specific semantics, stale market data) can differ under live conditions.",
+      "mitigation": "Venue-scoped, limit-capped canary with paper-parity reconciliation; explicit venue credential verification; maintenance/rate-limit handling; manual operator supervision during initial live window.",
+      "severity": "high"
+    },
+    {
+      "id": "R4",
+      "area": "credentials_and_secrets",
+      "description": "Live enablement would require venue API credentials with trading permissions. Secrets leakage or over-privileged keys can cause unauthorized/irreversible capital loss.",
+      "mitigation": "Least-privilege keys (trade-only as needed, no withdrawal where possible); separate paper/live credentials; secrets only in approved secret store/env injection; never committed; rotation/revocation plan; IP allowlists where supported.",
+      "severity": "critical"
+    },
+    {
+      "id": "R5",
+      "area": "execution_and_slippage",
+      "description": "Backtest/paper slippage assumptions may understate live slippage, spread widening, or liquidity gaps in stressed markets.",
+      "mitigation": "Conservative live size caps; slippage/impact limits; circuit breakers; compare realized fills vs expected; pause on anomalous execution quality.",
+      "severity": "high"
+    },
+    {
+      "id": "R6",
+      "area": "model_and_data_drift",
+      "description": "Orderflow/signal behavior may drift with regime changes, venue microstructure changes, or data quality degradation.",
+      "mitigation": "Continuous CV/monitoring cadence; drift and data-quality gates; shadow/canary comparison before scaling; operator review of attribution and reconciliation deltas.",
+      "severity": "high"
+    },
+    {
+      "id": "R7",
+      "area": "human_process",
+      "description": "Automated gates are necessary but insufficient. Live enablement without explicit human approval and operator readiness increases operational risk.",
+      "mitigation": "Mandatory human-approval checklist; named approver; defined rollback owner; runbook rehearsal; no automated live-enabling default.",
+      "severity": "critical"
+    }
+  ],
+  "required_operator_controls": {
+    "mode_control": "LIVE_TRADING_ENABLED must remain false/default-off. Any future campaign must use an explicit, auditable, reversible enablement mechanism scoped to approved venue/symbol/limits; no production default may enable live trading.",
+    "limits": [
+      "Max notional per order, per symbol, per venue, and per day",
+      "Max open positions/contracts and max net/gross delta exposure",
+      "Max drawdown (session/daily/rolling) with kill-switch",
+      "Max order rate and max cancel/replace rate",
+      "Max slippage/price deviation from reference",
+      "Max reconciliation mismatch tolerance before halt"
+    ],
+    "kill_switch": {
+      "required": true,
+      "triggers": [
+        "Critical reconciliation mismatch",
+        "Drawdown/risk limit breach",
+        "Circuit breaker open/failure threshold",
+        "Data freshness/SLO breach",
+        "Unexpected venue/API error burst or auth anomaly",
+        "Manual operator kill"
+      ],
+      "behavior": "Halt new order submission; preserve audit trail; reconcile positions/orders; require explicit operator ack and controlled restart procedure."
+    },
+    "circuit_breakers": "Retain/exercise circuit breakers as proven in incident drill; verify failure-path behavior per venue adapter before any approved live canary.",
+    "monitoring": [
+      "Reconciliation freshness SLO target >= 0.99 with real measurements",
+      "Position/order/fill reconciliation and mismatch alerts",
+      "PnL attribution (directional vs hedge) and unexpected drift",
+      "Data quality, latency, and venue connectivity",
+      "Risk limit utilization and kill-switch state"
+    ],
+    "runbook_and_drills": "Use docs/PAPER_RUNBOOK.md as baseline. Require pre-live rehearsal of incident ack, kill-switch, reconciliation mismatch handling, and rollback in the approved environment before capital exposure."
+  },
+  "credential_boundaries": {
+    "secrets_never_committed": true,
+    "storage": "Approved secret manager / CI/CD protected secrets / operator-controlled env injection only. No secrets in repo, logs, artifacts, or chat transcripts.",
+    "separation": "Paper and live credentials must be distinct. Paper keys must not have live withdrawal/trade authority where avoidable; live keys must be scoped narrowly.",
+    "least_privilege": "Enable only required permissions (read + trade as needed). Disable withdrawal if venue supports. Prefer subaccounts/portfolio isolation for canary.",
+    "network_controls": "Use IP allowlists/restrictions where supported.",
+    "rotation_and_revocation": "Document key rotation, emergency revocation, and post-incident credential invalidation steps before any live campaign.",
+    "verification": "Credential verification is allowed only in an explicitly approved, non-enabling preflight that proves auth/permissions without placing unintended capital-risk orders."
+  },
+  "monitoring_and_reconciliation_cadence": {
+    "continuous_validation": "Run strict CV/monitoring on defined cadence (at minimum before/after canary changes and on schedule) with fresh artifacts.",
+    "reconciliation": "Position/order/balance reconciliation at startup, on schedule, and before/after critical actions. Critical mismatches auto-halt and require operator ack.",
+    "slo": "Reconciliation freshness SLO target_gte 0.99 must be met with measurements; no synthetic pass.",
+    "review": "Operator review of alerts, attribution, execution quality, and risk utilization during any approved live window."
+  },
+  "rollback_and_disable_procedure": {
+    "immediate_disable": "Set/confirm live enablement off; trigger kill-switch; stop new order submission; cancel open orders where safe per venue policy.",
+    "reconcile": "Capture final positions/orders/fills/balances; reconcile against venue; document discrepancies.",
+    "credential_response": "Revoke/rotate credentials if compromise or anomalous activity suspected.",
+    "evidence": "Write timestamped incident/rollback artifact under research_state with actions, timestamps, reconciled state, and approver/operator identity.",
+    "restart_gate": "No restart of live capital flow without explicit human approval, root-cause review, and passing preflight gates."
+  },
+  "human_approval_checklist": [
+    {
+      "id": "A1",
+      "item": "Named human approver reviewed this proposal and all cited prerequisite artifacts.",
+      "required": true,
+      "approved": false,
+      "approver": null,
+      "timestamp_utc": null
+    },
+    {
+      "id": "A2",
+      "item": "Residual risks (R1-R7) accepted or mitigated with documented controls.",
+      "required": true,
+      "approved": false,
+      "approver": null,
+      "timestamp_utc": null
+    },
+    {
+      "id": "A3",
+      "item": "Venue/symbol scope, notional/position/delta/drawdown/rate/slippage limits, and canary size approved.",
+      "required": true,
+      "approved": false,
+      "approver": null,
+      "timestamp_utc": null
+    },
+    {
+      "id": "A4",
+      "item": "Kill-switch, circuit-breaker, reconciliation-halt, and operator escalation paths tested/rehearsed for the approved scope.",
+      "required": true,
+      "approved": false,
+      "approver": null,
+      "timestamp_utc": null
+    },
+    {
+      "id": "A5",
+      "item": "Live credentials provisioned with least privilege and paper/live separation; secrets stored outside repo; rotation/revocation plan confirmed.",
+      "required": true,
+      "approved": false,
+      "approver": null,
+      "timestamp_utc": null
+    },
+    {
+      "id": "A6",
+      "item": "Rollback/disable procedure reviewed; rollback owner assigned; evidence capture path confirmed.",
+      "required": true,
+      "approved": false,
+      "approver": null,
+      "timestamp_utc": null
+    },
+    {
+      "id": "A7",
+      "item": "Explicit decision recorded: this review-only proposal does NOT enable live trading. LIVE_TRADING_ENABLED must remain false until a separately defined, explicitly approved live-enablement campaign completes.",
+      "required": true,
+      "approved": false,
+      "approver": null,
+      "timestamp_utc": null
+    }
+  ],
+  "next_campaign_gate": {
+    "id": "NEXT9-HUMAN-APPROVED-LIVE-ENABLEMENT-CAMPAIGN",
+    "status": "BLOCKED_PENDING_EXPLICIT_HUMAN_APPROVAL",
+    "constraints": [
+      "Only proceed if explicit human approval is recorded in artifacts for all required checklist items.",
+      "Define narrow, venue-scoped, limit-capped live-enablement gates with kill-switch drills, credential verification, and rollback proof.",
+      "No implementation before approval; live remains disabled until that campaign passes."
+    ]
+  }
+}

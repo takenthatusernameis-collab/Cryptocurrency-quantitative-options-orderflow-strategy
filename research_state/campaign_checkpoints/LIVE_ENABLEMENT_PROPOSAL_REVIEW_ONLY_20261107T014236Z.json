@@ -1,0 +1,48 @@
+{
+  "campaign_id": "LIVE_ENABLEMENT_PROPOSAL_REVIEW_ONLY",
+  "task_id": "NEXT8-20261107T010101Z-LIVE-ENABLEMENT-PROPOSAL-REVIEW-ONLY",
+  "status": "completed",
+  "timestamp": "2026-11-07T01:42:36Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "live_enablement_decision": "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL",
+  "gates": {
+    "prerequisites_cited": true,
+    "proposal_written_md_json": true,
+    "residual_risks_controls_kill_switch_limits_credentials_rollback_documented": true,
+    "explicit_human_approval_checklist_present": true,
+    "live_remains_disabled": true,
+    "no_live_enabling_code_or_config_diff": true,
+    "live_trading_enabled_not_set_true": true,
+    "checkpoint_latest_and_immutable_written": true
+  },
+  "artifacts": {
+    "proposal_json": "research_state/LIVE_ENABLEMENT_PROPOSAL_20261107T014236Z.json",
+    "proposal_md": "research_state/LIVE_ENABLEMENT_PROPOSAL_20261107T014236Z.md",
+    "checkpoint_immutable": "research_state/campaign_checkpoints/LIVE_ENABLEMENT_PROPOSAL_REVIEW_ONLY_20261107T014236Z.json",
+    "prerequisite_checkpoints": [
+      "research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_latest.json",
+      "research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_20261106T211035Z.json",
+      "research_state/campaign_checkpoints/PAPER_TRADING_PRE_LIVE_READINESS_latest.json",
+      "research_state/campaign_checkpoints/PAPER_TRADING_PRE_LIVE_READINESS_20261106T232349Z.json",
+      "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
+      "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_20261107T001342Z.json",
+      "research_state/campaign_checkpoints/PAPER_RUNBOOK_DRILL_AND_GO_NO_GO_latest.json",
+      "research_state/campaign_checkpoints/PAPER_RUNBOOK_DRILL_AND_GO_NO_GO_20261107T010101Z.json"
+    ],
+    "prerequisite_reports": [
+      "research_state/GO_NO_GO_REPORT_20261107T010101Z.json",
+      "docs/PAPER_RUNBOOK.md",
+      "research_state/INCIDENT_DRILL_20261107T010035Z.json",
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002933Z_run1.json",
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002937Z_run2.json",
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002941Z_run3.json"
+    ]
+  },
+  "human_approval": {
+    "required": true,
+    "recorded_in_artifacts": false,
+    "status": "BLOCKED_PENDING_EXPLICIT_HUMAN_APPROVAL"
+  },
+  "next_campaign_gate": "NEXT9-HUMAN-APPROVED-LIVE-ENABLEMENT-CAMPAIGN (BLOCKED pending explicit human approval)"
+}
