@@ -2,7 +2,7 @@
 
 **Repo (priority):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative orderflow (Deribit/OKX/Binance × BTC/ETH): features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring.
 **Branch:** `main` | **Workspace:** `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
-**Handoff refreshed (UTC):** **2026-11-07T21:55:03Z**
+**Handoff refreshed (UTC):** **2026-11-07T21:55:30Z**
 **Status:** **PAPER-OPS READY (strict session gate green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: BLOCKED (human-only A1–A7).** **No live capital. No live-enabling code/config. No NEXT9 implementation before recorded, validated A1–A7 approvals in an additive artifact.**
 
 ## TIMESTAMPED INITIAL TASK MESSAGE — MANDATORY HEAVY CAMPAIGN (EXECUTE, DO NOT REPORT STATUS-ONLY)
@@ -76,6 +76,6 @@ Phase61–64 COMPLETE (valid/deterministic, gates_ok, armed_paper). Execute **IN
 - Handoff refreshed to current session time. Mandatory next heavy campaign remains INIT-20261107T214232Z Phase65 adaptive toxicity-resilient capital allocation deployment depth (inspect real module first; never fabricate paths).
 - No agent-removable blockers. P0 invariants unchanged.
 
-## Session note — 2026-11-07T21:55:03Z (handoff refresh)
+## Session note — 2026-11-07T21:55:30Z (handoff refresh)
 - Handoff refreshed to current session time. Mandatory next heavy campaign remains INIT-20261107T214232Z Phase65 adaptive toxicity-resilient capital allocation deployment depth (inspect real module first; never fabricate paths).
-- No agent-removable blockers. P0 invariants unchanged. Observability thread-hang remains controlled test-runner bottleneck only; use subprocess + os._exit verify.
+- Phase65 module confirmed present: `src/hedging/phase65_adaptive_toxicity_resilient_capital_allocation_orchestrator.py` (real path; no fabrication). No agent-removable blockers. P0 invariants unchanged. Observability thread-hang remains controlled test-runner bottleneck only; use subprocess + os._exit verify.
