@@ -1,0 +1,205 @@
+{
+  "artifact_type": "PHASE53_CROSS_MARGIN_STRESS_PROPAGATION_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-07T15:29:13.795307Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "advisory": true,
+  "no_external_venue_mutation": true,
+  "seed": 53053,
+  "cycles": 12,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "campaign": {
+    "paper_only": true,
+    "phase": "34_cross_margin",
+    "cycles": 12,
+    "total_cycles": 12,
+    "final_margin_ratio": 1.468627450980392,
+    "any_margin_call": true,
+    "source_seed": 53053
+  },
+  "stress_propagation_surface": {
+    "paper_only": true,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "stress_scenarios": [
+      "spot_down10",
+      "vol_up20",
+      "spot_down15vol_up15",
+      "tail_wide"
+    ],
+    "deterministic_replay_equal": true,
+    "bounds_ok": true,
+    "bounds": {
+      "all_margin_ratios_finite_positive": true,
+      "all_worst_case_losses_non_negative_finite": true,
+      "all_results_paper_only": true,
+      "stress_scenarios_present": true,
+      "stress_loss_components_finite": true
+    },
+    "propagation_probe_hits": 0
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "deterministic_probe_result_id": "probe:deribit:BTC-USD:53053",
+      "probe_cycle": 1,
+      "probe_margin_ratio": 1.468627450980392,
+      "probe_worst_case_loss_usd": 160173.6294018414,
+      "probe_margin_call": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 4,
+      "campaign_any_margin_call": false,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "deterministic_probe_result_id": "probe:deribit:ETH-USD:53054",
+      "probe_cycle": 1,
+      "probe_margin_ratio": 1.468627450980392,
+      "probe_worst_case_loss_usd": 154643.40872281205,
+      "probe_margin_call": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 4,
+      "campaign_any_margin_call": false,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "deterministic_probe_result_id": "probe:okx:BTC-USD:53153",
+      "probe_cycle": 1,
+      "probe_margin_ratio": 1.468627450980392,
+      "probe_worst_case_loss_usd": 150689.37873139046,
+      "probe_margin_call": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 4,
+      "campaign_any_margin_call": false,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "deterministic_probe_result_id": "probe:okx:ETH-USD:53154",
+      "probe_cycle": 1,
+      "probe_margin_ratio": 1.468627450980392,
+      "probe_worst_case_loss_usd": 128114.68301559126,
+      "probe_margin_call": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 4,
+      "campaign_any_margin_call": false,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "deterministic_probe_result_id": "probe:binance:BTC-USD:53253",
+      "probe_cycle": 1,
+      "probe_margin_ratio": 1.468627450980392,
+      "probe_worst_case_loss_usd": 180738.56353774676,
+      "probe_margin_call": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 4,
+      "campaign_any_margin_call": false,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "deterministic_probe_result_id": "probe:binance:ETH-USD:53254",
+      "probe_cycle": 1,
+      "probe_margin_ratio": 1.468627450980392,
+      "probe_worst_case_loss_usd": 156721.4118601309,
+      "probe_margin_call": false,
+      "probe_finite": true,
+      "campaign_total_cycles": 4,
+      "campaign_any_margin_call": false,
+      "paper_only": true
+    }
+  ],
+  "margin_stress_summary": {
+    "paper_only": true,
+    "n_cycle_results": 12,
+    "avg_margin_ratio": 1.468627450980392,
+    "min_margin_ratio": 1.468627450980392,
+    "avg_worst_case_loss_usd": 164732.516960866,
+    "max_worst_case_loss_usd": 189050.191630335,
+    "avg_initial_margin_usd": 150000.0,
+    "avg_maintenance_margin_usd": 100000.0,
+    "avg_cross_margin_required_usd": 127500.0,
+    "margin_calls": 2,
+    "liquidation_risks": 0
+  },
+  "risk_posture": {
+    "paper_only": true,
+    "kill_switch_slo_posture": "paper_guarded",
+    "margin_calls_observed": 2,
+    "liquidation_risks_observed": 0,
+    "propagation_hits_observed": 0,
+    "any_margin_call": true,
+    "no_external_venue_mutation": true,
+    "next9_unblocked": false,
+    "live_trading_enabled": false
+  },
+  "evidence_refs": [
+    "scripts/generate_phase53_cross_margin_stress_propagation_paper_evidence.py",
+    "src/risk/phase34_cross_margin_engine.py",
+    "src/reconciliation/phase40_position_margin_audit.py",
+    "research_state/PHASE52_REALTIME_LIQUIDITY_ALLOCATOR_PAPER_EVIDENCE_20261107T152449Z.json",
+    "research_state/CONTINUOUS_VALIDATION_20261107T140506Z.json",
+    "research_state/PAPER_OPS_SESSION_GATE_20261107T152647Z.json"
+  ],
+  "cross_refs": [
+    "phase34_cross_margin_engine.py:CrossMarginEngine/CrossMarginConfig34",
+    "phase40_position_margin_audit.py:Phase40PositionMarginAudit",
+    "PHASE50_OPTIONS_RISK_FACTORS_PAPER_EVIDENCE_20261107T152026Z.json",
+    "PHASE51_LATENCY_AWARE_OPTIONS_SOR_PAPER_EVIDENCE_20261107T142001Z.json"
+  ],
+  "determinism": {
+    "deterministic_seeded": true,
+    "same_seed_cycles_reproduce_surface": true,
+    "bounds_ok": true,
+    "bounds": {
+      "all_margin_ratios_finite_positive": true,
+      "all_worst_case_losses_non_negative_finite": true,
+      "all_results_paper_only": true,
+      "stress_scenarios_present": true,
+      "stress_loss_components_finite": true
+    }
+  },
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}
