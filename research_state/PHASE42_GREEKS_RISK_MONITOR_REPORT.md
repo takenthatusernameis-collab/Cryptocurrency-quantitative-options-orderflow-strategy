@@ -1,7 +1,7 @@
 # Phase 42 Greeks Risk Monitor Report
 
-Seed: 613
+Seed: 46144
 Paper-only: true
 Cycles: 16
 Final risk_ok: True
-Tail gamma alerts: 15
+Tail gamma alerts: 16
