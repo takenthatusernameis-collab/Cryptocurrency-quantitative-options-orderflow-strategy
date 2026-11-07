@@ -1,12 +1,12 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 Repo: `Cryptocurrency-quantitative-options-orderflow-strategy`
-Branch: `main` (working tree clean of tracked changes; untracked `.venv/` ignored)
+Branch: `main` (tracked worktree clean of live-enabling changes; untracked `.venv/` ignored)
 Workspace: `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
-Session time (UTC): **2026-11-07T02:52:30Z**
-Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: BLOCKED.** `LIVE_TRADING_ENABLED=false` (verified `src/config/secrets.py:69` default false, `.env.example:15`). `git diff --stat` empty. **No live capital. No live-enabling code/config. No implementation before recorded A1–A7 approvals.**
+Session time (UTC): **2026-11-07T03:07:35Z**
+Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: BLOCKED.** `LIVE_TRADING_ENABLED=false` (verified `src/config/secrets.py:69` default false, `.env.example:15`). `git diff --stat` tracked clean. **No live capital. No live-enabling code/config. No implementation before recorded A1–A7 approvals.**
 
 ## TIMESTAMPED INITIAL TASK MESSAGE — HEAVY CAMPAIGN (MANDATORY)
-**ID:** `INIT-20261107T025230Z-PAPER-OPS-CONTINUITY-NEXT9-BLOCKED-HEAVY`
+**ID:** `INIT-20261107T030735Z-PAPER-OPS-CONTINUITY-NEXT9-BLOCKED-HEAVY`
 **To:** next agentic work session
 **Mode:** paper-only. `LIVE_TRADING_ENABLED=false`. No live capital.
 
@@ -24,21 +24,31 @@ Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: B
 **Definition of done (minimum):** ≥1 additive timestamped paper-ops/CV/risk-reduction artifact **and** targeted tests for any touched code **and** guardrails verified **and** this handoff updated with artifacts/blockers. Never claim NEXT9 unblocked without recorded A1–A7 approvals.
 
 ## Bottlenecks (fixed/controlled)
-- **CV-latest pointer stale vs freshest immutable (fixed 2026-11-07T02:52Z):** `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json` now points to `20261107T023732Z` (5/5, 0 failed, recon freshness `slo_reconciliation_freshness target_gte 0.99 met=true`, measurements `[1,1,1,1,1]`, paper-only). Prior `001342Z` retained.
+- **CV-latest pointer (ok 2026-11-07T02:37Z):** `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json` = `..._20261107T023732Z.json` (5/5, 0 failed, recon freshness `slo_reconciliation_freshness target_gte 0.99 met=true`, measurements `[1,1,1,1,1]`, paper-only). ~0.5h fresh at session `030735Z`; rerun if >2h stale before material decisions.
+- **Continuity checkpoint refreshed (2026-11-07T03:07:35Z):** `research_state/campaign_checkpoints/PAPER_OPERATIONS_CONTINUITY_REFRESH_latest.json` = `..._20261107T030735Z.json` (completed, paper-only, `live_trading_enabled:false`, `next9_unblocked:false`, A1–A7 not approved). Prior `023814Z/021206Z` retained.
 - **P0 human approvals missing:** A1–A7 unapproved — NEXT9 blocked. Cannot be removed by agent; record only when explicitly provided.
 - **R1 schema nuance:** consume `summary.*` + checkpoints.
 - **R2 pre-existing scoped mypy debt:** 40/13 monitoring/telemetry/validation; no new errors.
 - **R3–R7:** venue/ops, credentials, execution/slippage, drift, human-process — require evidence/rehearsal in any approved NEXT9.
 - **Historical CI diagnostics noise:** `research_state/workflow_run_diagnostics.jsonl` has old run signals; not paper-gate/live evidence.
 
+## Session 2026-11-07T03:07:35Z — P0/P1 completed (paper-only)
+- **P0 guardrails:** `git diff --stat` tracked clean; `LIVE_TRADING_ENABLED` default false (`src/config/secrets.py:69`); `.env.example` keeps `LIVE_TRADING_ENABLED=false`; no secrets committed. **No live-enabling changes.**
+- **P0 CV freshness:** latest strict CV `023732Z` (~0.5h) is within 2h and green — **not rerun** (would add non-material churn). 5/5, 0 failed, recon freshness met, measurements `[1,1,1,1,1]`, paper-only.
+- **P0 paper evidence integrity:** `PAPER_TRADING_CAMPAIGN_20261107T023814Z.json` summary 18/18, 0 failed, `all_critical_passed=true` (R1 schema respected).
+- **P1 heavy tangible output:** added `tests/test_paper_ops_guardrails_and_evidence.py` (6 tests) covering live-trading defaults/env guardrails, R1 paper summary schema, CV freshness/gates, NEXT9 A1–A7 unapproved invariant, continuity checkpoint shape. **`pytest tests/test_paper_ops_guardrails_and_evidence.py` → 6 passed.**
+- **Additive artifacts:** `research_state/PAPER_OPS_GUARDRAILS_CONTINUITY_20261107T030735Z.json`; `research_state/campaign_checkpoints/PAPER_OPERATIONS_CONTINUITY_REFRESH_20261107T030735Z.json` + `_latest.json` updated.
+- **NEXT9:** remains **BLOCKED** — A1–A7 not recorded/approved. No live implementation.
+
 ## Verified ground truth (cite these)
-- **Continuity refresh (latest):** `research_state/campaign_checkpoints/PAPER_OPERATIONS_CONTINUITY_REFRESH_latest.json` = `..._20261107T023814Z.json` (completed, paper-only, `live_trading_enabled:false`, `next9_unblocked:false`, A1–A7 not approved).
-- **Strict CV (fresh):** `research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json` = `..._20261107T023732Z.json` (5/5, 0 failed, recon freshness met w/ measurements). Raw: `OBSERVABILITY_REPORT_20261107T023732Z.json`, `ALERT_AUDIT_20261107T023732Z.json`, `HEALTH_SLO_REPORT_20261107T023732Z.json`, `RESILIENCE_AUDIT_20261107T023732Z.json`, `CONTINUOUS_VALIDATION_20261107T023732Z.json`.
+- **Session continuity:** `research_state/PAPER_OPS_GUARDRAILS_CONTINUITY_20261107T030735Z.json`; checkpoint `research_state/campaign_checkpoints/PAPER_OPERATIONS_CONTINUITY_REFRESH_latest.json` = `..._20261107T030735Z.json`.
+- **Strict CV (fresh, ~0.5h):** `research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json` = `..._20261107T023732Z.json` (5/5, 0 failed, recon freshness met w/ measurements). Raw: `OBSERVABILITY_REPORT_20261107T023732Z.json`, `ALERT_AUDIT_20261107T023732Z.json`, `HEALTH_SLO_REPORT_20261107T023732Z.json`, `RESILIENCE_AUDIT_20261107T023732Z.json`, `CONTINUOUS_VALIDATION_20261107T023732Z.json`.
 - **Paper campaign (fresh):** `PAPER_TRADING_CAMPAIGN_20261107T023814Z.json` (18/18 critical, 0 failed, `summary.all_critical_passed=true`), `RECONCILIATION_AUDIT_20261107T023814Z.json`, `PRE_LIVE_GATE_REPORT_20261107T023814Z.json`.
 - **NEXT8 review-only:** `research_state/campaign_checkpoints/LIVE_ENABLEMENT_PROPOSAL_REVIEW_ONLY_latest.json` = `..._20261107T014236Z.json`; proposal `research_state/LIVE_ENABLEMENT_PROPOSAL_20261107T014236Z.{md,json}`; decision `NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL`; A1–A7 unapproved.
 - **GO/NO-GO:** `research_state/GO_NO_GO_REPORT_20261107T010101Z.json` — GO continued paper ops / NO-GO live capital.
 - **Runbook / drill:** `docs/PAPER_RUNBOOK.md`; `research_state/INCIDENT_DRILL_20261107T010035Z.json`.
 - **Prerequisite checkpoints:** END2END `..._20261106T211035Z`; PAPER_PRE_LIVE `..._20261106T232349Z`; PAPER_RUNBOOK_DRILL_GO_NO_GO `..._20261107T010101Z`.
+- **Targeted tests (this session):** `tests/test_paper_ops_guardrails_and_evidence.py` — 6 passed.
 
 ## Entry points / conventions
 - Activate: `. .venv/bin/activate && PYTHONPATH=<repo> python ...`
@@ -47,4 +57,4 @@ Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: B
 - Python 3.10/3.12 env present; pydantic/pandas/numpy/pyyaml/scipy. UTC ISO-8601. Additive timestamped artifacts only. No comments unless asked. No refactor of phase79/80/110 mega-files.
 - Repo priority (paper-gated): crypto options orderflow (Deribit/OKX/Binance × BTC/ETH) → features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **No live capital.**
 
-## Next agent: start by executing P0 guardrails + P0 CV freshness check, then complete P1 heavy tangible work + additive artifact + handoff update.
+## Next agent: start by executing P0 guardrails + P0 CV freshness check (>2h stale => rerun strict CV), then complete P1 heavy tangible work + additive artifact + handoff update.
