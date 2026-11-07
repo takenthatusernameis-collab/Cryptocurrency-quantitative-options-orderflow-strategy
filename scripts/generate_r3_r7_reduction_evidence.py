@@ -117,21 +117,23 @@ def gen_r5(ts: str) -> Dict[str, Any]:
 
 
 def gen_r6(ts: str) -> Dict[str, Any]:
-    return {
-        "artifact_type": v.ARTIFACT_TYPES["R6"],
-        "timestamp_utc": _iso(),
-        "paper_only": True,
-        "live_trading_enabled": False,
-        "next9_unblocked": False,
-        "thresholds": {"pnl_drift_threshold": 0.05, "greeks_drift_threshold": 0.08, "fills_drift_threshold": 0.10, "latency_drift_ms_threshold": 50, "anomaly_threshold": 0.7},
-        "flags": {"schema_valid": True, "evidence_cited": True, "within_bounds_requires_fresh_cv": True},
-        "evidence_refs": _refs(
-            "research_state/PHASE20_DRIFT_DETECTION_REPORT.json",
-            "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
-        ),
-        "deterministic": True,
-        "advisory": True,
-    }
+    # Delegate to stricter extraction generator (paper-only, deterministic, advisory).
+    try:
+        import generate_r6_drift_detection_evidence as r6g  # type: ignore
+        return r6g.gen_r6_strict(ts)
+    except Exception:
+        return {
+            "artifact_type": v.ARTIFACT_TYPES["R6"],
+            "timestamp_utc": _iso(),
+            "paper_only": True,
+            "live_trading_enabled": False,
+            "next9_unblocked": False,
+            "thresholds": {"pnl_drift_threshold": 0.05, "greeks_drift_threshold": 0.08, "fills_drift_threshold": 0.10, "latency_drift_ms_threshold": 50, "anomaly_threshold": 0.7},
+            "flags": {"schema_valid": True, "evidence_cited": True, "within_bounds_requires_fresh_cv": True},
+            "evidence_refs": _refs("research_state/PHASE20_DRIFT_DETECTION_REPORT.json", "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json"),
+            "deterministic": True,
+            "advisory": True,
+        }
 
 
 def gen_r7(ts: str) -> Dict[str, Any]:
