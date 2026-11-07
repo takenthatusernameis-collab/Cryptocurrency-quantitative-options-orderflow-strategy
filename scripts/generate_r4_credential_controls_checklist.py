@@ -129,7 +129,7 @@ def _scan_signal_artifacts() -> Tuple[bool, List[str], List[str]]:
     return bool(hits), hits, refs
 
 
-def _venue_context() -> Tuple[List[str], Dict[str, Any], List[str]]:
+def _venue_context() -> Tuple[List[str], Dict[str, Any], List[str], Dict[str, Any], Dict[str, Any], List[str]]:
     refs: List[str] = []
     venues: List[str] = []
     cross_p = RS / "CROSSVENUE_ORCHESTRATION_REPORT.json"
@@ -149,37 +149,97 @@ def _venue_context() -> Tuple[List[str], Dict[str, Any], List[str]]:
             break
     if not venues:
         venues = ["deribit", "okx", "binance"]
+    symbols: List[str] = []
+    if isinstance(cross.get("symbols"), list):
+        symbols = [str(x) for x in cross["symbols"] if str(x).strip()]
+    if not symbols:
+        cfg = cross.get("config") or {}
+        if isinstance(cfg.get("symbols"), list):
+            symbols = [str(x) for x in cfg["symbols"] if str(x).strip()]
+    if not symbols:
+        symbols = ["BTC", "ETH"]
     context = {
         "crossvenue_present": bool(cross),
         "routing_present": bool(route),
         "venues": venues,
+        "symbols": symbols,
         "crossvenue_paper_only": cross.get("paper_only") if cross else None,
         "routing_ok": route.get("ok") if route else None,
     }
-    return venues, context, refs
+    return venues, context, refs, cross, route, symbols
 
 
-def _per_venue_controls(venues: List[str], refs: List[str]) -> List[Dict[str, Any]]:
+def _per_venue_evidence_refs(venues: List[str], cross: Dict[str, Any], route: Dict[str, Any]) -> Dict[str, List[str]]:
+    """Surface per-venue routing/credential evidence refs from cross-venue artifacts.
+
+    Returns per-venue ref lists pointing at concrete cross-venue orchestration /
+    phase-37 routing data (latency, slippage, taker fee, routing ok). Advisory
+    only; no secrets; no external venue mutation.
+    """
+    refs_by_venue: Dict[str, List[str]] = {v: [] for v in venues}
+    latency = (cross.get("components") or {}).get("latency_routing") or {}
+    arb_cfg = (cross.get("components") or {}).get("arbitrage") or {}
+    taker_fees = arb_cfg.get("config") or {}
+    routing = route or {}
+
+    for venue in venues:
+        v_lat = latency.get("latency") or {}
+        vd = v_lat.get(venue)
+        if isinstance(vd, dict):
+            for k in ("ewma_ms", "samples", "max_sample_ms", "within_limit"):
+                if k in vd:
+                    refs_by_venue[venue].append(f"CROSSVENUE_ORCHESTRATION_REPORT.json#components.latency_routing.latency.{venue}.{k}")
+        if isinstance(taker_fees.get("taker_fee_bps"), dict) and venue in taker_fees["taker_fee_bps"]:
+            refs_by_venue[venue].append(f"CROSSVENUE_ORCHESTRATION_REPORT.json#components.arbitrage.config.taker_fee_bps.{venue}")
+    if routing.get("ok") is not None:
+        for venue in venues:
+            refs_by_venue[venue].append("PHASE37_CROSS_VENUE_ROUTING_REPORT.json#ok")
+    return refs_by_venue
+
+
+def _per_symbol_credential_scope(venues: List[str], symbols: List[str]) -> List[Dict[str, Any]]:
+    """Optional per-symbol credential-scope checklist hooks (advisory, no secrets).
+
+    Default-off flag gates emission. Rows are attestation-only, confirmed=False,
+    and carry no secret material. One row per venue x symbol scope.
+    """
     rows: List[Dict[str, Any]] = []
     for venue in venues:
+        for symbol in symbols:
+            rows.append({
+                "control": f"per_symbol_credential_scope:{venue}:{symbol}",
+                "confirmed": False,
+                "attestation": f"{venue}/{symbol}: credential scope limited to paper trading for this symbol/venue pair; scope expansion requires explicit re-approval and no live-enabling change",
+                "evidence_refs": [f"CROSSVENUE_ORCHESTRATION_REPORT.json#symbols.{symbol}", f"CROSSVENUE_ORCHESTRATION_REPORT.json#venues.{venue}"],
+                "venue": venue,
+                "symbol": symbol,
+                "scope": "paper_only",
+            })
+    return rows
+
+
+def _per_venue_controls(venues: List[str], refs: List[str], refs_by_venue: Dict[str, List[str]]) -> List[Dict[str, Any]]:
+    rows: List[Dict[str, Any]] = []
+    for venue in venues:
+        vref = list(dict.fromkeys(refs_by_venue.get(venue, []) + refs))
         rows.append({
             "control": f"paper_live_credential_separation:{venue}",
             "confirmed": False,
             "attestation": f"{venue}: paper credentials must not carry live/trade authority outside approved scope; process confirmation required before any approved live campaign",
-            "evidence_refs": refs,
+            "evidence_refs": vref,
             "venue": venue,
         })
         rows.append({
             "control": f"least_privilege_trade_only_no_withdrawal:{venue}",
             "confirmed": False,
             "attestation": f"{venue}: least-privilege trade-only (no withdrawal) permissions required; verify in approved non-enabling preflight only",
-            "evidence_refs": refs,
+            "evidence_refs": vref,
             "venue": venue,
         })
     return rows
 
 
-def gen_r4_strict(ts: Optional[str] = None, *, effective_until_hours: Optional[int] = None) -> Dict[str, Any]:
+def gen_r4_strict(ts: Optional[str] = None, *, effective_until_hours: Optional[int] = None, per_symbol_credential_scope: bool = False) -> Dict[str, Any]:
     ts = ts or _utc()
     secrets_p = REPO / "src/config/secrets.py"
     env_example_p = REPO / ".env.example"
@@ -192,7 +252,8 @@ def gen_r4_strict(ts: Optional[str] = None, *, effective_until_hours: Optional[i
     env_false = "LIVE_TRADING_ENABLED=false" in env_text and "LIVE_TRADING_ENABLED=true" not in env_text
     live_enabling_diff = [f for f in tracked if f in {"src/config/secrets.py", ".env.example"} or "live_trading" in f.lower()]
     secrets_committed, secret_hits, scanned_refs = _scan_signal_artifacts()
-    venues, venue_ctx, venue_refs = _venue_context()
+    venues, venue_ctx, venue_refs, cross, route, symbols = _venue_context()
+    refs_by_venue = _per_venue_evidence_refs(venues, cross, route)
 
     warn_flags: List[str] = []
     if not secrets_p.exists():
@@ -258,13 +319,19 @@ def gen_r4_strict(ts: Optional[str] = None, *, effective_until_hours: Optional[i
             "evidence_refs": [],
         },
     ]
-    controls.extend(_per_venue_controls(venues, venue_refs))
+    controls.extend(_per_venue_controls(venues, venue_refs, refs_by_venue))
+    if per_symbol_credential_scope:
+        controls.extend(_per_symbol_credential_scope(venues, symbols))
+        warn_flags.append("per_symbol_credential_scope_emitted_advisory")
 
     deterministic_pass = bool(
         default_false and env_false and not live_enabling_diff and not secrets_committed and secrets_p.exists() and env_example_p.exists()
     )
 
-    evidence_refs = [r for r in [_rel(secrets_p), _rel(env_example_p), "docs/PAPER_RUNBOOK.md"] + venue_refs if r]
+    all_venue_refs: List[str] = []
+    for _venue in venues:
+        all_venue_refs.extend(refs_by_venue.get(_venue, []))
+    evidence_refs = [r for r in [_rel(secrets_p), _rel(env_example_p), "docs/PAPER_RUNBOOK.md"] + venue_refs + all_venue_refs if r]
 
     out = {
         "artifact_type": v.ARTIFACT_TYPES["R4"],
@@ -292,6 +359,7 @@ def gen_r4_strict(ts: Optional[str] = None, *, effective_until_hours: Optional[i
             "hit_count": len(secret_hits),
         },
         "venue_credential_coverage": venue_ctx,
+        "per_symbol_credential_scope": per_symbol_credential_scope,
         "flags": {
             "deterministic_pass": deterministic_pass,
             "no_external_venue_mutation": True,
@@ -310,9 +378,10 @@ def gen_r4_strict(ts: Optional[str] = None, *, effective_until_hours: Optional[i
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Generate stricter R4 credential-controls checklist evidence (paper-only)")
     ap.add_argument("--effective-until-hours", type=int, default=None, help="Advisory/default-off: add effective_until_utc (informational only; does not grant approvals)")
+    ap.add_argument("--per-symbol-credential-scope", action="store_true", default=False, help="Advisory/default-off: emit per-symbol credential-scope checklist hooks (venue x symbol); no secrets; does not grant approvals")
     args = ap.parse_args(argv)
     RS.mkdir(parents=True, exist_ok=True)
-    d = gen_r4_strict(_utc(), effective_until_hours=args.effective_until_hours)
+    d = gen_r4_strict(_utc(), effective_until_hours=args.effective_until_hours, per_symbol_credential_scope=args.per_symbol_credential_scope)
     ok, issues = v.validate_artifact(d, "R4")
     if not ok:
         print(json.dumps({"valid": False, "issues": issues}, indent=2))
@@ -325,6 +394,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         "deterministic_pass": d["flags"]["deterministic_pass"],
         "secrets_committed": d["secrets_committed"],
         "venues": d.get("venue_credential_coverage", {}).get("venues"),
+        "symbols": d.get("venue_credential_coverage", {}).get("symbols"),
+        "per_symbol_credential_scope": d.get("per_symbol_credential_scope"),
         "next9_unblocked": False,
         "warn_flags": d["warn_flags"],
     }, indent=2))
