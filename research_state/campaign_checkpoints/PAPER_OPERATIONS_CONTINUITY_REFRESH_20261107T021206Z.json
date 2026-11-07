@@ -1,0 +1,48 @@
+{
+  "campaign_id": "PAPER_OPERATIONS_CONTINUITY_REFRESH",
+  "task_id": "NEXT9-OPS-REFRESH-20261107T021206Z",
+  "status": "completed",
+  "timestamp": "2026-11-07T02:12:06Z",
+  "mode": "paper_only",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "gates": {
+    "live_trading_enabled_false_in_env_example_or_absent": true,
+    "no_live_capital": true,
+    "a1_a7_all_approved": false,
+    "next9_blocked_until_explicit_human_approval_recorded": true,
+    "cv_latest_checkpoint_completed": true,
+    "cv_all_critical_passed": true,
+    "cv_reconciliation_freshness_gte_0_99_met_with_measurements": true,
+    "cv_paper_only": true,
+    "cv_live_trading_not_enabled": true,
+    "go_no_go_report_cited": true,
+    "next8_review_only_completed": true,
+    "next8_live_enablement_decision_no_go_pending_approval": true
+  },
+  "artifacts": {
+    "cv_checkpoint": "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
+    "cv_checkpoint_immutable_ref": "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_20261107T001342Z.json",
+    "go_no_go": "research_state/GO_NO_GO_REPORT_20261107T010101Z.json",
+    "paper_runs": [
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002933Z_run1.json",
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002937Z_run2.json",
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002941Z_run3.json"
+    ],
+    "incident_drill": "research_state/INCIDENT_DRILL_20261107T010035Z.json",
+    "runbook": "docs/PAPER_RUNBOOK.md",
+    "next8_checkpoint": "research_state/campaign_checkpoints/LIVE_ENABLEMENT_PROPOSAL_REVIEW_ONLY_latest.json",
+    "live_proposal": "research_state/LIVE_ENABLEMENT_PROPOSAL_20261107T014236Z.json"
+  },
+  "human_approval": {
+    "required_for_next9": true,
+    "a1_a7_all_approved": false,
+    "status": "BLOCKED_PENDING_EXPLICIT_HUMAN_APPROVAL"
+  },
+  "notes": [
+    "Continuity refresh only; no live-enabling code/config changes.",
+    "CV freshness is ~2h old relative to this refresh; gates remain green per latest checkpoint. Re-run strict CV before any material operational decision if staleness becomes a concern.",
+    "NEXT9 remains blocked until explicit A1-A7 approvals are recorded in additive artifacts."
+  ]
+}
