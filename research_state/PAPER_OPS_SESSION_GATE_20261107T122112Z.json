@@ -1,0 +1,99 @@
+{
+  "artifact_type": "PAPER_OPS_SESSION_GATE",
+  "timestamp": "2026-11-07T12:21:12.073613Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "gate_passed": true,
+  "block_agreement": true,
+  "gates": {
+    "paper_ops_ready": true,
+    "cv_fresh_for_material_decisions": true,
+    "next9_blocked_until_explicit_human_approval_recorded": true,
+    "no_live_capital": true,
+    "next9_not_unblocked": true,
+    "r3_r7_evidence_required": true,
+    "r3_r7_evidence_ready": true
+  },
+  "readiness": {
+    "artifact_path": "research_state/PAPER_OPS_SESSION_GATE_20261107T122112Z.json",
+    "action_required": [
+      "record_a1_a7_human_approvals_before_next9"
+    ]
+  },
+  "next9": {
+    "next9_unblocked": false,
+    "checkpoint_decision": "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL",
+    "issues": [
+      "A1_missing_approver_identity",
+      "A1_missing_timestamp_utc",
+      "A1_not_explicitly_approved",
+      "A2_missing_approver_identity",
+      "A2_missing_timestamp_utc",
+      "A2_not_explicitly_approved",
+      "A3_missing_approver_identity",
+      "A3_missing_timestamp_utc",
+      "A3_not_explicitly_approved",
+      "A4_missing_approver_identity",
+      "A4_missing_timestamp_utc",
+      "A4_not_explicitly_approved",
+      "A5_missing_approver_identity",
+      "A5_missing_timestamp_utc",
+      "A5_not_explicitly_approved",
+      "A6_missing_approver_identity",
+      "A6_missing_timestamp_utc",
+      "A6_not_explicitly_approved",
+      "A7_missing_approver_identity",
+      "A7_missing_timestamp_utc",
+      "A7_not_explicitly_approved"
+    ]
+  },
+  "action_required": [
+    "record_a1_a7_human_approvals_before_next9"
+  ],
+  "r3_r7_reduction_evidence": {
+    "artifact_type": "R3_R7_REDUCTION_EVIDENCE_VALIDATION",
+    "timestamp_utc": "2026-11-07T12:21:11.739154Z",
+    "paper_only": true,
+    "live_trading_enabled": false,
+    "next9_unblocked": false,
+    "advisory": true,
+    "kinds": {
+      "R3": {
+        "present": true,
+        "valid": true,
+        "issues": [],
+        "path": "research_state/R3_VENUE_OPS_REHEARSAL_20261107T092505Z.json"
+      },
+      "R4": {
+        "present": true,
+        "valid": true,
+        "issues": [],
+        "path": "research_state/R4_CREDENTIAL_CONTROLS_CHECKLIST_20261107T102103Z.json"
+      },
+      "R5": {
+        "present": true,
+        "valid": true,
+        "issues": [],
+        "path": "research_state/R5_EXECUTION_SLIPPAGE_SIM_EVIDENCE_20261107T120204Z.json"
+      },
+      "R6": {
+        "present": true,
+        "valid": true,
+        "issues": [],
+        "path": "research_state/R6_DRIFT_DETECTION_REPORT_20261107T111225Z.json"
+      },
+      "R7": {
+        "present": true,
+        "valid": true,
+        "issues": [],
+        "path": "research_state/R7_HUMAN_PROCESS_CHECKLIST_20261107T091537Z.json"
+      }
+    },
+    "all_present_and_valid": true,
+    "action_required": [],
+    "required": true,
+    "mode": "required",
+    "available": true
+  },
+  "artifact_path": "research_state/PAPER_OPS_SESSION_GATE_20261107T122112Z.json"
+}

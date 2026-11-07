@@ -60,7 +60,7 @@ def test_session_gate_blocks_when_readiness_not_ready(monkeypatch):
     snap["gates"]["paper_ops_ready"] = False
     snap["gates"]["cv_fresh_for_material_decisions"] = False
     snap["gates"]["no_live_capital"] = False
-    monkeypatch.setattr(c, "build_snapshot", lambda repo, max_cv_age_hours=2.0, include_r3_r7_evidence=False: snap)
+    monkeypatch.setattr(c, "build_snapshot", lambda repo, max_cv_age_hours=2.0, include_r3_r7_evidence=False, require_r3_r7_evidence=False: snap)
     result = g.run_gate(REPO)
     assert result["gate_passed"] is False
     assert result["gates"]["paper_ops_ready"] is False
@@ -86,7 +86,7 @@ def test_session_gate_blocks_when_next9_unblocked(monkeypatch):
 def test_session_gate_strict_exits_nonzero_when_not_green(monkeypatch):
     snap = _green_snapshot()
     snap["gates"]["next9_blocked_until_explicit_human_approval_recorded"] = False
-    monkeypatch.setattr(c, "build_snapshot", lambda repo, max_cv_age_hours=2.0, include_r3_r7_evidence=False: snap)
+    monkeypatch.setattr(c, "build_snapshot", lambda repo, max_cv_age_hours=2.0, include_r3_r7_evidence=False, require_r3_r7_evidence=False: snap)
     code = g.main(["--strict"])
     assert code == 1
 
@@ -102,3 +102,85 @@ def test_session_gate_writes_additive_artifact(tmp_path, monkeypatch):
     assert d["paper_only"] is True
     assert d["gate_passed"] is True
     assert d["readiness"]["artifact_path"] == str(written[0])
+
+
+def _all_valid_r3_r7_report():
+    kinds = {k: {"present": True, "valid": True, "issues": [], "path": f"research_state/{k}_X.json"} for k in ("R3", "R4", "R5", "R6", "R7")}
+    return {
+        "artifact_type": "R3_R7_REDUCTION_EVIDENCE_REPORT",
+        "timestamp_utc": "2026-11-07T00:00:00Z",
+        "advisory": False,
+        "required": True,
+        "mode": "required",
+        "available": True,
+        "paper_only": True,
+        "live_trading_enabled": False,
+        "next9_unblocked": False,
+        "kinds": kinds,
+        "all_present_and_valid": True,
+        "action_required": [],
+    }
+
+
+def _missing_r3_r7_report():
+    kinds = {k: {"present": False, "valid": False, "issues": [f"missing_{k}"], "path": None} for k in ("R3", "R4", "R5", "R6", "R7")}
+    return {
+        "artifact_type": "R3_R7_REDUCTION_EVIDENCE_REPORT",
+        "timestamp_utc": "2026-11-07T00:00:00Z",
+        "advisory": False,
+        "required": True,
+        "mode": "required",
+        "available": True,
+        "paper_only": True,
+        "live_trading_enabled": False,
+        "next9_unblocked": False,
+        "kinds": kinds,
+        "all_present_and_valid": False,
+        "action_required": ["fix_or_generate_missing_r3_r7_evidence"],
+    }
+
+
+def test_session_gate_default_off_does_not_require_r3_r7(monkeypatch):
+    # Default behavior: require flag is off, so a missing R3-R7 set must NOT
+    # affect the gate (advisory semantics preserved). Simulate by ensuring the
+    # readiness snapshot is the normal green one (no r3_r7 key) — gate stays green.
+    monkeypatch.setattr(c, "build_snapshot", lambda repo, max_cv_age_hours=2.0, include_r3_r7_evidence=False, require_r3_r7_evidence=False: _green_snapshot())
+    result = g.run_gate(REPO)
+    assert result["gate_passed"] is True
+    assert result["gates"]["r3_r7_evidence_required"] is False
+    # never loosens NEXT9 / live guards
+    assert result["next9"]["next9_unblocked"] is False
+    assert result["live_trading_enabled"] is False
+
+
+def test_session_gate_require_r3_r7_passes_when_all_valid(monkeypatch):
+    monkeypatch.setattr(c, "check_r3_r7_evidence", lambda repo, required=False: _all_valid_r3_r7_report())
+    result = g.run_gate(REPO, require_r3_r7_evidence=True)
+    assert result["gate_passed"] is True
+    assert result["gates"]["r3_r7_evidence_required"] is True
+    assert result["gates"]["r3_r7_evidence_ready"] is True
+    assert "r3_r7_reduction_evidence" in result
+    assert result["r3_r7_reduction_evidence"]["all_present_and_valid"] is True
+    # strict tightening must never unblock NEXT9 or enable live trading
+    assert result["next9"]["next9_unblocked"] is False
+    assert result["live_trading_enabled"] is False
+    assert result["paper_only"] is True
+
+
+def test_session_gate_require_r3_r7_blocks_when_missing(monkeypatch):
+    monkeypatch.setattr(c, "check_r3_r7_evidence", lambda repo, required=False: _missing_r3_r7_report())
+    result = g.run_gate(REPO, require_r3_r7_evidence=True)
+    assert result["gate_passed"] is False
+    assert result["gates"]["r3_r7_evidence_required"] is True
+    assert result["gates"]["r3_r7_evidence_ready"] is False
+    assert "satisfy_r3_r7_reduction_evidence" in result["action_required"]
+    # tightened gate still must NOT unblock NEXT9 or enable live trading
+    assert result["next9"]["next9_unblocked"] is False
+    assert result["gates"]["next9_not_unblocked"] is True
+    assert result["live_trading_enabled"] is False
+
+
+def test_session_gate_require_r3_r7_strict_exits_nonzero_when_missing(monkeypatch):
+    monkeypatch.setattr(c, "check_r3_r7_evidence", lambda repo, required=False: _missing_r3_r7_report())
+    code = g.main(["--strict", "--require-r3-r7-evidence", "--no-write"])
+    assert code == 1

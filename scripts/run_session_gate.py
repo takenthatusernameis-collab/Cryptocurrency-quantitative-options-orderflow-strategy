@@ -36,18 +36,34 @@ def _utc_iso() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def run_gate(repo: Path = REPO, max_cv_age_hours: float = 2.0, include_r3_r7_evidence: bool = False) -> Dict[str, Any]:
-    snap = c.build_snapshot(repo, max_cv_age_hours=max_cv_age_hours, include_r3_r7_evidence=include_r3_r7_evidence)
+def run_gate(
+    repo: Path = REPO,
+    max_cv_age_hours: float = 2.0,
+    include_r3_r7_evidence: bool = False,
+    require_r3_r7_evidence: bool = False,
+) -> Dict[str, Any]:
+    # --require-r3-r7-evidence implies inclusion and is default-off; it never
+    # unblocks NEXT9 and never enables live trading. It only tightens the gate
+    # when explicitly requested (opt-in), per human-approved process policy.
+    snap = c.build_snapshot(
+        repo,
+        max_cv_age_hours=max_cv_age_hours,
+        include_r3_r7_evidence=bool(include_r3_r7_evidence or require_r3_r7_evidence),
+        require_r3_r7_evidence=bool(require_r3_r7_evidence),
+    )
     next9 = v.check_current(repo)
 
     gates = snap.get("gates") or {}
     next9_unblocked = bool(next9.get("next9_unblocked", False))
+    r3_r7_required = bool(gates.get("r3_r7_evidence_required") is True)
+    r3_r7_ok = bool(gates.get("r3_r7_evidence_ready") is True)
     gate_passed = bool(
         gates.get("paper_ops_ready") is True
         and gates.get("cv_fresh_for_material_decisions") is True
         and gates.get("next9_blocked_until_explicit_human_approval_recorded") is True
         and gates.get("no_live_capital") is True
         and next9_unblocked is False
+        and (not r3_r7_required or r3_r7_ok)
     )
     # Cross-invariant: readiness next9_blocked must agree with NEXT9 validation.
     block_agreement = bool(
@@ -68,6 +84,8 @@ def run_gate(repo: Path = REPO, max_cv_age_hours: float = 2.0, include_r3_r7_evi
             "next9_blocked_until_explicit_human_approval_recorded": bool(gates.get("next9_blocked_until_explicit_human_approval_recorded") is True),
             "no_live_capital": bool(gates.get("no_live_capital") is True),
             "next9_not_unblocked": next9_unblocked is False,
+            "r3_r7_evidence_required": r3_r7_required,
+            "r3_r7_evidence_ready": r3_r7_ok if (r3_r7_required or "r3_r7_reduction_evidence" in snap) else None,
         },
         "readiness": {
             "artifact_path": snap.get("artifact_path"),
@@ -82,11 +100,13 @@ def run_gate(repo: Path = REPO, max_cv_age_hours: float = 2.0, include_r3_r7_evi
             *(["rerun_strict_cv_before_material_decisions"] if not gates.get("cv_fresh_for_material_decisions") else []),
             *(["record_a1_a7_human_approvals_before_next9"] if next9_unblocked else []),
             *(["fix_live_guardrails"] if not gates.get("paper_ops_ready") else []),
+            *(["satisfy_r3_r7_reduction_evidence"] if r3_r7_required and not r3_r7_ok else []),
             *(snap.get("action_required") or []),
         ],
     }
     if "r3_r7_reduction_evidence" in snap:
-        result["r3_r7_reduction_evidence_advisory"] = snap["r3_r7_reduction_evidence"]
+        key = "r3_r7_reduction_evidence" if r3_r7_required else "r3_r7_reduction_evidence_advisory"
+        result[key] = snap["r3_r7_reduction_evidence"]
     return result
 
 
@@ -96,9 +116,19 @@ def main(argv: Optional[list] = None) -> int:
     ap.add_argument("--max-cv-age-hours", type=float, default=2.0)
     ap.add_argument("--no-write", action="store_true")
     ap.add_argument("--include-r3-r7-evidence", action="store_true", help="Advisory: include R3-R7 reduction-evidence report (never blocks gate)")
+    ap.add_argument(
+        "--require-r3-r7-evidence",
+        action="store_true",
+        help="Default-off, opt-in: require R3-R7 reduction evidence present+valid (tightens gate only when set; never unblocks NEXT9)",
+    )
     args = ap.parse_args(argv)
 
-    result = run_gate(REPO, max_cv_age_hours=args.max_cv_age_hours, include_r3_r7_evidence=bool(args.include_r3_r7_evidence))
+    result = run_gate(
+        REPO,
+        max_cv_age_hours=args.max_cv_age_hours,
+        include_r3_r7_evidence=bool(args.include_r3_r7_evidence),
+        require_r3_r7_evidence=bool(args.require_r3_r7_evidence),
+    )
     ts = _utc()
     if not args.no_write:
         RS.mkdir(parents=True, exist_ok=True)

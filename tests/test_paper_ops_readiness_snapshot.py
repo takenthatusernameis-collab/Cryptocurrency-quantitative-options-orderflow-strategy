@@ -93,3 +93,68 @@ def test_paper_campaign_summary_r1():
     assert p["summary"]["all_critical_passed"] is True
     assert p["summary"]["failed"] == 0
     assert p["summary"]["passed"] == p["summary"]["total_gates"]
+
+def _all_valid_r3_r7_report():
+    kinds = {k: {"present": True, "valid": True, "issues": [], "path": f"research_state/{k}_X.json"} for k in ("R3", "R4", "R5", "R6", "R7")}
+    return {
+        "artifact_type": "R3_R7_REDUCTION_EVIDENCE_REPORT",
+        "timestamp_utc": "2026-11-07T00:00:00Z",
+        "advisory": False,
+        "required": True,
+        "mode": "required",
+        "available": True,
+        "paper_only": True,
+        "live_trading_enabled": False,
+        "next9_unblocked": False,
+        "kinds": kinds,
+        "all_present_and_valid": True,
+        "action_required": [],
+    }
+
+
+def _missing_r3_r7_report():
+    kinds = {k: {"present": False, "valid": False, "issues": [f"missing_{k}"], "path": None} for k in ("R3", "R4", "R5", "R6", "R7")}
+    return {
+        "artifact_type": "R3_R7_REDUCTION_EVIDENCE_REPORT",
+        "timestamp_utc": "2026-11-07T00:00:00Z",
+        "advisory": False,
+        "required": True,
+        "mode": "required",
+        "available": True,
+        "paper_only": True,
+        "live_trading_enabled": False,
+        "next9_unblocked": False,
+        "kinds": kinds,
+        "all_present_and_valid": False,
+        "action_required": ["fix_or_generate_missing_r3_r7_evidence"],
+    }
+
+
+def test_require_r3_r7_default_off_keeps_snapshot_green(monkeypatch):
+    # default (no require flag): snapshot on current repo stays green and does
+    # not include r3_r7 report; requiring is opt-in only.
+    snap = c.build_snapshot(REPO)
+    assert snap["gates"]["paper_ops_ready"] is True
+    assert "r3_r7_reduction_evidence" not in snap
+    assert snap["gates"]["next9_blocked_until_explicit_human_approval_recorded"] is True
+
+
+def test_require_r3_r7_tightens_snapshot_when_missing(monkeypatch):
+    monkeypatch.setattr(c, "check_r3_r7_evidence", lambda repo, required=False: _missing_r3_r7_report())
+    snap = c.build_snapshot(REPO, require_r3_r7_evidence=True)
+    assert snap["gates"]["paper_ops_ready"] is False
+    assert "satisfy_r3_r7_reduction_evidence" in snap["action_required"]
+    assert snap["r3_r7_reduction_evidence"]["all_present_and_valid"] is False
+    # tightening must never unblock NEXT9 or enable live trading
+    assert snap["gates"]["next9_blocked_until_explicit_human_approval_recorded"] is True
+    assert snap["live_trading_enabled"] is False
+    assert snap["paper_only"] is True
+
+
+def test_require_r3_r7_snapshot_green_when_all_valid(monkeypatch):
+    monkeypatch.setattr(c, "check_r3_r7_evidence", lambda repo, required=False: _all_valid_r3_r7_report())
+    snap = c.build_snapshot(REPO, require_r3_r7_evidence=True)
+    assert snap["gates"]["paper_ops_ready"] is True
+    assert snap["r3_r7_reduction_evidence"]["all_present_and_valid"] is True
+    assert snap["gates"]["next9_blocked_until_explicit_human_approval_recorded"] is True
+    assert snap["live_trading_enabled"] is False

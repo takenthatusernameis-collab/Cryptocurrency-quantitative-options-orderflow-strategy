@@ -143,7 +143,10 @@ def _cv_pointer_ok(repo: Path, d: Dict[str, Any]) -> Tuple[bool, List[str]]:
     return len(issues) == 0, issues
 
 
-def check_cv(repo: Path = REPO, max_age_hours: float = 2.0) -> Dict[str, Any]:
+def check_cv(repo: Path = REPO, max_age_hours: float = 2.0, **_compat: Any) -> Dict[str, Any]:
+    # compat: tolerate stale callers / keyword alias; canonical param is max_age_hours
+    if 'max_cv_age_hours' in _compat and _compat['max_cv_age_hours'] is not None:
+        max_age_hours = float(_compat['max_cv_age_hours'])
     cp_path = repo / "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json"
     d = _load_json(cp_path)
     if not d:
@@ -276,27 +279,53 @@ def check_next8(repo: Path = REPO) -> Dict[str, Any]:
     }
 
 
-def check_r3_r7_evidence(repo: Path = REPO) -> Optional[Dict[str, Any]]:
-    """Advisory/opt-in R3-R7 reduction-evidence report (never blocks paper-ops)."""
+def check_r3_r7_evidence(repo: Path = REPO, *, required: bool = False) -> Optional[Dict[str, Any]]:
+    """R3-R7 reduction-evidence report.
+
+    Advisory by default (never blocks paper-ops). When ``required=True`` the
+    caller has explicitly opted in (default-off flag) to tighten the gate; the
+    report marks itself non-advisory and the snapshot/gate will enforce
+    ``all_present_and_valid``. This NEVER unblocks NEXT9 and NEVER enables live
+    trading.
+    """
+    mode = "required" if required else "advisory"
     if _r3r7 is None:
-        return {"advisory": True, "available": False, "issues": ["r3_r7_validator_unavailable"]}
+        return {"advisory": not required, "required": required, "mode": mode, "available": False, "issues": ["r3_r7_validator_unavailable"]}
     try:
-        return _r3r7.check_repo(repo)
+        rep = _r3r7.check_repo(repo)
+        if not isinstance(rep, dict):
+            rep = {"available": False, "issues": ["r3_r7_invalid_report"]}
+        rep.setdefault("advisory", not required)
+        rep["required"] = required
+        rep["mode"] = mode
+        rep.setdefault("available", True)
+        return rep
     except Exception as exc:  # pragma: no cover
-        return {"advisory": True, "available": False, "issues": [f"r3_r7_check_error:{exc}"]}
+        return {"advisory": not required, "required": required, "mode": mode, "available": False, "issues": [f"r3_r7_check_error:{exc}"]}
 
 
 def build_snapshot(
     repo: Path = REPO,
     max_cv_age_hours: float = 2.0,
     include_r3_r7_evidence: bool = False,
+    require_r3_r7_evidence: bool = False,
 ) -> Dict[str, Any]:
     guardrails = check_live_guardrails(repo)
-    cv = check_cv(repo, max_age_hours=max_cv_age_hours)
+    cv = check_cv(repo, max_cv_age_hours=max_cv_age_hours)
     paper = check_paper_campaign(repo)
     next8 = check_next8(repo)
-    all_paper_ops_ready = bool(guardrails["passed"] and cv["passed"] and paper["passed"])
+    # Core paper-ops readiness is unchanged (R3-R7 never affects it unless the
+    # explicit default-off require flag is set, and even then it only adds a
+    # separate required gate — it never loosens, never unblocks NEXT9).
+    core_paper_ops_ready = bool(guardrails["passed"] and cv["passed"] and paper["passed"])
     cv_fresh_enough = cv.get("fresh_within_max_age_hours") is True
+    r3_r7_ready = True
+    r3_r7_report = None
+    want_r3_r7 = bool(include_r3_r7_evidence or require_r3_r7_evidence)
+    if want_r3_r7:
+        r3_r7_report = check_r3_r7_evidence(repo, required=bool(require_r3_r7_evidence))
+        r3_r7_ready = bool((r3_r7_report or {}).get("all_present_and_valid") is True)
+    all_paper_ops_ready = bool(core_paper_ops_ready and (not require_r3_r7_evidence or r3_r7_ready))
     snap = {
         "artifact_type": "PAPER_OPS_READINESS_SNAPSHOT",
         "timestamp": _utc_now().isoformat().replace("+00:00", "Z"),
@@ -311,19 +340,20 @@ def build_snapshot(
             "cv_fresh_for_material_decisions": cv_fresh_enough,
             "next9_blocked_until_explicit_human_approval_recorded": not next8.get("next9_unblocked", False),
             "no_live_capital": True,
+            "r3_r7_evidence_required": bool(require_r3_r7_evidence),
+            "r3_r7_evidence_ready": bool(r3_r7_ready) if want_r3_r7 else None,
         },
         "action_required": [
             *(["rerun_strict_cv_before_material_decisions"] if not cv_fresh_enough else []),
             *(["record_a1_a7_human_approvals_before_next9"] if not next8.get("a1_a7_all_approved") else []),
             *(["fix_live_guardrails"] if not guardrails["passed"] else []),
+            *(["satisfy_r3_r7_reduction_evidence"] if require_r3_r7_evidence and not r3_r7_ready else []),
         ],
     }
-    if include_r3_r7_evidence:
-        # Advisory only: never affects paper_ops_ready/strict pass unless a future
-        # explicit default-off strict flag is added by a human-approved process.
-        snap["r3_r7_reduction_evidence"] = check_r3_r7_evidence(repo)
+    if want_r3_r7 and r3_r7_report is not None:
+        # Advisory by default; required only when the explicit default-off flag is set.
+        snap["r3_r7_reduction_evidence"] = r3_r7_report
     return snap
-
 
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Paper-ops readiness snapshot (paper-only)")
