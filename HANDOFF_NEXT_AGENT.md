@@ -2,11 +2,11 @@
 Repo: `Cryptocurrency-quantitative-options-orderflow-strategy`
 Branch: `main`
 Workspace: `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
-Session time (UTC): **2026-11-07T04:12:43Z**
+Session time (UTC): **2026-11-07T05:07:58Z**
 Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: BLOCKED.** `LIVE_TRADING_ENABLED=false` (`src/config/secrets.py:69` default false; `.env.example:15` `LIVE_TRADING_ENABLED=false`). Tracked live-enabling changes: **none**. No live capital. No live-enabling code/config. No NEXT9 implementation before recorded A1–A7 approvals in a validated additive artifact.
 
 ## TIMESTAMPED INITIAL TASK MESSAGE — HEAVY CAMPAIGN (MANDATORY)
-**ID:** `INIT-20261107T041243Z-PAPER-OPS-NEXT9-BLOCKED-HEAVY`
+**ID:** `INIT-20261107T050758Z-PAPER-OPS-NEXT9-BLOCKED-HEAVY`
 **To:** next agentic work session
 **Mode:** paper-only. `LIVE_TRADING_ENABLED=false`. No live capital.
 
@@ -45,6 +45,16 @@ Status: **PAPER-OPS READY (gates green). NEXT9 HUMAN-APPROVED LIVE ENABLEMENT: B
 - **P0 CV/paper evidence:** latest CV `023732Z` green (not rerun; not >2h stale at check). Paper `023814Z` 18/18.
 - **Targeted tests:** `tests/test_next9_approval_artifact_validation.py tests/test_paper_ops_readiness_snapshot.py tests/test_paper_ops_guardrails_and_evidence.py` → **15 passed**.
 - **NEXT9:** remains **BLOCKED** — A1–A7 not recorded/approved. No live implementation.
+
+## Session 2026-11-07T05:07:58Z — P0 refresh (paper-only)
+- P0 guardrails verified: tracked diff clean; LIVE_TRADING_ENABLED default false; .env.example false. Readiness strict green.
+- P0 NEXT9 deterministic block: A1–A7 unapproved, `next9_unblocked=false`.
+- **CV stale (>2h):** latest strict CV `CONTINUOUS_VALIDATION_20261107T023732Z.json` is ~2.5h old → **rerun strict CV before material decisions**:
+  `. .venv/bin/activate && PYTHONPATH=. python scripts/run_continuous_validation.py --iterations 5 --strict --symbols BTC,ETH --seed 42`
+  Require 5/5, 0 failed, freshness met `[1,1,1,1,1]`.
+- Paper evidence: `PAPER_TRADING_CAMPAIGN_20261107T023814Z.json` 18/18 (rerun 3 passes if doubtful).
+- **P1 heavy tangible work:** complete ≥1 substantial paper-safe improvement with tests/artifacts (schema validation, runbook automation, edge-case tests, R3–R7 reduction). Do NOT mass-refactor phase79/80/110 mega-files. Baseline scoped mypy 40 errors/13 files — introduce NO new errors.
+- **Definition of done:** ≥1 additive timestamped artifact + targeted tests + guardrails verified + handoff updated. Never claim NEXT9 unblocked without validated A1–A7.
 
 ## Verified ground truth (cite these)
 - **Readiness:** `scripts/check_paper_ops_readiness.py`; `research_state/PAPER_OPS_READINESS_SNAPSHOT_20261107T035743Z.json` (strict green, NEXT9 blocked).
