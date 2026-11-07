@@ -160,3 +160,17 @@ def test_check_repo_strict_requires_all_present():
 def test_artifact_not_found_strict():
     rc = v.main(["--artifact", "research_state/NOPE_R3.json", "--kind", "R3", "--strict"])
     assert rc == 1
+
+
+def test_r5_stricter_fields_present():
+    # ensure stricter generator produces required fields
+    from generate_r5_execution_slippage_evidence import gen_r5_strict
+    d = gen_r5_strict("20261107T072823Z")
+    ok, issues = v.validate_artifact(d, "R5")
+    assert ok is True, issues
+    m = d["metrics"]
+    for k in ("filled_orders", "rejected_orders", "partial_fill_rate", "reject_rate", "within_conservative_caps", "slippage_bps_conservative_cap"):
+        assert k in m
+    assert d["paper_or_backtest_derived"] is True
+    assert d["next9_unblocked"] is False
+    assert d["live_trading_enabled"] is False
