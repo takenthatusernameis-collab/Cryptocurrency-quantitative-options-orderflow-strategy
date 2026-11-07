@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sys
+import tempfile
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -185,3 +186,92 @@ def test_check_current_write_creates_additive_artifact(tmp_path, monkeypatch):
     assert data["next9_unblocked"] is False
     assert data["paper_only"] is True
     assert data["live_trading_enabled"] is False
+
+
+def _full_checklist():
+    checklist = []
+    for i in range(1, 8):
+        aid = f"A{i}"
+        item = {"id": aid, "approved": True, "approver_identity": "approver", "timestamp_utc": "2026-11-07T00:00:00Z"}
+        for canonical, _mandatory in v.REQUIRED_FIELDS[aid]:
+            if canonical == "approved":
+                continue
+            if canonical not in item:
+                item[canonical] = "ok" if canonical != "limits" else {"max_notional_usd": 100}
+        checklist.append(item)
+    return checklist
+
+
+def test_freshness_disabled_by_default_returns_no_issues():
+    data = {"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": _full_checklist()}
+    issues = v._approval_freshness_issues(data, max_age_hours=None, effective_until_utc=None)
+    assert issues == []
+
+
+def test_freshness_max_age_stale_timestamps_produce_issues():
+    data = {"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": _full_checklist()}
+    issues = v._approval_freshness_issues(data, max_age_hours=1.0, effective_until_utc=None)
+    assert len(issues) == 7
+    for i in range(1, 8):
+        assert any(f"A{i}_approval_stale_hours:" in it for it in issues)
+
+
+def test_freshness_effective_until_before_timestamp_produces_issue():
+    data = {"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": _full_checklist()}
+    issues = v._approval_freshness_issues(data, max_age_hours=None, effective_until_utc="2020-01-01T00:00:00Z")
+    assert any("approval_timestamp_after_effective_until_utc" in it for it in issues)
+
+
+def test_freshness_never_grants_approval_even_structurally_full():
+    data = {"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": _full_checklist()}
+    ok, _ = v.validate_approval_artifact(data)
+    assert ok is True
+    fresh = v._approval_freshness_issues(data, max_age_hours=1.0, effective_until_utc=None)
+    assert fresh
+    assert not (ok and not fresh)
+
+
+def test_cli_freshness_default_off_does_not_tighten():
+    with tempfile.TemporaryDirectory() as td:
+        artifact = Path(td) / "next9_full.json"
+        artifact.write_text(json.dumps({"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": _full_checklist()}), encoding="utf-8")
+        rc = v.main(["--artifact", str(artifact), "--strict"])
+        assert rc == 0
+
+
+def test_cli_max_approval_age_hours_tightens_block_still_blocked():
+    with tempfile.TemporaryDirectory() as td:
+        artifact = Path(td) / "next9_stale.json"
+        artifact.write_text(json.dumps({"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": _full_checklist()}), encoding="utf-8")
+        rc = v.main(["--artifact", str(artifact), "--max-approval-age-hours", "1", "--strict"])
+        assert rc == 1
+
+
+def test_cli_effective_until_utc_tightens_block_still_blocked():
+    with tempfile.TemporaryDirectory() as td:
+        artifact = Path(td) / "next9_expired.json"
+        artifact.write_text(json.dumps({"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": _full_checklist()}), encoding="utf-8")
+        rc = v.main(["--artifact", str(artifact), "--effective-until-utc", "2020-01-01T00:00:00Z", "--strict"])
+        assert rc == 1
+
+
+def test_cli_max_approval_age_hours_writes_additive_blocked_artifact():
+    with tempfile.TemporaryDirectory() as td:
+        td_path = Path(td)
+        artifact = td_path / "next9_stale.json"
+        artifact.write_text(json.dumps({"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": _full_checklist()}), encoding="utf-8")
+        old_rs = v.RS
+        v.RS = td_path / "research_state"
+        try:
+            rc = v.main(["--artifact", str(artifact), "--max-approval-age-hours", "1", "--strict", "--write"])
+        finally:
+            v.RS = old_rs
+        assert rc == 1
+        outs = list((td_path / "research_state").glob("NEXT9_APPROVAL_VALIDATION_*.json"))
+        assert len(outs) == 1
+        data = json.loads(outs[0].read_text(encoding="utf-8"))
+        assert data["next9_unblocked"] is False
+        assert data["paper_only"] is True
+        assert data["live_trading_enabled"] is False
+        assert data["approval_freshness_check"]["enabled"] is True
+        assert len(data["approval_freshness_check"]["freshness_issues"]) == 7
