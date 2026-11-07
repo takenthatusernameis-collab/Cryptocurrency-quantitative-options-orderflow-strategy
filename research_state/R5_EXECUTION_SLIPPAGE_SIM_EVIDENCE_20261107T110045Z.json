@@ -1,0 +1,160 @@
+{
+  "artifact_type": "EXECUTION_SLIPPAGE_SIM_EVIDENCE",
+  "timestamp_utc": "2026-11-07T11:00:45.493518Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "simulation_scope": "stricter extraction from paper campaign + reconciliation audit + pre-live gate report; realized fill quality vs conservative caps; cross-venue per-symbol slippage breakdown from CROSSVENUE_ORCHESTRATION_REPORT + PHASE37 routing; no live mutation",
+  "evidence_refs": [
+    "research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json",
+    "research_state/RECONCILIATION_AUDIT_20261107T023814Z.json",
+    "research_state/PRE_LIVE_GATE_REPORT_20261107T023814Z.json",
+    "research_state/PAPER_TRADING_CAMPAIGN_20261107T045157Z.json",
+    "research_state/RECONCILIATION_AUDIT_20261107T045157Z.json",
+    "research_state/PRE_LIVE_GATE_REPORT_20261107T045157Z.json",
+    "research_state/CROSSVENUE_ORCHESTRATION_REPORT.json",
+    "research_state/PHASE37_CROSS_VENUE_ROUTING_REPORT.json"
+  ],
+  "metrics": {
+    "slippage_assumption_documented": true,
+    "fill_quality_documented": true,
+    "reconciliation_match_rate": 1.0,
+    "paper_gates_passed": "18/18",
+    "conservative_live_caps_required": true,
+    "filled_orders": 1,
+    "partially_filled_orders": 0,
+    "rejected_orders": 0,
+    "cancelled_orders": 0,
+    "total_fills": 2,
+    "unmatched_positions": 0,
+    "critical_unmatched": 0,
+    "partial_fill_rate": 0.0,
+    "reject_rate": 0.0,
+    "slippage_bps_conservative_cap": 15.0,
+    "partial_fill_rate_cap": 0.05,
+    "reject_rate_cap": 0.01,
+    "within_conservative_caps": true,
+    "cross_venue_slippage_breakdown": {
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "symbols": [
+        "BTC",
+        "ETH"
+      ],
+      "per_venue": {
+        "deribit": {
+          "ewma_ms": 26.463255330779738,
+          "samples": 10,
+          "max_sample_ms": 46.83038807194083,
+          "within_limit": true,
+          "taker_fee_bps": 5.0,
+          "avg_slippage_bps": 0.0,
+          "max_slippage_bps": 0.0,
+          "fills": 0,
+          "total_slippage_bps": 0.0,
+          "routing_ok": true
+        },
+        "okx": {
+          "ewma_ms": 23.73728872468208,
+          "samples": 10,
+          "max_sample_ms": 44.91866362728827,
+          "within_limit": true,
+          "taker_fee_bps": 5.0,
+          "avg_slippage_bps": 0.0,
+          "max_slippage_bps": 0.0,
+          "fills": 0,
+          "total_slippage_bps": 0.0,
+          "routing_ok": true
+        },
+        "binance": {
+          "ewma_ms": 28.460784055498948,
+          "samples": 10,
+          "max_sample_ms": 44.26328464518245,
+          "within_limit": true,
+          "taker_fee_bps": 4.0,
+          "avg_slippage_bps": 0.0,
+          "max_slippage_bps": 0.0,
+          "fills": 0,
+          "total_slippage_bps": 0.0,
+          "routing_ok": true
+        }
+      },
+      "per_symbol": {
+        "BTC": {
+          "venues": {
+            "deribit": {
+              "ewma_ms": 26.463255330779738,
+              "taker_fee_bps": 5.0,
+              "avg_slippage_bps": 0.0,
+              "max_slippage_bps": 0.0,
+              "fills": 0
+            },
+            "okx": {
+              "ewma_ms": 23.73728872468208,
+              "taker_fee_bps": 5.0,
+              "avg_slippage_bps": 0.0,
+              "max_slippage_bps": 0.0,
+              "fills": 0
+            },
+            "binance": {
+              "ewma_ms": 28.460784055498948,
+              "taker_fee_bps": 4.0,
+              "avg_slippage_bps": 0.0,
+              "max_slippage_bps": 0.0,
+              "fills": 0
+            }
+          },
+          "gross_notional_usd": 0.0,
+          "net_delta_usd": 0.0
+        },
+        "ETH": {
+          "venues": {
+            "deribit": {
+              "ewma_ms": 26.463255330779738,
+              "taker_fee_bps": 5.0,
+              "avg_slippage_bps": 0.0,
+              "max_slippage_bps": 0.0,
+              "fills": 0
+            },
+            "okx": {
+              "ewma_ms": 23.73728872468208,
+              "taker_fee_bps": 5.0,
+              "avg_slippage_bps": 0.0,
+              "max_slippage_bps": 0.0,
+              "fills": 0
+            },
+            "binance": {
+              "ewma_ms": 28.460784055498948,
+              "taker_fee_bps": 4.0,
+              "avg_slippage_bps": 0.0,
+              "max_slippage_bps": 0.0,
+              "fills": 0
+            }
+          },
+          "gross_notional_usd": 0.0,
+          "net_delta_usd": 0.0
+        }
+      },
+      "slippage_bps_conservative_cap": 15.0,
+      "within_conservative_caps": true,
+      "crossvenue_paper_only": true,
+      "routing_ok": true
+    }
+  },
+  "per_symbol_slippage": true,
+  "paper_or_backtest_derived": true,
+  "advisory": true,
+  "strictness": "enhanced_extraction_v2",
+  "flags": {
+    "deterministic_pass": true,
+    "caps_enforced": true,
+    "advisory_only": true,
+    "cross_venue_slippage_breakdown_present": true
+  },
+  "warn_flags": [
+    "per_symbol_slippage_breakdown_emitted_advisory"
+  ]
+}
