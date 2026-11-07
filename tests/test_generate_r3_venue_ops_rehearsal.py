@@ -22,7 +22,7 @@ def test_gen_r3_strict_produces_valid_artifact():
     assert d["advisory"] is True
     assert isinstance(d["checklist"], list) and len(d["checklist"]) >= 7
     assert isinstance(d["evidence_refs"], list) and d["evidence_refs"]
-    assert d["strictness"] == "enhanced_extraction_v1"
+    assert d["strictness"] == "enhanced_extraction_v2"
 
 
 def test_r3_covers_partial_fill_reject_rate_limit_maintenance():

@@ -1,0 +1,69 @@
+{
+  "artifact_type": "DRIFT_DETECTION_REPORT",
+  "timestamp_utc": "2026-11-07T09:15:37.284811Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "thresholds": {
+    "pnl_drift_threshold": 0.05,
+    "greeks_drift_threshold": 0.08,
+    "fills_drift_threshold": 0.1,
+    "latency_drift_ms_threshold": 50.0,
+    "anomaly_threshold": 0.7
+  },
+  "flags": {
+    "schema_valid": true,
+    "evidence_cited": true,
+    "within_bounds_requires_fresh_cv": true,
+    "cv_checkpoint_green": true,
+    "phase20_within_bounds": true,
+    "health_slo_present": true,
+    "alert_audit_present": true,
+    "observability_present": true,
+    "resilience_present": true,
+    "unresolved_alerts_bounded": true,
+    "deterministic_pass": true,
+    "advisory_only": true
+  },
+  "warn_flags": [],
+  "phase20_summary": {
+    "present": true,
+    "report": "PHASE20_DRIFT_DETECTION_REPORT",
+    "timestamp": "2026-11-01T13:35:37.169785Z",
+    "anomaly_count": 0,
+    "anomaly_score": 0.0,
+    "within_bounds": true,
+    "alerts_count": 0
+  },
+  "cv_summary": {
+    "present": true,
+    "timestamp": "2026-11-07T08:19:51.921837Z",
+    "all_critical_passed": true,
+    "iterations_5_5": true,
+    "reconciliation_freshness_met": true,
+    "reconciliation_measurements": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "monitoring_summary": {
+    "health_status": "pass",
+    "unresolved_alerts": 1,
+    "observability_entries": 254
+  },
+  "evidence_refs": [
+    "research_state/PHASE20_DRIFT_DETECTION_REPORT.json",
+    "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
+    "research_state/OBSERVABILITY_REPORT_20261107T081951Z.json",
+    "research_state/ALERT_AUDIT_20261107T081951Z.json",
+    "research_state/HEALTH_SLO_REPORT_20261107T081951Z.json",
+    "research_state/RESILIENCE_AUDIT_20261107T081951Z.json",
+    "research_state/CONTINUOUS_VALIDATION_20261107T081951Z.json"
+  ],
+  "deterministic": true,
+  "advisory": true,
+  "strictness": "enhanced_extraction_v1"
+}

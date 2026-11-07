@@ -21,7 +21,7 @@ def test_gen_r7_strict_produces_valid_artifact():
     assert d["next9_unblocked"] is False
     assert d["cannot_grant_approval"] is True
     assert d["advisory"] is True
-    assert d["strictness"] == "enhanced_extraction_v1"
+    assert d["strictness"] == "enhanced_extraction_v2"
 
 
 def test_r7_contains_all_a1_a7_process_items_and_cannot_grant_approval():
