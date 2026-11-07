@@ -1,0 +1,200 @@
+{
+  "artifact_type": "PHASE51_LATENCY_AWARE_OPTIONS_SOR_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-07T14:20:01.623603Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "advisory": true,
+  "no_external_venue_mutation": true,
+  "seed": 51052,
+  "cycles": 60,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "campaign": {
+    "paper_only": true,
+    "total_cycles": 60,
+    "gates_ok": true,
+    "n_routes": 60,
+    "n_sliced": 42,
+    "venue_picks": {
+      "deribit": 60,
+      "okx": 0,
+      "binance": 0
+    },
+    "halted_routes": 10
+  },
+  "routing_surface": {
+    "phase": "PHASE51_LATENCY_AWARE_OPTIONS_SOR",
+    "paper_only": true,
+    "seed": 51052,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "expiries": [
+      "7D",
+      "30D"
+    ],
+    "gates_ok": true,
+    "avg_latency_ms": 4.150992959014632,
+    "avg_fill_probability": 0.7828079749378194,
+    "avg_toxicity_penalty_bps": 3.718788608735726,
+    "avg_slippage_bps": 0.9794285088243042,
+    "avg_expected_cost_bps": 6.279205942552514,
+    "avg_score": -1.3796787674869302
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "underlying": "BTC",
+      "symbol": "BTC-USD",
+      "deterministic_probe_route_id": "p51sor_route_d73f259fc051",
+      "probe_latency_ms": 4.913423903019731,
+      "probe_slippage_bps": 0.8456711951509865,
+      "probe_toxicity_penalty_bps": 2.0,
+      "probe_fill_probability": 0.7818900825669265,
+      "probe_expected_cost_bps": 4.448257487693894,
+      "probe_score_finite": true,
+      "campaign_n_routes": 30,
+      "paper_only": true
+    },
+    {
+      "venue": "deribit",
+      "underlying": "ETH",
+      "symbol": "ETH-USD",
+      "deterministic_probe_route_id": "p51sor_route_1c9ff8b09c20",
+      "probe_latency_ms": 5.687296731600171,
+      "probe_slippage_bps": 0.8843648365800085,
+      "probe_toxicity_penalty_bps": 2.0,
+      "probe_fill_probability": 0.8145455581796155,
+      "probe_expected_cost_bps": 3.718586997059643,
+      "probe_score_finite": true,
+      "campaign_n_routes": 30,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "underlying": "BTC",
+      "symbol": "BTC-USD",
+      "deterministic_probe_route_id": "p51sor_route_bb3bad1f4abd",
+      "probe_latency_ms": 3.393879359706596,
+      "probe_slippage_bps": 0.7696939679853299,
+      "probe_toxicity_penalty_bps": 2.0,
+      "probe_fill_probability": 0.8308773281490609,
+      "probe_expected_cost_bps": 3.219639188007426,
+      "probe_score_finite": true,
+      "campaign_n_routes": 0,
+      "paper_only": true
+    },
+    {
+      "venue": "okx",
+      "underlying": "ETH",
+      "symbol": "ETH-USD",
+      "deterministic_probe_route_id": "p51sor_route_7026a5f38f63",
+      "probe_latency_ms": 3.529211934301406,
+      "probe_slippage_bps": 0.7764605967150704,
+      "probe_toxicity_penalty_bps": 2.0,
+      "probe_fill_probability": 0.7707624905134935,
+      "probe_expected_cost_bps": 4.640872584632868,
+      "probe_score_finite": true,
+      "campaign_n_routes": 0,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "underlying": "BTC",
+      "symbol": "BTC-USD",
+      "deterministic_probe_route_id": "p51sor_route_585d9027aa8e",
+      "probe_latency_ms": 5.176133008171295,
+      "probe_slippage_bps": 0.8588066504085647,
+      "probe_toxicity_penalty_bps": 2.0,
+      "probe_fill_probability": 0.7368520509328718,
+      "probe_expected_cost_bps": 5.521111334340993,
+      "probe_score_finite": true,
+      "campaign_n_routes": 0,
+      "paper_only": true
+    },
+    {
+      "venue": "binance",
+      "underlying": "ETH",
+      "symbol": "ETH-USD",
+      "deterministic_probe_route_id": "p51sor_route_3275b5eb82e1",
+      "probe_latency_ms": 2.9183624287464465,
+      "probe_slippage_bps": 0.7459181214373223,
+      "probe_toxicity_penalty_bps": 2.0,
+      "probe_fill_probability": 0.7398658325734968,
+      "probe_expected_cost_bps": 5.3373102961785746,
+      "probe_score_finite": true,
+      "campaign_n_routes": 0,
+      "paper_only": true
+    }
+  ],
+  "tca_summary": {
+    "paper_only": true,
+    "n_tcas": 60,
+    "avg_slippage_bps": 0.9794285088243042,
+    "avg_latency_ms": 4.150992959014632,
+    "avg_implementation_shortfall_bps": 6.279205942552514,
+    "avg_toxicity_penalty_bps": 3.718788608735726,
+    "route_tca_linked": true
+  },
+  "determinism": {
+    "deterministic_seeded": true,
+    "same_seed_cycles_reproduce_surface": true,
+    "bounds_ok": true,
+    "bounds": {
+      "all_latency_non_negative": true,
+      "all_slippage_non_negative": true,
+      "all_toxicity_penalty_non_negative": true,
+      "all_expected_cost_non_negative": true,
+      "all_fill_probability_bounded": true,
+      "all_venues_in_scope": true,
+      "all_underlyings_in_scope": true,
+      "tca_route_ids_linked": true
+    }
+  },
+  "risk_posture": {
+    "paper_only": true,
+    "kill_switch_slo_posture": "armed_paper",
+    "gates_ok": true,
+    "halted_routes": 10,
+    "last_halt": "route_halt_p51sor_route_20c7fef6ebbe",
+    "no_external_venue_mutation": true,
+    "next9_unblocked": false,
+    "live_trading_enabled": false
+  },
+  "evidence_refs": [
+    "src/execution/phase51_latency_aware_options_sor.py",
+    "scripts/generate_phase51_latency_aware_options_sor_paper_evidence.py",
+    "tests/test_generate_phase51_latency_aware_options_sor_paper_evidence.py"
+  ],
+  "cross_refs": [
+    "research_state/PHASE51_ROUTING_REPORT.json",
+    "research_state/PHASE51_TCA_REPORT.json",
+    "research_state/PHASE51_CAMPAIGN_SUMMARY.json",
+    "research_state/PHASE37_CROSS_VENUE_ROUTING_REPORT.json",
+    "research_state/PHASE46_EXECUTION_PAPER_EVIDENCE_20261107T132047Z.json",
+    "research_state/CONTINUOUS_VALIDATION_20261107T140506Z.json",
+    "research_state/PAPER_OPS_SESSION_GATE_20261107T141305Z.json"
+  ],
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}
