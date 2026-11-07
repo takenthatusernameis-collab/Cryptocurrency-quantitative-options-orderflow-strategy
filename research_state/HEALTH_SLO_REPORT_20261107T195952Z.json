@@ -1,0 +1,147 @@
+{
+  "health": {
+    "service": "crypto-options-orderflow",
+    "status": "pass",
+    "checks": [
+      {
+        "name": "exchange",
+        "status": "pass",
+        "latency_ms": 5.5,
+        "message": "exchange reachable",
+        "checked_at": "2026-11-01T00:00:42Z",
+        "details": {
+          "venue": "deribit",
+          "latency_ms": 5.5
+        }
+      },
+      {
+        "name": "risk",
+        "status": "pass",
+        "latency_ms": 5.5,
+        "message": "risk engine operational",
+        "checked_at": "2026-11-01T00:00:42Z",
+        "details": {
+          "kill_switch": "armed",
+          "circuit_state": "closed"
+        }
+      },
+      {
+        "name": "orderflow_adapter",
+        "status": "pass",
+        "latency_ms": 5.5,
+        "message": "orderflow adapter connected",
+        "checked_at": "2026-11-01T00:00:42Z",
+        "details": {
+          "venue": "deribit",
+          "feed": "orderflow"
+        }
+      },
+      {
+        "name": "reconciliation",
+        "status": "pass",
+        "latency_ms": 5.5,
+        "message": "reconciliation in sync",
+        "checked_at": "2026-11-01T00:00:42Z",
+        "details": {
+          "matched_orders": 0,
+          "mismatches": 0
+        }
+      }
+    ],
+    "checked_at": "2026-11-01T00:00:42Z",
+    "version": null,
+    "uptime_sec": 0.0
+  },
+  "slo_evaluations": [
+    {
+      "slo_id": "slo_latency_p99",
+      "name": "Order Latency p99",
+      "sli_type": "latency",
+      "target": 100.0,
+      "current_value": 49.0,
+      "met": true,
+      "error_budget_remaining": 0.51,
+      "window_sec": 300.0,
+      "num_measurements": 5,
+      "evaluated_at": "2026-11-01T00:00:42Z",
+      "labels": {
+        "component": "execution"
+      }
+    },
+    {
+      "slo_id": "slo_error_rate",
+      "name": "Execution Error Rate",
+      "sli_type": "error_rate",
+      "target": 0.01,
+      "current_value": 0.005,
+      "met": true,
+      "error_budget_remaining": 0.5,
+      "window_sec": 300.0,
+      "num_measurements": 5,
+      "evaluated_at": "2026-11-01T00:00:42Z",
+      "labels": {
+        "component": "execution"
+      }
+    },
+    {
+      "slo_id": "slo_uptime",
+      "name": "Service Uptime",
+      "sli_type": "uptime",
+      "target": 0.999,
+      "current_value": 1.0,
+      "met": true,
+      "error_budget_remaining": 0.5,
+      "window_sec": 3600.0,
+      "num_measurements": 5,
+      "evaluated_at": "2026-11-01T00:00:42Z",
+      "labels": {
+        "component": "api"
+      }
+    },
+    {
+      "slo_id": "slo_reconciliation_freshness",
+      "name": "Reconciliation Freshness",
+      "sli_type": "reconciliation_freshness",
+      "target": 0.99,
+      "current_value": 0.9999869783719381,
+      "met": true,
+      "error_budget_remaining": 0.5,
+      "window_sec": 60.0,
+      "num_measurements": 1,
+      "evaluated_at": "2026-11-01T00:00:42Z",
+      "labels": {
+        "component": "reconciliation"
+      }
+    },
+    {
+      "slo_id": "slo_fill_rate",
+      "name": "Order Fill Rate",
+      "sli_type": "fill_rate",
+      "target": 0.95,
+      "current_value": 0.97,
+      "met": true,
+      "error_budget_remaining": 0.5,
+      "window_sec": 300.0,
+      "num_measurements": 5,
+      "evaluated_at": "2026-11-01T00:00:42Z",
+      "labels": {
+        "component": "execution"
+      }
+    }
+  ],
+  "reconciliation_freshness": {
+    "slo_id": "slo_reconciliation_freshness",
+    "target_gte": 0.99,
+    "met": true,
+    "all_iterations_met": true,
+    "all_iterations_have_measurements": true,
+    "measurements_per_iteration": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
+  },
+  "campaign": "continuous_validation_and_monitoring"
+}
