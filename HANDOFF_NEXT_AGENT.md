@@ -1,9 +1,10 @@
 # HANDOFF_NEXT_AGENT — Cryptocurrency quantitative options orderflow strategy (SINGLE DURABLE HANDOFF)
 
-Generated: **2026-11-07T01:01:01Z (UTC)**
+Generated: **2026-11-07T01:28:49Z (UTC)**
 Repo: `Cryptocurrency-quantitative-options-orderflow-strategy`
 Branch: `main` (verify `git status --short --branch`; workspace shows untracked `.venv/` only)
 Workspace: `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
+Current session status: NEXT8 (review-only live-enablement proposal) is PENDING — no `LIVE_ENABLEMENT_PROPOSAL_*` artifact exists; all prerequisite checkpoints verified present at 2026-11-07T01:28:49Z.
 
 ## Priority (from repo name)
 **Crypto options orderflow (multi-venue) + execution/hedging + reconciliation gates.** All work serves: Deribit/OKX/Binance × BTC/ETH ingestion/features (cumulative delta, orderflow imbalance, GEX/gamma flip, IV/skew, liquidity, PCR/max pain) → composite/orderflow signals → event-driven execution/backtest (fees/slippage/risk limits) → delta-neutral options hedging with directional vs hedge PnL attribution → reconciliation/monitoring. **Paper-gated only. No live capital. No `LIVE_TRADING_ENABLED=true`.** Every claim needs timestamped, non-empty artifacts and passing gates.
