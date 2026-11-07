@@ -48,18 +48,6 @@ def _parse_iso(ts: Optional[str]) -> Optional[datetime]:
         return None
 
 
-def _parse_compact(ts: Optional[str]) -> Optional[datetime]:
-    if not ts:
-        return None
-    m = re.search(r"(\d{8}T\d{6}Z)", ts)
-    if not m:
-        return None
-    try:
-        return datetime.strptime(m.group(1), "%Y%m%dT%H%M%SZ").replace(tzinfo=timezone.utc)
-    except Exception:
-        return None
-
-
 def _load_json(path: Path) -> Optional[Dict[str, Any]]:
     if not path.exists():
         return None
@@ -104,22 +92,84 @@ def check_live_guardrails(repo: Path = REPO) -> Dict[str, Any]:
     }
 
 
+def _cv_required_gate_fields() -> List[str]:
+    return [
+        "all_critical_passed",
+        "iterations_5_5",
+        "reconciliation_freshness_gte_0_99_met_with_measurements",
+    ]
+
+
+def _cv_required_rf_fields() -> List[str]:
+    return ["met", "all_iterations_have_measurements", "measurements_per_iteration"]
+
+
+def _cv_schema_ok(d: Dict[str, Any]) -> Tuple[bool, List[str]]:
+    issues: List[str] = []
+    g = d.get("gates")
+    if not isinstance(g, dict):
+        issues.append("cv_missing_gates_dict")
+    else:
+        for f in _cv_required_gate_fields():
+            if g.get(f) is not True:
+                issues.append(f"cv_gate_{f}_not_true")
+    rf = d.get("reconciliation_freshness")
+    if not isinstance(rf, dict):
+        issues.append("cv_missing_reconciliation_freshness_dict")
+    else:
+        for f in _cv_required_rf_fields():
+            if f == "measurements_per_iteration":
+                m = rf.get(f)
+                if not isinstance(m, list) or len(m) == 0 or not all(isinstance(x, (int, float)) and float(x) > 0 for x in m):
+                    issues.append("cv_rf_measurements_per_iteration_invalid")
+            elif rf.get(f) is not True:
+                issues.append(f"cv_rf_{f}_not_true")
+    return len(issues) == 0, issues
+
+
+def _cv_pointer_ok(repo: Path, d: Dict[str, Any]) -> Tuple[bool, List[str]]:
+    issues: List[str] = []
+    artifacts = d.get("artifacts") or {}
+    ref = artifacts.get("continuous_validation")
+    if not ref:
+        return True, []
+    ref_path = (repo / ref) if not Path(ref).is_absolute() else Path(ref)
+    if not ref_path.exists():
+        issues.append(f"cv_stale_pointer_missing_artifact:{ref}")
+    return len(issues) == 0, issues
+
+
 def check_cv(repo: Path = REPO, max_age_hours: float = 2.0) -> Dict[str, Any]:
     cp_path = repo / "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json"
     d = _load_json(cp_path)
     if not d:
         return {"exists": False, "passed": False, "details": "missing CV checkpoint"}
-    ts = _parse_iso(d.get("timestamp")) or _parse_compact(cp_path.name)
+    raw_ts = d.get("timestamp")
+    ts = _parse_iso(raw_ts) if raw_ts else None
+    timestamp_valid = ts is not None
     age_h = None
-    fresh = None
-    if ts:
+    fresh = False
+    if timestamp_valid:
         age_h = (_utc_now() - ts).total_seconds() / 3600.0
         fresh = age_h <= float(max_age_hours)
     g = d.get("gates") or {}
     rf = d.get("reconciliation_freshness") or {}
     measurements = rf.get("measurements_per_iteration") or []
+    schema_ok, schema_issues = _cv_schema_ok(d)
+    pointer_ok, pointer_issues = _cv_pointer_ok(repo, d)
+    reasons: List[str] = []
+    reasons.extend(schema_issues)
+    reasons.extend(pointer_issues)
+    if not timestamp_valid:
+        reasons.append("cv_missing_or_invalid_timestamp")
+    if not fresh:
+        reasons.append("cv_not_fresh_within_max_age_hours")
     passed = bool(
-        d.get("paper_only") is True
+        timestamp_valid
+        and fresh is True
+        and schema_ok
+        and pointer_ok
+        and d.get("paper_only") is True
         and d.get("live_trading_enabled") is False
         and g.get("all_critical_passed") is True
         and g.get("iterations_5_5") is True
@@ -133,9 +183,13 @@ def check_cv(repo: Path = REPO, max_age_hours: float = 2.0) -> Dict[str, Any]:
         "exists": True,
         "path": str(cp_path.relative_to(repo)),
         "timestamp": d.get("timestamp"),
+        "timestamp_valid": timestamp_valid,
         "age_hours": round(age_h, 4) if age_h is not None else None,
         "fresh_within_max_age_hours": fresh,
         "max_age_hours": float(max_age_hours),
+        "schema_ok": schema_ok,
+        "pointer_ok": pointer_ok,
+        "reasons": reasons,
         "paper_only": d.get("paper_only"),
         "live_trading_enabled": d.get("live_trading_enabled"),
         "gates": {

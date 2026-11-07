@@ -1,0 +1,3560 @@
+{
+  "report": {
+    "logger": "observability",
+    "num_entries": 254,
+    "entries": [
+      {
+        "ts": "2026-11-07T06:13:26.894712+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.894768+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.894791+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.894807+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.894829+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.894849+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.894865+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.894877+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.894889+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.917395+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "symbol": "BTC",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.965112+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "symbol": "ETH",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.965656+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "drift_detected",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "metric": "spread_bps",
+          "drift_pct": 25.0,
+          "threshold": 10.0,
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.966197+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "canary_gate_evaluated",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "canary": "v2.1",
+          "baseline": "v2.0",
+          "metric": "sharpe_ratio",
+          "improvement_pct": 5.71428571428572,
+          "gate_passed": true
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.966483+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "golden_artifact_stored",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "name": "baseline_metrics_v2",
+          "artifact_id": "golden_1fb93a492b2a",
+          "content_hash": "d0199217b0509224"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.966853+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.966880+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.966898+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.966915+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.966972+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967055+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967083+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967104+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967124+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967143+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967248+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967274+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967292+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967310+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967333+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967354+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967375+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967394+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967413+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": null,
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967462+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_started",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_775a5beb95c8",
+          "trace_id": "trace_79927155e59f9f42",
+          "operation": "monitor_cycle",
+          "parent_span_id": null
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967509+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967616+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.967855+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.968075+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.968269+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": false,
+          "current_value": 0.0,
+          "error_budget": 1.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.968472+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.971635+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "monitor_cycle_complete",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_alerts": 0,
+          "latency_p99_ms": 0.0,
+          "error_rate": 0.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.971724+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_ended",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_775a5beb95c8",
+          "trace_id": "trace_79927155e59f9f42",
+          "status": "ok"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.971773+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.971989+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.972198+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.972394+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": true,
+          "current_value": 0.9999793966611227,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.972610+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.972849+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_drawdown_pct",
+          "name": "Drawdown Pct",
+          "metric": "drawdown_pct",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.972912+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_daily_loss",
+          "name": "Daily Loss",
+          "metric": "daily_loss",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.972964+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_delta_util",
+          "name": "Delta Utilization",
+          "metric": "delta_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.973009+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_gamma_util",
+          "name": "Gamma Utilization",
+          "metric": "gamma_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.973053+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_vega_util",
+          "name": "Vega Utilization",
+          "metric": "vega_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.973097+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_heat",
+          "name": "Heat",
+          "metric": "heat",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.973142+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_var_95",
+          "name": "VaR 95%",
+          "metric": "var_95",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.973183+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_order_latency",
+          "name": "Order Latency",
+          "metric": "order_latency_ms",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.973224+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_fill_rate",
+          "name": "Fill Rate",
+          "metric": "fill_rate",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.973270+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_reconciliation",
+          "name": "Reconciliation Mismatch",
+          "metric": "reconciliation_mismatch",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.973363+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "alert_fired",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "alert_id": "alert_b906eac61a91",
+          "rule": "Drawdown Pct",
+          "severity": "warning",
+          "metric": "drawdown_pct",
+          "current_value": 0.12,
+          "message": "Drawdown Pct: drawdown_pct=0.12 breached warning threshold"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.994847+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "symbol": "BTC",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.995094+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "symbol": "ETH",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.995429+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "drift_detected",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "metric": "spread_bps",
+          "drift_pct": 25.0,
+          "threshold": 10.0,
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.995914+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "canary_gate_evaluated",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "canary": "v2.1",
+          "baseline": "v2.0",
+          "metric": "sharpe_ratio",
+          "improvement_pct": 5.71428571428572,
+          "gate_passed": true
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996300+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "golden_artifact_stored",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "name": "baseline_metrics_v2",
+          "artifact_id": "golden_c3c67c8e6270",
+          "content_hash": "d0199217b0509224"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996636+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996658+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996676+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996693+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996737+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996789+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996812+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996832+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996851+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996871+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996953+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996973+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.996990+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997006+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997029+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997050+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997069+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997088+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997108+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_79927155e59f9f42",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997154+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_started",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_171558774033",
+          "trace_id": "trace_a5f1a530b87b3364",
+          "operation": "monitor_cycle",
+          "parent_span_id": null
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997196+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997262+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997461+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997667+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.997853+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": false,
+          "current_value": 0.0,
+          "error_budget": 1.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:26.998046+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.001069+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "monitor_cycle_complete",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_alerts": 0,
+          "latency_p99_ms": 0.0,
+          "error_rate": 0.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.001149+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_ended",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_171558774033",
+          "trace_id": "trace_a5f1a530b87b3364",
+          "status": "ok"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.001193+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.001406+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.001626+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.001815+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": true,
+          "current_value": 0.9999817411104838,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002005+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002220+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_drawdown_pct",
+          "name": "Drawdown Pct",
+          "metric": "drawdown_pct",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002264+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_daily_loss",
+          "name": "Daily Loss",
+          "metric": "daily_loss",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002302+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_delta_util",
+          "name": "Delta Utilization",
+          "metric": "delta_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002337+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_gamma_util",
+          "name": "Gamma Utilization",
+          "metric": "gamma_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002370+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_vega_util",
+          "name": "Vega Utilization",
+          "metric": "vega_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002403+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_heat",
+          "name": "Heat",
+          "metric": "heat",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002436+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_var_95",
+          "name": "VaR 95%",
+          "metric": "var_95",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002469+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_order_latency",
+          "name": "Order Latency",
+          "metric": "order_latency_ms",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002501+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_fill_rate",
+          "name": "Fill Rate",
+          "metric": "fill_rate",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002545+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_reconciliation",
+          "name": "Reconciliation Mismatch",
+          "metric": "reconciliation_mismatch",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.002621+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "alert_fired",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "alert_id": "alert_522cce69b878",
+          "rule": "Drawdown Pct",
+          "severity": "warning",
+          "metric": "drawdown_pct",
+          "current_value": 0.12,
+          "message": "Drawdown Pct: drawdown_pct=0.12 breached warning threshold"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.035468+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "symbol": "BTC",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.035743+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "symbol": "ETH",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.036088+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "drift_detected",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "metric": "spread_bps",
+          "drift_pct": 25.0,
+          "threshold": 10.0,
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.036578+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "canary_gate_evaluated",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "canary": "v2.1",
+          "baseline": "v2.0",
+          "metric": "sharpe_ratio",
+          "improvement_pct": 5.71428571428572,
+          "gate_passed": true
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.036850+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "golden_artifact_stored",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "name": "baseline_metrics_v2",
+          "artifact_id": "golden_2458709d9119",
+          "content_hash": "d0199217b0509224"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037184+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037207+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037227+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037244+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037289+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037357+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037381+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037400+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037419+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037440+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037533+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037556+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037573+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037590+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037612+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037633+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037653+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037672+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037692+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_a5f1a530b87b3364",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037732+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_started",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_9cf7e63e93b5",
+          "trace_id": "trace_3c8db9f3df4bc44e",
+          "operation": "monitor_cycle",
+          "parent_span_id": null
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037774+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.037852+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.038063+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.038244+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.038382+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": false,
+          "current_value": 0.0,
+          "error_budget": 1.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.038534+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.040334+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "monitor_cycle_complete",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_alerts": 0,
+          "latency_p99_ms": 0.0,
+          "error_rate": 0.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.040396+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_ended",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_9cf7e63e93b5",
+          "trace_id": "trace_3c8db9f3df4bc44e",
+          "status": "ok"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.040436+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.040599+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.040743+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.040878+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": true,
+          "current_value": 0.9999840140342713,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041022+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041180+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_drawdown_pct",
+          "name": "Drawdown Pct",
+          "metric": "drawdown_pct",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041226+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_daily_loss",
+          "name": "Daily Loss",
+          "metric": "daily_loss",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041267+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_delta_util",
+          "name": "Delta Utilization",
+          "metric": "delta_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041305+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_gamma_util",
+          "name": "Gamma Utilization",
+          "metric": "gamma_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041342+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_vega_util",
+          "name": "Vega Utilization",
+          "metric": "vega_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041379+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_heat",
+          "name": "Heat",
+          "metric": "heat",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041417+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_var_95",
+          "name": "VaR 95%",
+          "metric": "var_95",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041455+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_order_latency",
+          "name": "Order Latency",
+          "metric": "order_latency_ms",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041492+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_fill_rate",
+          "name": "Fill Rate",
+          "metric": "fill_rate",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041537+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_reconciliation",
+          "name": "Reconciliation Mismatch",
+          "metric": "reconciliation_mismatch",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.041606+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "alert_fired",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "alert_id": "alert_6c0870d79c1d",
+          "rule": "Drawdown Pct",
+          "severity": "warning",
+          "metric": "drawdown_pct",
+          "current_value": 0.12,
+          "message": "Drawdown Pct: drawdown_pct=0.12 breached warning threshold"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.067637+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "symbol": "BTC",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.067838+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "symbol": "ETH",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068077+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "drift_detected",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "metric": "spread_bps",
+          "drift_pct": 25.0,
+          "threshold": 10.0,
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068396+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "canary_gate_evaluated",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "canary": "v2.1",
+          "baseline": "v2.0",
+          "metric": "sharpe_ratio",
+          "improvement_pct": 5.71428571428572,
+          "gate_passed": true
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068610+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "golden_artifact_stored",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "name": "baseline_metrics_v2",
+          "artifact_id": "golden_f3f3891e280e",
+          "content_hash": "d0199217b0509224"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068845+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068863+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068876+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068888+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068923+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068975+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.068993+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069006+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069018+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069030+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069085+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069100+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069112+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069123+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069137+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069151+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069164+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069177+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069189+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_3c8db9f3df4bc44e",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069219+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_started",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_eda15b888ec8",
+          "trace_id": "trace_c7b4beaa40b12a32",
+          "operation": "monitor_cycle",
+          "parent_span_id": null
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069249+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069312+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069459+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069618+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069752+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": false,
+          "current_value": 0.0,
+          "error_budget": 1.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.069892+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.071677+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "monitor_cycle_complete",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_alerts": 0,
+          "latency_p99_ms": 0.0,
+          "error_rate": 0.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.071732+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_ended",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_eda15b888ec8",
+          "trace_id": "trace_c7b4beaa40b12a32",
+          "status": "ok"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.071768+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.071908+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072050+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072192+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": true,
+          "current_value": 0.9999863266944885,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072335+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072486+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_drawdown_pct",
+          "name": "Drawdown Pct",
+          "metric": "drawdown_pct",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072537+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_daily_loss",
+          "name": "Daily Loss",
+          "metric": "daily_loss",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072580+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_delta_util",
+          "name": "Delta Utilization",
+          "metric": "delta_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072619+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_gamma_util",
+          "name": "Gamma Utilization",
+          "metric": "gamma_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072656+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_vega_util",
+          "name": "Vega Utilization",
+          "metric": "vega_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072693+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_heat",
+          "name": "Heat",
+          "metric": "heat",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072730+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_var_95",
+          "name": "VaR 95%",
+          "metric": "var_95",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072767+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_order_latency",
+          "name": "Order Latency",
+          "metric": "order_latency_ms",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072803+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_fill_rate",
+          "name": "Fill Rate",
+          "metric": "fill_rate",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072838+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_reconciliation",
+          "name": "Reconciliation Mismatch",
+          "metric": "reconciliation_mismatch",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.072904+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "alert_fired",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "alert_id": "alert_d4b50d2056a4",
+          "rule": "Drawdown Pct",
+          "severity": "warning",
+          "metric": "drawdown_pct",
+          "current_value": 0.12,
+          "message": "Drawdown Pct: drawdown_pct=0.12 breached warning threshold"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.106059+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "symbol": "BTC",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.106270+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "data_quality_validated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "symbol": "ETH",
+          "venue": "deribit",
+          "passed": true,
+          "nan_count": 0,
+          "inf_count": 0,
+          "stale_count": 0,
+          "corruption_count": 0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.106519+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "drift_detected",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "metric": "spread_bps",
+          "drift_pct": 25.0,
+          "threshold": 10.0,
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.106903+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "canary_gate_evaluated",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "canary": "v2.1",
+          "baseline": "v2.0",
+          "metric": "sharpe_ratio",
+          "improvement_pct": 5.71428571428572,
+          "gate_passed": true
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107105+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "golden_artifact_stored",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "name": "baseline_metrics_v2",
+          "artifact_id": "golden_eb305734ce4c",
+          "content_hash": "d0199217b0509224"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107362+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107379+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107392+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107403+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107436+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107489+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107508+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107534+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107566+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107579+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107636+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "exchange"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107651+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "risk"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107663+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "orderflow_adapter"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107673+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "health_check_registered",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "check": "reconciliation"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107688+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "sli_type": "latency",
+          "target": 100.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107702+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "sli_type": "error_rate",
+          "target": 0.01
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107715+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "sli_type": "uptime",
+          "target": 0.999
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107727+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "sli_type": "reconciliation_freshness",
+          "target": 0.99
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107739+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "slo_added",
+        "trace_id": "trace_c7b4beaa40b12a32",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "sli_type": "fill_rate",
+          "target": 0.95
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107771+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_started",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_986844e25572",
+          "trace_id": "trace_9ff666f1bd68c249",
+          "operation": "monitor_cycle",
+          "parent_span_id": null
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107803+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "health_check_run",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_checks": 4
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.107885+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.108052+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.108210+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.108356+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": false,
+          "current_value": 0.0,
+          "error_budget": 1.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.108497+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.110351+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "monitor_cycle_complete",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "service": "crypto-options-orderflow",
+          "status": "pass",
+          "num_alerts": 0,
+          "latency_p99_ms": 0.0,
+          "error_rate": 0.0
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.110411+00:00",
+        "level": "DEBUG",
+        "logger": "observability",
+        "msg": "span_ended",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "span_id": "span_986844e25572",
+          "trace_id": "trace_9ff666f1bd68c249",
+          "status": "ok"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.110453+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_latency_p99",
+          "name": "Order Latency p99",
+          "met": true,
+          "current_value": 49.0,
+          "error_budget": 0.51
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.110623+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_error_rate",
+          "name": "Execution Error Rate",
+          "met": true,
+          "current_value": 0.005,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.110775+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_uptime",
+          "name": "Service Uptime",
+          "met": true,
+          "current_value": 1.0,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.110929+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_reconciliation_freshness",
+          "name": "Reconciliation Freshness",
+          "met": true,
+          "current_value": 0.9999847809473673,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111075+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "slo_evaluated",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "slo_id": "slo_fill_rate",
+          "name": "Order Fill Rate",
+          "met": true,
+          "current_value": 0.97,
+          "error_budget": 0.5
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111238+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_drawdown_pct",
+          "name": "Drawdown Pct",
+          "metric": "drawdown_pct",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111281+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_daily_loss",
+          "name": "Daily Loss",
+          "metric": "daily_loss",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111336+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_delta_util",
+          "name": "Delta Utilization",
+          "metric": "delta_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111383+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_gamma_util",
+          "name": "Gamma Utilization",
+          "metric": "gamma_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111431+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_vega_util",
+          "name": "Vega Utilization",
+          "metric": "vega_utilization",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111486+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_heat",
+          "name": "Heat",
+          "metric": "heat",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111536+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_var_95",
+          "name": "VaR 95%",
+          "metric": "var_95",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111587+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_order_latency",
+          "name": "Order Latency",
+          "metric": "order_latency_ms",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111625+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_fill_rate",
+          "name": "Fill Rate",
+          "metric": "fill_rate",
+          "severity": "warning"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111663+00:00",
+        "level": "INFO",
+        "logger": "observability",
+        "msg": "alert_rule_added",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "rule_id": "r_reconciliation",
+          "name": "Reconciliation Mismatch",
+          "metric": "reconciliation_mismatch",
+          "severity": "error"
+        }
+      },
+      {
+        "ts": "2026-11-07T06:13:27.111748+00:00",
+        "level": "WARNING",
+        "logger": "observability",
+        "msg": "alert_fired",
+        "trace_id": "trace_9ff666f1bd68c249",
+        "correlation_id": null,
+        "context": {
+          "alert_id": "alert_0bb7211f6ec5",
+          "rule": "Drawdown Pct",
+          "severity": "warning",
+          "metric": "drawdown_pct",
+          "current_value": 0.12,
+          "message": "Drawdown Pct: drawdown_pct=0.12 breached warning threshold"
+        }
+      }
+    ],
+    "trace_id": "trace_9ff666f1bd68c249",
+    "correlation_id": null
+  },
+  "campaign": "continuous_validation_and_monitoring",
+  "iterations": 5
+}
