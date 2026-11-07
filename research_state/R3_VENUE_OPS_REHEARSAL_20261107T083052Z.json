@@ -1,0 +1,181 @@
+{
+  "artifact_type": "VENUE_OPS_REHEARSAL_EVIDENCE",
+  "timestamp_utc": "2026-11-07T08:30:52.871492Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "rehearsal_scope": "deterministic venue/ops rehearsal from cross-venue orchestration, routing, incident drill, and paper runbook; partial-fill/reject/rate-limit/maintenance checklist rows; no external venue mutation; no live orders",
+  "checklist": [
+    {
+      "id": "R3.1",
+      "item": "venue adapter initialization/cross-venue orchestration evidence present (paper campaign artifacts)",
+      "status": "verified_paper",
+      "evidence_refs": [
+        "research_state/CROSSVENUE_ORCHESTRATION_REPORT.json",
+        "research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json"
+      ],
+      "observed": {
+        "cycles_completed": 5,
+        "halted": false
+      }
+    },
+    {
+      "id": "R3.2",
+      "item": "cross-venue routing evidence present; routing layer covered in paper artifacts",
+      "status": "verified_paper",
+      "evidence_refs": [
+        "research_state/PHASE37_CROSS_VENUE_ROUTING_REPORT.json",
+        "research_state/CROSSVENUE_ORCHESTRATION_REPORT.json"
+      ],
+      "observed": {
+        "present": true,
+        "ok": true,
+        "cycles": 3
+      }
+    },
+    {
+      "id": "R3.3",
+      "item": "partial-fill handling rehearsal coverage (paper/runbook/process; no external venue mutation)",
+      "status": "process_review_required",
+      "evidence_refs": [
+        "docs/PAPER_RUNBOOK.md",
+        "research_state/INCIDENT_DRILL_20261107T010035Z.json"
+      ],
+      "notes": "No external venue orders placed; handling verified via paper artifacts/runbook and incident controls."
+    },
+    {
+      "id": "R3.4",
+      "item": "reject handling rehearsal coverage (paper/runbook/process; no external venue mutation)",
+      "status": "process_review_required",
+      "evidence_refs": [
+        "docs/PAPER_RUNBOOK.md",
+        "research_state/INCIDENT_DRILL_20261107T010035Z.json"
+      ],
+      "notes": "Reject/risk/circuit-breaker handling covered by runbook/drill evidence; no live venue mutation."
+    },
+    {
+      "id": "R3.5",
+      "item": "rate-limit handling rehearsal coverage (paper/runbook/process; no external venue mutation)",
+      "status": "process_review_required",
+      "evidence_refs": [
+        "docs/PAPER_RUNBOOK.md"
+      ],
+      "notes": "Rate-limit/maintenance are venue-operational risks; runbook/checklist coverage required before any approved canary."
+    },
+    {
+      "id": "R3.6",
+      "item": "maintenance-window handling rehearsal coverage (paper/runbook/process; no external venue mutation)",
+      "status": "process_review_required",
+      "evidence_refs": [
+        "docs/PAPER_RUNBOOK.md"
+      ],
+      "notes": "No venue maintenance mutation performed; operator procedure must remain paper-gated until approved."
+    },
+    {
+      "id": "R3.7",
+      "item": "incident drill / kill-switch / reconciliation containment evidence present",
+      "status": "verified_paper",
+      "evidence_refs": [
+        "research_state/INCIDENT_DRILL_20261107T010035Z.json",
+        "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json"
+      ],
+      "observed": {
+        "present": true,
+        "drill_id": "INCIDENT_DRILL_20261107T010035Z",
+        "all_passed": true,
+        "scenario_count": 3,
+        "categories": [
+          "drawdown/risk",
+          "reconciliation",
+          "risk"
+        ],
+        "scenario_names": [
+          "reconciliation_position_mismatch_critical",
+          "drawdown_risk_kill_switch",
+          "circuit_breaker_signal"
+        ],
+        "paper_only_guardrail": true
+      }
+    }
+  ],
+  "source_summaries": {
+    "crossvenue_orchestration": {
+      "present": true,
+      "paper_only": true,
+      "venues": [
+        "deribit",
+        "okx",
+        "binance"
+      ],
+      "symbols": [
+        "BTC",
+        "ETH"
+      ],
+      "cycles_completed": 5,
+      "arb_opportunities": 0,
+      "arb_fills": 0,
+      "router_fills": 0,
+      "halted": false,
+      "kill_switch_triggered": false,
+      "realized_pnl_usd": 0.0,
+      "net_pnl_usd": 0.0
+    },
+    "routing": {
+      "present": true,
+      "ok": true,
+      "cycles": 3
+    },
+    "incident_drill": {
+      "present": true,
+      "drill_id": "INCIDENT_DRILL_20261107T010035Z",
+      "all_passed": true,
+      "scenario_count": 3,
+      "categories": [
+        "drawdown/risk",
+        "reconciliation",
+        "risk"
+      ],
+      "scenario_names": [
+        "reconciliation_position_mismatch_critical",
+        "drawdown_risk_kill_switch",
+        "circuit_breaker_signal"
+      ],
+      "paper_only_guardrail": true
+    },
+    "runbook_keywords_ok": false,
+    "runbook_missing_keywords": [
+      "rate limit",
+      "partial fill",
+      "reject",
+      "maintenance"
+    ]
+  },
+  "flags": {
+    "deterministic_pass": true,
+    "no_external_venue_mutation": true,
+    "advisory_only": true
+  },
+  "warn_flags": [
+    "paper_runbook_missing_keywords:maintenance,partial fill,rate limit,reject"
+  ],
+  "evidence_refs": [
+    "research_state/CROSSVENUE_ORCHESTRATION_REPORT.json",
+    "research_state/PHASE37_CROSS_VENUE_ROUTING_REPORT.json",
+    "research_state/INCIDENT_DRILL_20261107T010035Z.json",
+    "docs/PAPER_RUNBOOK.md",
+    "research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json",
+    "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json"
+  ],
+  "no_external_venue_mutation": true,
+  "advisory": true,
+  "strictness": "enhanced_extraction_v1"
+}
