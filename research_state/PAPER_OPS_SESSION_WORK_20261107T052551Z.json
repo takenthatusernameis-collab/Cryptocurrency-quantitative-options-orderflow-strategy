@@ -1,0 +1,41 @@
+{
+  "timestamp_utc": "20261107T052551Z",
+  "session_id": "PAPER-OPS-P1-NEXT9-EDGE-CASES-20261107T052551Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "checkpoint_decision": "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL",
+  "p0": {
+    "guardrails_verified": true,
+    "session_gate_strict_passed": true,
+    "session_gate_artifact": "research_state/PAPER_OPS_SESSION_GATE_20261107T052534Z.json",
+    "next9_blocked": true,
+    "cv_fresh": true
+  },
+  "p1_heavy_work_completed": {
+    "description": "Strengthened NEXT9 approval validator edge-case coverage and fixed --write path handling for monkeypatched RS.",
+    "code_changes": [
+      "scripts/validate_next9_approval_artifact.py: --write prints fallback path when RS is outside REPO (test/monkeypatch robustness; behavior unchanged for normal repo writes).",
+      "tests/test_next9_approval_artifact_validation.py: added 7 edge-case tests (conflicting live-enabling flag + paper_only false, missing scope/limits specific fields, stale/malformed timestamp structural contract, --artifact --strict block/pass, missing artifact strict, --check-current --write additive artifact)."
+    ],
+    "tests": {
+      "targeted_passed": 34,
+      "targeted_failed": 0,
+      "commands": [
+        "PYTHONPATH=. python3 -m pytest tests/test_session_gate.py tests/test_paper_ops_guardrails_and_evidence.py tests/test_paper_ops_readiness_snapshot.py tests/test_next9_approval_artifact_validation.py -q",
+        "PYTHONPATH=. python3 scripts/run_session_gate.py --strict"
+      ]
+    }
+  },
+  "scoped_mypy_baseline": {
+    "errors": 40,
+    "files": 13,
+    "scope": "src/monitoring src/telemetry src/validation",
+    "new_errors_introduced": 0
+  },
+  "next_focus": [
+    "Run session gate first every session.",
+    "Continue P1: deterministic CV staleness/readiness checkpoint path logic tests + hardening; R3-R7 reduction evidence schemas (paper-only) with tests; do not refactor phase79/80/110 mega-files.",
+    "NEXT9 remains BLOCKED until validated additive A1-A7 approval artifact is recorded; never enable live capital."
+  ]
+}

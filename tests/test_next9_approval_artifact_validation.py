@@ -101,3 +101,87 @@ def test_conflicting_unblock_claim_rejected():
     }
     ok, issues = v.validate_approval_artifact(cp)
     assert ok is False
+
+def test_conflicting_live_enabling_flag_in_artifact():
+    ok, issues = v.validate_approval_artifact({
+        "live_trading_enabled": True,
+        "paper_only": False,
+        "human_approval_checklist": [{"id": f"A{i}", "approved": True} for i in range(1, 8)],
+    })
+    assert ok is False
+    assert "artifact_must_not_enable_live_trading" in issues
+    assert "artifact_must_not_claim_not_paper_only" in issues
+
+
+def test_missing_scope_and_limits_specific_fields():
+    checklist = []
+    for i in range(1, 8):
+        aid = f"A{i}"
+        item = {"id": aid, "approved": True, "approver_identity": "x", "timestamp_utc": "2026-01-01T00:00:00Z"}
+        for canonical, _mandatory in v.REQUIRED_FIELDS[aid]:
+            if canonical in ("approved", "scope", "limits"):
+                continue
+            item[canonical] = "ok"
+        checklist.append(item)
+    ok, issues = v.validate_approval_artifact({"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": checklist})
+    assert ok is False
+    assert "A1_missing_scope" in issues
+    assert "A2_missing_limits" in issues
+
+
+def test_stale_or_malformed_timestamp_still_structurally_checked():
+    # Validator currently checks presence/non-empty; timestamp freshness is a human/process control.
+    # This test locks the contract: a present timestamp satisfies structural validation (no false-green on missing timestamp).
+    checklist = []
+    for i in range(1, 8):
+        aid = f"A{i}"
+        item = {"id": aid, "approved": True, "approver_identity": "x", "timestamp_utc": "1999-01-01T00:00:00Z"}
+        for canonical, _mandatory in v.REQUIRED_FIELDS[aid]:
+            if canonical == "approved":
+                continue
+            if canonical not in item:
+                item[canonical] = "ok" if canonical != "limits" else {"max_notional": 1}
+        checklist.append(item)
+    ok, issues = v.validate_approval_artifact({"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": checklist})
+    assert ok is True, issues  # structural pass; freshness enforcement is policy/ops, not this validator
+
+
+def test_artifact_strict_exits_nonzero_on_block(tmp_path, monkeypatch):
+    artifact = tmp_path / "next9.json"
+    artifact.write_text(json.dumps({"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": []}), encoding="utf-8")
+    rc = v.main(["--artifact", str(artifact), "--strict"])
+    assert rc == 1
+
+
+def test_artifact_strict_exits_zero_when_fully_approved(tmp_path):
+    checklist = []
+    for i in range(1, 8):
+        aid = f"A{i}"
+        item = {"id": aid, "approved": True, "approver_identity": "approver", "timestamp_utc": "2026-11-07T00:00:00Z"}
+        for canonical, _mandatory in v.REQUIRED_FIELDS[aid]:
+            if canonical == "approved":
+                continue
+            if canonical not in item:
+                item[canonical] = "ok" if canonical != "limits" else {"max_notional_usd": 100}
+        checklist.append(item)
+    artifact = tmp_path / "next9_ok.json"
+    artifact.write_text(json.dumps({"paper_only": True, "live_trading_enabled": False, "human_approval_checklist": checklist}), encoding="utf-8")
+    rc = v.main(["--artifact", str(artifact), "--strict"])
+    assert rc == 0
+
+
+def test_artifact_not_found_strict():
+    rc = v.main(["--artifact", "research_state/DOES_NOT_EXIST_20990101.json", "--strict"])
+    assert rc == 1
+
+
+def test_check_current_write_creates_additive_artifact(tmp_path, monkeypatch):
+    monkeypatch.setattr(v, "RS", tmp_path)
+    rc = v.main(["--check-current", "--write"])
+    assert rc == 0
+    outs = list(tmp_path.glob("NEXT9_APPROVAL_VALIDATION_*.json"))
+    assert len(outs) == 1
+    data = json.loads(outs[0].read_text(encoding="utf-8"))
+    assert data["next9_unblocked"] is False
+    assert data["paper_only"] is True
+    assert data["live_trading_enabled"] is False

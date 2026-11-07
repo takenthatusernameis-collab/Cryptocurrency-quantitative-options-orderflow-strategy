@@ -152,7 +152,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         RS.mkdir(parents=True, exist_ok=True)
         out = RS / f"NEXT9_APPROVAL_VALIDATION_{result['timestamp_utc']}.json"
         out.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
-        print(f"wrote {out.relative_to(REPO)}")
+        try:
+            shown = out.relative_to(REPO)
+        except Exception:
+            shown = out
+        print(f"wrote {shown}")
     if args.strict and not result["next9_unblocked"]:
         return 1
     return 0
