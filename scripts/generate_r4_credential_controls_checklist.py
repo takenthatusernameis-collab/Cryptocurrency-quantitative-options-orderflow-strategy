@@ -2,12 +2,13 @@
 """Generate stricter R4 credential-controls checklist evidence (paper-only, advisory).
 
 Deterministically consumes repo guardrails (src/config/secrets.py default,
-.env.example, tracked git diff for live-enabling files) plus a bounded
-additive secret-pattern scan over signal artifacts (latest session gate, CV
-checkpoint, paper campaign, R3-R7 artifacts) to produce a schema-validated
-R4 credential-controls checklist. No secrets are read or committed; the scanner
-only reports pattern matches on artifact values, never secret material. Never
-enables live trading. Never unblocks NEXT9. Advisory/opt-in.
+.env.example, tracked git diff for live-enabling files), cross-venue artifacts
+(per-venue credential-separation rows), plus a bounded additive secret-pattern
+scan over signal artifacts (latest session gate, CV checkpoint, paper campaign,
+R3-R7 artifacts) to produce a schema-validated R4 credential-controls checklist.
+No secrets are read or committed; the scanner reports pattern matches on
+artifact values, never secret material. Never enables live trading. Never
+unblocks NEXT9. Advisory/opt-in.
 """
 from __future__ import annotations
 
@@ -16,7 +17,7 @@ import json
 import re
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -49,6 +50,8 @@ SIGNAL_PATTERNS = [
     "NEXT9_APPROVAL_VALIDATION_*.json",
     "GO_NO_GO_REPORT_*.json",
     "INCIDENT_DRILL_*.json",
+    "CROSSVENUE_ORCHESTRATION_REPORT.json",
+    "PHASE37_CROSS_VENUE_ROUTING_REPORT.json",
 ]
 
 
@@ -126,7 +129,57 @@ def _scan_signal_artifacts() -> Tuple[bool, List[str], List[str]]:
     return bool(hits), hits, refs
 
 
-def gen_r4_strict(ts: Optional[str] = None) -> Dict[str, Any]:
+def _venue_context() -> Tuple[List[str], Dict[str, Any], List[str]]:
+    refs: List[str] = []
+    venues: List[str] = []
+    cross_p = RS / "CROSSVENUE_ORCHESTRATION_REPORT.json"
+    route_p = RS / "PHASE37_CROSS_VENUE_ROUTING_REPORT.json"
+    cross = _load(cross_p) or {}
+    route = _load(route_p) or {}
+    if cross_p.exists():
+        refs.append(_rel(cross_p) or str(cross_p))
+    if route_p.exists():
+        refs.append(_rel(route_p) or str(route_p))
+    for src in (cross, (cross.get("config") or {}) if isinstance(cross, dict) else {}, route):
+        if not isinstance(src, dict):
+            continue
+        v = src.get("venues")
+        if isinstance(v, list) and v:
+            venues = [str(x) for x in v if str(x).strip()]
+            break
+    if not venues:
+        venues = ["deribit", "okx", "binance"]
+    context = {
+        "crossvenue_present": bool(cross),
+        "routing_present": bool(route),
+        "venues": venues,
+        "crossvenue_paper_only": cross.get("paper_only") if cross else None,
+        "routing_ok": route.get("ok") if route else None,
+    }
+    return venues, context, refs
+
+
+def _per_venue_controls(venues: List[str], refs: List[str]) -> List[Dict[str, Any]]:
+    rows: List[Dict[str, Any]] = []
+    for venue in venues:
+        rows.append({
+            "control": f"paper_live_credential_separation:{venue}",
+            "confirmed": False,
+            "attestation": f"{venue}: paper credentials must not carry live/trade authority outside approved scope; process confirmation required before any approved live campaign",
+            "evidence_refs": refs,
+            "venue": venue,
+        })
+        rows.append({
+            "control": f"least_privilege_trade_only_no_withdrawal:{venue}",
+            "confirmed": False,
+            "attestation": f"{venue}: least-privilege trade-only (no withdrawal) permissions required; verify in approved non-enabling preflight only",
+            "evidence_refs": refs,
+            "venue": venue,
+        })
+    return rows
+
+
+def gen_r4_strict(ts: Optional[str] = None, *, effective_until_hours: Optional[int] = None) -> Dict[str, Any]:
     ts = ts or _utc()
     secrets_p = REPO / "src/config/secrets.py"
     env_example_p = REPO / ".env.example"
@@ -139,6 +192,7 @@ def gen_r4_strict(ts: Optional[str] = None) -> Dict[str, Any]:
     env_false = "LIVE_TRADING_ENABLED=false" in env_text and "LIVE_TRADING_ENABLED=true" not in env_text
     live_enabling_diff = [f for f in tracked if f in {"src/config/secrets.py", ".env.example"} or "live_trading" in f.lower()]
     secrets_committed, secret_hits, scanned_refs = _scan_signal_artifacts()
+    venues, venue_ctx, venue_refs = _venue_context()
 
     warn_flags: List[str] = []
     if not secrets_p.exists():
@@ -151,6 +205,8 @@ def gen_r4_strict(ts: Optional[str] = None) -> Dict[str, Any]:
         warn_flags.append("tracked_live_enabling_diff:" + ",".join(sorted(live_enabling_diff)))
     if secrets_committed:
         warn_flags.append("possible_secret_values_in_signal_artifacts")
+    if not venue_ctx.get("crossvenue_present"):
+        warn_flags.append("crossvenue_orchestration_report_missing")
 
     controls = [
         {
@@ -181,13 +237,13 @@ def gen_r4_strict(ts: Optional[str] = None) -> Dict[str, Any]:
             "control": "paper_live_credential_separation",
             "confirmed": False,
             "attestation": "process control required before any approved live campaign; paper keys must not carry live authority",
-            "evidence_refs": [],
+            "evidence_refs": venue_refs,
         },
         {
             "control": "least_privilege_trade_only_no_withdrawal",
             "confirmed": False,
             "attestation": "process control required; verify venue permissions in approved non-enabling preflight only",
-            "evidence_refs": [],
+            "evidence_refs": venue_refs,
         },
         {
             "control": "rotation_revocation_plan",
@@ -202,14 +258,15 @@ def gen_r4_strict(ts: Optional[str] = None) -> Dict[str, Any]:
             "evidence_refs": [],
         },
     ]
+    controls.extend(_per_venue_controls(venues, venue_refs))
 
     deterministic_pass = bool(
         default_false and env_false and not live_enabling_diff and not secrets_committed and secrets_p.exists() and env_example_p.exists()
     )
 
-    evidence_refs = [r for r in [_rel(secrets_p), _rel(env_example_p), "docs/PAPER_RUNBOOK.md"] if r]
+    evidence_refs = [r for r in [_rel(secrets_p), _rel(env_example_p), "docs/PAPER_RUNBOOK.md"] + venue_refs if r]
 
-    return {
+    out = {
         "artifact_type": v.ARTIFACT_TYPES["R4"],
         "timestamp_utc": _iso(),
         "paper_only": True,
@@ -234,6 +291,7 @@ def gen_r4_strict(ts: Optional[str] = None) -> Dict[str, Any]:
             "hits": secret_hits,
             "hit_count": len(secret_hits),
         },
+        "venue_credential_coverage": venue_ctx,
         "flags": {
             "deterministic_pass": deterministic_pass,
             "no_external_venue_mutation": True,
@@ -243,13 +301,18 @@ def gen_r4_strict(ts: Optional[str] = None) -> Dict[str, Any]:
         "warn_flags": warn_flags,
         "evidence_refs": evidence_refs,
     }
+    if effective_until_hours is not None and effective_until_hours > 0:
+        out["effective_until_utc"] = (datetime.now(timezone.utc) + timedelta(hours=effective_until_hours)).isoformat().replace("+00:00", "Z")
+        out["flags"]["effective_until_advisory"] = True
+    return out
 
 
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Generate stricter R4 credential-controls checklist evidence (paper-only)")
-    ap.parse_args(argv)
+    ap.add_argument("--effective-until-hours", type=int, default=None, help="Advisory/default-off: add effective_until_utc (informational only; does not grant approvals)")
+    args = ap.parse_args(argv)
     RS.mkdir(parents=True, exist_ok=True)
-    d = gen_r4_strict(_utc())
+    d = gen_r4_strict(_utc(), effective_until_hours=args.effective_until_hours)
     ok, issues = v.validate_artifact(d, "R4")
     if not ok:
         print(json.dumps({"valid": False, "issues": issues}, indent=2))
@@ -261,6 +324,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         "valid": True,
         "deterministic_pass": d["flags"]["deterministic_pass"],
         "secrets_committed": d["secrets_committed"],
+        "venues": d.get("venue_credential_coverage", {}).get("venues"),
         "next9_unblocked": False,
         "warn_flags": d["warn_flags"],
     }, indent=2))
