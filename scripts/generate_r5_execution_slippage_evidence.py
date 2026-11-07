@@ -62,7 +62,70 @@ def _refs(*cands: str) -> List[str]:
     return out or list(cands[:1])
 
 
-def gen_r5_strict(ts: Optional[str] = None) -> Dict[str, Any]:
+def _cross_venue_slippage_breakdown(cross: Dict[str, Any], route: Dict[str, Any]) -> Dict[str, Any]:
+    """Derive cross-venue per-symbol slippage breakdown from cross-venue artifacts.
+
+    Advisory only; no live mutation; no secrets. Produces per-venue latency/slippage
+    rows and per venue x symbol slippage rows (default-off emission). Defaults to
+    zero-fill paper state when no order-level detail is present.
+    """
+    lr = ((cross.get("components") or {}).get("latency_routing") or {})
+    arb_cfg = ((cross.get("components") or {}).get("arbitrage") or {}).get("config") or {}
+    venues = list(cross.get("venues") or arb_cfg.get("venues") or ["deribit", "okx", "binance"])
+    symbols = list(cross.get("symbols") or arb_cfg.get("symbols") or ["BTC", "ETH"])
+    latency = lr.get("latency") or {}
+    slippage = lr.get("slippage") or {}
+    taker_fees = arb_cfg.get("taker_fee_bps") or {}
+
+    per_venue: Dict[str, Any] = {}
+    for venue in venues:
+        vd = latency.get(venue) or {}
+        per_venue[venue] = {
+            "ewma_ms": vd.get("ewma_ms"),
+            "samples": vd.get("samples"),
+            "max_sample_ms": vd.get("max_sample_ms"),
+            "within_limit": vd.get("within_limit"),
+            "taker_fee_bps": taker_fees.get(venue),
+            "avg_slippage_bps": slippage.get("avg_slippage_bps"),
+            "max_slippage_bps": slippage.get("max_slippage_bps"),
+            "fills": slippage.get("fills"),
+            "total_slippage_bps": slippage.get("total_slippage_bps"),
+            "routing_ok": route.get("ok") if route else None,
+        }
+
+    per_symbol: Dict[str, Any] = {}
+    for symbol in symbols:
+        per_symbol[symbol] = {
+            "venues": {
+                venue: {
+                    "ewma_ms": (latency.get(venue) or {}).get("ewma_ms"),
+                    "taker_fee_bps": taker_fees.get(venue),
+                    "avg_slippage_bps": slippage.get("avg_slippage_bps"),
+                    "max_slippage_bps": slippage.get("max_slippage_bps"),
+                    "fills": slippage.get("fills"),
+                }
+                for venue in venues
+            },
+            "gross_notional_usd": (((cross.get("components") or {}).get("market_making") or {}).get("per_symbol") or {}).get(symbol, {}).get("gross_notional_usd"),
+            "net_delta_usd": (((cross.get("components") or {}).get("market_making") or {}).get("per_symbol") or {}).get(symbol, {}).get("net_delta_usd"),
+        }
+
+    return {
+        "venues": venues,
+        "symbols": symbols,
+        "per_venue": per_venue,
+        "per_symbol": per_symbol,
+        "slippage_bps_conservative_cap": 15.0,
+        "within_conservative_caps": bool(
+            (slippage.get("max_slippage_bps") or 0.0) <= 15.0 + 1e-12
+            and (slippage.get("avg_slippage_bps") or 0.0) <= 15.0 + 1e-12
+        ),
+        "crossvenue_paper_only": cross.get("paper_only"),
+        "routing_ok": route.get("ok") if route else None,
+    }
+
+
+def gen_r5_strict(ts: Optional[str] = None, *, per_symbol_slippage: bool = False) -> Dict[str, Any]:
     ts = ts or _utc()
     pc_p = _latest("PAPER_TRADING_CAMPAIGN_*.json")
     ra_p = _latest("RECONCILIATION_AUDIT_*.json")
@@ -138,13 +201,32 @@ def gen_r5_strict(ts: Optional[str] = None) -> Dict[str, Any]:
     if not evidence_refs:
         evidence_refs = ["docs/PAPER_RUNBOOK.md"]
 
+    cross_p = RS / "CROSSVENUE_ORCHESTRATION_REPORT.json"
+    route_p = RS / "PHASE37_CROSS_VENUE_ROUTING_REPORT.json"
+    cross = _load(cross_p) or {}
+    route = _load(route_p) or {}
+    if cross_p.exists():
+        r = _rel(cross_p)
+        if r and r not in evidence_refs:
+            evidence_refs.append(r)
+    if route_p.exists():
+        r = _rel(route_p)
+        if r and r not in evidence_refs:
+            evidence_refs.append(r)
+
+    slippage_breakdown = _cross_venue_slippage_breakdown(cross, route)
+    if not slippage_breakdown.get("within_conservative_caps"):
+        warn_flags.append("cross_venue_slippage_breakdown_exceeds_conservative_cap")
+    if per_symbol_slippage:
+        warn_flags.append("per_symbol_slippage_breakdown_emitted_advisory")
+
     return {
         "artifact_type": v.ARTIFACT_TYPES["R5"],
         "timestamp_utc": _iso(),
         "paper_only": True,
         "live_trading_enabled": False,
         "next9_unblocked": False,
-        "simulation_scope": "stricter extraction from paper campaign + reconciliation audit + pre-live gate report; realized fill quality vs conservative caps; no live mutation",
+        "simulation_scope": "stricter extraction from paper campaign + reconciliation audit + pre-live gate report; realized fill quality vs conservative caps; cross-venue per-symbol slippage breakdown from CROSSVENUE_ORCHESTRATION_REPORT + PHASE37 routing; no live mutation",
         "evidence_refs": evidence_refs,
         "metrics": {
             "slippage_assumption_documented": True,
@@ -165,7 +247,9 @@ def gen_r5_strict(ts: Optional[str] = None) -> Dict[str, Any]:
             "partial_fill_rate_cap": float(partial_fill_rate_cap),
             "reject_rate_cap": float(reject_rate_cap),
             "within_conservative_caps": bool(caps_ok),
+            "cross_venue_slippage_breakdown": slippage_breakdown,
         },
+        "per_symbol_slippage": per_symbol_slippage,
         "paper_or_backtest_derived": True,
         "advisory": True,
         "strictness": "enhanced_extraction_v2",
@@ -173,6 +257,7 @@ def gen_r5_strict(ts: Optional[str] = None) -> Dict[str, Any]:
             "deterministic_pass": deterministic_pass,
             "caps_enforced": True,
             "advisory_only": True,
+            "cross_venue_slippage_breakdown_present": True,
         },
         "warn_flags": warn_flags,
     }
@@ -180,10 +265,11 @@ def gen_r5_strict(ts: Optional[str] = None) -> Dict[str, Any]:
 
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Generate stricter R5 execution/slippage evidence (paper-only)")
+    ap.add_argument("--per-symbol-slippage", action="store_true", default=False, help="Advisory/default-off: emit cross-venue per-symbol slippage breakdown rows; no live mutation; does not grant approvals")
     args = ap.parse_args(argv)
     ts = _utc()
     RS.mkdir(parents=True, exist_ok=True)
-    d = gen_r5_strict(ts)
+    d = gen_r5_strict(ts, per_symbol_slippage=args.per_symbol_slippage)
     ok, issues = v.validate_artifact(d, "R5")
     if not ok:
         print(json.dumps({"valid": False, "issues": issues}, indent=2))
@@ -195,6 +281,8 @@ def main(argv: Optional[List[str]] = None) -> int:
         "valid": True,
         "deterministic_pass": d["flags"]["deterministic_pass"],
         "within_conservative_caps": d["metrics"].get("within_conservative_caps"),
+        "cross_venue_slippage_breakdown_present": d["flags"].get("cross_venue_slippage_breakdown_present"),
+        "per_symbol_slippage": d.get("per_symbol_slippage"),
         "next9_unblocked": False,
         "warn_flags": d["warn_flags"],
     }, indent=2))
