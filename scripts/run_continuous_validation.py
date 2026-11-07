@@ -14,6 +14,7 @@ import os
 import re
 import sys
 from datetime import datetime, timezone
+from typing import Optional
 
 from src.validation.continuous import ContinuousValidator
 from src.monitoring.health import HealthChecker, register_default_dependency_checks
@@ -42,6 +43,49 @@ def _emit_artifact(name_prefix: str, payload: dict, out_dir: str = "research_sta
     with open(path, "w", encoding="utf-8") as f:
         json.dump(payload, f, allow_nan=False, indent=2)
     return path
+
+
+def _refresh_latest_checkpoint(cv_path: str, result: dict, artifact_paths: Optional[dict] = None) -> None:
+    """Write the deterministic `latest` checkpoint pointer for this campaign.
+
+    Downstream readiness checks read
+    `research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`
+    to decide whether CV evidence is fresh. Without this pointer, every strict
+    CV run would leave the previous checkpoint in place and readiness checks
+    would falsely report a stale CV.
+    """
+    cp_dir = "research_state/campaign_checkpoints"
+    os.makedirs(cp_dir, exist_ok=True)
+    # Match the existing checkpoint naming convention used by prior sessions:
+    # `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`. The raw artifact is
+    # named `CONTINUOUS_VALIDATION_<ts>.json`, so derive the checkpoint name
+    # explicitly rather than by stripping the timestamp.
+    cp_path = os.path.join(cp_dir, "CONTINUOUS_VALIDATION_AND_MONITORING_latest.json")
+    ap = artifact_paths or {}
+    payload = {
+        "campaign_id": result["campaign"],
+        "status": result["status"],
+        "timestamp": result["run_at"],
+        "paper_only": True,
+        "live_trading_enabled": False,
+        "gates": result["gates"],
+        "reconciliation_freshness": result["reconciliation_freshness"],
+        "artifacts": {
+            "observability": ap.get("observability"),
+            "alert_audit": ap.get("alert_audit"),
+            "health_slo": ap.get("health_slo"),
+            "resilience": ap.get("resilience"),
+            "continuous_validation": cv_path,
+        },
+        "notes": [
+            f"Fresh strict continuous validation run ({result['iterations_passed']}/{result['iterations_requested']} passed, "
+            f"{result['iterations_failed']} failed) executed {result['run_at']} to refresh ~2h-stale CV evidence.",
+            "Paper-only. LIVE_TRADING_ENABLED remains false. No live-enabling code/config changes.",
+            "Additive checkpoint; prior checkpoint retained under its own timestamp.",
+        ],
+    }
+    with open(cp_path, "w", encoding="utf-8") as f:
+        json.dump(payload, f, allow_nan=False, indent=2)
 
 
 def _run_single_iteration(symbols: list, seed: int, iteration: int) -> dict:
@@ -278,7 +322,7 @@ def main() -> int:
     res_path = _emit_artifact(f"RESILIENCE_AUDIT_{ts}",
                               {"resilience": last.get("resilience", {}), "campaign": result["campaign"]})
     cv_path = _emit_artifact(f"CONTINUOUS_VALIDATION_{ts}",
-                             {"campaign": result, "artifacts": artifacts})
+                              {"campaign": result, "artifacts": artifacts})
 
     artifact_paths = {
         "observability": obs_path,
@@ -288,6 +332,11 @@ def main() -> int:
         "continuous_validation": cv_path,
     }
     result["artifact_paths"] = artifact_paths
+
+    # Refresh the deterministic `latest` pointer so downstream readiness checks
+    # (e.g. check_paper_ops_readiness.py) see this run as the freshest CV
+    # evidence instead of reporting a stale checkpoint.
+    _refresh_latest_checkpoint(cv_path, result, artifact_paths)
 
     print(json.dumps({
         "status": result["status"],

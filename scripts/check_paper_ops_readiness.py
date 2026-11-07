@@ -23,6 +23,9 @@ from typing import Any, Dict, List, Optional, Tuple
 REPO = Path(__file__).resolve().parents[1]
 RS = REPO / "research_state"
 CP = RS / "campaign_checkpoints"
+SCRIPTS = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPTS))
+import validate_next9_approval_artifact  # noqa: E402
 
 
 def _utc_now() -> datetime:
@@ -182,14 +185,25 @@ def check_next8(repo: Path = REPO) -> Dict[str, Any]:
     proposal_path = (d.get("artifacts") or {}).get("proposal_json")
     checklist_ok = False
     a1_a7_approved = False
+    approval_issues: List[str] = []
     if proposal_path:
         prop = _load_json(repo / proposal_path)
         if prop:
             checklist = prop.get("human_approval_checklist") or []
             if isinstance(checklist, list) and checklist:
                 checklist_ok = True
-                a1_a7_approved = all(bool(item.get("approved")) for item in checklist)
+                # Strict A1-A7 field validation (shared invariant). A bare
+                # `approved: true` with empty approver/scope/limits must NOT
+                # unblock NEXT9 — only a full, non-empty approval record does.
+                ok, approval_issues = validate_next9_approval_artifact.validate_approval_artifact(prop)
+                a1_a7_approved = bool(ok)
     decision = d.get("live_enablement_decision")
+    # Block invariant: NEXT9 unblocks only when A1-A7 are fully approved AND the
+    # checkpoint decision is not an explicit NO_GO.
+    next9_unblocked = bool(
+        a1_a7_approved
+        and decision != "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL"
+    )
     return {
         "exists": True,
         "path": str(cp.relative_to(repo)),
@@ -198,7 +212,8 @@ def check_next8(repo: Path = REPO) -> Dict[str, Any]:
         "paper_only": d.get("paper_only"),
         "checklist_found": checklist_ok,
         "a1_a7_all_approved": bool(a1_a7_approved),
-        "next9_unblocked": bool(a1_a7_approved and decision != "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL"),
+        "a1_a7_approval_issues": approval_issues,
+        "next9_unblocked": next9_unblocked,
         "passed_block_invariant": decision == "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL" and not a1_a7_approved,
     }
 

@@ -22,15 +22,34 @@ RS = REPO / "research_state"
 CP = RS / "campaign_checkpoints"
 
 REQUIRED_APPROVAL_IDS = [f"A{i}" for i in range(1, 8)]
+# Canonical required fields per approval id. Each entry is (field, mandatory).
+# `approved` is the explicit human decision; every other field must carry a
+# non-empty, non-false value so a bare `approved: true` cannot unblock NEXT9.
 REQUIRED_FIELDS = {
-    "A1": ["approver_identity", "timestamp_utc", "approved", "scope"],
-    "A2": ["approver_identity", "timestamp_utc", "approved", "limits"],
-    "A3": ["approver_identity", "timestamp_utc", "approved", "canary_scope"],
-    "A4": ["approver_identity", "timestamp_utc", "approved", "rehearsal_evidence"],
-    "A5": ["approver_identity", "timestamp_utc", "approved", "credential_controls_confirmed"],
-    "A6": ["approver_identity", "timestamp_utc", "approved", "rollback_owner"],
-    "A7": ["approver_identity", "timestamp_utc", "approved", "live_disabled_until_approved_decision"],
+    "A1": [("approver_identity", True), ("timestamp_utc", True), ("approved", True), ("scope", True)],
+    "A2": [("approver_identity", True), ("timestamp_utc", True), ("approved", True), ("limits", True)],
+    "A3": [("approver_identity", True), ("timestamp_utc", True), ("approved", True), ("canary_scope", True)],
+    "A4": [("approver_identity", True), ("timestamp_utc", True), ("approved", True), ("rehearsal_evidence", True)],
+    "A5": [("approver_identity", True), ("timestamp_utc", True), ("approved", True), ("credential_controls_confirmed", True)],
+    "A6": [("approver_identity", True), ("timestamp_utc", True), ("approved", True), ("rollback_owner", True)],
+    "A7": [("approver_identity", True), ("timestamp_utc", True), ("approved", True), ("live_disabled_until_approved_decision", True)],
 }
+# Aliases accepted for the canonical names, so both the canonical schema and the
+# NEXT8 review-only proposal schema (which uses `approver` + a descriptive
+# `item`) validate against the same invariant set.
+FIELD_ALIASES = {
+    "approver_identity": ("approver_identity", "approver"),
+    "timestamp_utc": ("timestamp_utc", "timestamp"),
+    "scope": ("scope", "item"),
+    "limits": ("limits", "item"),
+    "canary_scope": ("canary_scope", "item"),
+    "rehearsal_evidence": ("rehearsal_evidence", "item"),
+    "credential_controls_confirmed": ("credential_controls_confirmed", "item"),
+    "rollback_owner": ("rollback_owner", "item"),
+    "live_disabled_until_approved_decision": ("live_disabled_until_approved_decision", "item"),
+}
+# Canonical field names only (for legacy callers / tests).
+REQUIRED_FIELD_NAMES = {aid: [f for f, _ in fields] for aid, fields in REQUIRED_FIELDS.items()}
 
 
 def _utc() -> str:
@@ -44,6 +63,15 @@ def _load(path: Path) -> Optional[Dict[str, Any]]:
         return json.loads(path.read_text(encoding="utf-8"))
     except Exception:
         return None
+
+
+def _resolve_field(item: Dict[str, Any], canonical: str) -> Any:
+    """Return the first non-None value among the canonical field and its aliases."""
+    for name in FIELD_ALIASES.get(canonical, (canonical,)):
+        v = item.get(name)
+        if v is not None and v != "":
+            return v
+    return None
 
 
 def validate_approval_artifact(data: Dict[str, Any]) -> Tuple[bool, List[str]]:
@@ -62,15 +90,17 @@ def validate_approval_artifact(data: Dict[str, Any]) -> Tuple[bool, List[str]]:
         if not item:
             issues.append(f"missing_{aid}")
             continue
-        if item.get("approved") is not True:
-            issues.append(f"{aid}_not_explicitly_approved")
-        for f in REQUIRED_FIELDS[aid]:
-            v = item.get(f)
-            if v is None or v == "" or v is False and f not in {"approved"}:
-                if f == "approved":
-                    continue
-                issues.append(f"{aid}_missing_{f}")
-    unblocked = len([i for i in issues if i]) == 0
+        for canonical, mandatory in REQUIRED_FIELDS[aid]:
+            if canonical == "approved":
+                if item.get("approved") is not True:
+                    issues.append(f"{aid}_not_explicitly_approved")
+                continue
+            if not mandatory:
+                continue
+            v = _resolve_field(item, canonical)
+            if v is None or v == "" or v is False:
+                issues.append(f"{aid}_missing_{canonical}")
+    unblocked = len(issues) == 0
     return unblocked, issues
 
 
