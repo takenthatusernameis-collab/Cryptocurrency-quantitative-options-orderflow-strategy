@@ -1,6 +1,6 @@
 # PHASE46 ADAPTIVE MM ENGINE REPORT
 
-Timestamp: 2026-11-07T13:22:41.939035Z
+Timestamp: 2026-11-07T14:13:28.810057Z
 
 Paper-only: true | Seed: 47 | Cycles: 14/14
 Symbols: BTC-PERP, ETH-PERP | Venues: deribit, okx, binance

@@ -1,0 +1,623 @@
+{
+  "artifact_type": "PHASE39_LIVE_READINESS_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-07T14:12:56.475139Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "advisory": true,
+  "no_external_venue_mutation": true,
+  "phase": "PHASE39_LIVE_READINESS_DEPTH",
+  "seed": 39039,
+  "cycles": 12,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "scope": "paper-only phase39 live-readiness depth evidence for crypto options orderflow; Deribit/OKX/Binance \u00d7 BTC/ETH; pre/post-trade validation, kill-switch/SLO posture (paper), reconciliation freshness, margin/settlement audit determinism, deterministic seeded cycles, finite numerics; no live capital, no external venue mutation, cannot unblock NEXT9; advisory only",
+  "campaign": {
+    "phase": "PHASE39_LIVE_READINESS_DEPTH",
+    "paper_only": true,
+    "seed": 39039,
+    "total_cycles": 12,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "modes": "paper"
+  },
+  "kill_switch_slo_posture": {
+    "phase": "PHASE39_KILL_SWITCH_SLO_POSTURE",
+    "paper_only": true,
+    "seed": 39039,
+    "cycles": 12,
+    "venues": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "per_cycle_posture": [
+      {
+        "cycle": 0,
+        "regime": "normal",
+        "global_halt": false,
+        "trading_enabled": true,
+        "action_taken": "none",
+        "n_kill_events": 0,
+        "paper_only": true
+      },
+      {
+        "cycle": 1,
+        "regime": "stressed",
+        "global_halt": false,
+        "trading_enabled": true,
+        "action_taken": "none",
+        "n_kill_events": 0,
+        "paper_only": true
+      },
+      {
+        "cycle": 2,
+        "regime": "volatile",
+        "global_halt": false,
+        "trading_enabled": true,
+        "action_taken": "none",
+        "n_kill_events": 0,
+        "paper_only": true
+      },
+      {
+        "cycle": 3,
+        "regime": "crisis",
+        "global_halt": true,
+        "trading_enabled": false,
+        "action_taken": "halt_all",
+        "n_kill_events": 1,
+        "paper_only": true
+      },
+      {
+        "cycle": 4,
+        "regime": "normal",
+        "global_halt": true,
+        "trading_enabled": false,
+        "action_taken": "halt_all",
+        "n_kill_events": 0,
+        "paper_only": true
+      },
+      {
+        "cycle": 5,
+        "regime": "stressed",
+        "global_halt": true,
+        "trading_enabled": false,
+        "action_taken": "halt_all",
+        "n_kill_events": 0,
+        "paper_only": true
+      },
+      {
+        "cycle": 6,
+        "regime": "volatile",
+        "global_halt": true,
+        "trading_enabled": false,
+        "action_taken": "halt_all",
+        "n_kill_events": 0,
+        "paper_only": true
+      },
+      {
+        "cycle": 7,
+        "regime": "crisis",
+        "global_halt": true,
+        "trading_enabled": false,
+        "action_taken": "halt_all",
+        "n_kill_events": 1,
+        "paper_only": true
+      },
+      {
+        "cycle": 8,
+        "regime": "normal",
+        "global_halt": true,
+        "trading_enabled": false,
+        "action_taken": "halt_all",
+        "n_kill_events": 0,
+        "paper_only": true
+      },
+      {
+        "cycle": 9,
+        "regime": "stressed",
+        "global_halt": true,
+        "trading_enabled": false,
+        "action_taken": "halt_all",
+        "n_kill_events": 0,
+        "paper_only": true
+      },
+      {
+        "cycle": 10,
+        "regime": "volatile",
+        "global_halt": true,
+        "trading_enabled": false,
+        "action_taken": "halt_all",
+        "n_kill_events": 0,
+        "paper_only": true
+      },
+      {
+        "cycle": 11,
+        "regime": "crisis",
+        "global_halt": true,
+        "trading_enabled": false,
+        "action_taken": "halt_all",
+        "n_kill_events": 1,
+        "paper_only": true
+      }
+    ],
+    "campaign_summary": {
+      "n_cycles": 12,
+      "n_kill_events": 3,
+      "global_halts": 9,
+      "trading_enabled_cycles": 3,
+      "paper_only": true
+    },
+    "venue_circuit_states_terminal": {
+      "deribit": "closed",
+      "okx": "closed",
+      "binance": "closed"
+    },
+    "slo_posture": {
+      "kill_switch_authority_paper_only": true,
+      "global_halt_observable": true,
+      "trading_restriction_observable": true,
+      "no_external_venue_mutation": true
+    },
+    "venue_symbol_coverage": [
+      {
+        "venue": "deribit",
+        "symbol": "BTC-USD",
+        "underlying": "BTC",
+        "paper_only": true
+      },
+      {
+        "venue": "okx",
+        "symbol": "ETH-USD",
+        "underlying": "ETH",
+        "paper_only": true
+      },
+      {
+        "venue": "deribit",
+        "symbol": "BTC-USD",
+        "underlying": "BTC",
+        "paper_only": true
+      },
+      {
+        "venue": "deribit",
+        "symbol": "ETH-USD",
+        "underlying": "ETH",
+        "paper_only": true
+      },
+      {
+        "venue": "okx",
+        "symbol": "BTC-USD",
+        "underlying": "BTC",
+        "paper_only": true
+      },
+      {
+        "venue": "okx",
+        "symbol": "ETH-USD",
+        "underlying": "ETH",
+        "paper_only": true
+      },
+      {
+        "venue": "binance",
+        "symbol": "BTC-USD",
+        "underlying": "BTC",
+        "paper_only": true
+      },
+      {
+        "venue": "binance",
+        "symbol": "ETH-USD",
+        "underlying": "ETH",
+        "paper_only": true
+      }
+    ]
+  },
+  "validation_surface": {
+    "phase": "PHASE39_PREPOST_TRADE_VALIDATION_SURFACE",
+    "paper_only": true,
+    "seed": 39039,
+    "cycles": 12,
+    "rows": [
+      {
+        "cycle": 0,
+        "venue": "deribit",
+        "symbol": "BTC-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 1,
+        "venue": "okx",
+        "symbol": "ETH-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 2,
+        "venue": "binance",
+        "symbol": "BTC-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 3,
+        "venue": "deribit",
+        "symbol": "ETH-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 4,
+        "venue": "okx",
+        "symbol": "BTC-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 5,
+        "venue": "binance",
+        "symbol": "ETH-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 6,
+        "venue": "deribit",
+        "symbol": "BTC-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 7,
+        "venue": "okx",
+        "symbol": "ETH-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 8,
+        "venue": "binance",
+        "symbol": "BTC-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 9,
+        "venue": "deribit",
+        "symbol": "ETH-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 10,
+        "venue": "okx",
+        "symbol": "BTC-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      },
+      {
+        "cycle": 11,
+        "venue": "binance",
+        "symbol": "ETH-USD",
+        "all_passed": true,
+        "blocked": false,
+        "n_pre_gates": 3,
+        "n_post_gates": 2,
+        "paper_only": true
+      }
+    ],
+    "campaign_summary": {
+      "n_results": 12,
+      "all_passed_count": 12,
+      "blocked_count": 0,
+      "paper_only": true
+    },
+    "all_rows_passed": true,
+    "gates_ok": true
+  },
+  "reconciliation_freshness": {
+    "phase": "PHASE39_RECONCILIATION_FRESHNESS_AUDIT",
+    "paper_only": true,
+    "seed": 39039,
+    "source_cv_artifact": "research_state/CONTINUOUS_VALIDATION_20261107T140506Z.json",
+    "freshness_values": null,
+    "freshness_present": false,
+    "freshness_all_ones": false,
+    "advisory": true
+  },
+  "margin_settlement_audit": {
+    "phase": "PHASE39_MARGIN_SETTLEMENT_AUDIT",
+    "paper_only": true,
+    "seed": 39039,
+    "cycles": 12,
+    "checkpoints": [
+      {
+        "checkpoint_id": "p39dr_cp_0a2386e6f7f4",
+        "cycle": 0,
+        "state_hash": "a404be222685d8a0",
+        "positions_count": 6,
+        "notional_usd": 400000.0,
+        "cash_usd": 1000000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_ccbbf216d6a9",
+        "cycle": 1,
+        "state_hash": "d7f16ab395b9d625",
+        "positions_count": 7,
+        "notional_usd": 415000.0,
+        "cash_usd": 995000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_0ce4e8c210c0",
+        "cycle": 2,
+        "state_hash": "c0e8f9c21f90f6b5",
+        "positions_count": 8,
+        "notional_usd": 430000.0,
+        "cash_usd": 990000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_d4680415644a",
+        "cycle": 3,
+        "state_hash": "82ad00339fbd4704",
+        "positions_count": 9,
+        "notional_usd": 445000.0,
+        "cash_usd": 985000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_8182c4ffd560",
+        "cycle": 4,
+        "state_hash": "e98e302cc396877f",
+        "positions_count": 6,
+        "notional_usd": 460000.0,
+        "cash_usd": 980000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_ee04390d3c34",
+        "cycle": 5,
+        "state_hash": "df734b63d5563727",
+        "positions_count": 7,
+        "notional_usd": 475000.0,
+        "cash_usd": 975000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_1a126d777146",
+        "cycle": 6,
+        "state_hash": "84c71b5fce5cb741",
+        "positions_count": 8,
+        "notional_usd": 490000.0,
+        "cash_usd": 970000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_74535e8b0ec2",
+        "cycle": 7,
+        "state_hash": "8ae2662989b2f547",
+        "positions_count": 9,
+        "notional_usd": 505000.0,
+        "cash_usd": 965000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_d8df6111d87a",
+        "cycle": 8,
+        "state_hash": "00d051069b2073b9",
+        "positions_count": 6,
+        "notional_usd": 520000.0,
+        "cash_usd": 960000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_10d40cae6c7f",
+        "cycle": 9,
+        "state_hash": "e502362b2005bc6a",
+        "positions_count": 7,
+        "notional_usd": 535000.0,
+        "cash_usd": 955000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_7cd047cd4345",
+        "cycle": 10,
+        "state_hash": "51de08cd5e1836e6",
+        "positions_count": 8,
+        "notional_usd": 550000.0,
+        "cash_usd": 950000.0,
+        "valid": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_e7b9301ce360",
+        "cycle": 11,
+        "state_hash": "2f68bd6d13c48935",
+        "positions_count": 9,
+        "notional_usd": 565000.0,
+        "cash_usd": 945000.0,
+        "valid": true
+      }
+    ],
+    "restores": [
+      {
+        "checkpoint_id": "p39dr_cp_0a2386e6f7f4",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_ccbbf216d6a9",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_0ce4e8c210c0",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_d4680415644a",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_8182c4ffd560",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_ee04390d3c34",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_1a126d777146",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_74535e8b0ec2",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_d8df6111d87a",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_10d40cae6c7f",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_7cd047cd4345",
+        "success": true,
+        "validated": true
+      },
+      {
+        "checkpoint_id": "p39dr_cp_e7b9301ce360",
+        "success": true,
+        "validated": true
+      }
+    ],
+    "all_valid": true,
+    "all_restored_ok": true,
+    "deterministic": true,
+    "no_external_venue_mutation": true
+  },
+  "determinism": {
+    "deterministic_seeded": true,
+    "same_seed_cycles_reproduce_surfaces": true
+  },
+  "risk_summary": {
+    "total_cycles": 12,
+    "gates_ok": true,
+    "validation_gates_ok": true,
+    "margin_settlement_audit_ok": true,
+    "kill_switch_global_halts_observed": 9,
+    "kill_switch_trading_enabled_cycles": 3,
+    "reconciliation_freshness_present": false,
+    "venues_covered": [
+      "deribit",
+      "okx",
+      "binance"
+    ],
+    "symbols_covered": [
+      "BTC-USD",
+      "ETH-USD"
+    ],
+    "paper_only": true,
+    "next9_unblocked": false,
+    "live_trading_enabled": false
+  },
+  "evidence_refs": [
+    "src/integration/phase39_live_readiness_loop.py",
+    "src/validation/phase39_prepost_trade_validation.py",
+    "src/risk/phase39_kill_switches_circuit_breakers.py",
+    "src/recovery/phase39_disaster_recovery.py",
+    "scripts/generate_phase39_live_readiness_paper_evidence.py",
+    "tests/test_generate_phase39_live_readiness_paper_evidence.py"
+  ],
+  "cross_refs": [
+    "research_state/PHASE39_LIVE_READINESS_LOOP_REPORT.json",
+    "research_state/PHASE39_CAMPAIGN_SUMMARY.json",
+    "research_state/PHASE39_KILL_SWITCH_REPORT.json",
+    "research_state/PHASE39_VALIDATION_REPORT.json",
+    "research_state/PHASE39_RECOVERY_REPORT.json",
+    "research_state/CONTINUOUS_VALIDATION_20261107T140506Z.json",
+    "research_state/PAPER_OPS_SESSION_GATE_20261107T141045Z.json"
+  ],
+  "flags": {
+    "deterministic_seeded": true,
+    "finite_numerics_validated": true,
+    "advisory_only": true,
+    "no_external_venue_mutation": true
+  },
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}
