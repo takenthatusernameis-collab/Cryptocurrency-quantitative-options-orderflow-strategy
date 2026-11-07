@@ -132,3 +132,88 @@ def test_r5_per_symbol_slippage_emitted_when_flag_set(tmp_path, monkeypatch):
     assert d["next9_unblocked"] is False
     assert d["live_trading_enabled"] is False
     assert d["paper_only"] is True
+
+
+def _write_r5_cross_state(tmp_path):
+    rs = tmp_path / "research_state"
+    rs.mkdir(parents=True)
+    cross = {
+        "paper_only": True,
+        "venues": ["deribit", "okx"],
+        "symbols": ["BTC", "ETH"],
+        "config": {"venues": ["deribit", "okx"], "symbols": ["BTC", "ETH"], "taker_fee_bps": {"deribit": 5.0, "okx": 5.0}},
+        "components": {
+            "latency_routing": {
+                "latency": {
+                    "deribit": {"ewma_ms": 26.46, "samples": 10, "max_sample_ms": 46.83, "within_limit": True},
+                    "okx": {"ewma_ms": 23.74, "samples": 10, "max_sample_ms": 44.92, "within_limit": True},
+                },
+                "slippage": {"avg_slippage_bps": 0.5, "max_slippage_bps": 2.0, "fills": 0, "total_slippage_bps": 0.0},
+            },
+        },
+    }
+    (rs / "CROSSVENUE_ORCHESTRATION_REPORT.json").write_text(json.dumps(cross))
+    (rs / "PHASE37_CROSS_VENUE_ROUTING_REPORT.json").write_text(json.dumps({"ok": True, "cycles": 3}))
+    return rs
+
+
+def test_r5_tighten_venue_symbol_slippage_caps_default_off(tmp_path, monkeypatch):
+    import generate_r5_execution_slippage_evidence as gmod
+
+    rs = _write_r5_cross_state(tmp_path)
+    monkeypatch.setattr(gmod, "RS", rs)
+    monkeypatch.setattr(gmod, "REPO", tmp_path)
+    d = gmod.gen_r5_strict("20260101T000000Z", tighten_venue_symbol_slippage_caps=False)
+    assert d.get("tighten_venue_symbol_slippage_caps") is False
+    bd = d["metrics"]["cross_venue_slippage_breakdown"]
+    assert "per_venue_symbol_slippage_caps" not in bd
+    assert not any(w.startswith("venue_symbol_slippage_caps_derived") for w in d["warn_flags"])
+    ok, issues = v.validate_artifact(d, "R5")
+    assert ok, issues
+    assert d["next9_unblocked"] is False
+
+
+def test_r5_tighten_venue_symbol_slippage_caps_derives_and_passes(tmp_path, monkeypatch):
+    import generate_r5_execution_slippage_evidence as gmod
+
+    rs = _write_r5_cross_state(tmp_path)
+    monkeypatch.setattr(gmod, "RS", rs)
+    monkeypatch.setattr(gmod, "REPO", tmp_path)
+    d = gmod.gen_r5_strict("20260101T000000Z", tighten_venue_symbol_slippage_caps=True)
+    assert d.get("tighten_venue_symbol_slippage_caps") is True
+    assert any(w == "venue_symbol_slippage_caps_derived_advisory" for w in d["warn_flags"])
+    bd = d["metrics"]["cross_venue_slippage_breakdown"]
+    assert bd.get("within_venue_symbol_slippage_caps") is True
+    assert bd.get("venue_symbol_slippage_breaches") == []
+    for symbol in ("BTC", "ETH"):
+        for venue in ("deribit", "okx"):
+            row = bd["per_venue_symbol_slippage_caps"][symbol][venue]
+            assert "derived_slippage_cap_bps" in row
+            assert "cap_basis" in row
+            assert row["taker_fee_bps"] in (5.0, None)
+    ok, issues = v.validate_artifact(d, "R5")
+    assert ok, issues
+    assert d["next9_unblocked"] is False
+    assert d["live_trading_enabled"] is False
+    assert d["paper_only"] is True
+
+
+def test_r5_tighten_venue_symbol_slippage_caps_detects_breach(tmp_path, monkeypatch):
+    import generate_r5_execution_slippage_evidence as gmod
+
+    rs = _write_r5_cross_state(tmp_path)
+    cross = json.loads((rs / "CROSSVENUE_ORCHESTRATION_REPORT.json").read_text())
+    cross["components"]["latency_routing"]["slippage"] = {
+        "avg_slippage_bps": 30.0, "max_slippage_bps": 60.0, "fills": 10, "total_slippage_bps": 600.0,
+    }
+    (rs / "CROSSVENUE_ORCHESTRATION_REPORT.json").write_text(json.dumps(cross))
+    monkeypatch.setattr(gmod, "RS", rs)
+    monkeypatch.setattr(gmod, "REPO", tmp_path)
+    d = gmod.gen_r5_strict("20260101T000000Z", tighten_venue_symbol_slippage_caps=True)
+    bd = d["metrics"]["cross_venue_slippage_breakdown"]
+    assert bd.get("within_venue_symbol_slippage_caps") is False
+    assert len(bd.get("venue_symbol_slippage_breaches", [])) > 0
+    assert any(w == "venue_symbol_slippage_cap_breach_detected" for w in d["warn_flags"])
+    ok, issues = v.validate_artifact(d, "R5")
+    assert ok, issues
+    assert d["next9_unblocked"] is False

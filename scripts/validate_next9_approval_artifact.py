@@ -74,6 +74,65 @@ def _resolve_field(item: Dict[str, Any], canonical: str) -> Any:
     return None
 
 
+def _parse_ts(value: Any) -> Optional[datetime]:
+    """Parse an ISO-8601 UTC timestamp into an aware datetime. Returns None if unparseable."""
+    if not isinstance(value, str) or not value:
+        return None
+    s = value.replace("Z", "+00:00")
+    try:
+        dt = datetime.fromisoformat(s)
+    except Exception:
+        return None
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
+def _approval_freshness_issues(
+    data: Dict[str, Any],
+    *,
+    max_age_hours: Optional[float],
+    effective_until_utc: Optional[str],
+    now: Optional[datetime] = None,
+) -> List[str]:
+    """Advisory/default-off structural freshness check.
+
+    Defaults off: when both `max_age_hours` and `effective_until_utc` are None this
+    function returns an empty list and the validator behaves exactly as before. When
+    enabled it can only *tighten* the block (never loosen it): it reports issues for
+    stale approvals or expired effective_until_utc windows. It never grants approval
+    and never enables live trading.
+    """
+    if max_age_hours is None and not effective_until_utc:
+        return []
+    issues: List[str] = []
+    checklist = data.get("human_approval_checklist") or data.get("approvals") or []
+    if not isinstance(checklist, list) or not checklist:
+        return issues
+    by_id = {str(item.get("id") or item.get("approval_id") or ""): item for item in checklist if isinstance(item, dict)}
+    now = now or datetime.now(timezone.utc)
+    for aid in REQUIRED_APPROVAL_IDS:
+        item = by_id.get(aid)
+        if not item:
+            continue
+        ts_raw = _resolve_field(item, "timestamp_utc")
+        ts = _parse_ts(ts_raw)
+        if max_age_hours is not None:
+            if ts is None:
+                issues.append(f"{aid}_approval_timestamp_unparseable")
+            else:
+                age_hours = (now - ts).total_seconds() / 3600.0
+                if age_hours > float(max_age_hours) + 1e-9:
+                    issues.append(f"{aid}_approval_stale_hours:{age_hours:.2f}:{float(max_age_hours)}")
+        if effective_until_utc:
+            eff = _parse_ts(effective_until_utc)
+            if eff is None:
+                issues.append("effective_until_utc_unparseable")
+            elif ts is not None and ts > eff:
+                issues.append(f"{aid}_approval_timestamp_after_effective_until_utc")
+    return issues
+
+
 def validate_approval_artifact(data: Dict[str, Any]) -> Tuple[bool, List[str]]:
     issues: List[str] = []
     if data.get("live_trading_enabled") is True:
@@ -104,7 +163,7 @@ def validate_approval_artifact(data: Dict[str, Any]) -> Tuple[bool, List[str]]:
     return unblocked, issues
 
 
-def check_current(repo: Path = REPO) -> Dict[str, Any]:
+def check_current(repo: Path = REPO, *, max_age_hours: Optional[float] = None, effective_until_utc: Optional[str] = None) -> Dict[str, Any]:
     cp = _load(repo / "research_state/campaign_checkpoints/LIVE_ENABLEMENT_PROPOSAL_REVIEW_ONLY_latest.json")
     issues: List[str] = []
     if not cp:
@@ -119,12 +178,24 @@ def check_current(repo: Path = REPO) -> Dict[str, Any]:
     if cp.get("live_enablement_decision") == "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL" and ok:
         issues.append("checkpoint_decision_conflicts_with_full_approvals")
         ok = False
+    fresh = _approval_freshness_issues(
+        prop, max_age_hours=max_age_hours, effective_until_utc=effective_until_utc
+    )
+    if fresh:
+        issues.extend(fresh)
+        ok = False
     return {
         "next9_unblocked": bool(ok),
         "issues": issues,
         "checkpoint_decision": cp.get("live_enablement_decision"),
         "paper_only": True,
         "live_trading_enabled": False,
+        "approval_freshness_check": {
+            "enabled": bool(max_age_hours is not None or effective_until_utc),
+            "max_age_hours": max_age_hours,
+            "effective_until_utc": effective_until_utc,
+            "freshness_issues": fresh,
+        },
     }
 
 
@@ -134,16 +205,36 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--check-current", action="store_true")
     ap.add_argument("--strict", action="store_true")
     ap.add_argument("--write", action="store_true", help="Write additive timestamped report to research_state/")
+    ap.add_argument("--max-approval-age-hours", type=float, default=None, help="Advisory/default-off: reject approvals older than N hours (never grants approval)")
+    ap.add_argument("--effective-until-utc", default=None, help="Advisory/default-off: reject approvals whose timestamp is after this UTC ISO-8601 cutoff (never grants approval)")
     args = ap.parse_args(argv)
     if args.check_current or not args.artifact:
-        result = check_current(REPO)
+        result = check_current(
+            REPO,
+            max_age_hours=args.max_approval_age_hours,
+            effective_until_utc=args.effective_until_utc,
+        )
     else:
         data = _load(REPO / args.artifact) if not Path(args.artifact).is_absolute() else _load(Path(args.artifact))
         if data is None:
             result = {"next9_unblocked": False, "issues": ["artifact_not_found_or_invalid_json"]}
         else:
             ok, issues = validate_approval_artifact(data)
+            fresh = _approval_freshness_issues(
+                data,
+                max_age_hours=args.max_approval_age_hours,
+                effective_until_utc=args.effective_until_utc,
+            )
+            if fresh:
+                issues.extend(fresh)
+                ok = False
             result = {"next9_unblocked": bool(ok), "issues": issues, "artifact": str(args.artifact)}
+            result["approval_freshness_check"] = {
+                "enabled": bool(args.max_approval_age_hours is not None or args.effective_until_utc),
+                "max_age_hours": args.max_approval_age_hours,
+                "effective_until_utc": args.effective_until_utc,
+                "freshness_issues": fresh,
+            }
     result["timestamp_utc"] = _utc()
     result["paper_only"] = True
     result["live_trading_enabled"] = False

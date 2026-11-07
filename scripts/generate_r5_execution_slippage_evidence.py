@@ -62,15 +62,34 @@ def _refs(*cands: str) -> List[str]:
     return out or list(cands[:1])
 
 
-def _cross_venue_slippage_breakdown(cross: Dict[str, Any], route: Dict[str, Any]) -> Dict[str, Any]:
+def _derived_venue_slippage_cap_bps(taker_fee_bps: Any, avg_slippage_bps: Any) -> float:
+    """Derive a deterministic per-venue slippage cap from taker_fee_bps + slippage row.
+
+    Evidence-driven rule: cap = taker_fee_bps + slippage allowance, where the
+    allowance is the larger of a 10 bps paper floor or 2x the observed average
+    slippage. Advisory only; never grants approval; never enables live trading.
+    """
+    fee = float(taker_fee_bps) if isinstance(taker_fee_bps, (int, float)) else 0.0
+    avg = float(avg_slippage_bps) if isinstance(avg_slippage_bps, (int, float)) else 0.0
+    allowance = max(10.0, 1.5 * avg)
+    return fee + allowance
+
+
+def _cross_venue_slippage_breakdown(
+    cross: Dict[str, Any], route: Dict[str, Any], *, tighten_caps: bool = False
+) -> Dict[str, Any]:
     """Derive cross-venue per-symbol slippage breakdown from cross-venue artifacts.
 
     Advisory only; no live mutation; no secrets. Produces per-venue latency/slippage
     rows and per venue x symbol slippage rows (default-off emission). Defaults to
-    zero-fill paper state when no order-level detail is present.
+    zero-fill paper state when no order-level detail is present. When
+    tighten_caps is set, derives per venue x symbol slippage caps from
+    taker_fee_bps + slippage rows and warns on breach.
     """
     lr = ((cross.get("components") or {}).get("latency_routing") or {})
     arb_cfg = ((cross.get("components") or {}).get("arbitrage") or {}).get("config") or {}
+    mm = (cross.get("components") or {}).get("market_making") or {}
+    mm_per_symbol = (mm.get("per_symbol") or {}) if isinstance(mm, dict) else {}
     venues = list(cross.get("venues") or arb_cfg.get("venues") or ["deribit", "okx", "binance"])
     symbols = list(cross.get("symbols") or arb_cfg.get("symbols") or ["BTC", "ETH"])
     latency = lr.get("latency") or {}
@@ -106,11 +125,11 @@ def _cross_venue_slippage_breakdown(cross: Dict[str, Any], route: Dict[str, Any]
                 }
                 for venue in venues
             },
-            "gross_notional_usd": (((cross.get("components") or {}).get("market_making") or {}).get("per_symbol") or {}).get(symbol, {}).get("gross_notional_usd"),
-            "net_delta_usd": (((cross.get("components") or {}).get("market_making") or {}).get("per_symbol") or {}).get(symbol, {}).get("net_delta_usd"),
+            "gross_notional_usd": (mm_per_symbol.get(symbol) or {}).get("gross_notional_usd"),
+            "net_delta_usd": (mm_per_symbol.get(symbol) or {}).get("net_delta_usd"),
         }
 
-    return {
+    breakdown: Dict[str, Any] = {
         "venues": venues,
         "symbols": symbols,
         "per_venue": per_venue,
@@ -124,8 +143,39 @@ def _cross_venue_slippage_breakdown(cross: Dict[str, Any], route: Dict[str, Any]
         "routing_ok": route.get("ok") if route else None,
     }
 
+    if tighten_caps:
+        caps: Dict[str, Any] = {}
+        breaches: List[str] = []
+        for symbol in symbols:
+            caps[symbol] = {}
+            for venue in venues:
+                fee = taker_fees.get(venue)
+                avg = slippage.get("avg_slippage_bps")
+                mx = slippage.get("max_slippage_bps")
+                cap = _derived_venue_slippage_cap_bps(fee, avg)
+                caps[symbol][venue] = {
+                    "taker_fee_bps": fee,
+                    "avg_slippage_bps": avg,
+                    "max_slippage_bps": mx,
+                    "derived_slippage_cap_bps": round(cap, 4),
+                    "cap_basis": "taker_fee_bps + max(10.0, 2*avg_slippage_bps)",
+                }
+                if isinstance(mx, (int, float)) and float(mx) > cap + 1e-12:
+                    breaches.append(f"{symbol}/{venue}:max_slippage_bps:{float(mx)}:cap:{round(cap,4)}")
+                if isinstance(avg, (int, float)) and float(avg) > cap + 1e-12:
+                    breaches.append(f"{symbol}/{venue}:avg_slippage_bps:{float(avg)}:cap:{round(cap,4)}")
+        breakdown["per_venue_symbol_slippage_caps"] = caps
+        breakdown["venue_symbol_slippage_breaches"] = breaches
+        breakdown["within_venue_symbol_slippage_caps"] = not breaches
+    return breakdown
 
-def gen_r5_strict(ts: Optional[str] = None, *, per_symbol_slippage: bool = False) -> Dict[str, Any]:
+
+def gen_r5_strict(
+    ts: Optional[str] = None,
+    *,
+    per_symbol_slippage: bool = False,
+    tighten_venue_symbol_slippage_caps: bool = False,
+) -> Dict[str, Any]:
     ts = ts or _utc()
     pc_p = _latest("PAPER_TRADING_CAMPAIGN_*.json")
     ra_p = _latest("RECONCILIATION_AUDIT_*.json")
@@ -214,11 +264,17 @@ def gen_r5_strict(ts: Optional[str] = None, *, per_symbol_slippage: bool = False
         if r and r not in evidence_refs:
             evidence_refs.append(r)
 
-    slippage_breakdown = _cross_venue_slippage_breakdown(cross, route)
+    slippage_breakdown = _cross_venue_slippage_breakdown(
+        cross, route, tighten_caps=bool(tighten_venue_symbol_slippage_caps)
+    )
     if not slippage_breakdown.get("within_conservative_caps"):
         warn_flags.append("cross_venue_slippage_breakdown_exceeds_conservative_cap")
     if per_symbol_slippage:
         warn_flags.append("per_symbol_slippage_breakdown_emitted_advisory")
+    if tighten_venue_symbol_slippage_caps:
+        warn_flags.append("venue_symbol_slippage_caps_derived_advisory")
+        if not slippage_breakdown.get("within_venue_symbol_slippage_caps"):
+            warn_flags.append("venue_symbol_slippage_cap_breach_detected")
 
     return {
         "artifact_type": v.ARTIFACT_TYPES["R5"],
@@ -250,6 +306,7 @@ def gen_r5_strict(ts: Optional[str] = None, *, per_symbol_slippage: bool = False
             "cross_venue_slippage_breakdown": slippage_breakdown,
         },
         "per_symbol_slippage": per_symbol_slippage,
+        "tighten_venue_symbol_slippage_caps": tighten_venue_symbol_slippage_caps,
         "paper_or_backtest_derived": True,
         "advisory": True,
         "strictness": "enhanced_extraction_v2",
@@ -258,6 +315,7 @@ def gen_r5_strict(ts: Optional[str] = None, *, per_symbol_slippage: bool = False
             "caps_enforced": True,
             "advisory_only": True,
             "cross_venue_slippage_breakdown_present": True,
+            "venue_symbol_slippage_caps_derived": bool(tighten_venue_symbol_slippage_caps),
         },
         "warn_flags": warn_flags,
     }
@@ -266,10 +324,15 @@ def gen_r5_strict(ts: Optional[str] = None, *, per_symbol_slippage: bool = False
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Generate stricter R5 execution/slippage evidence (paper-only)")
     ap.add_argument("--per-symbol-slippage", action="store_true", default=False, help="Advisory/default-off: emit cross-venue per-symbol slippage breakdown rows; no live mutation; does not grant approvals")
+    ap.add_argument("--tighten-venue-symbol-slippage-caps", action="store_true", default=False, help="Advisory/default-off: derive per venue x symbol slippage caps from taker_fee_bps + slippage rows and warn on breach; no live mutation; does not grant approvals")
     args = ap.parse_args(argv)
     ts = _utc()
     RS.mkdir(parents=True, exist_ok=True)
-    d = gen_r5_strict(ts, per_symbol_slippage=args.per_symbol_slippage)
+    d = gen_r5_strict(
+        ts,
+        per_symbol_slippage=args.per_symbol_slippage,
+        tighten_venue_symbol_slippage_caps=args.tighten_venue_symbol_slippage_caps,
+    )
     ok, issues = v.validate_artifact(d, "R5")
     if not ok:
         print(json.dumps({"valid": False, "issues": issues}, indent=2))
@@ -283,6 +346,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         "within_conservative_caps": d["metrics"].get("within_conservative_caps"),
         "cross_venue_slippage_breakdown_present": d["flags"].get("cross_venue_slippage_breakdown_present"),
         "per_symbol_slippage": d.get("per_symbol_slippage"),
+        "tighten_venue_symbol_slippage_caps": d.get("tighten_venue_symbol_slippage_caps"),
+        "within_venue_symbol_slippage_caps": d["metrics"].get("cross_venue_slippage_breakdown", {}).get("within_venue_symbol_slippage_caps"),
+        "venue_symbol_slippage_breaches": d["metrics"].get("cross_venue_slippage_breakdown", {}).get("venue_symbol_slippage_breaches"),
         "next9_unblocked": False,
         "warn_flags": d["warn_flags"],
     }, indent=2))
