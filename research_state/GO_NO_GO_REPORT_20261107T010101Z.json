@@ -1,0 +1,145 @@
+{
+  "report_id": "GO_NO_GO_REPORT_20261107T010101Z",
+  "timestamp": "2026-11-07T01:01:01.410961+00:00",
+  "mode": "paper",
+  "live_trading_enabled": false,
+  "recommendation": "GO for continued paper operations / NO-GO for live capital enablement",
+  "live_enablement_decision": "NO_GO_UNLESS_SEPARATE_EXPLICITLY_APPROVED_CAMPAIGN",
+  "guardrail": "No live capital. LIVE_TRADING_ENABLED must remain false. This report does not authorize live trading.",
+  "prerequisites": {
+    "END2END_LIVE_TRADING_READINESS": {
+      "checkpoint": "research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_latest.json",
+      "immutable": "research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_20261106T211035Z.json",
+      "status": "completed",
+      "timestamp": "2026-11-06T22:12:00.000000Z",
+      "gates": {
+        "reconciliation_freshness_met": true,
+        "non_flat_backtest": true,
+        "multi_venue_evidence": true,
+        "hedge_attribution_split": true,
+        "targeted_tests_green": true,
+        "scoped_mypy_clean": true,
+        "incidents_acked": true
+      }
+    },
+    "PAPER_TRADING_PRE_LIVE_READINESS": {
+      "checkpoint": "research_state/campaign_checkpoints/PAPER_TRADING_PRE_LIVE_READINESS_latest.json",
+      "immutable": "research_state/campaign_checkpoints/PAPER_TRADING_PRE_LIVE_READINESS_20261106T232349Z.json",
+      "status": "completed",
+      "timestamp": "2026-11-06T23:23:49Z",
+      "gates": {
+        "all_critical_passed": true,
+        "failed": 0,
+        "slo_reconciliation_freshness_met": true,
+        "order_lifecycle_validated": true,
+        "artifacts_non_empty": true,
+        "no_live_capital": true
+      },
+      "evidence": null
+    },
+    "CONTINUOUS_VALIDATION_AND_MONITORING": {
+      "checkpoint": "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
+      "immutable": "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_20261107T001342Z.json",
+      "status": "completed",
+      "timestamp": "2026-11-07T00:13:42Z",
+      "gates": {
+        "all_critical_passed": true,
+        "iterations_5_5": true,
+        "iterations_passed_zero_failed": true,
+        "reconciliation_freshness_gte_0_99_met_with_measurements": true,
+        "paper_only": true,
+        "live_trading_not_enabled": true
+      },
+      "reconciliation_freshness": {
+        "slo_id": "slo_reconciliation_freshness",
+        "target_gte": 0.99,
+        "met": true,
+        "all_iterations_met": true,
+        "all_iterations_have_measurements": true,
+        "measurements_per_iteration": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "artifacts": "dict_keys(['observability', 'alerts', 'health', 'resilience', 'data_quality', 'drift', 'shadow', 'canary', 'slo_evaluations'])"
+    },
+    "E2E_readiness_backtest_hedge_evidence": {
+      "notes": "Cited by END2END checkpoint: freshness/SLO, non-flat/multi-venue backtest, hedge attribution reconciled, incidents acked (paper-gated)."
+    }
+  },
+  "paper_campaign_runs": {
+    "required_min": 3,
+    "count": 3,
+    "all_critical_passed": true,
+    "runs": [
+      {
+        "artifact": "research_state/PAPER_TRADING_CAMPAIGN_20261107T002933Z_run1.json",
+        "run_index": "run1",
+        "timestamp": "2026-11-07T00:29:33.991225+00:00",
+        "mode": "paper",
+        "all_critical_passed": true,
+        "failed": 0,
+        "passed": 18,
+        "total_gates": 18
+      },
+      {
+        "artifact": "research_state/PAPER_TRADING_CAMPAIGN_20261107T002937Z_run2.json",
+        "run_index": "run2",
+        "timestamp": "2026-11-07T00:29:37.574925+00:00",
+        "mode": "paper",
+        "all_critical_passed": true,
+        "failed": 0,
+        "passed": 18,
+        "total_gates": 18
+      },
+      {
+        "artifact": "research_state/PAPER_TRADING_CAMPAIGN_20261107T002941Z_run3.json",
+        "run_index": "run3",
+        "timestamp": "2026-11-07T00:29:41.432843+00:00",
+        "mode": "paper",
+        "all_critical_passed": true,
+        "failed": 0,
+        "passed": 18,
+        "total_gates": 18
+      }
+    ]
+  },
+  "incident_drill": {
+    "artifact": "research_state/INCIDENT_DRILL_20261107T010035Z.json",
+    "drill_id": "INCIDENT_DRILL_20261107T010035Z",
+    "timestamp": "2026-11-07T01:00:35.377793+00:00",
+    "all_passed": true,
+    "scenarios": [
+      {
+        "name": "reconciliation_position_mismatch_critical",
+        "category": "reconciliation",
+        "passed": true
+      },
+      {
+        "name": "drawdown_risk_kill_switch",
+        "category": "drawdown/risk",
+        "passed": true
+      },
+      {
+        "name": "circuit_breaker_signal",
+        "category": "risk",
+        "passed": true
+      }
+    ]
+  },
+  "runbook": {
+    "path": "docs/PAPER_RUNBOOK.md"
+  },
+  "gates_summary": {
+    "paper_runs_3plus_all_critical_zero_failed": true,
+    "cv_reconciliation_freshness_gte_0_99_met_with_measurements": true,
+    "incident_drill_reconciliation_drawdown_risk": true,
+    "runbook_present": true,
+    "all_prerequisites_cited": true,
+    "live_trading_not_enabled": true
+  },
+  "all_gates_passed": true
+}

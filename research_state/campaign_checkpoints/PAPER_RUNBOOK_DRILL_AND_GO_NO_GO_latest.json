@@ -1,0 +1,31 @@
+{
+  "campaign_id": "PAPER_RUNBOOK_DRILL_AND_GO_NO_GO",
+  "status": "completed",
+  "timestamp": "2026-11-07T01:01:01.410961+00:00",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "gates": {
+    "paper_runs_3plus_all_critical_zero_failed": true,
+    "cv_reconciliation_freshness_gte_0_99_met_with_measurements": true,
+    "incident_drill_reconciliation_drawdown_risk": true,
+    "runbook_present": true,
+    "all_prerequisites_cited": true,
+    "live_trading_not_enabled": true
+  },
+  "recommendation": "GO for continued paper operations / NO-GO for live capital enablement",
+  "artifacts": {
+    "go_no_go_report": "research_state/GO_NO_GO_REPORT_20261107T010101Z.json",
+    "runbook": "docs/PAPER_RUNBOOK.md",
+    "incident_drill": "research_state/INCIDENT_DRILL_20261107T010035Z.json",
+    "paper_runs": [
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002933Z_run1.json",
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002937Z_run2.json",
+      "research_state/PAPER_TRADING_CAMPAIGN_20261107T002941Z_run3.json"
+    ],
+    "prerequisite_checkpoints": [
+      "research_state/campaign_checkpoints/END2END_LIVE_TRADING_READINESS_latest.json",
+      "research_state/campaign_checkpoints/PAPER_TRADING_PRE_LIVE_READINESS_latest.json",
+      "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json"
+    ]
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "drill_id": "INCIDENT_DRILL_20261107T010035Z",
+  "timestamp": "2026-11-07T01:00:35.377793+00:00",
+  "mode": "paper",
+  "live_trading_enabled": false,
+  "guardrail": "No live capital. LIVE_TRADING_ENABLED must remain false. Controlled paper-only drill.",
+  "scenarios": [
+    {
+      "name": "reconciliation_position_mismatch_critical",
+      "category": "reconciliation",
+      "injected": {
+        "local": {
+          "BTC": {
+            "quantity": 1.0,
+            "notional": 100000.0
+          }
+        },
+        "exchange": {
+          "BTC": {
+            "quantity": 3.5,
+            "notional": 350000.0
+          }
+        }
+      },
+      "detected": true,
+      "severity": "critical",
+      "quantity_diff": 2.5,
+      "notional_diff": 250000.0,
+      "auto_halt_on_detect": true,
+      "alerts_count": 1,
+      "ack": {
+        "acknowledged_by": "operator-drill/paper",
+        "ack_timestamp": "2026-11-07T01:00:35.377793+00:00",
+        "action": "halt acknowledged; paper drill positions verified; halt cleared for controlled continuity (paper-only)"
+      },
+      "resolved": true,
+      "passed": true
+    },
+    {
+      "name": "drawdown_risk_kill_switch",
+      "category": "drawdown/risk",
+      "injected": {
+        "peak_equity": 100000.0,
+        "current_equity": 85000.0,
+        "max_drawdown_pct": 0.1
+      },
+      "detected": true,
+      "kill_switch_reason": "KillSwitchState.TRIGGERED",
+      "risk_events_matching": [],
+      "ack": {
+        "acknowledged_by": "operator-drill/paper",
+        "ack_timestamp": "2026-11-07T01:00:35.377793+00:00",
+        "action": "drawdown kill-switch acknowledged; paper-only; no live capital"
+      },
+      "resolved": true,
+      "passed": true
+    },
+    {
+      "name": "circuit_breaker_signal",
+      "category": "risk",
+      "injected": {
+        "failures_recorded": 10
+      },
+      "detail": {
+        "type": "CircuitBreaker",
+        "can_execute_after_failures": false,
+        "snapshot": {
+          "state": "open",
+          "failure_count": 10,
+          "success_count": 0,
+          "last_failure_time": "2026-11-07T01:00:35.378154+00:00",
+          "half_open_calls": 0,
+          "call_history_len": 10
+        }
+      },
+      "ack": {
+        "acknowledged_by": "operator-drill/paper",
+        "ack_timestamp": "2026-11-07T01:00:35.377793+00:00",
+        "action": "signal reviewed; paper-only"
+      },
+      "resolved": true,
+      "passed": true
+    }
+  ],
+  "all_passed": true
+}
