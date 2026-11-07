@@ -80,3 +80,38 @@ def test_main_writes_valid_r7_artifact_and_enforces_invariant(tmp_path, monkeypa
     assert ok, issues
     assert d["cannot_grant_approval"] is True
     assert d["next9_unblocked"] is False
+
+def test_r7_maps_next9_field_aliases_and_self_check():
+    d = g.gen_r7_strict(g._utc())
+    assert d['process_artifact_is_not_approval'] is True
+    assert d['flags']['process_artifact_is_not_approval'] is True
+    assert d['next9_validation_contract']['process_artifact_is_not_approval'] is True
+    aliases = d['next9_validation_contract']['required_field_aliases']
+    assert 'approver_identity' in aliases and 'approver' in aliases['approver_identity']
+    for it in d['process_checklist']:
+        assert it['self_check'] == 'process_artifact_is_not_approval'
+        assert 'approver_identity' in it['required_next9_fields']
+        assert 'timestamp_utc' in it['required_next9_fields']
+        assert 'approved' in it['required_next9_fields']
+        assert it['approved'] is False
+        assert it['approver_identity'] is None
+        assert it['timestamp_utc'] is None
+
+
+def test_r7_still_cannot_satisfy_next9_even_with_alias_fields():
+    d = g.gen_r7_strict(g._utc())
+    # map process_checklist to approval-like shape should still fail due to approved false / nulls
+    approval_shape = {
+        'human_approval_checklist': [
+            {
+                'id': it['id'],
+                'approver': it.get('approver_identity'),
+                'timestamp': it.get('timestamp_utc'),
+                'approved': it.get('approved'),
+                it['required_validator_field']: it.get(it['required_validator_field']),
+            } for it in d['process_checklist']
+        ]
+    }
+    ok, issues = n9.validate_approval_artifact(approval_shape)
+    assert ok is False
+    assert issues

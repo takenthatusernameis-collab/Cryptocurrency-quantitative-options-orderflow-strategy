@@ -75,3 +75,31 @@ def test_main_writes_valid_r3_artifact(tmp_path, monkeypatch):
     assert ok, issues
     assert d["flags"]["deterministic_pass"] is True
     assert d["next9_unblocked"] is False
+
+def test_r3_runbook_keyword_variants_reduce_false_warns(tmp_path, monkeypatch):
+    rs = tmp_path / "research_state"; docs = tmp_path / "docs"
+    rs.mkdir(parents=True); docs.mkdir(parents=True)
+    (rs / "CROSSVENUE_ORCHESTRATION_REPORT.json").write_text(json.dumps({
+        "report":"CROSSVENUE_ORCHESTRATION_REPORT","paper_only":True,"venues":["deribit","okx"],
+        "symbols":["BTC"],"counts":{"cycles_completed":1},"halted":False,"kill_switch":{"triggered":False},"pnl":{"net_pnl_usd":0.0}}))
+    (rs / "PHASE37_CROSS_VENUE_ROUTING_REPORT.json").write_text(json.dumps({"ok":True,"cycles":1,"venues":["deribit","okx"]}))
+    (rs / "INCIDENT_DRILL_20261107T000000Z.json").write_text(json.dumps({
+        "drill_id":"INCIDENT_DRILL_20261107T000000Z","paper_only":True,"all_passed":True,
+        "guardrail":"No live capital","scenarios":[{"name":"x","category":"reconciliation","passed":True}]}))
+    # synonyms/case variants
+    (docs / "PAPER_RUNBOOK.md").write_text("Rate-Limit handling; partially filled orders; order rejected; scheduled outage/maintenance; circuit breaker; position mismatch reconciliation")
+    monkeypatch.setattr(g, "RS", rs); monkeypatch.setattr(g, "REPO", tmp_path); monkeypatch.setattr(g, "DOCS", docs)
+    d = g.gen_r3_strict(g._utc())
+    ok, issues = v.validate_artifact(d, "R3")
+    assert ok, issues
+    assert not any('paper_runbook_missing_keywords' in w for w in d['warn_flags']), d['warn_flags']
+    assert d['strictness'] == 'enhanced_extraction_v2'
+
+
+def test_r3_per_venue_coverage_rows_present():
+    d = g.gen_r3_strict(g._utc())
+    assert isinstance(d.get('per_venue_coverage'), list) and d['per_venue_coverage']
+    venues = {r.get('venue') for r in d['per_venue_coverage']}
+    assert 'deribit' in venues or 'okx' in venues or 'binance' in venues
+    r31 = next(i for i in d['checklist'] if i['id']=='R3.1')
+    assert isinstance(r31.get('per_venue'), list)

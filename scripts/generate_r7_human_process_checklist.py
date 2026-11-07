@@ -25,15 +25,20 @@ import validate_r3_r7_reduction_evidence as v  # noqa: E402
 
 NEXT9_VALIDATOR_REF = "scripts/validate_next9_approval_artifact.py"
 NEXT8_CP_REL = "research_state/campaign_checkpoints/LIVE_ENABLEMENT_PROPOSAL_REVIEW_ONLY_latest.json"
+NEXT9_REQUIRED_FIELD_ALIASES = {
+    "approver_identity": ["approver_identity", "approver"],
+    "timestamp_utc": ["timestamp_utc", "timestamp"],
+    "approved": ["approved"],
+}
 
 A1_A7_ITEMS = [
-    ("A1", "Named human approver reviews proposal and cited prerequisites", "scope"),
-    ("A2", "Residual risks R1-R7 accepted/mitigated with documented controls", "limits"),
-    ("A3", "Venue/symbol scope and limits/canary size approved", "canary_scope"),
-    ("A4", "Kill-switch/circuit-breaker/reconciliation-halt/escalation rehearsed", "rehearsal_evidence"),
-    ("A5", "Live credentials least-privilege, paper/live separation, rotation/revocation confirmed", "credential_controls_confirmed"),
-    ("A6", "Rollback/disable procedure reviewed; rollback owner assigned", "rollback_owner"),
-    ("A7", "Explicit decision recorded: LIVE_TRADING_ENABLED remains false until separately approved campaign passes", "live_disabled_until_approved_decision"),
+    ("A1", "Named human approver reviews proposal and cited prerequisites", "scope", ["approver_identity", "timestamp_utc", "approved", "scope"]),
+    ("A2", "Residual risks R1-R7 accepted/mitigated with documented controls", "limits", ["approver_identity", "timestamp_utc", "approved", "limits"]),
+    ("A3", "Venue/symbol scope and limits/canary size approved", "canary_scope", ["approver_identity", "timestamp_utc", "approved", "canary_scope"]),
+    ("A4", "Kill-switch/circuit-breaker/reconciliation-halt/escalation rehearsed", "rehearsal_evidence", ["approver_identity", "timestamp_utc", "approved", "rehearsal_evidence"]),
+    ("A5", "Live credentials least-privilege, paper/live separation, rotation/revocation confirmed", "credential_controls_confirmed", ["approver_identity", "timestamp_utc", "approved", "credential_controls_confirmed"]),
+    ("A6", "Rollback/disable procedure reviewed; rollback owner assigned", "rollback_owner", ["approver_identity", "timestamp_utc", "approved", "rollback_owner"]),
+    ("A7", "Explicit decision recorded: LIVE_TRADING_ENABLED remains false until separately approved campaign passes", "live_disabled_until_approved_decision", ["approver_identity", "timestamp_utc", "approved", "live_disabled_until_approved_decision"]),
 ]
 
 
@@ -91,17 +96,29 @@ def gen_r7_strict(ts: Optional[str] = None) -> Dict[str, Any]:
 
     by_id = proposal_state.get("proposal_items_by_id") or {}
     checklist = []
-    for aid, label, required_field in A1_A7_ITEMS:
+    for item in A1_A7_ITEMS:
+        if len(item) == 4:
+            aid, label, required_field, required_fields = item
+        else:
+            aid, label, required_field = item
+            required_fields = ["approver_identity", "timestamp_utc", "approved", required_field]
         src = by_id.get(aid) or {}
         checklist.append({
             "id": aid,
             "process_item": label,
             "required_validator_field": required_field,
+            "required_next9_fields": required_fields,
+            "required_field_aliases": NEXT9_REQUIRED_FIELD_ALIASES,
             "recorded_approval": False,
+            "approved": False,
+            "approver_identity": None,
+            "timestamp_utc": None,
+            required_field: None,
             "proposal_item_present": aid in by_id,
             "proposal_approved_claim": bool(src.get("approved")) if aid in by_id else False,
             "status": "pending_explicit_human_approval_recorded_in_validated_additive_artifact",
             "note": "human/process only; cannot be granted by agent, by this artifact, or by process-checklist generation; NEXT9 validator requires explicit A1-A7 recorded approvals",
+            "self_check": "process_artifact_is_not_approval",
             "evidence_refs": [r for r in [NEXT8_CP_REL, prop_rel, NEXT9_VALIDATOR_REF] if r],
         })
 
@@ -130,21 +147,25 @@ def gen_r7_strict(ts: Optional[str] = None) -> Dict[str, Any]:
         "next9_validation_contract": {
             "validator_ref": NEXT9_VALIDATOR_REF,
             "required_ids": [f"A{i}" for i in range(1, 8)],
+            "required_field_aliases": NEXT9_REQUIRED_FIELD_ALIASES,
             "validator_must_block_without_recorded_approvals": True,
             "this_artifact_grants_approvals": False,
             "this_artifact_unblocks_next9": False,
+            "process_artifact_is_not_approval": True,
         },
         "flags": {
             "deterministic_pass": deterministic_pass,
             "cannot_grant_approval": cannot_grant_approval,
             "advisory_only": True,
+            "process_artifact_is_not_approval": True,
         },
         "warn_flags": warn_flags,
         "cannot_grant_approval": cannot_grant_approval,
+        "process_artifact_is_not_approval": True,
         "next9_validator_ref": NEXT9_VALIDATOR_REF,
         "evidence_refs": evidence_refs,
         "advisory": True,
-        "strictness": "enhanced_extraction_v1",
+        "strictness": "enhanced_extraction_v2",
     }
 
 

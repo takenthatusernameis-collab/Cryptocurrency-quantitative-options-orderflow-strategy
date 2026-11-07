@@ -60,7 +60,31 @@ def _runbook_has(*needles: str) -> Tuple[bool, List[str]]:
     if not p.exists():
         return False, [f"runbook_missing:{n}" for n in needles]
     text = p.read_text(encoding="utf-8", errors="ignore").lower()
-    missing = [n for n in needles if n.lower() not in text]
+    missing = []
+    for n in needles:
+        nlow = n.lower()
+        # allow common synonyms/phrases and case/spacing variations
+        if nlow in text:
+            continue
+        # partial-fill variants
+        if "partial" in nlow and "fill" in nlow and ("partial fill" in text or "partial-fill" in text or "partially filled" in text or "partial fills" in text):
+            continue
+        # rate limit variants
+        if "rate" in nlow and "limit" in nlow and ("rate limit" in text or "rate-limit" in text or "rate limiting" in text or "throttl" in text):
+            continue
+        # reject variants
+        if "reject" in nlow and ("reject" in text or "rejected" in text or "order reject" in text):
+            continue
+        # maintenance variants
+        if "mainten" in nlow and ("maintenance" in text or "downtime" in text or "venue down" in text or "scheduled outage" in text):
+            continue
+        # kill-switch variants
+        if "kill" in nlow and ("kill-switch" in text or "killswitch" in text or "kill switch" in text or "circuit breaker" in text or "auto-halt" in text):
+            continue
+        # reconciliation variants
+        if "reconcil" in nlow and ("reconciliation" in text or "reconcil" in text or "position mismatch" in text):
+            continue
+        missing.append(n)
     return len(missing) == 0, missing
 
 
@@ -89,11 +113,16 @@ def _routing_summary(d: Dict[str, Any]) -> Dict[str, Any]:
     if not d:
         return {"present": False}
     # PHASE37 may vary; extract common fields defensively
-    keys = ("ok", "cycles", "paper_only", "report", "venues", "symbols", "counts", "routing", "summary")
+    keys = ("ok", "cycles", "paper_only", "report", "venues", "symbols", "counts", "routing", "summary", "status")
     out: Dict[str, Any] = {"present": True}
     for k in keys:
         if k in d:
             out[k] = d[k]
+    # normalize nested fields if present
+    if isinstance(d.get("summary"), dict):
+        out["summary_normalized"] = d.get("summary")
+    if isinstance(d.get("counts"), dict):
+        out["counts_normalized"] = d.get("counts")
     return out
 
 
@@ -134,6 +163,18 @@ def gen_r3_strict(ts: Optional[str] = None) -> Dict[str, Any]:
     venues = cross_s.get("venues") or route_s.get("venues") or ["deribit", "okx", "binance"]
     symbols = cross_s.get("symbols") or route_s.get("symbols") or ["BTC", "ETH"]
 
+    def _per_venue_rows(items: List[str], prefix: str) -> List[Dict[str, Any]]:
+        rows = []
+        for vname in (items or []):
+            rows.append({
+                "id": f"{prefix}.{vname}",
+                "venue": vname,
+                "status": "paper_evidence_present" if cross else "review_required",
+                "evidence_refs": [r for r in [_rel(cross_p), _rel(route_p)] if r and (REPO / r).exists()],
+                "note": "paper-only cross-venue evidence; no external venue mutation",
+            })
+        return rows
+
     warn_flags: List[str] = []
     if not cross:
         warn_flags.append("crossvenue_orchestration_report_missing")
@@ -171,6 +212,7 @@ def gen_r3_strict(ts: Optional[str] = None) -> Dict[str, Any]:
             "status": "verified_paper" if cross else "missing_evidence",
             "evidence_refs": [r for r in [_rel(cross_p), "research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json"] if r and (REPO / r).exists()],
             "observed": {"cycles_completed": cross_s.get("cycles_completed"), "halted": cross_s.get("halted")},
+            "per_venue": _per_venue_rows(list(venues) if isinstance(venues, list) else [str(venues)], "R3.1v"),
         },
         {
             "id": "R3.2",
@@ -178,32 +220,33 @@ def gen_r3_strict(ts: Optional[str] = None) -> Dict[str, Any]:
             "status": "verified_paper" if route else "missing_evidence",
             "evidence_refs": [r for r in [_rel(route_p), _rel(cross_p)] if r and (REPO / r).exists()],
             "observed": route_s,
+            "per_venue": _per_venue_rows(list(venues) if isinstance(venues, list) else [str(venues)], "R3.2v"),
         },
         {
             "id": "R3.3",
             "item": "partial-fill handling rehearsal coverage (paper/runbook/process; no external venue mutation)",
-            "status": "process_documented" if ("partial" not in "".join(runbook_missing)) else "process_review_required",
+            "status": "process_documented" if ("partial" not in " ".join(runbook_missing).lower()) else "process_review_required",
             "evidence_refs": [r for r in [_rel(runbook_p), _rel(drill_p)] if r and (REPO / r).exists()],
             "notes": "No external venue orders placed; handling verified via paper artifacts/runbook and incident controls.",
         },
         {
             "id": "R3.4",
             "item": "reject handling rehearsal coverage (paper/runbook/process; no external venue mutation)",
-            "status": "process_documented" if ("reject" not in "".join(runbook_missing)) else "process_review_required",
+            "status": "process_documented" if ("reject" not in " ".join(runbook_missing).lower()) else "process_review_required",
             "evidence_refs": [r for r in [_rel(runbook_p), _rel(drill_p)] if r and (REPO / r).exists()],
             "notes": "Reject/risk/circuit-breaker handling covered by runbook/drill evidence; no live venue mutation.",
         },
         {
             "id": "R3.5",
             "item": "rate-limit handling rehearsal coverage (paper/runbook/process; no external venue mutation)",
-            "status": "process_documented" if ("rate limit" not in " ".join(runbook_missing)) else "process_review_required",
+            "status": "process_documented" if ("rate limit" not in " ".join(runbook_missing).lower()) else "process_review_required",
             "evidence_refs": [r for r in [_rel(runbook_p)] if r and (REPO / r).exists()],
             "notes": "Rate-limit/maintenance are venue-operational risks; runbook/checklist coverage required before any approved canary.",
         },
         {
             "id": "R3.6",
             "item": "maintenance-window handling rehearsal coverage (paper/runbook/process; no external venue mutation)",
-            "status": "process_documented" if ("maintenance" not in "".join(runbook_missing)) else "process_review_required",
+            "status": "process_documented" if ("maintenance" not in " ".join(runbook_missing).lower()) else "process_review_required",
             "evidence_refs": [r for r in [_rel(runbook_p)] if r and (REPO / r).exists()],
             "notes": "No venue maintenance mutation performed; operator procedure must remain paper-gated until approved.",
         },
@@ -230,6 +273,7 @@ def gen_r3_strict(ts: Optional[str] = None) -> Dict[str, Any]:
         "symbols": symbols,
         "rehearsal_scope": "deterministic venue/ops rehearsal from cross-venue orchestration, routing, incident drill, and paper runbook; partial-fill/reject/rate-limit/maintenance checklist rows; no external venue mutation; no live orders",
         "checklist": checklist,
+        "per_venue_coverage": _per_venue_rows(list(venues) if isinstance(venues, list) else [str(venues)], "R3V"),
         "source_summaries": {
             "crossvenue_orchestration": cross_s,
             "routing": route_s,
@@ -246,7 +290,7 @@ def gen_r3_strict(ts: Optional[str] = None) -> Dict[str, Any]:
         "evidence_refs": evidence_refs,
         "no_external_venue_mutation": True,
         "advisory": True,
-        "strictness": "enhanced_extraction_v1",
+        "strictness": "enhanced_extraction_v2",
     }
 
 
