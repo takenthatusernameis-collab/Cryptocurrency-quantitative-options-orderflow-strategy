@@ -1,0 +1,73 @@
+{
+  "artifact_type": "PAPER_OPS_READINESS_SNAPSHOT",
+  "timestamp": "2026-11-07T03:26:21.051896Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "guardrails": {
+    "live_trading_default_false": true,
+    "env_example_live_trading_false": true,
+    "tracked_diff_files": [],
+    "tracked_live_enabling_changes": [],
+    "tracked_worktree_clean_of_live_enabling_changes": true,
+    "paper_only_required": true,
+    "passed": true
+  },
+  "cv": {
+    "exists": true,
+    "path": "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
+    "timestamp": "2026-11-07T02:37:32Z",
+    "age_hours": 0.8136,
+    "fresh_within_max_age_hours": true,
+    "max_age_hours": 2.0,
+    "paper_only": true,
+    "live_trading_enabled": false,
+    "gates": {
+      "all_critical_passed": true,
+      "iterations_5_5": true,
+      "reconciliation_freshness_met": true
+    },
+    "reconciliation_freshness": {
+      "met": true,
+      "measurements_per_iteration": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "passed": true
+  },
+  "paper_campaign": {
+    "exists": true,
+    "path": "research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json",
+    "timestamp": "2026-11-07T02:38:14.171494+00:00",
+    "summary": {
+      "total_gates": 18,
+      "passed": 18,
+      "failed": 0,
+      "all_critical_passed": true
+    },
+    "passed": true
+  },
+  "next8_live_enablement": {
+    "exists": true,
+    "path": "research_state/campaign_checkpoints/LIVE_ENABLEMENT_PROPOSAL_REVIEW_ONLY_latest.json",
+    "decision": "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL",
+    "live_trading_enabled": false,
+    "paper_only": true,
+    "checklist_found": true,
+    "a1_a7_all_approved": false,
+    "next9_unblocked": false,
+    "passed_block_invariant": true
+  },
+  "gates": {
+    "paper_ops_ready": true,
+    "cv_fresh_for_material_decisions": true,
+    "next9_blocked_until_explicit_human_approval_recorded": true,
+    "no_live_capital": true
+  },
+  "action_required": [
+    "record_a1_a7_human_approvals_before_next9"
+  ]
+}
