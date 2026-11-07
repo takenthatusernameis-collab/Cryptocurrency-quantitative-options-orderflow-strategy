@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Generate stricter R6 drift-detection evidence from PHASE20 drift + fresh paper-monitoring outputs (paper-only).
+"""Generate stricter R6 drift-detection evidence (paper-only).
 
-Consumes PHASE20_DRIFT_DETECTION_REPORT and latest strict CV/paper-monitoring artifacts
-(OBSERVABILITY/ALERT_AUDIT/HEALTH_SLO/RESILIENCE + CV checkpoint) into a schema-validated
-R6 artifact with deterministic pass/warn flags. Cites existing outputs; no live mutation.
-Never enables live trading. Never unblocks NEXT9. Advisory/opt-in evidence.
+Deterministically consumes PHASE20 drift report + latest strict CV/paper-monitoring
+outputs (observability/alert audit/health SLO/resilience + CV checkpoint) into a v2
+schema-validated artifact with deterministic pass/warn-flag policy. Cites existing
+outputs; no live mutation. Never enables live trading. Never unblocks NEXT9.
+Advisory/opt-in evidence.
 """
 from __future__ import annotations
 
@@ -59,19 +60,21 @@ def _cv_checkpoint() -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
 
 
 def gen_r6_strict(ts: Optional[str] = None) -> Dict[str, Any]:
+    ts = ts or _utc()
     phase20_p = REPO / "research_state/PHASE20_DRIFT_DETECTION_REPORT.json"
     phase20 = _load(phase20_p) or {}
     cv, cv_ref = _cv_checkpoint()
     cv = cv or {}
     artifacts = cv.get("artifacts") or {}
-    obs = _load(REPO / artifacts["observability"]) if artifacts.get("observability") else _load(_latest("OBSERVABILITY_REPORT_*.json") or RS / "_missing")
-    alert = _load(REPO / artifacts["alert_audit"]) if artifacts.get("alert_audit") else _load(_latest("ALERT_AUDIT_*.json") or RS / "_missing")
-    health = _load(REPO / artifacts["health_slo"]) if artifacts.get("health_slo") else _load(_latest("HEALTH_SLO_REPORT_*.json") or RS / "_missing")
-    resil = _load(REPO / artifacts["resilience"]) if artifacts.get("resilience") else _load(_latest("RESILIENCE_AUDIT_*.json") or RS / "_missing")
-    obs = obs or {}
-    alert = alert or {}
-    health = health or {}
-    resil = resil or {}
+
+    obs_p = (REPO / artifacts["observability"]) if artifacts.get("observability") else (_latest("OBSERVABILITY_REPORT_*.json") or RS / "_missing")
+    alert_p = (REPO / artifacts["alert_audit"]) if artifacts.get("alert_audit") else (_latest("ALERT_AUDIT_*.json") or RS / "_missing")
+    health_p = (REPO / artifacts["health_slo"]) if artifacts.get("health_slo") else (_latest("HEALTH_SLO_REPORT_*.json") or RS / "_missing")
+    resil_p = (REPO / artifacts["resilience"]) if artifacts.get("resilience") else (_latest("RESILIENCE_AUDIT_*.json") or RS / "_missing")
+    obs = _load(obs_p) or {}
+    alert = _load(alert_p) or {}
+    health = _load(health_p) or {}
+    resil = _load(resil_p) or {}
 
     cfg = phase20.get("config") or {}
     det = phase20.get("detection") or {}
@@ -97,7 +100,6 @@ def gen_r6_strict(ts: Optional[str] = None) -> Dict[str, Any]:
     health_ok = health_status in (None, "pass", "healthy", "ok") or bool((health.get("health") or {}).get("checks"))
     alert_audit = alert.get("audit") or {}
     unresolved = int(alert_audit.get("num_unresolved", 0) or 0)
-    # advisory: unresolved warnings may exist in paper drills; record but do not auto-fail if CV green and bounded
     alert_bounded = unresolved <= 5
     resil_ok = bool(resil) or resil == {}
 
@@ -112,6 +114,18 @@ def gen_r6_strict(ts: Optional[str] = None) -> Dict[str, Any]:
         warn_flags.append(f"health_status:{health_status}")
     if not alert_bounded:
         warn_flags.append(f"unresolved_alerts_exceed_bound:{unresolved}")
+    if not obs:
+        warn_flags.append("observability_report_missing")
+    if not alert:
+        warn_flags.append("alert_audit_missing")
+    if not health:
+        warn_flags.append("health_slo_report_missing")
+
+    deterministic_pass = bool(
+        cv_ok and phase20_ok
+        and not any(w.startswith("phase20_drift_report_missing") for w in warn_flags)
+        and not any(w.startswith("cv_not_green") for w in warn_flags)
+    )
 
     flags = {
         "schema_valid": True,
@@ -124,7 +138,7 @@ def gen_r6_strict(ts: Optional[str] = None) -> Dict[str, Any]:
         "observability_present": bool(obs),
         "resilience_present": bool(resil),
         "unresolved_alerts_bounded": alert_bounded,
-        "deterministic_pass": bool(cv_ok and phase20_ok and not any(w.startswith("phase20_drift_report_missing") for w in warn_flags)),
+        "deterministic_pass": deterministic_pass,
         "advisory_only": True,
     }
 
@@ -177,7 +191,7 @@ def gen_r6_strict(ts: Optional[str] = None) -> Dict[str, Any]:
         "evidence_refs": evidence_refs,
         "deterministic": True,
         "advisory": True,
-        "strictness": "enhanced_extraction_v1",
+        "strictness": "enhanced_extraction_v2",
     }
 
 
@@ -193,7 +207,13 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 1
     out = RS / f"R6_DRIFT_DETECTION_REPORT_{ts}.json"
     out.write_text(json.dumps(d, indent=2, allow_nan=False) + "\n", encoding="utf-8")
-    print(json.dumps({"wrote": str(out.relative_to(REPO)), "valid": True, "deterministic_pass": d["flags"]["deterministic_pass"], "warn_flags": d["warn_flags"]}, indent=2))
+    print(json.dumps({
+        "wrote": str(out.relative_to(REPO)),
+        "valid": True,
+        "deterministic_pass": d["flags"]["deterministic_pass"],
+        "next9_unblocked": False,
+        "warn_flags": d["warn_flags"],
+    }, indent=2))
     return 0
 
 

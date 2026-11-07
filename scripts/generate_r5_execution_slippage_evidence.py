@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
-"""Generate stricter R5 execution/slippage simulation evidence from paper campaign/recon (paper-only).
-Extracts/normalizes realized fill quality, reject/partial rates, reconciliation match rates into
-a stricter schema-validated artifact; cites existing outputs; no live data mutation.
+"""Generate stricter R5 execution/slippage simulation evidence (paper-only).
+
+Deterministically consumes latest paper campaign, reconciliation audit, and pre-live
+gate report into a v2 schema-validated artifact with conservative caps, warn-flag
+policy, and deterministic pass criteria. Cites existing outputs; no live data
+mutation. Never enables live trading. Never unblocks NEXT9. Advisory/opt-in.
 """
 from __future__ import annotations
 
@@ -27,13 +30,27 @@ def _iso() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def _load(path: Path) -> Optional[Dict[str, Any]]:
-    if not path.exists():
+def _load(path: Optional[Path]) -> Optional[Dict[str, Any]]:
+    if not path or not path.exists():
         return None
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except Exception:
         return None
+
+
+def _latest(pattern: str) -> Optional[Path]:
+    cands = sorted(RS.glob(pattern))
+    return cands[-1] if cands else None
+
+
+def _rel(path: Optional[Path]) -> Optional[str]:
+    if not path or not path.exists():
+        return None
+    try:
+        return path.relative_to(REPO).as_posix()
+    except Exception:
+        return str(path)
 
 
 def _refs(*cands: str) -> List[str]:
@@ -45,32 +62,15 @@ def _refs(*cands: str) -> List[str]:
     return out or list(cands[:1])
 
 
-def _latest_campaign() -> Optional[Dict[str, Any]]:
-    # find latest PAPER_TRADING_CAMPAIGN
-    cands = sorted((RS).glob("PAPER_TRADING_CAMPAIGN_*.json"))
-    if not cands:
-        return None
-    return _load(cands[-1])
+def gen_r5_strict(ts: Optional[str] = None) -> Dict[str, Any]:
+    ts = ts or _utc()
+    pc_p = _latest("PAPER_TRADING_CAMPAIGN_*.json")
+    ra_p = _latest("RECONCILIATION_AUDIT_*.json")
+    pl_p = _latest("PRE_LIVE_GATE_REPORT_*.json")
 
-
-def _latest_recon() -> Optional[Dict[str, Any]]:
-    cands = sorted((RS).glob("RECONCILIATION_AUDIT_*.json"))
-    if not cands:
-        return None
-    return _load(cands[-1])
-
-
-def _latest_prelive() -> Optional[Dict[str, Any]]:
-    cands = sorted((RS).glob("PRE_LIVE_GATE_REPORT_*.json"))
-    if not cands:
-        return None
-    return _load(cands[-1])
-
-
-def gen_r5_strict(ts: str) -> Dict[str, Any]:
-    pc = _latest_campaign() or {}
-    ra = _latest_recon() or {}
-    pl = _latest_prelive() or {}
+    pc = _load(pc_p) or {}
+    ra = _load(ra_p) or {}
+    pl = _load(pl_p) or {}
 
     tes = pc.get("trading_engine_summary") or {}
     ra_sum = ra.get("live_trading_summary") or ra.get("reconciliation_engine") or {}
@@ -88,28 +88,55 @@ def gen_r5_strict(ts: str) -> Dict[str, Any]:
 
     paper_gates_passed = f"{pl_sum.get('passed',0)}/{pl_sum.get('total',0)}" if pl_sum else f"{pc.get('summary',{}).get('passed','?')}/{pc.get('summary',{}).get('total_gates','?')}"
 
-    # conservative caps (paper-derived defaults; never auto-enabling)
     slippage_bps_conservative_cap = 15.0
     reject_rate_cap = 0.01
     partial_fill_rate_cap = 0.05
 
-    reject_rate = (rejected / max(1, filled + rejected + partial)) if (filled + rejected + partial) > 0 else 0.0
-    partial_rate = (partial / max(1, filled + partial)) if (filled + partial) > 0 else 0.0
+    denom_fill_reject = filled + rejected + partial
+    denom_fill_partial = filled + partial
+    reject_rate = (rejected / max(1, denom_fill_reject)) if denom_fill_reject > 0 else 0.0
+    partial_rate = (partial / max(1, denom_fill_partial)) if denom_fill_partial > 0 else 0.0
 
-    caps_ok = (reject_rate <= reject_rate_cap + 1e-12) and (partial_rate <= partial_fill_rate_cap + 1e-12) and (match_rate >= 0.999 - 1e-12) and (critical_unmatched == 0)
+    caps_ok = (
+        reject_rate <= reject_rate_cap + 1e-12
+        and partial_rate <= partial_fill_rate_cap + 1e-12
+        and match_rate >= 0.999 - 1e-12
+        and critical_unmatched == 0
+    )
+
+    warn_flags: List[str] = []
+    if not pc:
+        warn_flags.append("paper_campaign_missing")
+    if not ra:
+        warn_flags.append("reconciliation_audit_missing")
+    if not pl:
+        warn_flags.append("pre_live_gate_report_missing")
+    if reject_rate > reject_rate_cap:
+        warn_flags.append("reject_rate_exceeds_conservative_cap")
+    if partial_rate > partial_fill_rate_cap:
+        warn_flags.append("partial_fill_rate_exceeds_conservative_cap")
+    if match_rate < 0.999:
+        warn_flags.append("reconciliation_match_rate_below_slo")
+    if critical_unmatched != 0:
+        warn_flags.append("critical_unmatched_positions_nonzero")
+    if denom_fill_reject == 0:
+        warn_flags.append("no_fill_evidence_to_derive_rates")
+
+    deterministic_pass = bool(
+        pc and ra and pl and caps_ok and not warn_flags
+    )
 
     evidence_refs = _refs(
         "research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json",
         "research_state/RECONCILIATION_AUDIT_20261107T023814Z.json",
         "research_state/PRE_LIVE_GATE_REPORT_20261107T023814Z.json",
     )
-    # add latest if different
-    pc_latest = sorted((RS).glob("PAPER_TRADING_CAMPAIGN_*.json"))[-1].relative_to(REPO).as_posix() if sorted((RS).glob("PAPER_TRADING_CAMPAIGN_*.json")) else None
-    ra_latest = sorted((RS).glob("RECONCILIATION_AUDIT_*.json"))[-1].relative_to(REPO).as_posix() if sorted((RS).glob("RECONCILIATION_AUDIT_*.json")) else None
-    pl_latest = sorted((RS).glob("PRE_LIVE_GATE_REPORT_*.json"))[-1].relative_to(REPO).as_posix() if sorted((RS).glob("PRE_LIVE_GATE_REPORT_*.json")) else None
-    for r in [pc_latest, ra_latest, pl_latest]:
+    for p, label in [(pc_p, "pc"), (ra_p, "ra"), (pl_p, "pl")]:
+        r = _rel(p)
         if r and r not in evidence_refs:
             evidence_refs.append(r)
+    if not evidence_refs:
+        evidence_refs = ["docs/PAPER_RUNBOOK.md"]
 
     return {
         "artifact_type": v.ARTIFACT_TYPES["R5"],
@@ -141,7 +168,13 @@ def gen_r5_strict(ts: str) -> Dict[str, Any]:
         },
         "paper_or_backtest_derived": True,
         "advisory": True,
-        "strictness": "enhanced_extraction_v1",
+        "strictness": "enhanced_extraction_v2",
+        "flags": {
+            "deterministic_pass": deterministic_pass,
+            "caps_enforced": True,
+            "advisory_only": True,
+        },
+        "warn_flags": warn_flags,
     }
 
 
@@ -157,7 +190,14 @@ def main(argv: Optional[List[str]] = None) -> int:
         return 1
     out = RS / f"R5_EXECUTION_SLIPPAGE_SIM_EVIDENCE_{ts}.json"
     out.write_text(json.dumps(d, indent=2, allow_nan=False) + "\n", encoding="utf-8")
-    print(json.dumps({"wrote": str(out.relative_to(REPO)), "valid": True, "within_conservative_caps": d["metrics"].get("within_conservative_caps")}, indent=2))
+    print(json.dumps({
+        "wrote": str(out.relative_to(REPO)),
+        "valid": True,
+        "deterministic_pass": d["flags"]["deterministic_pass"],
+        "within_conservative_caps": d["metrics"].get("within_conservative_caps"),
+        "next9_unblocked": False,
+        "warn_flags": d["warn_flags"],
+    }, indent=2))
     return 0
 
 

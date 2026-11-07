@@ -1,0 +1,45 @@
+{
+  "artifact_type": "EXECUTION_SLIPPAGE_SIM_EVIDENCE",
+  "timestamp_utc": "2026-11-07T09:31:25.775797Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "simulation_scope": "stricter extraction from paper campaign + reconciliation audit + pre-live gate report; realized fill quality vs conservative caps; no live mutation",
+  "evidence_refs": [
+    "research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json",
+    "research_state/RECONCILIATION_AUDIT_20261107T023814Z.json",
+    "research_state/PRE_LIVE_GATE_REPORT_20261107T023814Z.json",
+    "research_state/PAPER_TRADING_CAMPAIGN_20261107T045157Z.json",
+    "research_state/RECONCILIATION_AUDIT_20261107T045157Z.json",
+    "research_state/PRE_LIVE_GATE_REPORT_20261107T045157Z.json"
+  ],
+  "metrics": {
+    "slippage_assumption_documented": true,
+    "fill_quality_documented": true,
+    "reconciliation_match_rate": 1.0,
+    "paper_gates_passed": "18/18",
+    "conservative_live_caps_required": true,
+    "filled_orders": 1,
+    "partially_filled_orders": 0,
+    "rejected_orders": 0,
+    "cancelled_orders": 0,
+    "total_fills": 2,
+    "unmatched_positions": 0,
+    "critical_unmatched": 0,
+    "partial_fill_rate": 0.0,
+    "reject_rate": 0.0,
+    "slippage_bps_conservative_cap": 15.0,
+    "partial_fill_rate_cap": 0.05,
+    "reject_rate_cap": 0.01,
+    "within_conservative_caps": true
+  },
+  "paper_or_backtest_derived": true,
+  "advisory": true,
+  "strictness": "enhanced_extraction_v2",
+  "flags": {
+    "deterministic_pass": true,
+    "caps_enforced": true,
+    "advisory_only": true
+  },
+  "warn_flags": []
+}
