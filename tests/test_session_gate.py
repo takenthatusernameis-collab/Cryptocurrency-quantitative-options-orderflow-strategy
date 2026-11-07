@@ -60,7 +60,7 @@ def test_session_gate_blocks_when_readiness_not_ready(monkeypatch):
     snap["gates"]["paper_ops_ready"] = False
     snap["gates"]["cv_fresh_for_material_decisions"] = False
     snap["gates"]["no_live_capital"] = False
-    monkeypatch.setattr(c, "build_snapshot", lambda repo, max_cv_age_hours=2.0: snap)
+    monkeypatch.setattr(c, "build_snapshot", lambda repo, max_cv_age_hours=2.0, include_r3_r7_evidence=False: snap)
     result = g.run_gate(REPO)
     assert result["gate_passed"] is False
     assert result["gates"]["paper_ops_ready"] is False
@@ -86,7 +86,7 @@ def test_session_gate_blocks_when_next9_unblocked(monkeypatch):
 def test_session_gate_strict_exits_nonzero_when_not_green(monkeypatch):
     snap = _green_snapshot()
     snap["gates"]["next9_blocked_until_explicit_human_approval_recorded"] = False
-    monkeypatch.setattr(c, "build_snapshot", lambda repo, max_cv_age_hours=2.0: snap)
+    monkeypatch.setattr(c, "build_snapshot", lambda repo, max_cv_age_hours=2.0, include_r3_r7_evidence=False: snap)
     code = g.main(["--strict"])
     assert code == 1
 

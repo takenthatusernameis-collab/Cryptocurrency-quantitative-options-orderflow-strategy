@@ -1,0 +1,60 @@
+{
+  "artifact_type": "VENUE_OPS_REHEARSAL_EVIDENCE",
+  "timestamp_utc": "2026-11-07T07:18:27.848803Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "venues": [
+    "deribit",
+    "okx",
+    "binance"
+  ],
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "rehearsal_scope": "deterministic venue/ops rehearsal checklist derived from existing paper/cross-venue artifacts; no external venue mutation; no live orders",
+  "checklist": [
+    {
+      "id": "R3.1",
+      "item": "venue adapter initialization evidence present (paper campaign)",
+      "status": "verified_paper",
+      "evidence_refs": [
+        "research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json"
+      ]
+    },
+    {
+      "id": "R3.2",
+      "item": "cross-venue orchestration/routing evidence present",
+      "status": "verified_paper",
+      "evidence_refs": [
+        "research_state/CROSSVENUE_ORCHESTRATION_REPORT.json",
+        "research_state/PHASE37_CROSS_VENUE_ROUTING_REPORT.json"
+      ]
+    },
+    {
+      "id": "R3.3",
+      "item": "maintenance/rate-limit/partial-fill handling rehearsal",
+      "status": "process_required_before_any_approved_canary",
+      "evidence_refs": [
+        "docs/PAPER_RUNBOOK.md"
+      ]
+    },
+    {
+      "id": "R3.4",
+      "item": "reconciliation freshness/settlement evidence present",
+      "status": "verified_paper",
+      "evidence_refs": [
+        "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "research_state/PAPER_TRADING_CAMPAIGN_20261107T023814Z.json",
+    "research_state/CROSSVENUE_ORCHESTRATION_REPORT.json",
+    "research_state/INCIDENT_DRILL_20261107T010035Z.json",
+    "docs/PAPER_RUNBOOK.md"
+  ],
+  "no_external_venue_mutation": true,
+  "advisory": true
+}

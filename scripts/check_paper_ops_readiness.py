@@ -26,6 +26,10 @@ CP = RS / "campaign_checkpoints"
 SCRIPTS = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPTS))
 import validate_next9_approval_artifact  # noqa: E402
+try:
+    import validate_r3_r7_reduction_evidence as _r3r7  # noqa: E402
+except Exception:  # pragma: no cover - advisory module
+    _r3r7 = None
 
 
 def _utc_now() -> datetime:
@@ -272,14 +276,28 @@ def check_next8(repo: Path = REPO) -> Dict[str, Any]:
     }
 
 
-def build_snapshot(repo: Path = REPO, max_cv_age_hours: float = 2.0) -> Dict[str, Any]:
+def check_r3_r7_evidence(repo: Path = REPO) -> Optional[Dict[str, Any]]:
+    """Advisory/opt-in R3-R7 reduction-evidence report (never blocks paper-ops)."""
+    if _r3r7 is None:
+        return {"advisory": True, "available": False, "issues": ["r3_r7_validator_unavailable"]}
+    try:
+        return _r3r7.check_repo(repo)
+    except Exception as exc:  # pragma: no cover
+        return {"advisory": True, "available": False, "issues": [f"r3_r7_check_error:{exc}"]}
+
+
+def build_snapshot(
+    repo: Path = REPO,
+    max_cv_age_hours: float = 2.0,
+    include_r3_r7_evidence: bool = False,
+) -> Dict[str, Any]:
     guardrails = check_live_guardrails(repo)
     cv = check_cv(repo, max_age_hours=max_cv_age_hours)
     paper = check_paper_campaign(repo)
     next8 = check_next8(repo)
     all_paper_ops_ready = bool(guardrails["passed"] and cv["passed"] and paper["passed"])
     cv_fresh_enough = cv.get("fresh_within_max_age_hours") is True
-    return {
+    snap = {
         "artifact_type": "PAPER_OPS_READINESS_SNAPSHOT",
         "timestamp": _utc_now().isoformat().replace("+00:00", "Z"),
         "paper_only": True,
@@ -300,6 +318,11 @@ def build_snapshot(repo: Path = REPO, max_cv_age_hours: float = 2.0) -> Dict[str
             *(["fix_live_guardrails"] if not guardrails["passed"] else []),
         ],
     }
+    if include_r3_r7_evidence:
+        # Advisory only: never affects paper_ops_ready/strict pass unless a future
+        # explicit default-off strict flag is added by a human-approved process.
+        snap["r3_r7_reduction_evidence"] = check_r3_r7_evidence(repo)
+    return snap
 
 
 def main(argv: Optional[List[str]] = None) -> int:
@@ -307,8 +330,13 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--strict", action="store_true", help="Exit non-zero if paper ops not ready")
     ap.add_argument("--max-cv-age-hours", type=float, default=2.0)
     ap.add_argument("--no-write", action="store_true")
+    ap.add_argument("--include-r3-r7-evidence", action="store_true", help="Advisory: include R3-R7 reduction-evidence report (never blocks paper-ops)")
     args = ap.parse_args(argv)
-    snap = build_snapshot(REPO, max_cv_age_hours=args.max_cv_age_hours)
+    snap = build_snapshot(
+        REPO,
+        max_cv_age_hours=args.max_cv_age_hours,
+        include_r3_r7_evidence=bool(args.include_r3_r7_evidence),
+    )
     ts = _utc_str()
     out = RS / f"PAPER_OPS_READINESS_SNAPSHOT_{ts}.json"
     if not args.no_write:

@@ -36,8 +36,8 @@ def _utc_iso() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
-def run_gate(repo: Path = REPO, max_cv_age_hours: float = 2.0) -> Dict[str, Any]:
-    snap = c.build_snapshot(repo, max_cv_age_hours=max_cv_age_hours)
+def run_gate(repo: Path = REPO, max_cv_age_hours: float = 2.0, include_r3_r7_evidence: bool = False) -> Dict[str, Any]:
+    snap = c.build_snapshot(repo, max_cv_age_hours=max_cv_age_hours, include_r3_r7_evidence=include_r3_r7_evidence)
     next9 = v.check_current(repo)
 
     gates = snap.get("gates") or {}
@@ -55,7 +55,7 @@ def run_gate(repo: Path = REPO, max_cv_age_hours: float = 2.0) -> Dict[str, Any]
         and next9_unblocked is False
     )
 
-    return {
+    result: Dict[str, Any] = {
         "artifact_type": "PAPER_OPS_SESSION_GATE",
         "timestamp": _utc_iso(),
         "paper_only": True,
@@ -85,6 +85,9 @@ def run_gate(repo: Path = REPO, max_cv_age_hours: float = 2.0) -> Dict[str, Any]
             *(snap.get("action_required") or []),
         ],
     }
+    if "r3_r7_reduction_evidence" in snap:
+        result["r3_r7_reduction_evidence_advisory"] = snap["r3_r7_reduction_evidence"]
+    return result
 
 
 def main(argv: Optional[list] = None) -> int:
@@ -92,9 +95,10 @@ def main(argv: Optional[list] = None) -> int:
     ap.add_argument("--strict", action="store_true", help="Exit non-zero if the session gate is not green")
     ap.add_argument("--max-cv-age-hours", type=float, default=2.0)
     ap.add_argument("--no-write", action="store_true")
+    ap.add_argument("--include-r3-r7-evidence", action="store_true", help="Advisory: include R3-R7 reduction-evidence report (never blocks gate)")
     args = ap.parse_args(argv)
 
-    result = run_gate(REPO, max_cv_age_hours=args.max_cv_age_hours)
+    result = run_gate(REPO, max_cv_age_hours=args.max_cv_age_hours, include_r3_r7_evidence=bool(args.include_r3_r7_evidence))
     ts = _utc()
     if not args.no_write:
         RS.mkdir(parents=True, exist_ok=True)

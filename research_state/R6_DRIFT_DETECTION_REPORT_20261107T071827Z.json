@@ -1,0 +1,25 @@
+{
+  "artifact_type": "DRIFT_DETECTION_REPORT",
+  "timestamp_utc": "2026-11-07T07:18:27.849537Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "thresholds": {
+    "pnl_drift_threshold": 0.05,
+    "greeks_drift_threshold": 0.08,
+    "fills_drift_threshold": 0.1,
+    "latency_drift_ms_threshold": 50,
+    "anomaly_threshold": 0.7
+  },
+  "flags": {
+    "schema_valid": true,
+    "evidence_cited": true,
+    "within_bounds_requires_fresh_cv": true
+  },
+  "evidence_refs": [
+    "research_state/PHASE20_DRIFT_DETECTION_REPORT.json",
+    "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json"
+  ],
+  "deterministic": true,
+  "advisory": true
+}
