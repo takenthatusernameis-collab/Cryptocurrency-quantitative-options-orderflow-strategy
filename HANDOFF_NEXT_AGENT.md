@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — HANDOFF REFRESHED 2026-11-08T21:47:30Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this refresh; Phase116 verified 2026-11-08T21:47:30Z)**
+> **READ FIRST — HANDOFF REFRESHED 2026-11-08T22:05:30Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this refresh; Phase116 verified 2026-11-08T21:47:30Z)**
 >
 > **IMMEDIATE NEXT AGENT INSTRUCTION (INFERRED FROM REPO PRIORITY — MANDATORY, NO ESCAPE):**
 > - **Repo priority:** Crypto options orderflow (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL). Focus = orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **Paper-only only.**
@@ -32,11 +32,11 @@
 
 `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work paper-only.** Chain B (`src/hedging`, post-attribution seal depth) is active. **Phase117 is the mandatory next heavy task.**
 
-## Verified state (refresh 2026-11-08T21:47:30Z; Phase116 evidence 2026-11-08T21:46:02Z)
+## Verified state (refresh 2026-11-08T22:05:30Z; Phase116 evidence 2026-11-08T21:46:02Z)
 
 - **Branch:** `main` | **Workspace:** `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
 - **Env:** deps installed; `pytest 9.2.0` available; **3635 tests collected** (`pytest -q --co`, 9.57s).
-- **P0 (re-verified 2026-11-08T21:47:30Z):** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**. `.env.example:15 LIVE_TRADING_ENABLED=false`; `src/config/secrets.py:69` defaults false. **No live capital. No venue/config/credential mutation. No NEXT9 unblock.**
+- **P0 (re-verified 2026-11-08T22:05:30Z):** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty** (confirmed by `git diff` just now). `.env.example:15 LIVE_TRADING_ENABLED=false`; `src/config/secrets.py:69` defaults false. **No live capital. No venue/config/credential mutation. No NEXT9 unblock.**
 - **NEXT9:** HUMAN-ONLY (A1–A7 missing; session gate NO_GO; `next9_unblocked=false`) — **does not gate** paper-only Chain B depth.
 - **Chain B Phase111 (prior, verified):** artifact `research_state/PHASE111_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T194435Z.json`; composes PHASE110→32; coverage_rows=12; valid=true deterministic=True bounds_ok=True gates_ok=True.
 - **Chain B Phase112 (delivered, verified 2026-11-08T20:23Z):** composes PHASE111→32; 12 rows; valid/deterministic/bounded/gates_ok; artifact `PHASE112_..._20261108T202257Z.json`; module pytest 1 passed (13.49s); CLI `--no-write` valid; generator cases verified via controlled generate+validate+direct assertions (composed-chain pytest timeout caveat recorded in prior handoff).
@@ -68,7 +68,7 @@
   - Controlled `generate(cycles=40, seed=116116, write=True)` + `validate_artifact`: **`valid=true issues=[] deterministic_replay_equal=true bounds_ok=true coverage_rows=12 composes=['PHASE115','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`**. Artifact: `research_state/PHASE116_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T214602Z.json`.
   - CLI `--no-write` (`--cycles 4 --seed 116116`, `PHASE_QUICK_VERIFY=1`): **`valid=true issues=[] paper_only=true live_trading_enabled=false next9_unblocked=false deterministic=true gates_ok=true artifact_path=null`**.
   - Generator cases: **9 passed** (all required ≥7 cases covered; valid advisory shape + 5 rejections + deterministic + 12 coverage/bounds/composes + CLI `--no-write`). **Caveat:** composed-chain generator tests are slow (full batch ~398s; individual 39–188s) — use targeted runs/extended timeouts with explicit caveats.
-- **Phase117 status (checked 2026-11-08T21:47:30Z):** **no `*phase117*` files exist** in `src/hedging`, `scripts`, or `tests`. Phase117 is the **next mandatory bottleneck**.
+- **Phase117 status (re-checked 2026-11-08T22:05:30Z):** **no `*phase117*` files exist** in `src/hedging`, `scripts`, or `tests` (confirmed by directory listing + grep). Phase117 is the **next mandatory bottleneck — ACTIVE, unstarted**.
 
 ## Bottlenecks (agent-removable now / remaining)
 
@@ -79,8 +79,8 @@
 | Phase114 implemented + verified (composes PHASE113→32, 12 rows, valid/deterministic/bounded) | **CLEARED** | Done (2026-11-08T20:54:41Z). |
 | Phase115 implemented + verified (composes PHASE114→32, 12 rows, valid/deterministic/bounded) | **CLEARED** | Done (2026-11-08T21:27:00Z). |
 | Phase116 implemented + verified (composes PHASE115→32, 12 rows, valid/deterministic/bounded) | **CLEARED** | Done (2026-11-08T21:47:30Z). |
-| Phase117 not implemented (no `*phase117*` files) | **ACTIVE BOTTLENECK — MANDATORY** | Execute `INIT-20261108T214730Z-PHASE117` composing PHASE116→32 (heavy deliverables+verification). |
-| P0 safety drift | **CLEAR (re-verified 2026-11-08T21:47:30Z)** | Re-verify before/after every change batch. |
+| Phase117 not implemented (no `*phase117*` files) | **ACTIVE BOTTLENECK — MANDATORY (unstarted, re-confirmed 2026-11-08T22:05:30Z)** | Execute `INIT-20261108T214730Z-PHASE117` composing PHASE116→32 (heavy deliverables+verification). |
+| P0 safety drift | **CLEAR (re-verified 2026-11-08T22:05:30Z)** | Re-verify before/after every change batch. |
 | Chain A/B naming confusion | **MITIGATED** | Phase117 is **Chain B `src/hedging` only**. |
 | Composed-chain generator pytest slowness/timeouts | **MITIGATED** | `PHASE_QUICK_VERIFY=1`, targeted runs, extended timeouts, controlled generate+validate/CLI/direct assertions with explicit caveats. |
 | NEXT9 (A1–A7, human-only) | **BLOCKED (out of scope)** | Never unblock; does not gate paper-only depth. |
