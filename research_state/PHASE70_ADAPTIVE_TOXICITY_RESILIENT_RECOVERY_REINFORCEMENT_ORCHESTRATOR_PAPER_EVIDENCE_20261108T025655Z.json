@@ -1,0 +1,302 @@
+{
+  "artifact_type": "PHASE70_ADAPTIVE_TOXICITY_RESILIENT_RECOVERY_REINFORCEMENT_ORCHESTRATOR_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-08T02:56:55.495601Z",
+  "seed": 70061,
+  "cycles": 40,
+  "paper_only": true,
+  "advisory": true,
+  "no_external_venue_mutation": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "campaign": {
+    "phase": "PHASE70_ADAPTIVE_TOXICITY_RESILIENT_RECOVERY_REINFORCEMENT_ORCHESTRATOR",
+    "paper_only": true,
+    "cycles": 40,
+    "gates_ok": true,
+    "n_recovery_failovers": 6,
+    "n_capital_reinforcements": 5,
+    "n_hedging_reinforcements": 8,
+    "n_recovery_reinforce_attestations": 7,
+    "avg_failover_ok": 0.99547776,
+    "recovery_reinforce_pass_rate": 0.125,
+    "composes": [
+      "PHASE69",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ]
+  },
+  "recovery_reinforcement_surface": {
+    "paper_only": true,
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD",
+      "SOL-USD"
+    ],
+    "regimes": [
+      "normal",
+      "elevated",
+      "high_toxicity"
+    ],
+    "reinforcement_modes": [
+      "reinforce_monitor",
+      "reinforce_quarantine",
+      "reinforce_hard_failover"
+    ],
+    "n_failovers": 6,
+    "n_capital_reinforcements": 5,
+    "n_hedging_reinforcements": 8,
+    "n_reinforce_attestations": 7,
+    "avg_failover_ok": 0.99547776,
+    "ok_max": 1.0,
+    "recovery_reinforce_pass_rate": 0.125,
+    "bounds_ok": true,
+    "deterministic_replay_equal": true,
+    "max_bound_ratio": 1.0
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "reinforcement_mode": "reinforce_hard_failover",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_deribit_BTC-USD_70061"
+    },
+    {
+      "venue": "deribit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "reinforcement_mode": "reinforce_quarantine",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_deribit_ETH-USD_70061"
+    },
+    {
+      "venue": "deribit",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "reinforcement_mode": "reinforce_monitor",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_deribit_SOL-USD_70061"
+    },
+    {
+      "venue": "okx",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "reinforcement_mode": "reinforce_hard_failover",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_okx_BTC-USD_70061"
+    },
+    {
+      "venue": "okx",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "normal",
+      "reinforcement_mode": "reinforce_monitor",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_okx_ETH-USD_70061"
+    },
+    {
+      "venue": "okx",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "normal",
+      "reinforcement_mode": "reinforce_quarantine",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_okx_SOL-USD_70061"
+    },
+    {
+      "venue": "bybit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "reinforcement_mode": "reinforce_monitor",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_bybit_BTC-USD_70061"
+    },
+    {
+      "venue": "bybit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "normal",
+      "reinforcement_mode": "reinforce_quarantine",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_bybit_ETH-USD_70061"
+    },
+    {
+      "venue": "bybit",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "reinforcement_mode": "reinforce_monitor",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_bybit_SOL-USD_70061"
+    },
+    {
+      "venue": "binance",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "reinforcement_mode": "reinforce_monitor",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_binance_BTC-USD_70061"
+    },
+    {
+      "venue": "binance",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "elevated",
+      "reinforcement_mode": "reinforce_hard_failover",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_binance_ETH-USD_70061"
+    },
+    {
+      "venue": "binance",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "reinforcement_mode": "reinforce_hard_failover",
+      "probe_failover_ok": 0.99632292,
+      "probe_reinforce_pass_rate": 0.5,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p70_binance_SOL-USD_70061"
+    }
+  ],
+  "risk_posture": {
+    "paper_only": true,
+    "next9_unblocked": false,
+    "live_trading_enabled": false,
+    "kill_switch_slo_posture": "armed_paper",
+    "all_coverage_gates_ok": true
+  },
+  "evidence_refs": [
+    "src/hedging/phase70_adaptive_toxicity_resilient_recovery_reinforcement_orchestrator.py",
+    "scripts/generate_phase70_adaptive_toxicity_resilient_recovery_reinforcement_orchestrator_paper_evidence.py",
+    "tests/test_phase70_adaptive_toxicity_resilient_recovery_reinforcement_orchestrator.py",
+    "PHASE69_ADAPTIVE_TOXICITY_RESILIENT_SELF_HEALING_ORCHESTRATOR_PAPER_EVIDENCE_20261108T021706Z.json",
+    "PHASE68_ADAPTIVE_TOXICITY_RESILIENT_CONTAINMENT_ORCHESTRATOR_PAPER_EVIDENCE_20261108T020245Z.json",
+    "PHASE67_ADAPTIVE_TOXICITY_RESILIENT_RECOVERY_ORCHESTRATOR_PAPER_EVIDENCE_20261108T003920Z.json",
+    "PAPER_OPS_SESSION_GATE_20261108T024918Z.json",
+    "CONTINUOUS_VALIDATION_20261108T024910Z.json"
+  ],
+  "cross_refs": [
+    "Phase70AdaptiveToxicityResilientRecoveryReinforcementOrchestrator",
+    "Phase69AdaptiveToxicityResilientSelfHealingOrchestrator",
+    "Phase54RealtimeRiskFusionEngine",
+    "Phase39KillSwitchesCircuitBreakers",
+    "Phase58FlowToxicityMitigator",
+    "composes=PHASE69,PHASE54,PHASE39,PHASE58"
+  ],
+  "determinism": {
+    "deterministic_seeded": true,
+    "same_seed_cycles_reproduce_surface": true,
+    "bounds_ok": true,
+    "bounds": {
+      "avg_failover_ok_in_0_1": true,
+      "recovery_reinforce_pass_rate_in_0_1": true,
+      "n_failovers_positive": true,
+      "n_hedging_reinforcements_positive": true,
+      "finite_metrics": true
+    }
+  },
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}
