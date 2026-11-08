@@ -224,7 +224,7 @@ def _probe(venue: str, symbol: str, seed: int) -> Dict[str, Any]:
         "probe_bounds_within_limits": bool(bounds_ok),
         "probe_regime_conditional_posture": True,
         "probe_gates_ok": bool(rep.get("gates_ok") is True and finite and bounds_ok),
-        "deterministic_probe_gate_id": f"p101_{venue}_{symbol}_{seed}",
+        "deterministic_probe_gate_id": f"p102_{venue}_{symbol}_{seed}",
     }
 
 
@@ -306,7 +306,8 @@ def generate(cycles: int = 40, seed: int = 102102, write: bool = False) -> Dict[
             "scripts/generate_phase102_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py",
             "tests/test_phase102_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
             "tests/test_generate_phase102_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py",
-            "PHASE102_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T145417Z.json",
+            "PHASE101_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T150148Z.json",
+            "PHASE100_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T145417Z.json",
             "PHASE98_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T134414Z.json",
             "PHASE97_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T125315Z.json",
             "PHASE96_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T123920Z.json",
@@ -335,7 +336,8 @@ def generate(cycles: int = 40, seed: int = 102102, write: bool = False) -> Dict[
         ],
         "cross_refs": [
             "Phase102AdaptiveToxicityResilientPostAttributionSealOrchestrator",
-            "Phase102AdaptiveToxicityResilientPostAttributionSealOrchestrator",
+            "Phase101AdaptiveToxicityResilientPostAttributionSealOrchestrator",
+            "Phase100AdaptiveToxicityResilientPostAttributionSealOrchestrator",
             "Phase98AdaptiveToxicityResilientPostAttributionSealOrchestrator",
             "Phase97AdaptiveToxicityResilientPostAttributionSealOrchestrator",
             "Phase96AdaptiveToxicityResilientPostAttributionSealOrchestrator",

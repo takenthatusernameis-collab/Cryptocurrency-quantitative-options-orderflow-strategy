@@ -78,9 +78,9 @@ class Phase102AdaptiveToxicityResilientPostAttributionSealConfig:
 class Phase102AdaptiveToxicityResilientPostAttributionSealOrchestrator:
     """Post-attribution seal depth orchestrator for crypto options + orderflow.
 
-    Seals PHASE100 post-attribution seal with cross-venue seal consistency
+    Seals PHASE101 post-attribution seal with cross-venue seal consistency
     checks, selective sealing on severity, hedging seal guardrails, and deterministic seal certification.
-    PAPER-ONLY. Composes PHASE100/99/98/97/96/95/94/93/92/91/90/89/88/87/86/85/84/83/82/81/80/79/78/77/76/75/74/73/72/71/70/69/58/54/39/32.
+    PAPER-ONLY. Composes PHASE101/100/99/98/97/96/95/94/93/92/91/90/89/88/87/86/85/84/83/82/81/80/79/78/77/76/75/74/73/72/71/70/69/58/54/39/32.
     """
 
     def __init__(self, cfg: Phase102AdaptiveToxicityResilientPostAttributionSealConfig | None = None) -> None:
@@ -258,7 +258,7 @@ class Phase102AdaptiveToxicityResilientPostAttributionSealOrchestrator:
             f"n_hedging_seal_attestations: {rep['n_hedging_seal_attestations']}",
             "",
             "## Composes",
-            "- PHASE100, PHASE99, PHASE98, PHASE97, PHASE96, PHASE95, PHASE94, PHASE93, PHASE92, PHASE91, PHASE90, PHASE89, PHASE88, PHASE87, PHASE86, PHASE85, PHASE84, PHASE83, PHASE82, PHASE81, PHASE80, PHASE79, PHASE78, PHASE77, PHASE76, PHASE75, PHASE74, PHASE73, PHASE72, PHASE71, PHASE70, PHASE69, PHASE58, PHASE54, PHASE39, PHASE32",
+            "- PHASE101, PHASE100, PHASE99, PHASE98, PHASE97, PHASE96, PHASE95, PHASE94, PHASE93, PHASE92, PHASE91, PHASE90, PHASE89, PHASE88, PHASE87, PHASE86, PHASE85, PHASE84, PHASE83, PHASE82, PHASE81, PHASE80, PHASE79, PHASE78, PHASE77, PHASE76, PHASE75, PHASE74, PHASE73, PHASE72, PHASE71, PHASE70, PHASE69, PHASE58, PHASE54, PHASE39, PHASE32",
             "",
         ]
         md_path.write_text("\n".join(md))
