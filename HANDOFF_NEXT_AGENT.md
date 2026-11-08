@@ -1,11 +1,11 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — 2026-11-08T15:01:48Z (handoff maintenance + heavy execution, repo-priority: crypto options quantitative orderflow strategy):** P0 re-verified post-work: `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**; `LIVE_TRADING_ENABLED=false` confirmed (`.env.example:15`, `src/config/secrets.py:69`). **Chain B Phase100 COMPLETE** (valid `PHASE100...PAPER_EVIDENCE_20261108T145417Z.json`). **Chain B Phase101 COMPLETE (EXECUTED THIS SESSION)** — additive, paper-only, composes **PHASE100→32**; valid artifact `research_state/PHASE101_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T150148Z.json` (`validation.valid=true`, `issues=[]`, `gates_ok=true`, `deterministic_replay_equal=true`, `bounds_ok=true`, `coverage_rows=12`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`). **NEXT SESSION: DO NOT REPORT STATUS. EXECUTE `INIT-20261108T150148Z-PHASE102-POST-ATTRIBUTION-SEAL-DEPTH` IN FULL — HEAVY, NON-OPTIONAL, PAPER-ONLY.** Doc-only work, partial completion, skipped verification, chain substitution, or status-only reporting is **not progress**. No live capital. No venue mutation. No NEXT9 unblock.
+> **READ FIRST — 2026-11-08T15:04:05Z (handoff refresh + heavy execution, repo-priority: crypto options quantitative orderflow strategy):** P0 re-verified post-work: `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**; `LIVE_TRADING_ENABLED=false` confirmed (`.env.example:15`, `src/config/secrets.py:69`). **Chain B Phase100 COMPLETE** (valid `PHASE100...PAPER_EVIDENCE_20261108T145417Z.json`). **Chain B Phase101 COMPLETE (EXECUTED PRIOR SESSION)** — additive, paper-only, composes **PHASE100→32**; valid artifact `research_state/PHASE101_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T150148Z.json` (`validation.valid=true`, `issues=[]`, `campaign.gates_ok=true`, `campaign.composes=["PHASE100","PHASE32"]`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`). **Chain B Phase102 NOT implemented** (no `src/hedging/phase102*`, no Chain B PHASE102 artifact). **NEXT SESSION: DO NOT REPORT STATUS. EXECUTE `INIT-20261108T150405Z-PHASE102-POST-ATTRIBUTION-SEAL-DEPTH` IN FULL — HEAVY, NON-OPTIONAL, PAPER-ONLY.** Doc-only work, partial completion, skipped verification, chain substitution, Chain A substitution, or status-only reporting is **not progress**. No live capital. No venue mutation. No NEXT9 unblock.
 
 **Repo (priority lens):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work remains paper-only.**
 
 **Branch:** `main` | **Workspace:** `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
-**Durable handoff refreshed (UTC):** **2026-11-08T15:01:48Z** — single durable handoff. Phase100 **COMPLETE**. Phase101 **COMPLETE** (executed). Agent-removable bottlenecks addressed (P0 clean, chain clarified, concrete quick-start/fallback, stale-gate discipline). NEXT9 remains human-only and **does not gate paper-only depth**.
+**Durable handoff refreshed (UTC):** **2026-11-08T15:04:05Z** — single durable handoff. Phase100 **COMPLETE**. Phase101 **COMPLETE** (executed). Agent-removable bottlenecks addressed (P0 clean, chain clarified, concrete quick-start/fallback, stale-gate discipline, **Chain A `src.risk/phase102_*` confusion removed — see BOTTLENECKS + CHAIN CLARIFICATION**). NEXT9 remains human-only and **does not gate paper-only depth**.
 
 ---
 
@@ -27,8 +27,8 @@
 
 ## INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (timestamped, mandatory)
 
-**Message ID / Campaign:** `INIT-20261108T150148Z-PHASE102-POST-ATTRIBUTION-SEAL-DEPTH`
-**Issued (UTC):** 2026-11-08T15:01:48Z
+**Message ID / Campaign:** `INIT-20261108T150405Z-PHASE102-POST-ATTRIBUTION-SEAL-DEPTH`
+**Issued (UTC):** 2026-11-08T15:04:05Z
 **Scope:** Chain B (`src.hedging`) — adaptive-toxicity resilient post-attribution-seal depth (Phase102), **paper-only, additive, deterministic, finite-probe, bounded/guarded**.
 **Hard requirement:** Execute this campaign **fully**. Do **not** do doc-only work, partial stubs, skipped verification, chain substitution, or "status-only" progress. Do **not** touch live trading, venue/config/credentials, or NEXT9.
 
@@ -43,7 +43,7 @@
 
 ## MANDATORY HEAVY CAMPAIGN — PHASE102 (Chain B)
 
-**Campaign ID:** `INIT-20261108T150148Z-PHASE102-POST-ATTRIBUTION-SEAL-DEPTH`
+**Campaign ID:** `INIT-20261108T150405Z-PHASE102-POST-ATTRIBUTION-SEAL-DEPTH`
 **Chain:** B (`src.hedging`) — adaptive-toxicity resilient post-attribution-seal depth (Phase102)
 **Status:** **OPEN — EXECUTE FULLY (no status-only work).**
 
@@ -112,6 +112,7 @@ PY
 | CV/session gate artifacts may be stale for new material work | **CONTROLLED — RERUN REQUIRED BEFORE MATERIAL DECISIONS** | Last cited: `research_state/CONTINUOUS_VALIDATION_20261108T124212Z.json`, `research_state/PAPER_OPS_SESSION_GATE_20261108T124704Z.json`. Rerun strict CV + session gate when making material readiness claims; do not fake freshness. |
 | Controlled env/hang (pytest CLI unavailable; composed PHASE stacks expensive) | **CONTROLLED** | Use `PYTHONPATH=. /usr/share/miniconda/bin/python`, `PHASE_QUICK_VERIFY=1`, stubs, daemon threads, `timeout`, `os._exit`. Controlled `generate()` + `validate_artifact` fallback acceptable with recorded caveat + authored targeted tests present. |
 | Chain confusion (Chain A `src.risk` phase98/99 vs Chain B `src.hedging` Phase98+) | **REMOVED/CONTROLLED** | `research_state/phase98_*`/`phase99_*` dirs under risk/live-gate topics are **Chain A / historical**. Chain B uses `src/hedging/phaseN_*` and `PHASE{N}_ADAPTIVE...PAPER_EVIDENCE_<UTC>.json`. Do not touch Chain A artifacts. |
+| **Chain A `src.risk/phase102_live_execution_realtime_hardening_deep*` + `tests/test_phase102_live_execution_realtime_hardening_deep.py` + `research_state/phase102_live_execution_realtime_hardening_deep/` exist** | **BOTTLENECK — REMOVED BY CLARIFICATION** | These are **Chain A live-execution hardening (historical)**, NOT Chain B paper-only Phase102 post-attribution-seal depth. **Do not mistake them for Phase102 completion.** Do not use as Chain B evidence. Do not duplicate/refactor Chain A into Chain B. Chain B Phase102 = `src/hedging/phase102_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` mirroring Phase101, compose PHASE101→32, paper-only. |
 | Durable front-loaded heavy task absent/weak | **REMOVED** | `INIT-20261108T150148Z-PHASE102-POST-ATTRIBUTION-SEAL-DEPTH` is front-loaded with mandatory heavy DoD. Next session cannot satisfy progress with doc-only work. |
 | `research_state/` size/noise (large history) | **NOT A BLOCKER** | Use targeted globs/find for Chain B artifacts; do not refactor/delete history. |
 
@@ -119,7 +120,7 @@ PY
 
 ## CHAIN CLARIFICATION (DO NOT DUPLICATE / DO NOT REGRESS)
 - **Chain A (`src.risk`) cross-venue settlement/custody/live-gate hardening:** historical `phase98/99` research_state dirs and risk artifacts exist; separate chain. **Do not use as Chain B completion evidence. Do not duplicate/refactor as Chain B.**
-- **Chain B (`src.hedging`) adaptive-toxicity resilient post-attribution/finality seal:** Phase84→101 **COMPLETE** with valid paper evidence (latest `PHASE101..._20261108T150148Z.json`). Next is **Phase102** mirroring Phase101 (compose PHASE101→32). No refactors to `phase79/80/110`.
+- **Chain B (`src.hedging`) adaptive-toxicity resilient post-attribution/finality seal:** Phase84→101 **COMPLETE** with valid paper evidence (latest `PHASE101..._20261108T150148Z.json`). **Phase102 NOT implemented** — next is **Phase102** mirroring Phase101 (compose PHASE101→32). No refactors to `phase79/80/110`. **Do not substitute Chain A `src.risk/phase102_*` live-execution files for Chain B Phase102.**
 
 ---
 
@@ -127,7 +128,7 @@ PY
 - **P0:** sensitive diff empty post-work; `LIVE_TRADING_ENABLED=false`.
 - **Phase101 (Chain B, COMPLETE):** `src/hedging/phase101_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `scripts/generate_phase101_...py`, `tests/test_phase101_...py`, `tests/test_generate_phase101_...paper_evidence.py` present. Valid artifact `research_state/PHASE101_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T150148Z.json`.
 - **Phase100 (Chain B, COMPLETE):** valid artifact `PHASE100_..._PAPER_EVIDENCE_20261108T145417Z.json`.
-- **Phase102 (Chain B, NEXT):** **not implemented** — mandatory `INIT-20261108T150148Z-PHASE102-POST-ATTRIBUTION-SEAL-DEPTH`.
+- **Phase102 (Chain B, NEXT):** **not implemented** — no `src/hedging/phase102*`, no `scripts/generate_phase102*`, no Chain B PHASE102 artifact. Mandatory `INIT-20261108T150405Z-PHASE102-POST-ATTRIBUTION-SEAL-DEPTH`.
 - **Strict CV (last cited, 2026-11-08T12:42:12Z):** `research_state/CONTINUOUS_VALIDATION_20261108T124212Z.json` — strict, seed 42, BTC,ETH, 5/5, `all_critical_passed=true`, `paper_only=true`, `live_trading_not_enabled=true`. Rerun if stale for material decisions.
 - **Strict session gate (last cited, 2026-11-08T12:47:04Z):** `research_state/PAPER_OPS_SESSION_GATE_20261108T124704Z.json` — `gate_passed=false`, `next9_unblocked=false`, `NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL`, `live_capital_readiness_gate.all_guardrails_ok=false`. **No live enablement detected; do not claim readiness unblocked.** Rerun/cite truthfully when material.
 - **NEXT9 (HUMAN-ONLY, BLOCKED):** `next9_unblocked=false`, A1–A7 missing. Not agent-removable.
