@@ -1,0 +1,268 @@
+{
+  "report": {
+    "phase": "PHASE73_ADAPTIVE_TOXICITY_RESILIENT_POST_STABILIZATION_CROSS_VENUE_ATTESTATION_ORCHESTRATOR",
+    "timestamp": "2026-11-08T03:53:38.042178Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7373,
+    "cycles": 40,
+    "n_venue_attestations": 6,
+    "n_capital_attestations": 5,
+    "n_hedging_attestations": 8,
+    "n_cross_venue_attest_certifications": 7,
+    "avg_cross_venue_ok": 0.996199725,
+    "avg_stabilization_pass_rate": 0.99,
+    "attestation_pass_rate": 0.0,
+    "composes": [
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE58",
+      "PHASE54",
+      "PHASE39",
+      "PHASE32"
+    ]
+  },
+  "venue_attestations": [
+    {
+      "vatt_id": "p73-7373-vatt-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "cross_venue_ok": 0.997623,
+      "action": "cross_venue_attest_post_stabilization",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.001680Z"
+    },
+    {
+      "vatt_id": "p73-7373-vatt-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "cross_venue_ok": 0.9958,
+      "action": "cross_venue_attest_post_stabilization",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.009119Z"
+    },
+    {
+      "vatt_id": "p73-7373-vatt-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "cross_venue_ok": 0.9958,
+      "action": "cross_venue_attest_post_stabilization",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.015352Z"
+    },
+    {
+      "vatt_id": "p73-7373-vatt-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "cross_venue_ok": 0.9961127,
+      "action": "cross_venue_attest_post_stabilization",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.023312Z"
+    },
+    {
+      "vatt_id": "p73-7373-vatt-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "cross_venue_ok": 0.99606265,
+      "action": "cross_venue_attest_post_stabilization",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.029599Z"
+    },
+    {
+      "vatt_id": "p73-7373-vatt-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "cross_venue_ok": 0.9958,
+      "action": "cross_venue_attest_post_stabilization",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.035897Z"
+    }
+  ],
+  "capital_attestations": [
+    {
+      "catt_id": "p73-7373-catt-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.5268,
+      "action": "capital_attest_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.012440Z"
+    },
+    {
+      "catt_id": "p73-7373-catt-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.5047,
+      "action": "capital_attest_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.018630Z"
+    },
+    {
+      "catt_id": "p73-7373-catt-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.42425,
+      "action": "capital_attest_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.024889Z"
+    },
+    {
+      "catt_id": "p73-7373-catt-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.40215,
+      "action": "capital_attest_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.031163Z"
+    },
+    {
+      "catt_id": "p73-7373-catt-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.56205,
+      "action": "capital_attest_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.039213Z"
+    }
+  ],
+  "hedging_attestations": [
+    {
+      "hatt_id": "p73-7373-hatt-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.997623,
+      "attested": false,
+      "orch_attest_throttle_factor": 0.47,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.003297Z"
+    },
+    {
+      "hatt_id": "p73-7373-hatt-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "hedge_ok": 0.99615725,
+      "attested": false,
+      "orch_attest_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.006175Z"
+    },
+    {
+      "hatt_id": "p73-7373-hatt-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "hedge_ok": 0.9956,
+      "attested": false,
+      "orch_attest_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.010695Z"
+    },
+    {
+      "hatt_id": "p73-7373-hatt-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "hedge_ok": 0.9956,
+      "attested": false,
+      "orch_attest_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.016894Z"
+    },
+    {
+      "hatt_id": "p73-7373-hatt-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "hedge_ok": 0.99640585,
+      "attested": false,
+      "orch_attest_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.021558Z"
+    },
+    {
+      "hatt_id": "p73-7373-hatt-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "hedge_ok": 0.9956,
+      "attested": false,
+      "orch_attest_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.027852Z"
+    },
+    {
+      "hatt_id": "p73-7373-hatt-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "hedge_ok": 0.9956,
+      "attested": false,
+      "orch_attest_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.032930Z"
+    },
+    {
+      "hatt_id": "p73-7373-hatt-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "hedge_ok": 0.9956,
+      "attested": false,
+      "orch_attest_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.037492Z"
+    }
+  ],
+  "cross_venue_attest_certifications": [
+    {
+      "xvac_id": "p73-7373-xvac-000000",
+      "cycle": 0,
+      "attested": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.005004Z"
+    },
+    {
+      "xvac_id": "p73-7373-xvac-000006",
+      "cycle": 6,
+      "attested": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.007939Z"
+    },
+    {
+      "xvac_id": "p73-7373-xvac-000012",
+      "cycle": 12,
+      "attested": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.014156Z"
+    },
+    {
+      "xvac_id": "p73-7373-xvac-000018",
+      "cycle": 18,
+      "attested": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.020387Z"
+    },
+    {
+      "xvac_id": "p73-7373-xvac-000024",
+      "cycle": 24,
+      "attested": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.026688Z"
+    },
+    {
+      "xvac_id": "p73-7373-xvac-000030",
+      "cycle": 30,
+      "attested": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.034684Z"
+    },
+    {
+      "xvac_id": "p73-7373-xvac-000036",
+      "cycle": 36,
+      "attested": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:53:38.040994Z"
+    }
+  ]
+}
