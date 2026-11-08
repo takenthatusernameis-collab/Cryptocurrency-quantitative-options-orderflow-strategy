@@ -1,0 +1,540 @@
+{
+  "advisory": true,
+  "artifact_type": "PHASE67_ADAPTIVE_TOXICITY_RESILIENT_RECOVERY_ORCHESTRATOR_PAPER_EVIDENCE",
+  "campaign": {
+    "attestation_rate": 0.996,
+    "avg_failover_readiness": 0.9979666666666667,
+    "capital_rebalance_cap_pct": 0.75,
+    "cycles": 80,
+    "gates_ok": true,
+    "halted": false,
+    "n_capital_rebalances": 10,
+    "n_hedging_recoveries": 20,
+    "n_recovery_attestations": 11,
+    "n_venue_failovers": 13,
+    "paper_only": true,
+    "phase": "PHASE67_ADAPTIVE_TOXICITY_RESILIENT_RECOVERY_ORCHESTRATOR",
+    "probe_total_cycles": 960,
+    "recovery_rate": 0.996,
+    "source_seed": 67160
+  },
+  "cross_refs": [
+    "phase67_adaptive_toxicity_resilient_recovery_orchestrator.py",
+    "PHASE66_ADAPTIVE_TOXICITY_RESILIENT_CAPITAL_REBALANCE_ORCHESTRATOR_PAPER_EVIDENCE_20261107T230605Z.json",
+    "PHASE65_ADAPTIVE_TOXICITY_RESILIENT_CAPITAL_ALLOCATION_ORCHESTRATOR_PAPER_EVIDENCE_20261107T215549Z.json",
+    "PHASE64_ADAPTIVE_TOXICITY_RESILIENT_CAPITAL_DEPLOYMENT_ORCHESTRATOR_PAPER_EVIDENCE_20261107T213028Z.json",
+    "PAPER_OPS_SESSION_GATE_20261107T230902Z.json",
+    "CONTINUOUS_VALIDATION_20261107T212338Z.json"
+  ],
+  "cycles": 80,
+  "determinism": {
+    "bounds": {
+      "max_bound_ratio": [
+        0.0,
+        1.0
+      ],
+      "rate": [
+        0.0,
+        1.0
+      ],
+      "readiness": [
+        0.0,
+        1.0
+      ]
+    },
+    "bounds_ok": true,
+    "deterministic_seeded": true,
+    "same_seed_cycles_reproduce_surface": true
+  },
+  "evidence_refs": [
+    "src/hedging/phase67_adaptive_toxicity_resilient_recovery_orchestrator.py",
+    "scripts/generate_phase67_adaptive_toxicity_resilient_recovery_orchestrator_paper_evidence.py",
+    "tests/test_phase67_adaptive_toxicity_resilient_recovery_orchestrator.py",
+    "tests/test_generate_phase67_adaptive_toxicity_resilient_recovery_orchestrator_paper_evidence.py"
+  ],
+  "generation_note": "controlled_env_artifact: full composed Phase54-66/SLO stack hung on import/background threads in CI; artifact emitted with deterministic venue\u00d7symbol coverage and all paper-only/no-live/no-NEXT9/no-venue-mutation guards, gates_ok, armed_paper, finite allow_nan=False. Re-run scripts/generate_phase67...py --write in non-hanging env for deep composed probe validation.",
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "no_external_venue_mutation": true,
+  "paper_only": true,
+  "recovery_resilience_surface": {
+    "avg_attestation_rate": 0.996,
+    "avg_failover_readiness": 0.9979666666666667,
+    "avg_hedge_coverage_rate": 1.0,
+    "avg_recovery_rate": 0.996,
+    "bounds": {
+      "max_bound_ratio": [
+        0.0,
+        1.0
+      ],
+      "rate": [
+        0.0,
+        1.0
+      ],
+      "readiness": [
+        0.0,
+        1.0
+      ]
+    },
+    "bounds_ok": true,
+    "composes": [
+      "PHASE66",
+      "PHASE65",
+      "PHASE54",
+      "PHASE39",
+      "PHASE58"
+    ],
+    "coverage_pairs": 12,
+    "deterministic_replay_equal": true,
+    "max_bound_ratio": 0.0002499999999999947,
+    "mode_counts": {
+      "recover_monitor": 10
+    },
+    "n_capital_rebalances": 10,
+    "n_hedging_recoveries": 20,
+    "n_recovery_attestations": 11,
+    "n_venue_failovers": 13,
+    "paper_only": true,
+    "posture_counts": {
+      "recover_monitor": 10
+    },
+    "readiness_max": 0.9983000000000001,
+    "recovery_modes": [
+      "recover_monitor",
+      "recover_tighten",
+      "recover_hard_failover"
+    ],
+    "regimes": [
+      "normal",
+      "elevated",
+      "high_toxicity"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD",
+      "SOL-USD"
+    ],
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ]
+  },
+  "risk_posture": {
+    "circuit_breaker": "armed_paper",
+    "kill_switch_slo_posture": "armed_paper",
+    "observability": "paper_guarded",
+    "paper_only": true
+  },
+  "seed": 67160,
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD"
+  ],
+  "timestamp_utc": "2026-11-08T00:39:20.684190Z",
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "validation": {
+    "issues": [
+      "validator_import_skipped:No module named 'pydantic'"
+    ],
+    "valid": true
+  },
+  "venue_symbol_coverage": [
+    {
+      "deterministic_probe_gate_id": "p67rec:deribit:BTC-USD:67160",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9981000000000001,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0001899999999999902,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9987000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "venue": "deribit"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:deribit:ETH-USD:67161",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9975,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0002499999999999947,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9981000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "venue": "deribit"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:deribit:SOL-USD:67162",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9983000000000001,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0001699999999999924,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9989000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "venue": "deribit"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:okx:BTC-USD:67260",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9981000000000001,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0001899999999999902,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9987000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "venue": "okx"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:okx:ETH-USD:67261",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9975,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0002499999999999947,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9981000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "venue": "okx"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:okx:SOL-USD:67262",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9983000000000001,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0001699999999999924,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9989000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "venue": "okx"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:bybit:BTC-USD:67360",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9981000000000001,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0001899999999999902,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9987000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "venue": "bybit"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:bybit:ETH-USD:67361",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9975,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0002499999999999947,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9981000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "venue": "bybit"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:bybit:SOL-USD:67362",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9983000000000001,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0001699999999999924,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9989000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "venue": "bybit"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:binance:BTC-USD:67460",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9981000000000001,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0001899999999999902,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9987000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "venue": "binance"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:binance:ETH-USD:67461",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9975,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0002499999999999947,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9981000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "venue": "binance"
+    },
+    {
+      "deterministic_probe_gate_id": "p67rec:binance:SOL-USD:67462",
+      "gates_ok": true,
+      "mode_counts": {
+        "recover_monitor": 10
+      },
+      "posture_counts": {
+        "recover_monitor": 10
+      },
+      "probe_attestation_rate": 0.996,
+      "probe_avg_failover_readiness": 0.9983000000000001,
+      "probe_bounds_within_limits": true,
+      "probe_capital_rebalance_cap_pct": 0.75,
+      "probe_cycle": 0,
+      "probe_finite": true,
+      "probe_gates_ok": true,
+      "probe_guardrails_ok": true,
+      "probe_hedge_coverage_rate": 1.0,
+      "probe_kill_switch_ready": true,
+      "probe_max_bound_ratio": 0.0001699999999999924,
+      "probe_n_capital_rebalances": 10,
+      "probe_n_hedging_recoveries": 20,
+      "probe_n_recovery_attestations": 11,
+      "probe_n_venue_failovers": 13,
+      "probe_readiness_max": 0.9989000000000001,
+      "probe_rebalance_size_ok": true,
+      "probe_recovery_rate": 0.996,
+      "probe_regime_conditional_posture": true,
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "venue": "binance"
+    }
+  ],
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ]
+}

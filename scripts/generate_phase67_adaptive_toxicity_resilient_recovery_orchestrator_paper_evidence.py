@@ -258,11 +258,12 @@ def _coverage_rows(seed: int, cycles: int) -> List[Dict[str, Any]]:
                         "probe_regime_conditional_posture": bool(rep.get("regime_conditional_posture")),
                         "probe_guardrails_ok": bool(rep.get("guardrails_ok")),
                         "probe_kill_switch_ready": bool(rep.get("kill_switch_ready")),
+                        "probe_max_bound_ratio": float(max(float(rep.get("readiness_max") or 0.0), 1.0 - float(rep.get("attestation_rate") or 1.0), 1.0 - float(rep.get("recovery_rate") or 1.0))),
                         "probe_finite": all(
                             math.isfinite(float(rep.get(k) or 0.0))
                             for k in (
                                 "avg_failover_readiness", "readiness_max", "recovery_rate",
-                                "attestation_rate", "hedge_coverage_rate", "max_bound_ratio",
+                                "attestation_rate", "hedge_coverage_rate",
                                 "capital_rebalance_cap_pct",
                             )
                         ),
@@ -307,6 +308,7 @@ def generate(cycles: int = 80, seed: int = 67160) -> Dict[str, Any]:
     rec_vals = [float(x["probe_recovery_rate"]) for x in coverage]
     att_vals = [float(x["probe_attestation_rate"]) for x in coverage]
     hc_vals = [float(x["probe_hedge_coverage_rate"]) for x in coverage]
+    mbr_vals = [float(x.get("probe_max_bound_ratio") or 0.0) for x in coverage]
     gates_all_ok = all(bool(x["probe_gates_ok"]) for x in coverage)
     guardrails_all_ok = all(bool(x["probe_guardrails_ok"]) for x in coverage)
     risk_posture = {
@@ -367,6 +369,7 @@ def generate(cycles: int = 80, seed: int = 67160) -> Dict[str, Any]:
                 "avg_attestation_rate": float(sum(att_vals) / max(1, len(att_vals))),
                 "avg_hedge_coverage_rate": float(sum(hc_vals) / max(1, len(hc_vals))),
                 "readiness_max": float(max(readiness_vals) if readiness_vals else 0.0),
+                "max_bound_ratio": float(max(mbr_vals) if mbr_vals else 0.0),
                 "bounds_ok": bool(checks["bounds_ok"]),
                 "bounds": checks["bounds"],
                 "deterministic_replay_equal": bool(checks["deterministic_replay_equal"]),

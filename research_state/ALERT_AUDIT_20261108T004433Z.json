@@ -1,0 +1,206 @@
+{
+  "audit": {
+    "num_alerts": 1,
+    "num_unacknowledged": 1,
+    "num_unresolved": 1,
+    "num_rules": 10,
+    "num_channels": 4,
+    "dry_run": false,
+    "alerts": [
+      {
+        "alert_id": "alert_0acd0b4e4925",
+        "rule_id": "r_drawdown_pct",
+        "rule_name": "Drawdown Pct",
+        "severity": "warning",
+        "metric": "drawdown_pct",
+        "current_value": 0.12,
+        "threshold": 0.1,
+        "message": "Drawdown Pct: drawdown_pct=0.12 breached warning threshold",
+        "timestamp": "2026-11-08T00:44:32.674163+00:00",
+        "acknowledged": false,
+        "resolved": false,
+        "resolved_at": null,
+        "labels": {
+          "symbol": "BTC"
+        },
+        "channel_results": {
+          "log": {
+            "channel": "log",
+            "dry_run": false,
+            "sent": true,
+            "timestamp": "2026-11-08T00:44:32.674175+00:00"
+          },
+          "webhook": {
+            "channel": "webhook",
+            "url": "http://localhost:8080/alerts",
+            "dry_run": false,
+            "sent": true,
+            "timestamp": "2026-11-08T00:44:32.674239+00:00",
+            "status_code": 200
+          }
+        }
+      }
+    ],
+    "rules": [
+      {
+        "rule_id": "r_drawdown_pct",
+        "name": "Drawdown Pct",
+        "metric": "drawdown_pct",
+        "condition": "gte",
+        "warning_threshold": 0.1,
+        "critical_threshold": 0.15,
+        "severity": "warning",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      },
+      {
+        "rule_id": "r_daily_loss",
+        "name": "Daily Loss",
+        "metric": "daily_loss",
+        "condition": "gte",
+        "warning_threshold": 25000.0,
+        "critical_threshold": 50000.0,
+        "severity": "warning",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      },
+      {
+        "rule_id": "r_delta_util",
+        "name": "Delta Utilization",
+        "metric": "delta_utilization",
+        "condition": "gte",
+        "warning_threshold": 0.8,
+        "critical_threshold": 0.95,
+        "severity": "warning",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      },
+      {
+        "rule_id": "r_gamma_util",
+        "name": "Gamma Utilization",
+        "metric": "gamma_utilization",
+        "condition": "gte",
+        "warning_threshold": 0.8,
+        "critical_threshold": 0.95,
+        "severity": "warning",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      },
+      {
+        "rule_id": "r_vega_util",
+        "name": "Vega Utilization",
+        "metric": "vega_utilization",
+        "condition": "gte",
+        "warning_threshold": 0.8,
+        "critical_threshold": 0.95,
+        "severity": "warning",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      },
+      {
+        "rule_id": "r_heat",
+        "name": "Heat",
+        "metric": "heat",
+        "condition": "gte",
+        "warning_threshold": 0.6,
+        "critical_threshold": 0.8,
+        "severity": "warning",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      },
+      {
+        "rule_id": "r_var_95",
+        "name": "VaR 95%",
+        "metric": "var_95",
+        "condition": "gte",
+        "warning_threshold": 0.05,
+        "critical_threshold": 0.1,
+        "severity": "warning",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      },
+      {
+        "rule_id": "r_order_latency",
+        "name": "Order Latency",
+        "metric": "order_latency_ms",
+        "condition": "gte",
+        "warning_threshold": 500.0,
+        "critical_threshold": 2000.0,
+        "severity": "error",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      },
+      {
+        "rule_id": "r_fill_rate",
+        "name": "Fill Rate",
+        "metric": "fill_rate",
+        "condition": "lte",
+        "warning_threshold": 0.9,
+        "critical_threshold": 0.7,
+        "severity": "warning",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      },
+      {
+        "rule_id": "r_reconciliation",
+        "name": "Reconciliation Mismatch",
+        "metric": "reconciliation_mismatch",
+        "condition": "eq",
+        "warning_threshold": 1.0,
+        "critical_threshold": 5.0,
+        "severity": "error",
+        "enabled": true,
+        "min_duration_sec": 0.0,
+        "labels": {}
+      }
+    ],
+    "audit": [
+      {
+        "action": "alert_fired",
+        "alert_id": "alert_0acd0b4e4925",
+        "rule_id": "r_drawdown_pct",
+        "severity": "warning",
+        "metric": "drawdown_pct",
+        "timestamp": "2026-11-08T00:44:32.674163+00:00"
+      },
+      {
+        "action": "alert_dispatched",
+        "alert_id": "alert_0acd0b4e4925",
+        "channels": [
+          "log",
+          "webhook"
+        ],
+        "results": {
+          "log": {
+            "channel": "log",
+            "dry_run": false,
+            "sent": true,
+            "timestamp": "2026-11-08T00:44:32.674175+00:00"
+          },
+          "webhook": {
+            "channel": "webhook",
+            "url": "http://localhost:8080/alerts",
+            "dry_run": false,
+            "sent": true,
+            "timestamp": "2026-11-08T00:44:32.674239+00:00",
+            "status_code": 200
+          }
+        },
+        "timestamp": "2026-11-08T00:44:32.674280+00:00"
+      }
+    ],
+    "escalation_history": [],
+    "timestamp": "2026-11-08T00:44:33.827304+00:00"
+  },
+  "campaign": "continuous_validation_and_monitoring",
+  "iterations": 5
+}
