@@ -3,7 +3,7 @@
 **Repo (priority lens):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work remains paper-only.**
 
 **Branch:** `main` | **Workspace:** `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
-**Durable handoff refreshed (UTC):** **2026-11-08T10:44:40Z** (this session).
+**Durable handoff refreshed (UTC):** **2026-11-08T10:48:15Z** (this session).
 **P0 re-verified (no live enablement):** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**. `LIVE_TRADING_ENABLED=false` confirmed at `.env.example:15` and `src/config/secrets.py:69`. **No live capital. No venue mutation. No NEXT9 unblock.**
 
 ---
