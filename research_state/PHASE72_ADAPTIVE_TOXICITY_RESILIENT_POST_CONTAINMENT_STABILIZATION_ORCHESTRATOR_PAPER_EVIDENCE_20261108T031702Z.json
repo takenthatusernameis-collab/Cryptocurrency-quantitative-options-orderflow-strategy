@@ -1,0 +1,306 @@
+{
+  "artifact_type": "PHASE72_ADAPTIVE_TOXICITY_RESILIENT_POST_CONTAINMENT_STABILIZATION_ORCHESTRATOR_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-08T03:17:02.422788Z",
+  "seed": 72072,
+  "cycles": 40,
+  "paper_only": true,
+  "advisory": true,
+  "no_external_venue_mutation": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "campaign": {
+    "phase": "PHASE72_ADAPTIVE_TOXICITY_RESILIENT_POST_CONTAINMENT_STABILIZATION_ORCHESTRATOR",
+    "paper_only": true,
+    "cycles": 40,
+    "gates_ok": true,
+    "n_venue_stabilizations": 6,
+    "n_capital_stabilizations": 5,
+    "n_hedging_stabilizations": 8,
+    "n_stabilization_cert_attestations": 7,
+    "avg_quarantine_release_ok": 0.996438733,
+    "stabilization_pass_rate": 0.0,
+    "composes": [
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE58",
+      "PHASE54",
+      "PHASE39",
+      "PHASE32"
+    ]
+  },
+  "stabilization_surface": {
+    "paper_only": true,
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD",
+      "SOL-USD"
+    ],
+    "regimes": [
+      "normal",
+      "elevated",
+      "high_toxicity"
+    ],
+    "stabilization_modes": [
+      "stabilize_monitor",
+      "stabilize_quarantine_release",
+      "stabilize_hedge_reinforce"
+    ],
+    "n_venue_stabilizations": 6,
+    "n_capital_stabilizations": 5,
+    "n_hedging_stabilizations": 8,
+    "n_stabilization_cert_attestations": 7,
+    "avg_quarantine_release_ok": 0.996438733,
+    "ok_max": 1.0,
+    "stabilization_pass_rate": 0.0,
+    "bounds_ok": true,
+    "deterministic_replay_equal": true,
+    "max_bound_ratio": 1.0
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "elevated",
+      "stabilization_mode": "stabilize_monitor",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_deribit_BTC-USD_72072"
+    },
+    {
+      "venue": "deribit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "elevated",
+      "stabilization_mode": "stabilize_monitor",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_deribit_ETH-USD_72072"
+    },
+    {
+      "venue": "deribit",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "stabilization_mode": "stabilize_quarantine_release",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_deribit_SOL-USD_72072"
+    },
+    {
+      "venue": "okx",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "normal",
+      "stabilization_mode": "stabilize_monitor",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_okx_BTC-USD_72072"
+    },
+    {
+      "venue": "okx",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "stabilization_mode": "stabilize_monitor",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_okx_ETH-USD_72072"
+    },
+    {
+      "venue": "okx",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "normal",
+      "stabilization_mode": "stabilize_hedge_reinforce",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_okx_SOL-USD_72072"
+    },
+    {
+      "venue": "bybit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "elevated",
+      "stabilization_mode": "stabilize_quarantine_release",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_bybit_BTC-USD_72072"
+    },
+    {
+      "venue": "bybit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "elevated",
+      "stabilization_mode": "stabilize_quarantine_release",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_bybit_ETH-USD_72072"
+    },
+    {
+      "venue": "bybit",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "elevated",
+      "stabilization_mode": "stabilize_quarantine_release",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_bybit_SOL-USD_72072"
+    },
+    {
+      "venue": "binance",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "normal",
+      "stabilization_mode": "stabilize_hedge_reinforce",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_binance_BTC-USD_72072"
+    },
+    {
+      "venue": "binance",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "stabilization_mode": "stabilize_monitor",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_binance_ETH-USD_72072"
+    },
+    {
+      "venue": "binance",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "normal",
+      "stabilization_mode": "stabilize_hedge_reinforce",
+      "probe_quarantine_release_ok": 0.996906,
+      "probe_stabilization_pass_rate": 0.0,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p72_binance_SOL-USD_72072"
+    }
+  ],
+  "risk_posture": {
+    "paper_only": true,
+    "next9_unblocked": false,
+    "live_trading_enabled": false,
+    "kill_switch_slo_posture": "armed_paper",
+    "all_coverage_gates_ok": true
+  },
+  "evidence_refs": [
+    "src/hedging/phase72_adaptive_toxicity_resilient_post_containment_stabilization_orchestrator.py",
+    "scripts/generate_phase72_adaptive_toxicity_resilient_post_containment_stabilization_orchestrator_paper_evidence.py",
+    "tests/test_phase72_adaptive_toxicity_resilient_post_containment_stabilization_orchestrator.py",
+    "PHASE71_ADAPTIVE_TOXICITY_RESILIENT_CONTAINMENT_CERTIFICATION_ORCHESTRATOR_PAPER_EVIDENCE_20261108T030328Z.json",
+    "PHASE70_ADAPTIVE_TOXICITY_RESILIENT_RECOVERY_REINFORCEMENT_ORCHESTRATOR_PAPER_EVIDENCE_20261108T025655Z.json",
+    "PAPER_OPS_SESSION_GATE_20261108T024918Z.json",
+    "CONTINUOUS_VALIDATION_20261108T024910Z.json"
+  ],
+  "cross_refs": [
+    "Phase72AdaptiveToxicityResilientPostContainmentStabilizationOrchestrator",
+    "Phase71AdaptiveToxicityResilientContainmentCertificationOrchestrator",
+    "Phase70AdaptiveToxicityResilientRecoveryReinforcementOrchestrator",
+    "Phase69AdaptiveToxicityResilientSelfHealingOrchestrator",
+    "Phase54RealtimeRiskFusionEngine",
+    "Phase39KillSwitchesCircuitBreakers",
+    "Phase58FlowToxicityMitigator",
+    "composes=PHASE71,PHASE70,PHASE69,PHASE58,PHASE54,PHASE39,PHASE32"
+  ],
+  "determinism": {
+    "deterministic_seeded": true,
+    "same_seed_cycles_reproduce_surface": true,
+    "bounds_ok": true,
+    "bounds": {
+      "avg_quarantine_release_ok_in_0_1": true,
+      "stabilization_pass_rate_in_0_1": true,
+      "n_venue_stabilizations_positive": true,
+      "n_hedging_stabilizations_positive": true,
+      "finite_metrics": true
+    }
+  },
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}

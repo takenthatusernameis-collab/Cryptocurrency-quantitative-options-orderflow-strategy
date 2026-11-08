@@ -1,0 +1,267 @@
+{
+  "report": {
+    "phase": "PHASE72_ADAPTIVE_TOXICITY_RESILIENT_POST_CONTAINMENT_STABILIZATION_ORCHESTRATOR",
+    "timestamp": "2026-11-08T03:16:55.085430Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7272,
+    "cycles": 40,
+    "n_venue_stabilizations": 6,
+    "n_capital_stabilizations": 5,
+    "n_hedging_stabilizations": 8,
+    "n_stabilization_cert_attestations": 7,
+    "avg_quarantine_release_ok": 0.996438733,
+    "avg_containment_certification_pass_rate": 0.99,
+    "stabilization_pass_rate": 0.0,
+    "composes": [
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE58",
+      "PHASE54",
+      "PHASE39",
+      "PHASE32"
+    ]
+  },
+  "venue_stabilizations": [
+    {
+      "vstab_id": "p72-7272-vstab-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "quarantine_release_ok": 0.997812,
+      "action": "venue_stabilize_post_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.043957Z"
+    },
+    {
+      "vstab_id": "p72-7272-vstab-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "quarantine_release_ok": 0.996,
+      "action": "venue_stabilize_post_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.051733Z"
+    },
+    {
+      "vstab_id": "p72-7272-vstab-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "quarantine_release_ok": 0.996,
+      "action": "venue_stabilize_post_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.058350Z"
+    },
+    {
+      "vstab_id": "p72-7272-vstab-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "quarantine_release_ok": 0.9964368,
+      "action": "venue_stabilize_post_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.066476Z"
+    },
+    {
+      "vstab_id": "p72-7272-vstab-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "quarantine_release_ok": 0.9963836,
+      "action": "venue_stabilize_post_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.072766Z"
+    },
+    {
+      "vstab_id": "p72-7272-vstab-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "quarantine_release_ok": 0.996,
+      "action": "venue_stabilize_post_containment",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.079109Z"
+    }
+  ],
+  "capital_stabilizations": [
+    {
+      "scap_id": "p72-7272-scap-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.52992,
+      "action": "capital_stabilize_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.055174Z"
+    },
+    {
+      "scap_id": "p72-7272-scap-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.50848,
+      "action": "capital_stabilize_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.061729Z"
+    },
+    {
+      "scap_id": "p72-7272-scap-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.4266,
+      "action": "capital_stabilize_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.068040Z"
+    },
+    {
+      "scap_id": "p72-7272-scap-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.40516,
+      "action": "capital_stabilize_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.074369Z"
+    },
+    {
+      "scap_id": "p72-7272-scap-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.56572,
+      "action": "capital_stabilize_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.082471Z"
+    }
+  ],
+  "hedging_stabilizations": [
+    {
+      "hstab_id": "p72-7272-hstab-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.9976032,
+      "stabilized": false,
+      "orch_stabilize_throttle_factor": 0.46,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.045619Z"
+    },
+    {
+      "hstab_id": "p72-7272-hstab-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "hedge_ok": 0.9961314,
+      "stabilized": false,
+      "orch_stabilize_throttle_factor": 0.2116,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.048620Z"
+    },
+    {
+      "hstab_id": "p72-7272-hstab-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "hedge_ok": 0.9955,
+      "stabilized": false,
+      "orch_stabilize_throttle_factor": 0.143888,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.053418Z"
+    },
+    {
+      "hstab_id": "p72-7272-hstab-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "hedge_ok": 0.9955,
+      "stabilized": false,
+      "orch_stabilize_throttle_factor": 0.143888,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.059937Z"
+    },
+    {
+      "hstab_id": "p72-7272-hstab-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "hedge_ok": 0.99638484,
+      "stabilized": false,
+      "orch_stabilize_throttle_factor": 0.2116,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.064695Z"
+    },
+    {
+      "hstab_id": "p72-7272-hstab-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "hedge_ok": 0.9955,
+      "stabilized": false,
+      "orch_stabilize_throttle_factor": 0.143888,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.070990Z"
+    },
+    {
+      "hstab_id": "p72-7272-hstab-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "hedge_ok": 0.9955,
+      "stabilized": false,
+      "orch_stabilize_throttle_factor": 0.2116,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.076123Z"
+    },
+    {
+      "hstab_id": "p72-7272-hstab-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "hedge_ok": 0.9955,
+      "stabilized": false,
+      "orch_stabilize_throttle_factor": 0.143888,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.080691Z"
+    }
+  ],
+  "stabilization_cert_attestations": [
+    {
+      "sta_id": "p72-7272-sta-000000",
+      "cycle": 0,
+      "stabilized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.047419Z"
+    },
+    {
+      "sta_id": "p72-7272-sta-000006",
+      "cycle": 6,
+      "stabilized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.050426Z"
+    },
+    {
+      "sta_id": "p72-7272-sta-000012",
+      "cycle": 12,
+      "stabilized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.057067Z"
+    },
+    {
+      "sta_id": "p72-7272-sta-000018",
+      "cycle": 18,
+      "stabilized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.063512Z"
+    },
+    {
+      "sta_id": "p72-7272-sta-000024",
+      "cycle": 24,
+      "stabilized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.069811Z"
+    },
+    {
+      "sta_id": "p72-7272-sta-000030",
+      "cycle": 30,
+      "stabilized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.077903Z"
+    },
+    {
+      "sta_id": "p72-7272-sta-000036",
+      "cycle": 36,
+      "stabilized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T03:16:55.084231Z"
+    }
+  ]
+}
