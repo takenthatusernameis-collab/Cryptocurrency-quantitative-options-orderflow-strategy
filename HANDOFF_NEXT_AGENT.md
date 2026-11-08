@@ -48,7 +48,7 @@
 
 | Bottleneck | Status | Action (unblock) |
 |---|---|---|
-| Phase108 not implemented | **OPEN — mandatory heavy** | Execute `INIT-20261108T184351Z-PHASE108-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end. |
+| Phase108 implemented (mirrored Phase107; smoke paper_only True gates_ok True composes [PHASE107,PHASE32]) | **OPEN — mandatory heavy** | Execute `INIT-20261108T184351Z-PHASE108-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end. |
 | Composed-chain generator pytest runtime | **KNOWN, mitigated** | Use `PHASE_QUICK_VERIFY=1`, targeted runs, adequate timeout; fall back to controlled `generate`+`validate_artifact`/artifact validation for any timed-out case and **record explicit caveat**. |
 | P0 safety drift | **CLEAR** | Re-verify before/after every change batch. |
 | Chain A/B naming confusion (both have Phase107) | **MITIGATED** | Phase108 task is **Chain B `src/hedging` only**. |
