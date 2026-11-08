@@ -1,0 +1,269 @@
+{
+  "report": {
+    "phase": "PHASE74_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTESTATION_RECONCILIATION_FINALITY_ORCHESTRATOR",
+    "timestamp": "2026-11-08T04:01:02.125147Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7474,
+    "cycles": 40,
+    "n_venue_reconciliations": 6,
+    "n_capital_reconciliations": 5,
+    "n_hedging_reconciliations": 8,
+    "n_reconciliation_finality_certifications": 7,
+    "avg_cross_venue_ok": 0.996249725,
+    "avg_attestation_pass_rate": 0.99,
+    "finality_pass_rate": 0.0,
+    "composes": [
+      "PHASE73",
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE58",
+      "PHASE54",
+      "PHASE39",
+      "PHASE32"
+    ]
+  },
+  "venue_reconciliations": [
+    {
+      "vrec_id": "p74-7474-vrec-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "cross_venue_ok": 0.997623,
+      "action": "cross_venue_reconcile_post_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.042994Z"
+    },
+    {
+      "vrec_id": "p74-7474-vrec-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "cross_venue_ok": 0.9959,
+      "action": "cross_venue_reconcile_post_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.069471Z"
+    },
+    {
+      "vrec_id": "p74-7474-vrec-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "cross_venue_ok": 0.9959,
+      "action": "cross_venue_reconcile_post_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.079755Z"
+    },
+    {
+      "vrec_id": "p74-7474-vrec-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "cross_venue_ok": 0.9961127,
+      "action": "cross_venue_reconcile_post_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.092844Z"
+    },
+    {
+      "vrec_id": "p74-7474-vrec-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "cross_venue_ok": 0.99606265,
+      "action": "cross_venue_reconcile_post_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.103172Z"
+    },
+    {
+      "vrec_id": "p74-7474-vrec-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "cross_venue_ok": 0.9959,
+      "action": "cross_venue_reconcile_post_attestation",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.114327Z"
+    }
+  ],
+  "capital_reconciliations": [
+    {
+      "crec_id": "p74-7474-crec-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.5268,
+      "action": "capital_reconcile_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.074980Z"
+    },
+    {
+      "crec_id": "p74-7474-crec-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.5047,
+      "action": "capital_reconcile_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.085372Z"
+    },
+    {
+      "crec_id": "p74-7474-crec-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.42425,
+      "action": "capital_reconcile_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.095546Z"
+    },
+    {
+      "crec_id": "p74-7474-crec-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.40215,
+      "action": "capital_reconcile_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.106200Z"
+    },
+    {
+      "crec_id": "p74-7474-crec-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.56205,
+      "action": "capital_reconcile_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.120055Z"
+    }
+  ],
+  "hedging_reconciliations": [
+    {
+      "hrec_id": "p74-7474-hrec-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.997623,
+      "finalized": false,
+      "orch_finality_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.049089Z"
+    },
+    {
+      "hrec_id": "p74-7474-hrec-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "hedge_ok": 0.99615725,
+      "finalized": false,
+      "orch_finality_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.060832Z"
+    },
+    {
+      "hrec_id": "p74-7474-hrec-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_finality_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.072002Z"
+    },
+    {
+      "hrec_id": "p74-7474-hrec-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_finality_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.082687Z"
+    },
+    {
+      "hrec_id": "p74-7474-hrec-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "hedge_ok": 0.99640585,
+      "finalized": false,
+      "orch_finality_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.089967Z"
+    },
+    {
+      "hrec_id": "p74-7474-hrec-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_finality_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.100602Z"
+    },
+    {
+      "hrec_id": "p74-7474-hrec-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_finality_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.109144Z"
+    },
+    {
+      "hrec_id": "p74-7474-hrec-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_finality_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.116846Z"
+    }
+  ],
+  "reconciliation_finality_certifications": [
+    {
+      "rfin_id": "p74-7474-rfin-000000",
+      "cycle": 0,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.055579Z"
+    },
+    {
+      "rfin_id": "p74-7474-rfin-000006",
+      "cycle": 6,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.067196Z"
+    },
+    {
+      "rfin_id": "p74-7474-rfin-000012",
+      "cycle": 12,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.077896Z"
+    },
+    {
+      "rfin_id": "p74-7474-rfin-000018",
+      "cycle": 18,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.088209Z"
+    },
+    {
+      "rfin_id": "p74-7474-rfin-000024",
+      "cycle": 24,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.098423Z"
+    },
+    {
+      "rfin_id": "p74-7474-rfin-000030",
+      "cycle": 30,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.112274Z"
+    },
+    {
+      "rfin_id": "p74-7474-rfin-000036",
+      "cycle": 36,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:01:02.122867Z"
+    }
+  ]
+}
