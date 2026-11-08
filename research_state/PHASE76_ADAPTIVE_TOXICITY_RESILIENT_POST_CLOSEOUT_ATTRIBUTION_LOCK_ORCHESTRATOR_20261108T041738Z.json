@@ -1,0 +1,271 @@
+{
+  "report": {
+    "phase": "PHASE76_ADAPTIVE_TOXICITY_RESILIENT_POST_CLOSEOUT_ATTRIBUTION_LOCK_ORCHESTRATOR",
+    "timestamp": "2026-11-08T04:17:38.160705Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7676,
+    "cycles": 40,
+    "n_venue_locks": 6,
+    "n_attribution_locks": 5,
+    "n_hedging_locks": 8,
+    "n_attribution_lock_certifications": 7,
+    "avg_cross_venue_ok": 0.996249725,
+    "avg_closeout_pass_rate": 0.99,
+    "lock_pass_rate": 0.0,
+    "composes": [
+      "PHASE75",
+      "PHASE74",
+      "PHASE73",
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE58",
+      "PHASE54",
+      "PHASE39",
+      "PHASE32"
+    ]
+  },
+  "venue_locks": [
+    {
+      "vlock_id": "p76-7676-vlock-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "cross_venue_ok": 0.997623,
+      "action": "cross_venue_lock_post_closeout",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.120140Z"
+    },
+    {
+      "vlock_id": "p76-7676-vlock-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "cross_venue_ok": 0.9959,
+      "action": "cross_venue_lock_post_closeout",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.127771Z"
+    },
+    {
+      "vlock_id": "p76-7676-vlock-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "cross_venue_ok": 0.9959,
+      "action": "cross_venue_lock_post_closeout",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.134051Z"
+    },
+    {
+      "vlock_id": "p76-7676-vlock-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "cross_venue_ok": 0.9961127,
+      "action": "cross_venue_lock_post_closeout",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.142040Z"
+    },
+    {
+      "vlock_id": "p76-7676-vlock-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "cross_venue_ok": 0.99606265,
+      "action": "cross_venue_lock_post_closeout",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.148333Z"
+    },
+    {
+      "vlock_id": "p76-7676-vlock-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "cross_venue_ok": 0.9959,
+      "action": "cross_venue_lock_post_closeout",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.154534Z"
+    }
+  ],
+  "attribution_locks": [
+    {
+      "alock_id": "p76-7676-alock-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.5268,
+      "action": "attribution_lock_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.131097Z"
+    },
+    {
+      "alock_id": "p76-7676-alock-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.5047,
+      "action": "attribution_lock_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.137381Z"
+    },
+    {
+      "alock_id": "p76-7676-alock-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.42425,
+      "action": "attribution_lock_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.143644Z"
+    },
+    {
+      "alock_id": "p76-7676-alock-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.40215,
+      "action": "attribution_lock_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.149900Z"
+    },
+    {
+      "alock_id": "p76-7676-alock-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.56205,
+      "action": "attribution_lock_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.157813Z"
+    }
+  ],
+  "hedging_locks": [
+    {
+      "hlock_id": "p76-7676-hlock-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.997623,
+      "locked": false,
+      "orch_lock_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.121788Z"
+    },
+    {
+      "hlock_id": "p76-7676-hlock-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "hedge_ok": 0.99615725,
+      "locked": false,
+      "orch_lock_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.124786Z"
+    },
+    {
+      "hlock_id": "p76-7676-hlock-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "hedge_ok": 0.9957,
+      "locked": false,
+      "orch_lock_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.129374Z"
+    },
+    {
+      "hlock_id": "p76-7676-hlock-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "hedge_ok": 0.9957,
+      "locked": false,
+      "orch_lock_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.135613Z"
+    },
+    {
+      "hlock_id": "p76-7676-hlock-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "hedge_ok": 0.99640585,
+      "locked": false,
+      "orch_lock_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.140292Z"
+    },
+    {
+      "hlock_id": "p76-7676-hlock-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "hedge_ok": 0.9957,
+      "locked": false,
+      "orch_lock_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.146607Z"
+    },
+    {
+      "hlock_id": "p76-7676-hlock-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "hedge_ok": 0.9957,
+      "locked": false,
+      "orch_lock_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.151644Z"
+    },
+    {
+      "hlock_id": "p76-7676-hlock-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "hedge_ok": 0.9957,
+      "locked": false,
+      "orch_lock_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.156071Z"
+    }
+  ],
+  "attribution_lock_certifications": [
+    {
+      "acert_id": "p76-7676-acert-000000",
+      "cycle": 0,
+      "locked": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.123578Z"
+    },
+    {
+      "acert_id": "p76-7676-acert-000006",
+      "cycle": 6,
+      "locked": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.126604Z"
+    },
+    {
+      "acert_id": "p76-7676-acert-000012",
+      "cycle": 12,
+      "locked": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.132869Z"
+    },
+    {
+      "acert_id": "p76-7676-acert-000018",
+      "cycle": 18,
+      "locked": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.139112Z"
+    },
+    {
+      "acert_id": "p76-7676-acert-000024",
+      "cycle": 24,
+      "locked": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.145416Z"
+    },
+    {
+      "acert_id": "p76-7676-acert-000030",
+      "cycle": 30,
+      "locked": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.153361Z"
+    },
+    {
+      "acert_id": "p76-7676-acert-000036",
+      "cycle": 36,
+      "locked": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:17:38.159551Z"
+    }
+  ]
+}
