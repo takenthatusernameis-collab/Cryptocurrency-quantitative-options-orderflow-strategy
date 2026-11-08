@@ -1,11 +1,20 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — 2026-11-08T13:31:29Z (handoff maintenance, repo-priority: crypto options quantitative orderflow strategy):** P0 re-verified: `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**; `LIVE_TRADING_ENABLED=false` remains in effect (`.env.example`/`src/config/secrets.py`). **Chain B Phase97 COMPLETE** (valid paper evidence `research_state/PHASE97_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T125315Z.json`). **Chain B Phase98 adaptive post-attribution-seal artifacts/evidence do NOT exist yet** (re-confirmed 2026-11-08T13:31:29Z scan of `src/hedging`, `scripts`, `tests`, `research_state`; git tree clean). **NEXT SESSION MUST EXECUTE `INIT-20261108T132749Z-PHASE98-POST-ATTRIBUTION-SEAL-DEPTH` IN FULL — HEAVY, NON-OPTIONAL, PAPER-ONLY.** Doc-only work, partial completion, skipped verification, or chain substitution is prohibited as “progress” for this campaign. No live capital. No venue mutation. No NEXT9 unblock.
+> **READ FIRST — 2026-11-08T13:33:06Z (handoff maintenance, repo-priority: crypto options quantitative orderflow strategy):** P0 re-verified: `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**; `LIVE_TRADING_ENABLED=false` remains in effect (`.env.example`/`src/config/secrets.py`). **Chain B Phase97 COMPLETE** (valid paper evidence `research_state/PHASE97_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T125315Z.json`). **Chain B Phase98 adaptive post-attribution-seal artifacts/evidence do NOT exist yet** (re-confirmed 2026-11-08T13:33:06Z: `find . -path '*phase98*adaptive*post_attribution*seal*' -not -path '*/.git/*'` → empty). **NEXT SESSION MUST EXECUTE `INIT-20261108T132749Z-PHASE98-POST-ATTRIBUTION-SEAL-DEPTH` IN FULL — HEAVY, NON-OPTIONAL, PAPER-ONLY.** Doc-only work, partial completion, skipped verification, or chain substitution is prohibited as “progress” for this campaign. No live capital. No venue mutation. No NEXT9 unblock.
 
 **Repo (priority lens):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work remains paper-only.**
 
 **Branch:** `main` | **Workspace:** `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
-**Durable handoff refreshed (UTC):** **2026-11-08T13:31:29Z** — single durable handoff, timestamped initial task front-loaded. Phase97 **COMPLETE** (additive). Phase98 **PENDING — MANDATORY HEAVY EXECUTION NEXT**. Agent-removable bottlenecks addressed (P0 re-verified, chain clarified, Phase98 front-loaded with concrete DoD/commands/fallback). NEXT9 remains human-only and **does not gate paper-only depth**.
+**Durable handoff refreshed (UTC):** **2026-11-08T13:33:06Z** — single durable handoff. Phase97 **COMPLETE** (additive). Phase98 **PENDING — MANDATORY HEAVY EXECUTION NEXT**. Agent-removable bottlenecks addressed (P0 re-verified, chain clarified, concrete quick-start/fallback, stale-gate discipline). NEXT9 remains human-only and **does not gate paper-only depth**.
+
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (timestamped, mandatory)
+
+**Message ID / Campaign:** `INIT-20261108T132749Z-PHASE98-POST-ATTRIBUTION-SEAL-DEPTH`
+**Issued (UTC):** 2026-11-08T13:27:49Z | **Reaffirmed (UTC):** 2026-11-08T13:33:06Z
+**Scope:** Chain B (`src.hedging`) — adaptive-toxicity resilient post-attribution-seal depth (Phase98), **paper-only, additive, deterministic, finite-probe, bounded/guarded**.
+**Hard requirement:** Execute this campaign **fully**. Do **not** do doc-only work, partial stubs, skipped verification, chain substitution, or “status-only” progress. Do **not** touch live trading, venue/config/credentials, or NEXT9.
+
+**Execute now (heavy):** Implement Phase98 by mirroring Phase97 exactly (compose **PHASE97→32**), generate a valid timestamped paper-evidence artifact, verify with targeted tests/controlled fallback, re-verify P0, then update this handoff **last** with exact commands/results/artifact path/caveats and the next mandatory `INIT-*` (Phase99). If blocked by environment hangs, use the controlled fallback documented below **and still produce real code + artifact + cited evidence** — never use fallback as an excuse for no work.
 
 ## P0 SAFETY (RE-VERIFIED 2026-11-08T13:31:29Z — NO LIVE ENABLEMENT)
 - `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**.
@@ -22,6 +31,19 @@
 
 ### Mission (repo-priority, heavy)
 Deliver **additive, paper-only, deterministic, finite-probe, bounded/guarded** Chain B hedging post-attribution-seal depth for crypto options orderflow→execution/risk→delta-neutral hedging→PnL attribution→reconciliation/monitoring evidence across **Deribit/OKX/Bybit/Binance × BTC/ETH/SOL (4×3=12)**. Mirror Phase97 exactly; **compose PHASE97→32**. No regressions to Phase84–97. No Chain A `src.risk` settlement/custody duplication. No `phase79/80/110` refactors. No live trading, venue/config/credential mutation, or NEXT9 unblock claims.
+
+### Quick-start (remove bottlenecks; execute first)
+```bash
+cd /home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy
+git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml  # must be empty
+find . -path '*phase98*adaptive*post_attribution*seal*' -not -path '*/.git/*'            # must be empty before work
+cp -n src/hedging/phase97_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py src/hedging/phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py  # then edit to Phase98+compose PHASE97
+cp -n scripts/generate_phase97_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py scripts/generate_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py
+cp -n tests/test_phase97_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py tests/test_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py
+cp -n tests/test_generate_phase97_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py tests/test_generate_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py
+# After edits: PYTHONPATH=. /usr/share/miniconda/bin/python -m py_compile <4 files>
+# Module smoke + controlled generate(cycles=40, seed=98098, write=True) + validate_artifact + CLI --no-write; record exact output.
+```
 
 ### Mandatory deliverables (all required; cite exact commands/results)
 1. `src/hedging/phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`
@@ -58,7 +80,9 @@ Deliver **additive, paper-only, deterministic, finite-probe, bounded/guarded** C
 - ≥1 additive timestamped valid paper evidence artifact `PHASE98..._PAPER_EVIDENCE_<UTC>.json` (`validation.valid=true`, `issues=[]`, `gates_ok`, deterministic, `bounds_ok`, `coverage_rows=12`, composes PHASE97→32, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`) **AND**
 - targeted tests for touched code (≥7 generator cases + module smoke) with exact commands/results/caveats cited **AND**
 - strict session gate/CV verified fresh for material decisions (or truthfully cited as stale with rerun note; never claim NEXT9/gate readiness unblocked) **AND**
-- this handoff updated **last** with `INIT-*` outcome, UTC timestamp, evidence paths, and next mandatory `INIT-*` (Phase99). **No live capital. No venue mutation. No NEXT9 unblock.**
+- this handoff updated **last** with `INIT-*` outcome, UTC timestamp, evidence paths, and next mandatory `INIT-*` (**`INIT-<UTC>-PHASE99-POST-ATTRIBUTION-SEAL-DEPTH`**). **No live capital. No venue mutation. No NEXT9 unblock.**
+
+**Progress rule:** Updating only this handoff or reporting status without Phase98 code+artifact+verification is **not progress** for this campaign.
 
 ---
 
