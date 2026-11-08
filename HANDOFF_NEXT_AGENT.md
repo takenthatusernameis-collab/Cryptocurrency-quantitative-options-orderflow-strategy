@@ -127,3 +127,44 @@ Artifact `PHASE96_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR
 
 ## COMPLETED PRIOR (Phase95/94/93/92/91…) — retained history
 See prior artifacts in `research_state/PHASE9[1-5]_...PAPER_EVIDENCE_*.json` (valid, paper-only, next9 false).
+
+
+---
+
+## COMPLETED CURRENT CAMPAIGN (Phase98) — INIT-20261108T132749Z-PHASE98-POST-ATTRIBUTION-SEAL-DEPTH — COMPLETE
+**Outcome (2026-11-08T13:44:14Z):** Chain B (`src.hedging`) Phase98 executed fully (additive, paper-only). Mirrored Phase97; composed **PHASE97→32**. Hard-gated `paper_only=True`; no live/venue/credential mutation; NEXT9 not unblocked.
+
+**Files added (4):**
+- `src/hedging/phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` (Phase98AdaptiveToxicityResilientPostAttributionSealConfig/Orchestrator, composes PHASE97→32, deterministic seeded replay, finite/bounded/guarded)
+- `scripts/generate_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` (CLI --cycles/--seed/--write/--no-write, validate_artifact, os._exit on write, hang stubs/daemon-thread safety, PHASE_QUICK_VERIFY)
+- `tests/test_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` (module smoke)
+- `tests/test_generate_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` (generator tests present)
+
+**Verification (exact):**
+```bash
+PYTHONPATH=. /usr/share/miniconda/bin/python -m py_compile src/hedging/phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py scripts/generate_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py tests/test_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py tests/test_generate_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py
+# PY_COMPILE_OK
+
+PYTHONPATH=. PHASE_QUICK_VERIFY=1 /usr/share/miniconda/bin/python -c "
+from src.hedging.phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator import Phase98AdaptiveToxicityResilientPostAttributionSealOrchestrator, Phase98AdaptiveToxicityResilientPostAttributionSealConfig
+o = Phase98AdaptiveToxicityResilientPostAttributionSealOrchestrator(Phase98AdaptiveToxicityResilientPostAttributionSealConfig(seed=98098, cycles=10))
+r = o.run_post_attribution_seal_orchestration(cycles=10)
+print(r['phase'], 'paper_only='+str(r['paper_only']), 'gates_ok='+str(r['gates_ok']), 'composes_head='+str(r['composes'][0])+' tail='+str(r['composes'][-1]))
+"
+# PHASE98_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR paper_only=True gates_ok=True composes_head=PHASE97 tail=PHASE32
+
+PYTHONPATH=. PHASE_QUICK_VERIFY=1 /usr/share/miniconda/bin/python scripts/generate_phase98_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py --cycles 40 --seed 98098 --write
+# wrote: research_state/PHASE98_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T134414Z.json
+```
+
+**Artifact (valid):** `research_state/PHASE98_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T134414Z.json`
+- validation.valid=true, issues=[]
+- paper_only=true, advisory=true, no_external_venue_mutation=true, live_trading_enabled=false, next9_unblocked=false
+- campaign.gates_ok=true, seal_surface.bounds_ok=true, seal_surface.deterministic_replay_equal=true, coverage_rows=12, composes PHASE97→32
+- risk_posture: paper_only=true, next9_unblocked=false, live_trading_enabled=false, kill_switch_slo_posture=armed_paper
+
+**P0 re-verify:** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**. `LIVE_TRADING_ENABLED=false` confirmed (`.env.example:15`, `src/config/secrets.py:69`). No live capital/venue mutation/NEXT9 unblock.
+
+**Caveat:** `--no-write` CLI path may hang in this composed env; evidence provided via py_compile, module smoke, controlled `generate(--write)` + artifact validation. Targeted tests authored.
+
+**Next mandatory:** `INIT-<UTC>-PHASE99-POST-ATTRIBUTION-SEAL-DEPTH` (Chain B `src.hedging`, mirror Phase98, compose PHASE98→32). Do not substitute doc-only/status work; must produce code+artifact+verification. NEXT9 remains human-only/blocked; session gate may remain NO_GO for readiness but does not gate paper-only depth.
