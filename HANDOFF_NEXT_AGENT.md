@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — 2026-11-08T12:30:15Z (session maintenance):** P0 re-verified (git clean; `.env/.env.example/src/config/secrets.py/config/settings.yaml` diff empty; `LIVE_TRADING_ENABLED=false`). **Chain B hedging Phase96 is NOT started** (`src/hedging/phase96_*` absent); `src.risk/phase96_*` is Chain A and **must not** be touched as hedging work. **Execute `INIT-20261108T122836Z-PHASE96-POST-ATTRIBUTION-SEAL-DEPTH` fully** (mandatory, heavy, non-optional). No live capital. No venue mutation. No NEXT9 unblock. Gate/CV >2h stale — rerun strict CV+session gate before material decisions and cite fresh artifacts.
+> **READ FIRST — 2026-11-08T12:33:58Z (session maintenance):** P0 re-verified (git clean; `.env/.env.example/src/config/secrets.py/config/settings.yaml` diff empty; `LIVE_TRADING_ENABLED=false`). **Chain B hedging Phase96 is NOT started** (`src/hedging/phase96_*` absent); unrelated Chain A `tests/test_phase96_atomic_*` exists and must not be touched as Chain B hedging work. **Execute `INIT-20261108T122836Z-PHASE96-POST-ATTRIBUTION-SEAL-DEPTH` fully** (mandatory, heavy, non-optional). No live capital. No venue mutation. No NEXT9 unblock. Gate/CV artifacts (PAPER_OPS_SESSION_GATE_20261108T100237Z, CONTINUOUS_VALIDATION_20261108T100213Z) are stale (>2h) — rerun strict CV+session gate before any material decision and cite fresh artifacts; paper-only Phase96 depth may proceed under controlled discipline.
 
 
 **Repo (priority lens):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work remains paper-only.**
@@ -74,7 +74,7 @@ Advance Chain B hedging post-attribution-seal depth for crypto options **orderfl
 ---
 
 ## VERIFIED CURRENT STATE (evidence-cited)
-- **P0:** diff empty on `.env/.env.example/src/config/secrets.py/config/settings.yaml`; `LIVE_TRADING_ENABLED=false` (re-verified 2026-11-08T12:28:36Z).
+- **P0:** diff empty on `.env/.env.example/src/config/secrets.py/config/settings.yaml`; `LIVE_TRADING_ENABLED=false` (re-verified 2026-11-08T12:33:58Z).
 - **Strict session gate (2026-11-08T10:02:37Z, FRESH then):** `research_state/PAPER_OPS_SESSION_GATE_20261108T100237Z.json` — `gate_passed=true`, `gates.cv_fresh_for_material_decisions=true`, `gates.no_live_capital=true`, `gates.next9_not_unblocked=true`, `gates.paper_ops_ready=true`, `next9_unblocked=false`, `checkpoint_decision=NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL` (A1–A7), `action_required=[record_a1_a7_human_approvals_before_next9]`. **Rerun if stale before material decisions.**
 - **Strict CV (2026-11-08T10:02:13Z, FRESH then):** `research_state/CONTINUOUS_VALIDATION_20261108T100213Z.json` — strict, seed 42, BTC,ETH, 5/5, all critical passed, paper_only, live_trading_not_enabled.
 - **NEXT9 (HUMAN-ONLY, BLOCKED):** `next9_unblocked=false`, `NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL` (A1–A7). Not agent-removable.
