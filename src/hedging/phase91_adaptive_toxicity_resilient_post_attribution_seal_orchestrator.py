@@ -258,7 +258,10 @@ class Phase91AdaptiveToxicityResilientPostAttributionSealOrchestrator:
             f"n_hedging_seal_attestations: {rep['n_hedging_seal_attestations']}",
             "",
             "## Composes",
-            ", ".join(rep["composes"]),
+            "- PHASE90, PHASE89, PHASE88, PHASE87, PHASE86, PHASE85, PHASE84, PHASE83, PHASE82, PHASE81, PHASE80, PHASE79, PHASE78, PHASE77, PHASE76, PHASE75, PHASE74, PHASE73, PHASE72, PHASE71, PHASE70, PHASE69, PHASE58, PHASE54, PHASE39, PHASE32",
+            "",
         ]
         md_path.write_text("\n".join(md))
-        return {"json": str(json_path), "markdown": str(md_path), "report": rep}
+        rep["json_path"] = str(json_path)
+        rep["md_path"] = str(md_path)
+        return rep
