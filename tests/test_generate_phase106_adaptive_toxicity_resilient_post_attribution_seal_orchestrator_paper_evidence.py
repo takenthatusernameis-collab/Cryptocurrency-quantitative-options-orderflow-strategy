@@ -23,7 +23,7 @@ SCRIPT = "scripts/generate_phase106_adaptive_toxicity_resilient_post_attribution
 
 class TestPhase106Generator(unittest.TestCase):
     def _d(self):
-        return generate(cycles=4, seed=105105, write=False)
+        return generate(cycles=4, seed=106106, write=False)
 
     def test_valid_advisory_shape(self):
         d = self._d()
@@ -50,8 +50,8 @@ class TestPhase106Generator(unittest.TestCase):
             self.assertFalse(ok)
 
     def test_deterministic_seed_reproducibility(self):
-        a = _strip(generate(cycles=4, seed=105105, write=False))
-        b = _strip(generate(cycles=4, seed=105105, write=False))
+        a = _strip(generate(cycles=4, seed=106106, write=False))
+        b = _strip(generate(cycles=4, seed=106106, write=False))
         self.assertEqual(a, b)
         self.assertTrue(a["determinism"]["same_seed_cycles_reproduce_surface"])
 
@@ -82,7 +82,7 @@ class TestPhase106Generator(unittest.TestCase):
         env["PHASE_QUICK_VERIFY"] = "1"
         env["PYTHONPATH"] = str(REPO)
         p = subprocess.run(
-            [PYTHON, SCRIPT, "--no-write", "--cycles", "4", "--seed", "105105"],
+            [PYTHON, SCRIPT, "--no-write", "--cycles", "4", "--seed", "106106"],
             cwd=REPO, env=env, capture_output=True, text=True, timeout=600,
         )
         self.assertEqual(p.returncode, 0, p.stderr + "\n" + p.stdout)
@@ -94,12 +94,12 @@ class TestPhase106Generator(unittest.TestCase):
         self.assertTrue(out["deterministic"])
         self.assertIsNone(out.get("artifact_path"))
 
-    def test_cross_refs_phase106_phase104_composes_paper_ops(self):
+    def test_cross_refs_phase106_phase105_composes_paper_ops(self):
         d = self._d()
         refs = " ".join(d["cross_refs"] + d["evidence_refs"])
         for needle in ("Phase106AdaptiveToxicityResilientPostAttributionSealOrchestrator",
-                       "Phase104AdaptiveToxicityResilientPostAttributionSealOrchestrator",
-                       "composes=PHASE106,PHASE32", "PAPER_OPS_SESSION_GATE", "CONTINUOUS_VALIDATION"):
+                       "Phase105AdaptiveToxicityResilientPostAttributionSealOrchestrator",
+                       "composes=PHASE105,PHASE32", "PAPER_OPS_SESSION_GATE", "CONTINUOUS_VALIDATION"):
             self.assertIn(needle, refs)
 
 

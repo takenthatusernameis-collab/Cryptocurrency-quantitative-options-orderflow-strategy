@@ -7,7 +7,7 @@ hedging + directional/hedge PnL attribution → reconciliation/monitoring.
 Advisory paper evidence only: never enables live trading, never unblocks NEXT9,
 no external venue mutation, no refactor of phase79/80/110.
 
-Composes PHASE106→32 (Chain B hedging). Deterministic seeded replay; finite
+Composes PHASE105→32 (Chain B hedging). Deterministic seeded replay; finite
 validated bounds (allow_nan=False write).
 """
 from __future__ import annotations
@@ -173,7 +173,7 @@ def validate_artifact(d: Dict[str, Any]) -> Tuple[bool, List[str]]:
         issues.append("campaign_phase_mismatch")
     comp = camp.get("composes") or []
     if "PHASE105" not in comp or "PHASE32" not in comp:
-        issues.append("campaign_must_compose_phase104_phase32")
+        issues.append("campaign_must_compose_phase105_phase32")
     surf = d.get("seal_surface") or {}
     if surf.get("paper_only") is not True:
         issues.append("surface_paper_only_required")
@@ -229,11 +229,11 @@ def _probe(venue: str, symbol: str, seed: int) -> Dict[str, Any]:
         "probe_bounds_within_limits": bool(bounds_ok),
         "probe_regime_conditional_posture": True,
         "probe_gates_ok": bool(rep.get("gates_ok") is True and finite and bounds_ok),
-        "deterministic_probe_gate_id": f"p105_{venue}_{symbol}_{seed}",
+        "deterministic_probe_gate_id": f"p106_{venue}_{symbol}_{seed}",
     }
 
 
-def generate(cycles: int = 40, seed: int = 105105, write: bool = False) -> Dict[str, Any]:
+def generate(cycles: int = 40, seed: int = 106106, write: bool = False) -> Dict[str, Any]:
     orch = _orch(seed, cycles, UNDERLYINGS, VENUES, fresh=True)
     rep = orch.run_post_attribution_seal_orchestration(cycles=cycles)
     orch2 = _orch(seed, cycles, UNDERLYINGS, VENUES, fresh=True)
@@ -279,7 +279,7 @@ def generate(cycles: int = 40, seed: int = 105105, write: bool = False) -> Dict[
             "avg_cross_venue_ok": round(avg_cross_venue_ok, 9),
             "avg_seal_pass_rate": round(seal_rate, 6),
             "avg_attribution_pass_upstream": round(float(rep.get("avg_attribution_pass_upstream", 0.0) or 0.0), 9),
-            "composes": rep.get("composes") or ["PHASE106", "PHASE32"],
+            "composes": rep.get("composes") or ["PHASE105", "PHASE32"],
         },
         "seal_surface": {
             "paper_only": True,
@@ -311,7 +311,8 @@ def generate(cycles: int = 40, seed: int = 105105, write: bool = False) -> Dict[
             "scripts/generate_phase106_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py",
             "tests/test_phase106_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
             "tests/test_generate_phase106_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py",
-            "PHASE106_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T163047Z.json",
+            "PHASE105_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T172518Z.json",
+            "PHASE104_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T163047Z.json",
             "PHASE103_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T160644Z.json",
             "PHASE102_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T155847Z.json",
             "PHASE101_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T150148Z.json",
@@ -321,6 +322,7 @@ def generate(cycles: int = 40, seed: int = 105105, write: bool = False) -> Dict[
         ],
         "cross_refs": [
             "Phase106AdaptiveToxicityResilientPostAttributionSealOrchestrator",
+            "Phase105AdaptiveToxicityResilientPostAttributionSealOrchestrator",
             "Phase104AdaptiveToxicityResilientPostAttributionSealOrchestrator",
             "Phase103AdaptiveToxicityResilientPostAttributionSealOrchestrator",
             "Phase102AdaptiveToxicityResilientPostAttributionSealOrchestrator",
@@ -328,7 +330,7 @@ def generate(cycles: int = 40, seed: int = 105105, write: bool = False) -> Dict[
             "Phase54RealtimeRiskFusionEngine",
             "Phase39KillSwitchesCircuitBreakers",
             "Phase58FlowToxicityMitigator",
-            "composes=PHASE106,PHASE32",
+            "composes=PHASE105,PHASE32",
         ],
         "determinism": {
             "deterministic_seeded": True,
@@ -355,7 +357,7 @@ def generate(cycles: int = 40, seed: int = 105105, write: bool = False) -> Dict[
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--cycles", type=int, default=40)
-    ap.add_argument("--seed", type=int, default=105105)
+    ap.add_argument("--seed", type=int, default=106106)
     ap.add_argument("--write", dest="write", action="store_true", default=True)
     ap.add_argument("--no-write", dest="write", action="store_false")
     args = ap.parse_args()

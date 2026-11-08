@@ -9,9 +9,9 @@ from typing import Any, Dict, List
 
 _QUICK_VERIFY = os.environ.get("PHASE_QUICK_VERIFY") == "1"
 
-from src.hedging.phase104_adaptive_toxicity_resilient_post_attribution_seal_orchestrator import (  # noqa: E402
-    Phase104AdaptiveToxicityResilientPostAttributionSealConfig,
-    Phase104AdaptiveToxicityResilientPostAttributionSealOrchestrator,
+from src.hedging.phase105_adaptive_toxicity_resilient_post_attribution_seal_orchestrator import (  # noqa: E402
+    Phase105AdaptiveToxicityResilientPostAttributionSealConfig,
+    Phase105AdaptiveToxicityResilientPostAttributionSealOrchestrator,
 )
 from src.telemetry.serialization import serialize_metrics_strict  # noqa: E402
 
@@ -21,7 +21,7 @@ def _utc_now() -> str:
 
 
 def _make_id(seed: int, tag: str, i: int) -> str:
-    return f"p105-{seed}-{tag}-{i:06d}"
+    return f"p106-{seed}-{tag}-{i:06d}"
 
 
 def _finite(x: float, default: float = 0.0) -> float:
@@ -53,7 +53,7 @@ def _assert_finite(obj: Any, label: str = "obj") -> None:
 
 @dataclass(frozen=True)
 class Phase106AdaptiveToxicityResilientPostAttributionSealConfig:
-    seed: int = 105105
+    seed: int = 106106
     paper_only: bool = True
     underlyings: tuple = ("BTC", "ETH", "SOL")
     venues: tuple = ("deribit", "okx", "bybit", "binance")
@@ -78,17 +78,17 @@ class Phase106AdaptiveToxicityResilientPostAttributionSealConfig:
 class Phase106AdaptiveToxicityResilientPostAttributionSealOrchestrator:
     """Post-attribution seal depth orchestrator for crypto options + orderflow.
 
-    Seals PHASE106 post-attribution seal with cross-venue seal consistency
+    Seals PHASE105 post-attribution seal with cross-venue seal consistency
     checks, selective sealing on severity, hedging seal guardrails, and deterministic seal certification.
-    PAPER-ONLY. Composes PHASE106/103/102/101/100/99/98/97/96/95/94/93/92/91/90/89/88/87/86/85/84/83/82/81/80/79/78/77/76/75/74/73/72/71/70/69/58/54/39/32.
+    PAPER-ONLY. Composes PHASE105/104/103/102/101/100/99/98/97/96/95/94/93/92/91/90/89/88/87/86/85/84/83/82/81/80/79/78/77/76/75/74/73/72/71/70/69/58/54/39/32.
     """
 
     def __init__(self, cfg: Phase106AdaptiveToxicityResilientPostAttributionSealConfig | None = None) -> None:
         self.cfg = cfg or Phase106AdaptiveToxicityResilientPostAttributionSealConfig()
         if not self.cfg.paper_only:
             raise ValueError("Phase106AdaptiveToxicityResilientPostAttributionSealOrchestrator: paper_only must remain True")
-        self.finality104 = Phase104AdaptiveToxicityResilientPostAttributionSealOrchestrator(
-            Phase104AdaptiveToxicityResilientPostAttributionSealConfig(seed=self.cfg.seed + 100, paper_only=True, cycles=self.cfg.cycles)
+        self.finality105 = Phase105AdaptiveToxicityResilientPostAttributionSealOrchestrator(
+            Phase105AdaptiveToxicityResilientPostAttributionSealConfig(seed=self.cfg.seed + 100, paper_only=True, cycles=self.cfg.cycles)
         )
         self.seal_attestations: List[Dict[str, Any]] = []
         self.seal_certifications: List[Dict[str, Any]] = []
@@ -121,12 +121,12 @@ class Phase106AdaptiveToxicityResilientPostAttributionSealOrchestrator:
         self.cross_venue_seal_consistencies = []
 
         if _QUICK_VERIFY:
-            r104_rep = {"avg_attribution_pass_rate": 0.99, "avg_cross_venue_ok": 0.999}
+            r105_rep = {"avg_attribution_pass_rate": 0.99, "avg_cross_venue_ok": 0.999}
         else:
-            r104_rep = self.finality104.run_post_attribution_seal_orchestration(cycles=6)
+            r105_rep = self.finality105.run_post_attribution_seal_orchestration(cycles=6)
 
-        avg_attribution_pass = _finite(r104_rep.get("avg_attribution_pass_rate", r104_rep.get("avg_seal_pass_rate", 0.99)))
-        avg_cross_venue_ok = _finite(r104_rep.get("avg_cross_venue_ok", 0.999))
+        avg_attribution_pass = _finite(r105_rep.get("avg_attribution_pass_rate", r105_rep.get("avg_seal_pass_rate", 0.99)))
+        avg_cross_venue_ok = _finite(r105_rep.get("avg_cross_venue_ok", 0.999))
 
         for i in range(cycles):
             venue = self.cfg.venues[i % len(self.cfg.venues)]
@@ -258,7 +258,7 @@ class Phase106AdaptiveToxicityResilientPostAttributionSealOrchestrator:
             f"n_hedging_seal_attestations: {rep['n_hedging_seal_attestations']}",
             "",
             "## Composes",
-            "- PHASE106, PHASE103, PHASE102, PHASE101, PHASE100, PHASE99, PHASE98, PHASE97, PHASE96, PHASE95, PHASE94, PHASE93, PHASE92, PHASE91, PHASE90, PHASE89, PHASE88, PHASE87, PHASE86, PHASE85, PHASE84, PHASE83, PHASE82, PHASE81, PHASE80, PHASE79, PHASE78, PHASE77, PHASE76, PHASE75, PHASE74, PHASE73, PHASE72, PHASE71, PHASE70, PHASE69, PHASE58, PHASE54, PHASE39, PHASE32",
+            "- PHASE105, PHASE104, PHASE103, PHASE102, PHASE101, PHASE100, PHASE99, PHASE98, PHASE97, PHASE96, PHASE95, PHASE94, PHASE93, PHASE92, PHASE91, PHASE90, PHASE89, PHASE88, PHASE87, PHASE86, PHASE85, PHASE84, PHASE83, PHASE82, PHASE81, PHASE80, PHASE79, PHASE78, PHASE77, PHASE76, PHASE75, PHASE74, PHASE73, PHASE72, PHASE71, PHASE70, PHASE69, PHASE58, PHASE54, PHASE39, PHASE32",
             "",
         ]
         md_path.write_text("\n".join(md))

@@ -15,7 +15,7 @@ class TestPhase106Module(unittest.TestCase):
             Phase106AdaptiveToxicityResilientPostAttributionSealConfig(paper_only=False)
 
     def test_smoke(self):
-        cfg = Phase106AdaptiveToxicityResilientPostAttributionSealConfig(seed=105105, cycles=4, paper_only=True)
+        cfg = Phase106AdaptiveToxicityResilientPostAttributionSealConfig(seed=106106, cycles=4, paper_only=True)
         orch = Phase106AdaptiveToxicityResilientPostAttributionSealOrchestrator(cfg)
         rep = orch.run_post_attribution_seal_orchestration(cycles=4)
         self.assertTrue(rep["paper_only"])
