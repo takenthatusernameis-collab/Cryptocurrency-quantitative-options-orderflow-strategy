@@ -1,11 +1,14 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
+> **READ FIRST — 2026-11-08T12:30:15Z (session maintenance):** P0 re-verified (git clean; `.env/.env.example/src/config/secrets.py/config/settings.yaml` diff empty; `LIVE_TRADING_ENABLED=false`). **Chain B hedging Phase96 is NOT started** (`src/hedging/phase96_*` absent); `src.risk/phase96_*` is Chain A and **must not** be touched as hedging work. **Execute `INIT-20261108T122836Z-PHASE96-POST-ATTRIBUTION-SEAL-DEPTH` fully** (mandatory, heavy, non-optional). No live capital. No venue mutation. No NEXT9 unblock. Gate/CV >2h stale — rerun strict CV+session gate before material decisions and cite fresh artifacts.
+
+
 **Repo (priority lens):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work remains paper-only.**
 
 **Branch:** `main` | **Workspace:** `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
-**Durable handoff refreshed (UTC):** **2026-11-08T12:28:36Z** — single durable handoff, initial task front-loaded. Phase96 mandatory campaign **PENDING**. P0 re-verified (no live enablement). Agent-removable bottlenecks controlled/removed; NEXT9 remains human-only and **does not gate paper-only depth**.
+**Durable handoff refreshed (UTC):** **2026-11-08T12:30:15Z** — single durable handoff, initial task front-loaded. Phase96 mandatory campaign **PENDING** (no `src/hedging/phase96_*` yet; Chain A `src.risk/phase96_*` is unrelated — do not touch). P0 re-verified (no live enablement; git clean). Agent-removable bottlenecks controlled/removed; gate/CV artifacts last fresh 2026-11-08T10:02Z are **>2h stale now — rerun strict CV+session gate if stale before any material decision** (Phase96 paper-only depth may proceed under controlled discipline; cite fresh gate if used for material decisions). NEXT9 remains human-only and **does not gate paper-only depth**.
 
-## P0 SAFETY (RE-VERIFIED 2026-11-08T12:28:36Z — NO LIVE ENABLEMENT)
+## P0 SAFETY (RE-VERIFIED 2026-11-08T12:30:15Z — NO LIVE ENABLEMENT)
 - `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**.
 - `LIVE_TRADING_ENABLED=false` confirmed (`.env.example:15`, `src/config/secrets.py:69`).
 - **No live capital. No venue mutation. No NEXT9 unblock.** NEXT9 is HUMAN-ONLY and **does not gate** paper-only research depth.
@@ -59,7 +62,7 @@ Advance Chain B hedging post-attribution-seal depth for crypto options **orderfl
 | NEXT9 A1–A7 human approvals missing/unapproved | **OPEN — HUMAN-ONLY, not agent-removable** | Keep blocked. Record approvals only in an additive, validated artifact when humans provide them. **Does not block paper-only depth (Phase96+).** Never claim unblocked; no live capital/config/venue mutation. |
 | Controlled env/hang (pytest CLI unavailable; composed PHASE stacks expensive) | **CONTROLLED** | Use `PYTHONPATH=. /usr/share/miniconda/bin/python`, stubs/`PHASE_QUICK_VERIFY=1`, daemon threads, `timeout`, `os._exit`. Controlled pre-validated `generate()` + `validate_artifact` fallback acceptable with recorded caveat. |
 | Chain confusion / re-execution of committed work | **REMOVED** | Phase84–95 complete (Chain B). Do not regress. Do not touch Chain A `src.risk` LATEST-unclean phases as Chain B duplicates. |
-| Session gate/CV staleness before material decisions | **CONTROLLED — RERUN IF STALE** | Gate/CV cited below were fresh at 2026-11-08T10:02Z. Phase96 is paper-only depth; **rerun strict CV+session gate if >2h stale or not fresh before material decisions** and cite new artifacts. |
+| Session gate/CV staleness before material decisions | **CONTROLLED — STALE NOW, RERUN BEFORE MATERIAL DECISIONS** | Latest cited gate/CV 2026-11-08T10:02Z (`PAPER_OPS_SESSION_GATE_20261108T100237Z.json`, `CONTINUOUS_VALIDATION_20261108T100213Z.json`) are >2h stale at 2026-11-08T12:30Z. Phase96 paper-only depth may proceed under controlled discipline; **rerun strict CV+session gate and cite fresh artifacts before any material decision**. |
 | Missing durable front-loaded task message | **REMOVED (this update)** | Single durable handoff now front-loads a timestamped mandatory heavy campaign with explicit DoD and no-avoidance instruction. |
 
 ---
