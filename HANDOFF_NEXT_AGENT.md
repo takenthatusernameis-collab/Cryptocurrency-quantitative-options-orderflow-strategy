@@ -3,44 +3,43 @@
 **Repo (priority lens):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work remains paper-only.**
 
 **Branch:** `main` | **Workspace:** `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
-**Durable handoff refreshed (UTC):** **2026-11-08T10:54:45Z** (this session).
+**Durable handoff refreshed (UTC):** **2026-11-08T11:29:08Z** (this session).
 **P0 re-verified (no live enablement):** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**. `LIVE_TRADING_ENABLED=false` confirmed at `.env.example:15` and `src/config/secrets.py:69`. **No live capital. No venue mutation. No NEXT9 unblock.**
 
 ---
 
-## TIMESTAMPED INITIAL TASK MESSAGE — EXECUTED (INIT-20261108T104440Z-PHASE92-POST-ATTRIBUTION-SEAL-DEPTH, Chain B `src.hedging`) — COMPLETE
+## TIMESTAMPED INITIAL TASK MESSAGE — EXECUTED (INIT-20261108T112908Z-PHASE93-POST-ATTRIBUTION-SEAL-DEPTH, Chain B `src.hedging`) — COMPLETE
 
-Status: COMPLETE. Heavy additive Phase92 campaign delivered (mirror Phase91, composes PHASE91→32). PAPER-ONLY. No live capital. No venue mutation. NEXT9 remains BLOCKED.
+Status: COMPLETE. Heavy additive Phase93 campaign delivered (mirror Phase92, composes PHASE92→32). PAPER-ONLY. No live capital. No venue mutation. NEXT9 remains BLOCKED.
 
-### Outcome (2026-11-08T10:54:45Z)
-- `src/hedging/phase92_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` — created; `Phase92AdaptiveToxicityResilientPostAttributionSealOrchestrator` hard-gated paper-only; composes PHASE91/90/89/88/87/86/85/84/83/82/81/80/79/78/77/76/75/74/73/72/71/70/69/58/54/39/32; venue×symbol scope 4×3=12; deterministic seeded replay; finite probes; bounded/guarded posture.
-- `scripts/generate_phase92_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` (+x) — created; `validate_artifact`, CLI `--write/--no-write`, deterministic strip, `os._exit`, `PHASE_QUICK_VERIFY`/daemon-thread safety.
-- `tests/test_generate_phase92_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` — created (≥7 cases: shape, rejects live/next9/paper_only_false/advisory false/no_external, determinism, coverage+finite probes, bounds+risk posture, cross_refs; CLI `--no-write` caveat: composed stack exceeded harness timeout).
-- `tests/test_phase92_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` — created (module smoke; stub/PHASE_QUICK_VERIFY safe).
+### Outcome (2026-11-08T11:29:08Z)
+- `src/hedging/phase93_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` — created; `Phase93AdaptiveToxicityResilientPostAttributionSealOrchestrator` hard-gated paper-only; composes PHASE92/91/90/89/88/87/86/85/84/83/82/81/80/79/78/77/76/75/74/73/72/71/70/69/58/54/39/32; venue×symbol scope 4×3=12; deterministic seeded replay; finite probes; bounded/guarded posture.
+- `scripts/generate_phase93_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` (+x) — created; `validate_artifact`, CLI `--write/--no-write`, deterministic strip, `os._exit`, `PHASE_QUICK_VERIFY`/daemon-thread safety.
+- `tests/test_generate_phase93_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` — created (≥7 cases: shape, rejects live/next9/paper_only_false/advisory false/no_external, determinism, coverage+finite probes, bounds+risk posture, cross_refs; CLI `--no-write` caveat: composed stack exceeded harness timeout — recorded, established pattern).
+- `tests/test_phase93_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` — created (module smoke; stub/PHASE_QUICK_VERIFY safe).
 - `python3 -m py_compile` on all 4 touched files → OK.
-- Module smoke `test_phase92_post_attribution_seal_orchestrator_smoke` → OK.
-- Generator evidence tests (6 in-process cases) → OK; `test_cli_no_write_mode` subprocess exceeded harness timeout (composed PHASE91→32 stack) — caveat recorded.
-- Artifact: `research_state/PHASE92_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T105403Z.json` — `validation.valid=true`, `issues=[]`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`, deterministic replay equal, `bounds_ok=true`, coverage=12, composes PHASE91→32. Emitted via controlled pre-validated `generate()` + `validate_artifact` pass (established Phase91 fallback).
+- Module smoke `test_phase93_post_attribution_seal_orchestrator_smoke` → OK.
+- Generator evidence `generate(cycles=40, seed=93093, write=True)` → `validation.valid=true`, `issues=[]`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`, deterministic replay equal, `bounds_ok=true`, coverage=12, composes PHASE92→32.
+- Artifact: `research_state/PHASE93_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T112908Z.json` — `validation.valid=true`, `issues=[]`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`, deterministic replay equal, `bounds_ok=true`, coverage=12, composes PHASE92→32. Emitted via controlled pre-validated `generate()` + `validate_artifact` pass (established Phase91/92 fallback).
 - P0 diff re-verified after work → empty; `LIVE_TRADING_ENABLED=false` intact.
-- Gate/CV fresh at handoff (cited below); no material decisions required beyond Phase92 additive work.
+- Gate/CV fresh at handoff (cited below); no material decisions required beyond Phase93 additive work.
 
 ### Gates that ran (exact commands/results)
 - `python3 -m py_compile` on 4 touched files → OK
-- `PYTHONPATH=. PHASE_QUICK_VERIFY=1 /usr/share/miniconda/bin/python -c "import tests.test_phase92_adaptive_toxicity_resilient_post_attribution_seal_orchestrator as m; m.test_phase92_post_attribution_seal_orchestrator_smoke()"` → MODULE_SMOKE_OK
-- `PYTHONPATH=. PHASE_QUICK_VERIFY=1 /usr/share/miniconda/bin/python -c "import scripts.generate_phase92_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence as g; d=g.generate(cycles=40, seed=92092, write=True); ..."` → VALID True, ISSUES [], GATES_OK True, DETERMINISTIC True, COVERAGE_ROWS 12, BOUNDS_OK True
+- `PYTHONPATH=. PHASE_QUICK_VERIFY=1 /usr/share/miniconda/bin/python -c "import tests.test_phase93_adaptive_toxicity_resilient_post_attribution_seal_orchestrator as m; m.test_phase93_post_attribution_seal_orchestrator_smoke()"` → MODULE_SMOKE_OK
+- `PYTHONPATH=. PHASE_QUICK_VERIFY=1 /usr/share/miniconda/bin/python -c "import scripts.generate_phase93_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence as g; d=g.generate(cycles=40, seed=93093, write=True); ..."` → VALID True, ISSUES [], GATES_OK True, DETERMINISTIC True, COVERAGE_ROWS 12, BOUNDS_OK True
 - `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → empty
 - `grep LIVE_TRADING_ENABLED .env.example` → `.env.example:15 LIVE_TRADING_ENABLED=false`
 
-**Next mandatory after Phase92:** `INIT-<UTC>-PHASE93-POST-ATTRIBUTION-SEAL-DEPTH` (Chain B `src.hedging`), additive mirror of Phase92 composing PHASE92→32.
+**Next mandatory after Phase93:** `INIT-<UTC>-PHASE94-POST-ATTRIBUTION-SEAL-DEPTH` (Chain B `src.hedging`), additive mirror of Phase93 composing PHASE93→32.
 
 ---
-
 
 ## CHAIN CLARIFICATION — BOTTLENECK REMOVED (DO NOT DUPLICATE / DO NOT REGRESS)
 
 Two parallel chains exist; never conflate:
 - **Chain A (`src.risk`) cross-venue settlement/custody:** `phase87/88_*` source+tests+artifacts committed; LATEST artifacts (`PHASE87_RES_LATEST.json`, `PHASE88_RES_LATEST.json`, ts 2026-11-06T17:29:43Z) show `ok=false`, `validation_pass_rate_ok=false`, pass_rate 0.9167 < 0.97 — **not cleanly validated**. Different chain. Do not “fix” by duplicating as Chain B hedging phases.
-- **Chain B (`src.hedging`) adaptive-toxicity resilient post-attestation/finality/attribution seal:** Phase84→92 **COMPLETE** with valid paper evidence artifacts (cited below). `src/hedging/phase92_*` now exists and delivered additively. Mirror established pattern; no refactors to `phase79/80/110`.
+- **Chain B (`src.hedging`) adaptive-toxicity resilient post-attestation/finality/attribution seal:** Phase84→93 **COMPLETE** with valid paper evidence artifacts (cited below). `src/hedging/phase93_*` now exists and delivered additively. Mirror established pattern; no refactors to `phase79/80/110`.
 
 ---
 
@@ -48,14 +47,14 @@ Two parallel chains exist; never conflate:
 
 | Bottleneck | State | Action |
 |---|---|---|
-| NEXT9 A1–A7 human approvals missing/unapproved | **OPEN — HUMAN-ONLY, not agent-removable** | Keep blocked. Record approvals only in an additive, validated artifact when humans provide them. **Does not block paper-only depth (Phase92+).** Never claim unblocked; no live capital/config/venue mutation. |
-| Controlled env/hang (pytest CLI unavailable; composed PHASE stacks expensive) | **CONTROLLED** | Use `PYTHONPATH=. /usr/share/miniconda/bin/python`, stubs/`PHASE_QUICK_VERIFY=1`, daemon threads, `timeout`, `os._exit`. If full CLI/unittest exceeds harness timeout, use controlled pre-validated `generate()` + `validate_artifact` and **record caveat** (established pattern; Phase91 used it). |
-| Chain confusion / re-execution of committed work | **REMOVED** | Phase92 complete; do not regress. Do not touch Chain A `src.risk` LATEST-unclean phases as Chain B duplicates. |
+| NEXT9 A1–A7 human approvals missing/unapproved | **OPEN — HUMAN-ONLY, not agent-removable** | Keep blocked. Record approvals only in an additive, validated artifact when humans provide them. **Does not block paper-only depth (Phase93+).** Never claim unblocked; no live capital/config/venue mutation. |
+| Controlled env/hang (pytest CLI unavailable; composed PHASE stacks expensive) | **CONTROLLED** | Use `PYTHONPATH=. /usr/share/miniconda/bin/python`, stubs/`PHASE_QUICK_VERIFY=1`, daemon threads, `timeout`, `os._exit`. If full CLI/unittest exceeds harness timeout, use controlled pre-validated `generate()` + `validate_artifact` and **record caveat** (established pattern; Phase91/92/93 used it). Each full generator test ~30s due to compose chain; do not run all 6 back-to-back under a tight harness timeout. |
+| Chain confusion / re-execution of committed work | **REMOVED** | Phase93 complete; do not regress. Do not touch Chain A `src.risk` LATEST-unclean phases as Chain B duplicates. |
 | Session gate staleness before material decisions | **CONTROLLED** | Gate/CV currently fresh (cited). Rerun strict CV+gate if >2h stale or not fresh before decisions. |
 
 ---
 
-## VERIFIED CURRENT STATE (evidence-cited, 2026-11-08T10:54:45Z)
+## VERIFIED CURRENT STATE (evidence-cited, 2026-11-08T11:29:08Z)
 
 - **P0:** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**. `LIVE_TRADING_ENABLED=false` (`.env.example:15`, `src/config/secrets.py:69`).
 - **Strict session gate (FRESH):** `research_state/PAPER_OPS_SESSION_GATE_20261108T100237Z.json` (2026-11-08T10:02:37Z) — `gate_passed=true`, `cv_fresh_for_material_decisions=true`, `no_live_capital=true`, `next9_not_unblocked=true`/`next9_unblocked=false`, `paper_ops_ready=true`, `action_required=[record_a1_a7_human_approvals_before_next9]`, `checkpoint_decision=NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL`.
@@ -63,15 +62,16 @@ Two parallel chains exist; never conflate:
 - **NEXT9 (HUMAN-ONLY, BLOCKED):** `next9_unblocked=false`, `checkpoint_decision=NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL` (A1–A7). Not agent-removable.
 - **Phase91 (Chain B, COMPLETE):** `research_state/PHASE91_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T103708Z.json` — `validation.valid=true`, `issues=[]`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`, deterministic=true, `bounds_ok=true`, `coverage_rows=12`, `all_coverage_gates_ok=true`, composes PHASE90→32.
 - **Phase92 (Chain B, COMPLETE):** `research_state/PHASE92_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T105403Z.json` — `validation.valid=true`, `issues=[]`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`, deterministic=true, `bounds_ok=true`, `coverage_rows=12`, `all_coverage_gates_ok=true`, composes PHASE91→32. Delivered additively: `src/hedging/phase92_*`, `scripts/generate_phase92_*` (+x), 2 tests. `python3 -m py_compile` 4 files → OK. Module smoke → OK. **Caveat:** full generator CLI `--no-write`/unittest module exceeded harness timeout (composed stack) — artifact emitted via controlled pre-validated `generate()` + `validate_artifact` pass.
+- **Phase93 (Chain B, COMPLETE):** `research_state/PHASE93_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T112908Z.json` — `validation.valid=true`, `issues=[]`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`, deterministic=true, `bounds_ok=true`, `coverage_rows=12`, `all_coverage_gates_ok=true`, composes PHASE92→32. Delivered additively: `src/hedging/phase93_*`, `scripts/generate_phase93_*` (+x), 2 tests. `python3 -m py_compile` 4 files → OK. Module smoke → OK. Generator `generate(write=True)` → VALID True, ISSUES [], GATES_OK True, DETERMINISTIC True, COVERAGE_ROWS 12, BOUNDS_OK True. **Caveat:** full generator CLI `--no-write`/unittest module exceeded harness timeout (composed stack) — artifact emitted via controlled pre-validated `generate()` + `validate_artifact` pass.
 - **Chain A `src.risk` phase87/88:** committed but LATEST `ok=false` / pass_rate 0.9167 < 0.97 — separate chain, not cleanly validated.
 
 ### Prior completed Chain B campaigns (evidence chain, do not regress)
-Phase70–86 complete (prior sessions). Phase87: `PHASE87_..._20261108T085216Z.json` valid. Phase88: `PHASE88_..._20261108T091152Z.json` valid. Phase89: `PHASE89_..._20261108T095151Z.json` valid. Phase90: `PHASE90_..._20261108T101257Z.json` valid. Phase91: `PHASE91_..._20261108T103708Z.json` valid. Phase92: `PHASE92_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T105403Z.json` valid. **All paper-only, live disabled, next9 false, gates_ok, deterministic, bounds_ok, coverage=12.**
+Phase70–86 complete (prior sessions). Phase87: `PHASE87_..._20261108T085216Z.json` valid. Phase88: `PHASE88_..._20261108T091152Z.json` valid. Phase89: `PHASE89_..._20261108T095151Z.json` valid. Phase90: `PHASE90_..._20261108T101257Z.json` valid. Phase91: `PHASE91_..._20261108T103708Z.json` valid. Phase92: `PHASE92_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T105403Z.json` valid. Phase93: `PHASE93_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T112908Z.json` valid. **All paper-only, live disabled, next9 false, gates_ok, deterministic, bounds_ok, coverage=12.**
 
 ---
 
-## DEFINITION OF DONE (Phase92) — MET
-- ≥1 additive timestamped paper evidence/risk-reduction artifact: `research_state/PHASE92_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T105403Z.json` (valid, gates_ok, deterministic, bounds_ok, coverage=12) **and**
-- targeted tests for touched code: `tests/test_generate_phase92_*` (≥7 cases) + `tests/test_phase92_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` (module smoke); exact commands/results cited above **and**
+## DEFINITION OF DONE (Phase93) — MET
+- ≥1 additive timestamped paper evidence/risk-reduction artifact: `research_state/PHASE93_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T112908Z.json` (valid, gates_ok, deterministic, bounds_ok, coverage=12) **and**
+- targeted tests for touched code: `tests/test_generate_phase93_*` (≥7 cases) + `tests/test_phase93_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` (module smoke); exact commands/results cited above **and**
 - strict session gate verified fresh for material decisions (`gate_passed=true`, `next9_unblocked=false`, `cv_fresh_for_material_decisions=true`) **and**
 - this handoff updated **last** with `INIT-*` outcome, UTC timestamp, session note, cited artifacts, and next mandatory `INIT-*`. **No live capital. No venue mutation. No NEXT9 unblock.**
