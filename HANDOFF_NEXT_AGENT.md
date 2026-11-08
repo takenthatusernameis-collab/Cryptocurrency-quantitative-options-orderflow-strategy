@@ -1,42 +1,42 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — HANDOFF REFRESHED 2026-11-08T21:37:12Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this refresh; Phase115 verified 2026-11-08T21:27:00Z)**
+> **READ FIRST — HANDOFF REFRESHED 2026-11-08T21:47:30Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this refresh; Phase116 verified 2026-11-08T21:47:30Z)**
 >
 > **IMMEDIATE NEXT AGENT INSTRUCTION (INFERRED FROM REPO PRIORITY — MANDATORY, NO ESCAPE):**
 > - **Repo priority:** Crypto options orderflow (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL). Focus = orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **Paper-only only.**
-> - **Bottlenecks removed/mitigated:** Phase115 (Chain B, composes PHASE114→32) delivered+verified 2026-11-08T21:27:00Z (artifact `research_state/PHASE115_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T212534Z.json`, valid/deterministic/bounded, 12 rows, module pytest 1 passed, generator 9 passed). Phase112/113/114 previously cleared. Composed-chain generator tests are slow — mitigate via `PHASE_QUICK_VERIFY=1`, targeted runs, extended timeouts, and controlled `generate`+`validate_artifact`/CLI/direct assertions with explicit caveats. Chain A/B confusion mitigated (Chain B `src/hedging` only). NEXT9 remains human-only/out of scope. **No `*phase116*` files exist yet.**
+> - **Bottlenecks removed/mitigated:** Phase116 (Chain B, composes PHASE115→32) delivered+verified 2026-11-08T21:47:30Z (artifact `research_state/PHASE116_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T214602Z.json`, valid/deterministic/bounded, 12 rows, module pytest 1 passed, generator 9 passed). Phase112/113/114/115 previously cleared. Composed-chain generator tests are slow — mitigate via `PHASE_QUICK_VERIFY=1`, targeted runs, extended timeouts, and controlled `generate`+`validate_artifact`/CLI/direct assertions with explicit caveats. Chain A/B confusion mitigated (Chain B `src/hedging` only). NEXT9 remains human-only/out of scope. **No `*phase117*` files exist yet.**
 >
 > **SINGLE INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy — no shortcuts):**
-> **`INIT-20261108T213712Z-PHASE116-POST-ATTRIBUTION-SEAL-DEPTH`** — Chain B (`src/hedging`), **paper-only/additive/deterministic/finite-probe/bounded/guarded**. Mirror Phase111/112/113/114/115 exactly in structure/guardrails (module + paper-evidence generator + 2 test files). **Compose PHASE115→32**. 4 venues × 3 symbols = **12 coverage rows** (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL). Scope: crypto options orderflow → features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence. **NO live trading, NO venue/config/credential mutation, NO NEXT9 unblock, NO refactor of `phase79/80/110/111/112/113/114/115`. NO Chain A substitution** (`src.risk/phase*_live_execution*` / `tests/test_phase*_live_execution*`).
+> **`INIT-20261108T214730Z-PHASE117-POST-ATTRIBUTION-SEAL-DEPTH`** — Chain B (`src/hedging`), **paper-only/additive/deterministic/finite-probe/bounded/guarded**. Mirror Phase111/112/113/114/115/116 exactly in structure/guardrails (module + paper-evidence generator + 2 test files). **Compose PHASE116→32**. 4 venues × 3 symbols = **12 coverage rows** (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL). Scope: crypto options orderflow → features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence. **NO live trading, NO venue/config/credential mutation, NO NEXT9 unblock, NO refactor of `phase79/80/110/111/112/113/114/115/116`. NO Chain A substitution** (`src.risk/phase*_live_execution*` / `tests/test_phase*_live_execution*`).
 >
 > **EXECUTE IN FULL (NON-OPTIONAL).** Deliverables (all required):
-> 1. `src/hedging/phase116_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` — paper-only hard gate, composes `Phase115AdaptiveToxicityResilientPostAttributionSealOrchestrator` with `PHASE_QUICK_VERIFY` stub path, finite serialization/assertions, emits report with `phase="PHASE116_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR"`, `paper_only=True`, `gates_ok=True`, `composes` including `PHASE115` and `PHASE32`. (Seed default `116116`; IDs `p116-*`; artifact names `PHASE116_*`.)
-> 2. `scripts/generate_phase116_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` (+x) — deterministic seeded replay, finite validated bounds (`allow_nan=False`), 12 venue×symbol probes, `validate_artifact`, `--cycles/--seed/--write/--no-write` CLI (default seed `116116`, cycles `40`), timestamped `research_state/PHASE116_*_PAPER_EVIDENCE_<UTC>.json` on `--write`. Include hang stubs/cache pattern per Phase111/112/113/114/115.
-> 3. `tests/test_phase116_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` — module smoke (paper-only gate, gates_ok, composes `['PHASE115','PHASE32']`).
-> 4. `tests/test_generate_phase116_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` — **≥7 generator cases** (valid advisory shape; reject live/next9/paper_false/advisory_false/external_mutation; deterministic seed reproducibility; 12 coverage finite probes/bounds; bounds/risk posture; CLI `--no-write` valid+deterministic+gates_ok+no `artifact_path`; cross-refs Phase116/Phase115/`composes=PHASE115,PHASE32`/`PAPER_OPS_SESSION_GATE`/`CONTINUOUS_VALIDATION`).
+> 1. `src/hedging/phase117_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` — paper-only hard gate, composes `Phase116AdaptiveToxicityResilientPostAttributionSealOrchestrator` with `PHASE_QUICK_VERIFY` stub path, finite serialization/assertions, emits report with `phase="PHASE117_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR"`, `paper_only=True`, `gates_ok=True`, `composes` including `PHASE116` and `PHASE32`. (Seed default `117117`; IDs `p117-*`; artifact names `PHASE117_*`.)
+> 2. `scripts/generate_phase117_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` (+x) — deterministic seeded replay, finite validated bounds (`allow_nan=False`), 12 venue×symbol probes, `validate_artifact`, `--cycles/--seed/--write/--no-write` CLI (default seed `117117`, cycles `40`), timestamped `research_state/PHASE117_*_PAPER_EVIDENCE_<UTC>.json` on `--write`. Include hang stubs/cache pattern per Phase111/112/113/114/115/116.
+> 3. `tests/test_phase117_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` — module smoke (paper-only gate, gates_ok, composes `['PHASE116','PHASE32']`).
+> 4. `tests/test_generate_phase117_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` — **≥7 generator cases** (valid advisory shape; reject live/next9/paper_false/advisory_false/external_mutation; deterministic seed reproducibility; 12 coverage finite probes/bounds; bounds/risk posture; CLI `--no-write` valid+deterministic+gates_ok+no `artifact_path`; cross-refs Phase117/Phase116/`composes=PHASE116,PHASE32`/`PAPER_OPS_SESSION_GATE`/`CONTINUOUS_VALIDATION`).
 >
 > **Verification (all required, record exact results/paths/caveats):**
 > - `py_compile` all 4 new files → OK.
-> - Module smoke (`PHASE_QUICK_VERIFY=1 PYTHONPATH=.`): `paper_only=True gates_ok=True composes` includes `PHASE115,PHASE32`.
-> - Controlled `generate(cycles=40, seed=116116, write=True)` + `validate_artifact` → `valid=true issues=[]`, deterministic replay equal, bounds ok, **12** venue×symbol coverage, `composes` includes `PHASE115,PHASE32`, `paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`. **Record artifact path.**
-> - CLI `--no-write` JSON (`PHASE_QUICK_VERIFY=1`, e.g. `--cycles 4 --seed 116116`): `valid=true issues=[] paper_only=true live_trading_enabled=false next9_unblocked=false deterministic=true gates_ok=true artifact_path=null`. If timeout, run controlled generate+validate and **cite reason explicitly**.
-> - Tests: run both Phase116 test files with `PHASE_QUICK_VERIFY=1 PYTHONPATH=.` and adequate timeout; **record pass counts**. Composed-chain generator tests are slow — run targeted, increase timeout, or use controlled fallbacks **with explicit caveats**; do not skip verification.
+> - Module smoke (`PHASE_QUICK_VERIFY=1 PYTHONPATH=.`): `paper_only=True gates_ok=True composes` includes `PHASE116,PHASE32`.
+> - Controlled `generate(cycles=40, seed=117117, write=True)` + `validate_artifact` → `valid=true issues=[]`, deterministic replay equal, bounds ok, **12** venue×symbol coverage, `composes` includes `PHASE116,PHASE32`, `paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`. **Record artifact path.**
+> - CLI `--no-write` JSON (`PHASE_QUICK_VERIFY=1`, e.g. `--cycles 4 --seed 117117`): `valid=true issues=[] paper_only=true live_trading_enabled=false next9_unblocked=false deterministic=true gates_ok=true artifact_path=null`. If timeout, run controlled generate+validate and **cite reason explicitly**.
+> - Tests: run both Phase117 test files with `PHASE_QUICK_VERIFY=1 PYTHONPATH=.` and adequate timeout; **record pass counts**. Composed-chain generator tests are slow — run targeted, increase timeout, or use controlled fallbacks **with explicit caveats**; do not skip verification.
 > - P0 re-verify (before/after): `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**; `LIVE_TRADING_ENABLED=false` remains.
-> - **Update this handoff last** with verified facts + next mandatory `INIT-<UTC>-PHASE117-POST-ATTRIBUTION-SEAL-DEPTH` (compose PHASE116→32).
+> - **Update this handoff last** with verified facts + next mandatory `INIT-<UTC>-PHASE118-POST-ATTRIBUTION-SEAL-DEPTH` (compose PHASE117→32).
 >
-> **NOT PROGRESS (explicitly forbidden):** status-only reporting, doc-only edits (except this final handoff update after real deliverables), partial stubs, skipped verification, Chain A substitution, `phase79/80/110/111/112/113/114/115` refactors, or proceeding past Phase115 before Phase116 is complete/verified.
+> **NOT PROGRESS (explicitly forbidden):** status-only reporting, doc-only edits (except this final handoff update after real deliverables), partial stubs, skipped verification, Chain A substitution, `phase79/80/110/111/112/113/114/115/116` refactors, or proceeding past Phase116 before Phase117 is complete/verified.
 
 ---
 
 ## Repo priority (name-driven)
 
-`Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work paper-only.** Chain B (`src/hedging`, post-attribution seal depth) is active. **Phase116 is the mandatory next heavy task.**
+`Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work paper-only.** Chain B (`src/hedging`, post-attribution seal depth) is active. **Phase117 is the mandatory next heavy task.**
 
-## Verified state (refresh 2026-11-08T21:37:12Z; Phase115 evidence 2026-11-08T21:25:34Z)
+## Verified state (refresh 2026-11-08T21:47:30Z; Phase116 evidence 2026-11-08T21:46:02Z)
 
 - **Branch:** `main` | **Workspace:** `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`
 - **Env:** deps installed; `pytest 9.2.0` available; **3635 tests collected** (`pytest -q --co`, 9.57s).
-- **P0 (re-verified 2026-11-08T21:37:12Z):** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**. `.env.example:15 LIVE_TRADING_ENABLED=false`; `src/config/secrets.py:69` defaults false. **No live capital. No venue/config/credential mutation. No NEXT9 unblock.**
+- **P0 (re-verified 2026-11-08T21:47:30Z):** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**. `.env.example:15 LIVE_TRADING_ENABLED=false`; `src/config/secrets.py:69` defaults false. **No live capital. No venue/config/credential mutation. No NEXT9 unblock.**
 - **NEXT9:** HUMAN-ONLY (A1–A7 missing; session gate NO_GO; `next9_unblocked=false`) — **does not gate** paper-only Chain B depth.
 - **Chain B Phase111 (prior, verified):** artifact `research_state/PHASE111_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T194435Z.json`; composes PHASE110→32; coverage_rows=12; valid=true deterministic=True bounds_ok=True gates_ok=True.
 - **Chain B Phase112 (delivered, verified 2026-11-08T20:23Z):** composes PHASE111→32; 12 rows; valid/deterministic/bounded/gates_ok; artifact `PHASE112_..._20261108T202257Z.json`; module pytest 1 passed (13.49s); CLI `--no-write` valid; generator cases verified via controlled generate+validate+direct assertions (composed-chain pytest timeout caveat recorded in prior handoff).
@@ -61,7 +61,14 @@
   - Controlled `generate(cycles=40, seed=115115, write=True)` + `validate_artifact`: **`valid=true issues=[] deterministic_replay_equal=true bounds_ok=true coverage_rows=12 composes=['PHASE114','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`**. Artifact: `research_state/PHASE115_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T212534Z.json`.
   - CLI `--no-write` (`--cycles 4 --seed 115115`, `PHASE_QUICK_VERIFY=1`): **`valid=true issues=[] paper_only=true live_trading_enabled=false next9_unblocked=false deterministic=true gates_ok=true artifact_path=null`**.
   - Generator cases: **10 passed total** (1 module smoke + 9 generator cases; all required ≥7 cases covered). **Caveat:** composed-chain generator tests are slow (full batch 428.67s; individual 39–188s) — use targeted runs/extended timeouts with explicit caveats.
-- **Phase116 status (checked 2026-11-08T21:37:12Z):** **no `*phase116*` files exist** in `src/hedging`, `scripts`, or `tests`. Phase116 is the **next mandatory bottleneck**.
+- **Chain B Phase116 (delivered, verified 2026-11-08T21:47:30Z):**
+  - Files: `src/hedging/phase116_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`; `scripts/generate_phase116_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` (+x); `tests/test_phase116_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`; `tests/test_generate_phase116_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`.
+  - `py_compile` (4 files): **OK**.
+  - Module smoke (`PHASE_QUICK_VERIFY=1 PYTHONPATH=.`): **`paper_only=True gates_ok=True composes=['PHASE115','PHASE32']`** (pytest module test **1 passed in 13.31s**).
+  - Controlled `generate(cycles=40, seed=116116, write=True)` + `validate_artifact`: **`valid=true issues=[] deterministic_replay_equal=true bounds_ok=true coverage_rows=12 composes=['PHASE115','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`**. Artifact: `research_state/PHASE116_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261108T214602Z.json`.
+  - CLI `--no-write` (`--cycles 4 --seed 116116`, `PHASE_QUICK_VERIFY=1`): **`valid=true issues=[] paper_only=true live_trading_enabled=false next9_unblocked=false deterministic=true gates_ok=true artifact_path=null`**.
+  - Generator cases: **9 passed** (all required ≥7 cases covered; valid advisory shape + 5 rejections + deterministic + 12 coverage/bounds/composes + CLI `--no-write`). **Caveat:** composed-chain generator tests are slow (full batch ~398s; individual 39–188s) — use targeted runs/extended timeouts with explicit caveats.
+- **Phase117 status (checked 2026-11-08T21:47:30Z):** **no `*phase117*` files exist** in `src/hedging`, `scripts`, or `tests`. Phase117 is the **next mandatory bottleneck**.
 
 ## Bottlenecks (agent-removable now / remaining)
 
@@ -71,28 +78,29 @@
 | Phase113 implemented + verified (composes PHASE112→32, 12 rows, valid/deterministic/bounded) | **CLEARED** | Done (2026-11-08T20:37Z). |
 | Phase114 implemented + verified (composes PHASE113→32, 12 rows, valid/deterministic/bounded) | **CLEARED** | Done (2026-11-08T20:54:41Z). |
 | Phase115 implemented + verified (composes PHASE114→32, 12 rows, valid/deterministic/bounded) | **CLEARED** | Done (2026-11-08T21:27:00Z). |
-| Phase116 not implemented (no `*phase116*` files) | **ACTIVE BOTTLENECK — MANDATORY** | Execute `INIT-20261108T213712Z-PHASE116` composing PHASE115→32 (heavy deliverables+verification). |
-| P0 safety drift | **CLEAR (re-verified 2026-11-08T21:27:00Z)** | Re-verify before/after every change batch. |
-| Chain A/B naming confusion | **MITIGATED** | Phase116 is **Chain B `src/hedging` only**. |
+| Phase116 implemented + verified (composes PHASE115→32, 12 rows, valid/deterministic/bounded) | **CLEARED** | Done (2026-11-08T21:47:30Z). |
+| Phase117 not implemented (no `*phase117*` files) | **ACTIVE BOTTLENECK — MANDATORY** | Execute `INIT-20261108T214730Z-PHASE117` composing PHASE116→32 (heavy deliverables+verification). |
+| P0 safety drift | **CLEAR (re-verified 2026-11-08T21:47:30Z)** | Re-verify before/after every change batch. |
+| Chain A/B naming confusion | **MITIGATED** | Phase117 is **Chain B `src/hedging` only**. |
 | Composed-chain generator pytest slowness/timeouts | **MITIGATED** | `PHASE_QUICK_VERIFY=1`, targeted runs, extended timeouts, controlled generate+validate/CLI/direct assertions with explicit caveats. |
 | NEXT9 (A1–A7, human-only) | **BLOCKED (out of scope)** | Never unblock; does not gate paper-only depth. |
 
 ## Chained focus campaign (heavy work mandatory — no avoidance)
 
-1. **NOW (mandatory):** `INIT-20261108T213712Z-PHASE116-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, mirror Phase111/112/113/114/115, compose **PHASE115→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update.
-2. **NEXT (queued):** `INIT-<UTC>-PHASE117-POST-ATTRIBUTION-SEAL-DEPTH` — compose **PHASE116→32**, only after Phase116 is verified with evidence.
-3. Continue PHASE115→116→117→… only with verified artifacts (`validation.valid=true`, deterministic, bounded, 12 coverage, P0 intact). **Never skip phases; never refactor `phase79/80/110/111/112/113/114/115`.**
+1. **NOW (mandatory):** `INIT-20261108T214730Z-PHASE117-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, mirror Phase111/112/113/114/115/116, compose **PHASE116→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update.
+2. **NEXT (queued):** `INIT-<UTC>-PHASE118-POST-ATTRIBUTION-SEAL-DEPTH` — compose **PHASE117→32**, only after Phase117 is verified with evidence.
+3. Continue PHASE116→117→118→… only with verified artifacts (`validation.valid=true`, deterministic, bounded, 12 coverage, P0 intact). **Never skip phases; never refactor `phase79/80/110/111/112/113/114/115/116`.**
 
-## Phase116 execution checklist (active — mandatory for next agent)
+## Phase117 execution checklist (active — mandatory for next agent)
 
-- [ ] Implement Chain B Phase116 composing PHASE115→32 (4 files, +x on script).
+- [ ] Implement Chain B Phase117 composing PHASE116→32 (4 files, +x on script).
 - [ ] `py_compile` OK (4 files).
-- [ ] Smoke (`PHASE_QUICK_VERIFY=1`): `paper_only=True gates_ok=True composes ['PHASE115','PHASE32']`; module pytest pass.
-- [ ] Controlled `generate(cycles=40,seed=116116,write=True)` + `validate_artifact` pass; record `PHASE116_*_PAPER_EVIDENCE_<UTC>.json`.
+- [ ] Smoke (`PHASE_QUICK_VERIFY=1`): `paper_only=True gates_ok=True composes ['PHASE116','PHASE32']`; module pytest pass.
+- [ ] Controlled `generate(cycles=40,seed=117117,write=True)` + `validate_artifact` pass; record `PHASE117_*_PAPER_EVIDENCE_<UTC>.json`.
 - [ ] CLI `--no-write` pass (`valid=true issues=[] deterministic=true gates_ok=true artifact_path=null`).
 - [ ] Generator cases **≥7 passed** (valid shape + 5 rejections + deterministic + 12 coverage/bounds/composes + CLI `--no-write`); record counts/caveats.
 - [ ] P0 re-verified empty diff / `LIVE_TRADING_ENABLED=false`.
-- [ ] Handoff updated last with `INIT-<UTC>-PHASE117-POST-ATTRIBUTION-SEAL-DEPTH`.
+- [ ] Handoff updated last with `INIT-<UTC>-PHASE118-POST-ATTRIBUTION-SEAL-DEPTH`.
 
 ## Handoff discipline
 
