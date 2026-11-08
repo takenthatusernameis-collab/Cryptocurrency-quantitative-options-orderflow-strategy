@@ -1,7 +1,6 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — HANDOFF REFRESHED 2026-11-08T19:18:14Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this session)**
->
+> **READ FIRST — HANDOFF REFRESHED 2026-11-08T19:18:54Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this session)**>
 > **SINGLE INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy — no shortcuts):**
 > **`INIT-20261108T190330Z-PHASE110-POST-ATTRIBUTION-SEAL-DEPTH`** — Chain B (`src/hedging`), **paper-only/additive/deterministic/finite-probe/bounded/guarded**. Mirror Phase109 exactly in structure/guardrails (module + paper-evidence generator + 2 test files). **Compose PHASE109→32**. 4 venues × 3 symbols = **12 coverage rows** (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL). Scope: crypto options orderflow → features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence. **NO live trading, NO venue/config/credential mutation, NO NEXT9 unblock, NO refactor of `phase79/80/110`. NO Chain A substitution** (`src.risk/phase*_live_execution*` / `tests/test_phase*_live_execution*`).
 >
@@ -69,14 +68,14 @@
 
 ## Phase109 execution checklist
 
-- [ ] Implement Chain B Phase109 composing PHASE108→32 (4 files, +x on script).
-- [ ] `py_compile` OK (4 files).
-- [ ] Smoke: `paper_only=True gates_ok=True composes ['PHASE108','PHASE32']`.
-- [ ] Controlled `generate(cycles=40,seed=109109,write=True)` + `validate_artifact` pass; artifact path recorded.
-- [ ] CLI `--no-write` pass (or explicit cited fallback).
-- [ ] Both test files run with `PHASE_QUICK_VERIFY=1`; pass counts recorded (caveats if any timeout).
-- [ ] P0 re-verified empty diff / `LIVE_TRADING_ENABLED=false`.
-- [ ] Handoff updated last with `INIT-<UTC>-PHASE110-POST-ATTRIBUTION-SEAL-DEPTH`.
+- [x] Implement Chain B Phase109 composing PHASE108→32 (4 files, +x on script).
+- [x] `py_compile` OK (4 files).
+- [x] Smoke: `paper_only=True gates_ok=True composes ['PHASE108','PHASE32']`.
+- [x] Controlled `generate(cycles=40,seed=109109,write=True)` + `validate_artifact` pass; artifact path recorded.
+- [x] CLI `--no-write` pass (or explicit cited fallback).
+- [x] Both test files run with `PHASE_QUICK_VERIFY=1`; pass counts recorded (caveats if any timeout).
+- [x] P0 re-verified empty diff / `LIVE_TRADING_ENABLED=false`.
+- [x] Handoff updated last with `INIT-<UTC>-PHASE110-POST-ATTRIBUTION-SEAL-DEPTH`.
 
 ## Handoff discipline
 
