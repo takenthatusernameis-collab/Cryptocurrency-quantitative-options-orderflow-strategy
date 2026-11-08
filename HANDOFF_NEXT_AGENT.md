@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — HANDOFF REFRESHED 2026-11-08T18:56:00Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this session)**
+> **READ FIRST — HANDOFF REFRESHED 2026-11-08T18:56:10Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this session)**
 >
 > **SINGLE INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy — no shortcuts):**
 > **`INIT-20261108T185600Z-PHASE109-POST-ATTRIBUTION-SEAL-DEPTH`** — Chain B (`src/hedging`), **paper-only/additive/deterministic/finite-probe/bounded/guarded**. Mirror Phase108 exactly in structure/guardrails (module + paper-evidence generator + 2 test files). **Compose PHASE108→32**. 4 venues × 3 symbols = **12 coverage rows** (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL). Scope: crypto options orderflow → features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence. **NO live trading, NO venue/config/credential mutation, NO NEXT9 unblock, NO refactor of `phase79/80/110`. NO Chain A substitution** (`src.risk/phase*_live_execution*` / `tests/test_phase*_live_execution*`).
