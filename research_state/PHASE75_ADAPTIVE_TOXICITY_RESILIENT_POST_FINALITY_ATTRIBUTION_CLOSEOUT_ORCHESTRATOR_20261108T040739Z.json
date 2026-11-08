@@ -1,0 +1,270 @@
+{
+  "report": {
+    "phase": "PHASE75_ADAPTIVE_TOXICITY_RESILIENT_POST_FINALITY_ATTRIBUTION_CLOSEOUT_ORCHESTRATOR",
+    "timestamp": "2026-11-08T04:07:39.411413Z",
+    "paper_only": true,
+    "gates_ok": true,
+    "seed": 7575,
+    "cycles": 40,
+    "n_venue_closeouts": 6,
+    "n_attribution_closeouts": 5,
+    "n_hedging_closeouts": 8,
+    "n_attribution_finality_certifications": 7,
+    "avg_cross_venue_ok": 0.996249725,
+    "avg_finality_pass_rate": 0.99,
+    "closeout_pass_rate": 0.0,
+    "composes": [
+      "PHASE74",
+      "PHASE73",
+      "PHASE72",
+      "PHASE71",
+      "PHASE70",
+      "PHASE69",
+      "PHASE58",
+      "PHASE54",
+      "PHASE39",
+      "PHASE32"
+    ]
+  },
+  "venue_closeouts": [
+    {
+      "vclose_id": "p75-7575-vclose-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "cross_venue_ok": 0.997623,
+      "action": "cross_venue_closeout_post_finality",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.370281Z"
+    },
+    {
+      "vclose_id": "p75-7575-vclose-000007",
+      "cycle": 7,
+      "venue": "binance",
+      "cross_venue_ok": 0.9959,
+      "action": "cross_venue_closeout_post_finality",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.377871Z"
+    },
+    {
+      "vclose_id": "p75-7575-vclose-000014",
+      "cycle": 14,
+      "venue": "bybit",
+      "cross_venue_ok": 0.9959,
+      "action": "cross_venue_closeout_post_finality",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.384226Z"
+    },
+    {
+      "vclose_id": "p75-7575-vclose-000021",
+      "cycle": 21,
+      "venue": "okx",
+      "cross_venue_ok": 0.9961127,
+      "action": "cross_venue_closeout_post_finality",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.392379Z"
+    },
+    {
+      "vclose_id": "p75-7575-vclose-000028",
+      "cycle": 28,
+      "venue": "deribit",
+      "cross_venue_ok": 0.99606265,
+      "action": "cross_venue_closeout_post_finality",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.398724Z"
+    },
+    {
+      "vclose_id": "p75-7575-vclose-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "cross_venue_ok": 0.9959,
+      "action": "cross_venue_closeout_post_finality",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.405043Z"
+    }
+  ],
+  "attribution_closeouts": [
+    {
+      "aclose_id": "p75-7575-aclose-000012",
+      "cycle": 12,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.5268,
+      "action": "attribution_closeout_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.381203Z"
+    },
+    {
+      "aclose_id": "p75-7575-aclose-000018",
+      "cycle": 18,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.5047,
+      "action": "attribution_closeout_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.387643Z"
+    },
+    {
+      "aclose_id": "p75-7575-aclose-000024",
+      "cycle": 24,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.42425,
+      "action": "attribution_closeout_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.394004Z"
+    },
+    {
+      "aclose_id": "p75-7575-aclose-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "underlying": "BTC",
+      "severity": 0.40215,
+      "action": "attribution_closeout_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.400306Z"
+    },
+    {
+      "aclose_id": "p75-7575-aclose-000036",
+      "cycle": 36,
+      "venue": "deribit",
+      "underlying": "BTC",
+      "severity": 0.56205,
+      "action": "attribution_closeout_selective",
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.408433Z"
+    }
+  ],
+  "hedging_closeouts": [
+    {
+      "hclose_id": "p75-7575-hclose-000000",
+      "cycle": 0,
+      "venue": "deribit",
+      "hedge_ok": 0.997623,
+      "finalized": false,
+      "orch_closeout_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.371910Z"
+    },
+    {
+      "hclose_id": "p75-7575-hclose-000005",
+      "cycle": 5,
+      "venue": "okx",
+      "hedge_ok": 0.99615725,
+      "finalized": false,
+      "orch_closeout_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.374907Z"
+    },
+    {
+      "hclose_id": "p75-7575-hclose-000010",
+      "cycle": 10,
+      "venue": "bybit",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_closeout_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.379452Z"
+    },
+    {
+      "hclose_id": "p75-7575-hclose-000015",
+      "cycle": 15,
+      "venue": "binance",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_closeout_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.385839Z"
+    },
+    {
+      "hclose_id": "p75-7575-hclose-000020",
+      "cycle": 20,
+      "venue": "deribit",
+      "hedge_ok": 0.99640585,
+      "finalized": false,
+      "orch_closeout_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.390612Z"
+    },
+    {
+      "hclose_id": "p75-7575-hclose-000025",
+      "cycle": 25,
+      "venue": "okx",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_closeout_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.396974Z"
+    },
+    {
+      "hclose_id": "p75-7575-hclose-000030",
+      "cycle": 30,
+      "venue": "bybit",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_closeout_throttle_factor": 0.2209,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.402043Z"
+    },
+    {
+      "hclose_id": "p75-7575-hclose-000035",
+      "cycle": 35,
+      "venue": "binance",
+      "hedge_ok": 0.9957,
+      "finalized": false,
+      "orch_closeout_throttle_factor": 0.150212,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.406656Z"
+    }
+  ],
+  "attribution_finality_certifications": [
+    {
+      "afin_id": "p75-7575-afin-000000",
+      "cycle": 0,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.373697Z"
+    },
+    {
+      "afin_id": "p75-7575-afin-000006",
+      "cycle": 6,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.376685Z"
+    },
+    {
+      "afin_id": "p75-7575-afin-000012",
+      "cycle": 12,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.382981Z"
+    },
+    {
+      "afin_id": "p75-7575-afin-000018",
+      "cycle": 18,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.389428Z"
+    },
+    {
+      "afin_id": "p75-7575-afin-000024",
+      "cycle": 24,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.395795Z"
+    },
+    {
+      "afin_id": "p75-7575-afin-000030",
+      "cycle": 30,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.403855Z"
+    },
+    {
+      "afin_id": "p75-7575-afin-000036",
+      "cycle": 36,
+      "finalized": false,
+      "paper_only": true,
+      "timestamp": "2026-11-08T04:07:39.410190Z"
+    }
+  ]
+}
