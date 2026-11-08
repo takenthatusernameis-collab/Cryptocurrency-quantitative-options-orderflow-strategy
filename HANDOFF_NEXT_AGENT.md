@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — HANDOFF REFRESHED 2026-11-08T17:16:05Z (repo-priority: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this session)**
+> **READ FIRST — HANDOFF REFRESHED 2026-11-08T17:20:16Z (repo-priority: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified this session)**
 >
 > **SINGLE INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy):**
 > **`INIT-20261108T171605Z-PHASE105-POST-ATTRIBUTION-SEAL-DEPTH`** — Chain B (`src.hedging`), **paper-only/additive/deterministic/finite-probe/bounded/guarded**, mirror Phase104, **compose PHASE104→32**, 4 venues × 3 symbols = 12 coverage (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL), orderflow→execution/risk→delta-neutral hedging→PnL attribution→reconciliation/monitoring evidence.
