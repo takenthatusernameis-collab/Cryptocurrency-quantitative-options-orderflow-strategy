@@ -1,10 +1,10 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — VERIFIED REFRESH 2026-11-09T12:10:00Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `1d7e676ee` `chore(kilo): checkpoint agent session`; P0 re-verified 2026-11-09T12:10:00Z — `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**, `.env.example` `LIVE_TRADING_ENABLED=false`; Phase112–146 COMPLETE+verified+artifact-verified; Phase146 artifact `research_state/PHASE146_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T120846Z.json` present/valid (`valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE145','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`); 4 `*phase146*` deliverables present + artifact; **0 `*phase147*` deliverables, 0 Phase147 artifacts** → Phase147 **UNSTARTED / MANDATORY NOW**; competing handoffs `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs; `research_state/durable_handoff.md` stale/superseded — **this file governs**.)
+> **READ FIRST — VERIFIED REFRESH 2026-11-09T12:15:07Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `1d7e676ee` `chore(kilo): checkpoint agent session`; P0 re-verified 2026-11-09T12:15:07Z — `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**, `.env.example` `LIVE_TRADING_ENABLED=false`; Phase112–146 COMPLETE+verified+artifact-verified; Phase146 artifact `research_state/PHASE146_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T120846Z.json` present/valid (`valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE145','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`); 4 `*phase146*` deliverables present + artifact; **0 `*phase147*` deliverables, 0 Phase147 artifacts** → Phase147 **UNSTARTED / MANDATORY NOW**; competing handoffs `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs; `research_state/durable_handoff.md` stale/superseded — **this file governs**.)
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
-**`INIT-20261109T121000Z-PHASE147-POST-ATTRIBUTION-SEAL-DEPTH`**
+**`INIT-20261109T121507Z-PHASE147-POST-ATTRIBUTION-SEAL-DEPTH`**
 
 **Scope (non-optional):** Chain B **`src/hedging`** only, **paper-only / additive / deterministic / finite-probe / bounded / guarded**. Mirror Phase111–146 exactly (module + paper-evidence generator + 2 test files). **Compose PHASE146→32**. 12 coverage rows: **Deribit/OKX/Bybit/Binance × BTC/ETH/SOL**.
 
@@ -32,25 +32,25 @@
 
 ## Chained focus campaign (heavy work mandatory — no avoidance)
 
-1. **NOW (mandatory):** `INIT-20261109T121000Z-PHASE147-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, compose **PHASE146→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update.
+1. **NOW (mandatory):** `INIT-20261109T121507Z-PHASE147-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, compose **PHASE146→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update.
 2. **NEXT (queued):** `INIT-<UTC>-PHASE148-POST-ATTRIBUTION-SEAL-DEPTH` — compose **PHASE147→32**, only after Phase147 verified with evidence.
 3. Continue **PHASE147→148→149→…** only with verified artifacts (`validation.valid=true`/`ok=true` as validator emits, deterministic, bounded, 12 coverage, P0 intact). **Never skip phases; never refactor prior sealed phases.**
 4. **Not progress:** status-only, doc-only (except final handoff update after real deliverables), partial stubs, skipped verification, Chain A substitution, prior-phase refactors, or any work before Phase147 is complete/verified.
 
-## Bottlenecks — removed / remaining (verified 2026-11-09T12:10:00Z)
+## Bottlenecks — removed / remaining (verified 2026-11-09T12:15:07Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
 | P0 safety drift (`.env`/secrets/config/LIVE_TRADING) | **CLEAR** | Empty guarded diff; `LIVE_TRADING_ENABLED=false`. Re-verify before/after every batch. |
 | Phase112–146 implemented + artifact-verified | **CLEARED** | Complete through Phase146. |
-| **Phase147 not implemented (0 files/artifacts)** | **ACTIVE — MANDATORY** | Execute `INIT-20261109T121000Z-PHASE147-POST-ATTRIBUTION-SEAL-DEPTH` (PHASE146→32). **No other work takes priority.** |
+| **Phase147 not implemented (0 files/artifacts)** | **ACTIVE — MANDATORY** | Execute `INIT-20261109T121507Z-PHASE147-POST-ATTRIBUTION-SEAL-DEPTH` (PHASE146→32). **No other work takes priority.** |
 | Competing handoffs (`NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`) | **NEUTRALIZED (redirect stubs)** | Do not action; this file governs. |
 | Stale `research_state/durable_handoff.md` Phase 110 campaign | **REMOVED as active focus** | Superseded; this file governs. |
 | Chain A/B naming confusion | **MITIGATED** | Phase147 is **Chain B `src/hedging` only**. |
 | Composed-chain generator pytest slowness/timeouts | **MITIGATED (caveat)** | `PHASE_QUICK_VERIFY=1`, targeted runs/splits, extended timeouts, controlled generate+validate/CLI/direct assertions with explicit caveats. Never skip verification. |
 | NEXT9 (A1–A7, human-only, session gate NO_GO, `next9_unblocked=false`) | **BLOCKED — out of scope** | Never unblock; does not gate paper-only Chain B depth. |
 
-## Verified state (2026-11-09T11:43:52Z)
+## Verified state (2026-11-09T12:15:07Z)
 
 - **Branch/HEAD:** `main` @ `1d7e676ee` (dirty state may reflect uncommitted session artifacts; Phase146 deliverables/artifact present).
 - **P0:** clear (empty guarded diff; `LIVE_TRADING_ENABLED=false`).
