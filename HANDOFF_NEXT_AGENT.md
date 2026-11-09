@@ -1,10 +1,10 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — HANDOFF REFRESHED 2026-11-09T04:39:45Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified clean; Phase112–131 COMPLETE with Phase131 artifact sanity-checked; Phase132 UNSTARTED — mandatory bottleneck; no duplicate handoff sections)**
+> **READ FIRST — HANDOFF REFRESHED 2026-11-09T04:46:22Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; P0 re-verified clean; Phase112–131 COMPLETE with Phase131 artifact sanity-checked; Phase132 UNSTARTED — mandatory bottleneck; no duplicate handoff sections)**
 >
 > **IMMEDIATE NEXT AGENT INSTRUCTION (INFERRED FROM REPO PRIORITY — MANDATORY, NO ESCAPE):**
 > - **Repo priority:** Crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **Paper-only only.**
-> - **Bottlenecks removed/mitigated (verified 2026-11-09T04:39:45Z):**
+> - **Bottlenecks removed/mitigated (verified 2026-11-09T04:46:22Z):**
 >   - **P0 clear:** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty** (before/after Phase131). `.env.example` `LIVE_TRADING_ENABLED=false`. **No live capital. No venue/config/credential mutation. No NEXT9 unblock.**
 >   - **Phase131 (Chain B) COMPLETE:** 4 deliverables present in `src/hedging/`, `scripts/` (+x), `tests/`. Artifact: `research_state/PHASE131_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T043935Z.json` (controlled generate+validate: `valid=true`, `issues=[]`, deterministic replay equal, bounds ok, venue×symbol coverage **12**, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `gates_ok=true`, `composes=['PHASE130','PHASE32']`).
 >   - **Phase132 absent (re-verified):** `find src/hedging scripts tests -maxdepth 1 -name '*phase132*'` → **0 files**. This is the **only active agent-removable bottleneck**.
@@ -13,7 +13,7 @@
 >   - **Composed-chain generator test caveat (Phase129/130/131):** full pytest/in-process generator runs can time out under shell load despite stubs. Phase131: module smoke pytest **1 passed** (19.13s); CLI `--no-write` pytest **1 passed** (64.16s). Controlled in-process `generate(cycles=40,seed=131131,write=True)+validate` passed and artifact written/validated; CLI `--no-write` JSON valid (`valid=true issues=[] deterministic=true gates_ok=true artifact_path=null`). Controlled validator assertions passed for `live_trading_enabled/next9_unblocked/paper_only/advisory/no_external_venue_mutation` rejects. Bulk in-process generator pytest (all cases) and additional composed-chain pytest selections timed out at 120s — **use `PHASE_QUICK_VERIFY=1`, targeted/split runs, extended timeouts, or controlled generate+validate/CLI/direct assertions with explicit caveats; never skip verification**.
 >
 > **SINGLE INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy — no shortcuts):**
-> **`INIT-20261109T043945Z-PHASE132-POST-ATTRIBUTION-SEAL-DEPTH`** — Chain B (`src/hedging`), **paper-only/additive/deterministic/finite-probe/bounded/guarded**. Mirror Phase111–131 exactly in structure/guardrails (module + paper-evidence generator + 2 test files). **Compose PHASE131→32**. 4 venues × 3 symbols = **12 coverage rows** (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL). Scope: crypto options orderflow → features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence. **NO live trading, NO venue/config/credential mutation, NO NEXT9 unblock, NO refactor of `phase79/80/110/111/112/113/114/115/116/117/118/119/120/121/122/123/124/125/126/127/128/129/130/131`. NO Chain A substitution.**
+> **`INIT-20261109T044622Z-PHASE132-POST-ATTRIBUTION-SEAL-DEPTH`** — Chain B (`src/hedging`), **paper-only/additive/deterministic/finite-probe/bounded/guarded**. Mirror Phase111–131 exactly in structure/guardrails (module + paper-evidence generator + 2 test files). **Compose PHASE131→32**. 4 venues × 3 symbols = **12 coverage rows** (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL). Scope: crypto options orderflow → features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence. **NO live trading, NO venue/config/credential mutation, NO NEXT9 unblock, NO refactor of `phase79/80/110/111/112/113/114/115/116/117/118/119/120/121/122/123/124/125/126/127/128/129/130/131`. NO Chain A substitution.**
 >
 > **EXECUTE IN FULL (NON-OPTIONAL).** Deliverables (all required):
 > 1. `src/hedging/phase132_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` — paper-only hard gate, composes `Phase131AdaptiveToxicityResilientPostAttributionSealOrchestrator` with `PHASE_QUICK_VERIFY` stub path, finite serialization/assertions, emits report with `phase="PHASE132_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR"`, `paper_only=True`, `gates_ok=True`, `composes` including `PHASE131` and `PHASE32`. (Seed default `132132`; IDs `p132-*`; artifact names `PHASE132_*`.)
@@ -38,20 +38,20 @@
 
 `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options quantitative **orderflow** strategy (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL): orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring. **All work paper-only.** Chain B (`src/hedging`, post-attribution seal depth) is active. **Phase132 is the mandatory next heavy task.**
 
-## Verified state (refresh 2026-11-09T04:39:45Z)
+## Verified state (refresh 2026-11-09T04:46:22Z)
 
 - **Branch:** `main` (git repo present). **Workspace:** `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`. **Working tree (at refresh):** Phase131 deliverables + artifact added (uncommitted at handoff write).
-- **P0 (re-verified 2026-11-09T04:39:45Z):** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**. `.env.example` `LIVE_TRADING_ENABLED=false`. **No live capital/venue mutation/NEXT9 unblock.**
+- **P0 (re-verified 2026-11-09T04:46:22Z):** `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**. `.env.example` `LIVE_TRADING_ENABLED=false`. **No live capital/venue mutation/NEXT9 unblock.**
 - **NEXT9:** HUMAN-ONLY (A1–A7 missing; session gate NO_GO; `next9_unblocked=false`) — **does not gate** paper-only Chain B depth.
 - **Chain B Phase112–131:** COMPLETE with Phase131 artifact sanity-checked (`valid=true`, composes PHASE130→32, 12 coverage, guards intact).
-- **Phase132 status (re-verified 2026-11-09T04:39:45Z):** **no `*phase132*` files** in `src/hedging`, `scripts`, or `tests`. **ACTIVE MANDATORY BOTTLENECK — unstarted.**
+- **Phase132 status (re-verified 2026-11-09T04:46:22Z):** **no `*phase132*` files** in `src/hedging`, `scripts`, or `tests`. **ACTIVE MANDATORY BOTTLENECK — unstarted.**
 
 ## Bottlenecks (agent-removable now / remaining)
 
 | Bottleneck | Status | Action (unblock) |
 |---|---|---|
 | Phase112–131 implemented + artifact-verified (composes N-1→32, 12 rows) | **CLEARED** | Done through Phase131. |
-| Phase132 not implemented (no `*phase132*` files) | **ACTIVE — MANDATORY (re-verified 2026-11-09T04:39:45Z)** | Execute `INIT-20261109T043945Z-PHASE132-POST-ATTRIBUTION-SEAL-DEPTH` composing PHASE131→32 (heavy deliverables+verification). |
+| Phase132 not implemented (no `*phase132*` files) | **ACTIVE — MANDATORY (re-verified 2026-11-09T04:46:22Z)** | Execute `INIT-20261109T044622Z-PHASE132-POST-ATTRIBUTION-SEAL-DEPTH` composing PHASE131→32 (heavy deliverables+verification). |
 | P0 safety drift | **CLEAR (re-verified)** | Re-verify before/after every change batch. |
 | Chain A/B naming confusion | **MITIGATED** | Phase132 is **Chain B `src/hedging` only**. |
 | Composed-chain generator pytest slowness/timeouts | **MITIGATED (caveat)** | `PHASE_QUICK_VERIFY=1`, targeted runs/splits, extended timeouts, controlled generate+validate/CLI/direct assertions with explicit caveats. |
@@ -59,7 +59,7 @@
 
 ## Chained focus campaign (heavy work mandatory — no avoidance)
 
-1. **NOW (mandatory):** `INIT-20261109T043945Z-PHASE132-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, mirror Phase111–131, compose **PHASE131→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update.
+1. **NOW (mandatory):** `INIT-20261109T044622Z-PHASE132-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, mirror Phase111–131, compose **PHASE131→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update.
 2. **NEXT (queued):** `INIT-<UTC>-PHASE133-POST-ATTRIBUTION-SEAL-DEPTH` — compose **PHASE132→32**, only after Phase132 is verified with evidence.
 3. Continue PHASE131→132→133→… only with verified artifacts (`validation.valid=true`, deterministic, bounded, 12 coverage, P0 intact). **Never skip phases; never refactor `phase79/80/110/111/112/113/114/115/116/117/118/119/120/121/122/123/124/125/126/127/128/129/130/131`.**
 
