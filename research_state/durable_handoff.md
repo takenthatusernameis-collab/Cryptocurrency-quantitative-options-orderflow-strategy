@@ -1,8 +1,16 @@
-# SINGLE DURABLE HANDOFF — INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION
+# SINGLE DURABLE HANDOFF — INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (SUPERSEDED)
 
 **Timestamp:** 2026-11-09T07:34:46Z
 **Repository:** Cryptocurrency-quantitative-options-orderflow-strategy
-**Focus Campaign:** Phase 110 — Live Execution Real-time Hardening Ultra-deep Cross-venue SOR Post-trade Finality Autonomy
+**Status:** STALE / SUPERSEDED by `HANDOFF_NEXT_AGENT.md` (the single durable handoff). Do not use the Phase 110 campaign below as the active focus.
+
+## ⚠️ ACTIVE MANDATORY FOCUS (single durable handoff governs)
+
+The repository name (`Cryptocurrency-quantitative-options-orderflow-strategy`) priorities Chain B post-attribution seal depth in `src/hedging`. The next agentic work session MUST execute:
+
+**`INIT-20261109T092200Z-PHASE140-POST-ATTRIBUTION-SEAL-DEPTH`**
+
+See `HANDOFF_NEXT_AGENT.md` READ FIRST block for the full timestamped, mandatory, heavy initial task message (Phase140: mirror Phase111–139, compose PHASE139→32, 12 venue×symbol coverage rows, paper-only, full deliverables + verification + artifact + handoff update). Phase140 is **unstarted** (0 `*phase140*` files). **No other work takes priority.**
 
 ---
 

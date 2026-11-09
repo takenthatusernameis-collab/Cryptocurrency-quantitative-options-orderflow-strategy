@@ -1,8 +1,32 @@
-# NEXT AGENTIC WORK SESSION — DURABLE HANDOFF
+# NEXT AGENTIC WORK SESSION — DURABLE HANDOFF (SUPERSEDED)
+
 **Timestamp:** 2026-11-09T09:15:00Z
 **Repository:** Cryptocurrency-quantitative-options-orderflow-strategy
+**Status:** STALE / SUPERSEDED by `HANDOFF_NEXT_AGENT.md` (the single durable handoff). Do not use the CV-blocker session plan below as the active focus.
+
 **Branch:** main
 **Session ID:** (to be assigned)
+
+---
+
+## ⚠️ ACTIVE MANDATORY FOCUS (single durable handoff governs)
+
+The repository name (`Cryptocurrency-quantitative-options-orderflow-strategy`) priorities Chain B post-attribution seal depth in `src/hedging`. The next agentic work session MUST execute:
+
+**`INIT-20261109T092200Z-PHASE140-POST-ATTRIBUTION-SEAL-DEPTH`**
+
+See `HANDOFF_NEXT_AGENT.md` READ FIRST block for the full timestamped, mandatory, heavy initial task message (Phase140: mirror Phase111–139, compose PHASE139→32, 12 venue×symbol coverage rows, paper-only, full deliverables + verification + artifact + handoff update). Phase140 is **unstarted** (0 `*phase140*` files). **No other work takes priority.**
+
+## Removed bottlenecks (verified 2026-11-09T09:22:14Z)
+
+| Bottleneck | Disposition |
+|---|---|
+| CV gate `iterations_5_5` / paper-ops readiness described in this file | **SELF-RESOLVED in that session** (5/5 iterations pass, `paper_ops_ready: true`, fresh checkpoint `2026-11-09T09:17:08Z`) but the file is a duplicate competing handoff — **REMOVED as active focus**; `HANDOFF_NEXT_AGENT.md` governs. Phase140 mandatory now. |
+| Conflicting duplicate READ FIRST / durable handoff blocks | **REMOVED** — `HANDOFF_NEXT_AGENT.md` is the single durable handoff; `research_state/durable_handoff.md` Phase 110 campaign also superseded. |
+| P0 safety drift (`.env`/secrets/config/LIVE_TRADING) | **CLEAR** — re-verify empty diff before/after every batch; `LIVE_TRADING_ENABLED=false`. |
+| NEXT9 (human-only, `next9_unblocked=false`) | **BLOCKED — out of scope**; does not gate paper-only Chain B depth. |
+
+---
 
 ---
 
