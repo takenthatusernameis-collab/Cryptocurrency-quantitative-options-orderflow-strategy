@@ -1,10 +1,10 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — VERIFIED REFRESH 2026-11-09T135752Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `6bf6032ab` `chore(kilo): checkpoint agent session` — working tree clean except this handoff; **Phase148 deliverables + artifact committed @ `109074c29`** per `git show --name-only --format='' 109074c29`; P0 re-verified 2026-11-09T135752Z — `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**, `.env.example` `LIVE_TRADING_ENABLED=false`; Phase112–148 COMPLETE+verified+artifact-verified; **Phase148 artifact `research_state/PHASE148_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T133944Z.json` present/valid** (re-validated 2026-11-09T135752Z: `artifact_type` OK, `paper_only=true live_trading_enabled=false next9_unblocked=false advisory=true no_external_venue_mutation=true`, `campaign.phase=PHASE148_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR gates_ok=true composes=['PHASE147','PHASE32']`, `coverage_len=12 all_gates_ok=true`, `deterministic_replay_equal=true bounds_ok=true`); `py_compile` 4 Phase148 files **OK**; module smoke `PHASE_QUICK_VERIFY=1` → `paper_only=True gates_ok=True composes=['PHASE147','PHASE32']` **OK** (2026-11-09T135752Z). Phase147 artifact `..._20261109T131941Z.json` still valid; **0 `*phase149*` deliverables, 0 Phase149 artifacts** → Phase149 **UNSTARTED / MANDATORY NOW**. Competing root handoffs **neutralized** (redirect stubs) — **this file governs**. `research_state/durable_handoff.md` stale/superseded — **ignore it**.)
+> **READ FIRST — VERIFIED REFRESH 2026-11-09T141631Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `643eeddbf` `chore(kilo): checkpoint agent session` — working tree clean except this handoff; **Phase148 deliverables + artifact committed @ `109074c29`** per `git show --name-only --format='' 109074c29`; P0 re-verified 2026-11-09T141631Z — `git diff --name-only HEAD -- .env .env.example src/config/secrets.py config/settings.yaml` → **empty**, `.env.example` `LIVE_TRADING_ENABLED=false`; Phase112–148 COMPLETE+verified+artifact-verified; **Phase148 artifact `research_state/PHASE148_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T133944Z.json` present/valid** (`artifact_type` OK, `paper_only=true live_trading_enabled=false next9_unblocked=false advisory=true no_external_venue_mutation=true`, `campaign.phase=PHASE148_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR gates_ok=true composes=['PHASE147','PHASE32']`, `coverage_len=12 all_gates_ok=true`, `deterministic_replay_equal=true bounds_ok=true`); `py_compile` 4 Phase148 files **OK**; module smoke `PHASE_QUICK_VERIFY=1` → `paper_only=True gates_ok=True composes=['PHASE147','PHASE32']` **OK**; module pytest **`2 passed in 13.71s`**; controlled generate+validate + CLI `--no-write` verified; generator pytest caveat recorded (full suite timed out at 120s composed-chain cost; targeted key cases recommended). Phase147 artifact `..._20261109T131941Z.json` still valid; **0 `*phase149*` deliverables, 0 Phase149 artifacts** → Phase149 **UNSTARTED / MANDATORY NOW**. Competing root handoffs **neutralized** (redirect stubs) — **this file governs**. `research_state/durable_handoff.md` stale/superseded — **ignore it**.)
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
-**`INIT-20261109T135752Z-PHASE149-POST-ATTRIBUTION-SEAL-DEPTH`**
+**`INIT-20261109T141631Z-PHASE149-POST-ATTRIBUTION-SEAL-DEPTH`**
 
 **Scope (non-optional):** Chain B **`src/hedging`** only, **paper-only / additive / deterministic / finite-probe / bounded / guarded**. Mirror Phase111–148 exactly (module + paper-evidence generator + 2 test files). **Compose PHASE148→32**. 12 coverage rows: **Deribit/OKX/Bybit/Binance × BTC/ETH/SOL**.
 
@@ -34,30 +34,30 @@
 
 1. **DONE (verified):** `INIT-20261109T122838Z-PHASE147-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, compose **PHASE146→32**, 12 coverage rows. Artifact `...PHASE147_..._20261109T131941Z.json` (`valid=true`).
 2. **DONE (verified, committed @ `109074c29`):** `INIT-20261109T132100Z-PHASE148-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, compose **PHASE147→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update. Artifact `research_state/PHASE148_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T133944Z.json` (`valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE147','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`).
-3. **NOW (mandatory):** `INIT-20261109T135752Z-PHASE149-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, compose **PHASE148→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update. **No other work takes priority.**
+3. **NOW (mandatory):** `INIT-20261109T141631Z-PHASE149-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B, compose **PHASE148→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update. **No other work takes priority.**
 4. **NEXT (queued):** `INIT-<UTC>-PHASE150-POST-ATTRIBUTION-SEAL-DEPTH` — compose **PHASE149→32**, only after Phase149 verified with evidence.
 5. Continue **PHASE149→150→151→…** only with verified artifacts (`validation.valid=true`/`ok=true` as validator emits, deterministic, bounded, 12 coverage, P0 intact). **Never skip phases; never refactor prior sealed phases.**
 6. **Not progress:** status-only, doc-only (except final handoff update after real deliverables), partial stubs, skipped verification, Chain A substitution, prior-phase refactors, or any work before Phase149 is complete/verified.
 
-## Bottlenecks — removed / remaining (verified 2026-11-09T135752Z)
+## Bottlenecks — removed / remaining (verified 2026-11-09T141631Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
 | P0 safety drift (`.env`/secrets/config/LIVE_TRADING) | **CLEAR** | Empty guarded diff before/after; `LIVE_TRADING_ENABLED=false`. Re-verify before/after every batch. |
 | Phase112–148 implemented + artifact-verified | **CLEARED** | Complete through Phase148 (artifact `...PHASE148_..._20261109T133944Z.json`, `valid=true`). |
-| **Phase149 not implemented (0 files/artifacts)** | **ACTIVE — MANDATORY** | Execute `INIT-20261109T135752Z-PHASE149-POST-ATTRIBUTION-SEAL-DEPTH` (PHASE148→32). **No other work takes priority.** |
+| **Phase149 not implemented (0 files/artifacts)** | **ACTIVE — MANDATORY** | Execute `INIT-20261109T141631Z-PHASE149-POST-ATTRIBUTION-SEAL-DEPTH` (PHASE148→32). **No other work takes priority.** |
 | Competing handoffs (`NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`) | **NEUTRALIZED (redirect stubs)** | Do not action; this file governs. |
 | Stale `research_state/durable_handoff.md` Phase 110 campaign | **REMOVED as active focus** | Superseded; this file governs. |
 | Chain A/B naming confusion | **MITIGATED** | Phase149 is **Chain B `src/hedging` only**. |
 | Composed-chain generator pytest slowness/timeouts | **MITIGATED (caveat)** | `PHASE_QUICK_VERIFY=1`, targeted runs/splits, extended timeouts, controlled generate+validate/CLI/direct assertions with explicit caveats. **Never skip verification.** Phase148: module+generator controlled/CLI verified; full generator pytest suite timed out at 120s in this session (composed-chain cost) — evidence recorded; targeted key cases recommended if environment allows. |
 | NEXT9 (A1–A7, human-only, session gate NO_GO, `next9_unblocked=false`) | **BLOCKED — out of scope** | Never unblock; does not gate paper-only Chain B depth. |
 
-## Verified state (2026-11-09T135752Z)
+## Verified state (2026-11-09T141631Z)
 
-- **Branch/HEAD:** `main` @ `109074c29` `chore(kilo): checkpoint agent session` (Phase148 deliverables + artifact committed; working tree clean of Phase148/149 changes at refresh except this handoff update).
+- **Branch/HEAD:** `main` @ `643eeddbf` `chore(kilo): checkpoint agent session` (Phase148 deliverables + artifact committed @ `109074c29`; working tree clean of Phase148/149 changes at refresh except this handoff update).
 - **P0:** clear before/after (empty guarded diff; `.env.example` `LIVE_TRADING_ENABLED=false`).
 - **NEXT9:** HUMAN-ONLY (`next9_unblocked=false`) — does not gate Chain B.
-- **Phase148 (latest verified, committed @ `109074c29`; re-verified 2026-11-09T135752Z):**
+- **Phase148 (latest verified, committed @ `109074c29`; re-verified 2026-11-09T141631Z):**
   - Deliverables: `src/hedging/phase148_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `scripts/generate_phase148_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` (+x), `tests/test_phase148_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `tests/test_generate_phase148_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`.
   - `py_compile`: 4 files **OK**.
   - Module smoke (`PHASE_QUICK_VERIFY=1 PYTHONPATH=.`): `paper_only=True gates_ok=True composes=['PHASE147','PHASE32'] phase=PHASE148_...` **OK**.
