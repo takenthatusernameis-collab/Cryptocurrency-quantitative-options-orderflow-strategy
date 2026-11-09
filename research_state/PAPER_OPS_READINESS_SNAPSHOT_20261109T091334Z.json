@@ -1,0 +1,100 @@
+{
+  "artifact_type": "PAPER_OPS_READINESS_SNAPSHOT",
+  "timestamp": "2026-11-09T09:13:34.675715Z",
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "guardrails": {
+    "live_trading_default_false": true,
+    "env_example_live_trading_false": true,
+    "tracked_diff_files": [],
+    "tracked_live_enabling_changes": [],
+    "tracked_worktree_clean_of_live_enabling_changes": true,
+    "paper_only_required": true,
+    "passed": true
+  },
+  "cv": {
+    "exists": true,
+    "path": "research_state/campaign_checkpoints/CONTINUOUS_VALIDATION_AND_MONITORING_latest.json",
+    "timestamp": "2026-11-08T12:42:12.517096Z",
+    "timestamp_valid": true,
+    "age_hours": 20.5228,
+    "fresh_within_max_age_hours": true,
+    "max_age_hours": 24.0,
+    "schema_ok": false,
+    "pointer_ok": true,
+    "reasons": [
+      "cv_gate_iterations_5_5_not_true"
+    ],
+    "paper_only": true,
+    "live_trading_enabled": false,
+    "gates": {
+      "all_critical_passed": true,
+      "iterations_5_5": false,
+      "reconciliation_freshness_met": true
+    },
+    "reconciliation_freshness": {
+      "met": true,
+      "measurements_per_iteration": [
+        1
+      ]
+    },
+    "passed": false
+  },
+  "paper_campaign": {
+    "exists": true,
+    "path": "research_state/PAPER_TRADING_CAMPAIGN_20261107T045157Z.json",
+    "timestamp": "2026-11-07T04:51:57.195439+00:00",
+    "summary": {
+      "total_gates": 18,
+      "passed": 18,
+      "failed": 0,
+      "all_critical_passed": true
+    },
+    "passed": true
+  },
+  "next8_live_enablement": {
+    "exists": true,
+    "path": "research_state/campaign_checkpoints/LIVE_ENABLEMENT_PROPOSAL_REVIEW_ONLY_latest.json",
+    "decision": "NO_GO_PENDING_EXPLICIT_HUMAN_APPROVAL",
+    "live_trading_enabled": false,
+    "paper_only": true,
+    "checklist_found": true,
+    "a1_a7_all_approved": false,
+    "a1_a7_approval_issues": [
+      "A1_missing_approver_identity",
+      "A1_missing_timestamp_utc",
+      "A1_not_explicitly_approved",
+      "A2_missing_approver_identity",
+      "A2_missing_timestamp_utc",
+      "A2_not_explicitly_approved",
+      "A3_missing_approver_identity",
+      "A3_missing_timestamp_utc",
+      "A3_not_explicitly_approved",
+      "A4_missing_approver_identity",
+      "A4_missing_timestamp_utc",
+      "A4_not_explicitly_approved",
+      "A5_missing_approver_identity",
+      "A5_missing_timestamp_utc",
+      "A5_not_explicitly_approved",
+      "A6_missing_approver_identity",
+      "A6_missing_timestamp_utc",
+      "A6_not_explicitly_approved",
+      "A7_missing_approver_identity",
+      "A7_missing_timestamp_utc",
+      "A7_not_explicitly_approved"
+    ],
+    "next9_unblocked": false,
+    "passed_block_invariant": true
+  },
+  "gates": {
+    "paper_ops_ready": false,
+    "cv_fresh_for_material_decisions": true,
+    "next9_blocked_until_explicit_human_approval_recorded": true,
+    "no_live_capital": true,
+    "r3_r7_evidence_required": false,
+    "r3_r7_evidence_ready": null
+  },
+  "action_required": [
+    "record_a1_a7_human_approvals_before_next9"
+  ]
+}

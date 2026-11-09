@@ -1,12 +1,12 @@
 {
   "campaign_id": "continuous_validation_and_monitoring",
   "status": "complete",
-  "timestamp": "2026-11-08T12:42:12.517096Z",
+  "timestamp": "2026-11-09T09:17:08.772872Z",
   "paper_only": true,
   "live_trading_enabled": false,
   "gates": {
     "all_critical_passed": true,
-    "iterations_5_5": false,
+    "iterations_5_5": true,
     "iterations_passed_zero_failed": true,
     "reconciliation_freshness_gte_0_99_met_with_measurements": true,
     "paper_only": true,
@@ -19,18 +19,22 @@
     "all_iterations_met": true,
     "all_iterations_have_measurements": true,
     "measurements_per_iteration": [
+      1,
+      1,
+      1,
+      1,
       1
     ]
   },
   "artifacts": {
-    "observability": "research_state/OBSERVABILITY_REPORT_20261108T124212Z.json",
-    "alert_audit": "research_state/ALERT_AUDIT_20261108T124212Z.json",
-    "health_slo": "research_state/HEALTH_SLO_REPORT_20261108T124212Z.json",
-    "resilience": "research_state/RESILIENCE_AUDIT_20261108T124212Z.json",
-    "continuous_validation": "research_state/CONTINUOUS_VALIDATION_20261108T124212Z.json"
+    "observability": "research_state/OBSERVABILITY_REPORT_20261109T091708Z.json",
+    "alert_audit": "research_state/ALERT_AUDIT_20261109T091708Z.json",
+    "health_slo": "research_state/HEALTH_SLO_REPORT_20261109T091708Z.json",
+    "resilience": "research_state/RESILIENCE_AUDIT_20261109T091708Z.json",
+    "continuous_validation": "research_state/CONTINUOUS_VALIDATION_20261109T091708Z.json"
   },
   "notes": [
-    "Fresh strict continuous validation run (1/1 passed, 0 failed) executed 2026-11-08T12:42:12.517096Z to refresh ~2h-stale CV evidence.",
+    "Fresh strict continuous validation run (5/5 passed, 0 failed) executed 2026-11-09T09:17:08.772872Z to refresh ~2h-stale CV evidence.",
     "Paper-only. LIVE_TRADING_ENABLED remains false. No live-enabling code/config changes.",
     "Additive checkpoint; prior checkpoint retained under its own timestamp."
   ]
