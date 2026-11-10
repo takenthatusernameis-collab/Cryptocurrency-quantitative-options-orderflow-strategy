@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Generate phase151 adaptive toxicity-resilient post-attribution seal depth paper evidence (additive, paper-only).
+"""Generate phase168 adaptive toxicity-resilient post-attribution seal depth paper evidence (additive, paper-only).
 
 Repo-priority: crypto options orderflow (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL) ->
 features/signals -> execution/backtest (fees/slippage/risk) -> delta-neutral
 hedging + directional/hedge PnL attribution -> reconciliation/monitoring.
 Advisory paper evidence only: never enables live trading, never unblocks NEXT9,
-no external venue mutation, no refactor of phase79/80/110–166.
+no external venue mutation, no refactor of phase79/80/110–167.
 
-Composes PHASE166->32 (Chain B hedging). Deterministic seeded replay; finite
+Composes PHASE167->32 (Chain B hedging). Deterministic seeded replay; finite
 validated bounds (allow_nan=False write).
 """
 from __future__ import annotations
@@ -76,13 +76,13 @@ def _apply_hang_stubs() -> None:
 
 _apply_hang_stubs()
 
-from src.hedging.phase167_adaptive_toxicity_resilient_post_attribution_seal_orchestrator import (  # noqa: E402
-    Phase167AdaptiveToxicityResilientPostAttributionSealConfig,
-    Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator,
+from src.hedging.phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator import (  # noqa: E402
+    Phase168AdaptiveToxicityResilientPostAttributionSealConfig,
+    Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator,
 )
 from src.telemetry.serialization import serialize_metrics_strict  # noqa: E402
 
-ARTIFACT_TYPE = "PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE"
+ARTIFACT_TYPE = "PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE"
 VENUES = ("deribit", "okx", "bybit", "binance")
 SYMBOLS = ("BTC-USD", "ETH-USD", "SOL-USD")
 UNDERLYINGS = ("BTC", "ETH", "SOL")
@@ -90,15 +90,15 @@ UNDERLYING_BY_SYMBOL = {"BTC-USD": "BTC", "ETH-USD": "ETH", "SOL-USD": "SOL"}
 COVERAGE_CYCLES = 8
 REGIMES = ("normal", "elevated", "high_toxicity")
 SEAL_MODES = ("seal_monitor", "seal_cross_venue", "seal_depth_reinforce")
-ORCH_CACHE: Dict[tuple, Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator] = {}
+ORCH_CACHE: Dict[tuple, Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator] = {}
 
 
-def _orch(seed: int, cycles: int, underlyings: tuple, venues: tuple, fresh: bool = False) -> Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator:
+def _orch(seed: int, cycles: int, underlyings: tuple, venues: tuple, fresh: bool = False) -> Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator:
     key = (seed, int(cycles), tuple(underlyings), tuple(venues))
     if not fresh and key in ORCH_CACHE:
         return ORCH_CACHE[key]
-    orch = Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator(
-        Phase167AdaptiveToxicityResilientPostAttributionSealConfig(
+    orch = Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator(
+        Phase168AdaptiveToxicityResilientPostAttributionSealConfig(
             seed=seed, cycles=cycles, underlyings=tuple(underlyings), venues=tuple(venues),
         )
     )
@@ -169,11 +169,11 @@ def validate_artifact(d: Dict[str, Any]) -> Tuple[bool, List[str]]:
         issues.append("campaign_cycles_required")
     if camp.get("gates_ok") is not True:
         issues.append("campaign_gates_ok_required")
-    if camp.get("phase") != "PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR":
+    if camp.get("phase") != "PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR":
         issues.append("campaign_phase_mismatch")
     comp = camp.get("composes") or []
-    if "PHASE166" not in comp or "PHASE32" not in comp:
-        issues.append("campaign_must_compose_phase166_phase32")
+    if "PHASE167" not in comp or "PHASE32" not in comp:
+        issues.append("campaign_must_compose_phase167_phase32")
     surf = d.get("seal_surface") or {}
     if surf.get("paper_only") is not True:
         issues.append("surface_paper_only_required")
@@ -229,11 +229,11 @@ def _probe(venue: str, symbol: str, seed: int) -> Dict[str, Any]:
         "probe_bounds_within_limits": bool(bounds_ok),
         "probe_regime_conditional_posture": True,
         "probe_gates_ok": bool(rep.get("gates_ok") is True and finite and bounds_ok),
-        "deterministic_probe_gate_id": f"p167_{venue}_{symbol}_{seed}",
+        "deterministic_probe_gate_id": f"p168_{venue}_{symbol}_{seed}",
     }
 
 
-def generate(cycles: int = 40, seed: int = 167167, write: bool = False) -> Dict[str, Any]:
+def generate(cycles: int = 40, seed: int = 168168, write: bool = False) -> Dict[str, Any]:
     orch = _orch(seed, cycles, UNDERLYINGS, VENUES, fresh=True)
     rep = orch.run_post_attribution_seal_orchestration(cycles=cycles)
     orch2 = _orch(seed, cycles, UNDERLYINGS, VENUES, fresh=True)
@@ -268,7 +268,7 @@ def generate(cycles: int = 40, seed: int = 167167, write: bool = False) -> Dict[
         "symbols": list(SYMBOLS),
         "underlyings": list(UNDERLYINGS),
         "campaign": {
-            "phase": "PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
+            "phase": "PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
             "paper_only": True,
             "cycles": int(rep.get("cycles") or cycles),
             "gates_ok": bool(rep.get("gates_ok") is True and bounds_ok and deterministic_equal and all_cov_ok),
@@ -280,7 +280,7 @@ def generate(cycles: int = 40, seed: int = 167167, write: bool = False) -> Dict[
             "avg_seal_pass_rate": round(seal_rate, 6),
             "avg_attribution_pass_upstream": round(float(rep.get("avg_attribution_pass_upstream", 0.0) or 0.0), 9),
             "avg_orderflow_fused_upstream": round(float(rep.get("avg_orderflow_fused_upstream", 0.0) or 0.0), 9),
-            "composes": rep.get("composes") or ["PHASE166", "PHASE32"],
+            "composes": rep.get("composes") or ["PHASE167", "PHASE32"],
         },
         "seal_surface": {
             "paper_only": True,
@@ -308,10 +308,11 @@ def generate(cycles: int = 40, seed: int = 167167, write: bool = False) -> Dict[
             "all_coverage_gates_ok": bool(all_cov_ok),
         },
         "evidence_refs": [
-            "src/hedging/phase167_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
-            "scripts/generate_phase167_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py",
-            "tests/test_phase167_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
-            "tests/test_generate_phase167_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py",
+            "src/hedging/phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
+            "scripts/generate_phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py",
+            "tests/test_phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
+            "tests/test_generate_phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py",
+            "PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T234842Z.json",
             "PHASE166_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T145936Z.json",
             "PHASE148_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T133944Z.json",
             "PHASE147_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T131941Z.json",
@@ -355,13 +356,13 @@ def generate(cycles: int = 40, seed: int = 167167, write: bool = False) -> Dict[
             "CONTINUOUS_VALIDATION_20261108T124212Z.json",
         ],
         "cross_refs": [
+            "Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator",
             "Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator",
-            "Phase166AdaptiveToxicityResilientPostAttributionSealOrchestrator",
             "Phase32OrderflowAlphaIntegration",
             "Phase54RealtimeRiskFusionEngine",
             "Phase39KillSwitchesCircuitBreakers",
             "Phase58FlowToxicityMitigator",
-            "composes=PHASE166,PHASE32",
+            "composes=PHASE167,PHASE32",
         ],
         "determinism": {
             "deterministic_seeded": True,
@@ -373,12 +374,12 @@ def generate(cycles: int = 40, seed: int = 167167, write: bool = False) -> Dict[
     ok, issues = validate_artifact(d)
     d["validation"] = {"valid": ok, "issues": issues}
     if not ok:
-        raise ValueError(f"phase151 evidence invalid: {issues}")
+        raise ValueError(f"phase168 evidence invalid: {issues}")
 
     if write:
         RS.mkdir(parents=True, exist_ok=True)
         ts = _utc()
-        path = RS / f"PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_{ts}.json"
+        path = RS / f"PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_{ts}.json"
         payload = serialize_metrics_strict(d)
         path.write_text(json.dumps(payload, indent=2, allow_nan=False))
         d["artifact_path"] = str(path)
@@ -388,7 +389,7 @@ def generate(cycles: int = 40, seed: int = 167167, write: bool = False) -> Dict[
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--cycles", type=int, default=40)
-    ap.add_argument("--seed", type=int, default=167167)
+    ap.add_argument("--seed", type=int, default=168168)
     ap.add_argument("--write", dest="write", action="store_true", default=True)
     ap.add_argument("--no-write", dest="write", action="store_false")
     args = ap.parse_args()

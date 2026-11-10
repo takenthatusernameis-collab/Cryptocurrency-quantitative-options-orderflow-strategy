@@ -4,17 +4,17 @@ import json
 import os
 import sys
 
-import scripts.generate_phase167_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence as gen
-from scripts.generate_phase167_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence import (
+import scripts.generate_phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence as gen
+from scripts.generate_phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence import (
     generate,
     validate_artifact,
 )
 
 
-def test_generate_phase167_valid_advisory_shape() -> None:
+def test_generate_phase168_valid_advisory_shape() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
-        d = generate(cycles=30, seed=167167, write=False)
+        d = generate(cycles=30, seed=168168, write=False)
         ok, issues = validate_artifact(d)
         assert ok, issues
         assert d["paper_only"] is True
@@ -25,10 +25,10 @@ def test_generate_phase167_valid_advisory_shape() -> None:
         gen.ORCH_CACHE.clear()
 
 
-def test_generate_phase167_rejects_live_true() -> None:
+def test_generate_phase168_rejects_live_true() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
-        d = generate(cycles=30, seed=167167, write=False)
+        d = generate(cycles=30, seed=168168, write=False)
         d["live_trading_enabled"] = True
         ok, issues = validate_artifact(d)
         assert not ok and "must_not_enable_live_trading" in issues
@@ -36,10 +36,10 @@ def test_generate_phase167_rejects_live_true() -> None:
         gen.ORCH_CACHE.clear()
 
 
-def test_generate_phase167_rejects_next9_true() -> None:
+def test_generate_phase168_rejects_next9_true() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
-        d = generate(cycles=30, seed=167167, write=False)
+        d = generate(cycles=30, seed=168168, write=False)
         d["next9_unblocked"] = True
         ok, issues = validate_artifact(d)
         assert not ok and "must_not_unblock_next9" in issues
@@ -47,10 +47,10 @@ def test_generate_phase167_rejects_next9_true() -> None:
         gen.ORCH_CACHE.clear()
 
 
-def test_generate_phase167_rejects_paper_false() -> None:
+def test_generate_phase168_rejects_paper_false() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
-        d = generate(cycles=30, seed=167167, write=False)
+        d = generate(cycles=30, seed=168168, write=False)
         d["paper_only"] = False
         ok, _ = validate_artifact(d)
         assert not ok
@@ -58,10 +58,10 @@ def test_generate_phase167_rejects_paper_false() -> None:
         gen.ORCH_CACHE.clear()
 
 
-def test_generate_phase167_rejects_advisory_false() -> None:
+def test_generate_phase168_rejects_advisory_false() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
-        d = generate(cycles=30, seed=167167, write=False)
+        d = generate(cycles=30, seed=168168, write=False)
         d["advisory"] = False
         ok, _ = validate_artifact(d)
         assert not ok
@@ -69,10 +69,10 @@ def test_generate_phase167_rejects_advisory_false() -> None:
         gen.ORCH_CACHE.clear()
 
 
-def test_generate_phase167_rejects_external_mutation_false_required() -> None:
+def test_generate_phase168_rejects_external_mutation_false_required() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
-        d = generate(cycles=30, seed=167167, write=False)
+        d = generate(cycles=30, seed=168168, write=False)
         d["no_external_venue_mutation"] = False
         ok, issues = validate_artifact(d)
         assert not ok and "no_external_venue_mutation_required" in issues
@@ -80,11 +80,11 @@ def test_generate_phase167_rejects_external_mutation_false_required() -> None:
         gen.ORCH_CACHE.clear()
 
 
-def test_generate_phase167_deterministic_seed_reproducibility() -> None:
+def test_generate_phase168_deterministic_seed_reproducibility() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
-        a = generate(cycles=30, seed=167167, write=False)
-        b = generate(cycles=30, seed=167167, write=False)
+        a = generate(cycles=30, seed=168168, write=False)
+        b = generate(cycles=30, seed=168168, write=False)
         for k in ("campaign", "seal_surface", "venue_symbol_coverage", "determinism"):
             assert a[k] == b[k]
         for r in a["venue_symbol_coverage"]:
@@ -96,10 +96,10 @@ def test_generate_phase167_deterministic_seed_reproducibility() -> None:
         gen.ORCH_CACHE.clear()
 
 
-def test_generate_phase167_12_coverage_and_bounds_and_composes() -> None:
+def test_generate_phase168_12_coverage_and_bounds_and_composes() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
-        d = generate(cycles=30, seed=167167, write=False)
+        d = generate(cycles=30, seed=168168, write=False)
         assert len(d["venue_symbol_coverage"]) == 12
         venues = {r["venue"] for r in d["venue_symbol_coverage"]}
         symbols = {r["symbol"] for r in d["venue_symbol_coverage"]}
@@ -107,17 +107,17 @@ def test_generate_phase167_12_coverage_and_bounds_and_composes() -> None:
         assert symbols == {"BTC-USD", "ETH-USD", "SOL-USD"}
         assert all(r["probe_gates_ok"] for r in d["venue_symbol_coverage"])
         assert d["seal_surface"]["bounds_ok"] is True
-        assert d["campaign"]["composes"] == ["PHASE166", "PHASE32"]
+        assert d["campaign"]["composes"] == ["PHASE167", "PHASE32"]
     finally:
         gen.ORCH_CACHE.clear()
 
 
-def test_generate_phase167_cli_no_write_deterministic() -> None:
+def test_generate_phase168_cli_no_write_deterministic() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
         argv_bak = sys.argv[:]
         try:
-            sys.argv = ["gen", "--cycles", "30", "--seed", "167167", "--no-write"]
+            sys.argv = ["gen", "--cycles", "30", "--seed", "168168", "--no-write"]
             from io import StringIO
             buf = StringIO()
             old = sys.stdout
@@ -135,18 +135,18 @@ def test_generate_phase167_cli_no_write_deterministic() -> None:
         gen.ORCH_CACHE.clear()
 
 
-def test_generate_phase167_cross_refs_and_composes() -> None:
+def test_generate_phase168_cross_refs_and_composes() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
     try:
-        d = generate(cycles=30, seed=167167, write=False)
+        d = generate(cycles=30, seed=168168, write=False)
         refs = d["cross_refs"]
+        assert "Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator" in refs
         assert "Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator" in refs
-        assert "Phase166AdaptiveToxicityResilientPostAttributionSealOrchestrator" in refs
         assert "Phase32OrderflowAlphaIntegration" in refs
-        assert "composes=PHASE166,PHASE32" in refs
+        assert "composes=PHASE167,PHASE32" in refs
         ev = " ".join(d["evidence_refs"])
         assert "PAPER_OPS_SESSION_GATE" in ev
         assert "CONTINUOUS_VALIDATION" in ev
-        assert "PHASE166_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T145936Z.json" in ev
+        assert "PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261109T234842Z.json" in ev
     finally:
         gen.ORCH_CACHE.clear()

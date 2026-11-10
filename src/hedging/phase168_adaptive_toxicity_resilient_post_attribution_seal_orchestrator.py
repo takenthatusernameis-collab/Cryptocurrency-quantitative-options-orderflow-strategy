@@ -9,9 +9,9 @@ from typing import Any, Dict, List
 
 _QUICK_VERIFY = os.environ.get("PHASE_QUICK_VERIFY") == "1"
 
-from src.hedging.phase166_adaptive_toxicity_resilient_post_attribution_seal_orchestrator import (  # noqa: E402
-    Phase166AdaptiveToxicityResilientPostAttributionSealConfig,
-    Phase166AdaptiveToxicityResilientPostAttributionSealOrchestrator,
+from src.hedging.phase167_adaptive_toxicity_resilient_post_attribution_seal_orchestrator import (  # noqa: E402
+    Phase167AdaptiveToxicityResilientPostAttributionSealConfig,
+    Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator,
 )
 from src.orderflow.phase32_orderflow_alpha_integration import (  # noqa: E402
     OrderflowAlphaIntegrationConfig32,
@@ -25,7 +25,7 @@ def _utc_now() -> str:
 
 
 def _make_id(seed: int, tag: str, i: int) -> str:
-    return f"p167-{seed}-{tag}-{i:06d}"
+    return f"p168-{seed}-{tag}-{i:06d}"
 
 
 def _finite(x: float, default: float = 0.0) -> float:
@@ -56,8 +56,8 @@ def _assert_finite(obj: Any, label: str = "obj") -> None:
 
 
 @dataclass(frozen=True)
-class Phase167AdaptiveToxicityResilientPostAttributionSealConfig:
-    seed: int = 167167
+class Phase168AdaptiveToxicityResilientPostAttributionSealConfig:
+    seed: int = 168168
     paper_only: bool = True
     underlyings: tuple = ("BTC", "ETH", "SOL")
     venues: tuple = ("deribit", "okx", "bybit", "binance")
@@ -75,24 +75,24 @@ class Phase167AdaptiveToxicityResilientPostAttributionSealConfig:
             raise ValueError("paper_only must be bool")
         if not self.paper_only:
             raise ValueError(
-                "Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator: paper_only must remain True (live path hard-gated)"
+                "Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator: paper_only must remain True (live path hard-gated)"
             )
 
 
-class Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator:
+class Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator:
     """Post-attribution seal depth orchestrator for crypto options + orderflow.
 
-    Seals PHASE166 post-attribution seal with cross-venue seal consistency
+    Seals PHASE167 post-attribution seal with cross-venue seal consistency
     checks, selective sealing on severity, hedging seal guardrails, and deterministic seal certification.
-    PAPER-ONLY. Composes PHASE166->32.
+    PAPER-ONLY. Composes PHASE167->32.
     """
 
-    def __init__(self, cfg: Phase167AdaptiveToxicityResilientPostAttributionSealConfig | None = None) -> None:
-        self.cfg = cfg or Phase167AdaptiveToxicityResilientPostAttributionSealConfig()
+    def __init__(self, cfg: Phase168AdaptiveToxicityResilientPostAttributionSealConfig | None = None) -> None:
+        self.cfg = cfg or Phase168AdaptiveToxicityResilientPostAttributionSealConfig()
         if not self.cfg.paper_only:
-            raise ValueError("Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator: paper_only must remain True")
-        self.finality166 = Phase166AdaptiveToxicityResilientPostAttributionSealOrchestrator(
-            Phase166AdaptiveToxicityResilientPostAttributionSealConfig(seed=self.cfg.seed + 100, paper_only=True, cycles=self.cfg.cycles)
+            raise ValueError("Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator: paper_only must remain True")
+        self.finality167 = Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator(
+            Phase167AdaptiveToxicityResilientPostAttributionSealConfig(seed=self.cfg.seed + 100, paper_only=True, cycles=self.cfg.cycles)
         )
         self.integrator32 = OrderflowAlphaIntegrator(
             OrderflowAlphaIntegrationConfig32(seed=self.cfg.seed + 200, paper_only=True, cycles=min(self.cfg.cycles, 10))
@@ -131,14 +131,14 @@ class Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator:
         self.cross_venue_seal_consistencies = []
 
         if _QUICK_VERIFY:
-            r166_rep = {"avg_attribution_pass_rate": 0.99, "avg_cross_venue_ok": 0.999}
+            r167_rep = {"avg_attribution_pass_rate": 0.99, "avg_cross_venue_ok": 0.999}
             r32_rep = {"final_avg_fused_score": 0.65}
         else:
-            r166_rep = self.finality166.run_post_attribution_seal_orchestration(cycles=6)
+            r167_rep = self.finality167.run_post_attribution_seal_orchestration(cycles=6)
             r32_rep = self.integrator32.run_campaign(cycles=min(cycles, 10))
 
-        avg_attribution_pass = _finite(r166_rep.get("avg_attribution_pass_rate", r166_rep.get("avg_seal_pass_rate", 0.99)))
-        avg_cross_venue_ok = _finite(r166_rep.get("avg_cross_venue_ok", 0.999))
+        avg_attribution_pass = _finite(r167_rep.get("avg_attribution_pass_rate", r167_rep.get("avg_seal_pass_rate", 0.99)))
+        avg_cross_venue_ok = _finite(r167_rep.get("avg_cross_venue_ok", 0.999))
         avg_of_fused = _finite(r32_rep.get("final_avg_fused_score", 0.65))
 
         for i in range(cycles):
@@ -214,7 +214,7 @@ class Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator:
 
         rep = serialize_metrics_strict(
             {
-                "phase": "PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
+                "phase": "PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
                 "timestamp": _utc_now(),
                 "paper_only": True,
                 "gates_ok": True,
@@ -235,10 +235,10 @@ class Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator:
                 ),
                 "avg_attribution_pass_upstream": round(avg_attribution_pass, 9),
                 "avg_orderflow_fused_upstream": round(avg_of_fused, 9),
-                "composes": ["PHASE166", "PHASE32"],
+                "composes": ["PHASE167", "PHASE32"],
             }
         )
-        _assert_finite(rep, "phase167_seal_orch_rep")
+        _assert_finite(rep, "phase168_seal_orch_rep")
         return rep
 
     def generate_artifacts(self, outdir: str | None = None) -> Dict[str, Any]:
@@ -254,13 +254,13 @@ class Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator:
                 "cross_venue_seal_consistencies": self.cross_venue_seal_consistencies,
             }
         )
-        _assert_finite(payload, "phase167_seal_orch_payload")
+        _assert_finite(payload, "phase168_seal_orch_payload")
         ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-        json_path = outdir_p / f"PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_{ts}.json"
-        md_path = outdir_p / f"PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_{ts}.md"
+        json_path = outdir_p / f"PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_{ts}.json"
+        md_path = outdir_p / f"PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_{ts}.md"
         json_path.write_text(__import__("json").dumps(payload, indent=2, allow_nan=False))
         md = [
-            "# PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
+            "# PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
             f"Timestamp: {_utc_now()}",
             f"paper_only: {rep['paper_only']}",
             f"gates_ok: {rep['gates_ok']}",
@@ -274,7 +274,7 @@ class Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator:
             f"avg_orderflow_fused_upstream: {rep['avg_orderflow_fused_upstream']}",
             "",
             "## Composes",
-            "- PHASE166, PHASE32",
+            "- PHASE167, PHASE32",
             "",
         ]
         md_path.write_text("\n".join(md))

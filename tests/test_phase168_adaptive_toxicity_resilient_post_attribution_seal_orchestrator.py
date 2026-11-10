@@ -2,29 +2,29 @@ from __future__ import annotations
 
 import os
 
-from src.hedging.phase167_adaptive_toxicity_resilient_post_attribution_seal_orchestrator import (
-    Phase167AdaptiveToxicityResilientPostAttributionSealConfig,
-    Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator,
+from src.hedging.phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator import (
+    Phase168AdaptiveToxicityResilientPostAttributionSealConfig,
+    Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator,
 )
 
 
-def test_phase167_smoke_paper_only_gates_ok_compose() -> None:
+def test_phase168_smoke_paper_only_gates_ok_compose() -> None:
     os.environ["PHASE_QUICK_VERIFY"] = "1"
-    orch = Phase167AdaptiveToxicityResilientPostAttributionSealOrchestrator(
-        Phase167AdaptiveToxicityResilientPostAttributionSealConfig(seed=167167, paper_only=True)
+    orch = Phase168AdaptiveToxicityResilientPostAttributionSealOrchestrator(
+        Phase168AdaptiveToxicityResilientPostAttributionSealConfig(seed=168168, paper_only=True)
     )
     rep = orch.run_post_attribution_seal_orchestration(cycles=16)
     assert rep["paper_only"] is True
     assert rep["gates_ok"] is True
     assert isinstance(rep.get("composes"), list)
-    assert "PHASE166" in rep["composes"]
+    assert "PHASE167" in rep["composes"]
     assert "PHASE32" in rep["composes"]
-    assert rep["phase"] == "PHASE167_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR"
+    assert rep["phase"] == "PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR"
 
 
-def test_phase167_config_rejects_live() -> None:
+def test_phase168_config_rejects_live() -> None:
     try:
-        Phase167AdaptiveToxicityResilientPostAttributionSealConfig(seed=167167, paper_only=False)
+        Phase168AdaptiveToxicityResilientPostAttributionSealConfig(seed=168168, paper_only=False)
         raise AssertionError("expected ValueError for paper_only=False")
     except ValueError:
         pass
