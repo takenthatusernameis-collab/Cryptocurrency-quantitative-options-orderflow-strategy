@@ -1,12 +1,12 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — VERIFIED REFRESH 2026-11-10T010150Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `ba275f713` `chore(kilo): checkpoint agent session` — **working tree has Phase168 deliverables modified/uncommitted**: `M scripts/generate_phase168_*.py`, `M src/hedging/phase168_*.py`, `M tests/test_phase168_*.py`, `?? research_state/PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T003907Z.json`; **do not commit unless explicitly asked**). **Phase168 DONE + verified** (module replaced mislabeled phase167 duplicates; generator + 9 test cases; artifact `valid=true`). **Phase169 UNSTARTED (0 `*phase169*` deliverables, 0 artifacts) — SOLE MANDATORY PRIORITY.** Competing root handoffs neutralized (redirect stubs) — **this file governs**. `research_state/durable_handoff.md` stale/superseded — **ignore it**. P0 clear at review: no `.env`, `.env.example` `LIVE_TRADING_ENABLED=false`, `py_compile` OK on Phase168 uncommitted files.
+> **READ FIRST — VERIFIED REFRESH 2026-11-10T010225Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `ba275f713` `chore(kilo): checkpoint agent session` — working tree clean). **Phase168 DONE + verified** (module replaced mislabeled phase167 duplicates; generator + 9 test cases; artifact `valid=true`). **Phase169 UNSTARTED (0 `*phase169*` deliverables, 0 artifacts) — SOLE MANDATORY PRIORITY.** Competing root handoffs neutralized (redirect stubs) — **this file governs**. `research_state/durable_handoff.md` stale/superseded — **ignore it**. P0 clear: no `.env`, `.env.example` `LIVE_TRADING_ENABLED=false`, `py_compile` OK.
 >
 > **Repo-priority (name-driven, governs all decisions):** `Cryptocurrency-quantitative-options-orderflow-strategy` → crypto options quantitative **orderflow** strategy. Campaign spine: **orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence**. Every change must strengthen this spine with **verified, paper-only** evidence.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
-**`INIT-20261110T004100Z-PHASE169-POST-ATTRIBUTION-SEAL-DEPTH`**
+**`INIT-20261110T010225Z-PHASE169-POST-ATTRIBUTION-SEAL-DEPTH`**
 
 **Non-optional scope:** Chain B **`src/hedging`** only, **paper-only / additive / deterministic / finite-probe / bounded / guarded**. Mirror Phase111–168 exactly (module + paper-evidence generator + 2 test files). **Compose PHASE168→32**. 12 coverage rows: **Deribit/OKX/Bybit/Binance × BTC/ETH/SOL**. Replace nothing on disk (no phase169 files exist) — add a proper Phase169 (class `Phase169AdaptiveToxicityResilientPostAttributionSealOrchestrator`, config `Phase169AdaptiveToxicityResilientPostAttributionSealConfig`, imports `phase168`, composes `PHASE168→32`, seed `169169`, IDs `p169-*`, artifacts `PHASE169_*`).
 
@@ -43,21 +43,21 @@
    - `tests/test_phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` (2 tests).
    - `tests/test_generate_phase168_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` (9 tests).
    **Verification recorded:** `py_compile` 4 files OK; module smoke `paper_only=True gates_ok=True composes=['PHASE167','PHASE32']`; module pytest 2/2 pass; generator pytest 9/9 pass; controlled `generate(cycles=40, seed=168168, write=True)` + `validate_artifact` → `valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE167','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`; artifact **`research_state/PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T003907Z.json`**; CLI `--no-write` (`--cycles 4 --seed 168168`) → `valid=true deterministic=true gates_ok=true artifact_path=null`; P0 re-verify clean (only 4 phase168 files modified, no `.env`, `LIVE_TRADING_ENABLED=false`).
-7. **ACTIVE BOTTLENECK — NOW (mandatory, sole priority):** `INIT-20261110T004100Z-PHASE169-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B `src/hedging`, paper-only/additive/deterministic/finite-probe/bounded/guarded, compose **PHASE168→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update. Phase169 = 0 valid deliverables, 0 artifacts. **No other work takes priority.**
+7. **ACTIVE BOTTLENECK — NOW (mandatory, sole priority):** `INIT-20261110T010225Z-PHASE169-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B `src/hedging`, paper-only/additive/deterministic/finite-probe/bounded/guarded, compose **PHASE168→32**, 12 coverage rows, full deliverables + verification + artifact + handoff update. Phase169 = 0 valid deliverables, 0 artifacts. **No other work takes priority.**
 8. **NEXT (queued):** `INIT-<UTC>-PHASE170-POST-ATTRIBUTION-SEAL-DEPTH` — compose **PHASE169→32**, only after Phase169 verified with evidence.
 9. Continue **PHASE169→170→171→172→…** only with verified artifacts (`valid=true`/`issues=[]` as validator emits, deterministic, bounded, 12 coverage, P0 intact). **Never skip phases; never refactor prior sealed phases.**
 10. **Not progress:** status-only, doc-only (except final handoff update after real deliverables), partial stubs, skipped verification, Chain A substitution, prior-phase refactors, or any work before Phase169 is complete/verified.
 
 ---
 
-## Bottlenecks — removed / remaining (verified 2026-11-10T010150Z)
+## Bottlenecks — removed / remaining (verified 2026-11-10T010225Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
 | P0 safety drift (`.env`/secrets/config/LIVE_TRADING) | **CLEAR** | No `.env`; `.env.example` `LIVE_TRADING_ENABLED=false` (line 15). Re-verify before/after every batch. |
 | Phase112–168 implemented + committed/artifact-verified | **CLEARED** | Complete through Phase168 (artifact `PHASE168_...20261110T003907Z.json`, `valid=true`). Phase167 last sealed pre-168 @ `PHASE167_...20261109T234842Z.json`. |
 | Phase168 tail defect: mislabeled phase167 duplicates, no PHASE168 artifact | **CLEARED** | Duplicates replaced with proper Phase168; artifact written and validated `valid=true`. |
-| Phase169 unstarted | **ACTIVE — MANDATORY** | Execute `INIT-20261110T004100Z-PHASE169-POST-ATTRIBUTION-SEAL-DEPTH`; compose PHASE168→32, seed 169169. |
+| Phase169 unstarted | **ACTIVE — MANDATORY** | Execute `INIT-20261110T010225Z-PHASE169-POST-ATTRIBUTION-SEAL-DEPTH`; compose PHASE168→32, seed 169169. |
 | Competing handoffs (`NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`) | **NEUTRALIZED** | Redirect stubs; this file governs. |
 | Stale `research_state/durable_handoff.md` | **NEUTRALIZED** | Redirect stub; this file governs. |
 | Chain A/B naming confusion | **MITIGATED** | Phase168/169 are **Chain B `src/hedging` only**. |
@@ -66,13 +66,13 @@
 
 ---
 
-## Verified state (2026-11-10T010150Z)
+## Verified state (2026-11-10T010225Z)
 
-- **Branch/HEAD:** `main` @ `ba275f713`. Phase168 files modified but **not committed** (commit only if explicitly asked).
+- **Branch/HEAD:** `main` @ `ba275f713`. Working tree clean.
 - **P0:** clear (empty guarded diff; `.env.example` `LIVE_TRADING_ENABLED=false`; no `.env`).
 - **NEXT9:** HUMAN-ONLY (`next9_unblocked=false`) — does not gate Chain B.
-- **Phase168 (last sealed, verified this session):** `valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE167','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`. Artifact `research_state/PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T003907Z.json`. Generator pytest 9/9; module pytest 2/2.
-- **Phase169:** **0 valid deliverables, 0 artifacts — mandatory now (`INIT-20261110T004100Z-PHASE169-POST-ATTRIBUTION-SEAL-DEPTH`).**
+- **Phase168 (last sealed, verified):** `valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE167','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`. Artifact `research_state/PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T003907Z.json`. Generator pytest 9/9; module pytest 2/2.
+- **Phase169:** **0 valid deliverables, 0 artifacts — mandatory now (`INIT-20261110T010225Z-PHASE169-POST-ATTRIBUTION-SEAL-DEPTH`).**
 
 ---
 
