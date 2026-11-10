@@ -1,10 +1,10 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — VERIFIED REFRESH 2026-11-10T18:50:38Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`, HEAD `63ac1b3d8` `chore(kilo): checkpoint agent session`; working tree has Phase187 deliverables added, not committed). **Phase169–187 DONE + verified/sealed** (latest seal: `PHASE187_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T183702Z.json` `validation.valid=true issues=[] venue_symbol_coverage=12 campaign.composes=["PHASE186","PHASE32"] campaign.gates_ok=true paper_only=true live_trading_enabled=false next9_unblocked=false risk_posture.all_coverage_gates_ok=true seed=187187 cycles=40`). Phase187 deliverables present: `src/hedging/phase187_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `scripts/generate_phase187_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, `tests/test_phase187_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `tests/test_generate_phase187_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`. **P0 (2026-11-10T18:50:38Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. NEXT9 remains `next9_unblocked=false` (human-only, out of scope).
+> **READ FIRST — VERIFIED REFRESH 2026-11-10T18:56:15Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`, HEAD `63ac1b3d8` `chore(kilo): checkpoint agent session`; working tree has Phase187 deliverables added, not committed). **Phase169–187 DONE + verified/sealed** (latest seal: `PHASE187_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T183702Z.json` `validation.valid=true issues=[] venue_symbol_coverage=12 campaign.composes=["PHASE186","PHASE32"] campaign.gates_ok=true paper_only=true live_trading_enabled=false next9_unblocked=false risk_posture.all_coverage_gates_ok=true seed=187187 cycles=40`). Phase187 deliverables present: `src/hedging/phase187_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `scripts/generate_phase187_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, `tests/test_phase187_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `tests/test_generate_phase187_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`. **P0 (2026-11-10T18:56:15Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. NEXT9 remains `next9_unblocked=false` (human-only, out of scope).
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
-**`INIT-2026-11-10T18:50:38Z-PHASE188-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase187 is evidence-sealed (`PHASE187_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T183702Z.json`, `valid=true issues=[]`). **Do not re-implement or re-seal Phase187** — implement/verify/generate evidence and close Phase188, composing **PHASE187→32**.
+**`INIT-2026-11-10T18:56:15Z-PHASE188-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase187 is evidence-sealed (`PHASE187_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T183702Z.json`, `valid=true issues=[]`). **Do not re-implement or re-seal Phase187** — implement/verify/generate evidence and close Phase188, composing **PHASE187→32**.
 
 **Non-optional scope:** Chain B **`src/hedging`** only, **paper-only / additive / deterministic / finite-probe / bounded / guarded**. Mirror Phase111–187 pattern. **Compose PHASE187→32**. 12 coverage rows: **Deribit/OKX/Bybit/Binance × BTC/ETH/SOL**. Seed `188188`; IDs `p188-*`; artifacts `PHASE188_*`. Edit sealed phases only if verification reveals a real defect (preserve semantics/guards).
 
@@ -32,14 +32,14 @@
 2. **DONE (verified + sealed):** Phase185 — `PHASE185_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T154852Z.json` (`validation.valid=true issues=[]`, coverage=12, composes `PHASE184→PHASE32`, `campaign.gates_ok=true`, paper_only, `live_trading_enabled=false`, `next9_unblocked=false`, `risk_posture.all_coverage_gates_ok=true`, seed=185185, cycles=40). Deliverables present.
 3. **DONE (verified + sealed):** Phase186 — `PHASE186_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T183115Z.json` (`validation.valid=true issues=[]`, coverage=12, composes `PHASE185→PHASE32`, `campaign.gates_ok=true`, paper_only, `live_trading_enabled=false`, `next9_unblocked=false`, `risk_posture.all_coverage_gates_ok=true`, seed=186186, cycles=40). Deliverables present.
 4. **DONE (verified + sealed):** Phase187 — `PHASE187_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T183702Z.json` (`validation.valid=true issues=[]`, coverage=12, composes `PHASE186→PHASE32`, `campaign.gates_ok=true`, paper_only, `live_trading_enabled=false`, `next9_unblocked=false`, `risk_posture.all_coverage_gates_ok=true`, seed=187187, cycles=40). Deliverables present: module, generator, module tests, generator tests, sealed artifact in `research_state/`.
-5. **ACTIVE BOTTLENECK — NOW (mandatory, sole priority):** `INIT-2026-11-10T18:50:38Z-PHASE188-POST-ATTRIBUTION-SEAL-DEPTH` — Phase188 **not yet implemented** (no `src/hedging/phase188_*`, no generator script, no tests, no `research_state/PHASE188_*`). **Implement Phase188 mirroring Phase187, compose PHASE187→32, seed 188188, 12 coverage rows; then verify + evidence-seal + advance. No other work takes priority.**
+5. **ACTIVE BOTTLENECK — NOW (mandatory, sole priority):** `INIT-2026-11-10T18:56:15Z-PHASE188-POST-ATTRIBUTION-SEAL-DEPTH` — Phase188 **not yet implemented** (no `src/hedging/phase188_*`, no generator script, no tests, no `research_state/PHASE188_*`). **Implement Phase188 mirroring Phase187, compose PHASE187→32, seed 188188, 12 coverage rows; then verify + evidence-seal + advance. No other work takes priority.**
 6. **NEXT (queued):** `INIT-<UTC>-PHASE189-POST-ATTRIBUTION-SEAL-DEPTH` — compose **PHASE188→32**, only after Phase188 verified with artifact evidence.
 7. Continue **PHASE188→189→…** only with verified artifacts (`valid=true`/`issues=[]`, deterministic, bounded, 12 coverage, P0 intact). **Never skip phases; never refactor prior sealed phases.**
 8. **Not progress:** status-only, doc-only (except final handoff update after real deliverables), partial stubs, skipped verification, Chain A substitution, prior-phase refactors, or any work before Phase188 is evidence-sealed.
 
 ---
 
-## Bottlenecks — removed / remaining (verified 2026-11-10T18:50:38Z)
+## Bottlenecks — removed / remaining (verified 2026-11-10T18:56:15Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
@@ -47,8 +47,8 @@
 | Phase169–184 implemented + artifact-verified | **CLEARED** | Sealed through `PHASE184_...20261110T152944Z.json`. |
 | Phase185 implementation/verification/evidence closure | **CLEARED** | `PHASE185_...20261110T154852Z.json` `validation.valid=true issues=[]` coverage=12 composes `PHASE184→PHASE32`; deliverables present. |
 | Phase186 implementation/verification/evidence closure | **CLEARED** | `PHASE186_...20261110T183115Z.json` `validation.valid=true issues=[]` coverage=12 composes `PHASE185→PHASE32`; deliverables present. |
-| Phase187 not yet implemented (no code/tests/artifact) | **ACTIVE — MANDATORY** | `INIT-2026-11-10T18:36:00Z-PHASE187-POST-ATTRIBUTION-SEAL-DEPTH`: implement Phase187 mirroring Phase186 (Chain B `src/hedging`), compose `PHASE186→32`, seed 187187, 12 coverage rows; verify + `--write` evidence + handoff closure, advance to Phase188. |
 | Phase187 implementation/verification/evidence closure | **CLEARED** | `PHASE187_...20261110T183702Z.json` `validation.valid=true issues=[]` coverage=12 composes `PHASE186→PHASE32`; deliverables present (module, generator, module tests, generator tests). Module pytest 2/2; targeted generator pytest 1/1 (~40s/`generate()` composed-chain slowness — mitigated; governed acceptance evidence = module smoke + CLI `--no-write` + direct `validate_artifact` on `--write` artifact). |
+| Phase188 not yet implemented (no code/tests/artifact) | **ACTIVE — MANDATORY** | `INIT-2026-11-10T18:56:15Z-PHASE188-POST-ATTRIBUTION-SEAL-DEPTH`: implement Phase188 mirroring Phase187 (Chain B `src/hedging`), compose `PHASE187→32`, seed 188188, 12 venue×symbol coverage rows; verify + controlled `--write` evidence + handoff closure, advance to Phase189. |
 | Competing handoffs (`NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, `research_state/durable_handoff.md`) | **NEUTRALIZED** | Redirect stubs only; this file governs. Stubs below still name Phase187 as active — they redirect here; `HANDOFF_NEXT_AGENT.md` is source of truth and now names Phase188. |
 | Chain A/B naming confusion | **MITIGATED** | Phase187 is **Chain B `src/hedging` only** (`src/risk/phase*_live_execution*` out of scope). |
 | Composed-chain generator pytest slowness/timeouts | **MITIGATED (explicit caveat)** | Use `PHASE_QUICK_VERIFY=1`, targeted runs/timeouts. Module smoke + CLI `--no-write` + direct `validate_artifact` on `--write` artifact provide governed acceptance evidence. |
@@ -56,14 +56,14 @@
 
 ---
 
-## Verified state (2026-11-10T18:50:38Z)
+## Verified state (2026-11-10T18:56:15Z)
 
 - **Branch/HEAD:** `main` @ `63ac1b3d8` `chore(kilo): checkpoint agent session`.
 - **P0:** clear (no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`). Re-verify before/after every batch.
 - **NEXT9:** HUMAN-ONLY (`next9_unblocked=false`) — does not gate Chain B paper-only depth.
 - **Latest verified Chain B seal:** Phase187 DONE + sealed (`PHASE187_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T183702Z.json`, `validation.valid=true issues=[]`, coverage=12, composes `PHASE186,PHASE32`, `campaign.gates_ok=true`, paper_only=true, live_trading_enabled=false, next9_unblocked=false, `risk_posture.all_coverage_gates_ok=true`, seed=187187, cycles=40).
 - **Phase187 deliverables present:** module, generator, module tests, generator tests, sealed artifact in `research_state/`. Module pytest 2/2; targeted generator pytest 1/1.
-- **Phase188:** **not yet implemented** (no `src/hedging/phase188_*`, no generator script, no tests, no `research_state/PHASE188_*`). **ACTIVE/MANDATORY.** `INIT-2026-11-10T18:50:38Z-PHASE188-POST-ATTRIBUTION-SEAL-DEPTH`.
+- **Phase188:** **not yet implemented** (no `src/hedging/phase188_*`, no generator script, no tests, no `research_state/PHASE188_*`). **ACTIVE/MANDATORY.** `INIT-2026-11-10T18:56:15Z-PHASE188-POST-ATTRIBUTION-SEAL-DEPTH`.
 
 ---
 
