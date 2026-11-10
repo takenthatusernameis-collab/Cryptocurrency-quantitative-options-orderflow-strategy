@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — VERIFIED REFRESH 2026-11-10T023448Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `5002a950f` `chore(kilo): checkpoint agent session`; working tree clean — Phase169 committed via checkpoint). **Phase169 DONE + committed + verified (evidence)** — module+generator+2 test files created; artifact `research_state/PHASE169_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T011604Z.json` (`valid=true`). **Phase170 UNSTARTED (0 `*phase170*` deliverables, 0 artifacts) — SOLE MANDATORY PRIORITY.** Competing root handoffs neutralized (redirect stubs) — **this file governs**. `research_state/durable_handoff.md` stale/superseded — **ignore it**. P0 clear: no `.env`, `.env.example` `LIVE_TRADING_ENABLED=false`.
+> **READ FIRST — VERIFIED REFRESH 2026-11-10T023732Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `5002a950f` `chore(kilo): checkpoint agent session`; working tree clean at verification, 0 `*phase170*` deliverables/artifacts). **Phase169 DONE + committed + verified (evidence)** — module+generator+2 test files; artifact `research_state/PHASE169_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T011604Z.json` (`valid=true`). **Phase170 UNSTARTED — SOLE MANDATORY PRIORITY.** Competing root handoffs neutralized (redirect stubs); `research_state/durable_handoff.md` neutralized redirect — **this file governs**. P0 clear: no `.env`, `.env.example:15` `LIVE_TRADING_ENABLED=false`. No live trading/venue mutation/NEXT9 unblock.
 >
 > **Repo-priority (name-driven, governs all decisions):** `Cryptocurrency-quantitative-options-orderflow-strategy` → crypto options quantitative **orderflow** strategy. Campaign spine: **orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence**. Every change must strengthen this spine with **verified, paper-only** evidence.
 
@@ -47,7 +47,7 @@
 
 ---
 
-## Bottlenecks — removed / remaining (verified 2026-11-10T023448Z)
+## Bottlenecks — removed / remaining (verified 2026-11-10T023732Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
@@ -55,16 +55,16 @@
 | Phase112–169 implemented + artifact-verified | **CLEARED (Phase169 committed)** | Phase169 complete & committed (artifact `PHASE169_...20261110T011604Z.json`, `valid=true`). |
 | Phase170 unstarted | **ACTIVE — MANDATORY** | Execute `INIT-20261110T023448Z-PHASE170-POST-ATTRIBUTION-SEAL-DEPTH`; compose PHASE169→32, seed 170170. |
 | Competing handoffs (`NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`) | **NEUTRALIZED** | Redirect stubs; this file governs. |
-| Stale `research_state/durable_handoff.md` | **NEUTRALIZED** | Redirect stub; this file governs. |
+| Stale `research_state/durable_handoff.md` | **NEUTRALIZED (2026-11-10T023732Z)** | Replaced with redirect stub; this file governs. |
 | Chain A/B naming confusion | **MITIGATED** | Phase169/170 are **Chain B `src/hedging` only**. |
 | Composed-chain generator pytest slowness/timeouts | **MITIGATED (caveat)** | `PHASE_QUICK_VERIFY=1`, targeted runs/splits, extended timeouts, controlled generate+validate/CLI/direct assertions with explicit caveats (~600s/case). **Never skip verification.** Phase169 generator tests recorded as 10/10 direct-assertion fallback (pytest 120s cap). |
 | NEXT9 (A1–A7, human-only, `next9_unblocked=false`) | **BLOCKED — out of scope** | Never unblock; does not gate paper-only Chain B depth. |
 
 ---
 
-## Verified state (2026-11-10T023448Z)
+## Verified state (2026-11-10T023732Z)
 
-- **Branch/HEAD (verified):** `main` @ `5002a950f`. **Working tree:** clean (Phase169 committed via checkpoint).
+- **Branch/HEAD (verified):** `main` @ `5002a950f`. **Working tree:** clean at verification (0 `*phase170*` files/artifacts).
 - **P0:** clear (no `.env`; `.env.example` `LIVE_TRADING_ENABLED=false`; phase169 changes limited to `src/hedging/phase169*`, `scripts/*phase169*`, `tests/*phase169*`, `research_state/PHASE169_*`).
 - **NEXT9:** HUMAN-ONLY (`next9_unblocked=false`) — does not gate Chain B.
 - **Phase169 (DONE, verified):** `valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE168','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`. Artifact `research_state/PHASE169_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T011604Z.json`. Module smoke OK; module pytest **2/2 pass**; CLI `--no-write` (`--cycles 4 --seed 169169`) `valid=true deterministic=true gates_ok=true artifact_path=null`; generator **10/10 PASS** via controlled direct-assertion fallback (caveat: pytest run timed out at 120s shell cap).
