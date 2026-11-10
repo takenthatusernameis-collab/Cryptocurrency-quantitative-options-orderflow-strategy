@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — VERIFIED REFRESH 2026-11-10T101730Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `41506c94c` `chore(kilo): checkpoint agent session`; working tree has Phase175 deliverables written + verified, untracked — commit deferred per no-commit policy). **Phase169–175 DONE + verified** (artifacts `PHASE169_...20261110T011604Z.json`, `PHASE170_...20261110T033440Z.json`, `PHASE171_...20261110T035623Z.json`, `PHASE172_...20261110T043157Z.json`, `PHASE173_...20261110T044753Z.json`, `PHASE174_...20261110T052541Z.json`, `PHASE175_...20261110T101544Z.json`, each `valid=true`). **Phase175 DONE + verified** (artifact `research_state/PHASE175_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T101544Z.json`, `valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE174','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`; module pytest **2/2**, generator **10/10** via targeted per-test runs with `PHASE_QUICK_VERIFY=1`). **Phase176 QUEUED — SOLE MANDATORY PRIORITY.** Competing root handoffs neutralized (redirect stubs); `research_state/durable_handoff.md` neutralized redirect — **this file governs**. P0 clear: no `.env`, `.env.example:15` `LIVE_TRADING_ENABLED=false`. No live trading/venue mutation/NEXT9 unblock.
+> **READ FIRST — VERIFIED REFRESH 2026-11-10T103310Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `947faedce` `chore(kilo): checkpoint agent session`; working tree clean / no Phase176 deliverables or artifacts present). **Phase169–175 DONE + verified** (artifacts `PHASE169_...20261110T011604Z.json`, `PHASE170_...20261110T033440Z.json`, `PHASE171_...20261110T035623Z.json`, `PHASE172_...20261110T043157Z.json`, `PHASE173_...20261110T044753Z.json`, `PHASE174_...20261110T052541Z.json`, `PHASE175_...20261110T101544Z.json`, each `valid=true`). **Phase175 DONE + verified** (artifact `research_state/PHASE175_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T101544Z.json`, `valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE174','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`; module pytest **2/2**, generator **10/10** via targeted per-test runs with `PHASE_QUICK_VERIFY=1`). **Phase176 QUEUED — SOLE MANDATORY PRIORITY.** Competing root handoffs neutralized (redirect stubs); `research_state/durable_handoff.md` neutralized redirect — **this file governs**. P0 clear: no `.env`, `.env.example:15` `LIVE_TRADING_ENABLED=false`. No live trading/venue mutation/NEXT9 unblock.
 >
 > **Repo-priority (name-driven, governs all decisions):** `Cryptocurrency-quantitative-options-orderflow-strategy` → crypto options quantitative **orderflow** strategy. Campaign spine: **orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence**. Every change must strengthen this spine with **verified, paper-only** evidence.
 
@@ -47,7 +47,7 @@
 
 ---
 
-## Bottlenecks — removed / remaining (verified 2026-11-10T101730Z)
+## Bottlenecks — removed / remaining (verified 2026-11-10T103310Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
@@ -62,13 +62,13 @@
 
 ---
 
-## Verified state (2026-11-10T101730Z)
+## Verified state (2026-11-10T103310Z)
 
-- **Branch/HEAD (verified):** `main` @ `41506c94c`. **Working tree:** Phase175 deliverables written + verified (untracked; commit deferred per no-commit policy); `git diff --stat` empty.
-- **P0:** clear (no `.env`; `.env.example` `LIVE_TRADING_ENABLED=false`; phase175 changes limited to `src/hedging/phase175*`, `scripts/*phase175*`, `tests/*phase175*`, `research_state/PHASE175*`).
-- **NEXT9:** HUMAN-ONLY (`next9_unblocked=false`) — does not gate Chain B.
-- **Phase175 (DONE, verified):** `valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE174','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`. Artifact `research_state/PHASE175_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T101544Z.json`. Module smoke OK; module pytest **2/2 pass**; CLI `--no-write` (`--cycles 4 --seed 175175`) `valid=true deterministic=true gates_ok=true artifact_path=null`; generator **10/10 PASS** (targeted per-test, `PHASE_QUICK_VERIFY=1`).
-- **Phase176:** **0 valid deliverables, 0 artifacts — mandatory now (`INIT-20261110T101730Z-PHASE176-POST-ATTRIBUTION-SEAL-DEPTH`).**
+- **Branch/HEAD (verified):** `main` @ `947faedce` `chore(kilo): checkpoint agent session`. **Working tree:** clean (`git status` clean); no `*phase176*` deliverables or artifacts present.
+- **P0:** clear (no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`). Re-verify before/after every batch.
+- **NEXT9:** HUMAN-ONLY (`next9_unblocked=false`) — does not gate Chain B paper-only depth.
+- **Latest verified Chain B seal:** Phase175 DONE (artifact `research_state/PHASE175_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T101544Z.json`, `valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE174','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`).
+- **Phase176:** **0 valid deliverables, 0 artifacts — ACTIVE/MANDATORY NOW (`INIT-20261110T101730Z-PHASE176-POST-ATTRIBUTION-SEAL-DEPTH`, compose PHASE175→32, seed 176176). No other work takes priority.**
 
 ---
 
