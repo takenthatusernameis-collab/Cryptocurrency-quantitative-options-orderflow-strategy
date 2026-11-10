@@ -1,12 +1,12 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — VERIFIED REFRESH 2026-11-10T023048Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `30d190f1b` `chore(kilo): checkpoint agent session`; working tree clean — Phase169 committed via checkpoint). **Phase169 DONE + committed + verified (evidence)** — module+generator+2 test files created; artifact `research_state/PHASE169_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T011604Z.json` (`valid=true`). **Phase170 UNSTARTED (0 `*phase170*` deliverables, 0 artifacts) — SOLE MANDATORY PRIORITY.** Competing root handoffs neutralized (redirect stubs) — **this file governs**. `research_state/durable_handoff.md` stale/superseded — **ignore it**. P0 clear: no `.env`, `.env.example` `LIVE_TRADING_ENABLED=false`.
+> **READ FIRST — VERIFIED REFRESH 2026-11-10T023320Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `5002a950f` `chore(kilo): checkpoint agent session`; working tree clean — Phase169 committed via checkpoint). **Phase169 DONE + committed + verified (evidence)** — module+generator+2 test files created; artifact `research_state/PHASE169_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T011604Z.json` (`valid=true`). **Phase170 UNSTARTED (0 `*phase170*` deliverables, 0 artifacts) — SOLE MANDATORY PRIORITY.** Competing root handoffs neutralized (redirect stubs) — **this file governs**. `research_state/durable_handoff.md` stale/superseded — **ignore it**. P0 clear: no `.env`, `.env.example` `LIVE_TRADING_ENABLED=false`.
 >
 > **Repo-priority (name-driven, governs all decisions):** `Cryptocurrency-quantitative-options-orderflow-strategy` → crypto options quantitative **orderflow** strategy. Campaign spine: **orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence**. Every change must strengthen this spine with **verified, paper-only** evidence.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
-**`INIT-20261110T023048Z-PHASE170-POST-ATTRIBUTION-SEAL-DEPTH`**
+**`INIT-20261110T023320Z-PHASE170-POST-ATTRIBUTION-SEAL-DEPTH`**
 
 **Non-optional scope:** Chain B **`src/hedging`** only, **paper-only / additive / deterministic / finite-probe / bounded / guarded**. Mirror Phase111–169 exactly (module + paper-evidence generator + 2 test files). **Compose PHASE169→32**. 12 coverage rows: **Deribit/OKX/Bybit/Binance × BTC/ETH/SOL**. Replace nothing on disk (no phase170 files exist) — add a proper Phase170 (class `Phase170AdaptiveToxicityResilientPostAttributionSealOrchestrator`, config `Phase170AdaptiveToxicityResilientPostAttributionSealConfig`, imports `phase169`, composes `PHASE169→32`, seed `170170`, IDs `p170-*`, artifacts `PHASE170_*`).
 
@@ -47,7 +47,7 @@
 
 ---
 
-## Bottlenecks — removed / remaining (verified 2026-11-10T023048Z)
+## Bottlenecks — removed / remaining (verified 2026-11-10T023320Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
@@ -62,9 +62,9 @@
 
 ---
 
-## Verified state (2026-11-10T023048Z)
+## Verified state (2026-11-10T023320Z)
 
-- **Branch/HEAD (verified):** `main` @ `30d190f1b`. **Working tree:** clean (Phase169 committed via checkpoint).
+- **Branch/HEAD (verified):** `main` @ `5002a950f`. **Working tree:** clean (Phase169 committed via checkpoint).
 - **P0:** clear (no `.env`; `.env.example` `LIVE_TRADING_ENABLED=false`; phase169 changes limited to `src/hedging/phase169*`, `scripts/*phase169*`, `tests/*phase169*`, `research_state/PHASE169_*`).
 - **NEXT9:** HUMAN-ONLY (`next9_unblocked=false`) — does not gate Chain B.
 - **Phase169 (DONE, verified):** `valid=true issues=[] deterministic=true bounds_ok=true coverage=12 composes=['PHASE168','PHASE32'] paper_only=true live_trading_enabled=false next9_unblocked=false gates_ok=true`. Artifact `research_state/PHASE169_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T011604Z.json`. Module smoke OK; module pytest **2/2 pass**; CLI `--no-write` (`--cycles 4 --seed 169169`) `valid=true deterministic=true gates_ok=true artifact_path=null`; generator **10/10 PASS** via controlled direct-assertion fallback (caveat: pytest run timed out at 120s shell cap).
