@@ -1,17 +1,9 @@
 # SINGLE DURABLE HANDOFF — REDIRECT STUB
 
-**Timestamp:** 2026-11-10T22:08:42Z
-**Repository:** Cryptocurrency-quantitative-options-orderflow-strategy
-**Status:** NEUTRALIZED — this file is not the active handoff.
+**Timestamp:** 2026-11-10T22:27:16Z
+**Status:** NEUTRALIZED — not the active handoff.
 
-## Single durable handoff (governs)
+Single durable handoff: **`HANDOFF_NEXT_AGENT.md`** (repo root, READ FIRST).
+Active mandatory initial task: **`INIT-2026-11-10T22:27:16Z-PHASE195-POST-ATTRIBUTION-SEAL-DEPTH`** (Chain B `src/hedging`, paper-only, compose `PHASE194→32`, seed `195195`, 12 venue×symbol coverage). Phase194 sealed: `PHASE194_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T222334Z.json` (`valid=true issues=[]`).
 
-**`HANDOFF_NEXT_AGENT.md`** at repo root is the single durable handoff. Read its **READ FIRST** block first.
-
-**Active mandatory initial task message:** `INIT-2026-11-10T22:08:42Z-PHASE194-POST-ATTRIBUTION-SEAL-DEPTH` — Chain B `src/hedging`, paper-only/additive/deterministic/finite-probe/bounded/guarded, compose **PHASE193→32**, 12 venue×symbol coverage rows (Deribit/OKX/Bybit/Binance × BTC/ETH/SOL). Phase193 is evidence-sealed (`PHASE193_...20261110T220722Z.json`, `valid=true issues=[]`); implement Phase194 mirroring Phase193, seed 194194, verify + evidence-seal + advance to Phase195. **No other work takes priority.**
-
-**Latest verified seal:** Phase193 DONE+verified+sealed (`PHASE193_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T220722Z.json`, `validation.valid=true issues=[]`, composes `PHASE192→PHASE32`).
-
-**Hard guards:** NO live trading. NO venue/config/credential mutation. NO NEXT9 unblock (`next9_unblocked=false`). NO refactor of sealed phases `phase79/80/110–193`. NO Chain A substitution. No `.env`; `LIVE_TRADING_ENABLED=false`.
-
-Do not action superseded phase references from older revisions.
+Guards: NO live trading, no `.env`, `LIVE_TRADING_ENABLED=false`, NEXT9 `next9_unblocked=false` (human-only). Do not action superseded content.
