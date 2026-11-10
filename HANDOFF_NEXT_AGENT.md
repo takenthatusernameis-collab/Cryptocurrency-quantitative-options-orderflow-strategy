@@ -1,6 +1,6 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — VERIFIED REFRESH 2026-11-10T004100Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `ba275f713` `chore(kilo): checkpoint agent session` — **working tree has Phase168 deliverables modified/uncommitted**: `M scripts/generate_phase168_*.py`, `M src/hedging/phase168_*.py`, `M tests/test_phase168_*.py`, `?? research_state/PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T003907Z.json`; **do not commit unless explicitly asked**). **Phase168 DONE + verified** (module replaced the mislabeled phase167 duplicates; generator + 9 test cases; artifact `valid=true`, see below). **Phase168 is now the last sealed phase — Phase169 UNSTARTED (0 valid deliverables, 0 artifacts) — MANDATORY NOW.** Competing root handoffs neutralized (redirect stubs) — **this file governs**. `research_state/durable_handoff.md` stale/superseded — **ignore it**.)
+> **READ FIRST — VERIFIED REFRESH 2026-11-10T010150Z** (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`; HEAD `ba275f713` `chore(kilo): checkpoint agent session` — **working tree has Phase168 deliverables modified/uncommitted**: `M scripts/generate_phase168_*.py`, `M src/hedging/phase168_*.py`, `M tests/test_phase168_*.py`, `?? research_state/PHASE168_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261110T003907Z.json`; **do not commit unless explicitly asked**). **Phase168 DONE + verified** (module replaced mislabeled phase167 duplicates; generator + 9 test cases; artifact `valid=true`). **Phase169 UNSTARTED (0 `*phase169*` deliverables, 0 artifacts) — SOLE MANDATORY PRIORITY.** Competing root handoffs neutralized (redirect stubs) — **this file governs**. `research_state/durable_handoff.md` stale/superseded — **ignore it**. P0 clear at review: no `.env`, `.env.example` `LIVE_TRADING_ENABLED=false`, `py_compile` OK on Phase168 uncommitted files.
 >
 > **Repo-priority (name-driven, governs all decisions):** `Cryptocurrency-quantitative-options-orderflow-strategy` → crypto options quantitative **orderflow** strategy. Campaign spine: **orderflow features/signals → execution/backtest (fees/slippage/risk) → delta-neutral hedging + directional/hedge PnL attribution → reconciliation/monitoring evidence**. Every change must strengthen this spine with **verified, paper-only** evidence.
 
@@ -50,11 +50,11 @@
 
 ---
 
-## Bottlenecks — removed / remaining (verified 2026-11-10T004100Z)
+## Bottlenecks — removed / remaining (verified 2026-11-10T010150Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
-| P0 safety drift (`.env`/secrets/config/LIVE_TRADING) | **CLEAR** | Empty guarded diff; `LIVE_TRADING_ENABLED=false`; no `.env`. Re-verify before/after every batch. |
+| P0 safety drift (`.env`/secrets/config/LIVE_TRADING) | **CLEAR** | No `.env`; `.env.example` `LIVE_TRADING_ENABLED=false` (line 15). Re-verify before/after every batch. |
 | Phase112–168 implemented + committed/artifact-verified | **CLEARED** | Complete through Phase168 (artifact `PHASE168_...20261110T003907Z.json`, `valid=true`). Phase167 last sealed pre-168 @ `PHASE167_...20261109T234842Z.json`. |
 | Phase168 tail defect: mislabeled phase167 duplicates, no PHASE168 artifact | **CLEARED** | Duplicates replaced with proper Phase168; artifact written and validated `valid=true`. |
 | Phase169 unstarted | **ACTIVE — MANDATORY** | Execute `INIT-20261110T004100Z-PHASE169-POST-ATTRIBUTION-SEAL-DEPTH`; compose PHASE168→32, seed 169169. |
@@ -66,7 +66,7 @@
 
 ---
 
-## Verified state (2026-11-10T004100Z)
+## Verified state (2026-11-10T010150Z)
 
 - **Branch/HEAD:** `main` @ `ba275f713`. Phase168 files modified but **not committed** (commit only if explicitly asked).
 - **P0:** clear (empty guarded diff; `.env.example` `LIVE_TRADING_ENABLED=false`; no `.env`).
