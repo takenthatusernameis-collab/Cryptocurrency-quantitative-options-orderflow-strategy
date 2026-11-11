@@ -1,16 +1,6 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-**Last verified refresh:** 2026-11-11T03:58:13Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`, branch `main`, HEAD `941d24fcd` `chore(kilo): checkpoint agent session`; working tree may contain uncommitted Phase207 deliverables from prior session — `git status` before edits). This file is the only durable handoff; competing handoff files are redirect stubs.
-
-## VERIFIED STATE (ground truth)
-
-- **P0 safety:** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false` (verified 2026-11-11T03:58:13Z). Re-verify before/after every batch.
-- **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
-- **Chain B sealed:** Phase169–207 DONE/sealed (`src/hedging` paper-only chain). Latest: `research_state/PHASE207_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T034018Z.json` (`validation.valid=true issues=[]`, `venue_symbol_coverage=12`, `campaign.composes=["PHASE206","PHASE32"]`, `campaign.gates_ok=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `seed=207207`, `cycles=40`, `deterministic=true`, `bounds_ok=true`). Prior: Phase206 `...20261111T030309Z.json` (valid, composes `PHASE205→PHASE32`).
-- **Phase207 deliverables present:** `src/hedging/phase207_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `scripts/generate_phase207_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, `tests/test_phase207_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `tests/test_generate_phase207_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, sealed artifact above. **Do not re-implement or re-seal Phase200–207.**
-- **Phase208 absent (verified 2026-11-11T03:58:13Z):** no `src/hedging/phase208_*`, no `scripts/generate_phase208_*`, no `tests/test_phase208_*`/`tests/test_generate_phase208_*`, no `research_state/PHASE208_*`.
-- **Operational state:** `research_state/AUTO_HEALER_REPORT.json` / `CONTINUOUS_MONITOR_REPORT.json` show healthy/pass (no runtime blocker requiring intervention). `research_state/durable_handoff.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — ignore.
-- **Chain A out of scope:** `src.risk/phase*_live_execution*`, `tests/test_phase*_live_execution*` — do not substitute.
+**Last verified refresh:** 2026-11-11T04:00:16Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`, branch `main`, HEAD `82c723b75` `chore(kilo): checkpoint agent session`; working tree clean; P0 re-verified). This file is the only durable handoff; competing handoff files are redirect stubs.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
@@ -34,11 +24,21 @@
 
 **Acceptance:** Phase208 has a validated `research_state/PHASE208_*_PAPER_EVIDENCE_<UTC>.json` (`valid=true`, `issues=[]`), recorded verification evidence (or explicit bounded caveats), P0 intact, and handoff advanced to Phase209.
 
+## VERIFIED STATE (ground truth, 2026-11-11T04:00:16Z)
+
+- **P0 safety:** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`.
+- **Working tree:** clean (`git status --short` empty).
+- **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
+- **Chain B sealed:** Phase169–207 DONE/sealed (`src/hedging` paper-only chain). Latest: `research_state/PHASE207_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T034018Z.json` (`validation.valid=true issues=[]`, `venue_symbol_coverage=12`, `campaign.composes=["PHASE206","PHASE32"]`, `campaign.gates_ok=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `seed=207207`, `cycles=40`, `deterministic=true`, `bounds_ok=true`). **Do not re-implement or re-seal Phase200–207.**
+- **Phase208 absent (verified):** no `src/hedging/phase208_*`, no `scripts/generate_phase208_*`, no `tests/test_phase208_*`/`tests/test_generate_phase208_*`, no `research_state/PHASE208_*`.
+- **Competing handoffs:** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, `research_state/durable_handoff.md` are redirect stubs — ignore.
+- **Chain A out of scope:** `src.risk/phase*_live_execution*`, `tests/test_phase*_live_execution*` — do not substitute.
+
 ## NEXT SESSION INIT — PHASE209 (pre-staged, execute immediately after Phase208 seal)
 
 **`INIT-<PHASE208_SEAL_TIMESTAMP>-PHASE209-POST-ATTRIBUTION-SEAL-DEPTH`** — after Phase208 is evidence-sealed (`research_state/PHASE208_*_PAPER_EVIDENCE_<UTC>.json`, `valid=true issues=[]`, composes `PHASE207→PHASE32`). **Do not re-implement/re-seal Phase200–208. Implement/verify/generate evidence and close Phase209, composing `PHASE208→32`.** Same guards/scope/12-coverage/verification pattern as Phase208 with seed `209209`, IDs `p209-*`, artifacts `PHASE209_*`, upstream `Phase208...` orchestrator/artifact. Advance handoff to Phase210 on seal.
 
-## BOTTLENECKS (verified 2026-11-11T03:58:13Z)
+## BOTTLENECKS (verified 2026-11-11T04:00:16Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
