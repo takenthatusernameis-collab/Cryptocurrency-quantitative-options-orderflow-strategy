@@ -1,11 +1,11 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo (priority):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options/orderflow quantitative strategy; Chain B hedging post-attribution seal campaign is the active paper-only engineering track.
-**Handoff refreshed:** 2026-11-11T11:27:00Z (P0 rechecked: no `.env`, `.env.example:15` `LIVE_TRADING_ENABLED=false`; Phase222 sealed; Phase223 **SEALED** — artifact `research_state/PHASE223_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T112946Z.json` (`valid=true`, `issues=[]`, composes `PHASE222→PHASE32`, seed `223223`, cycles `40`, coverage `12`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `gates_ok=true`, `deterministic_replay_equal=true`, `bounds_ok=true`); Phase224 **NOT STARTED** — critical-path bottleneck to execute next; `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect-only stubs). This file is the ONLY durable handoff. Do not action redirect stubs or create new handoff files.
+**Handoff refreshed:** 2026-11-11T11:34:44Z (P0 rechecked: no `.env`, `.env.example:15` `LIVE_TRADING_ENABLED=false`; removed accidental root clutter files `=1.24.0`, `=2.5.0`, `=7.4.0`; no `src/hedging/phase224*`, `scripts/generate_phase224*`, `tests/test_phase224*`, or `research_state/PHASE224*` exist; Phase223 **SEALED** — artifact `research_state/PHASE223_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T112946Z.json` (`valid=true`, `issues=[]`, composes `PHASE222→PHASE32`, seed `223223`, cycles `40`, coverage `12`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `gates_ok=true`, `deterministic_replay_equal=true`, `bounds_ok=true`); Phase224 **NOT STARTED** — critical-path bottleneck to execute next; `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect-only stubs). This file is the ONLY durable handoff. Do not action redirect stubs or create new handoff files.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, heavy)
 
-**`INIT-2026-11-11T11:27:00Z-PHASE224-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE (execute now; complete end-to-end)**
+**`INIT-2026-11-11T11:34:44Z-PHASE224-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE (execute now; complete end-to-end)**
 
 Phase223 is **evidence-sealed**: `research_state/PHASE223_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T112946Z.json` (`validation.valid=true`, `issues=[]`, composes `PHASE222→PHASE32`, seed `223223`, cycles `40`, coverage `12`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `gates_ok=true`, `deterministic_replay_equal=true`, `bounds_ok=true`). Verification commands run: `py_compile` (4) OK; module smoke `paper_only=True gates_ok=True composes=[PHASE222,PHASE32]`; generator `--cycles 40 --seed 223223 --write` → valid=true/issues=[]; `--validate-only` → valid=true/issues=[]; CLI no-write `runpy` → valid=true/issues=[]. Targeted pytest could not complete collection due to deep-chain `RecursionError` on Python 3.12 (documented env caveat; governed acceptance met via py_compile+smoke+CLI+validated artifact). Phase224 seed `224224`, IDs `p224-*`, artifacts `PHASE224_*`. **Do NOT re-implement or re-seal Phase200–223.**
 
@@ -54,9 +54,9 @@ Phase223 is **evidence-sealed**: `research_state/PHASE223_ADAPTIVE_TOXICITY_RESI
 - Verification evidence recorded (or explicit bounded caveats per governed acceptance).
 - P0 intact; handoff advanced to Phase225.
 
-## VERIFIED STATE (ground truth, 2026-11-11T11:27:00Z)
+## VERIFIED STATE (ground truth, 2026-11-11T11:34:44Z)
 
-- **P0 safety:** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`.
+- **P0 safety:** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. Root clutter files `=1.24.0`, `=2.5.0`, `=7.4.0` removed.
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
 - **Phase211–221:** sealed (do not re-implement/re-seal).
 - **Phase221 COMPLETE:** `research_state/PHASE221_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T103217Z.json` (`valid=true issues=[]`, composes `PHASE220→PHASE32`, seed 221221, cycles 40, coverage 12).
