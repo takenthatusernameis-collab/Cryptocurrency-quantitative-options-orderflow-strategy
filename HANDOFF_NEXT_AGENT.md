@@ -1,11 +1,11 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo (priority):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options/orderflow quantitative strategy; Chain B hedging post-attribution seal campaign is the active paper-only engineering track.
-**Handoff refreshed:** 2026-11-11T12:58:00Z (P0 reverified pre/post: **no `.env`**, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no guarded drift; redirect stubs `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` unchanged and point here). This file is the **ONLY** durable handoff — do not action stubs or create new handoff files.
+**Handoff refreshed:** 2026-11-11T13:24:45Z (P0 reverified: **no `.env`**, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no guarded drift; Phase231 deliverables/artifacts absent; redirect stubs `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` updated to point here). This file is the **ONLY** durable handoff — do not action stubs or create new handoff files.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, heavy)
 
-**`INIT-2026-11-11T12:58:00Z-PHASE231-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE (execute now; complete end-to-end; no deferral)**
+**`INIT-2026-11-11T13:24:45Z-PHASE231-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE (execute now; complete end-to-end; no deferral)**
 
 **You must do heavy implementation work this session.** Do not stop at analysis, status, or doc-only updates. Phase230 is sealed; Phase231 is the sole critical-path bottleneck and must be fully implemented, verified, evidenced, and sealed before ending.
 
@@ -56,9 +56,9 @@ Phase230 is **evidence-sealed**: `research_state/PHASE230_ADAPTIVE_TOXICITY_RESI
 - Verification evidence recorded (or explicit bounded caveats per governed acceptance).
 - P0 intact; handoff advanced to Phase232.
 
-## VERIFIED STATE (ground truth, 2026-11-11T12:58:00Z)
+## VERIFIED STATE (ground truth, 2026-11-11T13:24:45Z)
 
-- **P0 safety:** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`.
+- **P0 safety:** **CLEAR (reverified 2026-11-11T13:24:45Z)** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. Phase231 not started (no `src/hedging/phase231*`, `scripts/generate_phase231*`, `tests/*phase231*`, `research_state/PHASE231*`).
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
 - **Phase211–229:** sealed (do not re-implement/re-seal).
 - **Phase227 COMPLETE (sealed 2026-11-11T12:30:35Z):** artifact `research_state/PHASE227_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T123035Z.json` (`valid=true issues=[]`, composes `PHASE226→PHASE32`, seed 227227, cycles 40, coverage 12).
@@ -74,7 +74,7 @@ Phase230 is **evidence-sealed**: `research_state/PHASE230_ADAPTIVE_TOXICITY_RESI
 
 | Bottleneck | Status | Unblock action (must do) |
 |---|---|---|
-| P0 safety drift | **CLEAR (12:58:00Z)** | Re-verify before/after every batch (`.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no `next9_unblocked`). |
+| P0 safety drift | **CLEAR (13:24:45Z)** | Re-verify before/after every batch (`.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no `next9_unblocked`). |
 | Competing/stale handoff files | **CLEARED** | This is the only durable handoff; redirect stubs point here. Do not create new handoff files or duplicate READ FIRST blocks. |
 | Phase223–230 sealed | **CLEARED** | Do not touch except defect-preserving fix with preserved semantics/guards. |
 | Phase231 absent (critical path) | **ACTIVE — START NEXT** | **Execute full heavy scope:** implement module+generator+2 tests mirroring Phase230 with Phase230→231 deltas, `py_compile`, smoke/no-write/`--write`+validate evidence, targeted pytest as feasible, P0 post-check, then seal and advance handoff to Phase232. No partial handoff-only updates without deliverables. |
