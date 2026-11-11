@@ -1,10 +1,10 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-**Last verified refresh:** 2026-11-11T05:32:28Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`, branch `main`, HEAD `5f4caa8ce` `chore: capture completed workflow run diagnostics`; working tree now contains Phase211 deliverables + this handoff update; P0 re-verified: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`). This file is the only durable handoff; competing handoff files are redirect stubs.
+**Last verified refresh:** 2026-11-11T05:34:42Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`, branch `main`, HEAD `5f4caa8ce` `chore: capture completed workflow run diagnostics`; working tree now contains Phase211 deliverables + this handoff update; P0 re-verified: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`). This file is the only durable handoff; competing handoff files are redirect stubs.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
-**`INIT-2026-11-11T05:32:28Z-PHASE212-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase211 is evidence-sealed (`research_state/PHASE211_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T052847Z.json`, `validation.valid=true issues=[]`, composes `PHASE210→PHASE32`, seed=211211, cycles=40, venue_symbol_coverage=12, paper_only=true, live_trading_enabled=false, next9_unblocked=false, gates_ok=true, deterministic=true, bounds_ok=true). **Do not re-implement or re-seal Phase200–211. Implement, verify, generate evidence, and seal Phase212 composing `PHASE211→PHASE32`.**
+**`INIT-2026-11-11T05:34:42Z-PHASE212-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase211 is evidence-sealed (`research_state/PHASE211_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T052847Z.json`, `validation.valid=true issues=[]`, composes `PHASE210→PHASE32`, seed=211211, cycles=40, venue_symbol_coverage=12, paper_only=true, live_trading_enabled=false, next9_unblocked=false, gates_ok=true, deterministic=true, bounds_ok=true). **Do not re-implement or re-seal Phase200–211. Implement, verify, generate evidence, and seal Phase212 composing `PHASE211→PHASE32`.**
 
 **Non-optional scope:** Chain B **`src/hedging`** only; **paper-only / additive / deterministic / finite-probe / bounded / guarded**. Mirror Phase111–211 pattern. **Compose `PHASE211→PHASE32`**. 12 coverage rows: **Deribit/OKX/Bybit/Binance × BTC/ETH/SOL**. Seed `212212`; IDs `p212-*`; artifacts `PHASE212_*`. Edit sealed phases only if verification reveals a real defect (preserve semantics/guards).
 
@@ -56,9 +56,9 @@
 
 ## NEXT SESSION INIT — PHASE212 (pre-staged, execute immediately after Phase211 seal)
 
-**`INIT-2026-11-11T05:32:28Z-PHASE212-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase211 is evidence-sealed (`research_state/PHASE211_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T052847Z.json`, `validation.valid=true issues=[]`, composes `PHASE210→PHASE32`). **Do not re-implement or re-seal Phase200–211. Implement, verify, generate evidence, and seal Phase212 composing `PHASE211→PHASE32`.**
+**`INIT-2026-11-11T05:34:42Z-PHASE212-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase211 is evidence-sealed (`research_state/PHASE211_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T052847Z.json`, `validation.valid=true issues=[]`, composes `PHASE210→PHASE32`). **Do not re-implement or re-seal Phase200–211. Implement, verify, generate evidence, and seal Phase212 composing `PHASE211→PHASE32`.**
 
-## BOTTLENECKS (verified 2026-11-11T05:32:28Z)
+## BOTTLENECKS (verified 2026-11-11T05:34:42Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
