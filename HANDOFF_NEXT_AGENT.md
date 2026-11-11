@@ -1,10 +1,10 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-> **READ FIRST — VERIFIED REFRESH 2026-11-11T01:39:40Z** — repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`, HEAD `c6e2fb20e` (`chore(kilo): checkpoint agent session`). **Phase169–202 DONE + verified/sealed** (latest seal: `research_state/PHASE202_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T011039Z.json`, `validation.valid=true issues=[]`, `venue_symbol_coverage=12`, `campaign.composes=["PHASE201","PHASE32"]`, `campaign.gates_ok=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `risk_posture.all_coverage_gates_ok=true`, `seed=202202`, `cycles=40`, `deterministic=true`, `bounds_ok=true`). Phase202 deliverables present: `src/hedging/phase202_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `scripts/generate_phase202_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, `tests/test_phase202_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `tests/test_generate_phase202_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, sealed artifact `research_state/PHASE202_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T011039Z.json`. Phase201 remains sealed (`research_state/PHASE201_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T010049Z.json`, `valid=true issues=[]`, composes `PHASE200→PHASE32`). **P0 (verified 2026-11-11T01:39:40Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. **NEXT9 remains `next9_unblocked=false` (human-only, out of scope).** Competing handoffs are redirect stubs only (`NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, `research_state/durable_handoff.md`).
+> **READ FIRST — VERIFIED REFRESH 2026-11-11T01:43:31Z** — repo: `Cryptocurrency-quantitative-options-orderflow-strategy`; branch `main`, HEAD `c6e2fb20e` (`chore(kilo): checkpoint agent session`). **Phase169–202 DONE + verified/sealed** (latest seal: `research_state/PHASE202_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T011039Z.json`, `validation.valid=true issues=[]`, `venue_symbol_coverage=12`, `campaign.composes=["PHASE201","PHASE32"]`, `campaign.gates_ok=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `risk_posture.all_coverage_gates_ok=true`, `seed=202202`, `cycles=40`, `deterministic=true`, `bounds_ok=true`). Phase202 deliverables present: `src/hedging/phase202_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `scripts/generate_phase202_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, `tests/test_phase202_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `tests/test_generate_phase202_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, sealed artifact `research_state/PHASE202_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T011039Z.json`. Phase201 remains sealed (`research_state/PHASE201_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T010049Z.json`, `valid=true issues=[]`, composes `PHASE200→PHASE32`). **P0 (verified 2026-11-11T01:43:31Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. **NEXT9 remains `next9_unblocked=false` (human-only, out of scope).** Competing handoffs are redirect stubs only (`NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, `research_state/durable_handoff.md`).
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
-**`INIT-2026-11-11T01:39:40Z-PHASE203-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase202 is evidence-sealed (`PHASE202_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T011039Z.json`, `valid=true issues=[]`, composes `PHASE201→PHASE32`). **Do not re-implement or re-seal Phase200–202. Implement/verify/generate evidence and close Phase203, composing PHASE202→32.**
+**`INIT-2026-11-11T01:43:31Z-PHASE203-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase202 is evidence-sealed (`PHASE202_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T011039Z.json`, `valid=true issues=[]`, composes `PHASE201→PHASE32`). **Do not re-implement or re-seal Phase200–202. Implement/verify/generate evidence and close Phase203, composing PHASE202→32.**
 
 **Verified preconditions (2026-11-11T01:39:40Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`; Phase202 deliverables present and sealed (`research_state/PHASE202_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T011039Z.json`, `valid=true issues=[]`, composes `PHASE201→PHASE32`). Phase203 absent: no `src/hedging/phase203_*`, no `scripts/generate_phase203_*`, no `tests/test_phase203_*` / `tests/test_generate_phase203_*`, no `research_state/PHASE203_*`. `research_state/AUTO_HEALER_REPORT.json` shows no unhealthy components (not a blocker).
 
@@ -31,21 +31,21 @@
 ## Chained focus campaign (heavy work mandatory — no avoidance)
 
 1. **DONE (verified/sealed):** Phase146–202 — chained `valid=true` paper-only artifacts, coverage=12, composes N→32 (latest: `PHASE202_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T011039Z.json`).
-2. **ACTIVE BOTTLENECK — NOW (mandatory, sole priority):** `INIT-2026-11-11T01:39:40Z-PHASE203-POST-ATTRIBUTION-SEAL-DEPTH` — Phase203 **not yet implemented** (no `src/hedging/phase203_*`, no generator script, no tests, no `research_state/PHASE203_*`). Implement mirroring Phase202, compose `PHASE202→32`, seed 203203, 12 venue×symbol coverage rows; verify + evidence-seal + advance.
+2. **ACTIVE BOTTLENECK — NOW (mandatory, sole priority):** `INIT-2026-11-11T01:43:31Z-PHASE203-POST-ATTRIBUTION-SEAL-DEPTH` — Phase203 **not yet implemented** (no `src/hedging/phase203_*`, no generator script, no tests, no `research_state/PHASE203_*`). Implement mirroring Phase202, compose `PHASE202→32`, seed 203203, 12 venue×symbol coverage rows; verify + evidence-seal + advance.
 3. **NEXT (queued):** `INIT-<UTC>-PHASE204-POST-ATTRIBUTION-SEAL-DEPTH` — compose **PHASE203→32**, only after Phase203 verified with artifact evidence.
 4. Continue **PHASE200→201→…** only with verified artifacts (`valid=true`/`issues=[]`, deterministic, bounded, 12 coverage, P0 intact). **Never skip phases; never refactor prior sealed phases.**
 5. **Not progress:** status-only, doc-only (except final handoff update after real deliverables), partial stubs, skipped verification, Chain A substitution, prior-phase refactors, or any work before Phase202 is evidence-sealed.
 
 ---
 
-## Bottlenecks — removed / remaining (verified 2026-11-11T01:39:40Z)
+## Bottlenecks — removed / remaining (verified 2026-11-11T01:43:31Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
-| P0 safety drift (`.env`/secrets/config/LIVE_TRADING) | **CLEAR** | No `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. Re-verify before/after every batch. |
+| P0 safety drift (`.env`/secrets/config/LIVE_TRADING) | **CLEAR** | No `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. Re-verify before/after every batch (verified 2026-11-11T01:43:31Z). |
 | Phase169–201 implemented + artifact-verified | **CLEARED** | Sealed through `PHASE201_...20261111T010049Z.json` (`valid=true issues=[]`, composes `PHASE200→PHASE32`). |
 | Phase202 not yet implemented (no code/tests/artifact) | **CLEARED** | Sealed through `PHASE202_...20261111T011039Z.json` (`valid=true issues=[]`, composes `PHASE201→PHASE32`). |
-| Phase203 not yet implemented (no code/tests/artifact) | **ACTIVE — MANDATORY** | `INIT-2026-11-11T01:39:40Z-PHASE203-POST-ATTRIBUTION-SEAL-DEPTH`: implement Phase203 mirroring Phase202 (Chain B `src/hedging`), compose `PHASE202→32`, seed 203203, 12 venue×symbol coverage rows; verify + controlled `--write` evidence + handoff closure, advance to Phase204. |
+| Phase203 not yet implemented (no code/tests/artifact) | **ACTIVE — MANDATORY** | `INIT-2026-11-11T01:43:31Z-PHASE203-POST-ATTRIBUTION-SEAL-DEPTH`: implement Phase203 mirroring Phase202 (Chain B `src/hedging`), compose `PHASE202→32`, seed 203203, 12 venue×symbol coverage rows; verify + controlled `--write` evidence + handoff closure, advance to Phase204 (verified 2026-11-11T01:43:31Z). |
 | Competing handoffs (`NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_*.md`, `research_state/durable_handoff.md`) | **NEUTRALIZED** | Redirect stubs only; this file governs. |
 | Chain A/B naming confusion | **MITIGATED** | Phase202 is **Chain B `src/hedging` only** (`src.risk/phase*_live_execution*` out of scope). |
 | Composed-chain generator pytest slowness/timeouts | **MITIGATED (explicit caveat)** | Use `PHASE_QUICK_VERIFY=1`, targeted runs/timeouts. Governed acceptance = module smoke + CLI `--no-write` + direct `validate_artifact` on `--write` artifact. |
@@ -53,7 +53,7 @@
 
 ---
 
-## Verified state (2026-11-11T01:39:40Z)
+## Verified state (2026-11-11T01:43:31Z)
 
 - **Branch/HEAD:** `main` @ `c6e2fb20e` `chore(kilo): checkpoint agent session`.
 - **P0:** clear (no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`). Re-verify before/after every batch.
