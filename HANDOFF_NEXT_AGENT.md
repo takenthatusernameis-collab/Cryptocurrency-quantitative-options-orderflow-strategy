@@ -1,14 +1,14 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo (priority):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options/orderflow quantitative strategy; Chain B (`src/hedging`) adaptive post-attribution seal orchestrator campaign is the active paper-only engineering track.
-**Handoff refreshed (verified):** 2026-11-11T22:49:01Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs (re-synced 22:49:01Z) — do not action stubs or create new handoff files.
-**P0 re-verified (22:49:01Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`; Phase254 deliverables/artifacts absent. No bottlenecks blocking start of active task.
+**Handoff refreshed (verified):** 2026-11-11T23:28:30Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs (re-synced 23:28:30Z) — do not action stubs or create new handoff files.
+**P0 re-verified (23:28:30Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`; Phase254 deliverables/artifacts absent. No bottlenecks blocking start of active task.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, heavy)
 
-**`INIT-2026-11-11T22:45:41Z-PHASE254-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE NOW (execute end-to-end; no deferral, no stubs, no partial completion).**
+**`INIT-2026-11-11T23:28:30Z-PHASE254-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE NOW (execute end-to-end; no deferral, no stubs, no partial completion).**
 
-**Predecessor sealed (do NOT re-implement/re-seal):** `INIT-2026-11-11T22:22:05Z-PHASE253-POST-ATTRIBUTION-SEAL-DEPTH` — COMPLETE/SEALED (2026-11-11T22:45:41Z).
+**Predecessor sealed (do NOT re-implement/re-seal):** `INIT-2026-11-11T22:45:41Z-PHASE253-POST-ATTRIBUTION-SEAL-DEPTH` — COMPLETE/SEALED (2026-11-11T22:45:41Z).
 
 Phase253 fully implemented, verified, evidenced, and sealed composing **`PHASE252→PHASE32`** (seed `253253`, IDs `p253-*`). All 4 deliverables present + validated artifact; P0 intact; deep-chain pytest caveat recorded/met via governed acceptance.
 
@@ -69,15 +69,15 @@ Phase250 is **evidence-sealed**:
 - Verification evidence recorded (or explicit bounded caveats per governed acceptance).
 - P0 intact; handoff advanced to Phase254.
 
-## VERIFIED STATE (ground truth, 2026-11-11T22:45:41Z)
+## VERIFIED STATE (ground truth, 2026-11-11T23:28:30Z)
 
-- **P0 safety:** **CLEAR** — no `.env` (absent, verified 22:45:41Z); `.env.example:15` `LIVE_TRADING_ENABLED=false` (verified). No venue/config/credential mutation.
+- **P0 safety:** **CLEAR** — no `.env` (absent, verified 23:28:30Z); `.env.example:15` `LIVE_TRADING_ENABLED=false` (verified). No venue/config/credential mutation.
 - **Phase233–253 COMPLETE (sealed):** post-attribution seal phases evidenced in `research_state/` (`valid=true issues=[]`, paper-only, `next9_unblocked=false`) — do not re-seal.
   - Phase253 COMPLETE (sealed 2026-11-11T22:45:41Z): `research_state/PHASE253_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T224306Z.json` (`valid=true`, `issues=[]`, seed `253253`, cycles `40`, composes `PHASE252→PHASE32`, coverage=12, paper-only, `next9_unblocked=false`). 4 deliverables present.
   - Phase252 COMPLETE (sealed 2026-11-11T22:22:05Z): `research_state/PHASE252_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T222557Z.json` (`valid=true`, `issues=[]`, seed `252252`, cycles `40`, composes `PHASE251→PHASE32`).
   - Phase251 COMPLETE (sealed 2026-11-11T21:57:05Z): `...PHASE251_...T214304Z.json` (`valid=true`, composes `PHASE250→PHASE32`).
   - Phase250 COMPLETE (sealed 2026-11-11T21:27:14Z): `...PHASE250_...T212714Z.json` (`valid=true`, composes `PHASE249→PHASE32`).
-- **Phase254 PENDING (critical path, ACTIVE):** `src/hedging/phase254*`, `scripts/generate_phase254*`, `tests/*phase254*`, `research_state/PHASE254_*` all absent (re-verified 22:47:49Z). **Must implement+verify+evidence+seal Phase254 composing `PHASE253→PHASE32` (seed `254254`, IDs `p254-*`).**
+- **Phase254 PENDING (critical path, ACTIVE):** `src/hedging/phase254*`, `scripts/generate_phase254*`, `tests/*phase254*`, `research_state/PHASE254_*` all absent (re-verified 23:28:30Z). **Must implement+verify+evidence+seal Phase254 composing `PHASE253→PHASE32` (seed `254254`, IDs `p254-*`).**
 - **Chain A:** out of scope (`src/risk/phase*_live_execution*`).
 - **Competing handoffs:** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs to this file.
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
@@ -86,7 +86,7 @@ Phase250 is **evidence-sealed**:
 
 | Bottleneck | Status | Unblock action (must do) |
 |---|---|---|
-| P0 safety drift | **CLEAR (22:45:41Z)** | Re-verify before/after batch (`.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no `next9_unblocked`). |
+| P0 safety drift | **CLEAR (23:28:30Z)** | Re-verify before/after batch (`.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no `next9_unblocked`). |
 | Competing/stale handoff files | **CLEARED** | This file is sole durable handoff; stubs redirect here. Do not create duplicates. |
 | Phase250→253 sealed | **CLEARED** | Do not touch except verified defect-preserving fix. |
 | Phase254 absent (critical path) | **PENDING — ACTIVE NOW** | Implement Phase254 (compose `PHASE253→PHASE32`, seed `254254`, `p254-*`), 4 deliverables + validated artifact; seal end-to-end. |
@@ -105,11 +105,13 @@ Phase250 is **evidence-sealed**:
 - After Phase254 seal, replace active task with **`INIT-<UTC>-PHASE255-POST-ATTRIBUTION-SEAL-DEPTH`** (compose `PHASE254→PHASE32`, seed `255255`, IDs `p255-*`).
 # SECONDARY HANDOFF — REDIRECT STUB (NOT ACTIONABLE)
 
-**Refreshed:** 2026-11-11T22:49:01Z
+**Refreshed:** 2026-11-11T23:28:30Z
 **Status:** SUPERSEDED. This file is not a task source.
 
 **Single durable handoff (READ FIRST):** `HANDOFF_NEXT_AGENT.md`
-- **Active mandatory task:** `INIT-2026-11-11T22:45:41Z-PHASE254-POST-ATTRIBUTION-SEAL-DEPTH` (Chain B `src/hedging`, paper-only, compose `PHASE253→PHASE32`, seed `254254`, IDs `p254-*`). Implement+verify+evidence+seal Phase254 end-to-end; then advance to `INIT-<UTC>-PHASE255-POST-ATTRIBUTION-SEAL-DEPTH`.
+- **Active mandatory task:** `INIT-2026-11-11T23:28:30Z-PHASE254-POST-ATTRIBUTION-SEAL-DEPTH` (Chain B `src/hedging`, paper-only, compose `PHASE253→PHASE32`, seed `254254`, IDs `p254-*`). Implement+verify+evidence+seal Phase254 end-to-end; then advance to `INIT-<UTC>-PHASE255-POST-ATTRIBUTION-SEAL-DEPTH`.
 - Phase253 COMPLETE/sealed: `research_state/PHASE253_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T224306Z.json` (`valid=true`, `issues=[]`).
 
 **Guards:** NO live trading, no `.env`, `.env.example:15` `LIVE_TRADING_ENABLED=false`, NEXT9 `next9_unblocked=false` (human-only). Do not action this file.
+
+(End of file - total 115 lines)
