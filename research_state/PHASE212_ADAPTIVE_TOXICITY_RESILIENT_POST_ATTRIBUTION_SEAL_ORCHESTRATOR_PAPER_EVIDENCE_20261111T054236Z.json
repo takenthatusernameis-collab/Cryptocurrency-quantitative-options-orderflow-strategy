@@ -1,0 +1,287 @@
+{
+  "artifact_type": "PHASE212_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-11T05:42:36.072628Z",
+  "seed": 212212,
+  "cycles": 40,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "no_external_venue_mutation": true,
+  "advisory": true,
+  "campaign": {
+    "phase": "PHASE212_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
+    "composes": [
+      "PHASE211",
+      "PHASE32"
+    ],
+    "paper_only": true,
+    "gates_ok": true,
+    "cycles": 40,
+    "seed": 212212
+  },
+  "seal_surface": {
+    "paper_only": true,
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD",
+      "SOL-USD"
+    ],
+    "regimes": [
+      "normal",
+      "elevated",
+      "high_toxicity"
+    ],
+    "seal_modes": [
+      "seal_monitor",
+      "seal_cross_venue",
+      "seal_depth_reinforce"
+    ],
+    "n_seal_attestations": 6,
+    "n_seal_certifications": 7,
+    "n_hedging_seal_attestations": 8,
+    "n_cross_venue_seal_consistencies": 8,
+    "avg_cross_venue_ok": 0.999,
+    "avg_seal_pass_rate": 0.98006,
+    "avg_of_fused_score": 0.65,
+    "bounds_ok": true,
+    "deterministic_replay_equal": true,
+    "upstream_phases": [
+      "PHASE211",
+      "PHASE210",
+      "PHASE32"
+    ]
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "seal_mode": "seal_depth_reinforce",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_deribit_BTC-USD_212212"
+    },
+    {
+      "venue": "deribit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "seal_mode": "seal_monitor",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_deribit_ETH-USD_212212"
+    },
+    {
+      "venue": "deribit",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "seal_mode": "seal_depth_reinforce",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_deribit_SOL-USD_212212"
+    },
+    {
+      "venue": "okx",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "elevated",
+      "seal_mode": "seal_depth_reinforce",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_okx_BTC-USD_212212"
+    },
+    {
+      "venue": "okx",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "normal",
+      "seal_mode": "seal_depth_reinforce",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_okx_ETH-USD_212212"
+    },
+    {
+      "venue": "okx",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "seal_mode": "seal_depth_reinforce",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_okx_SOL-USD_212212"
+    },
+    {
+      "venue": "bybit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "seal_mode": "seal_monitor",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_bybit_BTC-USD_212212"
+    },
+    {
+      "venue": "bybit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "elevated",
+      "seal_mode": "seal_cross_venue",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_bybit_ETH-USD_212212"
+    },
+    {
+      "venue": "bybit",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "elevated",
+      "seal_mode": "seal_cross_venue",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_bybit_SOL-USD_212212"
+    },
+    {
+      "venue": "binance",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "paper_only": true,
+      "regime": "high_toxicity",
+      "seal_mode": "seal_depth_reinforce",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_binance_BTC-USD_212212"
+    },
+    {
+      "venue": "binance",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "paper_only": true,
+      "regime": "normal",
+      "seal_mode": "seal_cross_venue",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_binance_ETH-USD_212212"
+    },
+    {
+      "venue": "binance",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "paper_only": true,
+      "regime": "elevated",
+      "seal_mode": "seal_monitor",
+      "probe_cross_venue_ok": 0.999,
+      "probe_seal_pass_rate": 0.98006,
+      "probe_finite": true,
+      "probe_bounds_within_limits": true,
+      "probe_regime_conditional_posture": true,
+      "probe_gates_ok": true,
+      "deterministic_probe_gate_id": "p212_binance_SOL-USD_212212"
+    }
+  ],
+  "risk_posture": {
+    "paper_only": true,
+    "live_trading_enabled": false,
+    "next9_unblocked": false,
+    "no_external_venue_mutation": true,
+    "gates_ok": true
+  },
+  "evidence_refs": [
+    "research_state/PHASE211_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T052847Z.json",
+    "src/hedging/phase211_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
+    "src/hedging/phase212_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
+    "scripts/generate_phase212_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py"
+  ],
+  "cross_refs": [
+    "Phase212AdaptiveToxicityResilientPostAttributionSealOrchestrator",
+    "Phase211AdaptiveToxicityResilientPostAttributionSealOrchestrator",
+    "Phase210AdaptiveToxicityResilientPostAttributionSealOrchestrator",
+    "OrderflowAlphaIntegrator",
+    "composes=PHASE211,PHASE32"
+  ],
+  "determinism": {
+    "seed": 212212,
+    "deterministic_replay_equal": true,
+    "strip_timestamps_for_comparison": true
+  },
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}
