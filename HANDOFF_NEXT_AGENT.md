@@ -1,11 +1,11 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo (priority):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options/orderflow quantitative strategy; Chain B (`src/hedging`) adaptive post-attribution seal orchestrator campaign is the active paper-only engineering track.
-**Handoff refreshed:** 2026-11-11T21:00:44Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action stubs or create new handoff files.
+**Handoff refreshed:** 2026-11-11T21:13:04Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action stubs or create new handoff files.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, heavy)
 
-**`INIT-2026-11-11T21:00:44Z-PHASE250-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE (execute now; complete end-to-end; no deferral)**
+**`INIT-2026-11-11T21:13:04Z-PHASE250-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE (execute now; complete end-to-end; no deferral)**
 
 **Heavy implementation work is mandatory.** Do not stop at analysis, status, or doc-only updates. Implement, verify, generate evidence, and seal Phase250 in this session before ending.
 
@@ -61,11 +61,11 @@ Phase249 is **evidence-sealed** (do NOT re-implement/re-seal):
 - Verification evidence recorded (or explicit bounded caveats per governed acceptance).
 - P0 intact; handoff advanced to Phase251.
 
-## VERIFIED STATE (ground truth, 2026-11-11T21:00:44Z)
+## VERIFIED STATE (ground truth, 2026-11-11T21:13:04Z)
 
-- **P0 safety:** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`.
+- **P0 safety:** **CLEAR** — no `.env` (absent); `.env.example:15` `LIVE_TRADING_ENABLED=false` (verified).
 - **Phase233–248 COMPLETE (sealed):** prior post-attribution seal phases evidenced in `research_state/` (`valid=true issues=[]`, paper-only, `next9_unblocked=false`) — do not re-seal.
-- **Phase249 COMPLETE (sealed 2026-11-11T20:26:06Z):** `research_state/PHASE249_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T202606Z.json` (`valid=true`, `issues=[]`, seed `249249`, cycles `40`, composes `PHASE248→PHASE32`, coverage=12, paper-only, `next9_unblocked=false`). 4 deliverables present.
+- **Phase249 COMPLETE (sealed 2026-11-11T20:26:06Z):** `research_state/PHASE249_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T202606Z.json` (`valid=true`, `issues=[]`, seed `249249`, cycles `40`, composes `PHASE248→PHASE32`, coverage=12, paper-only, `next9_unblocked=false`). 4 deliverables present in `src/hedging/`, `scripts/`, `tests/`.
 - **Phase250 PENDING (critical path):** not implemented; `src/hedging/phase250*`, `scripts/generate_phase250*`, `tests/*phase250*`, and `research_state/PHASE250_*` absent at refresh time. **Active task = implement+verify+evidence+seal Phase250 composing `PHASE249→PHASE32` (seed `250250`, IDs `p250-*`).**
 - **Chain A:** out of scope (`src/risk/phase*_live_execution*`).
 - **Competing handoffs:** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs to this file.
@@ -75,7 +75,7 @@ Phase249 is **evidence-sealed** (do NOT re-implement/re-seal):
 
 | Bottleneck | Status | Unblock action (must do) |
 |---|---|---|
-| P0 safety drift | **CLEAR (21:00:44Z)** | Re-verify before/after batch (`.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no `next9_unblocked`). |
+| P0 safety drift | **CLEAR (21:13:04Z)** | Re-verify before/after batch (`.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no `next9_unblocked`). |
 | Competing/stale handoff files | **CLEARED** | This file is sole durable handoff; stubs redirect here. Do not create duplicates. |
 | Phase110–249 sealed | **CLEARED** | Do not touch except defect-preserving fix with preserved semantics/guards. |
 | Phase250 absent (critical path) | **PENDING — ACTIVE NOW** | Implement Phase250 (compose `PHASE249→PHASE32`, seed `250250`, `p250-*`), 4 deliverables + validated artifact; seal end-to-end. |
@@ -84,7 +84,7 @@ Phase249 is **evidence-sealed** (do NOT re-implement/re-seal):
 | NEXT9 A1–A7 | **BLOCKED — human-only (out of scope)** | `next9_unblocked=false`; never unblock, never mutate venues/config/credentials. |
 
 ## GOVERNED VERIFICATION NOTES
-- Generator CLI does **not** accept `--no-write`; run without `--write` for no-write validation (use `runpy` + raised recursion if deep chain overflows).
+- Generator CLI does **not** accept `--no-write`; run without `--write` for no-write validation (use `runpy` + raised recursion if needed).
 - Deep composed chain (→phase32) can raise `RecursionError` on Python 3.12 during imports/pytest collection. Use governed acceptance and record exact outcomes.
 - Carry `sys.setrecursionlimit(50000)` (or higher) in generators/smokes as needed.
 
