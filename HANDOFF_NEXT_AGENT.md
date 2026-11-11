@@ -1,10 +1,10 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
-**Last verified refresh:** 2026-11-11T07:34:12Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`, branch `main`, HEAD `b782ae799` `chore(kilo): checkpoint agent session`; P0 re-verified: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`). Phase215 sealed: artifact `research_state/PHASE215_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T073404Z.json` (`validation.valid=true issues=[]`, composes `PHASE214→PHASE32`, seed=215215, cycles=40, venue_symbol_coverage=12, paper_only=true, live_trading_enabled=false, next9_unblocked=false, gates_ok=true, deterministic=true, bounds_ok=true). **Phase216 not present** (no `src/hedging/phase216*`, no `scripts/generate_phase216*`, no `tests/*phase216*`, no `PHASE216_*` artifact). This file is the only durable handoff; competing handoff files are redirect stubs.
+**Last verified refresh:** 2026-11-11T07:39:44Z (repo: `Cryptocurrency-quantitative-options-orderflow-strategy`, branch `main`, HEAD `b782ae799` `chore(kilo): checkpoint agent session`; P0 re-verified: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`). Phase215 sealed: artifact `research_state/PHASE215_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T073404Z.json` (`validation.valid=true issues=[]`, composes `PHASE214→PHASE32`, seed=215215, cycles=40, venue_symbol_coverage=12, paper_only=true, live_trading_enabled=false, next9_unblocked=false, gates_ok=true, deterministic=true, bounds_ok=true). **Phase216 not present** (no `src/hedging/phase216*`, no `scripts/generate_phase216*`, no `tests/*phase216*`, no `PHASE216_*` artifact). This file is the only durable handoff; competing handoff files are redirect stubs.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
-**`INIT-2026-11-11T07:34:12Z-PHASE216-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase215 is evidence-sealed (`research_state/PHASE215_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T073404Z.json`, `validation.valid=true issues=[]`, composes `PHASE214→PHASE32`, seed=215215, cycles=40, venue_symbol_coverage=12, paper_only=true, live_trading_enabled=false, next9_unblocked=false, gates_ok=true, deterministic=true, bounds_ok=true). **Do not re-implement or re-seal Phase200–215. Implement, verify, generate evidence, and seal Phase216 composing `PHASE215→PHASE32`.**
+**`INIT-2026-11-11T07:39:44Z-PHASE216-POST-ATTRIBUTION-SEAL-DEPTH`** — Phase215 is evidence-sealed (`research_state/PHASE215_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T073404Z.json`, `validation.valid=true issues=[]`, composes `PHASE214→PHASE32`, seed=215215, cycles=40, venue_symbol_coverage=12, paper_only=true, live_trading_enabled=false, next9_unblocked=false, gates_ok=true, deterministic=true, bounds_ok=true). **Do not re-implement or re-seal Phase200–215. Implement, verify, generate evidence, and seal Phase216 composing `PHASE215→PHASE32`.**
 
 **Non-optional scope:** Chain B **`src/hedging`** only; **paper-only / additive / deterministic / finite-probe / bounded / guarded**. Mirror Phase111–215 pattern. **Compose `PHASE215→PHASE32`**. 12 coverage rows: **Deribit/OKX/Bybit/Binance × BTC/ETH/SOL**. Seed `216216`; IDs `p216-*`; artifacts `PHASE216_*`. Edit sealed phases only if verification reveals a real defect (preserve semantics/guards).
 
@@ -24,9 +24,9 @@
 
 **Acceptance:** Phase216 has a validated `research_state/PHASE216_*_PAPER_EVIDENCE_<UTC>.json` (`valid=true`, `issues=[]`), recorded verification evidence (or explicit bounded caveats), P0 intact, and handoff advanced to Phase217.
 
-## VERIFIED STATE (ground truth, 2026-11-11T07:34:12Z)
+## VERIFIED STATE (ground truth, 2026-11-11T07:39:44Z)
 
-- **P0 safety:** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false` (re-verified).
+- **P0 safety:** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false` (re-verified 2026-11-11T07:39:44Z).
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
 - **Phase211 sealed:** `research_state/PHASE211_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T052847Z.json` (`validation.valid=true issues=[]`, composes `PHASE210→PHASE32`). Do not re-implement or re-seal.
 - **Phase212 sealed:** `research_state/PHASE212_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T062752Z.json` (+054236Z) — `validation={"valid":true,"issues":[]}`, `campaign.composes=["PHASE211","PHASE32"]`, `campaign.paper_only=true`, `campaign.gates_ok=true`, `campaign.seed=212212`, `campaign.cycles=40`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `venue_symbol_coverage` len 12, `seal_surface.bounds_ok=true`, `determinism.deterministic_replay_equal=true`. Module/generator/tests present in `src/hedging`/`scripts`/`tests`.
@@ -49,7 +49,7 @@
 - **Competing handoffs:** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, `research_state/durable_handoff.md` are redirect stubs pointing here — ignore.
 - **Chain A out of scope:** `src.risk/phase*_live_execution*`, `tests/test_phase*_live_execution*` — do not substitute.
 
-## BOTTLENECKS (verified 2026-11-11T07:34:12Z)
+## BOTTLENECKS (verified 2026-11-11T07:39:44Z)
 
 | Bottleneck | Status | Action |
 |---|---|---|
