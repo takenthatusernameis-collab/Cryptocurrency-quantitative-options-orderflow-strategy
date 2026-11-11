@@ -1,7 +1,8 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo (priority):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options/orderflow quantitative strategy; Chain B (`src/hedging`) adaptive post-attribution seal orchestrator campaign is the active paper-only engineering track.
-**Handoff refreshed (verified):** 2026-11-11T22:45:41Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action stubs or create new handoff files.
+**Handoff refreshed (verified):** 2026-11-11T22:47:49Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs (re-synced 22:47:49Z) — do not action stubs or create new handoff files.
+**P0 re-verified (22:47:49Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`; Phase254 deliverables/artifacts absent. No bottlenecks blocking start of active task.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, heavy)
 
@@ -76,7 +77,7 @@ Phase250 is **evidence-sealed**:
   - Phase252 COMPLETE (sealed 2026-11-11T22:22:05Z): `research_state/PHASE252_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T222557Z.json` (`valid=true`, `issues=[]`, seed `252252`, cycles `40`, composes `PHASE251→PHASE32`).
   - Phase251 COMPLETE (sealed 2026-11-11T21:57:05Z): `...PHASE251_...T214304Z.json` (`valid=true`, composes `PHASE250→PHASE32`).
   - Phase250 COMPLETE (sealed 2026-11-11T21:27:14Z): `...PHASE250_...T212714Z.json` (`valid=true`, composes `PHASE249→PHASE32`).
-- **Phase254 PENDING (critical path, ACTIVE):** `src/hedging/phase254*`, `scripts/generate_phase254*`, `tests/*phase254*`, `research_state/PHASE254_*` all absent (verified 22:45:41Z). **Must implement+verify+evidence+seal Phase254 composing `PHASE253→PHASE32` (seed `254254`, IDs `p254-*`).**
+- **Phase254 PENDING (critical path, ACTIVE):** `src/hedging/phase254*`, `scripts/generate_phase254*`, `tests/*phase254*`, `research_state/PHASE254_*` all absent (re-verified 22:47:49Z). **Must implement+verify+evidence+seal Phase254 composing `PHASE253→PHASE32` (seed `254254`, IDs `p254-*`).**
 - **Chain A:** out of scope (`src/risk/phase*_live_execution*`).
 - **Competing handoffs:** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs to this file.
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
