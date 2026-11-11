@@ -1,96 +1,72 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo (priority):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options/orderflow quantitative strategy; Chain B (`src/hedging`) adaptive post-attribution seal orchestrator campaign is the active paper-only engineering track.
-**Handoff refreshed (verified):** 2026-11-11T23:28:30Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs (re-synced 23:28:30Z) — do not action stubs or create new handoff files.
-**P0 re-verified (23:28:30Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`; Phase254 deliverables/artifacts absent. No bottlenecks blocking start of active task.
+**Handoff refreshed (verified):** 2026-11-11T23:37:00Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs (re-synced 23:37:00Z) — do not action stubs or create new handoff files.
+**P0 re-verified (23:37:00Z):** no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. **New bottleneck:** runtime missing deps (`pydantic`, `numpy`, `pandas`, `scipy` absent) — Phase254 evidence/seal blocked at import boundary.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, heavy)
 
-**`INIT-2026-11-11T23:28:30Z-PHASE254-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE NOW (execute end-to-end; no deferral, no stubs, no partial completion).**
+**`INIT-2026-11-11T23:37:00Z-PHASE254-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE (execute end-to-end; no deferral, no stubs, no partial completion).**
 
-**Predecessor sealed (do NOT re-implement/re-seal):** `INIT-2026-11-11T22:45:41Z-PHASE253-POST-ATTRIBUTION-SEAL-DEPTH` — COMPLETE/SEALED (2026-11-11T22:45:41Z).
+**Status:** Phase254 deliverables **implemented** (4 files) and `py_compile` **OK** (23:37Z). **NOT SEALED:** validated artifact/evidence generation, smokes, and pytest blocked by environment missing required deps (`pydantic`/`numpy`/`pandas`/`scipy`) causing deep-chain `ModuleNotFoundError` on import; Phase254 artifact absent.
 
-Phase253 fully implemented, verified, evidenced, and sealed composing **`PHASE252→PHASE32`** (seed `253253`, IDs `p253-*`). All 4 deliverables present + validated artifact; P0 intact; deep-chain pytest caveat recorded/met via governed acceptance.
+**Predecessor sealed (do NOT re-implement/re-seal):** `INIT-2026-11-11T22:45:41Z-PHASE253-POST-ATTRIBUTION-SEAL-DEPTH` — COMPLETE/SEALED (2026-11-11T22:45:41Z). Artifact: `research_state/PHASE253_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T224306Z.json` (`validation.valid=true`, `issues=[]`, seed `253253`, cycles `40`, paper-only, `live_trading_enabled=false`, `next9_unblocked=false`, composes `PHASE252→PHASE32`).
 
-Artifact: `research_state/PHASE253_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T224306Z.json` (`validation.valid=true`, `issues=[]`, seed `253253`, cycles `40`, paper-only, `live_trading_enabled=false`, `next9_unblocked=false`).
+Phase252 is **evidence-sealed** (do NOT re-implement/re-seal Phase79/80/110–253): `research_state/PHASE252_..._20261111T222557Z.json` (`valid=true`).
 
-Phase252 is **evidence-sealed** (do NOT re-implement/re-seal Phase79/80/110–252):
-- Artifact: `research_state/PHASE252_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T222557Z.json` (`validation.valid=true`, `issues=[]`, seed `252252`, cycles `40`, paper-only, `live_trading_enabled=false`, `next9_unblocked=false`).
+**Objective (Phase254):** complete verification, generate validated evidence, and seal Phase254 composing **`PHASE253→PHASE32`** (12 coverage rows: Deribit/OKX/Bybit/Binance × BTC/ETH/SOL), seed `254254`, IDs `p254-*`. No stubs, no deferral, no partial completion. Then advance this handoff to **`INIT-<UTC>-PHASE255-POST-ATTRIBUTION-SEAL-DEPTH`** composing **`PHASE254→PHASE32`** (seed `255255`, IDs `p255-*`).
 
-Phase251 is **evidence-sealed**:
-- Artifact: `research_state/PHASE251_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T214304Z.json` (`validation.valid=true`, `issues=[]`, seed `251251`, cycles `40`, paper-only, `live_trading_enabled=false`, `next9_unblocked=false`).
-
-Phase250 is **evidence-sealed**:
-- Artifact: `research_state/PHASE250_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T212714Z.json` (`validation.valid=true`, `issues=[]`, seed `250250`, cycles `40`, paper-only, `live_trading_enabled=false`, `next9_unblocked=false`).
-
-(see objective above)
-
-**Objective (Phase254):** fully **implement, verify, generate evidence, and seal Phase254** composing **`PHASE253→PHASE32`** (12 coverage rows: Deribit/OKX/Bybit/Binance × BTC/ETH/SOL), seed `254254`, IDs `p254-*`. No stubs, no deferral, no partial completion. Then advance this handoff to **`INIT-<UTC>-PHASE255-POST-ATTRIBUTION-SEAL-DEPTH`** composing **`PHASE254→PHASE32`** (seed `255255`, IDs `p255-*`).
-
-### Phase253 → Phase254 implementation deltas
-| Item | Phase253 (sealed) | Phase254 (required) |
-|---|---|---|
-| Module/generator/tests | `...phase253...` | `...phase254...` |
-| Upstream orchestrator/import | `Phase252...` | `Phase253...` |
-| Composes | `["PHASE252","PHASE32"]` | `["PHASE253","PHASE32"]` |
-| Seed / IDs | `253253` / `p253-*` | `254254` / `p254-*` |
-| Report/campaign phase | `PHASE253_*` | `PHASE254_*` |
-| Upstream flags/refs | `upstream_phase252/251/32`, refs sealed Phase252 artifact `...PHASE252_...T222557Z.json` | `upstream_phase253/252/32`, refs sealed Phase253 artifact `...PHASE253_...T224306Z.json` |
-| Cross refs | composes `PHASE252,PHASE32` | composes `PHASE253,PHASE32` |
+### Phase254 implementation (done, 23:37Z)
+| Item | Value |
+|---|---|
+| Module | `src/hedging/phase254_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` |
+| Generator | `scripts/generate_phase254_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` |
+| Tests | `tests/test_phase254_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `tests/test_generate_phase254_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py` |
+| Composes | `PHASE253→PHASE32` |
+| Seed / IDs | `254254` / `p254-*` |
+| Upstream flags/refs | `upstream_phase253/252/32`, refs sealed Phase253 artifact `...PHASE253_...T224306Z.json` |
+| `py_compile` (4) | **OK** — `python3 -m py_compile ...` (23:37Z) |
 
 ### Scope & constraints (non-negotiable)
 - **Chain B only:** `src/hedging`, `scripts/`, `tests/`, `research_state/`. **No Chain A substitution** (`src/risk/phase*_live_execution*` out of scope).
-- **Paper-only / additive / deterministic / finite-probe / bounded / guarded.** Mirror Phase111–250 pattern exactly except Phase254 deltas.
+- **Paper-only / additive / deterministic / finite-probe / bounded / guarded.** Mirror Phase253 pattern exactly.
 - **Compose `PHASE253→PHASE32`**. Seed `254254`, IDs `p254-*`, artifacts `PHASE254_*`.
-- **HARD GUARDS:** **NO live trading. NO venue/config/credential mutation. NO NEXT9 unblock (`next9_unblocked=false`).** Do not refactor sealed phases `phase79/80/110–253`. Do not create `.env`. Keep `.env.example:15` `LIVE_TRADING_ENABLED=false`. Edit sealed phases only for a verified defect while preserving semantics/guards.
+- **HARD GUARDS:** **NO live trading. NO venue/config/credential mutation. NO NEXT9 unblock (`next9_unblocked=false`).** Do not refactor sealed phases `phase79/80/110–253`. Do not create `.env`. Keep `.env.example:15` `LIVE_TRADING_ENABLED=false`.
 
-### Required deliverables (all)
-1. `src/hedging/phase254_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`
-2. `scripts/generate_phase254_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`
-3. `tests/test_phase254_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`
-4. `tests/test_generate_phase254_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`
-5. Validated artifact: `research_state/PHASE254_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_<UTC>.json` (`validation.valid=true`, `issues=[]`)
-
-### Execution checklist (complete in order; record commands/results/caveats)
-1. **P0/targets pre-check:** confirm no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`; Phase254 deliverables/artifact absent before implementation.
-2. **Implement** module+generator+tests mirroring Phase253 with deltas above (paper-only hard gate, 12 venue×symbol probes, deterministic replay, finite/bounded, validator rejects live/unblock/non-paper/composition violations). Include `sys.setrecursionlimit(50000)` (or higher as needed) in generator/smokes.
-3. **`py_compile`** all 4 Phase254 files — record OK.
-4. **Module smoke:** `PHASE_QUICK_VERIFY=1 PYTHONPATH=. python3 -c ...` (raise recursion limit, e.g. 200000) → expect `paper_only=True gates_ok=True` and composes includes `PHASE253,PHASE32`.
-5. **Module pytest** (targeted) — record pass/fail/caveats (deep-chain `RecursionError` caveat possible; use raised recursion wrapper/timeouts).
-6. **Generate controlled evidence:** `--cycles 40 --seed 254254 --write` (with `PHASE_QUICK_VERIFY=1` given deep-chain caveat) then `--validate-only <artifact>` → expect `valid=true issues=[]`, deterministic/bounds_ok, coverage=12, composes `PHASE253→PHASE32`, guards intact. **Record exact artifact path.**
-7. **CLI no-write smoke:** run generator without `--write` → expect `valid=true issues=[]` (use `runpy`+raised recursion if needed).
-8. **Generator pytest** with `PHASE_QUICK_VERIFY=1`/targeted runs/timeouts as needed.
-9. **P0 post-check:** no `.env`, `LIVE_TRADING_ENABLED=false`, no guarded drift.
-10. **Update this handoff last** with verified facts/timestamps/paths/commands/caveats and advance next task to **`INIT-<UTC>-PHASE255-POST-ATTRIBUTION-SEAL-DEPTH`** composing **`PHASE254→PHASE32`** (seed `255255`, IDs `p255-*`).
+### Required to seal (remaining, heavy — must complete)
+1. **Unblock env deps (bottleneck):** ensure `pydantic`, `numpy`, `pandas`, `scipy` (and test deps as required) are installed/available in the active Python env (see `docs/PAPER_RUNBOOK.md` venv/dep check). Do not weaken guards.
+2. **Module smoke:** `PHASE_QUICK_VERIFY=1 PYTHONPATH=. python3 -c ...` with `sys.setrecursionlimit(200000)` → expect `paper_only=True gates_ok=True composes ['PHASE253','PHASE32']`.
+3. **Module pytest** (targeted) — record pass/fail/caveats.
+4. **Generate controlled evidence:** `PHASE_QUICK_VERIFY=1 PYTHONPATH=. python3 scripts/generate_phase254_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py --cycles 40 --seed 254254 --write` then `--validate-only <artifact>` → expect `valid=true issues=[]`, deterministic/bounds_ok, coverage=12, composes `PHASE253→PHASE32`, guards intact. **Record exact artifact path.**
+5. **CLI no-write smoke:** run generator without `--write` (use `runpy`+raised recursion if needed) → expect `valid=true issues=[]`.
+6. **Generator pytest** with `PHASE_QUICK_VERIFY=1`/targeted runs/timeouts as needed.
+7. **P0 post-check:** no `.env`, `LIVE_TRADING_ENABLED=false`, no guarded drift.
+8. **Update this handoff last** with verified facts/timestamps/paths/commands/caveats, mark Phase254 sealed, and advance next task to **`INIT-<UTC>-PHASE255-POST-ATTRIBUTION-SEAL-DEPTH`** composing **`PHASE254→PHASE32`** (seed `255255`, IDs `p255-*`).
 
 ### Acceptance criteria
-- Phase254 module/generator/tests exist and are syntactically valid.
-- Validated `research_state/PHASE254_*_PAPER_EVIDENCE_<UTC>.json` with `valid=true`, `issues=[]`, 12-coverage, deterministic/bounded, composes `PHASE253→PHASE32`, `paper_only/live_trading_enabled=false/next9_unblocked=false/gates_ok=true`.
-- Verification evidence recorded (or explicit bounded caveats per governed acceptance).
-- P0 intact; handoff advanced to Phase254.
+- Phase254 module/generator/tests exist and syntactically valid. ✅ (23:37Z)
+- Validated `research_state/PHASE254_*_PAPER_EVIDENCE_<UTC>.json` with `valid=true`, `issues=[]`, 12-coverage, deterministic/bounded, composes `PHASE253→PHASE32`, `paper_only/live_trading_enabled=false/next9_unblocked=false/gates_ok=true`. ❌ **BLOCKED (deps)**
+- Verification evidence recorded (or explicit bounded caveats per governed acceptance). ❌ **BLOCKED (deps)**
+- P0 intact; handoff advanced to Phase255 only after seal.
 
-## VERIFIED STATE (ground truth, 2026-11-11T23:28:30Z)
+## VERIFIED STATE (ground truth, 2026-11-11T23:37:00Z)
 
-- **P0 safety:** **CLEAR** — no `.env` (absent, verified 23:28:30Z); `.env.example:15` `LIVE_TRADING_ENABLED=false` (verified). No venue/config/credential mutation.
-- **Phase233–253 COMPLETE (sealed):** post-attribution seal phases evidenced in `research_state/` (`valid=true issues=[]`, paper-only, `next9_unblocked=false`) — do not re-seal.
-  - Phase253 COMPLETE (sealed 2026-11-11T22:45:41Z): `research_state/PHASE253_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T224306Z.json` (`valid=true`, `issues=[]`, seed `253253`, cycles `40`, composes `PHASE252→PHASE32`, coverage=12, paper-only, `next9_unblocked=false`). 4 deliverables present.
-  - Phase252 COMPLETE (sealed 2026-11-11T22:22:05Z): `research_state/PHASE252_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T222557Z.json` (`valid=true`, `issues=[]`, seed `252252`, cycles `40`, composes `PHASE251→PHASE32`).
-  - Phase251 COMPLETE (sealed 2026-11-11T21:57:05Z): `...PHASE251_...T214304Z.json` (`valid=true`, composes `PHASE250→PHASE32`).
-  - Phase250 COMPLETE (sealed 2026-11-11T21:27:14Z): `...PHASE250_...T212714Z.json` (`valid=true`, composes `PHASE249→PHASE32`).
-- **Phase254 PENDING (critical path, ACTIVE):** `src/hedging/phase254*`, `scripts/generate_phase254*`, `tests/*phase254*`, `research_state/PHASE254_*` all absent (re-verified 23:28:30Z). **Must implement+verify+evidence+seal Phase254 composing `PHASE253→PHASE32` (seed `254254`, IDs `p254-*`).**
+- **P0 safety:** **CLEAR** — no `.env` (absent, 23:37Z); `.env.example:15` `LIVE_TRADING_ENABLED=false`. No venue/config/credential mutation.
+- **Phase233–253 COMPLETE (sealed):** post-attribution seal phases evidenced in `research_state/` (`valid=true issues=[]`, paper-only, `next9_unblocked=false`) — do not re-seal. Phase253: `...PHASE253_...T224306Z.json`.
+- **Phase254 IN PROGRESS (active, not sealed):** 4 deliverables present in `src/hedging/phase254*`, `scripts/generate_phase254*`, `tests/*phase254*` (verified 23:37Z); `py_compile` 4/4 OK. `research_state/PHASE254_*` artifact **absent**. Smokes/generator/validate/tests **blocked** by missing runtime deps: `pydantic` MISSING, `numpy` MISSING, `pandas` MISSING, `scipy` MISSING (Python 3.12 env check 23:37Z); `yaml` OK. Commands attempted: module smoke and generator `--write` → `ModuleNotFoundError: No module named 'pydantic'` during deep-chain import (`src/data/schemas.py`).
 - **Chain A:** out of scope (`src/risk/phase*_live_execution*`).
-- **Competing handoffs:** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs to this file.
+- **Competing handoffs:** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` redirect stubs to this file.
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
 
 ## BOTTLENECKS & UNBLOCKING ACTIONS
 
 | Bottleneck | Status | Unblock action (must do) |
 |---|---|---|
-| P0 safety drift | **CLEAR (23:28:30Z)** | Re-verify before/after batch (`.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no `next9_unblocked`). |
-| Competing/stale handoff files | **CLEARED** | This file is sole durable handoff; stubs redirect here. Do not create duplicates. |
-| Phase250→253 sealed | **CLEARED** | Do not touch except verified defect-preserving fix. |
-| Phase254 absent (critical path) | **PENDING — ACTIVE NOW** | Implement Phase254 (compose `PHASE253→PHASE32`, seed `254254`, `p254-*`), 4 deliverables + validated artifact; seal end-to-end. |
-| Deep-chain pytest/import `RecursionError` | **ENV CAVEAT (mitigated)** | Governed acceptance: `py_compile` (4) + module/generator smoke with raised recursion + CLI no-write `valid=true` + validated `--write` artifact (`--validate-only`) with guards/coverage/determinism/bounds intact; targeted pytest with raised recursion/timeouts where feasible; record commands/caveats. Use `PHASE_QUICK_VERIFY=1`. |
+| P0 safety drift | **CLEAR (23:37Z)** | Re-verify before/after batch (`.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no `next9_unblocked`). |
+| Missing runtime deps (`pydantic`,`numpy`,`pandas`,`scipy`) | **BLOCKING — ACTIVE** | Provision/activate env with required deps (e.g. `.venv` per `docs/PAPER_RUNBOOK.md`, `pip install -r requirements.txt` or equivalent) so Phase254 import chain loads; then complete verification/evidence/seal. Do not bypass guards. |
+| Phase254 artifact/verification | **BLOCKED by deps** | After deps fixed: module smoke, module+generator pytest (governed), `--write`+`--validate-only`, CLI no-write; record exact results and seal. |
+| Deep-chain pytest/import `RecursionError` | **ENV CAVEAT (expected)** | Use `PHASE_QUICK_VERIFY=1`, `sys.setrecursionlimit` (200k), governed acceptance; record caveats. |
+| Competing/stale handoff files | **CLEARED** | Stubs redirect here. Do not create duplicates. |
 | Chain A/B confusion | **MITIGATED** | Chain B `src/hedging` only. |
 | NEXT9 A1–A7 | **BLOCKED — human-only (out of scope)** | `next9_unblocked=false`; never unblock, never mutate venues/config/credentials. |
 
@@ -103,15 +79,3 @@ Phase250 is **evidence-sealed**:
 - Keep this file as the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
 - No duplicate READ FIRST blocks. Final responses must not ask follow-up questions.
 - After Phase254 seal, replace active task with **`INIT-<UTC>-PHASE255-POST-ATTRIBUTION-SEAL-DEPTH`** (compose `PHASE254→PHASE32`, seed `255255`, IDs `p255-*`).
-# SECONDARY HANDOFF — REDIRECT STUB (NOT ACTIONABLE)
-
-**Refreshed:** 2026-11-11T23:28:30Z
-**Status:** SUPERSEDED. This file is not a task source.
-
-**Single durable handoff (READ FIRST):** `HANDOFF_NEXT_AGENT.md`
-- **Active mandatory task:** `INIT-2026-11-11T23:28:30Z-PHASE254-POST-ATTRIBUTION-SEAL-DEPTH` (Chain B `src/hedging`, paper-only, compose `PHASE253→PHASE32`, seed `254254`, IDs `p254-*`). Implement+verify+evidence+seal Phase254 end-to-end; then advance to `INIT-<UTC>-PHASE255-POST-ATTRIBUTION-SEAL-DEPTH`.
-- Phase253 COMPLETE/sealed: `research_state/PHASE253_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T224306Z.json` (`valid=true`, `issues=[]`).
-
-**Guards:** NO live trading, no `.env`, `.env.example:15` `LIVE_TRADING_ENABLED=false`, NEXT9 `next9_unblocked=false` (human-only). Do not action this file.
-
-(End of file - total 115 lines)
