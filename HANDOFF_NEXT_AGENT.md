@@ -1,7 +1,7 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo (priority):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options/orderflow quantitative strategy; Chain B hedging post-attribution seal campaign is the active paper-only engineering track.
-**Handoff refreshed:** 2026-11-11T08:41:49Z (P0 rechecked, competing stubs refreshed) (branch `main`, HEAD `6db89e5d9` `chore(kilo): checkpoint agent session`). This file is the ONLY durable handoff. Competing handoff files are redirect stubs pointing here — do not action them.
+**Handoff refreshed:** 2026-11-11T08:45:26Z (P0 rechecked, competing stubs refreshed; no execution this session) (branch `main`, HEAD `131de19d7` `chore(kilo): checkpoint agent session`). This file is the ONLY durable handoff. Competing handoff files are redirect stubs pointing here — do not action them.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (timestamped, mandatory, heavy)
 
@@ -55,16 +55,16 @@ Phase218 is **evidence-sealed**: `research_state/PHASE218_ADAPTIVE_TOXICITY_RESI
 - Verification evidence recorded (or explicit bounded caveats per governed acceptance).
 - P0 intact; handoff advanced to Phase220.
 
-## VERIFIED STATE (ground truth, 2026-11-11T08:41:49Z)
+## VERIFIED STATE (ground truth, 2026-11-11T08:45:26Z)
 
-- **P0 safety (rechecked 2026-11-11T08:41:49Z):** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. Phase219 not yet started (no module/generator/tests/artifact).
+- **P0 safety (rechecked 2026-11-11T08:45:26Z):** **CLEAR** — no `.env`; `.env.example:15` `LIVE_TRADING_ENABLED=false`. Phase219 not yet started (no module/generator/tests/artifact).
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
 - **Phase211–217:** sealed (do not re-implement/re-seal).
-- **Phase218 COMPLETE (this session):** module `src/hedging/phase218_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`; generator `scripts/generate_phase218_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`; tests `tests/test_phase218_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` + `tests/test_generate_phase218_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`; artifact `research_state/PHASE218_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T083748Z.json` (`valid=true issues=[]`, composes `PHASE217→PHASE32`, seed 218218, cycles 40, coverage 12, deterministic/bounded, guards intact).
+- **Phase218 COMPLETE:** module `src/hedging/phase218_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`; generator `scripts/generate_phase218_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`; tests `tests/test_phase218_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py` + `tests/test_generate_phase218_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`; artifact `research_state/PHASE218_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261111T083748Z.json` (`valid=true issues=[]`, composes `PHASE217→PHASE32`, seed 218218, cycles 40, coverage 12, deterministic/bounded, guards intact).
 - **Verification (Phase218):** `py_compile` 4 files OK. Module smoke (raised recursion limit `sys.setrecursionlimit(50000)`, `PHASE_QUICK_VERIFY=1`) → `paper_only=True gates_ok=True composes=['PHASE217','PHASE32'] upstream217=True`. Generator `--write --cycles 40 --seed 218218` (with hang stubs) → `valid=true issues=[]` artifact `...083748Z.json`. `--validate-only` on artifact → `valid=true issues=[]`. CLI no-write via `runpy` with raised recursion limit → `valid=true issues=[] artifact_path=""`. Artifact fields: composes `[PHASE217,PHASE32]`, upstream217/216/32 all `True`, gates_ok `True`, paper_only `True`, live `False`, next9 `False`, coverage `12`, deterministic `True`, bounds_ok `True`, evidence_ref Phase217 artifact.
 - **Phase218 pytest caveat:** pytest collection hits `RecursionError` (Python 3.12 pydantic/typing_extensions deep composed chain →phase32) — governed acceptance satisfied by `py_compile` + module smoke + CLI no-write + validated `--write`/`--validate-only` artifact. Record targeted pytest outcomes if feasible (e.g. raise recursion limit); not a blocker.
 - **Chain A:** out of scope (`src/risk/phase*_live_execution*`).
-- **Competing handoffs (refreshed 2026-11-11T08:41:49Z):** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, `research_state/durable_handoff.md` are redirect stubs to this file with current INIT task.
+- **Competing handoffs (refreshed 2026-11-11T08:45:26Z):** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, `research_state/durable_handoff.md` are redirect stubs to this file with current INIT task.
 
 ## BOTTLENECKS & UNBLOCKING ACTIONS
 
