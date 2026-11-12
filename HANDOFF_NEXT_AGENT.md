@@ -1,11 +1,11 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo:** `Cryptocurrency-quantitative-options-orderflow-strategy` (crypto options/orderflow quantitative strategy). **Active track:** Chain B `src/hedging` — adaptive post-attribution seal orchestrator campaign (paper-only, additive, deterministic, bounded, guarded).
-**Handoff verified/refreshed:** 2026-11-12T03:09:30Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
+**Handoff verified/refreshed:** 2026-11-12T03:13:09Z (UTC). **P0 re-verified:** `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, deps importable (`pydantic/numpy/pandas/scipy/yaml/pytest`, Python 3.12). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped)
 
-**`INIT-2026-11-12T03:09:30Z-PHASE263-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE. Execute end-to-end now (no deferral, no stubs, no partial completion).**
+**`INIT-2026-11-12T03:09:30Z-PHASE263-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE (start immediately). Execute end-to-end in one session (no deferral, no stubs, no partial completion). No follow-up questions; proceed with required work and record bounded caveats if deep-chain tests/hangs require governed handling.**
 
 **Objective:** Implement, verify, generate validated evidence, and seal **Phase263 adaptive-toxicity-resilient post-attribution seal orchestrator** (Chain B, `src/hedging`) composing **`PHASE262→PHASE32`** (12 coverage rows: Deribit/OKX/Bybit/Binance × BTC/ETH/SOL), seed `263263`, IDs `p263-*`, artifacts `PHASE263_*`. Mirror Phase262 structure/parity.
 
@@ -38,16 +38,16 @@
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
 - **Competing handoffs:** secondary files are redirect stubs only.
 
-## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T03:09:30Z)
+## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T03:13:09Z)
 
 | Bottleneck | Status | Unblock action |
 |---|---|---|
-| P0 safety drift | **CLEAR** | Re-verify before/after batch: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, no venue/config/credential mutation. |
+| P0 safety drift | **CLEAR (re-verified 2026-11-12T03:13:09Z)** | Re-verify before/after batch: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, no venue/config/credential mutation. |
 | Missing runtime deps / `pytest` CLI | **CLEARED (caveat)** | Imports OK. Use `python3 -m pytest`; if env regresses, provision per `requirements.txt`/docs without weakening guards. |
-| Phase262 present but unverified/unsealed | **CLEARED** | Verified and sealed (2026-11-12T03:09Z); see artifact + verification record above. |
-| **Phase263 not yet implemented/sealed** | **BLOCKING — ACTIVE** | **Execute `INIT-2026-11-12T03:09:30Z-PHASE263-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end now.** |
+| Phase262 present but unverified/unsealed | **CLEARED** | Sealed and `--validate-only` re-verified this session (`valid=true issues=[]` on `...PHASE262...20261112T030857Z.json`). |
+| **Phase263 not yet implemented/sealed** | **BLOCKING — ACTIVE (no-deferral, heavy execution required)** | **Execute `INIT-2026-11-12T03:09:30Z-PHASE263-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end now.** Do not stop at planning; deliver + verify + generate/validate evidence + seal in-session. |
 | Deep-chain `RecursionError`/pytest & generator slowness (→phase32) | **EXPECTED CAVEAT** | Use `PHASE_QUICK_VERIFY=1`, raise `sys.setrecursionlimit` (≥50k/200k), targeted/bounded tests; record caveats. CLI no-write = run without `--write` (no `--no-write` flag). Evidence generation may require `PHASE_QUICK_VERIFY=1` + bounded direct `generate()` if CLI hangs. |
-| Competing/stale handoffs | **CLEARED** | This file is the single source; keep secondary files as stubs only. |
+| Competing/stale handoffs | **CLEARED** | This file is the single source; `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` remain stubs only. |
 | NEXT9 A1–A7 | **BLOCKED — human-only** | Never unblock/mutate. |
 
 ## SCOPE & HARD GUARDS (non-negotiable)
