@@ -3,9 +3,9 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency quantitative options/orderflow strategy (paper-only research/ops).
 **Active track:** Chain B `src/hedging` — adaptive toxicity-resilient post-attribution seal orchestrator campaign (additive, deterministic, bounded, finite-probe, paper-only, guarded).
 **Single durable handoff/task source:** this file only. `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
-**Handoff verified/refreshed:** 2026-11-12T08:31:46Z (UTC).
+**Handoff verified/refreshed:** 2026-11-12T08:34:54Z (UTC).
 
-## P0 SAFETY (re-verified 2026-11-12T08:22:22Z) — CLEAR
+## P0 SAFETY (re-verified 2026-11-12T08:34:54Z) — CLEAR
 - `.env` **ABSENT** (`ENV_ABSENT`). `.env.example:15` = `LIVE_TRADING_ENABLED=false`.
 - Runtime deps importable: `pydantic, numpy, pandas, scipy, yaml, pytest` (`deps_ok`, Python 3.12.x). Use `python3 -m pytest` (plain `pytest` may be unavailable).
 - `next9_unblocked=false` (NEXT9 A1–A7 human-only, out of scope). **NO live trading, NO `.env` creation, NO venue/config/credential mutation, NO NEXT9 unblock.**
@@ -30,7 +30,7 @@
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, non-optional)
 
-**`INIT-2026-11-12T08:31:46Z-PHASE278-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE. START IMMEDIATELY.**
+**`INIT-2026-11-12T08:34:54Z-PHASE278-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE. START IMMEDIATELY.**
 
 **Directive:** Execute this campaign **end-to-end in this session** (heavy work required). **No deferral, no stubs, no placeholders, no partial completion, no follow-up questions.** If deep-chain tests/hangs occur, apply governed bounded handling (`PHASE_QUICK_VERIFY=1`, raised `sys.setrecursionlimit`, targeted/bounded timeouts, bounded direct `generate()` if CLI hangs) and **record exact commands/results/caveats** — but still complete implementation, verification, evidence generation/validation, and seal.
 
@@ -62,14 +62,14 @@
 - Verification evidence recorded (smokes, validate-only, CLI no-write, pytests) or explicit bounded governed caveats.
 - P0 intact; handoff advanced to Phase279 only after seal.
 
-## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T08:31:46Z)
+## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T08:34:54Z)
 | Bottleneck | Status | Unblock / handling |
 |---|---|---|
-| P0 safety drift | **CLEAR (re-verified 08:22:22Z)** | Re-verify before/after batch: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, no venue/config/credential mutation. |
+| P0 safety drift | **CLEAR (re-verified 08:34:54Z)** | Re-verify before/after batch: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, no venue/config/credential mutation. |
 | Missing runtime deps / `pytest` CLI | **CLEARED (caveat)** | Imports OK; use `python3 -m pytest`. If env regresses, provision per `requirements.txt`/docs without weakening guards. |
 | **Phase273–276 implemented & SEALED** | **DONE** | Artifacts `research_state/PHASE273..276_*_PAPER_EVIDENCE_*.json` (`valid=true`, `issues=[]`). |
 | **Phase277 implemented & SEALED** | **DONE** | Artifact `research_state/PHASE277_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T082623Z.json` (`valid=true`, `issues=[]`, seed `277277`, cycles `40`, composes `['PHASE276','PHASE32']`, 12 coverage, `bounds_ok=true`, `deterministic_replay_equal=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`). |
-| **Phase278 not yet implemented/sealed** | **BLOCKING — ACTIVE** | **Execute `INIT-2026-11-12T08:31:46Z-PHASE278-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end now.** Compose `PHASE277→PHASE32`, seed `278278`, IDs `p278-*`. |
+| **Phase278 not yet implemented/sealed** | **BLOCKING — ACTIVE** | **Execute `INIT-2026-11-12T08:34:54Z-PHASE278-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end now.** Compose `PHASE277→PHASE32`, seed `278278`, IDs `p278-*`. |
 | Deep-chain `RecursionError` / pytest & generator slowness (→phase32) | **EXPECTED, GOVERNED** | `PHASE_QUICK_VERIFY=1`, raise `sys.setrecursionlimit` (≥200k), targeted/bounded tests/timeouts; bounded direct `generate()` if CLI hangs; CLI no-write = run without `--write`. Record exact caveats. |
 | Competing/stale handoffs | **CLEARED** | This file is the single source; stubs redirect only. |
 | NEXT9 A1–A7 | **BLOCKED — human-only** | Never unblock/mutate. |
