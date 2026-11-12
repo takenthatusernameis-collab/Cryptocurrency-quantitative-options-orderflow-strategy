@@ -1,8 +1,8 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo (priority):** `Cryptocurrency-quantitative-options-orderflow-strategy` — crypto options/orderflow quantitative strategy; Chain B (`src/hedging`) adaptive post-attribution seal orchestrator campaign is the active paper-only engineering track.
-**Handoff refreshed (verified):** 2026-11-11T23:47:50Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs (re-synced 23:47:50Z) — do not action stubs or create new handoff files.
-**P0 re-verified (23:47:50Z):** no `.env` (absent); `.env.example:15` `LIVE_TRADING_ENABLED=false`. No venue/config/credential mutation. Prior bottleneck (missing `pydantic`/`numpy`/`pandas`/`scipy`) is **cleared** in current env (imports OK; pip reports pydantic 2.14.3, numpy 2.5.4, pandas 3.1.1, scipy 1.18.1).
+**Handoff refreshed (verified):** 2026-11-12T00:44:10Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action stubs or create new handoff files.
+**P0 re-verified (2026-11-12T00:44:10Z):** no `.env` (absent); `.env.example:15` `LIVE_TRADING_ENABLED=false`. No venue/config/credential mutation. Runtime deps `pydantic/numpy/pandas/scipy/yaml/pytest` importable (Python 3.12.3). No `src/hedging/phase256*`, `scripts/generate_phase256*`, `tests/*phase256*`, or `research_state/PHASE256_*` artifacts present.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, heavy)
 
@@ -42,28 +42,28 @@ Phases 79/80/110–255 are **evidence-sealed** in `research_state/` (`valid=true
 - Verification evidence recorded (smokes, validate-only, CLI no-write, pytests) or explicit bounded governed caveats.
 - P0 intact; handoff advanced to Phase257 only after seal.
 
-## VERIFIED STATE (ground truth, 2026-11-12T00:37:20Z)
+## VERIFIED STATE (ground truth, 2026-11-12T00:44:10Z)
 
 - **P0 safety:** **CLEAR** — `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`. No venue/config/credential mutation.
 - **Phase233–255 COMPLETE (sealed):** post-attribution seal phases evidenced in `research_state/` (`valid=true issues=[]`, paper-only, `next9_unblocked=false`) — do not re-seal. Phase255 artifact: `research_state/PHASE255_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T003720Z.json` (`valid=true`, seed `255255`, composes `PHASE254→PHASE32`, gates_ok, 12 coverage).
-- **Phase256:** **NOT STARTED** — no `src/hedging/phase256*`, `scripts/generate_phase256*`, `tests/*phase256*`, or `research_state/PHASE256_*` artifacts present (active mandatory task above).
-- **Runtime deps (prior blocker):** **CLEAR** — `pydantic/numpy/pandas/scipy/yaml/pytest` import OK in current Python env.
+- **Phase256:** **NOT STARTED / ACTIVE** — no `src/hedging/phase256*`, `scripts/generate_phase256*`, `tests/*phase256*`, or `research_state/PHASE256_*` artifacts present. Execute `INIT-2026-11-12T00:37:20Z-PHASE256-POST-ATTRIBUTION-SEAL-DEPTH`.
+- **Runtime deps (prior blocker):** **CLEAR** — `pydantic/numpy/pandas/scipy/yaml/pytest` import OK (Python 3.12.3).
 - **Chain A:** out of scope (`src/risk/phase*_live_execution*`).
 - **Competing handoffs:** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs to this file.
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
 
-## BOTTLENECKS & UNBLOCKING ACTIONS
+## BOTTLENECKS & UNBLOCKING ACTIONS (reconciled 2026-11-12T00:44:10Z)
 
 | Bottleneck | Status | Unblock action (must do) |
 |---|---|---|
-| P0 safety drift | **CLEAR (00:37:20Z)** | Re-verify before/after batch (`.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, no `next9_unblocked`). |
-| Missing runtime deps (`pydantic`,`numpy`,`pandas`,`scipy`) | **CLEARED (00:37:20Z)** | None; deps importable. If a future env regresses, provision deps per `docs/PAPER_RUNBOOK.md`/`requirements.txt` without weakening guards. |
-| Phase255 artifact/verification | **CLEARED/SEALED** | Phase255 evidence validated (`PHASE255_..._20261112T003720Z.json`). Do not re-seal. |
-| Phase256 not implemented/sealed | **BLOCKING — ACTIVE** | Execute `INIT-2026-11-12T00:37:20Z-PHASE256-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end (implement→verify→evidence→seal→advance). |
-| Deep-chain pytest/import `RecursionError` | **ENV CAVEAT (expected)** | Use `PHASE_QUICK_VERIFY=1`, `sys.setrecursionlimit` (≥50k/200k as needed), targeted tests, governed acceptance; record exact caveats. |
+| P0 safety drift | **CLEAR** | Re-verify before/after batch: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, no venue/config/credential mutation. |
+| Missing runtime deps (`pydantic`,`numpy`,`pandas`,`scipy`,`yaml`,`pytest`) | **CLEARED** | None now (imports OK). If env regresses, provision per `requirements.txt`/`docs/PAPER_RUNBOOK.md` without weakening guards. |
+| Phase255 artifact/verification | **CLEARED/SEALED** | `PHASE255_..._20261112T003720Z.json` validated; do not re-seal. |
+| **Phase256 not implemented/sealed** | **BLOCKING — ACTIVE** | **Execute `INIT-2026-11-12T00:37:20Z-PHASE256-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end now** (implement→verify→evidence→seal→advance handoff). No deferral/stubs. |
+| Deep-chain pytest/import `RecursionError` | **ENV CAVEAT (expected)** | Use `PHASE_QUICK_VERIFY=1`, `sys.setrecursionlimit` (≥50k/200k), targeted tests, governed acceptance; record exact caveats. |
 | Competing/stale handoff files | **CLEARED** | Stubs redirect here. Do not create duplicates. |
-| Chain A/B confusion | **MITIGATED** | Chain B `src/hedging` only. |
-| NEXT9 A1–A7 | **BLOCKED — human-only (out of scope)** | `next9_unblocked=false`; never unblock, never mutate venues/config/credentials. |
+| Chain A/B confusion | **MITIGATED** | Chain B `src/hedging` only; `src/risk/phase*_live_execution*` out of scope. |
+| NEXT9 A1–A7 | **BLOCKED — human-only (out of scope)** | Never unblock; never mutate venues/config/credentials. |
 
 ## GOVERNED VERIFICATION NOTES
 - Generator CLI does **not** accept `--no-write`; run without `--write` for no-write validation (use `runpy` + raised recursion if needed).
