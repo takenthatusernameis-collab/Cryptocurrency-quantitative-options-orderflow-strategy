@@ -1,13 +1,15 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo:** `Cryptocurrency-quantitative-options-orderflow-strategy` (crypto options/orderflow quantitative strategy). **Active track:** Chain B `src/hedging` — adaptive post-attribution seal orchestrator campaign (paper-only, additive, deterministic, bounded, guarded).
-**Handoff verified/refreshed:** 2026-11-12T03:13:09Z (UTC). **P0 re-verified:** `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, deps importable (`pydantic/numpy/pandas/scipy/yaml/pytest`, Python 3.12). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
+**Handoff verified/refreshed:** 2026-11-12T03:14:30Z (UTC). **P0 re-verified (2026-11-12T03:14Z):** `.env` **ABSENT**, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, deps importable (`pydantic/numpy/pandas/scipy/yaml/pytest`, Python 3.12, `deps_ok`). **This file is the ONLY durable handoff and task source.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
 
-## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped)
+## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, non-optional)
 
-**`INIT-2026-11-12T03:09:30Z-PHASE263-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE (start immediately). Execute end-to-end in one session (no deferral, no stubs, no partial completion). No follow-up questions; proceed with required work and record bounded caveats if deep-chain tests/hangs require governed handling.**
+**`INIT-2026-11-12T03:14:30Z-PHASE263-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE. START IMMEDIATELY.**
 
-**Objective:** Implement, verify, generate validated evidence, and seal **Phase263 adaptive-toxicity-resilient post-attribution seal orchestrator** (Chain B, `src/hedging`) composing **`PHASE262→PHASE32`** (12 coverage rows: Deribit/OKX/Bybit/Binance × BTC/ETH/SOL), seed `263263`, IDs `p263-*`, artifacts `PHASE263_*`. Mirror Phase262 structure/parity.
+**Directive:** Execute this campaign **end-to-end in this session** (heavy work required). **No deferral, no stubs, no placeholders, no partial completion, no follow-up questions.** If deep-chain tests/hangs occur, apply governed bounded handling (`PHASE_QUICK_VERIFY=1`, raised `sys.setrecursionlimit`, targeted/bounded timeouts, bounded direct `generate()` if CLI hangs) and **record exact commands/results/caveats** — but still complete implementation, verification, evidence generation/validation, and seal.
+
+**Objective:** Implement, verify, generate validated evidence, and **seal** **Phase263 adaptive-toxicity-resilient post-attribution seal orchestrator** (Chain B, `src/hedging`) composing **`PHASE262→PHASE32`** (12 coverage rows: Deribit/OKX/Bybit/Binance × BTC/ETH/SOL), seed `263263`, IDs `p263-*`, artifacts `PHASE263_*`. Mirror Phase262 structure/parity exactly (additive, deterministic, bounded, finite-probe, paper-only, guarded).
 
 **Predecessor sealed (do NOT re-implement/re-seal):** Phase262 — `research_state/PHASE262_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T030857Z.json` (`validation.valid=true`, `issues=[]`, seed `262262`, cycles `40`, composes `['PHASE261','PHASE32']`, `campaign.gates_ok=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, 12 coverage, `bounds_ok=true`, `deterministic_replay_equal=true`). Phase261 sealed at `research_state/PHASE261_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T030049Z.json`.
 
