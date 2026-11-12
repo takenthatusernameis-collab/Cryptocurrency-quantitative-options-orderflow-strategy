@@ -3,9 +3,9 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency quantitative options/orderflow strategy (paper-only research/ops).
 **Active track:** Chain B `src/hedging` — adaptive toxicity-resilient post-attribution seal orchestrator campaign (additive, deterministic, bounded, finite-probe, paper-only, guarded).
 **Single durable handoff/task source:** this file only. `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
-**Handoff verified/refreshed:** 2026-11-12T10:35:00Z (UTC).
+**Handoff verified/refreshed:** 2026-11-12T10:46:12Z (UTC). Reconciled as single durable handoff; competing handoff stubs refreshed to redirect to this file/current task.
 
-## P0 SAFETY (re-verified 2026-11-12T10:25:00Z) — CLEAR
+## P0 SAFETY (re-verified 2026-11-12T10:46:12Z) — CLEAR
 - `.env` **ABSENT** (`ENV_ABSENT`). `.env.example:15` = `LIVE_TRADING_ENABLED=false`.
 - Runtime deps importable: `pydantic, numpy, pandas, scipy, yaml, pytest` (Python 3.12.x). Use `python3 -m pytest`.
 - `next9_unblocked=false` (NEXT9 A1–A7 human-only, out of scope). **NO live trading, NO `.env` creation, NO venue/config/credential mutation, NO NEXT9 unblock.**
@@ -56,7 +56,7 @@
 - Verification evidence recorded (smokes, validate-only, CLI no-write, pytests) or explicit bounded governed caveats.
 - P0 intact; handoff advanced to Phase287 only after seal.
 
-## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T10:25:00Z)
+## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T10:46:12Z)
 | Bottleneck | Status | Unblock / handling |
 |---|---|---|
 | P0 safety drift | **CLEAR** | Re-verify before/after batch: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, no venue/config/credential mutation. |
@@ -78,4 +78,4 @@
 ## HANDOFF DISCIPLINE
 - Replace stale state in place with verified facts/timestamps/paths/commands; no duplicate READ FIRST blocks.
 - Final responses must not ask follow-up questions.
-- After Phase285 seal, set active task to **`INIT-<UTC>-PHASE286-POST-ATTRIBUTION-SEAL-DEPTH`** (compose `PHASE285→PHASE32`, seed `286286`, IDs `p286-*`). Keep this file as the single durable handoff.
+- After Phase286 seal, mark Phase286 SEALED with artifact/validation, then replace active task with **`INIT-<UTC>-PHASE287-POST-ATTRIBUTION-SEAL-DEPTH`** (compose `PHASE286→PHASE32`, seed `287287`, IDs `p287-*`). Keep this file as the single durable handoff.
