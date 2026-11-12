@@ -2,7 +2,7 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name:** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers.
-**Refreshed:** 2026-11-12T17:46:00Z (UTC). EVAL-07 sealed COMPLETE; EVAL-08 is the ACTIVE task below. Baseline exit-gate tests re-run green this session (74 passed, 67s).
+**Refreshed:** 2026-11-12T19:53:33Z (UTC). EVAL-07 sealed COMPLETE; EVAL-08 is the ACTIVE task below. Baseline exit-gate tests re-run green this session (74 passed, 67s). `src/analytics/cross_venue_netting.py` does not exist — EVAL-08 not started.
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files.
 
 ---
@@ -142,7 +142,7 @@ re-open EVAL-02/03/06/07 (sealed and test-locked). Do not implement or advance P
 | EVAL-07 capacity-aware TCA not built | **SHIPPED.** Module + tests + CLI + artifact; 71-test gate green. |
 | EVAL-08 not started | **ACTIVE.** Full spec above; no blocker. |
 
-**Tree verified 2026-11-12T17:46:00Z (this session):** EVAL-07 shipped COMPLETE; `src/analytics/capacity_aware_tca.py` and `tests/test_capacity_aware_tca.py` present; artifacts `research_state/CAPACITY_AWARE_TCA_20261112T172412Z.{json,md}` present; EVAL-06 sealed NO-GO artifacts present `research_state/STRATEGY_FALSIFICATION_20261112T163240Z.{json,md}`. `src/analytics/cross_venue_netting.py` does **not** exist yet (EVAL-08 ACTIVE). Working tree is clean. No active blockers; EVAL-08 is the only open item.
+**Tree verified 2026-11-12T19:53:33Z (this session):** EVAL-07 shipped COMPLETE; `src/analytics/capacity_aware_tca.py` and `tests/test_capacity_aware_tca.py` present; artifacts `research_state/CAPACITY_AWARE_TCA_20261112T172412Z.{json,md}` present; EVAL-06 sealed NO-GO artifacts present `research_state/STRATEGY_FALSIFICATION_20261112T163240Z.{json,md}`. `src/analytics/cross_venue_netting.py` does **not** exist yet (EVAL-08 ACTIVE). Working tree is clean. No active blockers; EVAL-08 is the only open item.
 
 ## P0 SAFETY — CLEAR
 
