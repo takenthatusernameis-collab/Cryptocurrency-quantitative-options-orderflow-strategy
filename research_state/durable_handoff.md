@@ -2,12 +2,12 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name:** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers.
-**Refreshed:** 2026-11-12T21:15:00Z (UTC). **EVAL-09 (gamma/inventory-aware hedge sizing + orderflow-toxicity gating) sealed COMPLETE this session.** Artifact `research_state/GAMMA_INVENTORY_HEDGE_20261112T211350Z.{json,md}`. `src/analytics/gamma_inventory_hedge.py` now exists and `tests/test_gamma_inventory_hedge.py` added. Exit gate re-run green: **108 passed** (16 gamma/inventory + 92 inherited); `py_compile` clean; real run `--seeds 1 2 3 4 5 --write` → 10 windows/seed, 1515 total trades, 844 total hedges, toxic_gate_active_fraction 0.3333 (gate engages, not vacuous), finite metrics every seed. EVAL-10 is the ACTIVE task below.
+**Refreshed:** 2026-11-12T21:57:00Z (UTC). Verified single-durable-handoff state: root handoff files are retired pointers, no competing task sources. **EVAL-09 (gamma/inventory-aware hedge sizing + orderflow-toxicity gating) COMPLETE/SEALED.** Artifact `research_state/GAMMA_INVENTORY_HEDGE_20261112T211350Z.{json,md}`; `src/analytics/gamma_inventory_hedge.py`, `tests/test_gamma_inventory_hedge.py` present; 108-test gate green (per prior seal). **EVAL-10 is the ONLY ACTIVE task — execute it end-to-end now.**
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files.
 
 ---
 
-## INITIAL TASK MESSAGE (copy-paste to the next agent)
+## INITIAL TASK MESSAGE — 2026-11-12T21:57:00Z (copy-paste to the next agent)
 
 **TASK ID:** `INIT-2026-11-12T21:15:00Z-STRATEGY-EVAL-10-FINAL-GONOGO`
 **STATUS:** ACTIVE. This is the single next task. Do not pick a different task. Do not re-verify the environment. Build the certification, run the real evaluation, and seal it.
@@ -108,7 +108,7 @@ not re-open EVAL-02/03/06/07/08 (sealed and test-locked). Do not implement or ad
 | EVAL-08 netting not built | **SHIPPED.** Module + tests + CLI + artifact; 92-test gate green. |
 | EVAL-09 gamma/inventory hedge + toxicity gate not built | **SHIPPED.** `src/analytics/gamma_inventory_hedge.py` + `tests/test_gamma_inventory_hedge.py` + CLI + artifact `research_state/GAMMA_INVENTORY_HEDGE_20261112T211350Z.{json,md}`; 108-test gate green; no blocker. EVAL-10 is now the only open item.
 
-**Tree verified 2026-11-12T21:15:00Z (this session):** EVAL-09 shipped COMPLETE; `src/analytics/gamma_inventory_hedge.py` and `tests/test_gamma_inventory_hedge.py` present; canonical artifact `research_state/GAMMA_INVENTORY_HEDGE_20261112T211350Z.{json,md}` present; EVAL-06/07/08 sealed artifacts present. EVAL-10 is the only open item. No active blockers.
+**Tree verified 2026-11-12T21:57:00Z:** EVAL-02/03/06/07/08/09 sealed with artifacts present; `src/analytics/gamma_inventory_hedge.py` and `tests/test_gamma_inventory_hedge.py` present. Only `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` exist at root and are retired pointers to this file. **No active blockers; EVAL-10 is the sole open task.**
 
 ## P0 SAFETY — CLEAR
 
