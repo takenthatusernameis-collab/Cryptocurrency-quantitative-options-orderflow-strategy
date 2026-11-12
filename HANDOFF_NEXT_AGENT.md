@@ -3,7 +3,7 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency quantitative options/orderflow strategy (paper-only research/ops).
 **Active track:** Chain B `src/hedging` — adaptive toxicity-resilient post-attribution seal orchestrator campaign (additive, deterministic, bounded, finite-probe, paper-only, guarded).
 **Single durable handoff/task source:** this file only. `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
-**Handoff verified/refreshed:** 2026-11-12T12:24:32Z (UTC). Phase288 sealed; active task advanced to Phase289; competing stubs remain redirects.
+**Handoff verified/refreshed:** 2026-11-12T12:26:51Z (UTC). Phase288 sealed/evidence-validated; active task advanced to Phase289; competing stubs refreshed as redirects.
 
 ## P0 SAFETY (re-verified 2026-11-12T12:16:00Z) — CLEAR
 - `.env` **ABSENT** (`ENV_ABSENT`). `.env.example:15` = `LIVE_TRADING_ENABLED=false`.
