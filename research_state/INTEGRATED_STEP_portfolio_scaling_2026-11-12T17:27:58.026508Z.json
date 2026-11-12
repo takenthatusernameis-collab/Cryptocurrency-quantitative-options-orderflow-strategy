@@ -1,0 +1,146 @@
+{
+  "campaign_id": "test_finite",
+  "step": "portfolio_scaling",
+  "status": "completed",
+  "allocation_mode": "risk_parity",
+  "vol_target": 0.1,
+  "turnover_cap": 0.05,
+  "risk_parity": true,
+  "purge": 10,
+  "embargo": 5,
+  "num_windows": 6,
+  "overall_out_of_sample_return": 0.006160864272498148,
+  "overall_out_of_sample_sharpe": 0.6433531102881156,
+  "overall_out_of_sample_max_drawdown": 0.02230782594757777,
+  "stability_ratio": 0.14438469882168578,
+  "degradation": -0.10635065858519681,
+  "oos_trade_count": 80,
+  "windows": [
+    {
+      "train_start": 0,
+      "train_end": 45,
+      "test_start": 45,
+      "test_end": 65,
+      "in_sample_return": 0.00943657864695153,
+      "out_of_sample_return": 0.0002946898556788801,
+      "in_sample_sharpe": 6.429134984931542,
+      "out_of_sample_sharpe": 0.3845101679093782,
+      "allocation_mode": "risk_parity",
+      "allocation_weights": {
+        "BTC": 0.25,
+        "ETH": 0.5,
+        "SOL": 0.25
+      },
+      "turnover": 0.0,
+      "turnover_cap": 0.05,
+      "turnover_capped": true,
+      "vol_target": 0.1,
+      "weights_train_only": true
+    },
+    {
+      "train_start": 20,
+      "train_end": 65,
+      "test_start": 65,
+      "test_end": 85,
+      "in_sample_return": 0.014899451065128378,
+      "out_of_sample_return": -0.011977933500031068,
+      "in_sample_sharpe": 4.9087722375557075,
+      "out_of_sample_sharpe": -7.490241729560139,
+      "allocation_mode": "risk_parity",
+      "allocation_weights": {
+        "BTC": 0.2818390756567866,
+        "ETH": 0.45,
+        "SOL": 0.26816092434321337
+      },
+      "turnover": 0.04999999999999999,
+      "turnover_cap": 0.05,
+      "turnover_capped": true,
+      "vol_target": 0.1,
+      "weights_train_only": true
+    },
+    {
+      "train_start": 40,
+      "train_end": 85,
+      "test_start": 85,
+      "test_end": 105,
+      "in_sample_return": -0.006439727547903022,
+      "out_of_sample_return": 0.007246467403598508,
+      "in_sample_sharpe": -2.2241136062181623,
+      "out_of_sample_sharpe": 3.4443093372735274,
+      "allocation_mode": "risk_parity",
+      "allocation_weights": {
+        "BTC": 0.30487906904204737,
+        "ETH": 0.4,
+        "SOL": 0.29512093095795267
+      },
+      "turnover": 0.05000000000000002,
+      "turnover_cap": 0.05,
+      "turnover_capped": true,
+      "vol_target": 0.1,
+      "weights_train_only": true
+    },
+    {
+      "train_start": 60,
+      "train_end": 105,
+      "test_start": 105,
+      "test_end": 125,
+      "in_sample_return": -0.016193252458349454,
+      "out_of_sample_return": -0.004125521020138403,
+      "in_sample_sharpe": -5.579535251055958,
+      "out_of_sample_sharpe": -2.183456221291362,
+      "allocation_mode": "risk_parity",
+      "allocation_weights": {
+        "BTC": 0.33433677116076,
+        "ETH": 0.35000000000000003,
+        "SOL": 0.3156632288392401
+      },
+      "turnover": 0.05000000000000002,
+      "turnover_cap": 0.05,
+      "turnover_capped": true,
+      "vol_target": 0.1,
+      "weights_train_only": true
+    },
+    {
+      "train_start": 80,
+      "train_end": 125,
+      "test_start": 125,
+      "test_end": 145,
+      "in_sample_return": 0.017998662899238987,
+      "out_of_sample_return": 0.00805684144769999,
+      "in_sample_sharpe": 3.705703609798648,
+      "out_of_sample_sharpe": 5.33354921326116,
+      "allocation_mode": "risk_parity",
+      "allocation_weights": {
+        "BTC": 0.3350727232940063,
+        "ETH": 0.33475375074456193,
+        "SOL": 0.3301735259614319
+      },
+      "turnover": 0.015246249255438105,
+      "turnover_cap": 0.05,
+      "turnover_capped": true,
+      "vol_target": 0.1,
+      "weights_train_only": true
+    },
+    {
+      "train_start": 100,
+      "train_end": 145,
+      "test_start": 145,
+      "test_end": 160,
+      "in_sample_return": -0.014003384907782893,
+      "out_of_sample_return": 0.00680980441391599,
+      "in_sample_sharpe": -2.975130357293439,
+      "out_of_sample_sharpe": 5.829942379962241,
+      "allocation_mode": "risk_parity",
+      "allocation_weights": {
+        "BTC": 0.32886720068652414,
+        "ETH": 0.33361626653794524,
+        "SOL": 0.3375165327755307
+      },
+      "turnover": 0.007343006814098801,
+      "turnover_cap": 0.05,
+      "turnover_capped": true,
+      "vol_target": 0.1,
+      "weights_train_only": true
+    }
+  ]
+}
