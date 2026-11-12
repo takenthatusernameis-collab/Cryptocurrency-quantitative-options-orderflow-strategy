@@ -1,10 +1,11 @@
 # SECONDARY HANDOFF — REDIRECT STUB (NOT ACTIONABLE)
 
-**Refreshed:** 2026-11-12T12:37:18Z
+**Refreshed:** 2026-11-12T13:35:23Z
 **Status:** SUPERSEDED. This file is not a task source.
 
 **Single durable handoff (READ FIRST):** `HANDOFF_NEXT_AGENT.md`
-- **Active mandatory task:** `INIT-2026-11-12T12:37:18Z-PHASE290-POST-ATTRIBUTION-SEAL-DEPTH` (Chain B `src/hedging`, paper-only, compose `PHASE289→PHASE32`, seed `290290`, IDs `p290-*`). Implement/verify/generate validated evidence and seal Phase290 end-to-end (no deferral/stubs/partial), then advance to `INIT-<UTC>-PHASE291-POST-ATTRIBUTION-SEAL-DEPTH`.
-- **Phase289 SEALED:** `research_state/PHASE289_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T123718Z.json` (`valid=true`, `issues=[]`).
+- **Active mandatory task:** `INIT-2026-11-12T13:35:23Z-STRATEGY-EVAL-01-FULLSTACK-BASELINE` (repo-mission campaign: rigorous paper-only full-stack quantitative evaluation of the crypto options+orderflow strategy with ≥5 seeds, ≥3 allocation modes, ≥3 baselines, bootstrap CIs, attribution, tests, and GO/NO-GO).
+- **Bottleneck removed:** the Phase272–291 `*_post_attribution_seal_orchestrator` clone treadmill is **CLOSED** — do not implement/seal/advance Phase292+.
+- **Verified 2026-11-12T13:35:23Z:** deps + `pytest` work; `scripts/run_integrated_campaign.py` and `scripts/run_backtest.py` run end-to-end.
 
 **Guards:** NO live trading, no `.env`, `.env.example:15` `LIVE_TRADING_ENABLED=false`, NEXT9 `next9_unblocked=false` (human-only). Do not action this file.
