@@ -89,6 +89,19 @@ def _finite(x: Any, default: float = 0.0) -> float:
     return v if math.isfinite(v) else default
 
 
+def _stable_seed(*parts: Any) -> int:
+    """Process-independent deterministic seed.
+
+    ``hash()`` on strings/tuples is salted per interpreter process, which made
+    synthetic fallbacks non-reproducible across runs. SHA-256 over the joined
+    key yields the same seed in every process.
+    """
+    import hashlib
+
+    payload = "|".join(str(p) for p in parts).encode("utf-8")
+    return int.from_bytes(hashlib.sha256(payload).digest()[:8], "big") % (2**32)
+
+
 def _clamp01(x: float) -> float:
     if not math.isfinite(x):
         return 0.0
@@ -182,7 +195,7 @@ def _load_orderflow(symbol: str, venue: str) -> OrderflowSnapshot:
             except Exception:
                 pass
     # Deterministic fallback synthesis so the campaign never depends on files.
-    rng = np.random.default_rng(hash((symbol, venue)) % (2**32))
+    rng = np.random.default_rng(_stable_seed(symbol, venue))
     n = 300
     base_price = DEFAULT_SPOT.get(symbol, 1000.0)
     trades: List[Trade] = []
@@ -221,7 +234,7 @@ def _load_options_chain(symbol: str, spot: float, now: datetime, venue: str) -> 
             except Exception:
                 pass
     # Deterministic fallback: multi-expiry options chain around spot.
-    rng = np.random.default_rng((hash((symbol, venue)) + 1) % (2**32))
+    rng = np.random.default_rng(_stable_seed(symbol, venue, "options_chain"))
     quotes: List[OptionQuote] = []
     qid = 0
     for days in (7, 14, 30, 60):
@@ -349,6 +362,90 @@ def _signals_series(signal_gen: CompositeSignalGenerator, features_per_step: Lis
         else:
             series.append(0)
     return series
+
+
+def _rolling_realized_vol(prices: List[float], end: int, window: int) -> float:
+    """Population std-dev of log returns over ``window`` steps ending at ``end``."""
+    if window < 2 or end < 1:
+        return 0.0
+    start = max(1, end - window + 1)
+    rets: List[float] = []
+    for j in range(start, end + 1):
+        prev = _finite(prices[j - 1], 0.0)
+        cur = _finite(prices[j], 0.0)
+        if prev > 0.0 and cur > 0.0:
+            rets.append(math.log(cur / prev))
+    if len(rets) < 2:
+        return 0.0
+    mean = sum(rets) / len(rets)
+    var = sum((r - mean) ** 2 for r in rets) / len(rets)
+    return max(math.sqrt(max(var, 0.0)), 1e-6)
+
+
+def _time_varying_signal_series(
+    signal_gen: CompositeSignalGenerator,
+    symbol: str,
+    prices: List[float],
+    static_features: Dict[str, Any],
+    chain: OptionsChain,
+    iv_surface: Any,
+    greeks_summary: Optional[Dict[str, Any]],
+    fast_window: int = 24,
+    slow_window: int = 72,
+) -> Tuple[List[int], List[Dict[str, Any]]]:
+    """Build a causal, time-varying signal series from the price path.
+
+    The legacy path repeated one static feature snapshot across every step,
+    which produced an all-zero signal series and a vacuous 0.0 OOS result.
+    This derives fast/slow momentum z-scores from trailing prices only (no
+    lookahead), feeds them through the existing :class:`CompositeSignalGenerator`
+    together with the static options/orderflow snapshot, and returns the
+    resulting ``-1/0/1`` series plus per-step diagnostics.
+    """
+    signal_gen.reset_regime_state()
+    n = len(prices)
+    per_step: List[Dict[str, Any]] = []
+    fast_window = max(2, int(fast_window))
+    slow_window = max(fast_window + 1, int(slow_window))
+    for i in range(n):
+        px = _finite(prices[i], 0.0)
+        if px <= 0.0:
+            per_step.append({"direction": "neutral", "strength": 0.0, "confidence": 0.0, "regime": "neutral"})
+            continue
+        fast = 0.0
+        slow = 0.0
+        if i >= fast_window and _finite(prices[i - fast_window], 0.0) > 0.0:
+            fast = px / _finite(prices[i - fast_window], 1.0) - 1.0
+        if i >= slow_window and _finite(prices[i - slow_window], 0.0) > 0.0:
+            slow = px / _finite(prices[i - slow_window], 1.0) - 1.0
+        vol_fast = _rolling_realized_vol(prices, i, fast_window)
+        vol_slow = _rolling_realized_vol(prices, i, slow_window)
+        z_fast = math.tanh(fast / (vol_fast * math.sqrt(fast_window))) if vol_fast > 0.0 else 0.0
+        z_slow = math.tanh(slow / (vol_slow * math.sqrt(slow_window))) if vol_slow > 0.0 else 0.0
+        combined = 0.7 * z_fast + 0.3 * z_slow
+        cum_delta = 10000.0 * combined
+        of_imbalance = math.tanh(0.5 * z_fast + 0.5 * z_slow)
+        sig = signal_gen.generate_signal(
+            symbol=symbol,
+            spot_price=px,
+            total_gex=_finite(static_features.get("total_gex"), 0.0),
+            cum_delta=cum_delta,
+            of_imbalance=of_imbalance,
+            iv_skew=_finite(static_features.get("iv_skew"), 0.0),
+            put_call_ratio=_finite(static_features.get("put_call_ratio"), 1.0),
+            chain=chain,
+            iv_surface=iv_surface,
+            greeks_summary=greeks_summary,
+        )
+        per_step.append(
+            {
+                "direction": sig.direction,
+                "strength": _finite(sig.strength),
+                "confidence": _finite(sig.confidence),
+                "regime": sig.regime,
+            }
+        )
+    return _signals_series(signal_gen, per_step), per_step
 
 
 def _hedge_pnl_for_chain(
@@ -650,14 +747,14 @@ class IntegratedCampaign:
         signal_gen.reset_regime_state()
         now = self.config.fixed_now or DETERMINISTIC_NOW
         features_per_symbol: Dict[str, Dict[str, Any]] = {}
+        static_context: Dict[str, Dict[str, Any]] = {}
         for sym in self.config.symbols:
             spot = float(self.config.spot_prices.get(sym, DEFAULT_SPOT[sym]))
             chain = _load_options_chain(sym, spot, now, DEFAULT_VENUE)
             of = _load_orderflow(sym, DEFAULT_VENUE)
             try:
                 iv_surface = build_iv_surface_from_chain(chain, spot=spot, rate=0.0, now=now, seed=self.seed)
-            except Exception as _e:
-                import sys; print("DBG IV", sym, type(_e).__name__, _e, file=sys.stderr, flush=True)
+            except Exception:
                 iv_surface = None
             # Greeks summary from the ATM quote (current-step only, no lookahead).
             greeks_summary: Optional[Dict[str, Any]] = None
@@ -679,19 +776,45 @@ class IntegratedCampaign:
                     greeks_summary = {"delta": g["delta"], "gamma": g["gamma"], "vega": g["vega"], "theta": g["theta"], "rho": g["rho"]}
                 except Exception:
                     greeks_summary = None
+            signal_gen = CompositeSignalGenerator()
+            signal_gen.reset_regime_state()
             features_per_symbol[sym] = _features_for_symbol(
                 sym, spot, chain, of, iv_surface, greeks_summary, signal_gen
             )
+            static_context[sym] = {
+                "chain": chain,
+                "iv_surface": iv_surface,
+                "greeks_summary": greeks_summary,
+            }
         self._features_per_symbol = features_per_symbol
-        # Build per-symbol signal series aligned to the price path (one signal per step).
-        # Signals are derived from the static feature snapshot repeated across the path
-        # so the walk-forward has a deterministic, regime-aligned signal series with no lookahead.
+        # Build per-symbol, time-varying signal series aligned to the price path.
+        # Signals are causal (trailing momentum z-scores only) and are blended
+        # with the static options/orderflow snapshot through the composite
+        # generator. This replaces the legacy static-snapshot repetition that
+        # produced an all-zero signal series and a vacuous 0.0 OOS result.
         signals: Dict[str, List[int]] = {}
-        n = len(self._timestamps)
+        signal_diagnostics: Dict[str, Dict[str, Any]] = {}
         for sym in self.config.symbols:
-            f = features_per_symbol[sym]
-            series = [_signals_series(CompositeSignalGenerator(), [f] * n)]
-            signals[sym] = series[0]
+            prices = self._price_series.get(sym) or []
+            series, diagnostics = _time_varying_signal_series(
+                CompositeSignalGenerator(),
+                sym,
+                list(prices),
+                features_per_symbol[sym],
+                static_context[sym]["chain"],
+                static_context[sym]["iv_surface"],
+                static_context[sym]["greeks_summary"],
+            )
+            signals[sym] = series
+            signal_diagnostics[sym] = {
+                "n_steps": len(series),
+                "long_steps": sum(1 for s in series if s == 1),
+                "short_steps": sum(1 for s in series if s == -1),
+                "flat_steps": sum(1 for s in series if s == 0),
+                "first_nonzero_index": next((i for i, s in enumerate(series) if s != 0), None),
+                "last_nonzero_index": next((len(series) - 1 - i for i, s in enumerate(reversed(series)) if s != 0), None),
+                "per_step": diagnostics,
+            }
         self._signals = signals
         payload = {
             "campaign_id": self.campaign_id,
@@ -718,6 +841,7 @@ class IntegratedCampaign:
                 }
                 for sym, f in features_per_symbol.items()
             },
+            "signal_series": signal_diagnostics,
         }
         artifact = self._write_artifact(f"INTEGRATED_STEP_{self.STEP_FEATURE_ENGINEERING}", payload)
         step.result_path = artifact
