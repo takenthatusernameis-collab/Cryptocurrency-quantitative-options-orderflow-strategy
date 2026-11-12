@@ -2,14 +2,14 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name:** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers.
-**Refreshed:** 2026-11-12T22:12:00Z (UTC). Re-verified this session: deps import (numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pydantic 2.14.3, pytest 9.2.0); `.env` absent; `LIVE_TRADING_ENABLED=false`; **7-file baseline EVAL gate → 119 passed in 147.77s** (2026-11-12T22:09Z); **EVAL-10 unstarted** (no artifact, no test file, no `--eval10` CLI flag). **EVAL-10 is the ONLY ACTIVE task — execute it end-to-end now; do not re-verify the environment.**
+**Refreshed:** 2026-11-12T22:12:33Z (UTC). Re-verified this session: the 7-file EVAL gate → **119 passed in 144.87s** (2026-11-12T22:12Z); `tests/test_campaign_resume.py` → **12 passed in 0.40s**; `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; the canonical EVAL-09 artifact has 30 non-degenerate seed×symbol×side return series. **EVAL-10 remains unstarted** (no artifact, no test file, no `--eval10` CLI flag). **EVAL-10 is the ONLY ACTIVE task — execute it end-to-end now; do not re-verify the environment.**
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope), not task sources.
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-12T22:12:00Z (copy-paste to the next agent)
+## INITIAL TASK MESSAGE — 2026-11-12T22:12:33Z (copy-paste to the next agent)
 
-**TASK ID:** `INIT-2026-11-12T22:12:00Z-STRATEGY-EVAL-10-FINAL-GONOGO`
+**TASK ID:** `INIT-2026-11-12T22:12:33Z-STRATEGY-EVAL-10-FINAL-GONOGO`
 **STATUS:** ACTIVE. This is the single next task. Do not pick a different task. Do not re-verify the environment (deps are installed; `.env` absent; safety flags set). Build the EVAL-10 driver, run the real multi-seed evaluation, seal it, then continue to EVAL-11 in the same session if time allows.
 
 > **EVAL-09 is DONE and sealed (do not re-open EVAL-02/03/06/07/08/09).** `src/analytics/gamma_inventory_hedge.py` (1061 lines) + `tests/test_gamma_inventory_hedge.py` (16 tests) + CLI shipped; **canonical artifact regenerated this session at `research_state/GAMMA_INVENTORY_HEDGE_20261112T221000Z.{json,md}`** (numbers identical to the earlier run: mean_oos_return_with_hedge −0.5580, without +0.2591, Sharpe −22.7659 / +5.5867, total_cost_usd 1429.68). Gate green.
@@ -79,6 +79,7 @@ Future agents cannot avoid heavy compute by producing a thin wrapper, a stub, or
 3. **Assert non-degeneracy** (e.g. >=2 distinct nonzero per-window returns, >=2 seeds, CIs that straddle the point estimate, verdict not constant unless the data warrants it).
 4. **Seal with a deterministic verdict** (`GO`/`NO-GO`, or the optimizer's best feasible config) computed by a strict function — not prose, not a coin flip, not tuned to a desired answer.
 5. **Cite exact artifact paths and key numbers** in this handoff when advancing, and update this file in place (never create a competing handoff).
+6. **No handoff-maintenance loop for the next agent.** If you are the next agent and this file still shows EVAL-10 ACTIVE while `tests/test_eval10_final_gonogo.py` is absent, do **not** merely refresh this timestamp, re-run the 119-test gate, or re-verify the environment. Your first code change must add the EVAL-10 driver/test and execute the real multi-seed computation. A future agent session that only edits this handoff while EVAL-10 remains unstarted is a **FAILED session**.
 
 The floor applies to EVAL-10, EVAL-11, and EVAL-12 equally. If a task cannot meet the floor, **fail loudly** with the specific blocker rather than emit a vacuous artifact.
 
@@ -87,7 +88,7 @@ The floor applies to EVAL-10, EVAL-11, and EVAL-12 equally. If a task cannot mee
 ## VERIFIED STATE — ground truth (build on it; do not re-verify environment)
 
 - **Environment:** Python 3.12.3; deps installed via `python3 -m pip install --break-system-packages -r requirements.txt` (numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pydantic 2.14.3, pytest 9.2.0, PyYAML 6.0.1, requests 2.31.0). If a fresh container lacks deps, re-run that exact pip command first.
-- **Baseline gate re-verified this session (2026-11-12T22:09Z):** `tests/test_strategy_falsification.py tests/test_gamma_inventory_hedge.py tests/test_capacity_aware_tca.py tests/test_oos_walkforward.py tests/test_integrated_campaign.py tests/test_cross_venue_netting.py tests/test_strategy_evaluation.py` → **119 passed in 147.77s**. `tests/test_campaign_resume.py` → 12 passed in 0.35s.
+- **Baseline gate re-verified this session (2026-11-12T22:12Z):** `tests/test_strategy_falsification.py tests/test_gamma_inventory_hedge.py tests/test_capacity_aware_tca.py tests/test_oos_walkforward.py tests/test_integrated_campaign.py tests/test_cross_venue_netting.py tests/test_strategy_evaluation.py` → **119 passed in 144.87s**. `tests/test_campaign_resume.py` → 12 passed in 0.40s.
 - **EVAL-10 state:** NOT STARTED. Confirmed absent: `research_state/STRATEGY_EVAL_10_FINAL_GONOGO_*`, `tests/test_eval10_final_gonogo.py`, and any `--eval10` flag in `src/analytics/strategy_falsification.py` (its CLI `main()` is at line 739 and only handles EVAL-06).
 - **EVAL-02 COMPLETE:** `src/analytics/strategy_evaluation.py` + `tests/test_strategy_evaluation.py` (11) + `scripts/evaluate_strategy.py` + `tests/test_evaluate_strategy.py` (6). Artifacts `STRATEGY_EVALUATION_2026-10-31T000000Z.{json,md}`.
 - **EVAL-03 COMPLETE:** `src/analytics/regime_sizing.py` + `tests/test_regime_sizing.py` (7). GO; 50 windows; 460 trades; regime Sharpe 0.042420 vs flat 0.026375; delta +0.016045. Artifact `REGIME_SIZING_2026-11-12T151421.312990Z.json`.
@@ -104,7 +105,7 @@ The floor applies to EVAL-10, EVAL-11, and EVAL-12 equally. If a task cannot mee
 |---|---|
 | Missing Python deps (no numpy/pandas/scipy/pydantic/pytest) | **CLEARED earlier**; re-verified importable this session. |
 | Four competing handoffs / stale stubs | **CLEARED.** Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are pure "RETIRED — read durable_handoff.md" pointers with no task ID. |
-| Stale handoff timestamp (21:57Z) and no next-campaign continuity | **CLEARED this session.** Refreshed to 22:12:00Z with EVAL-10 precise reuse points and a queued EVAL-11/EVAL-12 campaign so no future session can do a trivial pass. |
+| Stale handoff timestamp (21:57Z) and no next-campaign continuity | **CLEARED.** Refreshed to 22:12:33Z with EVAL-10 precise reuse points and a queued EVAL-11/EVAL-12 campaign so no future session can do a trivial pass. |
 | `tests/test_campaign_resume.py::test_durable_handoff_is_source_of_truth` | **PASSING** — file keeps `SINGLE DURABLE HANDOFF`, `INITIAL TASK MESSAGE`, and the required `phase 15` reference. |
 | Cross-process non-determinism (salted `hash()`) | **FIXED earlier** with `_stable_seed()` (SHA-256); verified across two processes. |
 | All-zero signal series → 0 windows/trades/return | **FIXED earlier** with time-varying causal momentum z-scores; real run has 10 windows and nonzero return/Sharpe. |
