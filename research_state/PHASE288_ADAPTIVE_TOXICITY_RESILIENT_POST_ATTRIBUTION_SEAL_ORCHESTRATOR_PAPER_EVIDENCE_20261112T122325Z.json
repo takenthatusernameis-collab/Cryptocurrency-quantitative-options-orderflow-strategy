@@ -1,0 +1,601 @@
+{
+  "artifact_type": "PHASE288_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE",
+  "timestamp_utc": "2026-11-12T12:23:25.172147Z",
+  "generated_at_utc": "2026-11-12T12:23:25.172147Z",
+  "advisory": true,
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "next9_unblocked": false,
+  "no_external_venue_mutation": true,
+  "seed": 288288,
+  "cycles": 40,
+  "venues": [
+    "deribit",
+    "okx",
+    "bybit",
+    "binance"
+  ],
+  "symbols": [
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD"
+  ],
+  "underlyings": [
+    "BTC",
+    "ETH",
+    "SOL"
+  ],
+  "campaign": {
+    "phase": "PHASE288_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
+    "paper_only": true,
+    "cycles": 40,
+    "gates_ok": true,
+    "composes": [
+      "PHASE287",
+      "PHASE32"
+    ],
+    "upstream_phase287": true,
+    "upstream_phase32": true
+  },
+  "seal_surface": {
+    "paper_only": true,
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "symbols": [
+      "BTC-USD",
+      "ETH-USD",
+      "SOL-USD"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "regimes": [
+      "normal",
+      "elevated",
+      "high_toxicity"
+    ],
+    "seal_modes": [
+      "seal_monitor",
+      "seal_cross_venue",
+      "seal_depth_reinforce"
+    ],
+    "n_seal_attestations": 6,
+    "n_seal_certifications": 7,
+    "n_hedging_seal_attestations": 8,
+    "n_cross_venue_seal_consistencies": 8,
+    "avg_seal_pass_rate": 0.98006,
+    "seal_attestation_pass_rate": 0.98503,
+    "bounds_ok": true,
+    "deterministic_replay_equal": true
+  },
+  "venue_symbol_coverage": [
+    {
+      "venue": "deribit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "regime": "normal",
+      "seal_mode": "seal_monitor",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "deribit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "regime": "elevated",
+      "seal_mode": "seal_cross_venue",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "deribit",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "regime": "high_toxicity",
+      "seal_mode": "seal_depth_reinforce",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "okx",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "regime": "elevated",
+      "seal_mode": "seal_cross_venue",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "okx",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "regime": "high_toxicity",
+      "seal_mode": "seal_depth_reinforce",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "okx",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "regime": "normal",
+      "seal_mode": "seal_monitor",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "bybit",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "regime": "high_toxicity",
+      "seal_mode": "seal_depth_reinforce",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "bybit",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "regime": "normal",
+      "seal_mode": "seal_monitor",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "bybit",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "regime": "elevated",
+      "seal_mode": "seal_cross_venue",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "binance",
+      "symbol": "BTC-USD",
+      "underlying": "BTC",
+      "regime": "normal",
+      "seal_mode": "seal_monitor",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "binance",
+      "symbol": "ETH-USD",
+      "underlying": "ETH",
+      "regime": "elevated",
+      "seal_mode": "seal_cross_venue",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    },
+    {
+      "venue": "binance",
+      "symbol": "SOL-USD",
+      "underlying": "SOL",
+      "regime": "high_toxicity",
+      "seal_mode": "seal_depth_reinforce",
+      "paper_only": true,
+      "probe_gates_ok": true,
+      "cross_venue_seal_ok": 0.9994,
+      "hedge_seal_ok": 0.9995,
+      "orderflow_fused_ok": 0.75
+    }
+  ],
+  "orchestrator_report": {
+    "phase": "PHASE288_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
+    "timestamp": "2026-11-12T12:23:25.093482Z",
+    "paper_only": true,
+    "live_trading_enabled": false,
+    "next9_unblocked": false,
+    "seed": 288288,
+    "cycles": 40,
+    "venues": [
+      "deribit",
+      "okx",
+      "bybit",
+      "binance"
+    ],
+    "underlyings": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "avg_attribution_pass_rate": 0.99,
+    "avg_cross_venue_ok": 0.999,
+    "avg_orderflow_fused_score": 0.65,
+    "avg_seal_pass_rate": 0.98006,
+    "seal_attestation_pass_rate": 0.98503,
+    "n_seal_attestations": 6,
+    "n_seal_certifications": 7,
+    "n_hedging_seal_attestations": 8,
+    "n_cross_venue_seal_consistencies": 8,
+    "seal_attestations": [
+      {
+        "sfattr_id": "p288-288288-sfattr-000000",
+        "cycle": 0,
+        "venue": "deribit",
+        "underlying": "BTC",
+        "cross_venue_ok": 0.99702,
+        "severity": 0.198,
+        "action": "post_attribution_seal_selective",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.024505Z"
+      },
+      {
+        "sfattr_id": "p288-288288-sfattr-000007",
+        "cycle": 7,
+        "venue": "binance",
+        "underlying": "ETH",
+        "cross_venue_ok": 0.9955,
+        "severity": 0.3807,
+        "action": "post_attribution_seal_selective",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.041473Z"
+      },
+      {
+        "sfattr_id": "p288-288288-sfattr-000014",
+        "cycle": 14,
+        "venue": "bybit",
+        "underlying": "SOL",
+        "cross_venue_ok": 0.9955,
+        "severity": 0.3814,
+        "action": "post_attribution_seal_selective",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.050999Z"
+      },
+      {
+        "sfattr_id": "p288-288288-sfattr-000021",
+        "cycle": 21,
+        "venue": "okx",
+        "underlying": "BTC",
+        "cross_venue_ok": 0.995658,
+        "severity": 0.3342,
+        "action": "post_attribution_seal_selective",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.065186Z"
+      },
+      {
+        "sfattr_id": "p288-288288-sfattr-000028",
+        "cycle": 28,
+        "venue": "deribit",
+        "underlying": "ETH",
+        "cross_venue_ok": 0.995651,
+        "severity": 0.3349,
+        "action": "post_attribution_seal_selective",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.074638Z"
+      },
+      {
+        "sfattr_id": "p288-288288-sfattr-000035",
+        "cycle": 35,
+        "venue": "binance",
+        "underlying": "SOL",
+        "cross_venue_ok": 0.9955,
+        "severity": 0.5176,
+        "action": "post_attribution_seal_selective",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.084054Z"
+      }
+    ],
+    "seal_certifications": [
+      {
+        "scert_id": "p288-288288-scert-000000",
+        "cycle": 0,
+        "venue": "deribit",
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.2116,
+        "action": "seal_certification",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.027509Z"
+      },
+      {
+        "scert_id": "p288-288288-scert-000006",
+        "cycle": 6,
+        "venue": "bybit",
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.2116,
+        "action": "seal_certification",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.039063Z"
+      },
+      {
+        "scert_id": "p288-288288-scert-000012",
+        "cycle": 12,
+        "venue": "deribit",
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.141772,
+        "action": "seal_certification",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.048612Z"
+      },
+      {
+        "scert_id": "p288-288288-scert-000018",
+        "cycle": 18,
+        "venue": "bybit",
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.141772,
+        "action": "seal_certification",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.058323Z"
+      },
+      {
+        "scert_id": "p288-288288-scert-000024",
+        "cycle": 24,
+        "venue": "deribit",
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.2116,
+        "action": "seal_certification",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.067812Z"
+      },
+      {
+        "scert_id": "p288-288288-scert-000030",
+        "cycle": 30,
+        "venue": "bybit",
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.2116,
+        "action": "seal_certification",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.077255Z"
+      },
+      {
+        "scert_id": "p288-288288-scert-000036",
+        "cycle": 36,
+        "venue": "deribit",
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.141772,
+        "action": "seal_certification",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.091140Z"
+      }
+    ],
+    "hedging_seal_attestations": [
+      {
+        "hsfattr_id": "p288-288288-hsfattr-000000",
+        "cycle": 0,
+        "venue": "deribit",
+        "hedge_ok": 0.99792,
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.2116,
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.029943Z"
+      },
+      {
+        "hsfattr_id": "p288-288288-hsfattr-000005",
+        "cycle": 5,
+        "venue": "okx",
+        "hedge_ok": 0.996615,
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.2116,
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.034523Z"
+      },
+      {
+        "hsfattr_id": "p288-288288-hsfattr-000010",
+        "cycle": 10,
+        "venue": "bybit",
+        "hedge_ok": 0.9954,
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.141772,
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.044156Z"
+      },
+      {
+        "hsfattr_id": "p288-288288-hsfattr-000015",
+        "cycle": 15,
+        "venue": "binance",
+        "hedge_ok": 0.995825,
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.2116,
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.053675Z"
+      },
+      {
+        "hsfattr_id": "p288-288288-hsfattr-000020",
+        "cycle": 20,
+        "venue": "deribit",
+        "hedge_ok": 0.996819,
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.2116,
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.060672Z"
+      },
+      {
+        "hsfattr_id": "p288-288288-hsfattr-000025",
+        "cycle": 25,
+        "venue": "okx",
+        "hedge_ok": 0.995514,
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.141772,
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.070189Z"
+      },
+      {
+        "hsfattr_id": "p288-288288-hsfattr-000030",
+        "cycle": 30,
+        "venue": "bybit",
+        "hedge_ok": 0.996029,
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.2116,
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.079587Z"
+      },
+      {
+        "hsfattr_id": "p288-288288-hsfattr-000035",
+        "cycle": 35,
+        "venue": "binance",
+        "hedge_ok": 0.9954,
+        "seal_finalized": false,
+        "orch_seal_throttle_factor": 0.141772,
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.086669Z"
+      }
+    ],
+    "cross_venue_seal_consistencies": [
+      {
+        "cvsfattr_id": "p288-288288-cvsfattr-000000",
+        "cycle": 0,
+        "venue": "deribit",
+        "cross_venue_seal_ok": 0.99702,
+        "action": "cross_venue_seal_consistency_post_attribution",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.032361Z"
+      },
+      {
+        "cvsfattr_id": "p288-288288-cvsfattr-000005",
+        "cycle": 5,
+        "venue": "okx",
+        "cross_venue_seal_ok": 0.995715,
+        "action": "cross_venue_seal_consistency_post_attribution",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.036919Z"
+      },
+      {
+        "cvsfattr_id": "p288-288288-cvsfattr-000010",
+        "cycle": 10,
+        "venue": "bybit",
+        "cross_venue_seal_ok": 0.9955,
+        "action": "cross_venue_seal_consistency_post_attribution",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.046514Z"
+      },
+      {
+        "cvsfattr_id": "p288-288288-cvsfattr-000015",
+        "cycle": 15,
+        "venue": "binance",
+        "cross_venue_seal_ok": 0.9955,
+        "action": "cross_venue_seal_consistency_post_attribution",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.056193Z"
+      },
+      {
+        "cvsfattr_id": "p288-288288-cvsfattr-000020",
+        "cycle": 20,
+        "venue": "deribit",
+        "cross_venue_seal_ok": 0.995919,
+        "action": "cross_venue_seal_consistency_post_attribution",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.063052Z"
+      },
+      {
+        "cvsfattr_id": "p288-288288-cvsfattr-000025",
+        "cycle": 25,
+        "venue": "okx",
+        "cross_venue_seal_ok": 0.9955,
+        "action": "cross_venue_seal_consistency_post_attribution",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.072541Z"
+      },
+      {
+        "cvsfattr_id": "p288-288288-cvsfattr-000030",
+        "cycle": 30,
+        "venue": "bybit",
+        "cross_venue_seal_ok": 0.9955,
+        "action": "cross_venue_seal_consistency_post_attribution",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.081930Z"
+      },
+      {
+        "cvsfattr_id": "p288-288288-cvsfattr-000035",
+        "cycle": 35,
+        "venue": "binance",
+        "cross_venue_seal_ok": 0.9955,
+        "action": "cross_venue_seal_consistency_post_attribution",
+        "paper_only": true,
+        "timestamp": "2026-11-12T12:23:25.089016Z"
+      }
+    ],
+    "composes": [
+      "PHASE287",
+      "PHASE32"
+    ],
+    "upstream_phase287": true,
+    "upstream_phase32": true,
+    "campaign": {
+      "phase": "PHASE288_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR",
+      "paper_only": true,
+      "cycles": 40,
+      "gates_ok": true,
+      "composes": [
+        "PHASE287",
+        "PHASE32"
+      ]
+    },
+    "guards": {
+      "paper_only": true,
+      "live_trading_enabled": false,
+      "next9_unblocked": false,
+      "no_external_venue_mutation": true
+    },
+    "deterministic": true,
+    "bounded": true,
+    "finite_probe": true,
+    "additive": true
+  },
+  "risk_posture": {
+    "paper_only": true,
+    "live_trading_enabled": false,
+    "next9_unblocked": false,
+    "no_external_venue_mutation": true,
+    "upstream_phase287": true,
+    "upstream_phase32": true
+  },
+  "evidence_refs": [
+    "src/hedging/phase288_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
+    "scripts/generate_phase288_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py",
+    "tests/test_phase288_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py",
+    "tests/test_generate_phase288_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py"
+  ],
+  "cross_refs": [
+    "PHASE287",
+    "PHASE32"
+  ],
+  "determinism": {
+    "seed": 288288,
+    "replay_equal": true,
+    "deterministic": true
+  },
+  "validation": {
+    "valid": true,
+    "issues": []
+  }
+}
