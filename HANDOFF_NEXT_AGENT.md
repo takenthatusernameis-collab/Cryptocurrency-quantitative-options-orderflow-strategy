@@ -3,9 +3,9 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency quantitative options/orderflow strategy (paper-only research/ops).
 **Active track:** Chain B `src/hedging` — adaptive toxicity-resilient post-attribution seal orchestrator campaign (additive, deterministic, bounded, finite-probe, paper-only, guarded).
 **Single durable handoff/task source:** this file only. `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
-**Handoff verified/refreshed:** 2026-11-12T08:34:54Z (UTC).
+**Handoff verified/refreshed:** 2026-11-12T08:43:30Z (UTC).
 
-## P0 SAFETY (re-verified 2026-11-12T08:34:54Z) — CLEAR
+## P0 SAFETY (re-verified 2026-11-12T08:43:30Z) — CLEAR
 - `.env` **ABSENT** (`ENV_ABSENT`). `.env.example:15` = `LIVE_TRADING_ENABLED=false`.
 - Runtime deps importable: `pydantic, numpy, pandas, scipy, yaml, pytest` (`deps_ok`, Python 3.12.x). Use `python3 -m pytest` (plain `pytest` may be unavailable).
 - `next9_unblocked=false` (NEXT9 A1–A7 human-only, out of scope). **NO live trading, NO `.env` creation, NO venue/config/credential mutation, NO NEXT9 unblock.**
@@ -24,52 +24,54 @@
 - **Phase276 verification record:** `py_compile` clean on all 4 Phase276 files; module smoke (`PHASE_QUICK_VERIFY=1`, `sys.setrecursionlimit(200000)`): `paper_only=True`, `gates_ok=True`, composes `['PHASE275','PHASE32']`, `upstream_phase275=True`, `upstream_phase32=True`; targeted module+generator pytest: 3/3 passed (~79.77s); generated via bounded direct `generate(cycles=40, seed=276276, write=True)` (PHASE_QUICK_VERIFY=1, recursionlimit 200000) → artifact `research_state/PHASE276_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T075137Z.json`; `--validate-only` → `valid=true issues=[]`; CLI no-write smoke (`scripts/...` run without `--write`) → `valid=true issues=[]`. **Sealed 2026-11-12T07:53:30Z**.
 - **Phase277:** **SEALED.** Deliverables present: `src/hedging/phase277_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `scripts/generate_phase277_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, `tests/test_phase277_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `tests/test_generate_phase277_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`. Evidence: `research_state/PHASE277_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T082623Z.json` (`validation.valid=true`, `issues=[]`, seed `277277`, cycles `40`, composes `['PHASE276','PHASE32']`, 12 coverage Deribit/OKX/Bybit/Binance × BTC/ETH/SOL, `bounds_ok=true`, `deterministic_replay_equal=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`).
 - **Phase277 verification record:** `py_compile` clean on all 4 Phase277 files; module smoke (`PHASE_QUICK_VERIFY=1`, `sys.setrecursionlimit(200000)`): `paper_only=True`, `gates_ok=True`, composes `['PHASE276','PHASE32']`, `upstream_phase276=True`, `upstream_phase32=True`; targeted module+generator pytest: 3/3 passed (~81.16s); generated via CLI `--cycles 40 --seed 277277 --write` → artifact `research_state/PHASE277_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T082623Z.json`; `--validate-only` → `valid=true issues=[]`; CLI no-write smoke → `valid=true issues=[]`. **Sealed 2026-11-12T08:31:46Z**.
-- **Phase278:** **NOT STARTED** (no `src/hedging/phase278_*`, `scripts/generate_phase278_*`, `tests/test_phase278_*`, or `research_state/PHASE278_*` artifacts present). **ACTIVE TASK.**
+- **Phase278:** **SEALED.** Deliverables present: `src/hedging/phase278_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `scripts/generate_phase278_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`, `tests/test_phase278_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`, `tests/test_generate_phase278_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`. Evidence: `research_state/PHASE278_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T084203Z.json` (`validation.valid=true`, `issues=[]`, seed `278278`, cycles `40`, composes `['PHASE277','PHASE32']`, 12 coverage Deribit/OKX/Bybit/Binance × BTC/ETH/SOL, `bounds_ok=true`, `deterministic_replay_equal=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`).
+- **Phase278 verification record:** `py_compile` clean on all 4 Phase278 files; module smoke (`PHASE_QUICK_VERIFY=1`, `sys.setrecursionlimit(200000)`): `paper_only=True`, `gates_ok=True`, composes `['PHASE277','PHASE32']`, `upstream_phase277=True`, `upstream_phase32=True`; targeted module+generator pytest: 3/3 passed (~81.21s); generated via CLI `--cycles 40 --seed 278278 --write` → artifact `research_state/PHASE278_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T084203Z.json`; `--validate-only` → `valid=true issues=[]`; CLI no-write smoke → `valid=true issues=[]`. **Sealed 2026-11-12T08:43:30Z**.
+- **Phase279:** **NOT STARTED** (no `src/hedging/phase279_*`, `scripts/generate_phase279_*`, `tests/test_phase279_*`, or `research_state/PHASE279_*` artifacts present). **ACTIVE TASK.**
 - **Chain A:** `src/risk/phase*_live_execution*` out of scope (Chain B only).
 - **Competing handoffs:** cleared (stubs only). `research_state/durable_handoff.md` is a stale redirect — root `HANDOFF_NEXT_AGENT.md` is authoritative.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, non-optional)
 
-**`INIT-2026-11-12T08:34:54Z-PHASE278-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE. START IMMEDIATELY.**
+**`INIT-2026-11-12T08:43:30Z-PHASE279-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE. START IMMEDIATELY.**
 
 **Directive:** Execute this campaign **end-to-end in this session** (heavy work required). **No deferral, no stubs, no placeholders, no partial completion, no follow-up questions.** If deep-chain tests/hangs occur, apply governed bounded handling (`PHASE_QUICK_VERIFY=1`, raised `sys.setrecursionlimit`, targeted/bounded timeouts, bounded direct `generate()` if CLI hangs) and **record exact commands/results/caveats** — but still complete implementation, verification, evidence generation/validation, and seal.
 
-**Objective:** Implement, verify, generate validated evidence, and **seal Phase278 adaptive-toxicity-resilient post-attribution seal orchestrator** (Chain B, `src/hedging`) composing **`PHASE277→PHASE32`** (12 coverage rows: Deribit/OKX/Bybit/Binance × BTC/ETH/SOL), seed `278278`, IDs `p278-*`, artifacts `PHASE278_*`. Mirror Phase277 structure/parity exactly (additive, deterministic, bounded, finite-probe, paper-only, guarded).
+**Objective:** Implement, verify, generate validated evidence, and **seal Phase279 adaptive-toxicity-resilient post-attribution seal orchestrator** (Chain B, `src/hedging`) composing **`PHASE278→PHASE32`** (12 coverage rows: Deribit/OKX/Bybit/Binance × BTC/ETH/SOL), seed `279279`, IDs `p279-*`, artifacts `PHASE279_*`. Mirror Phase278 structure/parity exactly (additive, deterministic, bounded, finite-probe, paper-only, guarded).
 
-**Predecessor sealed (do NOT re-implement/re-seal):** Phase277 evidence `research_state/PHASE277_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T082623Z.json` (`valid=true`, `issues=[]`).
+**Predecessor sealed (do NOT re-implement/re-seal):** Phase278 evidence `research_state/PHASE278_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T084203Z.json` (`valid=true`, `issues=[]`).
 
 ### Required work (complete in-session)
-1. **Additive deliverables (mirror Phase277):**
-   - `src/hedging/phase278_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`
-   - `scripts/generate_phase278_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`
-   - `tests/test_phase278_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`
-   - `tests/test_generate_phase278_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`
-   Compose `PHASE277→PHASE32`, seed `278278`, IDs `p278-*`, paper-only guards, deterministic/bounded behavior.
+1. **Additive deliverables (mirror Phase278):**
+   - `src/hedging/phase279_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`
+   - `scripts/generate_phase279_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`
+   - `tests/test_phase279_adaptive_toxicity_resilient_post_attribution_seal_orchestrator.py`
+   - `tests/test_generate_phase279_adaptive_toxicity_resilient_post_attribution_seal_orchestrator_paper_evidence.py`
+   Compose `PHASE278→PHASE32`, seed `279279`, IDs `p279-*`, paper-only guards, deterministic/bounded behavior.
 2. **Verification (record exact results/caveats):**
-   - `python3 -m py_compile` on all 4 Phase278 files (clean).
-   - Module smoke: `PHASE_QUICK_VERIFY=1 PYTHONPATH=. python3 -c "import sys; sys.setrecursionlimit(200000); ..."` → expect `paper_only=True`, `gates_ok=True`, composes `['PHASE277','PHASE32']`.
+   - `python3 -m py_compile` on all 4 Phase279 files (clean).
+   - Module smoke: `PHASE_QUICK_VERIFY=1 PYTHONPATH=. python3 -c "import sys; sys.setrecursionlimit(200000); ..."` → expect `paper_only=True`, `gates_ok=True`, composes `['PHASE278','PHASE32']`.
    - Targeted module + generator pytest via `python3 -m pytest` (bounded timeouts/raised recursion, `PHASE_QUICK_VERIFY=1`) — record pass counts/caveats. Deep-chain runs may hang; prefer bounded execution.
-   - Generate controlled evidence (cycles `40`, seed `278278`, `--write` or bounded direct `generate()` if CLI hangs) then `--validate-only <artifact>` → `valid=true issues=[]`, deterministic/bounded, 12-coverage, guards intact.
+   - Generate controlled evidence (cycles `40`, seed `279279`, `--write` or bounded direct `generate()` if CLI hangs) then `--validate-only <artifact>` → `valid=true issues=[]`, deterministic/bounded, 12-coverage, guards intact.
    - CLI no-write smoke (run without `--write`) → `valid=true issues=[]`.
 3. **Seal & advance:**
    - Record exact artifact path/commands/caveats and re-verify P0 (`.env` absent, `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`).
-   - Mark Phase278 **SEALED** in this file with artifact path and validation result.
-   - Replace active task with **`INIT-<UTC>-PHASE279-POST-ATTRIBUTION-SEAL-DEPTH`** composing **`PHASE278→PHASE32`** (seed `279279`, IDs `p279-*`, 12 coverage). Keep this file as the single durable handoff.
+   - Mark Phase279 **SEALED** in this file with artifact path and validation result.
+   - Replace active task with **`INIT-<UTC>-PHASE280-POST-ATTRIBUTION-SEAL-DEPTH`** composing **`PHASE279→PHASE32`** (seed `280280`, IDs `p280-*`, 12 coverage). Keep this file as the single durable handoff.
 
 ### Acceptance criteria
-- Phase278 module/generator/tests syntactically valid and aligned to `PHASE277→PHASE32`.
-- Validated `research_state/PHASE278_*_PAPER_EVIDENCE_<UTC>.json` with `valid=true`, `issues=[]`, 12-coverage, deterministic/bounded, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`.
+- Phase279 module/generator/tests syntactically valid and aligned to `PHASE278→PHASE32`.
+- Validated `research_state/PHASE279_*_PAPER_EVIDENCE_<UTC>.json` with `valid=true`, `issues=[]`, 12-coverage, deterministic/bounded, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`.
 - Verification evidence recorded (smokes, validate-only, CLI no-write, pytests) or explicit bounded governed caveats.
-- P0 intact; handoff advanced to Phase279 only after seal.
+- P0 intact; handoff advanced to Phase280 only after seal.
 
-## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T08:34:54Z)
+## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T08:43:30Z)
 | Bottleneck | Status | Unblock / handling |
 |---|---|---|
-| P0 safety drift | **CLEAR (re-verified 08:34:54Z)** | Re-verify before/after batch: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, no venue/config/credential mutation. |
+| P0 safety drift | **CLEAR (re-verified 08:43:30Z)** | Re-verify before/after batch: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, no venue/config/credential mutation. |
 | Missing runtime deps / `pytest` CLI | **CLEARED (caveat)** | Imports OK; use `python3 -m pytest`. If env regresses, provision per `requirements.txt`/docs without weakening guards. |
-| **Phase273–276 implemented & SEALED** | **DONE** | Artifacts `research_state/PHASE273..276_*_PAPER_EVIDENCE_*.json` (`valid=true`, `issues=[]`). |
-| **Phase277 implemented & SEALED** | **DONE** | Artifact `research_state/PHASE277_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T082623Z.json` (`valid=true`, `issues=[]`, seed `277277`, cycles `40`, composes `['PHASE276','PHASE32']`, 12 coverage, `bounds_ok=true`, `deterministic_replay_equal=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`). |
-| **Phase278 not yet implemented/sealed** | **BLOCKING — ACTIVE** | **Execute `INIT-2026-11-12T08:34:54Z-PHASE278-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end now.** Compose `PHASE277→PHASE32`, seed `278278`, IDs `p278-*`. |
+| **Phase273–277 implemented & SEALED** | **DONE** | Artifacts `research_state/PHASE273..277_*_PAPER_EVIDENCE_*.json` (`valid=true`, `issues=[]`). |
+| **Phase278 implemented & SEALED** | **DONE** | Artifact `research_state/PHASE278_ADAPTIVE_TOXICITY_RESILIENT_POST_ATTRIBUTION_SEAL_ORCHESTRATOR_PAPER_EVIDENCE_20261112T084203Z.json` (`valid=true`, `issues=[]`, seed `278278`, cycles `40`, composes `['PHASE277','PHASE32']`, 12 coverage, `bounds_ok=true`, `deterministic_replay_equal=true`, `paper_only=true`, `live_trading_enabled=false`, `next9_unblocked=false`, `campaign.gates_ok=true`). |
+| **Phase279 not yet implemented/sealed** | **BLOCKING — ACTIVE** | **Execute `INIT-2026-11-12T08:43:30Z-PHASE279-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end now.** Compose `PHASE278→PHASE32`, seed `279279`, IDs `p279-*`. |
 | Deep-chain `RecursionError` / pytest & generator slowness (→phase32) | **EXPECTED, GOVERNED** | `PHASE_QUICK_VERIFY=1`, raise `sys.setrecursionlimit` (≥200k), targeted/bounded tests/timeouts; bounded direct `generate()` if CLI hangs; CLI no-write = run without `--write`. Record exact caveats. |
 | Competing/stale handoffs | **CLEARED** | This file is the single source; stubs redirect only. |
 | NEXT9 A1–A7 | **BLOCKED — human-only** | Never unblock/mutate. |
@@ -82,4 +84,4 @@
 ## HANDOFF DISCIPLINE
 - Replace stale state in place with verified facts/timestamps/paths/commands; no duplicate READ FIRST blocks.
 - Final responses must not ask follow-up questions.
-- After Phase278 seal, set active task to **`INIT-<UTC>-PHASE279-POST-ATTRIBUTION-SEAL-DEPTH`** (compose `PHASE278→PHASE32`, seed `279279`, IDs `p279-*`). Keep this file as the single durable handoff.
+- After Phase279 seal, set active task to **`INIT-<UTC>-PHASE280-POST-ATTRIBUTION-SEAL-DEPTH`** (compose `PHASE279→PHASE32`, seed `280280`, IDs `p280-*`). Keep this file as the single durable handoff.
