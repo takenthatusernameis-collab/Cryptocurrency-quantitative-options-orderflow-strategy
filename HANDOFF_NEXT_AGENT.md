@@ -1,82 +1,115 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
-**Mission inferred from repo name:** *cryptocurrency quantitative OPTIONS + ORDERFLOW strategy* — i.e. real pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **quantitative, statistically-defensible evaluation of the strategy**. The project value is the strategy and its measured performance — **not** the generation of more orchestrator wrapper files.
+**Mission inferred from repo name:** *cryptocurrency quantitative OPTIONS + ORDERFLOW strategy* — real pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **quantitative, statistically-defensible evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers.
 **Single durable handoff/task source:** this file only. `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/durable_handoff.md` are redirect stubs — do not action them or create new handoff files.
-**Handoff refreshed:** 2026-11-12T13:39:14Z (UTC).
+**Handoff refreshed:** 2026-11-12T14:14:58Z (UTC).
 
-## P0 SAFETY — VERIFIED 2026-11-12T13:39:14Z — CLEAR
+## P0 SAFETY — VERIFIED 2026-11-12T14:14:58Z — CLEAR
 - `.env` **ABSENT**. `.env.example:15` = `LIVE_TRADING_ENABLED=false`.
-- Runtime deps present: `pydantic, numpy, pandas, scipy, yaml, pytest` on Python 3.12.3. `python3 -m pytest` **works** (the old "pytest unavailable" caveat is stale — do not repeat it).
+- Runtime deps present on Python 3.12.3: `pydantic, numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, yaml, pytest`. `python3 -m pytest --collect-only -q` → **5017 tests collected in ~12s**.
 - `next9_unblocked=false` (NEXT9 A1–A7 human-only, out of scope).
 - **NO live trading, NO `.env` creation, NO venue/config/credential mutation, NO NEXT9 unblock.**
 
-## VERIFIED STATE (ground truth, 2026-11-12T13:39:14Z)
-- **Real pipeline works end-to-end (verified in-session):**
-  - `PYTHONPATH=. python3 scripts/run_integrated_campaign.py run --campaign-id EVAL_VERIFY_20261112T1337 --checkpoint-dir /tmp/eval_verify_ckpt --seed 42 --n-points 40 --train-window 20 --test-window 10 --step-size 10 --allocation-mode risk_parity` → **exit 0**, `status=completed`, **7/7 steps**; emitted `INTEGRATED_CAMPAIGN_*`, `INTEGRATED_CAMPAIGN_SUMMARY_*`, `INTEGRATED_CAMPAIGN_REGIMES_*`, and six `INTEGRATED_STEP_*` artifacts. (Use the full command in the task below for the real campaign; this was a smoke run.)
-  - `PYTHONPATH=. python3 scripts/run_backtest.py` → **exit 0**; wrote `research_state/BACKTEST_20261112T133901Z.json`.
-  - `python3 -m pytest --collect-only -q` → **5017 tests collected in ~22s** (imports/deps are healthy).
-- **Real code exists (do not rewrite from scratch):** `src/backtest/engine.py` (walk-forward/OOS, portfolio), `src/backtest/options_hedging.py` (delta-hedged PnL + attribution), `src/features/*` (orderflow, gamma exposure, IV surface, liquidity, vol, options pricing/greeks), `src/signals/*` (composite/regime), `src/campaign/integrated.py`, `src/analytics/*`, `src/orderflow/phase32_orderflow_alpha_integration.py`, `src/execution/*`, `src/risk/*`.
-- **Phase272–291 `*_adaptive_toxicity_resilient_post_attribution_seal_orchestrator` chain: ARCHIVED — LOW VALUE.** These are ~20 near-identical 259-line wrappers that each import the previous phase and re-emit a vacuous `valid=true issues=[]` evidence JSON. They added no strategy capability. **Do NOT re-implement, re-seal, extend, or "advance" this chain.**
+## VERIFIED STATE — re-verified 2026-11-12T14:14:58Z (ground truth)
+- **The prior task was never executed.** `src/analytics/strategy_evaluation.py`, `scripts/evaluate_strategy.py`, `tests/test_strategy_evaluation.py`, `tests/test_evaluate_strategy.py`, and `research_state/STRATEGY_EVALUATION_*` **do not exist**. Every handoff since 13:39 claimed this task "ACTIVE/START IMMEDIATELY" and none ran it. This session's task (EVAL-02 below) must actually produce them.
+- **CRITICAL — the integrated pipeline is structurally vacuous (verified this session):** `src/campaign/integrated.py:694` builds the signal series as `[features] * n` (a **static feature snapshot repeated for every step**). Result: **all signals are `0`** for every symbol (verified: BTC/ETH/SOL = 400×`0`). Consequently `walkforward_oos` and `portfolio_scaling` emit `overall_out_of_sample_return = 0.0`, `out_of_sample_sharpe = 0.0`, `oos_trade_count = 0`, and every window has `out_of_sample_return = 0.0` — **even though `steps_completed` reaches 7/7 and artifacts are written**. "Green campaign" ≠ "strategy produced returns." The old handoff's "7/7 steps / real metrics" claim is therefore misleading and must not be repeated.
+- **Real code exists (do not rewrite from scratch):** `src/backtest/engine.py` (walk-forward/OOS `WalkForwardBacktest`, portfolio `PortfolioWalkForwardBacktest` with allocation modes, `BacktestEngine`), `src/backtest/options_hedging.py` (delta-hedged PnL + attribution), `src/features/*` (orderflow, gamma exposure, IV surface, liquidity, vol, options pricing/greeks), `src/signals/*`, `src/campaign/integrated.py`, `src/analytics/*` (`performance_attribution.py`, `phase18_attribution.py`, `phase21_risk_attribution.py`, `phase22_tca.py`, `phase23_alpha_decay.py`), `src/orderflow/`, `src/execution/*`, `src/risk/*`.
+- **A nonzero-OOS path is proven feasible (verified this session):** `WalkForwardBacktest.run_walk_forward` with a **time-varying** signal series (e.g. `[1 if (i//10)%2==0 else -1 ...]`, 400 pts, train=100/test=30/step=30) → **10 windows, oos_ret≈0.00196, sharpe≈0.254, equity_len=300, 120 trades**. So the evaluation engine has real signal to measure — the fix is *signal construction*, not the backtest math.
+- **Real data loaders work:** `DataLoader().load_orderflow("data/raw/orderflow_btcusdt_synthetic.json", venue="synthetic", symbol="BTC")` → 1000 trades / 20 liquidations / 8 funding; `load_options_chain("data/raw/options_btc_synthetic.json", ...)` → 30 quotes.
+- **`scripts/run_backtest.py` is a vacuous smoke test** (single trade, Sharpe≈6.3 from 2 marks). Do not treat its numbers as strategy performance.
+- **Phase272–291 `*_adaptive_toxicity_resilient_post_attribution_seal_orchestrator` chain: ARCHIVED — LOW VALUE.** ~20 near-identical 259-line wrappers that import the prior phase and re-emit `valid=true issues=[]`. **Do NOT re-implement, re-seal, extend, or "advance" this chain (Phase292+ is closed).**
 
 ## BOTTLENECKS REMOVED (this handoff)
 | Bottleneck | Resolution |
 |---|---|
-| **Phase292+ clone treadmill** (each session re-seals a near-identical wrapper and hands off N+1) | **CLOSED.** Further `phaseNN_*_post_attribution_seal_orchestrator` files/evidence are rejected. Effort is redirected to the real evaluation campaign below. |
-| Stale competing handoff stubs pointing at Phase289/290/286 | **CLEARED.** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/durable_handoff.md` are redirect stubs only. |
-| Stale "missing pytest / missing deps" caveat | **CLEARED.** Deps and `pytest` verified working; 5017 tests collect. |
-| `research_state/` is ~5 GB / 75k files and can stall naive globbing | **AVOID THE TRAP.** Do not enumerate `research_state/`; use explicit paths/globs. Generated step/phase dirs are disposable; do not mine them for strategy signal. |
-| `run_backtest.py` produces a 2-trade, vacuous Sharpe (~6.3) on synthetic data | **ACKNOWLEDGED.** The new campaign must produce statistically meaningful, baseline-compared, multi-seed OOS metrics (not a single synthetic point). |
+| **Three competing handoffs / stale stubs** | **CLEARED.** Only this file is actionable; the other three are redirect stubs. |
+| **Prior "STRATEGY-EVAL-01 ACTIVE" never executed across multiple sessions** | **ESCALATED & RESCOPED.** New task (below) is smaller, dependency-ordered, and its acceptance is falsifiable. Do not re-declare the old oversized task "active" and then not run it. |
+| **Vacuous green pipeline (all-zero signals)** | **DIAGNOSED & REDIRECTED.** Root cause pinned to `integrated.py:694`. New task *requires* fixing signal construction or driving `WalkForwardBacktest`/`BacktestEngine` with time-varying signals, and *forbids* accepting 0-window/0-return output as success. |
+| **`research_state/` is ~1 GB / 75k+ files and can stall naive globbing** | **AVOID THE TRAP.** Never enumerate `research_state/`; use explicit paths/globs. Generated step/phase dirs are disposable. |
+| **No metric/bootstrap utilities exist** | **CONFIRMED** (grep found none). The new `src/analytics/strategy_evaluation.py` must implement them; scipy/numpy bootstrap CI verified feasible this session (block bootstrap → 95% CI). |
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, non-optional)
 
-**`INIT-2026-11-12T13:39:14Z-STRATEGY-EVAL-01-FULLSTACK-BASELINE` — ACTIVE. START IMMEDIATELY.**
+**`INIT-2026-11-12T14:14:58Z-STRATEGY-EVAL-02-FIRST-REAL-METRICS` — ACTIVE. START IMMEDIATELY.**
 
-**Directive:** Execute this campaign **end-to-end in this session** (heavy work required). **No deferral, no stubs, no placeholders, no partial completion, no follow-up questions, and do NOT fall back to the archived phase-clone loop.** Record exact commands/results/caveats.
+**Directive:** Execute end-to-end **in this session** (heavy work required). **No deferral, no stubs, no placeholders, no partial completion, no follow-up questions, and do NOT fall back to the archived phase-clone loop.** If a required input is missing, *build* it deterministically from the existing data layer — do not stop to ask. Record exact commands/results/caveats.
 
-**Objective:** Build and run a **rigorous, paper-only, full-stack quantitative evaluation of the crypto options + orderflow strategy**, benchmarked against baselines, with confidence intervals, attribution, and an explicit GO/NO-GO. This is the repo's core deliverable.
+**Objective (why this matters):** The previous task produced nothing across multiple sessions because it was one oversized bundle. This task is split into **P1 (must land first, independently testable)** and **P2 (extends P1)**. Deliver **P1 fully and P2 as far as the session allows** — but P1 is non-negotiable and must be green before P2 is attempted. The outcome is the repo's first *real* quantitative verdict on the strategy: **does the options+orderflow signal produce non-trivial, baseline-beating, out-of-sample returns?**
 
-### Required work (complete in-session — all of it)
-1. **Evaluation engine — `src/analytics/strategy_evaluation.py`** (additive, deterministic, finite-guarded, strict serialization):
-   - Metric suite from backtest equity/trade/position series: CAGR, annualized return & vol, Sharpe, Sortino, Calmar, max drawdown + duration, hit rate, profit factor, avg win/loss, exposure, turnover, capacity proxy.
-   - **Block-bootstrap 95% CIs** (deterministic seed) for headline metrics.
-   - **Attribution** by venue / underlying / regime / signal-family; must reconcile to total PnL within tolerance.
-   - **Baseline comparison** API.
-2. **Evaluation CLI — `scripts/evaluate_strategy.py`**:
-   - Drive the real pipeline (`src/campaign/integrated.py` and/or `src/backtest/*`) across **≥5 seeds** and **≥3 allocation modes** (`equal_weight`, `risk_parity`, `vol_target`).
-   - Compute **≥3 baselines**: (a) delta-hedged buy-and-hold / long-gamma, (b) naive orderflow-threshold with no hedge, (c) zero-signal / random.
-   - Emit `research_state/STRATEGY_EVALUATION_<UTC>.json` **and** `research_state/STRATEGY_EVALUATION_<UTC>.md` with real numbers, per-gate pass/fail, and GO/NO-GO for paper continuation. Label data provenance (synthetic vs processed) explicitly.
-3. **Tests — `tests/test_strategy_evaluation.py` + `tests/test_evaluate_strategy.py`**:
-   - Assert **numeric invariants** (finite metrics; attribution sums to total within tol; bootstrap CI brackets point estimate; baselines computed; strategy vs baseline ordering computed; rerun determinism/byte-identical). **Not** merely `valid=true`.
-   - Must pass under `python3 -m pytest`.
-4. **End-to-end runs:** run `scripts/run_integrated_campaign.py run` (≥2 allocation modes) and `scripts/run_backtest.py`; cite the emitted artifacts in the report.
+### P1 — CORE EVALUATION ENGINE (do this first; it is independently valuable)
+
+1. **`src/analytics/strategy_evaluation.py`** (additive, deterministic, finite-guarded, strict serialization via `src.telemetry.serialization.serialize_metrics_strict` / `assert_json_valid`). Provide:
+   - `compute_metrics(equity_curve: Sequence[float], *, periods_per_year: int = 252, risk_free: float = 0.0, trades: Sequence[Mapping] | None = None) -> dict` returning finite floats for: total_return, cagr, ann_return, ann_vol, sharpe, sortino, calmar, max_drawdown, max_drawdown_duration, hit_rate, profit_factor, avg_win, avg_loss, exposure, turnover, num_trades. Guard every divide-by-zero (e.g. zero std → Sharpe 0.0; no losses → profit_factor `inf` is **not** allowed by strict JSON — clamp to a documented finite cap like `1e12` or `None`).
+   - `block_bootstrap_ci(values, statistic, *, n_bootstrap=2000, block_size=20, confidence=0.95, seed=0) -> tuple[float,float,float]` returning `(point_estimate, lo, hi)`; deterministic; must satisfy `lo <= point <= hi` (or document the percentile convention so a test can assert bracketing).
+   - `attribute_pnl(by_bucket: Mapping[str, Sequence[float]]) -> dict` that groups PnL by a key (venue / underlying / regime / signal-family), returns per-bucket sums **and** a `reconciled_total` + `max_abs_error`; must satisfy `abs(sum(bucket_totals) - grand_total) <= tol`.
+   - `compare_to_baseline(strategy: Mapping, baseline: Mapping) -> dict` returning per-metric deltas and an ordering verdict.
+   - **All functions must reject non-finite inputs** (raise a clear error or sanitize per a documented rule) — no silent NaN.
+2. **`tests/test_strategy_evaluation.py`** — assert **numeric invariants**, not `valid=true`:
+   - metrics finite on a synthetic geometric-Brownian equity curve; Sharpe/Sortino/Calmar have correct sign for up-trending vs down-trending series.
+   - `block_bootstrap_ci` brackets the point estimate on ≥3 distinct seeds; identical seed → identical CI (determinism).
+   - `attribute_pnl` reconciles: `abs(sum(buckets) - total) <= 1e-9 * max(1,|total|)`.
+   - zero-variance input yields Sharpe 0.0 (no NaN/inf).
+   - **Must pass under `python3 -m pytest`.**
+3. **Real run:** drive a **nonzero-signal** backtest to feed P1. Use `WalkForwardBacktest` directly with a **time-varying** signal series (the static-snapshot path in `integrated.py` yields all-zero signals — see VERIFIED STATE). Concretely, reuse `_generate_price_paths(IntegratedConfig(...))` for prices and construct a per-step signal series from **rolling features** (e.g. sign of short-vs-long momentum of the generated path, or `generate_orderflow_signal` over a rolling window) — **never** `[features]*n`. Confirm `num_windows > 0` and `oos_trade_count > 0`; if a run yields 0 windows/0 trades, that is a **failure**, not a pass.
+
+**P1 acceptance (must be demonstrably met):**
+- `src/analytics/strategy_evaluation.py` exists, imports cleanly, and computes finite metrics on real pipeline output.
+- `tests/test_strategy_evaluation.py` asserts numeric invariants and **passes** under `python3 -m pytest`.
+- A nonzero-OOS backtest is produced and cited (num_windows>0, oos_trades>0, nonzero oos_return).
+- `python3 -m py_compile` clean on both new files.
+
+### P2 — FULL CAMPAIGN COMPARISON (extend P1; do not block P1 on this)
+
+4. **`scripts/evaluate_strategy.py`** CLI:
+   - `--seeds 1 2 3 4 5`, `--allocation-modes equal_weight risk_parity vol_target`, `--write`.
+   - Compute **≥3 baselines**: (a) delta-hedged buy-and-hold / long-gamma, (b) naive orderflow-threshold with no hedge, (c) zero-signal / random (seed-fixed). Baselines may be simple but must be **actually computed** from the same price paths.
+   - Emit `research_state/STRATEGY_EVALUATION_<UTC>.json` **and** `.md` with **real numbers**, per-gate pass/fail, block-bootstrap 95% CIs on headline metrics (Sharpe, ann_return, max_dd), attribution table, baseline deltas, and an explicit **GO / NO-GO** for paper continuation.
+   - Label data provenance explicitly: `synthetic` (default) vs `processed` — never imply real market data when synthetic.
+5. **`tests/test_evaluate_strategy.py`** — assert the CLI writes both artifacts, the JSON is strict-serializable and finite, ≥3 baselines are present, CI brackets point estimates, and **a fixed-seed rerun is byte-identical** (determinism).
+6. **End-to-end:** `PYTHONPATH=. python3 scripts/evaluate_strategy.py --seeds 1 2 3 4 5 --allocation-modes equal_weight risk_parity vol_target --write` must exit 0 and produce the artifacts. Cite them in your final summary.
+
+**P2 acceptance (best effort within session; P1 is the gate):**
+- Both artifacts written with real numbers, CIs, attribution reconciliation, and GO/NO-GO.
+- `tests/test_evaluate_strategy.py` passes; determinism verified (byte-identical rerun).
+- P0 intact (`.env` absent, `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`).
 
 ### Exact commands (run, record output)
 ```bash
-python3 -m py_compile src/analytics/strategy_evaluation.py scripts/evaluate_strategy.py tests/test_strategy_evaluation.py tests/test_evaluate_strategy.py
+python3 -m py_compile src/analytics/strategy_evaluation.py tests/test_strategy_evaluation.py
+PYTHONPATH=. python3 -m pytest -q tests/test_strategy_evaluation.py
 
-PYTHONPATH=. python3 scripts/run_integrated_campaign.py run --campaign-id EVAL01_<UTC> --seed 42 \
-  --n-points 120 --train-window 40 --test-window 20 --step-size 20 --allocation-mode risk_parity
+# P1 nonzero-signal smoke (must show windows>0, oos_trades>0, nonzero oos_return)
+PYTHONPATH=. python3 - <<'PY'
+from src.backtest.engine import WalkForwardBacktest, BacktestConfig
+from src.config import RiskConfig
+from src.campaign.integrated import IntegratedConfig, _generate_price_paths
+cfg = IntegratedConfig(seed=42, n_points=400, train_window=100, test_window=30, step_size=30)
+prices, ts = _generate_price_paths(cfg)
+# time-varying signals (rolling momentum), NOT static snapshot
+sig = {}
+for s, p in prices.items():
+    sm = []
+    for i in range(len(p)):
+        lo = max(0, i-20)
+        sm.append(1 if (p[i] - p[lo]) > 0 else (-1 if (p[i]-p[lo]) < 0 else 0))
+    sig[s] = sm
+wfb = WalkForwardBacktest(config=BacktestConfig(initial_capital=100000.0), risk_config=RiskConfig())
+r = wfb.run_walk_forward(price_series=prices, signals=sig, timestamps=ts,
+                         train_window=100, test_window=30, step_size=30, min_train_size=40)
+print("windows", len(r.windows), "oos_ret", r.overall_out_of_sample_return,
+      "sharpe", r.overall_out_of_sample_sharpe, "trades", len(r.oos_trades))
+PY
 
-PYTHONPATH=. python3 scripts/run_backtest.py
-
-PYTHONPATH=. python3 -m pytest -q tests/test_strategy_evaluation.py tests/test_evaluate_strategy.py
-
+# P2 (after P1 green)
+PYTHONPATH=. python3 -m pytest -q tests/test_evaluate_strategy.py
 PYTHONPATH=. python3 scripts/evaluate_strategy.py --seeds 1 2 3 4 5 \
   --allocation-modes equal_weight risk_parity vol_target --write
 ```
 
-### Acceptance criteria (must be demonstrably met; no stubs)
-- `src/analytics/strategy_evaluation.py` computes finite metrics on real pipeline output; unit tests assert numeric invariants and **pass under pytest**.
-- ≥5 seeds × ≥3 allocation modes evaluated; bootstrap 95% CIs reported.
-- ≥3 baselines computed and compared; attribution reconciles to total PnL within tolerance.
-- `research_state/STRATEGY_EVALUATION_<UTC>.json` + `.md` written with **real numbers**, explicit quantitative gates, and a GO/NO-GO for paper continuation.
-- Determinism: fixed-seed rerun is byte-identical.
-- P0 intact (`.env` absent, `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`).
-
 ## HANDOFF DISCIPLINE
 - Replace stale state in place with verified facts/timestamps/paths/commands; no duplicate READ FIRST blocks.
-- After STRATEGY-EVAL-01 is sealed (report + tests green + artifacts), replace the active task with **`INIT-<UTC>-STRATEGY-EVAL-02-...`** advancing the *strategy* (e.g. regime-conditional sizing, capacity/liquidity-aware execution TCA optimization, or cross-venue netting) — **never** return to the archived phase-clone loop.
+- After EVAL-02 P1 is sealed (tests green + nonzero-OOS cited) and P2 attempted, replace the active task with **`INIT-<UTC>-STRATEGY-EVAL-03-...`** advancing the *strategy* (e.g. regime-conditional sizing, capacity/liquidity-aware execution TCA, or cross-venue netting) — **never** return to the archived phase-clone loop, and **never** accept all-zero-signal output as a pass.
 - Final responses must not ask follow-up questions.
 
 ## SCOPE & HARD GUARDS (non-negotiable)
