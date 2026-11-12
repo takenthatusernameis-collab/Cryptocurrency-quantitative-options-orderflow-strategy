@@ -2,7 +2,7 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name:** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers.
-**Refreshed:** 2026-11-12T16:40:19Z (UTC). EVAL-06 sealed NO-GO; EVAL-07 is the ACTIVE task below.
+**Refreshed:** 2026-11-12T16:42:07Z (UTC). EVAL-06 sealed NO-GO; EVAL-07 is the ACTIVE task below. (handoff confirmed this session; no new bottlenecks found)
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are pointers/stubs — do not action them or create new handoff files.
 
 ---
@@ -101,12 +101,7 @@ meaningless, so EVAL-06 (real signal + net-of-cost falsification) ran first and 
 | `research_state/` ~5 GB / ~75k files can stall naive globbing | **AVOID THE TRAP.** Never enumerate `research_state/`; use explicit filenames/globs. |
 | Phase 272–291 `*_adaptive_toxicity_resilient_post_attribution_seal_orchestrator` clone treadmill | **CLOSED.** Do not implement/seal/advance Phase 292+. |
 
-**Tree verified 2026-11-12T16:40Z (this session):** working tree clean; `pytest
-tests/test_strategy_falsification.py tests/test_oos_walkforward.py` → 31 passed;
-`pytest tests/test_integrated_campaign.py tests/test_regime_sizing.py
-tests/test_portfolio_scaling.py tests/test_portfolio_walkforward_correlation_adversarial.py
-tests/test_walkforward_robustness_adversarial.py tests/test_integrated_signal_series.py` → 76
-passed. No other session is blocked; EVAL-07 is the only open item.
+**Tree verified 2026-11-12T16:42:07Z (this session):** working tree clean (no uncommitted changes at handoff review); EVAL-06 sealed NO-GO artifacts present `research_state/STRATEGY_FALSIFICATION_20261112T163240Z.{json,md}`; `src/analytics/strategy_falsification.py` and tests exist; EVAL-07 module `src/analytics/capacity_aware_tca.py` not yet started. No active blockers; EVAL-07 is the only open item.
 
 ## P0 SAFETY — CLEAR
 - `.env` **ABSENT**. `.env.example:15` = `LIVE_TRADING_ENABLED=false`.
