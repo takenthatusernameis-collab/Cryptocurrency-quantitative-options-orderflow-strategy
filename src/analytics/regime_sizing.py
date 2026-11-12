@@ -547,7 +547,7 @@ def evaluate_regime_sizing(
         )
 
     def _avg(rows: List[Dict[str, float]], key: str) -> float:
-        vals = [float(r[key]) for r rows if key in r and math.isfinite(float(r[key]))]  # type: ignore[union-attr]
+        vals = [float(r[key]) for r in rows if key in r and math.isfinite(float(r[key]))]
         return sum(vals) / len(vals) if vals else 0.0
 
     regime_avg = {k: _avg(regime_rows, k) for k in ("oos_return", "oos_sharpe", "oos_max_drawdown")}
