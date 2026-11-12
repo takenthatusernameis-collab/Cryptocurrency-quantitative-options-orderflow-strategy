@@ -2,19 +2,20 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name:** *cryptocurrency quantitative OPTIONS + ORDERFLOW strategy* — i.e. real pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **quantitative, statistically-defensible evaluation of the strategy**. The project value is the strategy and its measured performance — **not** the generation of more orchestrator wrapper files.
-**Single durable handoff/task source:** this file only. `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
-**Handoff refreshed:** 2026-11-12T13:35:23Z (UTC).
+**Single durable handoff/task source:** this file only. `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/durable_handoff.md` are redirect stubs — do not action them or create new handoff files.
+**Handoff refreshed:** 2026-11-12T13:39:14Z (UTC).
 
-## P0 SAFETY — VERIFIED 2026-11-12T13:35:23Z — CLEAR
+## P0 SAFETY — VERIFIED 2026-11-12T13:39:14Z — CLEAR
 - `.env` **ABSENT**. `.env.example:15` = `LIVE_TRADING_ENABLED=false`.
 - Runtime deps present: `pydantic, numpy, pandas, scipy, yaml, pytest` on Python 3.12.3. `python3 -m pytest` **works** (the old "pytest unavailable" caveat is stale — do not repeat it).
 - `next9_unblocked=false` (NEXT9 A1–A7 human-only, out of scope).
 - **NO live trading, NO `.env` creation, NO venue/config/credential mutation, NO NEXT9 unblock.**
 
-## VERIFIED STATE (ground truth, 2026-11-12T13:35:23Z)
+## VERIFIED STATE (ground truth, 2026-11-12T13:39:14Z)
 - **Real pipeline works end-to-end (verified in-session):**
-  - `scripts/run_integrated_campaign.py run ...` → exit 0; emits `research_state/INTEGRATED_CAMPAIGN_SUMMARY_<UTC>.json`, `INTEGRATED_CAMPAIGN_REGIMES_<UTC>.json`, `INTEGRATED_CAMPAIGN_<UTC>.json`, and `INTEGRATED_STEP_*` artifacts (data ingestion → features → regime → walk-forward/OOS → portfolio scaling → options hedging → reconciliation).
-  - `scripts/run_backtest.py` → exit 0; writes `research_state/BACKTEST_<UTC>.json`.
+  - `PYTHONPATH=. python3 scripts/run_integrated_campaign.py run --campaign-id EVAL_VERIFY_20261112T1337 --checkpoint-dir /tmp/eval_verify_ckpt --seed 42 --n-points 40 --train-window 20 --test-window 10 --step-size 10 --allocation-mode risk_parity` → **exit 0**, `status=completed`, **7/7 steps**; emitted `INTEGRATED_CAMPAIGN_*`, `INTEGRATED_CAMPAIGN_SUMMARY_*`, `INTEGRATED_CAMPAIGN_REGIMES_*`, and six `INTEGRATED_STEP_*` artifacts. (Use the full command in the task below for the real campaign; this was a smoke run.)
+  - `PYTHONPATH=. python3 scripts/run_backtest.py` → **exit 0**; wrote `research_state/BACKTEST_20261112T133901Z.json`.
+  - `python3 -m pytest --collect-only -q` → **5017 tests collected in ~22s** (imports/deps are healthy).
 - **Real code exists (do not rewrite from scratch):** `src/backtest/engine.py` (walk-forward/OOS, portfolio), `src/backtest/options_hedging.py` (delta-hedged PnL + attribution), `src/features/*` (orderflow, gamma exposure, IV surface, liquidity, vol, options pricing/greeks), `src/signals/*` (composite/regime), `src/campaign/integrated.py`, `src/analytics/*`, `src/orderflow/phase32_orderflow_alpha_integration.py`, `src/execution/*`, `src/risk/*`.
 - **Phase272–291 `*_adaptive_toxicity_resilient_post_attribution_seal_orchestrator` chain: ARCHIVED — LOW VALUE.** These are ~20 near-identical 259-line wrappers that each import the previous phase and re-emit a vacuous `valid=true issues=[]` evidence JSON. They added no strategy capability. **Do NOT re-implement, re-seal, extend, or "advance" this chain.**
 
@@ -22,13 +23,14 @@
 | Bottleneck | Resolution |
 |---|---|
 | **Phase292+ clone treadmill** (each session re-seals a near-identical wrapper and hands off N+1) | **CLOSED.** Further `phaseNN_*_post_attribution_seal_orchestrator` files/evidence are rejected. Effort is redirected to the real evaluation campaign below. |
-| Stale competing handoff stubs pointing at Phase289/290 | **CLEARED.** Both stubs refreshed to redirect to this file's active task. |
-| Stale "missing pytest / missing deps" caveat | **CLEARED.** Deps and `pytest` verified working. |
+| Stale competing handoff stubs pointing at Phase289/290/286 | **CLEARED.** `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/durable_handoff.md` are redirect stubs only. |
+| Stale "missing pytest / missing deps" caveat | **CLEARED.** Deps and `pytest` verified working; 5017 tests collect. |
+| `research_state/` is ~5 GB / 75k files and can stall naive globbing | **AVOID THE TRAP.** Do not enumerate `research_state/`; use explicit paths/globs. Generated step/phase dirs are disposable; do not mine them for strategy signal. |
 | `run_backtest.py` produces a 2-trade, vacuous Sharpe (~6.3) on synthetic data | **ACKNOWLEDGED.** The new campaign must produce statistically meaningful, baseline-compared, multi-seed OOS metrics (not a single synthetic point). |
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped, non-optional)
 
-**`INIT-2026-11-12T13:35:23Z-STRATEGY-EVAL-01-FULLSTACK-BASELINE` — ACTIVE. START IMMEDIATELY.**
+**`INIT-2026-11-12T13:39:14Z-STRATEGY-EVAL-01-FULLSTACK-BASELINE` — ACTIVE. START IMMEDIATELY.**
 
 **Directive:** Execute this campaign **end-to-end in this session** (heavy work required). **No deferral, no stubs, no placeholders, no partial completion, no follow-up questions, and do NOT fall back to the archived phase-clone loop.** Record exact commands/results/caveats.
 
