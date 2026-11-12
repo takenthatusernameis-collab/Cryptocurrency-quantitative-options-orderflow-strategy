@@ -322,3 +322,89 @@ def compare_to_baseline(
     }
     assert_json_valid(result)
     return serialize_metrics_strict(result)
+
+
+def permutation_test(
+    sample_a: Sequence[float],
+    sample_b: Sequence[float],
+    *,
+    statistic: Callable[[Sequence[float]], float],
+    n_permutations: int = 1000,
+    paired: bool = True,
+    alternative: str = "two-sided",
+    seed: int = 0,
+) -> dict[str, Any]:
+    """Deterministic permutation test for ``statistic(sample_a) - statistic(sample_b)``.
+
+    This is the permutation primitive EVAL-10 needs and that
+    :func:`block_bootstrap_ci` (a bootstrap CI) does **not** provide. Two modes:
+
+    * ``paired=True`` (default) — requires equal lengths; each permutation swaps
+      the two labels within a pair with probability 0.5. Use for matched
+      series such as the EVAL-09 with-hedge vs without-hedge window returns.
+    * ``paired=False`` — pools both samples, shuffles, and re-splits at the
+      original sizes.
+
+    The p-value uses the ``(1 + #{null as extreme}) / (1 + n_permutations)``
+    convention, so it is always in ``(0, 1]`` and never zero. Non-finite
+    inputs or statistics raise ``ValueError``. Identical ``seed`` yields an
+    identical report (determinism).
+    """
+    a = _as_finite_floats(sample_a, "sample_a")
+    b = _as_finite_floats(sample_b, "sample_b")
+    if len(a) == 0 or len(b) == 0:
+        raise ValueError("sample_a and sample_b must be non-empty")
+    if paired and len(a) != len(b):
+        raise ValueError("paired=True requires equal-length samples")
+    n_permutations = int(n_permutations)
+    if n_permutations <= 0:
+        raise ValueError("n_permutations must be > 0")
+    alt = str(alternative).lower()
+    if alt not in ("two-sided", "greater", "less"):
+        raise ValueError(f"alternative must be two-sided/greater/less, got {alternative!r}")
+
+    def _safe_stat(vals: Sequence[float], name: str) -> float:
+        return _finite_float(statistic(vals), name)
+
+    observed = _safe_stat(a, "statistic(sample_a)") - _safe_stat(b, "statistic(sample_b)")
+    rng = np.random.default_rng(int(seed))
+    null: list[float] = []
+
+    if paired:
+        a_arr = np.asarray(a, dtype=float)
+        b_arr = np.asarray(b, dtype=float)
+        for _ in range(n_permutations):
+            swap = rng.random(len(a_arr)) < 0.5
+            sa = np.where(swap, b_arr, a_arr)
+            sb = np.where(swap, a_arr, b_arr)
+            null.append(float(_safe_stat(sa, "statistic(sample_a)") - _safe_stat(sb, "statistic(sample_b)")))
+    else:
+        pooled = list(a) + list(b)
+        na = len(a)
+        for _ in range(n_permutations):
+            rng.shuffle(pooled)
+            null.append(
+                float(_safe_stat(pooled[:na], "statistic(sample_a)") - _safe_stat(pooled[na:], "statistic(sample_b)"))
+            )
+
+    if alt == "two-sided":
+        extreme = sum(1 for v in null if abs(v) >= abs(observed))
+    elif alt == "greater":
+        extreme = sum(1 for v in null if v >= observed)
+    else:
+        extreme = sum(1 for v in null if v <= observed)
+    p_value = (1 + extreme) / (1 + len(null))
+
+    result: dict[str, Any] = {
+        "observed_difference": float(observed),
+        "null_mean": float(sum(null) / len(null)),
+        "p_value": float(p_value),
+        "n_permutations": int(len(null)),
+        "paired": bool(paired),
+        "alternative": alt,
+        "significant_at_05": bool(p_value < 0.05),
+        "statistic_a": float(_safe_stat(a, "statistic(sample_a)")),
+        "statistic_b": float(_safe_stat(b, "statistic(sample_b)")),
+    }
+    assert_json_valid(result)
+    return serialize_metrics_strict(result)

@@ -16,6 +16,7 @@ from src.analytics.strategy_evaluation import (
     block_bootstrap_ci,
     compare_to_baseline,
     compute_metrics,
+    permutation_test,
 )
 
 
@@ -133,3 +134,79 @@ def test_compare_to_baseline_rejects_nonfinite() -> None:
         compare_to_baseline({"sharpe": float("nan")}, {"sharpe": 0.5})
     with pytest.raises(ValueError):
         compare_to_baseline({"sharpe": 0.5}, {"sharpe": float("inf")})
+
+
+def test_permutation_test_paired_is_deterministic_and_bracketing() -> None:
+    import numpy as np
+
+    rng = np.random.default_rng(11)
+    a = list(0.01 + 0.02 * rng.standard_normal(30))
+    b = list(-0.01 + 0.02 * rng.standard_normal(30))
+    r1 = permutation_test(a, b, statistic=np.mean, n_permutations=500, paired=True, seed=3)
+    r2 = permutation_test(a, b, statistic=np.mean, n_permutations=500, paired=True, seed=3)
+    assert r1 == r2
+    assert 0.0 < r1["p_value"] <= 1.0
+    assert r1["observed_difference"] == pytest.approx(
+        float(np.mean(a)) - float(np.mean(b))
+    )
+    assert math.isfinite(r1["null_mean"])
+    assert r1["n_permutations"] == 500
+
+
+def test_permutation_test_detects_real_shift() -> None:
+    import numpy as np
+
+    rng = np.random.default_rng(5)
+    noise = 0.01 * rng.standard_normal(200)
+    a = list(0.05 + noise)
+    b = list(-0.05 + noise)
+    rep = permutation_test(a, b, statistic=np.mean, n_permutations=1000, paired=False, seed=1)
+    assert rep["significant_at_05"] is True
+    assert rep["p_value"] < 0.05
+    assert rep["observed_difference"] > 0.0
+
+
+def test_permutation_test_unpaired_pooling_respects_sizes() -> None:
+    import numpy as np
+
+    rep = permutation_test([1.0, 2.0, 3.0], [10.0, 20.0], statistic=np.mean,
+                           n_permutations=50, paired=False, seed=2)
+    assert rep["statistic_a"] == pytest.approx(2.0)
+    assert rep["statistic_b"] == pytest.approx(15.0)
+    assert rep["observed_difference"] == pytest.approx(-13.0)
+    assert rep["paired"] is False
+
+
+def test_permutation_test_alternative_directions() -> None:
+    import numpy as np
+
+    rng = np.random.default_rng(5)
+    noise = 0.01 * rng.standard_normal(200)
+    a = list(0.05 + noise)
+    b = list(-0.05 + noise)
+    two = permutation_test(a, b, statistic=np.mean, n_permutations=2000, paired=False, seed=0)
+    greater = permutation_test(a, b, statistic=np.mean, n_permutations=2000, paired=False,
+                               alternative="greater", seed=0)
+    less = permutation_test(a, b, statistic=np.mean, n_permutations=2000, paired=False,
+                            alternative="less", seed=0)
+    # Observed difference is positive, so the upper tail is far more extreme.
+    assert greater["observed_difference"] > 0.0
+    assert greater["p_value"] < less["p_value"]
+    assert greater["p_value"] <= two["p_value"]
+    assert greater["significant_at_05"] is True
+    assert less["significant_at_05"] is False
+
+
+def test_permutation_test_rejects_bad_inputs() -> None:
+    import numpy as np
+
+    with pytest.raises(ValueError):
+        permutation_test([], [1.0], statistic=np.mean)
+    with pytest.raises(ValueError):
+        permutation_test([1.0, 2.0], [1.0], statistic=np.mean, paired=True)
+    with pytest.raises(ValueError):
+        permutation_test([1.0], [2.0], statistic=np.mean, n_permutations=0)
+    with pytest.raises(ValueError):
+        permutation_test([1.0], [2.0], statistic=np.mean, alternative="two_sided")
+    with pytest.raises(ValueError):
+        permutation_test([1.0, float("nan")], [2.0, 3.0], statistic=np.mean, paired=True)

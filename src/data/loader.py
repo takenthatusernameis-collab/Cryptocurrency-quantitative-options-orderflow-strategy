@@ -61,8 +61,22 @@ class DataLoader:
         if self.cache and key in _CACHE:
             return _CACHE[key]
         data = _load_json(path)
+        # Accept a bare list, a {"trades": [...]} wrapper, or an orderflow
+        # document ({"trades": [...], "liquidations": [...], ...}). Without
+        # unwrapping, iterating a dict yields its string keys and every record
+        # is silently dropped.
+        items = data
+        if isinstance(items, dict):
+            for key in ("trades", "data", "items", "results"):
+                if isinstance(items.get(key), list):
+                    items = items[key]
+                    break
+            else:
+                items = []
+        if not isinstance(items, list):
+            items = []
         trades: List[Trade] = []
-        for item in data:
+        for item in items:
             try:
                 trade = Trade(
                     trade_id=str(item.get("trade_id") or item.get("id") or item.get("tid") or ""),
