@@ -494,6 +494,24 @@ def _run_hedge_walkforward(
         total_cost_usd += window_cost_usd
         total_notional += window_notional
         total_trades += window_trades
+        windows.append(
+            {
+                "train_start": int(w.train_start),
+                "train_end": int(w.train_end),
+                "test_start": int(start),
+                "test_end": int(end),
+                "window_index": int(num_windows_processed - 1),
+                "window_return": float(window_ret),
+                "window_equity_start": float(equity_curve[0]) if equity_curve else float(INITIAL_CAPITAL),
+                "window_equity_end": float(equity_curve[-1]) if equity_curve else float(INITIAL_CAPITAL),
+                "window_nav_start": float(nav_at_start),
+                "window_traded_notional": float(window_notional),
+                "window_cost_usd": float(window_cost_usd),
+                "window_trades": int(window_trades),
+                "window_hedges": int(window_hedges),
+                "window_skipped_due_to_toxicity": int(window_skipped),
+            }
+        )
 
     # OOS metrics via compute_metrics on the chained equity curve (EVAL-06/07 helper).
     equity = [INITIAL_CAPITAL]
@@ -539,6 +557,8 @@ def _run_hedge_walkforward(
         "option_gamma": float(option_gamma),
         "option_vega": float(option_vega),
         "option_theta": float(option_theta),
+        "windows": windows,
+        "window_returns": [float(v) for v in window_returns],
         "snapshots": [
             {
                 "bar_index": s.bar_index,
@@ -787,7 +807,7 @@ def evaluate_gamma_inventory_hedge(
                         "without_hedge": {
                             k: vv
                             for k, vv in val["without_hedge"].items()
-                            if k not in ("snapshots", "oos_equity_curve")
+                            if k != "oos_equity_curve"
                         },
                     }
                     for sym, val in r["symbols"].items()
