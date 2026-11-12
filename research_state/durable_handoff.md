@@ -2,23 +2,24 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name:** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers.
-**Refreshed:** 2026-11-12T22:05:00Z (UTC). Re-verified this session: deps import (numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pydantic 2.14.3, pytest 9.2.0); `.env` absent; `LIVE_TRADING_ENABLED=false`; baseline EVAL gate **87 passed in 105.04s**; **EVAL-10 unstarted** (no artifact, no test file, no `--eval10` CLI flag). **EVAL-10 is the ONLY ACTIVE task — execute it end-to-end now; do not re-verify the environment.**
+**Refreshed:** 2026-11-12T22:12:00Z (UTC). Re-verified this session: deps import (numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pydantic 2.14.3, pytest 9.2.0); `.env` absent; `LIVE_TRADING_ENABLED=false`; **7-file baseline EVAL gate → 119 passed in 147.77s** (2026-11-12T22:09Z); **EVAL-10 unstarted** (no artifact, no test file, no `--eval10` CLI flag). **EVAL-10 is the ONLY ACTIVE task — execute it end-to-end now; do not re-verify the environment.**
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope), not task sources.
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-12T22:05:00Z (copy-paste to the next agent)
+## INITIAL TASK MESSAGE — 2026-11-12T22:12:00Z (copy-paste to the next agent)
 
-**TASK ID:** `INIT-2026-11-12T22:05:00Z-STRATEGY-EVAL-10-FINAL-GONOGO`
+**TASK ID:** `INIT-2026-11-12T22:12:00Z-STRATEGY-EVAL-10-FINAL-GONOGO`
 **STATUS:** ACTIVE. This is the single next task. Do not pick a different task. Do not re-verify the environment (deps are installed; `.env` absent; safety flags set). Build the EVAL-10 driver, run the real multi-seed evaluation, seal it, then continue to EVAL-11 in the same session if time allows.
 
-> **EVAL-09 is DONE and sealed (do not re-open EVAL-02/03/06/07/08/09).** `src/analytics/gamma_inventory_hedge.py` (1061 lines) + `tests/test_gamma_inventory_hedge.py` (16 tests) + CLI shipped; artifact `research_state/GAMMA_INVENTORY_HEDGE_20261112T211350Z.{json,md}`; gate green.
+> **EVAL-09 is DONE and sealed (do not re-open EVAL-02/03/06/07/08/09).** `src/analytics/gamma_inventory_hedge.py` (1061 lines) + `tests/test_gamma_inventory_hedge.py` (16 tests) + CLI shipped; **canonical artifact regenerated this session at `research_state/GAMMA_INVENTORY_HEDGE_20261112T221000Z.{json,md}`** (numbers identical to the earlier run: mean_oos_return_with_hedge −0.5580, without +0.2591, Sharpe −22.7659 / +5.5867, total_cost_usd 1429.68). Gate green.
 >
 > **EVAL-10 = final net-of-cost GO/NO-GO certification on the EVAL-09 with-hedge portfolio.** Run multi-seed bootstrap + permutation on the EVAL-09 per-window OOS returns, with a cost grid at 0/1/5/10 bps, and seal an honest GO/NO-GO verdict. A NO-GO verdict is a valid, expected outcome — do **not** tune the data to force GO.
 
 ### Exact reuse points (verified on disk this session — do not re-implement)
 - EVAL-09 engine: `src/analytics/gamma_inventory_hedge.py::evaluate_gamma_inventory_hedge(seeds=[1,2,3,4,5])`.
-  Per-window return series (verified this session): use `report["per_seed"][i]["symbols"][<sym>]["with_hedge"]["window_returns"]` (a plain list of per-window returns; `["windows"][*]["window_return"]` is the same data with metadata). Aggregate is at `report["aggregate"]` (`mean_oos_return_with_hedge`, `mean_oos_sharpe_with_hedge`, `mean_toxicity_score`, `toxic_gate_active_fraction`, etc.). Report top-level keys: `report_id, generated_at, config, per_seed, aggregate, never_valid_true`.
+  Per-window return series: `report["per_seed"][i]["symbols"][<sym>]["with_hedge"]["window_returns"]` (plain list; `["windows"][*]["window_return"]` carries the same data with metadata). **Verified this session in `GAMMA_INVENTORY_HEDGE_20261112T221000Z.json`:** every seed×symbol×side series has `len=10`, `distinct>=4`, `nonzero>=3` — degeneracy guard satisfied. Aggregate is at `report["aggregate"]` (`mean_oos_return_with_hedge`, `mean_oos_sharpe_with_hedge`, `mean_toxicity_score`, `toxic_gate_active_fraction`, etc.). Report top-level keys: `report_id, generated_at, config, per_seed, aggregate, never_valid_true`.
+  **Artifact warning:** the older EVAL-09 artifacts `GAMMA_INVENTORY_HEDGE_20261112T211228Z.*` and `...T211350Z.*` predate commit `32f720d60` (21:30:48Z) and therefore **lack `window_returns`/`windows`** — do NOT read per-window returns from them. Use the `...T221000Z.*` artifact or call the engine in-process.
 - EVAL-06 falsification: `src/analytics/strategy_falsification.py::evaluate_strategy_falsification(...)` and its CLI `main()` (argparse at line 739; currently has **no** `--eval10` flag — add one, or add a thin `src/analytics/eval10_final_gonogo.py` that imports the helpers below).
 - Bootstrap/permutation: `src/analytics/strategy_evaluation.py::block_bootstrap_ci` (line 196) and `::compare_to_baseline` (line 283). Reuse these; do **not** re-implement permutation logic.
 - Metrics: `src/analytics/strategy_evaluation.py::compute_metrics` (chained-equity OOS metrics); cost grid constant `COST_GRID_BPS` in `strategy_falsification.py`.
@@ -52,7 +53,7 @@
 - report not `{"valid": True}`; no NaN/Infinity;
 - verdict deterministic and not identically GO/NO-GO across seeds unless the data genuinely warrants it;
 - bootstrap CI lo/hi finite and straddle the point estimate.
-- **Degeneracy guard (verified real risk):** EVAL-09 at small configs (e.g. `n_points=200`) produces `window_returns` with many `0.0` entries and can yield 4 windows. Always run EVAL-10 with the **real EVAL-09 default config** (`n_points=500, train_window=120, test_window=40, step_size=40`, 10 windows/seed) and assert each seed's series has **>= 2 distinct nonzero values** (and `len >= 2`); otherwise **fail loudly** rather than emit a vacuous CI. Do not paper over zeros.
+- **Degeneracy guard (verified real risk):** EVAL-09 at small configs (e.g. `n_points=200`) produces `window_returns` with many `0.0` entries and can yield 4 windows. Always run EVAL-10 with the **real EVAL-09 default config** (`n_points=500, train_window=120, test_window=40, step_size=40`, 10 windows/seed) and assert each seed's series has **>= 2 distinct nonzero values** (and `len >= 2`); otherwise **fail loudly** rather than emit a vacuous CI. Do not paper over zeros. **Verified this session** on the `...T221000Z.*` artifact: all 30 series (5 seeds × 3 symbols × 2 sides) have `len=10`, `distinct>=4`, `nonzero>=3` — guard passes with the default config; keep it as a hard assertion in the EVAL-10 driver.
 
 ---
 
@@ -62,26 +63,38 @@
 |---|---|---|---|
 | EVAL-07 | Capacity/liquidity-aware TCA | **COMPLETE** | `src/analytics/capacity_aware_tca.py` + tests + CLI; artifact `CAPACITY_AWARE_TCA_20261112T172412Z.{json,md}`. |
 | EVAL-08 | Cross-venue delta netting | **COMPLETE** | `src/analytics/cross_venue_netting.py` + `tests/test_cross_venue_netting.py` (21 tests) + CLI; artifact `CROSS_VENUE_NETTING_20261112T201000Z.{json,md}`. |
-| EVAL-09 | Gamma/inventory hedge + toxicity gating | **COMPLETE** | `src/analytics/gamma_inventory_hedge.py` + `tests/test_gamma_inventory_hedge.py` (16 tests) + CLI; artifact `GAMMA_INVENTORY_HEDGE_20261112T211350Z.{json,md}`. |
+| EVAL-09 | Gamma/inventory hedge + toxicity gating | **COMPLETE** | `src/analytics/gamma_inventory_hedge.py` + `tests/test_gamma_inventory_hedge.py` (16 tests) + CLI; **canonical artifact `GAMMA_INVENTORY_HEDGE_20261112T221000Z.{json,md}`** (regenerated this session with `window_returns`; earlier `211228Z`/`211350Z` artifacts are stale and lack `window_returns`). |
 | EVAL-10 | **Final net-of-cost GO/NO-GO certification** | **ACTIVE** | EVAL-10 driver on EVAL-09 with-hedge per-window returns; multi-seed bootstrap/permutation + 0/1/5/10 bps cost grid; `tests/test_eval10_final_gonogo.py`; artifact `STRATEGY_EVAL_10_FINAL_GONOGO_<UTC>.{json,md}`. Full spec + exit gate above. |
 | EVAL-11 | **Hedge-drag / cost-efficiency optimizer** (do after EVAL-10) | **QUEUED** | If EVAL-10 is NO-GO (expected: EVAL-09 with-hedge return −0.558 vs without +0.259), build `src/analytics/hedge_cost_optimizer.py`: grid-search hedge sizing + toxicity threshold + hedge-cost bps to maximize **net** Sharpe subject to `mean_abs_delta_usd <= target` and `cost >= 0`; emit a net-Sharpe surface and the best feasible config; tests + CLI + artifact `HEDGE_COST_OPTIMIZER_<UTC>.{json,md}`. |
 | EVAL-12 | **Real-data walk-forward certification (DSR + PBO)** (do after EVAL-11) | **QUEUED** | Using the real `DataLoader` (not synthetic), run BTC/ETH × 3 venues walk-forward; compute **Deflated Sharpe Ratio** and **Probability of Backtest Overfitting**; multiple-testing correction across configs; `src/analytics/real_walkforward_certification.py` + tests + CLI + artifact `REAL_WF_CERTIFICATION_<UTC>.{json,md}`. |
 
 **Rule:** work strictly in order. Do not skip EVAL-10. Do not advance EVAL-11/12 until the prior task is sealed with a real artifact. Do not re-open EVAL-02/03/06/07/08/09. Do not implement or advance Phase 292+ or any `phaseNN_*_post_attribution_seal_orchestrator` wrapper.
 
+## HEAVY-WORK FLOOR (a session that does less is a FAILED session)
+
+Future agents cannot avoid heavy compute by producing a thin wrapper, a stub, or an env-only report. Every task in this campaign must, at minimum:
+
+1. **Run real computation on real data paths** — the EVAL-09 engine (or the real `DataLoader` for EVAL-12), never a synthetic toy whose numbers are trivially good. The multi-seed bootstrap + permutation + cost-grid must actually execute, not be hard-coded or skipped.
+2. **Ship a module + numeric-invariant test file + CLI + a written artifact** with the exact filename pattern in the campaign table. No `{"valid": True}` reports; no NaN/Infinity.
+3. **Assert non-degeneracy** (e.g. >=2 distinct nonzero per-window returns, >=2 seeds, CIs that straddle the point estimate, verdict not constant unless the data warrants it).
+4. **Seal with a deterministic verdict** (`GO`/`NO-GO`, or the optimizer's best feasible config) computed by a strict function — not prose, not a coin flip, not tuned to a desired answer.
+5. **Cite exact artifact paths and key numbers** in this handoff when advancing, and update this file in place (never create a competing handoff).
+
+The floor applies to EVAL-10, EVAL-11, and EVAL-12 equally. If a task cannot meet the floor, **fail loudly** with the specific blocker rather than emit a vacuous artifact.
+
 ---
 
 ## VERIFIED STATE — ground truth (build on it; do not re-verify environment)
 
 - **Environment:** Python 3.12.3; deps installed via `python3 -m pip install --break-system-packages -r requirements.txt` (numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pydantic 2.14.3, pytest 9.2.0, PyYAML 6.0.1, requests 2.31.0). If a fresh container lacks deps, re-run that exact pip command first.
-- **Baseline gate re-verified this session (2026-11-12T22:00Z):** `tests/test_strategy_falsification.py tests/test_gamma_inventory_hedge.py tests/test_capacity_aware_tca.py tests/test_oos_walkforward.py tests/test_integrated_campaign.py` → **87 passed in 105.04s**. The 7-file EVAL gate additionally includes `tests/test_cross_venue_netting.py` and `tests/test_strategy_evaluation.py`.
+- **Baseline gate re-verified this session (2026-11-12T22:09Z):** `tests/test_strategy_falsification.py tests/test_gamma_inventory_hedge.py tests/test_capacity_aware_tca.py tests/test_oos_walkforward.py tests/test_integrated_campaign.py tests/test_cross_venue_netting.py tests/test_strategy_evaluation.py` → **119 passed in 147.77s**. `tests/test_campaign_resume.py` → 12 passed in 0.35s.
 - **EVAL-10 state:** NOT STARTED. Confirmed absent: `research_state/STRATEGY_EVAL_10_FINAL_GONOGO_*`, `tests/test_eval10_final_gonogo.py`, and any `--eval10` flag in `src/analytics/strategy_falsification.py` (its CLI `main()` is at line 739 and only handles EVAL-06).
 - **EVAL-02 COMPLETE:** `src/analytics/strategy_evaluation.py` + `tests/test_strategy_evaluation.py` (11) + `scripts/evaluate_strategy.py` + `tests/test_evaluate_strategy.py` (6). Artifacts `STRATEGY_EVALUATION_2026-10-31T000000Z.{json,md}`.
 - **EVAL-03 COMPLETE:** `src/analytics/regime_sizing.py` + `tests/test_regime_sizing.py` (7). GO; 50 windows; 460 trades; regime Sharpe 0.042420 vs flat 0.026375; delta +0.016045. Artifact `REGIME_SIZING_2026-11-12T151421.312990Z.json`.
 - **EVAL-06 COMPLETE (sealed NO-GO):** `src/analytics/strategy_falsification.py` + `tests/test_strategy_falsification.py`. pass_fraction 0.60 (need >=0.70); mean_net_sharpe 8.860771; mean_net_return 0.025482; cost grid 8.9946/8.8608/8.0745/7.3734 at 0/1/5/10 bps; mean_permutation_p 0.752; failing: seed 1 and seed 4 (bootstrap_or_permutation). Artifact `STRATEGY_FALSIFICATION_20261112T163240Z.{json,md}`.
 - **EVAL-07 COMPLETE:** `src/analytics/capacity_aware_tca.py` + tests + CLI. Artifact `CAPACITY_AWARE_TCA_20261112T172412Z.{json,md}`. Seeds 1..5 pass; mean_capacity_net_sharpe 8.250491; mean_baseline_net_sharpe 9.197960; capacity_vs_baseline_sharpe −0.947469; cost grid 9.1980/9.1571/8.9929/8.7863 (monotone decreasing).
 - **EVAL-08 COMPLETE:** `src/analytics/cross_venue_netting.py` (1091 lines) + `tests/test_cross_venue_netting.py` (21) + CLI. Artifact `CROSS_VENUE_NETTING_20261112T201000Z.{json,md}`. mean_net_notional_ratio 0.355666 (engages); mean_oos_sharpe with 8.006530 vs without 5.796608 (delta +2.209922); max-DD 0.014245 vs 0.030161.
-- **EVAL-09 COMPLETE:** `src/analytics/gamma_inventory_hedge.py` (1061) + `tests/test_gamma_inventory_hedge.py` (16) + CLI. Artifact `GAMMA_INVENTORY_HEDGE_20261112T211350Z.{json,md}`. toxic_gate_active_fraction 0.3333 (engages); mean_oos_return_with_hedge **−0.5580** vs without +0.2591; mean_oos_sharpe_with_hedge **−22.7659** vs without +5.5867 (sharpe_delta −28.3527); mean_oos_max_drawdown_with_hedge 0.6650 vs without 0.0761; total_cost_usd 1429.68. This is why EVAL-10 will likely seal NO-GO and EVAL-11 must fix the hedge drag.
+- **EVAL-09 COMPLETE:** `src/analytics/gamma_inventory_hedge.py` (1061) + `tests/test_gamma_inventory_hedge.py` (16) + CLI. **Canonical artifact `GAMMA_INVENTORY_HEDGE_20261112T221000Z.{json,md}`** (regenerated this session; contains `window_returns` and `snapshots`; `generated_at` 2026-11-12T22:04:02Z). Earlier `211228Z`/`211350Z` artifacts predate the serialization commit and lack `window_returns` — do not use them. toxic_gate_active_fraction 0.3333 (engages); mean_oos_return_with_hedge **−0.5580** vs without +0.2591; mean_oos_sharpe_with_hedge **−22.7659** vs without +5.5867 (sharpe_delta −28.3527); mean_oos_max_drawdown_with_hedge 0.6650 vs without 0.0761; total_cost_usd 1429.68. This is why EVAL-10 will likely seal NO-GO and EVAL-11 must fix the hedge drag.
 - **Reusable real code (do not rewrite):** `src/backtest/engine.py`, `src/backtest/options_hedging.py`, `src/features/*`, `src/signals/*`, `src/campaign/integrated.py`, `src/analytics/*`, `src/orderflow/`, `src/execution/*`, `src/risk/*`. Legacy Phase 15–19 and Phase 21 execution/risk/observability modules are reference only.
 - **`scripts/run_backtest.py` is a vacuous smoke test** (single trade, Sharpe≈6.3 from 2 marks). Do not treat its numbers as strategy performance.
 
@@ -91,7 +104,7 @@
 |---|---|
 | Missing Python deps (no numpy/pandas/scipy/pydantic/pytest) | **CLEARED earlier**; re-verified importable this session. |
 | Four competing handoffs / stale stubs | **CLEARED.** Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are pure "RETIRED — read durable_handoff.md" pointers with no task ID. |
-| Stale handoff timestamp (21:57Z) and no next-campaign continuity | **CLEARED this session.** Refreshed to 22:05:00Z with EVAL-10 precise reuse points and a queued EVAL-11/EVAL-12 campaign so no future session can do a trivial pass. |
+| Stale handoff timestamp (21:57Z) and no next-campaign continuity | **CLEARED this session.** Refreshed to 22:12:00Z with EVAL-10 precise reuse points and a queued EVAL-11/EVAL-12 campaign so no future session can do a trivial pass. |
 | `tests/test_campaign_resume.py::test_durable_handoff_is_source_of_truth` | **PASSING** — file keeps `SINGLE DURABLE HANDOFF`, `INITIAL TASK MESSAGE`, and the required `phase 15` reference. |
 | Cross-process non-determinism (salted `hash()`) | **FIXED earlier** with `_stable_seed()` (SHA-256); verified across two processes. |
 | All-zero signal series → 0 windows/trades/return | **FIXED earlier** with time-varying causal momentum z-scores; real run has 10 windows and nonzero return/Sharpe. |
@@ -100,8 +113,9 @@
 | `research_state/` ~5 GB / ~107k files can stall naive globbing | **AVOID THE TRAP.** Never enumerate `research_state/`; use explicit filenames/globs. |
 | Phase 272–291 `*_adaptive_toxicity_resilient_post_attribution_seal_orchestrator` clone treadmill | **CLOSED.** Do not implement/seal/advance Phase 292+. |
 | EVAL-10 not built | **OPEN — the sole active task.** No artifact/test/CLI flag; proceed with the spec above. |
+| **Stale EVAL-09 artifact lacked `window_returns` (would have blocked EVAL-10)** | **CLEARED this session.** On-disk `GAMMA_INVENTORY_HEDGE_20261112T211350Z.json` (and `211228Z`) predate commit `32f720d60` (21:30:48Z) and had no per-window returns. Regenerated the artifact with current code → `GAMMA_INVENTORY_HEDGE_20261112T221000Z.{json,md}`; verified `window_returns` present for all 30 seed×symbol×side series and identical aggregate numbers (−0.5580 / +0.2591). EVAL-10 can now read either the fresh artifact or the in-process engine. |
 
-**Tree verified 2026-11-12T22:00Z:** EVAL-02/03/06/07/08/09 sealed with artifacts present; `src/analytics/gamma_inventory_hedge.py` and `tests/test_gamma_inventory_hedge.py` present; `.env` absent. Only the three retired root pointers exist at root. No active blockers besides building EVAL-10.
+**Tree verified 2026-11-12T22:12Z:** EVAL-02/03/06/07/08/09 sealed with artifacts present (EVAL-09 canonical artifact `GAMMA_INVENTORY_HEDGE_20261112T221000Z.{json,md}`); `src/analytics/gamma_inventory_hedge.py` and `tests/test_gamma_inventory_hedge.py` present; `.env` absent. Only the three retired root pointers exist at root. No active blockers besides building EVAL-10.
 
 ## P0 SAFETY — CLEAR
 
