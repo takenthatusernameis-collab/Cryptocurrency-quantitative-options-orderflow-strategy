@@ -1,11 +1,11 @@
 # HANDOFF_NEXT_AGENT — SINGLE DURABLE HANDOFF (READ FIRST)
 
 **Repo:** `Cryptocurrency-quantitative-options-orderflow-strategy` (crypto options/orderflow quantitative strategy). **Active track:** Chain B `src/hedging` — adaptive post-attribution seal orchestrator campaign (paper-only, additive, deterministic, bounded, guarded).
-**Handoff verified/refreshed:** 2026-11-12T02:39:10Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
+**Handoff verified/refreshed:** 2026-11-12T02:45:08Z (UTC). **This file is the ONLY durable handoff.** `NEXT_SESSION_HANDOFF.md` and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are redirect stubs — do not action them or create new handoff files.
 
 ## SINGLE INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (mandatory, timestamped)
 
-**`INIT-2026-11-12T02:39:10Z-PHASE261-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE. Execute end-to-end now (no deferral, no stubs, no partial completion).**
+**`INIT-2026-11-12T02:45:08Z-PHASE261-POST-ATTRIBUTION-SEAL-DEPTH` — ACTIVE. Execute end-to-end now (no deferral, no stubs, no partial completion).**
 
 **Objective:** Implement, verify, generate validated evidence, and seal **Phase261 adaptive-toxicity-resilient post-attribution seal orchestrator** (Chain B, `src/hedging`) composing **`PHASE260→PHASE32`** (12 coverage rows: Deribit/OKX/Bybit/Binance × BTC/ETH/SOL), seed `261261`, IDs `p261-*`, artifacts `PHASE261_*`. Mirror Phase260 structure/parity.
 
@@ -27,7 +27,7 @@
 - Verification evidence recorded (smokes, validate-only, CLI no-write, pytests) or explicit bounded governed caveats.
 - P0 intact; handoff advanced to Phase262 only after seal.
 
-## VERIFIED STATE (ground truth, 2026-11-12T02:39:10Z)
+## VERIFIED STATE (ground truth, 2026-11-12T02:45:08Z)
 
 - **P0 safety:** **CLEAR** — `.env` **absent** (`ENV_ABSENT`); `.env.example:15` `LIVE_TRADING_ENABLED=false`. No venue/config/credential mutation performed or permitted.
 - **Runtime deps:** **OK** — `pydantic/numpy/pandas/scipy/yaml/pytest` importable (`deps_ok`, Python 3.12.3 env). Use `python3 -m pytest` (plain `pytest` may be unavailable).
@@ -38,14 +38,14 @@
 - **NEXT9:** `next9_unblocked=false` (human-only A1–A7, out of scope). Never unblock.
 - **Competing handoffs:** secondary files are redirect stubs only.
 
-## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T02:39:10Z)
+## BOTTLENECKS & UNBLOCKING (reconciled 2026-11-12T02:45:08Z)
 
 | Bottleneck | Status | Unblock action |
 |---|---|---|
 | P0 safety drift | **CLEAR** | Re-verify before/after batch: `.env` absent, `.env.example:15` `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`, no venue/config/credential mutation. |
 | Missing runtime deps / `pytest` CLI | **CLEARED (caveat)** | Imports OK. Use `python3 -m pytest`; if env regresses, provision per `requirements.txt`/docs without weakening guards. |
 | Phase260 present but unverified/unsealed | **CLEARED** | Verified and sealed (2026-11-12T02:38Z); see artifact + verification record above. |
-| **Phase261 not yet implemented/sealed** | **BLOCKING — ACTIVE** | **Execute `INIT-2026-11-12T02:39:10Z-PHASE261-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end now.** |
+| **Phase261 not yet implemented/sealed** | **BLOCKING — ACTIVE** | **Execute `INIT-2026-11-12T02:45:08Z-PHASE261-POST-ATTRIBUTION-SEAL-DEPTH` end-to-end now.** |
 | Deep-chain `RecursionError`/pytest & generator slowness (→phase32) | **EXPECTED CAVEAT** | Use `PHASE_QUICK_VERIFY=1`, raise `sys.setrecursionlimit` (≥50k/200k), targeted/bounded tests; record caveats. CLI no-write = run without `--write` (no `--no-write` flag). |
 | Competing/stale handoffs | **CLEARED** | This file is the single source; keep secondary files as stubs only. |
 | NEXT9 A1–A7 | **BLOCKED — human-only** | Never unblock/mutate. |
