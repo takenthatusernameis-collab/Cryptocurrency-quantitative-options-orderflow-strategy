@@ -1070,8 +1070,8 @@ class WalkForwardBacktest:
             train_window = min_train_size
 
         results = WalkForwardResults()
-        all_oos_equity = []
         all_oos_trades = []
+        window_oos_curves: List[List[float]] = []
         combined_equity = [self.config.initial_capital]
 
         if anchored:
@@ -1097,9 +1097,12 @@ class WalkForwardBacktest:
                                           purge_eff, embargo_eff)
                 results.windows.append(wf_res)
                 if wf_res.oos_metrics and wf_res.oos_metrics.equity_curve:
-                    # append OOS equity (skip first if concatenating)
-                    for eq in wf_res.oos_metrics.equity_curve[1:]:
-                        all_oos_equity.append(eq)
+                    # Keep each window's full OOS equity curve so the aggregate
+                    # can chain windows to the prior terminal equity instead of
+                    # restarting every window at initial_capital.
+                    curve = [float(e) for e in wf_res.oos_metrics.equity_curve if isfinite(float(e))]
+                    if curve:
+                        window_oos_curves.append(curve)
                 if wf_res.oos_metrics and wf_res.oos_metrics.trades:
                     all_oos_trades.extend(wf_res.oos_metrics.trades)
                 train_window += step_size  # expand
@@ -1123,8 +1126,12 @@ class WalkForwardBacktest:
                                           purge_eff, embargo_eff)
                 results.windows.append(wf_res)
                 if wf_res.oos_metrics and wf_res.oos_metrics.equity_curve:
-                    for eq in wf_res.oos_metrics.equity_curve[1:]:
-                        all_oos_equity.append(eq)
+                    # Keep each window's full OOS equity curve so the aggregate
+                    # can chain windows to the prior terminal equity instead of
+                    # restarting every window at initial_capital.
+                    curve = [float(e) for e in wf_res.oos_metrics.equity_curve if isfinite(float(e))]
+                    if curve:
+                        window_oos_curves.append(curve)
                 if wf_res.oos_metrics and wf_res.oos_metrics.trades:
                     all_oos_trades.extend(wf_res.oos_metrics.trades)
                 train_start += step_size
@@ -1134,20 +1141,34 @@ class WalkForwardBacktest:
                 if window_idx > 10000:
                     break
 
-        results.oos_equity_curve = all_oos_equity
         results.oos_trades = all_oos_trades
 
-        # Compute aggregate OOS metrics
-        if all_oos_equity:
-            # Create temporary engine for metrics calculation
+        # Compute aggregate OOS metrics by chaining each window's OOS equity
+        # curve to the running terminal equity. Each window engine restarts at
+        # initial_capital, so naive concatenation makes the headline return
+        # depend only on the last window (observed 0.0 return with nonzero
+        # trades). Chaining compounds per-window returns: prod(1 + r_w) - 1.
+        initial_capital = float(self.config.initial_capital)
+        if window_oos_curves:
+            chained: List[float] = [initial_capital]
+            running = initial_capital
+            for curve in window_oos_curves:
+                scale = running / initial_capital if initial_capital > 0 else 1.0
+                for eq in curve[1:]:
+                    if not isfinite(eq):
+                        continue
+                    running = float(eq) * scale
+                    chained.append(running)
+            results.oos_equity_curve = chained
+            results.overall_out_of_sample_return = (chained[-1] - initial_capital) / initial_capital
             eng = BacktestEngine(self.config, self.risk_config)
-            eng.equity_curve = [self.config.initial_capital] + all_oos_equity if all_oos_equity else [self.config.initial_capital]
+            eng.equity_curve = chained
             eng.trades = all_oos_trades
             agg = eng.calculate_metrics()
-            results.overall_out_of_sample_return = agg.total_return
             results.overall_out_of_sample_sharpe = agg.sharpe_ratio
             results.overall_out_of_sample_max_drawdown = agg.max_drawdown
         else:
+            results.oos_equity_curve = []
             results.overall_out_of_sample_return = 0.0
             results.overall_out_of_sample_sharpe = 0.0
             results.overall_out_of_sample_max_drawdown = 0.0
@@ -2336,8 +2357,8 @@ class PortfolioWalkForwardBacktest:
             train_window = min_train_size
 
         results = PortfolioWalkForwardResults()
-        all_oos_equity: List[float] = []
         all_oos_trades: List[Trade] = []
+        window_oos_curves: List[List[float]] = []
 
         regime_name = self._get_regime_for_window(regime)
         regime_cost_mult = 1.0 + float(self.regime_costs.get(regime_name, 0.0002)) * 1000.0  # scale effect
@@ -2369,9 +2390,9 @@ class PortfolioWalkForwardBacktest:
                 )
                 results.windows.append(pwres)
                 if pwres.oos_metrics and pwres.oos_metrics.equity_curve:
-                    for eq in pwres.oos_metrics.equity_curve[1:]:
-                        if isfinite(eq):
-                            all_oos_equity.append(eq)
+                    curve = [float(eq) for eq in pwres.oos_metrics.equity_curve if isfinite(float(eq))]
+                    if curve:
+                        window_oos_curves.append(curve)
                 if pwres.oos_metrics and pwres.oos_metrics.trades:
                     all_oos_trades.extend(pwres.oos_metrics.trades)
                 train_window += step_size
@@ -2397,9 +2418,9 @@ class PortfolioWalkForwardBacktest:
                 )
                 results.windows.append(pwres)
                 if pwres.oos_metrics and pwres.oos_metrics.equity_curve:
-                    for eq in pwres.oos_metrics.equity_curve[1:]:
-                        if isfinite(eq):
-                            all_oos_equity.append(eq)
+                    curve = [float(eq) for eq in pwres.oos_metrics.equity_curve if isfinite(float(eq))]
+                    if curve:
+                        window_oos_curves.append(curve)
                 if pwres.oos_metrics and pwres.oos_metrics.trades:
                     all_oos_trades.extend(pwres.oos_metrics.trades)
                 train_start += step_size
@@ -2409,18 +2430,32 @@ class PortfolioWalkForwardBacktest:
                 if window_idx > 10000:
                     break
 
-        results.oos_equity_curve = all_oos_equity
         results.oos_trades = all_oos_trades
 
-        if all_oos_equity:
+        # Chain per-window OOS equity curves to the running terminal equity so
+        # the aggregate compounds across windows (prod(1 + r_w) - 1) instead of
+        # restarting every window at initial_capital.
+        initial_capital = float(getattr(cfg, "initial_capital", 100000.0))
+        if window_oos_curves:
+            chained: List[float] = [initial_capital]
+            running = initial_capital
+            for curve in window_oos_curves:
+                scale = running / initial_capital if initial_capital > 0 else 1.0
+                for eq in curve[1:]:
+                    if not isfinite(eq):
+                        continue
+                    running = float(eq) * scale
+                    chained.append(running)
+            results.oos_equity_curve = chained
+            results.overall_out_of_sample_return = (chained[-1] - initial_capital) / initial_capital
             eng = BacktestEngine(cfg, self.risk_config)
-            eng.equity_curve = [cfg.initial_capital] + all_oos_equity
+            eng.equity_curve = chained
             eng.trades = all_oos_trades
             agg = eng.calculate_metrics()
-            results.overall_out_of_sample_return = agg.total_return
             results.overall_out_of_sample_sharpe = agg.sharpe_ratio
             results.overall_out_of_sample_max_drawdown = agg.max_drawdown
         else:
+            results.oos_equity_curve = []
             results.overall_out_of_sample_return = 0.0
             results.overall_out_of_sample_sharpe = 0.0
             results.overall_out_of_sample_max_drawdown = 0.0
