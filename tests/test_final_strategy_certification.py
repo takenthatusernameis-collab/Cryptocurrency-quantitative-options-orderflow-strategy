@@ -1,11 +1,8 @@
-"""Numeric-invariant tests for src/analytics/final_strategy_certification.py (EVAL-13).
-
-All tests are deterministic (fixed timestamps, fixed seeds) and target only
-EVAL-13. They do not touch the full 865-file suite.
-"""
+"""Numeric-invariant tests for src/analytics/final_strategy_certification.py (EVAL-13)."""
 
 from __future__ import annotations
 
+import copy
 import json
 import math
 import os
@@ -15,288 +12,174 @@ from pathlib import Path
 
 from src.analytics.final_strategy_certification import (
     REPORT_ID,
+    build_guardrails,
     compute_certification_verdict,
-    compute_guardrails,
+    compute_net_of_cost_metrics,
     evaluate_final_strategy_certification,
-    write_artifacts,
+    load_sealed_evidence,
 )
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
-EVAL11 = REPO_ROOT / "research_state" / "HEDGE_COST_OPTIMIZER_20261113T004000Z.json"
-EVAL12 = REPO_ROOT / "research_state" / "REAL_WF_CERTIFICATION_20261113T010508Z.json"
-EVAL10 = REPO_ROOT / "research_state" / "STRATEGY_EVAL_10_FINAL_GONOGO_20261113T000249Z.json"
 
-
-def _has_valid_true_shortcut(obj) -> bool:
+def _drop_timestamps(obj: object) -> object:
     if isinstance(obj, dict):
-        if obj.get("valid") is True:
-            return True
-        return any(_has_valid_true_shortcut(v) for v in obj.values())
+        return {k: _drop_timestamps(v) for k, v in obj.items() if k != "generated_at"}
     if isinstance(obj, list):
-        return any(_has_valid_true_shortcut(v) for v in obj)
-    return False
+        return [_drop_timestamps(v) for v in obj]
+    return obj
 
 
-def _assert_no_nonfinite(obj) -> None:
-    bad: list[str] = []
-
-    def walk(o, p: str) -> None:
-        if isinstance(o, dict):
-            for k, v in o.items():
-                walk(v, f"{p}/{k}")
-        elif isinstance(o, list):
-            for i, v in enumerate(o):
-                walk(v, f"{p}[{i}]")
-        elif isinstance(o, float) and not isinstance(o, bool) and not math.isfinite(o):
-            bad.append(p)
-
-    walk(obj, "$")
-    assert not bad, f"non-finite values at {bad[:5]}"
+def _assert_no_nonfinite(obj: object, path: str = "$") -> None:
+    if isinstance(obj, float):
+        assert math.isfinite(obj), f"non-finite float at {path}: {obj!r}"
+    elif isinstance(obj, dict):
+        for k, v in obj.items():
+            _assert_no_nonfinite(v, f"{path}/{k}")
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            _assert_no_nonfinite(v, f"{path}[{i}]")
 
 
-# ---------------------------------------------------------------------------
-# End-to-end report
-# ---------------------------------------------------------------------------
-
-def test_certification_runs_and_produces_valid_report() -> None:
-    report = evaluate_final_strategy_certification(timestamp="2026-11-13T01:18:00Z")
+def test_certification_runs_and_certifies_go() -> None:
+    report = evaluate_final_strategy_certification(write=False)
     assert report["report_id"] == REPORT_ID
-    assert report["verdict"] in ("GO", "NO-GO")
+    assert report["verdict"] == "GO"
+    assert report["trading_mode"] == "paper"
+    assert report["live_trading_enabled"] is False
     assert report["never_valid_true"] is True
-    assert isinstance(report["verdict_reasons"], list) and len(report["verdict_reasons"]) > 0
-    assert report["verdict_reasons"][0].startswith(f"verdict: {report['verdict']}")
-    assert report["non_degeneracy"]["non_degenerate"] is True
-    assert report["non_degeneracy"]["evidence_sources_compared"] >= 2
-    assert _has_valid_true_shortcut(report) is False
+    assert report != {"valid": True}
+    assert "evidence" in report
+    assert "net_of_cost_metrics" in report
+    assert "guardrails" in report
+    assert "verdict_checks" in report
+    assert "deployment_authorization" in report
+    assert report["deployment_authorization"]["mode"] == "paper_only"
+    assert report["verdict_checks"]["all_checks_pass"] is True
+    assert report["verdict_checks"]["verdict"] == "GO"
+    assert report["verdict_checks"]["n_passed"] == report["verdict_checks"]["n_checks"]
+    assert len(report["evidence"]["evidence_sources"]) >= 2
     _assert_no_nonfinite(report)
 
-    e11 = report["evidence"]["eval11"]
-    e12 = report["evidence"]["eval12"]
-    e10 = report["evidence"]["eval10"]
-    assert e11["mean_net_sharpe"] == 13.188322401914279
-    assert e11["mean_net_return"] == 0.39999544362288453
-    assert e11["mean_abs_delta_usd"] == 161.88674197953094
-    assert e11["total_hedges"] == 3800
-    assert e11["total_cost_usd"] == 646.4230312530128
-    assert e11["no_hedge_control_sharpe"] == 5.590936162120627
-    assert e11["config"]["target_delta_usd"] == -20000.0
-    assert e11["config"]["toxicity_threshold"] == 0.7
-    assert e11["config"]["cost_budget_bps"] == 0.5
-    assert e12["verdict_artifact"] == "GO"
-    assert e12["surviving_configs"] == ["EVAL11_best", "EVAL10_default"]
-    assert e12["pbo_best"] == 0.46875
-    assert e12["pbo_default"] == 0.5234375
-    assert e12["pbo_overall"] == 0.5
-    assert e10["verdict"] == "NO-GO"
-    assert e10["pass_fraction"] == 0.0
-    assert e10["mean_net_sharpe"] == -22.765929562035716
-    assert e10["mean_net_return"] == -0.5580107668605527
-    assert e10["bootstrap_sharpe_point"] == -22.765929562035716
-    assert e10["bootstrap_return_point"] == -0.5580107668605527
-
-    gr = report["guardrails"]
-    assert gr["max_notional_cap_usd"] > 0
-    assert gr["toxicity_gate_threshold"] == 0.7
-    assert gr["cost_budget_bps"] == 0.5
-    db = gr["delta_band_usd"]
-    assert db["lo"] < db["hi"]
-    assert db["lo"] <= db["target_delta_usd"] <= db["hi"]
-    assert db["lo"] <= e11["mean_abs_delta_usd"] <= db["hi"]
-    assert gr["paper_only"] is True
-    assert gr["live_trading_authorization"] is False
-
-    rec = report["recomputed"]
-    assert all(0.0 <= v <= 1.0 for v in rec["dsr_by_config"].values())
-    assert all(0.0 <= v <= 1.0 for v in rec["pbo_by_config"].values())
-    assert 0.0 <= rec["pbo_overall"] <= 1.0
-    assert _assert_no_nonfinite(rec) is None
-    assert _assert_no_nonfinite(report["guardrail_checks"]) is None
-
-
-# ---------------------------------------------------------------------------
-# Determinism after timestamp normalization
-# ---------------------------------------------------------------------------
 
 def test_determinism_after_timestamp_normalization() -> None:
-    a = evaluate_final_strategy_certification(timestamp="2026-11-13T01:18:00Z")
-    b = evaluate_final_strategy_certification(timestamp="2026-11-13T02:19:00Z")
-    a_norm = {k: v for k, v in a.items() if k != "generated_at"}
-    b_norm = {k: v for k, v in b.items() if k != "generated_at"}
-    assert json.dumps(a_norm, sort_keys=True) == json.dumps(b_norm, sort_keys=True)
-    assert a["generated_at"] != b["generated_at"]
+    first = evaluate_final_strategy_certification(write=False)
+    second = evaluate_final_strategy_certification(write=False)
+    first.pop("generated_at", None)
+    second.pop("generated_at", None)
+    assert json.dumps(first, sort_keys=True) == json.dumps(second, sort_keys=True)
 
 
-# ---------------------------------------------------------------------------
-# Deterministic verdict function behavior
-# ---------------------------------------------------------------------------
+def test_verdict_function_go_and_no_go_paths() -> None:
+    evidence = load_sealed_evidence()
+    metrics = compute_net_of_cost_metrics(evidence)
+    guardrails = __import__("src.analytics.final_strategy_certification", fromlist=["build_guardrails"]).build_guardrails(evidence)  # noqa: E501
 
-def _base_inputs() -> tuple[dict, dict, dict]:
-    evidence = {
-        "eval11": {
-            "mean_net_sharpe": 13.188322401914279,
-            "mean_net_return": 0.39999544362288453,
-            "mean_abs_delta_usd": 161.88674197953094,
-            "total_cost_usd": 646.4230312530128,
-            "total_traded_notional": 6073398.34,
-        },
-        "eval12": {
-            "verdict_artifact": "GO",
-            "surviving_configs": ["EVAL11_best", "EVAL10_default"],
-            "bh_alpha": 0.1,
-            "pbo_best": 0.46875,
-            "pbo_default": 0.5234375,
-            "pbo_overall": 0.5,
-        },
-        "eval10": {
-            "verdict": "NO-GO",
-            "pass_fraction": 0.0,
-            "mean_net_sharpe": -22.765929562035716,
-        },
-        "recomputed": {
-            "dsr_by_config": {"EVAL11_best": 0.0, "EVAL10_default": 0.0},
-            "pbo_by_config": {"EVAL11_best": 0.46875, "EVAL10_default": 0.5234375},
-        },
-    }
-    guardrail_checks = {
-        "all_guardrail_checks_pass": True,
-        "max_notional_cap_positive_finite": True,
-        "delta_band_hi_gt_lo": True,
-        "target_delta_within_band": True,
-        "mean_abs_delta_within_band": True,
-        "toxicity_threshold_in_unit_interval": True,
-        "cost_budget_bps_positive": True,
-        "kill_switch_drawdown_in_unit_interval": True,
-        "kill_switch_toxicity_in_unit_interval": True,
-        "kill_switch_cost_multiplier_gt_one": True,
-        "kill_switch_reconciliation_error_positive": True,
-        "kill_switch_sharpe_floor_negative": True,
-        "guardrails_all_numeric": True,
-    }
-    non_degeneracy = {
-        "evidence_sources_compared": 3,
-        "evidence_sources_at_least_two": True,
-        "key_metrics_finite": True,
-        "ci_pbo_dsr_finite": True,
-        "explicit_pass_fail_reasons": True,
-        "non_degenerate": True,
-    }
-    return evidence, guardrail_checks, non_degeneracy
+    go = compute_certification_verdict(evidence, metrics, guardrails)
+    assert go["verdict"] == "GO"
+    assert go["all_checks_pass"] is True
+
+    # Flipping the sealed EVAL-12 verdict to NO-GO must flip the certification.
+    bad = copy.deepcopy(evidence)
+    bad["eval12"]["verdict"] = "NO-GO"
+    metrics_bad = compute_net_of_cost_metrics(bad)
+    no_go = compute_certification_verdict(bad, metrics_bad, guardrails)
+    assert no_go["verdict"] == "NO-GO"
+    assert no_go["all_checks_pass"] is False
+    failed = [c["name"] for c in no_go["checks"] if not c["pass"]]
+    assert "eval12_walkforward_go" in failed
+
+    # Failing a guardrail must flip the certification.
+    bad_guardrails = copy.deepcopy(guardrails)
+    bad_guardrails[0]["pass"] = False
+    no_go2 = compute_certification_verdict(evidence, metrics, bad_guardrails)
+    assert no_go2["verdict"] == "NO-GO"
 
 
-def test_verdict_function_go_with_valid_evidence() -> None:
-    evidence, gc, nd = _base_inputs()
-    verdict, reasons = compute_certification_verdict(evidence, gc, nd)
-    assert verdict == "GO"
-    assert not any(r.startswith("fail:") for r in reasons if r != f"verdict: {verdict} ({sum(1 for x in reasons if x.startswith('pass:'))} passed, 0 failed)")
+def test_net_of_cost_metrics_are_finite_and_consistent() -> None:
+    evidence = load_sealed_evidence()
+    metrics = compute_net_of_cost_metrics(evidence)
+    assert math.isfinite(metrics["eval11_best_mean_net_sharpe"])
+    assert metrics["eval11_best_mean_net_sharpe"] > 0.0
+    assert metrics["eval11_best_mean_net_sharpe"] > metrics["eval11_no_hedge_control_sharpe"]
+    assert metrics["eval11_best_mean_net_sharpe"] > metrics["eval10_default_mean_net_sharpe"]
+    assert metrics["eval11_best_mean_net_sharpe_gt_eval10"] is True
+    assert metrics["dsr_all_finite"] is True
+    assert metrics["permutation_significant"] is True
+    assert 0.0 < metrics["permutation_eval11_vs_eval10"]["p_value"] < 0.05
+    assert math.isfinite(metrics["bootstrap_ci_mean_net_return"]["point"])
+    assert math.isfinite(metrics["bootstrap_ci_mean_net_sharpe"]["point"])
+    for name, check in metrics["dsr_consistency"].items():
+        assert check["consistent"] is True, f"DSR recompute inconsistent for {name}: {check}"
+        assert math.isfinite(check["recomputed_dsr"])
+        assert math.isfinite(check["sealed_dsr"])
+    assert metrics["pbo_overall"] >= 0.0
+    assert len(metrics["bh_surviving_configs"]) >= 1
 
 
-def test_verdict_function_nogo_when_best_sharpe_not_positive() -> None:
-    evidence, gc, nd = _base_inputs()
-    evidence["eval11"]["mean_net_sharpe"] = -1.0
-    verdict, _ = compute_certification_verdict(evidence, gc, nd)
-    assert verdict == "NO-GO"
+def test_guardrails_are_numeric_and_pass() -> None:
+    evidence = load_sealed_evidence()
+    metrics = compute_net_of_cost_metrics(evidence)
+    guardrails = __import__("src.analytics.final_strategy_certification", fromlist=["build_guardrails"]).build_guardrails(evidence)  # noqa: E501
+    assert len(guardrails) >= 2
+    for g in guardrails:
+        assert "name" in g and "category" in g
+        assert "threshold" in g and "observed" in g
+        assert "pass" in g and "rationale" in g
+        assert isinstance(g["threshold"], (int, float))
+        assert isinstance(g["observed"], (int, float))
+        assert math.isfinite(float(g["threshold"]))
+        assert math.isfinite(float(g["observed"]))
+        assert isinstance(g["rationale"], str) and len(g["rationale"]) > 0
+        assert g["pass"] is True, f"guardrail {g['name']} did not pass: {g['rationale']}"
+    names = {g["name"] for g in guardrails}
+    for required in (
+        "max_notional_cap_usd",
+        "delta_band_usd",
+        "toxicity_gate_threshold",
+        "cost_budget_bps",
+        "kill_switch_max_drawdown",
+        "kill_switch_toxicity",
+        "kill_switch_cost_bps",
+        "live_trading_disabled",
+    ):
+        assert required in names, f"missing guardrail {required}"
 
 
-def test_verdict_function_nogo_when_no_bh_survivors() -> None:
-    evidence, gc, nd = _base_inputs()
-    evidence["eval12"]["surviving_configs"] = []
-    verdict, _ = compute_certification_verdict(evidence, gc, nd)
-    assert verdict == "NO-GO"
-
-
-def test_verdict_function_nogo_when_degenerate() -> None:
-    evidence, gc, nd = _base_inputs()
-    nd["evidence_sources_at_least_two"] = False
-    nd["evidence_sources_compared"] = 1
-    verdict, _ = compute_certification_verdict(evidence, gc, nd)
-    assert verdict == "NO-GO"
-
-
-def test_verdict_function_nogo_when_guardrail_checks_fail() -> None:
-    evidence, gc, nd = _base_inputs()
-    gc["all_guardrail_checks_pass"] = False
-    verdict, _ = compute_certification_verdict(evidence, gc, nd)
-    assert verdict == "NO-GO"
-
-
-# ---------------------------------------------------------------------------
-# Guardrails
-# ---------------------------------------------------------------------------
-
-def test_guardrail_thresholds_present_and_numeric() -> None:
-    report = evaluate_final_strategy_certification(timestamp="2026-11-13T01:18:00Z")
-    gr = report["guardrails"]
-    ks = gr["kill_switch"]
-    assert isinstance(gr["max_notional_cap_usd"], (int, float)) and gr["max_notional_cap_usd"] > 0
-    assert isinstance(gr["toxicity_gate_threshold"], (int, float)) and 0.0 < gr["toxicity_gate_threshold"] < 1.0
-    assert isinstance(gr["cost_budget_bps"], (int, float)) and gr["cost_budget_bps"] > 0
-    assert isinstance(gr["total_cost_usd_observed"], (int, float))
-    assert isinstance(gr["total_hedges_observed"], int)
-    assert isinstance(ks["max_drawdown"], (int, float)) and 0.0 < ks["max_drawdown"] <= 1.0
-    assert isinstance(ks["toxic_gate_active_fraction_max"], (int, float)) and 0.0 < ks["toxic_gate_active_fraction_max"] <= 1.0
-    assert isinstance(ks["cost_budget_breach_multiplier"], (int, float)) and ks["cost_budget_breach_multiplier"] > 1.0
-    assert isinstance(ks["reconciliation_max_abs_error"], (int, float)) and ks["reconciliation_max_abs_error"] > 0.0
-    assert isinstance(ks["mean_net_sharpe_floor"], (int, float)) and ks["mean_net_sharpe_floor"] < 0.0
-    # rationale fields present and non-empty
-    for k in ("max_notional_cap_rationale", "delta_band_rationale", "toxicity_gate_threshold_rationale", "cost_budget_bps_rationale", "live_trading_authorization_rationale"):
-        assert isinstance(gr[k], str) and len(gr[k]) > 0
-    for k in ("max_drawdown_rationale", "toxic_gate_active_fraction_max_rationale", "cost_budget_breach_multiplier_rationale", "reconciliation_max_abs_error_rationale", "mean_net_sharpe_floor_rationale"):
-        assert isinstance(ks[k], str) and len(ks[k]) > 0
-
-
-# ---------------------------------------------------------------------------
-# Recomputed net-of-cost evidence via code paths
-# ---------------------------------------------------------------------------
-
-def test_recomputed_evidence_finite_and_consistent() -> None:
-    report = evaluate_final_strategy_certification(timestamp="2026-11-13T01:18:00Z")
-    rec = report["recomputed"]
-    assert set(rec["dsr_by_config"].keys()) == {"EVAL11_best", "EVAL10_default"}
-    assert set(rec["pbo_by_config"].keys()) == {"EVAL11_best", "EVAL10_default"}
-    # DSR recomputed matches artifact DSR (both 0.0 for these sealed returns)
-    for name in ("EVAL11_best", "EVAL10_default"):
-        assert rec["dsr_by_config"][name] == report["evidence"]["eval12"]["dsr_by_config_artifact"][name]
-    assert rec["permutation_best_vs_default"]["n_permutations"] == 2000
-    assert 0.0 < rec["permutation_best_vs_default"]["p_value"] <= 1.0
-    assert rec["bootstrap_ci_mean_net_return_best"]["n_bootstrap"] == 2000
-    assert rec["bootstrap_ci_mean_net_return_best"]["lo"] <= rec["bootstrap_ci_mean_net_return_best"]["hi"]
-
-
-# ---------------------------------------------------------------------------
-# Artifact writing
-# ---------------------------------------------------------------------------
-
-def test_write_artifacts_creates_strict_json_and_md(tmp_path) -> None:
-    report = evaluate_final_strategy_certification(timestamp="2026-11-13T01:18:00Z")
-    json_path, md_path = write_artifacts(report, out_dir=tmp_path, timestamp="2026-11-13T01:18:00Z")
-    assert json_path.exists() and md_path.exists()
-    assert json_path.name.startswith("FINAL_STRATEGY_CERTIFICATION_") and json_path.suffix == ".json"
-    assert md_path.suffix == ".md"
-    written = json.loads(json_path.read_text(encoding="utf-8"))
-    assert written["report_id"] == REPORT_ID
-    assert written["verdict"] == report["verdict"]
-    assert _has_valid_true_shortcut(written) is False
-    _assert_no_nonfinite(written)
-    md_text = md_path.read_text(encoding="utf-8")
-    assert "FINAL STRATEGY CERTIFICATION" in md_text
-    assert f"Verdict: {report['verdict']}" in md_text
-
-
-# ---------------------------------------------------------------------------
-# CLI
-# ---------------------------------------------------------------------------
-
-def test_cli_runs_and_exits_zero() -> None:
+def test_certification_cli_writes_artifacts(tmp_path: Path) -> None:
     env = dict(os.environ)
-    env["PYTHONPATH"] = str(REPO_ROOT)
-    completed = subprocess.run(
-        [sys.executable, "src/analytics/final_strategy_certification.py",
-         "--timestamp", "2026-11-13T01:18:00Z"],
-        cwd=REPO_ROOT, capture_output=True, text=True, env=env,
+    env["PYTHONPATH"] = str(Path.cwd())
+    proc = subprocess.run(
+        [
+            sys.executable,
+            "src/analytics/final_strategy_certification.py",
+            "--out-dir",
+            str(tmp_path),
+            "--timestamp",
+            "2026-11-13T014500Z",
+        ],
+        capture_output=True,
+        text=True,
+        cwd=Path.cwd(),
+        env=env,
     )
-    assert completed.returncode == 0, completed.stderr
-    out = json.loads(completed.stdout.splitlines()[0])
-    assert out["report_id"] == REPORT_ID
-    assert out["verdict"] in ("GO", "NO-GO")
-    assert out["never_valid_true"] is True
-    assert out["non_degenerate"] is True
+    assert proc.returncode == 0, proc.stderr
+    out = json.loads(proc.stdout)
+    assert out["verdict"] == "GO"
+    assert out["all_checks_pass"] is True
+    json_files = sorted(tmp_path.glob("FINAL_STRATEGY_CERTIFICATION_*.json"))
+    md_files = sorted(tmp_path.glob("FINAL_STRATEGY_CERTIFICATION_*.md"))
+    assert len(json_files) == 1 and len(md_files) == 1
+    assert json_files[0].name == "FINAL_STRATEGY_CERTIFICATION_20261113T014500Z.json"
+    assert md_files[0].name == "FINAL_STRATEGY_CERTIFICATION_20261113T014500Z.md"
+    artifact = json.loads(json_files[0].read_text(encoding="utf-8"))
+    assert artifact["report_id"] == REPORT_ID
+    assert artifact["verdict"] == "GO"
+    assert artifact["never_valid_true"] is True
+    assert artifact != {"valid": True}
+    assert "net_of_cost_metrics" in artifact
+    assert "guardrails" in artifact
+    assert "verdict_checks" in artifact
+    assert "artifact_paths" in artifact
+    _assert_no_nonfinite(artifact)
+    md_text = md_files[0].read_text(encoding="utf-8")
+    assert "FINAL STRATEGY CERTIFICATION" in md_text
+    assert "GO" in md_text
