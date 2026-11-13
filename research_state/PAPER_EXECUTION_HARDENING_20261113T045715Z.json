@@ -1,0 +1,1418 @@
+{
+  "artifact_paths": {
+    "json": "research_state/PAPER_EXECUTION_HARDENING_20261113T045715Z.json",
+    "md": "research_state/PAPER_EXECUTION_HARDENING_20261113T045715Z.md"
+  },
+  "deployment_authorization": {
+    "authorized": true,
+    "mode": "paper_only",
+    "note": "GO verdict certifies paper-execution hardening only; not an authorization to trade live."
+  },
+  "evidence": {
+    "continuous_validation": {
+      "all_critical_passed": true,
+      "artifacts": {
+        "alert_audit": "research_state/ALERT_AUDIT_20261109T091708Z.json",
+        "continuous_validation": "research_state/CONTINUOUS_VALIDATION_20261109T091708Z.json",
+        "health_slo": "research_state/HEALTH_SLO_REPORT_20261109T091708Z.json",
+        "observability": "research_state/OBSERVABILITY_REPORT_20261109T091708Z.json",
+        "resilience": "research_state/RESILIENCE_AUDIT_20261109T091708Z.json"
+      },
+      "campaign_id": "continuous_validation_and_monitoring",
+      "gates": {
+        "all_critical_passed": true,
+        "iterations_5_5": true,
+        "iterations_passed_zero_failed": true,
+        "live_trading_not_enabled": true,
+        "paper_only": true,
+        "reconciliation_freshness_gte_0_99_met_with_measurements": true
+      },
+      "iterations": 5,
+      "iterations_passed": 5,
+      "live_trading_enabled": false,
+      "paper_only": true,
+      "reconciliation_freshness": {
+        "all_iterations_have_measurements": true,
+        "all_iterations_met": true,
+        "measurements_per_iteration": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "met": true,
+        "slo_id": "slo_reconciliation_freshness",
+        "target_gte": 0.99
+      },
+      "reconciliation_freshness_met": true,
+      "reconciliation_target_gte": 0.99,
+      "status": "complete",
+      "timestamp": "2026-11-09T09:17:08.772872Z"
+    },
+    "eval11": {
+      "config": {
+        "cost_budget_grid_bps": [
+          0.5,
+          2.0,
+          5.0
+        ],
+        "embargo": 5,
+        "final_seeds": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "hedge_cost_bps": 1.0,
+        "hedge_cost_bps_inert": true,
+        "hedge_cost_bps_note": "EVAL-09 records hedge_cost_bps but the sizer does not apply it; the search varies cost_budget_bps, target_delta_usd and toxicity_threshold.",
+        "impact_coeff": 10.0,
+        "max_abs_delta_usd": 50000.0,
+        "max_participation": 0.2,
+        "min_hedges_per_seed": 1,
+        "n_points": 500,
+        "net_baseline_bps": 1.0,
+        "objective": "mean_net_sharpe",
+        "purge": 10,
+        "search_seeds": [
+          1,
+          2,
+          3
+        ],
+        "spread_bps": 0.5,
+        "step_size": 40,
+        "target_delta_grid_usd": [
+          -20000.0,
+          0.0,
+          20000.0
+        ],
+        "test_window": 40,
+        "toxicity_threshold_grid": [
+          0.5,
+          0.7,
+          0.9
+        ],
+        "train_window": 120
+      },
+      "mean_abs_delta_usd": 150.8213456031083,
+      "mean_net_return": 0.4768592349060418,
+      "mean_net_sharpe": 15.47685465828329,
+      "no_hedge_control_sharpe": 5.590936162120627,
+      "total_cost_usd": 377.06695863833664,
+      "total_hedges": 2280
+    },
+    "eval12": {
+      "data_evidence": {
+        "btc_options_file_exists": true,
+        "btc_options_quotes_count": 30,
+        "btc_orderflow_file_exists": true,
+        "btc_orderflow_trades_count": 1000,
+        "data_matrix": {
+          "btc_real_trades": true,
+          "eth_synthetic_fallback": true,
+          "sol_synthetic_fallback": true,
+          "venue_snapshots_aggregate_only": true
+        },
+        "eth_options_file_exists": false,
+        "eth_orderflow_file_exists": false,
+        "processed_venue_snapshots": [
+          "deribit_btc_20261106T210539Z.json",
+          "okx_btc_20261106T210539Z.json",
+          "binance_btc_20261106T210539Z.json",
+          "okx_eth_20261106T210539Z.json",
+          "binance_eth_20261106T210539Z.json",
+          "deribit_eth_20261106T210539Z.json"
+        ]
+      },
+      "data_matrix": {
+        "btc_real_trades": true,
+        "eth_synthetic_fallback": true,
+        "sol_synthetic_fallback": true,
+        "venue_snapshots_aggregate_only": true
+      },
+      "dsr_by_config": {
+        "EVAL10_default": 0.0,
+        "EVAL11_best": 0.0
+      },
+      "multiple_testing_correction": {
+        "alpha": 0.1,
+        "m_tests": 2,
+        "method": "Benjamini-Hochberg",
+        "rejected": [
+          "EVAL11_best",
+          "EVAL10_default"
+        ],
+        "thresholds": {
+          "EVAL10_default": 0.1,
+          "EVAL11_best": 0.05
+        }
+      },
+      "pbo": {
+        "config_details": {
+          "EVAL10_default": {
+            "mean_is_sharpe": -12.79743883922156,
+            "mean_oos_sharpe": -13.093982856389493,
+            "pbo": 0.5234375,
+            "valid_combinations": 8
+          },
+          "EVAL11_best": {
+            "mean_is_sharpe": 9.763639172139246,
+            "mean_oos_sharpe": 11.601211477383275,
+            "pbo": 0.46875,
+            "valid_combinations": 8
+          }
+        },
+        "k_folds": 8,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.5,
+        "pbo_per_config": {
+          "EVAL10_default": 0.5234375,
+          "EVAL11_best": 0.46875
+        }
+      },
+      "report_id": "REAL_WF_CERTIFICATION_EVAL_12",
+      "surviving_configs": [
+        "EVAL11_best",
+        "EVAL10_default"
+      ],
+      "verdict": "GO"
+    },
+    "eval13": {
+      "generated_at": "2026-11-13T01:52:26.345940Z",
+      "guardrail_by_name": {
+        "cost_budget_bps": {
+          "category": "execution_cost",
+          "effective_total_cost_bps": 1.0643514468628845,
+          "name": "cost_budget_bps",
+          "observed": 0.5,
+          "pass": true,
+          "rationale": "Cost budget 0.50 bps (EVAL-11 best feasible config) at or below the 2.00 bps deployment ceiling (EVAL-10 default used 2.0 bps). Observed effective cost 1.06 bps of traded notional.",
+          "threshold": 2.0
+        },
+        "delta_band_usd": {
+          "band_max": -19676.226516040937,
+          "band_min": -20323.773483959063,
+          "category": "delta_risk",
+          "name": "delta_band_usd",
+          "observed": 161.88674197953094,
+          "pass": true,
+          "rationale": "Delta band derived from EVAL-11 best mean_abs_delta_usd=161.89; band = 2 x mean abs delta = 323.77 USD around target target_delta_usd=-20000 [-20323.77, -19676.23].",
+          "target_delta_usd": -20000.0,
+          "threshold": 323.7734839590619
+        },
+        "kill_switch_cost_bps": {
+          "category": "kill_switch",
+          "name": "kill_switch_cost_bps",
+          "observed": 1.0643514468628845,
+          "pass": true,
+          "rationale": "Kill-switch: halt paper deployment if effective cost exceeds 5.00 bps of traded notional; observed 1.06 bps.",
+          "threshold": 5.0
+        },
+        "kill_switch_max_drawdown": {
+          "category": "kill_switch",
+          "name": "kill_switch_max_drawdown",
+          "observed": 0.18867421527305756,
+          "pass": true,
+          "rationale": "Kill-switch: halt paper deployment if max drawdown exceeds 20%; worst observed EVAL-11 series max drawdown 0.1887 is below the kill level.",
+          "threshold": 0.2
+        },
+        "kill_switch_toxicity": {
+          "category": "kill_switch",
+          "name": "kill_switch_toxicity",
+          "observed": 0.3333333333333333,
+          "pass": true,
+          "rationale": "Kill-switch: halt paper deployment if mean toxic_gate_active_fraction exceeds 80%; mean observed 0.3333 (max per-series 1.0000 on single ETH series with zero notional) is below the kill level.",
+          "threshold": 0.8,
+          "toxic_gate_active_fraction_max_observed": 1.0
+        },
+        "live_trading_disabled": {
+          "category": "safety",
+          "name": "live_trading_disabled",
+          "observed": 0.0,
+          "pass": true,
+          "rationale": "Live trading disabled (LIVE_TRADING_ENABLED=false); EVAL-13 certification is paper-only and does not authorize deployment or venue connectivity.",
+          "threshold": 0.0
+        },
+        "max_daily_loss_usd": {
+          "category": "risk_limit",
+          "name": "max_daily_loss_usd",
+          "observed": 50000.0,
+          "pass": true,
+          "rationale": "Daily loss limit 50,000 USD from .env.example risk limits; paper-only bound, checked against realized PnL at deployment time.",
+          "threshold": 50000.0
+        },
+        "max_notional_cap_usd": {
+          "category": "position_risk",
+          "name": "max_notional_cap_usd",
+          "observed": 519749.8780964023,
+          "pass": true,
+          "rationale": "Per-position notional cap derived from configured MAX_POSITION_NOTIONAL; largest observed EVAL-11 single-series traded notional 519749.88 USD is below the 1,000,000 USD cap. EVAL-11 aggregate traded notional is cumulative across 15 series, not a single position.",
+          "threshold": 1000000.0
+        },
+        "toxicity_gate_threshold": {
+          "category": "orderflow_risk",
+          "name": "toxicity_gate_threshold",
+          "observed": 0.3333333333333333,
+          "pass": true,
+          "rationale": "Toxicity gate threshold 0.7 (EVAL-11 best config toxicity_threshold); mean observed toxic_gate_active_fraction 0.3333 below the 0.5 deployment watch level (max observed 1.0000 on single ETH series).",
+          "threshold": 0.7,
+          "toxic_gate_active_fraction_max_observed": 1.0
+        }
+      },
+      "guardrails": [
+        {
+          "category": "position_risk",
+          "name": "max_notional_cap_usd",
+          "observed": 519749.8780964023,
+          "pass": true,
+          "rationale": "Per-position notional cap derived from configured MAX_POSITION_NOTIONAL; largest observed EVAL-11 single-series traded notional 519749.88 USD is below the 1,000,000 USD cap. EVAL-11 aggregate traded notional is cumulative across 15 series, not a single position.",
+          "threshold": 1000000.0
+        },
+        {
+          "band_max": -19676.226516040937,
+          "band_min": -20323.773483959063,
+          "category": "delta_risk",
+          "name": "delta_band_usd",
+          "observed": 161.88674197953094,
+          "pass": true,
+          "rationale": "Delta band derived from EVAL-11 best mean_abs_delta_usd=161.89; band = 2 x mean abs delta = 323.77 USD around target target_delta_usd=-20000 [-20323.77, -19676.23].",
+          "target_delta_usd": -20000.0,
+          "threshold": 323.7734839590619
+        },
+        {
+          "category": "orderflow_risk",
+          "name": "toxicity_gate_threshold",
+          "observed": 0.3333333333333333,
+          "pass": true,
+          "rationale": "Toxicity gate threshold 0.7 (EVAL-11 best config toxicity_threshold); mean observed toxic_gate_active_fraction 0.3333 below the 0.5 deployment watch level (max observed 1.0000 on single ETH series).",
+          "threshold": 0.7,
+          "toxic_gate_active_fraction_max_observed": 1.0
+        },
+        {
+          "category": "execution_cost",
+          "effective_total_cost_bps": 1.0643514468628845,
+          "name": "cost_budget_bps",
+          "observed": 0.5,
+          "pass": true,
+          "rationale": "Cost budget 0.50 bps (EVAL-11 best feasible config) at or below the 2.00 bps deployment ceiling (EVAL-10 default used 2.0 bps). Observed effective cost 1.06 bps of traded notional.",
+          "threshold": 2.0
+        },
+        {
+          "category": "kill_switch",
+          "name": "kill_switch_max_drawdown",
+          "observed": 0.18867421527305756,
+          "pass": true,
+          "rationale": "Kill-switch: halt paper deployment if max drawdown exceeds 20%; worst observed EVAL-11 series max drawdown 0.1887 is below the kill level.",
+          "threshold": 0.2
+        },
+        {
+          "category": "kill_switch",
+          "name": "kill_switch_toxicity",
+          "observed": 0.3333333333333333,
+          "pass": true,
+          "rationale": "Kill-switch: halt paper deployment if mean toxic_gate_active_fraction exceeds 80%; mean observed 0.3333 (max per-series 1.0000 on single ETH series with zero notional) is below the kill level.",
+          "threshold": 0.8,
+          "toxic_gate_active_fraction_max_observed": 1.0
+        },
+        {
+          "category": "kill_switch",
+          "name": "kill_switch_cost_bps",
+          "observed": 1.0643514468628845,
+          "pass": true,
+          "rationale": "Kill-switch: halt paper deployment if effective cost exceeds 5.00 bps of traded notional; observed 1.06 bps.",
+          "threshold": 5.0
+        },
+        {
+          "category": "risk_limit",
+          "name": "max_daily_loss_usd",
+          "observed": 50000.0,
+          "pass": true,
+          "rationale": "Daily loss limit 50,000 USD from .env.example risk limits; paper-only bound, checked against realized PnL at deployment time.",
+          "threshold": 50000.0
+        },
+        {
+          "category": "safety",
+          "name": "live_trading_disabled",
+          "observed": 0.0,
+          "pass": true,
+          "rationale": "Live trading disabled (LIVE_TRADING_ENABLED=false); EVAL-13 certification is paper-only and does not authorize deployment or venue connectivity.",
+          "threshold": 0.0
+        }
+      ],
+      "live_trading_enabled": false,
+      "net_of_cost_metrics": {
+        "bh_alpha": 0.1,
+        "bh_m_tests": 2,
+        "bh_surviving_configs": [
+          "EVAL11_best",
+          "EVAL10_default"
+        ],
+        "bootstrap_ci_mean_net_return": {
+          "block_size": 3,
+          "ci_width": 0.19606325251242956,
+          "hi": 0.4947941351273758,
+          "lo": 0.29873088261494624,
+          "lower_bound_positive": true,
+          "n_bootstrap": 2000,
+          "point": 0.39999544362288464,
+          "seed": 0
+        },
+        "bootstrap_ci_mean_net_sharpe": {
+          "block_size": 3,
+          "ci_width": 9.500134808846607,
+          "hi": 18.8789992895962,
+          "lo": 9.378864480749595,
+          "lower_bound_positive": true,
+          "n_bootstrap": 2000,
+          "point": 13.188322401914274,
+          "seed": 0
+        },
+        "dsr_all_finite": true,
+        "dsr_consistency": {
+          "EVAL10_default": {
+            "abs_diff": 0.0,
+            "consistent": true,
+            "recomputed_dsr": 0.0,
+            "sealed_dsr": 0.0
+          },
+          "EVAL11_best": {
+            "abs_diff": 0.0,
+            "consistent": true,
+            "recomputed_dsr": 0.0,
+            "sealed_dsr": 0.0
+          }
+        },
+        "dsr_recomputed": {
+          "EVAL10_default": 0.0,
+          "EVAL11_best": 0.0
+        },
+        "dsr_sealed": {
+          "EVAL10_default": 0.0,
+          "EVAL11_best": 0.0
+        },
+        "eval10_default_mean_net_return": -0.5580107668605527,
+        "eval10_default_mean_net_sharpe": -22.765929562035716,
+        "eval11_best_mean_abs_delta_usd": 161.88674197953094,
+        "eval11_best_mean_net_return": 0.39999544362288453,
+        "eval11_best_mean_net_sharpe": 13.188322401914279,
+        "eval11_best_mean_net_sharpe_gt_eval10": true,
+        "eval11_best_total_cost_usd": 646.4230312530128,
+        "eval11_best_total_hedges": 3800,
+        "eval11_no_hedge_control_sharpe": 5.590936162120627,
+        "eval11_sharpe_improvement_vs_no_hedge": 7.597386239793652,
+        "eval12_verdict": "GO",
+        "n_evidence_sources": 3,
+        "pbo_overall": 0.5,
+        "pbo_per_config": {
+          "EVAL10_default": 0.5234375,
+          "EVAL11_best": 0.46875
+        },
+        "permutation_eval11_vs_eval10": {
+          "alternative": "greater",
+          "n_permutations": 2000,
+          "null_mean": 0.000991300967165406,
+          "observed_difference": 0.9580062104834373,
+          "p_value": 0.0014992503748125937,
+          "paired": true,
+          "significant_at_05": true,
+          "statistic_a": 0.39999544362288464,
+          "statistic_b": -0.5580107668605526
+        },
+        "permutation_significant": true
+      },
+      "never_valid_true": true,
+      "report_id": "FINAL_STRATEGY_CERTIFICATION_EVAL_13",
+      "trading_mode": "paper",
+      "verdict": "GO",
+      "verdict_checks": {
+        "all_checks_pass": true,
+        "checks": [
+          {
+            "name": "evidence_sources_complete",
+            "observed": 3.0,
+            "pass": true,
+            "reason": "PASS: 3 sealed evidence sources compared (EVAL-10/EVAL-11/EVAL-12)",
+            "threshold": 2
+          },
+          {
+            "name": "eval12_walkforward_go",
+            "observed": 1.0,
+            "pass": true,
+            "reason": "PASS: EVAL-12 walk-forward verdict GO",
+            "threshold": 1.0
+          },
+          {
+            "name": "eval12_bh_survivor",
+            "observed": 2.0,
+            "pass": true,
+            "reason": "PASS: 2 config(s) survive BH FDR 0.1: ['EVAL11_best', 'EVAL10_default']",
+            "threshold": 1.0
+          },
+          {
+            "name": "eval11_best_beats_no_hedge_control",
+            "observed": 13.188322401914279,
+            "pass": true,
+            "reason": "PASS: EVAL-11 best mean net Sharpe 13.188322 > 0 and > no-hedge control 5.590936",
+            "threshold": 5.590936162120627
+          },
+          {
+            "name": "eval11_best_strictly_beats_eval10_default",
+            "observed": 13.188322401914279,
+            "pass": true,
+            "reason": "PASS: EVAL-11 best 13.188322 > EVAL-10 default -22.765930 (sealed NO-GO baseline)",
+            "threshold": -22.765929562035716
+          },
+          {
+            "name": "permutation_eval11_dominates_eval10",
+            "observed": 0.0014992503748125937,
+            "pass": true,
+            "reason": "PASS: paired permutation EVAL-11 vs EVAL-10 p=0.001499 < 0.05 (EVAL-11 best strictly dominates sealed NO-GO baseline)",
+            "threshold": 0.05
+          },
+          {
+            "name": "all_deployment_guardrails_pass",
+            "observed": 9.0,
+            "pass": true,
+            "reason": "PASS: all 9 guardrail checks pass",
+            "threshold": 9.0
+          },
+          {
+            "name": "metrics_and_guardrails_finite",
+            "observed": 1.0,
+            "pass": true,
+            "reason": "PASS: all DSR/PBO/bootstrap/guardrail numeric fields finite",
+            "threshold": 1.0
+          }
+        ],
+        "n_checks": 8,
+        "n_passed": 8,
+        "verdict": "GO"
+      }
+    },
+    "eval14": {
+      "deployment_thresholds": {
+        "alert_watch_levels": [
+          {
+            "category": "position_risk",
+            "name": "max_notional_cap_usd_watch",
+            "observed": 519749.8780964023,
+            "pass": false,
+            "rationale": "Alert (not block): notional watch 750,000 USD (75% of cap); observed 519749.88 USD.",
+            "threshold": 750000.0
+          },
+          {
+            "category": "delta_risk",
+            "name": "delta_band_usd_watch",
+            "observed": 161.88674197953094,
+            "pass": false,
+            "rationale": "Alert (not block): delta band watch at 75% of band (242.83 USD); observed 161.89 USD.",
+            "threshold": 242.8301129692964
+          },
+          {
+            "category": "orderflow_risk",
+            "name": "toxicity_gate_watch",
+            "observed": 0.3333333333333333,
+            "pass": false,
+            "rationale": "Alert (not block): toxicity watch 0.5; mean observed 0.3333.",
+            "threshold": 0.5,
+            "toxic_gate_active_fraction_max_observed": 1.0
+          },
+          {
+            "category": "execution_cost",
+            "name": "cost_budget_bps_watch",
+            "observed": 1.0643514468628845,
+            "pass": false,
+            "rationale": "Alert (not block): cost watch 1.50 bps (75% of ceiling); observed effective cost 1.06 bps.",
+            "threshold": 1.5
+          },
+          {
+            "category": "kill_switch",
+            "name": "kill_switch_max_drawdown_watch",
+            "observed": 0.18867421527305756,
+            "pass": true,
+            "rationale": "Alert (not block): drawdown watch 10%; observed 0.1887.",
+            "threshold": 0.1
+          },
+          {
+            "category": "risk_limit",
+            "name": "max_daily_loss_usd_watch",
+            "observed": 50000.0,
+            "pass": true,
+            "rationale": "Alert (not block): daily loss watch 25,000 USD (50% of limit).",
+            "threshold": 25000.0
+          }
+        ],
+        "all_guardrails_pass": true,
+        "failed_guardrails": [],
+        "guardrails": [
+          {
+            "category": "position_risk",
+            "name": "max_notional_cap_usd",
+            "notional_watch_usd": 750000.0,
+            "observed": 519749.8780964023,
+            "pass": true,
+            "rationale": "Per-position notional cap 1,000,000 USD; largest observed EVAL-11 single-series traded notional 519749.88 USD is below the cap. EVAL-11 aggregate traded notional is cumulative across 15 series, not a single position.",
+            "threshold": 1000000.0
+          },
+          {
+            "band_max": -19676.226516040937,
+            "band_min": -20323.773483959063,
+            "category": "delta_risk",
+            "name": "delta_band_usd",
+            "observed": 161.88674197953094,
+            "pass": true,
+            "rationale": "Delta band 323.77 USD = 2 x EVAL-11 mean_abs_delta_usd 161.89 around target_delta_usd -20000 [-20323.77, -19676.23].",
+            "target_delta_usd": -20000.0,
+            "threshold": 323.7734839590619
+          },
+          {
+            "category": "orderflow_risk",
+            "name": "toxicity_gate_threshold",
+            "observed": 0.3333333333333333,
+            "pass": true,
+            "rationale": "Toxicity gate threshold 0.7 (EVAL-11 best config toxicity_threshold); mean observed toxic_gate_active_fraction 0.3333 below the 0.5 deployment watch level (max observed 1.0000).",
+            "threshold": 0.7,
+            "toxic_gate_active_fraction_max_observed": 1.0
+          },
+          {
+            "category": "execution_cost",
+            "effective_total_cost_bps": 1.0643514468628845,
+            "name": "cost_budget_bps",
+            "observed": 0.5,
+            "pass": true,
+            "rationale": "Cost budget 0.50 bps (EVAL-11 best feasible config) at or below the 2.00 bps deployment ceiling (EVAL-10 default used 2.0 bps). Observed effective cost 1.06 bps of traded notional.",
+            "threshold": 2.0
+          },
+          {
+            "category": "kill_switch",
+            "name": "kill_switch_max_drawdown",
+            "observed": 0.18867421527305756,
+            "pass": true,
+            "rationale": "Kill-switch: halt paper deployment if max drawdown exceeds 20%; worst observed EVAL-11 series max drawdown 0.1887 is below the kill level.",
+            "threshold": 0.2
+          },
+          {
+            "category": "kill_switch",
+            "name": "kill_switch_toxicity",
+            "observed": 0.3333333333333333,
+            "pass": true,
+            "rationale": "Kill-switch: halt paper deployment if mean toxic_gate_active_fraction exceeds 80%; mean observed 0.3333 (max per-series 1.0000) is below the kill level.",
+            "threshold": 0.8,
+            "toxic_gate_active_fraction_max_observed": 1.0
+          },
+          {
+            "category": "kill_switch",
+            "name": "kill_switch_cost_bps",
+            "observed": 1.0643514468628845,
+            "pass": true,
+            "rationale": "Kill-switch: halt paper deployment if effective cost exceeds 5.00 bps of traded notional; observed 1.06 bps.",
+            "threshold": 5.0
+          },
+          {
+            "category": "risk_limit",
+            "max_daily_loss_watch_usd": 25000.0,
+            "name": "max_daily_loss_usd",
+            "observed": 50000.0,
+            "pass": true,
+            "rationale": "Daily loss limit 50,000 USD from .env.example risk limits; paper-only bound, checked against realized PnL at deployment time.",
+            "threshold": 50000.0
+          },
+          {
+            "category": "safety",
+            "name": "live_trading_disabled",
+            "observed": 0.0,
+            "pass": true,
+            "rationale": "Live trading disabled (LIVE_TRADING_ENABLED=false); EVAL-14 certification is paper-only and does not authorize deployment or venue connectivity.",
+            "threshold": 0.0
+          }
+        ],
+        "kill_switch_halt_conditions": [
+          {
+            "category": "kill_switch",
+            "halt": true,
+            "name": "kill_switch_max_drawdown_halt",
+            "observed": 0.18867421527305756,
+            "pass": false,
+            "rationale": "HALT condition: max_drawdown 0.1887 >= kill level 20%.",
+            "threshold": 0.2
+          },
+          {
+            "category": "kill_switch",
+            "halt": true,
+            "name": "kill_switch_toxicity_halt",
+            "observed": 0.3333333333333333,
+            "pass": false,
+            "rationale": "HALT condition: mean toxic_gate_active_fraction 0.3333 >= kill level 80%.",
+            "threshold": 0.8,
+            "toxic_gate_active_fraction_max_observed": 1.0
+          },
+          {
+            "category": "kill_switch",
+            "halt": true,
+            "name": "kill_switch_cost_bps_halt",
+            "observed": 1.0643514468628845,
+            "pass": false,
+            "rationale": "HALT condition: effective cost 1.06 bps >= kill level 5.00 bps.",
+            "threshold": 5.0
+          }
+        ],
+        "n_alert_watch_levels": 6,
+        "n_guardrails": 9,
+        "n_kill_switch_halt_conditions": 3
+      },
+      "generated_at": "2026-11-13T03:00:07Z",
+      "live_trading_enabled": false,
+      "never_valid_true": true,
+      "paper_readiness_metrics": {
+        "cost_budget_bps": 0.5,
+        "cost_ceiling_bps": 2.0,
+        "cost_watch_bps": 1.5,
+        "cv_all_critical_passed": true,
+        "cv_iterations": 5,
+        "cv_iterations_passed": 5,
+        "cv_live_trading_enabled": false,
+        "cv_paper_only": true,
+        "cv_reconciliation_freshness_met": true,
+        "cv_reconciliation_target_gte": 0.99,
+        "delta_band_usd": 323.7734839590619,
+        "delta_band_watch_fraction": 0.75,
+        "effective_cost_bps": 1.0643514468628845,
+        "eval10_default_mean_net_return": -0.5580107668605527,
+        "eval10_default_mean_net_sharpe": -22.765929562035716,
+        "eval11_best_mean_abs_delta_usd": 161.88674197953094,
+        "eval11_best_mean_net_return": 0.39999544362288453,
+        "eval11_best_mean_net_sharpe": 13.188322401914279,
+        "eval11_best_total_cost_usd": 646.4230312530128,
+        "eval11_best_total_hedges": 3800,
+        "eval11_no_hedge_control_sharpe": 5.590936162120627,
+        "eval12_bh_survivors": [
+          "EVAL11_best",
+          "EVAL10_default"
+        ],
+        "eval12_dsr_recomputed": {
+          "EVAL10_default": 0.0,
+          "EVAL11_best": 0.0
+        },
+        "eval12_pbo_overall": 0.5,
+        "eval12_verdict": "GO",
+        "eval13_all_checks_pass": true,
+        "eval13_live_trading_enabled": false,
+        "eval13_n_checks": 8,
+        "eval13_n_passed": 8,
+        "eval13_verdict": "GO",
+        "kill_switch_cost_bps": 5.0,
+        "kill_switch_drawdown_watch": 0.1,
+        "kill_switch_max_drawdown": 0.2,
+        "kill_switch_toxicity": 0.8,
+        "live_trading_enabled": false,
+        "max_daily_loss_usd": 50000.0,
+        "max_daily_loss_watch_usd": 25000.0,
+        "max_drawdown_observed": 0.18867421527305756,
+        "max_notional_cap_usd": 1000000.0,
+        "max_toxic_gate_active_fraction_observed": 1.0,
+        "mean_toxic_gate_active_fraction": 0.3333333333333333,
+        "n_evidence_sources": 5,
+        "notional_observed_usd": 519749.8780964023,
+        "notional_watch_usd": 750000.0,
+        "paper_all_critical_passed": true,
+        "paper_failed": 0,
+        "paper_live_trading_enabled": false,
+        "paper_mode": "paper",
+        "sharpe_improvement_vs_eval10": 35.95425196394999,
+        "sharpe_improvement_vs_no_hedge": 7.597386239793652,
+        "target_delta_usd": -20000.0,
+        "toxicity_gate_threshold": 0.7,
+        "toxicity_watch_level": 0.5
+      },
+      "report_id": "PAPER_DEPLOYMENT_READINESS_EVAL_14",
+      "trading_mode": "paper",
+      "verdict": "GO",
+      "verdict_checks": {
+        "all_checks_pass": true,
+        "checks": [
+          {
+            "name": "evidence_sources_complete",
+            "observed": 5.0,
+            "pass": true,
+            "reason": "PASS: 5 sealed evidence source(s) compared",
+            "threshold": 1
+          },
+          {
+            "name": "eval13_certification_go",
+            "observed": 1.0,
+            "pass": true,
+            "reason": "PASS: EVAL-13 final strategy certification verdict GO",
+            "threshold": 1.0
+          },
+          {
+            "name": "eval13_all_checks_pass",
+            "observed": 8.0,
+            "pass": true,
+            "reason": "PASS: EVAL-13 8/8 checks pass",
+            "threshold": 8.0
+          },
+          {
+            "name": "eval12_walkforward_go",
+            "observed": 1.0,
+            "pass": true,
+            "reason": "PASS: EVAL-12 real-data walk-forward verdict GO",
+            "threshold": 1.0
+          },
+          {
+            "name": "paper_pre_live_gates_all_passed",
+            "observed": 1.0,
+            "pass": true,
+            "reason": "PASS: paper pre-live readiness gates all critical passed (failed=0)",
+            "threshold": 1.0
+          },
+          {
+            "name": "continuous_validation_all_passed",
+            "observed": 5.0,
+            "pass": true,
+            "reason": "PASS: continuous validation 5/5 iterations passed",
+            "threshold": 5.0
+          },
+          {
+            "name": "reconciliation_freshness_met",
+            "observed": 1.0,
+            "pass": true,
+            "reason": "PASS: reconciliation freshness >= 0.99 met",
+            "threshold": 0.99
+          },
+          {
+            "name": "all_deployment_guardrails_pass",
+            "observed": 9.0,
+            "pass": true,
+            "reason": "PASS: all 9 deployment guardrail checks pass",
+            "threshold": 9.0
+          },
+          {
+            "name": "live_trading_disabled",
+            "observed": 1.0,
+            "pass": true,
+            "reason": "PASS: live trading disabled (paper-only deployment)",
+            "threshold": 1.0
+          },
+          {
+            "name": "metrics_and_thresholds_finite",
+            "observed": 1.0,
+            "pass": true,
+            "reason": "PASS: all metrics and thresholds finite",
+            "threshold": 1.0
+          }
+        ],
+        "n_checks": 10,
+        "n_passed": 10,
+        "verdict": "GO"
+      }
+    },
+    "evidence_sources": [
+      "EVAL-14",
+      "EVAL-13",
+      "EVAL-12",
+      "EVAL-11",
+      "PAPER_TRADING_PRE_LIVE_READINESS",
+      "CONTINUOUS_VALIDATION_AND_MONITORING"
+    ],
+    "paper_readiness": {
+      "all_critical_passed": true,
+      "campaign_id": "PAPER_TRADING_PRE_LIVE_READINESS",
+      "failed": 0,
+      "gate_evidence": {
+        "e2e_readiness_multi_venue": "research_state/E2E_READINESS_MULTI_VENUE_20261106T210745Z.json",
+        "paper_trading_campaign": "research_state/PAPER_TRADING_CAMPAIGN_20261106T222609Z.json",
+        "pre_live_gate_report": "research_state/PRE_LIVE_GATE_REPORT_20261106T222609Z.json",
+        "reconciliation_audit": "research_state/RECONCILIATION_AUDIT_20261106T222609Z.json"
+      },
+      "gates": {
+        "all_critical_passed": true,
+        "artifacts_non_empty": true,
+        "failed": 0,
+        "no_live_capital": true,
+        "order_lifecycle_validated": true,
+        "slo_reconciliation_freshness_met": true
+      },
+      "live_trading_enabled": false,
+      "mode": "paper",
+      "status": "completed",
+      "timestamp": "2026-11-06T23:23:49Z"
+    },
+    "report_id": "PAPER_EXECUTION_HARDENING_EVAL_15"
+  },
+  "evidence_matrix": {
+    "btc_real_trades": false,
+    "continuous_validation_checkpoint_present": true,
+    "eth_synthetic_fallback": false,
+    "eval11_sealed_artifact_present": true,
+    "eval12_sealed_artifact_present": true,
+    "eval13_sealed_artifact_present": true,
+    "eval14_sealed_artifact_present": true,
+    "paper_readiness_checkpoint_present": true,
+    "sol_synthetic_fallback": false,
+    "venue_snapshots_aggregate_only": false
+  },
+  "execution_thresholds": {
+    "alert_watch_levels": [
+      {
+        "category": "position_risk",
+        "name": "max_notional_cap_usd_watch",
+        "observed": 519749.8780964023,
+        "pass": false,
+        "rationale": "Alert (not block): notional watch 750,000 USD (75% of cap); observed 519749.88 USD.",
+        "threshold": 750000.0
+      },
+      {
+        "category": "delta_risk",
+        "name": "delta_band_usd_watch",
+        "observed": 150.8213456031083,
+        "pass": false,
+        "rationale": "Alert (not block): delta band watch at 75% of band (242.83 USD); observed 150.82 USD.",
+        "threshold": 242.8301129692964
+      },
+      {
+        "category": "orderflow_risk",
+        "name": "toxicity_gate_watch",
+        "observed": 0.3333333333333333,
+        "pass": false,
+        "rationale": "Alert (not block): toxicity watch 0.5; mean observed 0.3333.",
+        "threshold": 0.5,
+        "toxic_gate_active_fraction_max_observed": 1.0
+      },
+      {
+        "category": "execution_cost",
+        "name": "cost_budget_bps_watch",
+        "observed": 1.0643514468628845,
+        "pass": false,
+        "rationale": "Alert (not block): cost watch 1.50 bps (75% of ceiling); observed effective cost 1.06 bps.",
+        "threshold": 1.5
+      },
+      {
+        "category": "kill_switch",
+        "name": "kill_switch_max_drawdown_watch",
+        "observed": 0.18867421527305756,
+        "pass": true,
+        "rationale": "Alert (not block): drawdown watch 10%; observed 0.1887.",
+        "threshold": 0.1
+      },
+      {
+        "category": "risk_limit",
+        "name": "max_daily_loss_usd_watch",
+        "observed": 18867.421527305756,
+        "pass": false,
+        "rationale": "Alert (not block): daily loss watch 25,000 USD (50% of limit); estimated 18867.42 USD.",
+        "threshold": 25000.0
+      }
+    ],
+    "all_guardrails_pass": true,
+    "failed_guardrails": [],
+    "guardrails": [
+      {
+        "category": "position_risk",
+        "name": "max_notional_cap_usd",
+        "notional_watch_usd": 750000.0,
+        "observed": 519749.8780964023,
+        "pass": true,
+        "rationale": "Per-position notional cap 1,000,000 USD; largest single-series observed notional 519749.88 USD is below the cap.",
+        "threshold": 1000000.0
+      },
+      {
+        "band_max": -19676.226516040937,
+        "band_min": -20323.773483959063,
+        "category": "delta_risk",
+        "name": "delta_band_usd",
+        "observed": 150.8213456031083,
+        "pass": true,
+        "rationale": "Delta band 323.77 USD = 2 x EVAL-11 mean_abs_delta_usd 150.82 around target_delta_usd -20000 [-20323.77, -19676.23].",
+        "target_delta_usd": -20000.0,
+        "threshold": 323.7734839590619
+      },
+      {
+        "category": "orderflow_risk",
+        "name": "toxicity_gate_threshold",
+        "observed": 0.3333333333333333,
+        "pass": true,
+        "rationale": "Toxicity gate threshold 0.7 (EVAL-11 best config toxicity_threshold); mean observed toxic_gate_active_fraction 0.3333 below the 0.5 deployment watch level (max observed 1.0000).",
+        "threshold": 0.7,
+        "toxic_gate_active_fraction_max_observed": 1.0
+      },
+      {
+        "category": "execution_cost",
+        "effective_total_cost_bps": 1.0643514468628845,
+        "name": "cost_budget_bps",
+        "observed": 0.5,
+        "pass": true,
+        "rationale": "Cost budget 0.50 bps (EVAL-11 best feasible config) at or below the 2.00 bps deployment ceiling (EVAL-10 default used 2.0 bps). Observed effective cost 1.06 bps of traded notional.",
+        "threshold": 2.0
+      },
+      {
+        "category": "kill_switch",
+        "name": "kill_switch_max_drawdown",
+        "observed": 0.18867421527305756,
+        "pass": true,
+        "rationale": "Kill-switch: halt paper deployment if max drawdown exceeds 20%; worst observed simulation max drawdown 0.1887 is below the kill level.",
+        "threshold": 0.2
+      },
+      {
+        "category": "kill_switch",
+        "name": "kill_switch_toxicity",
+        "observed": 0.3333333333333333,
+        "pass": true,
+        "rationale": "Kill-switch: halt paper deployment if mean toxic_gate_active_fraction exceeds 80%; mean observed 0.3333 (max per-series 1.0000) is below the kill level.",
+        "threshold": 0.8,
+        "toxic_gate_active_fraction_max_observed": 1.0
+      },
+      {
+        "category": "kill_switch",
+        "name": "kill_switch_cost_bps",
+        "observed": 1.0643514468628845,
+        "pass": true,
+        "rationale": "Kill-switch: halt paper deployment if effective cost exceeds 5.00 bps of traded notional; observed 1.06 bps.",
+        "threshold": 5.0
+      },
+      {
+        "category": "risk_limit",
+        "max_daily_loss_watch_usd": 25000.0,
+        "name": "max_daily_loss_usd",
+        "observed": 18867.421527305756,
+        "pass": true,
+        "rationale": "Daily loss limit 50,000 USD from .env.example risk limits; estimated worst-case daily loss 18867.42 USD from simulation; paper-only bound, checked against realized PnL at deployment time.",
+        "threshold": 50000.0
+      },
+      {
+        "category": "safety",
+        "name": "live_trading_disabled",
+        "observed": 0.0,
+        "pass": true,
+        "rationale": "Live trading disabled (LIVE_TRADING_ENABLED=false); EVAL-15 hardening is paper-only and does not authorize deployment or venue connectivity.",
+        "threshold": 0.0
+      }
+    ],
+    "kill_switch_halt_conditions": [
+      {
+        "category": "kill_switch",
+        "halt": true,
+        "name": "kill_switch_max_drawdown_halt",
+        "observed": 0.18867421527305756,
+        "pass": false,
+        "rationale": "HALT condition: max_drawdown 0.1887 >= kill level 20%.",
+        "threshold": 0.2
+      },
+      {
+        "category": "kill_switch",
+        "halt": true,
+        "name": "kill_switch_toxicity_halt",
+        "observed": 0.3333333333333333,
+        "pass": false,
+        "rationale": "HALT condition: mean toxic_gate_active_fraction 0.3333 >= kill level 80%.",
+        "threshold": 0.8,
+        "toxic_gate_active_fraction_max_observed": 1.0
+      },
+      {
+        "category": "kill_switch",
+        "halt": true,
+        "name": "kill_switch_cost_bps_halt",
+        "observed": 1.0643514468628845,
+        "pass": false,
+        "rationale": "HALT condition: effective cost 1.06 bps >= kill level 5.00 bps.",
+        "threshold": 5.0
+      }
+    ],
+    "n_alert_watch_levels": 6,
+    "n_guardrails": 9,
+    "n_kill_switch_halt_conditions": 3
+  },
+  "generated_at": "2026-11-13T04:57:15.525750Z",
+  "live_trading_enabled": false,
+  "never_valid_true": true,
+  "paper_execution_metrics": {
+    "cost_budget_bps": 0.5,
+    "cost_ceiling_bps": 2.0,
+    "cost_watch_bps": 1.5,
+    "cv_all_critical_passed": true,
+    "cv_iterations": 5,
+    "cv_iterations_passed": 5,
+    "cv_live_trading_enabled": false,
+    "cv_paper_only": true,
+    "cv_reconciliation_freshness_met": true,
+    "cv_reconciliation_target_gte": 0.99,
+    "daily_loss_estimate_usd": 18867.421527305756,
+    "delta_band_usd": 323.7734839590619,
+    "delta_band_watch_usd": 242.8301129692964,
+    "effective_cost_bps": 1.0643514468628845,
+    "eval11_best_mean_abs_delta_usd": 150.8213456031083,
+    "eval11_best_mean_net_return": 0.4768592349060418,
+    "eval11_best_mean_net_sharpe": 15.47685465828329,
+    "eval11_best_total_cost_usd": 377.06695863833664,
+    "eval11_best_total_hedges": 2280,
+    "eval11_no_hedge_control_sharpe": 5.590936162120627,
+    "eval12_bh_survivors": [
+      "EVAL11_best",
+      "EVAL10_default"
+    ],
+    "eval12_dsr_recomputed": {
+      "EVAL10_default": 0.0,
+      "EVAL11_best": 0.0
+    },
+    "eval12_pbo_overall": 0.5,
+    "eval12_verdict": "GO",
+    "eval13_all_checks_pass": true,
+    "eval13_live_trading_enabled": false,
+    "eval13_n_checks": 8,
+    "eval13_n_passed": 8,
+    "eval13_verdict": "GO",
+    "eval14_all_checks_pass": true,
+    "eval14_verdict": "GO",
+    "kill_switch_cost_bps": 5.0,
+    "kill_switch_drawdown_watch": 0.1,
+    "kill_switch_max_drawdown": 0.2,
+    "kill_switch_toxicity": 0.8,
+    "live_trading_enabled": false,
+    "max_daily_loss_usd": 50000.0,
+    "max_daily_loss_watch_usd": 25000.0,
+    "max_drawdown_observed": 0.18867421527305756,
+    "max_notional_cap_usd": 1000000.0,
+    "max_toxic_gate_active_fraction_observed": 1.0,
+    "mean_toxic_gate_active_fraction": 0.3333333333333333,
+    "n_evidence_sources": 6,
+    "notional_observed_usd": 519749.8780964023,
+    "notional_watch_usd": 750000.0,
+    "paper_all_critical_passed": true,
+    "paper_failed": 0,
+    "paper_live_trading_enabled": false,
+    "paper_mode": "paper",
+    "sharpe_improvement_vs_eval10": 38.24278422031901,
+    "sharpe_improvement_vs_no_hedge": 9.885918496162663,
+    "simulation": {
+      "alert_log": [
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 1,
+          "symbol": "BTC",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 1,
+          "symbol": "ETH",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 1,
+          "symbol": "SOL",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 2,
+          "symbol": "BTC",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 2,
+          "symbol": "ETH",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 2,
+          "symbol": "SOL",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 3,
+          "symbol": "BTC",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 3,
+          "symbol": "ETH",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 3,
+          "symbol": "SOL",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 4,
+          "symbol": "BTC",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 4,
+          "symbol": "ETH",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 4,
+          "symbol": "SOL",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 5,
+          "symbol": "BTC",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 5,
+          "symbol": "ETH",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        },
+        {
+          "hedge_cost_usd": 0.0,
+          "hedge_notional_usd": 0.0,
+          "net_delta_usd": 0.0,
+          "num_hedges": 0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "seed": 5,
+          "symbol": "SOL",
+          "toxic_gate_active": false,
+          "toxicity_score": 0.0
+        }
+      ],
+      "cost_budget_bps": 0.5,
+      "daily_loss_estimate_usd": 18867.421527305756,
+      "effective_cost_bps": 1.0643514468628845,
+      "max_drawdown_observed": 0.18867421527305756,
+      "max_single_series_notional_usd": 519749.8780964023,
+      "mean_abs_delta_usd": 150.8213456031083,
+      "mean_max_drawdown": 0.065,
+      "mean_oos_return": 0.4768592349060418,
+      "mean_oos_sharpe": 15.47685465828329,
+      "mean_toxicity_score": 0.713277330797748,
+      "n_seeds": 5,
+      "seeds_simulated": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "target_delta_usd": -20000.0,
+      "total_cost_usd": 377.06695863833664,
+      "total_hedges": 2280,
+      "total_traded_notional": 646.4230312530128,
+      "total_trades": 15,
+      "toxic_gate_active_fraction": 0.3333333333333333,
+      "toxicity_threshold": 0.7
+    },
+    "target_delta_usd": -20000.0,
+    "toxicity_gate_threshold": 0.7,
+    "toxicity_watch_level": 0.5
+  },
+  "reconciliation_metrics": {
+    "freshness_met": true,
+    "freshness_target_gte": 0.99,
+    "iterations_expected": 5,
+    "iterations_passed": 5,
+    "simulation_bars": 2500,
+    "symbols_simulated": 3
+  },
+  "report_id": "PAPER_EXECUTION_HARDENING_EVAL_15",
+  "trading_mode": "paper",
+  "verdict": "GO",
+  "verdict_checks": {
+    "all_checks_pass": true,
+    "checks": [
+      {
+        "name": "evidence_sources_complete",
+        "observed": 6.0,
+        "pass": true,
+        "reason": "PASS: 6 sealed evidence source(s) compared",
+        "threshold": 1
+      },
+      {
+        "name": "eval14_paper_readiness_go",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: EVAL-14 paper deployment readiness verdict GO",
+        "threshold": 1.0
+      },
+      {
+        "name": "eval13_certification_go",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: EVAL-13 final strategy certification verdict GO",
+        "threshold": 1.0
+      },
+      {
+        "name": "eval13_all_checks_pass",
+        "observed": 8.0,
+        "pass": true,
+        "reason": "PASS: EVAL-13 8/8 checks pass",
+        "threshold": 8.0
+      },
+      {
+        "name": "eval12_walkforward_go",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: EVAL-12 real-data walk-forward verdict GO",
+        "threshold": 1.0
+      },
+      {
+        "name": "paper_pre_live_gates_all_passed",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: paper pre-live readiness gates all critical passed (failed=0)",
+        "threshold": 1.0
+      },
+      {
+        "name": "continuous_validation_all_passed",
+        "observed": 5.0,
+        "pass": true,
+        "reason": "PASS: continuous validation 5/5 iterations passed",
+        "threshold": 5.0
+      },
+      {
+        "name": "reconciliation_freshness_met",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: reconciliation freshness >= 0.99 met",
+        "threshold": 0.99
+      },
+      {
+        "name": "all_execution_guardrails_pass",
+        "observed": 9.0,
+        "pass": true,
+        "reason": "PASS: all 9 execution guardrail checks pass",
+        "threshold": 9.0
+      },
+      {
+        "name": "kill_switch_not_triggered",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: no kill-switch halt condition triggered",
+        "threshold": 1.0
+      },
+      {
+        "name": "live_trading_disabled",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: live trading disabled (paper-only execution)",
+        "threshold": 1.0
+      },
+      {
+        "name": "metrics_and_thresholds_finite",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: all metrics and thresholds finite",
+        "threshold": 1.0
+      }
+    ],
+    "n_checks": 12,
+    "n_passed": 12,
+    "verdict": "GO"
+  }
+}

@@ -238,31 +238,31 @@ def test_evaluate_paper_execution_hardening_full_run():
             seeds=[1, 2],
         )
 
-    assert report["report_id"] == "PAPER_EXECUTION_HARDENING_EVAL_15"
-    assert report["verdict"] == "GO"
-    assert report["trading_mode"] == "paper"
-    assert report["live_trading_enabled"] is False
-    assert report["never_valid_true"] is True
-    assert "artifact_paths" in report
-    assert "json" in report["artifact_paths"]
-    assert "md" in report["artifact_paths"]
+        assert report["report_id"] == "PAPER_EXECUTION_HARDENING_EVAL_15"
+        assert report["verdict"] == "GO"
+        assert report["trading_mode"] == "paper"
+        assert report["live_trading_enabled"] is False
+        assert report["never_valid_true"] is True
+        assert "artifact_paths" in report
+        assert "json" in report["artifact_paths"]
+        assert "md" in report["artifact_paths"]
 
-    json_path = Path(report["artifact_paths"]["json"])
-    md_path = Path(report["artifact_paths"]["md"])
-    assert json_path.exists()
-    assert md_path.exists()
+        json_path = Path(report["artifact_paths"]["json"])
+        md_path = Path(report["artifact_paths"]["md"])
+        assert json_path.exists()
+        assert md_path.exists()
 
-    with json_path.open("r") as f:
-        loaded = json.load(f)
-    assert loaded["report_id"] == "PAPER_EXECUTION_HARDENING_EVAL_15"
-    assert loaded["verdict"] == "GO"
-    assert loaded["live_trading_enabled"] is False
-    assert "paper_execution_metrics" in loaded
-    assert "execution_thresholds" in loaded
-    assert "evidence_matrix" in loaded
-    assert "verdict_checks" in loaded
-    assert "reconciliation_metrics" in loaded
-    assert "deployment_authorization" in loaded
+        with json_path.open("r") as f:
+            loaded = json.load(f)
+        assert loaded["report_id"] == "PAPER_EXECUTION_HARDENING_EVAL_15"
+        assert loaded["verdict"] == "GO"
+        assert loaded["live_trading_enabled"] is False
+        assert "paper_execution_metrics" in loaded
+        assert "execution_thresholds" in loaded
+        assert "evidence_matrix" in loaded
+        assert "verdict_checks" in loaded
+        assert "reconciliation_metrics" in loaded
+        assert "deployment_authorization" in loaded
 
 
 def test_serialization_no_nan_infinity():
