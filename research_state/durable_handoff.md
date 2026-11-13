@@ -2,38 +2,32 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission (inferred priority):** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. Deliverable is the strategy and its measured performance, not orchestrator wrappers.
-**Refreshed:** 2026-11-13T10:08:00Z (UTC)
+**Refreshed:** 2026-11-13T10:52:00Z (UTC)
 **Authority:** this file is the only actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action. Do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope).
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T10:08:00Z (copy-paste to the next agent — THIS IS YOUR WORK)
+## INITIAL TASK MESSAGE — 2026-11-13T10:52:00Z (copy-paste to the next agent — STOP STATE)
 
-**TASK ID:** `INIT-2026-11-13T10:08:00Z-EVAL-19-ACTIVE`
-**STATUS:** **EVAL-19 (Net-of-Cost Production Simulation & Robustness Certification) IS THE ACTIVE REQUIRED TASK.** EVAL-02..EVAL-18 are sealed (see below). No EVAL-19 implementation/artifacts exist yet (`src/analytics/production_simulation_evaluation.py`, `tests/test_production_simulation_evaluation.py`, `research_state/PRODUCTION_SIMULATION_EVAL_*` absent as of this refresh).
+**TASK ID:** `INIT-2026-11-13T10:52:00Z-EVAL-19-SEALED-STOP`
+**STATUS:** **EVAL-19 (Net-of-Cost Production Simulation & Robustness Certification) IS SEALED (NO-GO, legitimate). EVAL-02..EVAL-19 are sealed. No next EVAL is defined.**
 
-> **MANDATORY — DO THE HEAVY WORK (do not just read, do not handoff-only/no-op):**
+> **MANDATORY — STOP (do not do handoff-only/no-op work, do not invent new EVALs/wrappers):**
 >
-> Implement **EVAL-19 — Net-of-Cost Production Simulation & Robustness Certification** (paper-only, deterministic, no network, no `.env`, no live). Combine both repo pillars (options + orderflow) into production-grade net-of-cost simulation with robustness stress.
+> EVAL-19 was implemented, verified, and sealed in-place. If you read this and EVAL-19 remains sealed, **STOP**. Do not re-open sealed EVALs, do not create `phaseNN_*_post_attribution_seal_orchestrator` wrappers, do not enumerate `research_state/`, and do not run the full 865-file test suite.
 >
-> **DELIVERABLES (all required):**
-> 1. `src/analytics/production_simulation_evaluation.py` — module with `compute_production_simulation_verdict(...) -> dict`
-> 2. `tests/test_production_simulation_evaluation.py` — **12–18 numeric-invariant tests** (not smoke tests)
-> 3. CLI: `python -m src.analytics.production_simulation_evaluation --out research_state/`
-> 4. Strict artifact: `research_state/PRODUCTION_SIMULATION_EVAL_<UTC>.{json,md}` emitted by CLI
->
-> **HEAVY WORK FLOOR (every item mandatory, no prose-only verdicts, no stubs):**
-> 1. **Load real data only:** `src.campaign.integrated._load_options_chain("BTC", 65000.0, DETERMINISTIC_NOW, "synthetic")` (30-quote BTC chain, EVAL-16) and `_load_orderflow("BTC","synthetic")` (1000 trades, 20 liqs, 8 funding, BTCUSDT, EVAL-17). No `research_state/` enumeration, no network.
-> 2. **Combined signal walk-forward:** reuse EVAL-18 combined pattern — reconstructed-surface options signal + causal EVAL-17 `net_aggression` orderflow signal + VPIN toxicity gate at 0.7. Deterministic multi-seed walk-forward (seeds 1–10) via `src.analytics.strategy_evaluation.compute_metrics` with capacity-aware cost model (`DEFAULT_SPREAD_BPS`, `DEFAULT_IMPACT_COEFF`, `DEFAULT_MAX_PARTICIPATION` from `src.analytics.capacity_aware_tca`).
-> 3. **Controls:** report net return, Sharpe, max-DD, total cost USD, num trades, num windows for (a) combined, (b) always-flat, (c) options-only, (d) orderflow-only — same toxicity gate and cost model.
-> 4. **Robustness/stress:** regime stress (high vs low VPIN toxicity; high vs low IV skew), cost sensitivity (0 / 0.5 / 1 / 5 bps), kill-switch triggers (DD 20% / toxicity 80% / cost 5 bps). Report per regime/cost setting.
-> 5. **Statistical defensibility:** IC (Pearson) combined vs forward returns (horizons 1/5/20) + block-bootstrap CI (`block_bootstrap_ci`); paired permutation (combined vs best single-pillar) via `permutation_test`; DSR and PBO/CSCV across seeds/windows; Benjamini–Hochberg FDR across four series.
-> 6. **Deterministic verdict `compute_production_simulation_verdict(...) -> dict`:** explicit checks — `signal_exists`, `ic_significant`, `net_of_cost_superior_vs_controls`, `toxicity_gate_measured` (non-0/1), `robust_across_regimes`, `guardrails_consistent_with_eval13_14_15` (delta band ±323.77 USD, toxicity gate 0.7, cost budget 0.5 bps, kill-switch DD 20%/toxicity 80%/cost 5 bps, max notional 1M USD, max daily loss 50k USD). Each check: numeric threshold + rationale, finite metrics, evidence matrix. Strict-serializable via `serialize_metrics_strict`/`assert_json_valid` (`allow_nan=False`). **Never emit `{"valid": true}`.**
-> 7. **Verify & seal:** `python -m py_compile src/analytics/production_simulation_evaluation.py` + targeted `pytest -q tests/test_production_simulation_evaluation.py` must pass. Emit strict artifact, then **update this handoff in place** to seal EVAL-19 (verdict, artifact paths, key numbers, timestamps, test/compile results). If incomplete, commit/push partial module and leave exact next line/blocker here.
+> **If a human explicitly defines a new heavy-work EVAL (with scope/deliverables),** replace this section in place with that single timestamped actionable task (new TASK ID), keep this file the only actionable handoff, and execute the full heavy-work floor (module + 12–18 numeric-invariant tests + CLI + strict artifact + verification + seal). A session ending with no new EVAL artifact is FAILED.
+
+**EVAL-19 seal (2026-11-13T10:52:00Z, measured):**
+- **Verdict:** **NO-GO (legitimate, measured)** — 4/6 checks pass; failed `net_of_cost_superior_vs_controls`, `robust_across_regimes`.
+- **Checks:** PASS `signal_exists` (combined IC mean -0.076959, |IC|>1e-9), PASS `ic_significant` (|t|=5.0564, permutation p=0.0010), FAIL `net_of_cost_superior_vs_controls` (mean Sharpe combined -30.063030 vs options-only -21.548226, orderflow-only -30.050428, flat 0.0; cost applied), PASS `toxicity_gate_measured` (mean VPIN 0.4408, gate engagement 0.2250 non-degenerate), FAIL `robust_across_regimes` (low-tox Sharpe 0.0, high-tox Sharpe -28.488097 vs flat 0.0), PASS `guardrails_consistent_with_eval13_14_15` (delta band ±323.77 USD, toxicity gate 0.7, cost budget 0.5 bps, kill-switch DD 20%/tox 80%/cost 5 bps, max notional 1M USD, max daily loss 50k USD).
+- **Walk-forward (seeds 1–10, 3 windows, BTC synthetic, capacity-aware costs):** combined return -0.396136, Sharpe -30.063030, max-DD 0.396136, cost 13.916 USD, 95 trades; flat 0.0/0.0/0.0/0.0 USD/0 trades; options-only return -0.270734, Sharpe -21.548226, max-DD 0.270734, cost 14.456 USD, 119.5 trades; orderflow-only return -0.398124, Sharpe -30.050428, max-DD 0.398124, cost 13.916 USD, 95 trades.
+- **Robustness:** cost sensitivity grid [0.0, 0.5, 1.0, 5.0] bps reported (cost rises with spread); kill-switch observed max DD 0.398124 (DD trigger true at 20% threshold), max toxicity 0.565912 (tox trigger false), main cost ~1.3916 bps (cost trigger false). DSR/PBO/BH-FDR and permutation pairs computed.
+- **Data/evidence:** real loaders only — `data/raw/options_btc_synthetic.json` (30 quotes) and `data/raw/orderflow_btcusdt_synthetic.json` (1000 trades, 20 liqs, 8 funding), deterministic, no network; paper-only (`live_trading_enabled=false`, no `.env`), strict serialization (`allow_nan=False`, never `{"valid": true}`).
+- **Deliverables (present):** `src/analytics/production_simulation_evaluation.py`, `tests/test_production_simulation_evaluation.py` (16 numeric-invariant tests), CLI `python -m src.analytics.production_simulation_evaluation --out research_state/`, artifacts `research_state/PRODUCTION_SIMULATION_EVAL_20261113T104657Z.{json,md}` (latest).
+- **Verification:** `python -m py_compile src/analytics/production_simulation_evaluation.py` OK; `python -m py_compile tests/test_production_simulation_evaluation.py` OK; `python -m pytest -q tests/test_production_simulation_evaluation.py` → **16 passed** (2026-11-13T10:52:00Z).
 
 **Constraints:** paper-only; `.env` absent, `LIVE_TRADING_ENABLED=false`; no live enablement, no `.env` creation, no venue/config/credential mutation, no network calls to exchanges, no NEXT9 unblock, no enumerating `research_state/`, no full 865-file test suite, no new `phaseNN_*_post_attribution_seal_orchestrator` wrappers, do not re-open sealed EVALs. `scripts/run_backtest.py` is vacuous smoke test.
-
-**If EVAL-19 is already sealed when you read this:** STOP — no next EVAL defined. Do not re-open sealed EVALs, do not create phase wrappers, do not do handoff-only/no-op work.
 
 ---
 
