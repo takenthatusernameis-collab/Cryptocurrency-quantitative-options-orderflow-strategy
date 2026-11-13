@@ -1,0 +1,2227 @@
+{
+  "aggregate": {
+    "bootstrap_ci_mean_net_return": {
+      "block_size": 3,
+      "hi": -0.5057359532795179,
+      "lo": -0.6420782581536484,
+      "n_bootstrap": 2000,
+      "point": -0.5580107668605527
+    },
+    "bootstrap_ci_mean_net_sharpe": {
+      "block_size": 3,
+      "hi": -11.137883139011684,
+      "lo": -36.746608398564874,
+      "n_bootstrap": 2000,
+      "point": -22.765929562035716
+    },
+    "cost_grid": {
+      "0": {
+        "bps": 0.0,
+        "mean_net_return": -0.5576406801116122,
+        "mean_net_sharpe": -22.75987729545884,
+        "num_series": 15
+      },
+      "1": {
+        "bps": 1.0,
+        "mean_net_return": -0.5580107668605527,
+        "mean_net_sharpe": -22.765929562035716,
+        "num_series": 15
+      },
+      "10": {
+        "bps": 10.0,
+        "mean_net_return": -0.5613290542812178,
+        "mean_net_sharpe": -22.820813934381082,
+        "num_series": 15
+      },
+      "5": {
+        "bps": 5.0,
+        "mean_net_return": -0.5594883344503738,
+        "mean_net_sharpe": -22.790230487909287,
+        "num_series": 15
+      }
+    },
+    "eval06_baseline_reference": {
+      "artifact": "research_state/STRATEGY_FALSIFICATION_20261112T163240Z.json",
+      "mean_net_return": 0.025482060068668044,
+      "mean_net_sharpe": 8.860771301305718,
+      "pass_fraction": 0.6,
+      "present": true,
+      "verdict": "NO-GO"
+    },
+    "failing_conditions": [
+      "BTC: net_sharpe_positive",
+      "BTC: bootstrap_lower_positive",
+      "BTC: net_return_positive",
+      "SOL: net_sharpe_positive",
+      "SOL: net_return_positive",
+      "BTC: net_sharpe_positive",
+      "BTC: net_return_positive",
+      "ETH: net_sharpe_positive",
+      "ETH: bootstrap_lower_positive",
+      "ETH: net_return_positive",
+      "SOL: net_sharpe_positive",
+      "SOL: net_return_positive",
+      "BTC: net_sharpe_positive",
+      "BTC: net_return_positive",
+      "SOL: net_sharpe_positive",
+      "SOL: net_return_positive",
+      "BTC: net_sharpe_positive",
+      "BTC: bootstrap_lower_positive",
+      "BTC: net_return_positive",
+      "ETH: bootstrap_lower_positive",
+      "SOL: net_sharpe_positive",
+      "SOL: net_return_positive",
+      "BTC: net_sharpe_positive",
+      "BTC: net_return_positive",
+      "SOL: net_sharpe_positive",
+      "SOL: net_return_positive"
+    ],
+    "go_seed_fraction": 0.7,
+    "mean_net_return": -0.5580107668605527,
+    "mean_net_sharpe": -22.765929562035716,
+    "num_seeds": 5,
+    "pass_fraction": 0.0,
+    "passing_series": 3,
+    "permutation_with_vs_without_hedge": {
+      "n_permutations": 2000,
+      "observed_difference": -0.23060913675780972,
+      "p_value": 0.0004997501249375312,
+      "paired": true,
+      "significant_at_05": true,
+      "statistic_a": -0.20687697155537366,
+      "statistic_b": 0.023732165202436057
+    },
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "seeds_passing": 0,
+    "series_pass_fraction": 0.2,
+    "total_series": 15,
+    "verdict": "NO-GO"
+  },
+  "config": {
+    "cost_grid_bps": [
+      0,
+      1,
+      5,
+      10
+    ],
+    "embargo": 5,
+    "go_seed_fraction": 0.7,
+    "initial_capital": 100000.0,
+    "n_permutations": 1000,
+    "n_points": 500,
+    "net_baseline_bps": 1.0,
+    "purge": 10,
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "step_size": 40,
+    "symbols": [
+      "BTC",
+      "ETH",
+      "SOL"
+    ],
+    "test_window": 40,
+    "train_window": 120
+  },
+  "generated_at": "2026-11-13T01:12:55.492368Z",
+  "never_valid_true": true,
+  "per_seed": [
+    {
+      "failing_conditions": [
+        "BTC: net_sharpe_positive",
+        "BTC: bootstrap_lower_positive",
+        "BTC: net_return_positive",
+        "SOL: net_sharpe_positive",
+        "SOL: net_return_positive"
+      ],
+      "num_symbols": 3,
+      "seed": 1,
+      "seed_pass": false,
+      "symbols": {
+        "BTC": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.018210494508101534,
+              "lo": -0.32760293964001175,
+              "point": -0.18046392799290528
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -11.841725268978145,
+              "lo": -11.841725268978145,
+              "point": -11.841725268978145
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": false,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.9207836703582938,
+              "net_return": -0.9207836703582938,
+              "net_sharpe": -11.841691655413014
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.9208708721159998,
+              "net_return": -0.9208708721159997,
+              "net_sharpe": -11.841725268978145
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.9216526497154035,
+              "net_return": -0.9216526497154035,
+              "net_sharpe": -11.84202685963294
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.9212190034677016,
+              "net_return": -0.9212190034677017,
+              "net_sharpe": -11.841859515935944
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.18957745280853813,
+            "p_value": 0.11788211788211789,
+            "paired": true,
+            "significant_at_05": false
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.04044340396723268,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5511267664441095,
+            "num_bars": 380,
+            "num_hedges": 44,
+            "num_skipped_due_to_toxicity": 336,
+            "num_trades": 49,
+            "num_windows": 10,
+            "oos_ann_vol": 3.8403956198298514,
+            "oos_max_drawdown": 0.9208708721159998,
+            "oos_return": -0.9208708721159998,
+            "oos_sharpe": -11.841725268978145,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 1,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 51.733246396216835,
+            "total_traded_notional": 531102.8909832702,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.5287366863830814,
+              0.0,
+              0.0,
+              -0.5442170497351028,
+              -0.5495805987298533,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              -0.18210494508101532
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 726.0982757364493,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 7.885202468974737e-06,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 27,
+            "num_windows": 10,
+            "oos_ann_vol": 0.5532444385947864,
+            "oos_max_drawdown": 0.048111230042853455,
+            "oos_return": 0.08861769598251688,
+            "oos_sharpe": 4.151163741243835,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 1,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 57.217821876037874,
+            "total_traded_notional": 523672.309392809,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.09761356650321425,
+              0.0,
+              0.0,
+              -0.04811123004285342,
+              0.009266063150311239,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.03236684854565654
+            ],
+            "with_hedge": false
+          }
+        },
+        "ETH": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": 0.048861022312128626,
+              "lo": 0.0031283815734691744,
+              "point": 0.03294388847779953
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": 9.34346193625719,
+              "lo": 9.34346193625719,
+              "point": 9.34346193625719
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": true,
+            "net_sharpe_positive": true
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.013578300036850061,
+              "net_return": 0.36495441546055973,
+              "net_sharpe": 9.361289566606306
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.013757237927580117,
+              "net_return": 0.36382076747070236,
+              "net_sharpe": 9.34346193625719
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.015367678944150772,
+              "net_return": 0.35365194698147695,
+              "net_sharpe": 9.181039880305455
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.014472989490500434,
+              "net_return": 0.35929374002957304,
+              "net_sharpe": 9.271713513560098
+            }
+          },
+          "pass": true,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": 0.0,
+            "p_value": 1.0,
+            "paired": true,
+            "significant_at_05": false
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 1237.409597214885,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.0002450543635733334,
+            "mean_toxicity_score": 1.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 380,
+            "num_trades": 46,
+            "num_windows": 10,
+            "oos_ann_vol": 0.8885207595474026,
+            "oos_max_drawdown": 0.013757237927580117,
+            "oos_return": 0.3638207674707024,
+            "oos_sharpe": 9.34346193625719,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 1,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 90.78891879006807,
+            "total_traded_notional": 876715.3696030034,
+            "toxic_gate_active_fraction": 1.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.1806450970019339,
+              0.031283815734691744,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.03236684854565654,
+              0.014505260196457676,
+              -0.013757237927580136,
+              0.08439510122683554
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 1237.409597214885,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.0002450543635733334,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 46,
+            "num_windows": 10,
+            "oos_ann_vol": 0.8885207595474026,
+            "oos_max_drawdown": 0.013757237927580117,
+            "oos_return": 0.3638207674707024,
+            "oos_sharpe": 9.34346193625719,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 1,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 90.78891879006807,
+            "total_traded_notional": 876715.3696030034,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.1806450970019339,
+              0.031283815734691744,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.03236684854565654,
+              0.014505260196457676,
+              -0.013757237927580136,
+              0.08439510122683554
+            ],
+            "with_hedge": false
+          }
+        },
+        "SOL": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.46764073144821355,
+              "lo": -0.5345378998196189,
+              "point": -0.5067906400478689
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -134.42726967162275,
+              "lo": -134.42726967162275,
+              "point": -134.42726967162275
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.9991972348878635,
+              "net_return": -0.9991972348878634,
+              "net_sharpe": -134.42117721936154
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.9991997967079281,
+              "net_return": -0.9991997967079281,
+              "net_sharpe": -134.42726967162275
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.9992225251674105,
+              "net_return": -0.9992225251674105,
+              "net_sharpe": -134.48190367215753
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.9992099708082959,
+              "net_return": -0.9992099708082959,
+              "net_sharpe": -134.45159539474338
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.5122378383947782,
+            "p_value": 0.004995004995004995,
+            "paired": true,
+            "significant_at_05": true
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.1177818410089144,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5887052259491347,
+            "num_bars": 380,
+            "num_hedges": 143,
+            "num_skipped_due_to_toxicity": 237,
+            "num_trades": 223,
+            "num_windows": 10,
+            "oos_ann_vol": 0.9500396876618441,
+            "oos_max_drawdown": 0.9991997967079281,
+            "oos_return": -0.9991997967079281,
+            "oos_sharpe": -134.42726967162275,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 1,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 147.6676702656527,
+            "total_traded_notional": 1544450.1460781507,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.5260359976448428,
+              -0.5081636469232503,
+              -0.3320058848596684,
+              -0.5479187969391901,
+              -0.5508258697604843,
+              -0.536327121371945,
+              -0.5163982485558938,
+              -0.5156014197220132,
+              -0.5171997561301985,
+              -0.5174296585712027
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 2280.2541619694452,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.016142544779242533,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 117,
+            "num_windows": 10,
+            "oos_ann_vol": 1.095555233002015,
+            "oos_max_drawdown": 0.21682743534461915,
+            "oos_return": 0.031154311072912826,
+            "oos_sharpe": 1.2529664795263071,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 1,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 175.0823218142775,
+            "total_traded_notional": 1645376.3055584133,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.0792642239126211,
+              -0.07957212487341443,
+              -0.07587081899704644,
+              0.11118519010755525,
+              0.048894732744771754,
+              -0.0040177507307339695,
+              0.06139705584136827,
+              -0.05153212136765898,
+              0.042071674003805966,
+              0.08118037065306678
+            ],
+            "with_hedge": false
+          }
+        }
+      },
+      "symbols_passing": 1
+    },
+    {
+      "failing_conditions": [
+        "BTC: net_sharpe_positive",
+        "BTC: net_return_positive",
+        "ETH: net_sharpe_positive",
+        "ETH: bootstrap_lower_positive",
+        "ETH: net_return_positive",
+        "SOL: net_sharpe_positive",
+        "SOL: net_return_positive"
+      ],
+      "num_symbols": 3,
+      "seed": 2,
+      "seed_pass": false,
+      "symbols": {
+        "BTC": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.04906404011931231,
+              "lo": -0.32586550049096197,
+              "point": -0.22657002740599075
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -16.621354482822376,
+              "lo": -16.621354482822376,
+              "point": -16.621354482822376
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.9499345425875017,
+              "net_return": -0.9499345425875017,
+              "net_sharpe": -16.621298170735784
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.9499985165988233,
+              "net_return": -0.9499985165988233,
+              "net_sharpe": -16.621354482822376
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.9505713700865286,
+              "net_return": -0.9505713700865287,
+              "net_sharpe": -16.62185949788737
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.9502537645732546,
+              "net_return": -0.9502537645732546,
+              "net_sharpe": -16.621579331871974
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.22656086423999233,
+            "p_value": 0.022977022977022976,
+            "paired": true,
+            "significant_at_05": true
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.05510413097691082,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5511267664441095,
+            "num_bars": 380,
+            "num_hedges": 46,
+            "num_skipped_due_to_toxicity": 334,
+            "num_trades": 67,
+            "num_windows": 10,
+            "oos_ann_vol": 3.4350778671687756,
+            "oos_max_drawdown": 0.9499985165988233,
+            "oos_return": -0.9499985165988233,
+            "oos_sharpe": -16.621354482822376,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 2,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 68.34495862002146,
+            "total_traded_notional": 706526.6079912717,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.5414667585786026,
+              -0.09562449451625202,
+              0.0,
+              0.0,
+              0.0,
+              -0.3950159066768711,
+              0.0,
+              -0.3950159066768711,
+              -0.5075295284722395,
+              -0.3310476791390711
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 769.511334654191,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 1.0419731834002329e-05,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 36,
+            "num_windows": 10,
+            "oos_ann_vol": 0.3903357005598059,
+            "oos_max_drawdown": 0.042227945907618566,
+            "oos_return": -0.00303396723234604,
+            "oos_sharpe": -0.005915722872118271,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 2,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 59.62631453062613,
+            "total_traded_notional": 559742.8140553612,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.0010528335506575241,
+              -0.02785840471498843,
+              0.0,
+              0.0,
+              0.0,
+              0.0036067550645343728,
+              0.0,
+              0.06578130997609057,
+              -0.01832199744352867,
+              -0.024352128092749628
+            ],
+            "with_hedge": false
+          }
+        },
+        "ETH": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": 0.0,
+              "lo": -0.03767508805455293,
+              "point": -0.021954262709743138
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -8.560843823699242,
+              "lo": -8.560843823699242,
+              "point": -8.560843823699242
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": false,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.20604840164753682,
+              "net_return": -0.2060484016475368,
+              "net_sharpe": -8.56000379197474
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.2063642893463341,
+              "net_return": -0.2063642893463341,
+              "net_sharpe": -8.560843823699242
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.20920419161703946,
+              "net_return": -0.20920419161703963,
+              "net_sharpe": -8.568155418800261
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.2076271540795204,
+              "net_return": -0.20762715407952048,
+              "net_sharpe": -8.564148046567698
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": 0.0,
+            "p_value": 1.0,
+            "paired": true,
+            "significant_at_05": false
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 521.340917373124,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.00011231658330444449,
+            "mean_toxicity_score": 1.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 380,
+            "num_trades": 21,
+            "num_windows": 10,
+            "oos_ann_vol": 0.6462533737082736,
+            "oos_max_drawdown": 0.2063642893463341,
+            "oos_return": -0.2063642893463341,
+            "oos_sharpe": -8.560843823699242,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 2,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 40.81223476887008,
+            "total_traded_notional": 360419.6432199599,
+            "toxic_gate_active_fraction": 1.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.1293498487331094,
+              -0.02785840471498843,
+              0.0,
+              0.0,
+              -0.06233437364933357,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 521.340917373124,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.00011231658330444449,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 21,
+            "num_windows": 10,
+            "oos_ann_vol": 0.6462533737082736,
+            "oos_max_drawdown": 0.2063642893463341,
+            "oos_return": -0.2063642893463341,
+            "oos_sharpe": -8.560843823699242,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 2,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 40.81223476887008,
+            "total_traded_notional": 360419.6432199599,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.1293498487331094,
+              -0.02785840471498843,
+              0.0,
+              0.0,
+              -0.06233437364933357,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "with_hedge": false
+          }
+        },
+        "SOL": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.3927799853876109,
+              "lo": -0.541543618933476,
+              "point": -0.4635903398306208
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -44.09961870351015,
+              "lo": -44.09961870351015,
+              "point": -44.09961870351015
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.9986157810839299,
+              "net_return": -0.9986157810839299,
+              "net_sharpe": -44.09923084493081
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.9986196755730279,
+              "net_return": -0.9986196755730279,
+              "net_sharpe": -44.09961870351015
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.9986542918537454,
+              "net_return": -0.9986542918537454,
+              "net_sharpe": -44.103098434759744
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.9986351567086217,
+              "net_return": -0.9986351567086217,
+              "net_sharpe": -44.10116769049119
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.47737119675021916,
+            "p_value": 0.002997002997002997,
+            "paired": true,
+            "significant_at_05": true
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.10389163599675942,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5887052259491347,
+            "num_bars": 380,
+            "num_hedges": 127,
+            "num_skipped_due_to_toxicity": 253,
+            "num_trades": 186,
+            "num_windows": 10,
+            "oos_ann_vol": 2.6491105608588326,
+            "oos_max_drawdown": 0.9986196755730279,
+            "oos_return": -0.9986196755730279,
+            "oos_sharpe": -44.09961870351015,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 2,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 134.5761333015888,
+            "total_traded_notional": 1332629.4741770148,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.5383716581245089,
+              -0.5598710452593363,
+              -0.5312117786255888,
+              -0.5205228921490854,
+              -0.5211933118588798,
+              -0.5228511778169131,
+              -0.5495405973614197,
+              -0.5603350522508078,
+              -0.3320058848596684,
+              0.0
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 1891.616983783526,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.0135433214673306,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 98,
+            "num_windows": 10,
+            "oos_ann_vol": 0.5646715680200886,
+            "oos_max_drawdown": 0.06865822606730679,
+            "oos_return": 0.13961879080253828,
+            "oos_sharpe": 6.150081109830626,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 2,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 153.298898728778,
+            "total_traded_notional": 1359533.6373848189,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.03969227260891843,
+              0.06557241180563549,
+              0.020195066945681465,
+              0.006451607688992662,
+              0.06962532211353303,
+              -0.005325205011202052,
+              0.011052782009318035,
+              -0.014514970248180617,
+              -0.05494071871671287,
+              0.0
+            ],
+            "with_hedge": false
+          }
+        }
+      },
+      "symbols_passing": 0
+    },
+    {
+      "failing_conditions": [
+        "BTC: net_sharpe_positive",
+        "BTC: net_return_positive",
+        "SOL: net_sharpe_positive",
+        "SOL: net_return_positive"
+      ],
+      "num_symbols": 3,
+      "seed": 3,
+      "seed_pass": false,
+      "symbols": {
+        "BTC": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.07284197803240614,
+              "lo": -0.464612897153112,
+              "point": -0.2507047802054133
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -15.531998032611332,
+              "lo": -15.531998032611332,
+              "point": -15.531998032611332
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.9715734204221405,
+              "net_return": -0.9715734204221405,
+              "net_sharpe": -15.531954074321597
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.9716193750845064,
+              "net_return": -0.9716193750845062,
+              "net_sharpe": -15.531998032611332
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.9720303689334087,
+              "net_return": -0.9720303689334087,
+              "net_sharpe": -15.532392448067633
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.9718026154972932,
+              "net_return": -0.9718026154972931,
+              "net_sharpe": -15.532173596659037
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.2903209285683062,
+            "p_value": 0.03496503496503497,
+            "paired": true,
+            "significant_at_05": true
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.0547113503766617,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5511267664441095,
+            "num_bars": 380,
+            "num_hedges": 63,
+            "num_skipped_due_to_toxicity": 317,
+            "num_trades": 93,
+            "num_windows": 10,
+            "oos_ann_vol": 4.067577428165715,
+            "oos_max_drawdown": 0.9716193750845064,
+            "oos_return": -0.9716193750845064,
+            "oos_sharpe": -15.531998032611332,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 3,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 68.07424136549814,
+            "total_traded_notional": 758139.2376951117,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.5670458709199011,
+              -0.09562449451625202,
+              -0.5651890250071442,
+              -0.5475674273662647,
+              -0.5495160391635553,
+              0.0,
+              -0.18210494508101532,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 1200.7340891481997,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 1.4362333068489698e-05,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 50,
+            "num_windows": 10,
+            "oos_ann_vol": 1.3173470432623917,
+            "oos_max_drawdown": 0.07129174729889957,
+            "oos_return": 0.4307918599790294,
+            "oos_sharpe": 7.578313883580436,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 3,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 87.76375460156906,
+            "total_traded_notional": 874155.2506299624,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.13560948410795726,
+              -0.01018729217723463,
+              0.23225885126684748,
+              -0.07129174729889957,
+              0.07740533918460206,
+              0.0,
+              0.03236684854565654,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "with_hedge": false
+          }
+        },
+        "ETH": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": 0.06627894716341241,
+              "lo": 0.0081657139971536,
+              "point": 0.03586027809092659
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": 11.669135501755713,
+              "lo": 11.669135501755713,
+              "point": 11.669135501755713
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": true,
+            "net_sharpe_positive": true
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.05427567134433331,
+              "net_return": 0.40784751583701095,
+              "net_sharpe": 11.692725105882408
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.05440950988146006,
+              "net_return": 0.40654878586607524,
+              "net_sharpe": 11.669135501755713
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.05561405671560071,
+              "net_return": 0.3949063428791024,
+              "net_sharpe": 11.454732544474123
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.05494486402996705,
+              "net_return": 0.4013641276318982,
+              "net_sharpe": 11.574311776151012
+            }
+          },
+          "pass": true,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": 0.0,
+            "p_value": 1.0,
+            "paired": true,
+            "significant_at_05": false
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 1335.0066870171295,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.0004645822309411113,
+            "mean_toxicity_score": 1.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 380,
+            "num_trades": 90,
+            "num_windows": 10,
+            "oos_ann_vol": 0.7744181287083219,
+            "oos_max_drawdown": 0.05440950988146006,
+            "oos_return": 0.4065487858660752,
+            "oos_sharpe": 11.669135501755713,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 3,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 143.47946953905813,
+            "total_traded_notional": 969078.4777712736,
+            "toxic_gate_active_fraction": 1.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.07914997585356687,
+              0.09674336385449758,
+              0.02634979783721603,
+              -0.05440950988146011,
+              0.028902456285578228,
+              0.08915274079736468,
+              0.09271395616250258,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 1335.0066870171295,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.0004645822309411113,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 90,
+            "num_windows": 10,
+            "oos_ann_vol": 0.7744181287083219,
+            "oos_max_drawdown": 0.05440950988146006,
+            "oos_return": 0.4065487858660752,
+            "oos_sharpe": 11.669135501755713,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 3,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 143.47946953905813,
+            "total_traded_notional": 969078.4777712736,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.07914997585356687,
+              0.09674336385449758,
+              0.02634979783721603,
+              -0.05440950988146011,
+              0.028902456285578228,
+              0.08915274079736468,
+              0.09271395616250258,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "with_hedge": false
+          }
+        },
+        "SOL": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.15654243216864822,
+              "lo": -0.4780640308665425,
+              "point": -0.31613008695143774
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -19.427766932358637,
+              "lo": -19.427766932358637,
+              "point": -19.427766932358637
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.9887868872928248,
+              "net_return": -0.9887868872928248,
+              "net_sharpe": -19.427754976399992
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.9888095491866242,
+              "net_return": -0.9888095491866241,
+              "net_sharpe": -19.427766932358637
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.9890117944533073,
+              "net_return": -0.9890117944533073,
+              "net_sharpe": -19.427873973696453
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.9888998155112659,
+              "net_return": -0.9888998155112659,
+              "net_sharpe": -19.427814630971607
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.3829555830643136,
+            "p_value": 0.030969030969030968,
+            "paired": true,
+            "significant_at_05": true
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.0727407698942834,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5887052259491347,
+            "num_bars": 380,
+            "num_hedges": 93,
+            "num_skipped_due_to_toxicity": 287,
+            "num_trades": 139,
+            "num_windows": 10,
+            "oos_ann_vol": 4.100562982309288,
+            "oos_max_drawdown": 0.9888095491866242,
+            "oos_return": -0.9888095491866242,
+            "oos_sharpe": -19.427766932358637,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 3,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 91.57044286575494,
+            "total_traded_notional": 956835.2657692585,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.5192851609132197,
+              0.0,
+              0.0,
+              -0.5378696788573798,
+              -0.5454858560604554,
+              -0.5311055308542201,
+              -0.5064982345320095,
+              0.0,
+              0.0,
+              -0.5210564082970929
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 1508.8876886444157,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.0098496883398768,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 70,
+            "num_windows": 10,
+            "oos_ann_vol": 1.3073869185323057,
+            "oos_max_drawdown": 0.0,
+            "oos_return": 0.8563962597037263,
+            "oos_sharpe": 12.880674253150413,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 3,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 117.14938590741379,
+            "total_traded_notional": 1079680.5465982798,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.08608817661097229,
+              0.0,
+              0.0,
+              0.17969314340461046,
+              0.055146844145979264,
+              0.2528562535719304,
+              0.07315503236144898,
+              0.0,
+              0.0,
+              0.021315511033817167
+            ],
+            "with_hedge": false
+          }
+        }
+      },
+      "symbols_passing": 1
+    },
+    {
+      "failing_conditions": [
+        "BTC: net_sharpe_positive",
+        "BTC: bootstrap_lower_positive",
+        "BTC: net_return_positive",
+        "ETH: bootstrap_lower_positive",
+        "SOL: net_sharpe_positive",
+        "SOL: net_return_positive"
+      ],
+      "num_symbols": 3,
+      "seed": 4,
+      "seed_pass": false,
+      "symbols": {
+        "BTC": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.03642098901620307,
+              "lo": -0.19134675003546747,
+              "point": -0.12691730304668272
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -11.239492903213076,
+              "lo": -11.239492903213076,
+              "point": -11.239492903213076
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": false,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.8015421353832158,
+              "net_return": -0.8015421353832157,
+              "net_sharpe": -11.239445296843444
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.8016729436352026,
+              "net_return": -0.8016729436352025,
+              "net_sharpe": -11.239492903213076
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.8028476707960581,
+              "net_return": -0.8028476707960581,
+              "net_sharpe": -11.239919977624735
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.8021956103868549,
+              "net_return": -0.802195610386855,
+              "net_sharpe": -11.239683020882278
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.1474197411458264,
+            "p_value": 0.13486513486513488,
+            "paired": true,
+            "significant_at_05": false
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.03276985111114629,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5511267664441095,
+            "num_bars": 380,
+            "num_hedges": 27,
+            "num_skipped_due_to_toxicity": 353,
+            "num_trades": 41,
+            "num_windows": 10,
+            "oos_ann_vol": 2.845605281588896,
+            "oos_max_drawdown": 0.8016729436352026,
+            "oos_return": -0.8016729436352026,
+            "oos_sharpe": -11.239492903213076,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 4,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 41.025177926369146,
+            "total_traded_notional": 393503.32549271185,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.5099472336279255,
+              0.0,
+              0.0,
+              0.0,
+              -0.18210494508101532,
+              0.0,
+              -0.3950159066768711,
+              -0.18210494508101532,
+              0.0,
+              0.0
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 402.23263880313874,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 5.9139018517310516e-06,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 21,
+            "num_windows": 10,
+            "oos_ann_vol": 1.2647889818170392,
+            "oos_max_drawdown": 0.051532121367659084,
+            "oos_return": 0.19235163105860498,
+            "oos_sharpe": 4.084961582731112,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 4,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 33.88775061330909,
+            "total_traded_notional": 292881.7485228704,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.25713443535687924,
+              0.0,
+              0.0,
+              0.0,
+              -0.02785840471498843,
+              0.0,
+              0.0036067550645343728,
+              -0.02785840471498843,
+              0.0,
+              0.0
+            ],
+            "with_hedge": false
+          }
+        },
+        "ETH": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": 0.052321164079474736,
+              "lo": -0.004266490865518193,
+              "point": 0.02402808920735905
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": 5.366243585127584,
+              "lo": 5.366243585127584,
+              "point": 5.366243585127584
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": false,
+            "net_return_positive": true,
+            "net_sharpe_positive": true
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.054901275884807206,
+              "net_return": 0.24009986052851207,
+              "net_sharpe": 5.377499306389876
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.05494071871671291,
+              "net_return": 0.23928902967949162,
+              "net_sharpe": 5.366243585127584
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.055295704203864184,
+              "net_return": 0.23201051738029888,
+              "net_sharpe": 5.263989905924068
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.05509849004433562,
+              "net_return": 0.2360499235696203,
+              "net_sharpe": 5.32100984018077
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": 0.0,
+            "p_value": 1.0,
+            "paired": true,
+            "significant_at_05": false
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 999.1093806196656,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.00019910667040333338,
+            "mean_toxicity_score": 1.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 380,
+            "num_trades": 38,
+            "num_windows": 10,
+            "oos_ann_vol": 1.1283644479046726,
+            "oos_max_drawdown": 0.05494071871671291,
+            "oos_return": 0.23928902967949164,
+            "oos_sharpe": 5.366243585127584,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 4,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 79.026042537164,
+            "total_traded_notional": 704782.38458776,
+            "toxic_gate_active_fraction": 1.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.10094374895687797,
+              0.0,
+              0.0,
+              -0.05494071871671272,
+              0.19569668266266918,
+              -0.05494071871671287,
+              0.039827266996694234,
+              0.013694630890774715,
+              0.0,
+              0.0
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 999.1093806196656,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.00019910667040333338,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 38,
+            "num_windows": 10,
+            "oos_ann_vol": 1.1283644479046726,
+            "oos_max_drawdown": 0.05494071871671291,
+            "oos_return": 0.23928902967949164,
+            "oos_sharpe": 5.366243585127584,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 4,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 79.026042537164,
+            "total_traded_notional": 704782.38458776,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.10094374895687797,
+              0.0,
+              0.0,
+              -0.05494071871671272,
+              0.19569668266266918,
+              -0.05494071871671287,
+              0.039827266996694234,
+              0.013694630890774715,
+              0.0,
+              0.0
+            ],
+            "with_hedge": false
+          }
+        },
+        "SOL": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.2123973891110918,
+              "lo": -0.5456707500666946,
+              "point": -0.405905380560835
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -29.682503771981768,
+              "lo": -29.682503771981768,
+              "point": -29.682503771981768
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.9968862231012111,
+              "net_return": -0.9968862231012111,
+              "net_sharpe": -29.682350640858367
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.9968943684392891,
+              "net_return": -0.996894368439289,
+              "net_sharpe": -29.682503771981768
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.9969668498399593,
+              "net_return": -0.9969668498399593,
+              "net_sharpe": -29.683877349886092
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.9969267655042932,
+              "net_return": -0.996926765504293,
+              "net_sharpe": -29.683115272075966
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.4445156626657143,
+            "p_value": 0.01098901098901099,
+            "paired": true,
+            "significant_at_05": true
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.08890637961973216,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5887052259491347,
+            "num_bars": 380,
+            "num_hedges": 89,
+            "num_skipped_due_to_toxicity": 291,
+            "num_trades": 139,
+            "num_windows": 10,
+            "oos_ann_vol": 3.446075731585803,
+            "oos_max_drawdown": 0.9968943684392891,
+            "oos_return": -0.9968943684392891,
+            "oos_sharpe": -29.682503771981768,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 4,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 110.56656485190283,
+            "total_traded_notional": 1230938.3477518104,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.5537433134435925,
+              -0.5713913698708809,
+              -0.5436917929686266,
+              -0.5341662730482619,
+              -0.5364074818940198,
+              0.0,
+              0.0,
+              -0.3320058848596684,
+              -0.5915487546378928,
+              -0.3960989348854077
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 1591.5138830665276,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.010533694474590467,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 75,
+            "num_windows": 10,
+            "oos_ann_vol": 1.5896204689858693,
+            "oos_max_drawdown": 0.08735987708204822,
+            "oos_return": 0.3975027971471584,
+            "oos_sharpe": 6.120826499319609,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 4,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 112.87961800202028,
+            "total_traded_notional": 1120391.665092445,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.15088402719701188,
+              -0.07129174729889957,
+              0.14641545669693704,
+              0.24968405187093187,
+              -0.04811123004285371,
+              0.0,
+              0.0,
+              -0.024352128092749628,
+              0.007226518811164569,
+              -0.024352128092749628
+            ],
+            "with_hedge": false
+          }
+        }
+      },
+      "symbols_passing": 0
+    },
+    {
+      "failing_conditions": [
+        "BTC: net_sharpe_positive",
+        "BTC: net_return_positive",
+        "SOL: net_sharpe_positive",
+        "SOL: net_return_positive"
+      ],
+      "num_symbols": 3,
+      "seed": 5,
+      "seed_pass": false,
+      "symbols": {
+        "BTC": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.13312344223761766,
+              "lo": -0.3972367040325184,
+              "point": -0.24178071731380885
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -17.29666186575616,
+              "lo": -17.29666186575616,
+              "point": -17.29666186575616
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.9602782603924079,
+              "net_return": -0.9602782603924079,
+              "net_sharpe": -17.29661186135901
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.9603327414359744,
+              "net_return": -0.9603327414359742,
+              "net_sharpe": -17.29666186575616
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.9608203770032288,
+              "net_return": -0.9608203770032288,
+              "net_sharpe": -17.297110478068166
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.9605500661442778,
+              "net_return": -0.9605500661442778,
+              "net_sharpe": -17.296861565672764
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.2683330966982366,
+            "p_value": 0.026973026973026972,
+            "paired": true,
+            "significant_at_05": true
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.06198216333583449,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5511267664441095,
+            "num_bars": 380,
+            "num_hedges": 79,
+            "num_skipped_due_to_toxicity": 301,
+            "num_trades": 111,
+            "num_windows": 10,
+            "oos_ann_vol": 3.522572230177329,
+            "oos_max_drawdown": 0.9603327414359744,
+            "oos_return": -0.9603327414359744,
+            "oos_sharpe": -17.29666186575616,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 5,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 77.9524520972001,
+            "total_traded_notional": 742650.3007029586,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.4975916209697009,
+              0.0,
+              0.0,
+              -0.4816557644190815,
+              -0.26031574627498544,
+              -0.4854639730098328,
+              -0.5106751233834722,
+              -0.18210494508101532,
+              0.0,
+              0.0
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 1050.150661633454,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 1.6615248059625337e-05,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 59,
+            "num_windows": 10,
+            "oos_ann_vol": 0.7268450626362138,
+            "oos_max_drawdown": 0.02785840471498846,
+            "oos_return": 0.28685204776971585,
+            "oos_sharpe": 9.205812832527602,
+            "option_delta": 0.5218775274187396,
+            "option_gamma": 5.5847920990277744e-05,
+            "option_theta": -74074.8168460834,
+            "option_vega": 3585.6866023116904,
+            "seed": 5,
+            "symbol": "BTC",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 89.01654825577418,
+            "total_traded_notional": 764656.8983234268,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.08404270686446048,
+              0.0,
+              0.0,
+              0.0837947866128065,
+              -0.02785840471498843,
+              0.05921525278154324,
+              0.09418785701544373,
+              -0.02785840471498843,
+              0.0,
+              0.0
+            ],
+            "with_hedge": false
+          }
+        },
+        "ETH": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": 0.06628105797436754,
+              "lo": 0.016586723581238343,
+              "point": 0.036701130193515216
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": 10.455413722819562,
+              "lo": 10.455413722819562,
+              "point": 10.455413722819562
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": true,
+            "net_sharpe_positive": true
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.05871619959488235,
+              "net_return": 0.41518586993178697,
+              "net_sharpe": 10.483817894920158
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.058878664704548576,
+              "net_return": 0.4136161777236509,
+              "net_sharpe": 10.455413722819562
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.06034085069154506,
+              "net_return": 0.3995567301754199,
+              "net_sharpe": 10.198068877073457
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.05952852514321363,
+              "net_return": 0.40735249212448976,
+              "net_sharpe": 10.341416968777857
+            }
+          },
+          "pass": true,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": 0.0,
+            "p_value": 1.0,
+            "paired": true,
+            "significant_at_05": false
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 1687.3962606486684,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.0004135292385300001,
+            "mean_toxicity_score": 1.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 380,
+            "num_trades": 77,
+            "num_windows": 10,
+            "oos_ann_vol": 0.884583341602258,
+            "oos_max_drawdown": 0.058878664704548576,
+            "oos_return": 0.41361617772365106,
+            "oos_sharpe": 10.455413722819562,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 5,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 142.31202565229813,
+            "total_traded_notional": 1159591.8181723335,
+            "toxic_gate_active_fraction": 1.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.058878664704548576,
+              0.0789382378868635,
+              0.025626582332210674,
+              0.0,
+              0.0,
+              0.15283646991020666,
+              0.015055513840224157,
+              0.06962532211353303,
+              0.07522768397629902,
+              0.008580156580363691
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 1687.3962606486684,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.0004135292385300001,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 77,
+            "num_windows": 10,
+            "oos_ann_vol": 0.884583341602258,
+            "oos_max_drawdown": 0.058878664704548576,
+            "oos_return": 0.41361617772365106,
+            "oos_sharpe": 10.455413722819562,
+            "option_delta": 0.523015843255924,
+            "option_gamma": 0.0010146579073121518,
+            "option_theta": -4075.8501684507037,
+            "option_vega": 187.52881868387018,
+            "seed": 5,
+            "symbol": "ETH",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 142.31202565229813,
+            "total_traded_notional": 1159591.8181723335,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.058878664704548576,
+              0.0789382378868635,
+              0.025626582332210674,
+              0.0,
+              0.0,
+              0.15283646991020666,
+              0.015055513840224157,
+              0.06962532211353303,
+              0.07522768397629902,
+              0.008580156580363691
+            ],
+            "with_hedge": false
+          }
+        },
+        "SOL": {
+          "bootstrap_ci": {
+            "block_size": 3,
+            "mean_net_return": {
+              "hi": -0.4189389594362275,
+              "lo": -0.5443227019209746,
+              "point": -0.49188049323489863
+            },
+            "n_bootstrap": 2000,
+            "net_sharpe": {
+              "hi": -69.59396271994214,
+              "lo": -69.59396271994214,
+              "point": -69.59396271994214
+            }
+          },
+          "conditions": {
+            "admissible_track_record": true,
+            "bootstrap_lower_positive": true,
+            "net_return_positive": false,
+            "net_sharpe_positive": false
+          },
+          "cost_grid": {
+            "0": {
+              "bps": 0.0,
+              "max_drawdown": 0.9990513062751267,
+              "net_return": -0.9990513062751267,
+              "net_sharpe": -69.59197277348304
+            },
+            "1": {
+              "bps": 1.0,
+              "max_drawdown": 0.9990541355245007,
+              "net_return": -0.9990541355245008,
+              "net_sharpe": -69.59396271994214
+            },
+            "10": {
+              "bps": 10.0,
+              "max_drawdown": 0.9990792621684744,
+              "net_return": -0.9990792621684744,
+              "net_sharpe": -69.6118221129124
+            },
+            "5": {
+              "bps": 5.0,
+              "max_drawdown": 0.99906537742981,
+              "net_return": -0.99906537742981,
+              "net_sharpe": -69.60191135143721
+            }
+          },
+          "pass": false,
+          "permutation": {
+            "n_permutations": 1000,
+            "observed_difference": -0.5198446870312207,
+            "p_value": 0.000999000999000999,
+            "paired": true,
+            "significant_at_05": true
+          },
+          "with_hedge": {
+            "mean_abs_delta_usd": 0.0,
+            "mean_hedge_cost_usd": 0.10976135846606588,
+            "mean_inventory_skew": 0.0,
+            "mean_toxicity_score": 0.5887052259491347,
+            "num_bars": 380,
+            "num_hedges": 133,
+            "num_skipped_due_to_toxicity": 247,
+            "num_trades": 195,
+            "num_windows": 10,
+            "oos_ann_vol": 1.7811011106524548,
+            "oos_max_drawdown": 0.9990541355245007,
+            "oos_return": -0.9990541355245007,
+            "oos_sharpe": -69.59396271994214,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 5,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 141.75531965129937,
+            "total_traded_notional": 1422061.0231250073,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              -0.5516914914900694,
+              -0.5491876093513283,
+              -0.5421746968838924,
+              -0.5332074501482322,
+              -0.5325496673757137,
+              -0.5427105655983863,
+              -0.5563390606058465,
+              -0.18269093046734663,
+              -0.5321545255427638,
+              -0.3960989348854077
+            ],
+            "with_hedge": true
+          },
+          "without_hedge": {
+            "mean_abs_delta_usd": 2009.1883272852342,
+            "mean_hedge_cost_usd": 0.0,
+            "mean_inventory_skew": 0.014364128828987001,
+            "mean_toxicity_score": 0.0,
+            "num_bars": 380,
+            "num_hedges": 0,
+            "num_skipped_due_to_toxicity": 0,
+            "num_trades": 104,
+            "num_windows": 10,
+            "oos_ann_vol": 1.7150856256898983,
+            "oos_max_drawdown": 0.13975497840925763,
+            "oos_return": 0.24890305442587357,
+            "oos_sharpe": 4.108819251422782,
+            "option_delta": 0.5202573752294609,
+            "option_gamma": 0.027045301957810578,
+            "option_theta": -153.02852348055077,
+            "option_vega": 8.000558164569238,
+            "seed": 5,
+            "symbol": "SOL",
+            "target_delta_usd": 0.0,
+            "total_cost_usd": 163.95901677796007,
+            "total_traded_notional": 1467440.726674549,
+            "toxic_gate_active_fraction": 0.0,
+            "toxicity_threshold": 0.7,
+            "window_returns": [
+              0.09045273963116052,
+              -0.036640710114727554,
+              0.01849010390246156,
+              -0.12324739554738161,
+              0.010859338159020118,
+              0.12870710469675412,
+              0.2622127484057016,
+              -0.02785840471498843,
+              0.0568726548396112,
+              -0.10020624129439122
+            ],
+            "with_hedge": false
+          }
+        }
+      },
+      "symbols_passing": 1
+    }
+  ],
+  "report_id": "STRATEGY_EVAL_10_FINAL_GONOGO"
+}
