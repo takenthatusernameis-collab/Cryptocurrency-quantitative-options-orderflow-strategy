@@ -41,8 +41,7 @@
 >
 > **IF EVAL-17 IS ALREADY SEALED WHEN YOU READ THIS, MOVE TO EVAL-18 (INTEGRATED OPTIONS+ORDERFLOW NET-OF-COST) BELOW. NEVER END A SESSION WITH NO NEW SEALED EVAL ARTIFACT.**
 
-**SESSION CONFIRM — 2026-11-13T08:41:46Z (scan):** EVAL-16/EVAL-17 sealed (both NO-GO, legitimate, measured). Sole actionable handoff confirmed; root/legacy handoffs are retired pointers (no task IDs). No blocked or competing task sources; `.env` absent, `LIVE_TRADING_ENABLED=false`. **ACTIVE INITIAL TASK:** `INIT-2026-11-13T08:06:09Z-EVAL-18-ACTIVE` — implement EVAL-18 (integrated options+orderflow net-of-cost) per the INITIAL TASK MESSAGE below and seal it with module+12–18 numeric-invariant tests+CLI+strict `research_state/INTEGRATED_OPTIONS_ORDERFLOW_EVAL_<UTC>.{json,md}`. A session that only edits handoff/timestamps or verifies env is FAILED.
-
+**SESSION CONFIRM — 2026-11-13T08:42:55Z (scan):** EVAL-16/EVAL-17 sealed (both NO-GO, legitimate, measured). Sole actionable handoff confirmed; root/legacy handoffs are retired pointers (no task IDs). No blocked or competing task sources; `.env` absent, `LIVE_TRADING_ENABLED=false`. **INITIAL TASK FOR NEXT SESSION:** `INIT-2026-11-13T08:06:09Z-EVAL-18-ACTIVE` — implement EVAL-18 (integrated options+orderflow net-of-cost) per the "INITIAL TASK MESSAGE — 2026-11-13T08:06:09Z" section below and seal it with module+12–18 numeric-invariant tests+CLI+strict `research_state/INTEGRATED_OPTIONS_ORDERFLOW_EVAL_<UTC>.{json,md}`. A session that only edits handoff/timestamps, reads files, or verifies env is FAILED.
 ---
 ## INITIAL TASK MESSAGE — 2026-11-13T08:06:09Z (copy-paste to the next agent — THIS IS YOUR WORK)
 
