@@ -1,0 +1,891 @@
+{
+  "arbitrage": {
+    "arbitrage_free": false,
+    "butterfly_checks": 9,
+    "butterfly_max_violation": 0.40062445631680355,
+    "butterfly_violations": 1,
+    "calendar_checks": 10,
+    "calendar_max_violation": 0.0,
+    "calendar_violations": 0,
+    "total_violations": 1
+  },
+  "artifact_paths": {
+    "json": "research_state/OPTIONS_SURFACE_GREEKS_EVAL_20261113T070426Z.json",
+    "md": "research_state/OPTIONS_SURFACE_GREEKS_EVAL_20261113T070426Z.md"
+  },
+  "book_greeks": {
+    "atm_term_structure": {
+      "0.0035674976961175752": 0.6571499999999999,
+      "0.01999460241891018": 0.6093,
+      "0.08296517052294852": 0.6973
+    },
+    "atm_term_structure_monotonic": false,
+    "gamma_flip_level": 58207.5,
+    "iv_skew": 0.10626666666666651,
+    "liquidity": {
+      "avg_bid_ask_spread": 2.0369166666666616,
+      "avg_effective_spread": 3.2615266666666693,
+      "avg_liquidity_score": 0.5562346738025569,
+      "avg_relative_spread": 0.004402175830120226,
+      "total_oi": 145568.0,
+      "total_volume": 16269.0
+    },
+    "max_pain": 65000.0,
+    "n_expiries_in_atm_ts": 3,
+    "put_call_ratio": 1.1961393088552916,
+    "skew_term_structure": {
+      "0.0035674976961175752": {
+        "put_call_skew": 0.0,
+        "risk_reversal": 0.0,
+        "skew": 0.0
+      },
+      "0.01999460241891018": {
+        "put_call_skew": 0.0,
+        "risk_reversal": 0.0,
+        "skew": 0.0
+      },
+      "0.08296517052294852": {
+        "put_call_skew": 0.0,
+        "risk_reversal": 0.0,
+        "skew": 0.0
+      }
+    },
+    "total_gex": 1052954758.9924998
+  },
+  "config": {
+    "n_points": 300,
+    "rate": 0.0,
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "spot": 65000.0,
+    "spread_bps": 1.0,
+    "step_size": 40,
+    "symbol": "BTC",
+    "test_window": 40,
+    "thresholds": {
+      "arbitrage_max_violations": 0,
+      "bs_vs_mark_max_abs_tol": 1.0,
+      "greek_delta_err_mean_tol": 0.05,
+      "greek_fd_match_fraction_tol": 0.99,
+      "mark_iv_max": 5.0,
+      "mark_iv_min": 0.01,
+      "parity_max_abs_tol": 1.0,
+      "surface_residual_max_abs_tol": 1e-06
+    },
+    "train_window": 100,
+    "venue": "synthetic"
+  },
+  "data_quality": {
+    "bs_vs_mark_max_abs": 8516.364168262107,
+    "bs_vs_mark_mean_abs": 3192.6834564261612,
+    "bs_vs_mark_mean_signed": 3070.8734452669073,
+    "mark_iv_max": 0.7991,
+    "mark_iv_mean": 0.6301166666666667,
+    "mark_iv_min": 0.4181,
+    "n_bs_priced": 30,
+    "n_distinct_iv": 30,
+    "n_missing_iv": 0,
+    "n_missing_mark": 0,
+    "n_parity_pairs": 15,
+    "n_quotes": 30,
+    "parity_residual_max": 6634.6831,
+    "parity_residual_max_abs": 6634.6831,
+    "parity_residual_mean": 84.86530666666658,
+    "parity_residual_mean_abs": 3938.5248533333333,
+    "parity_residual_min": -6480.2391
+  },
+  "delta_hedge": {
+    "mean_with_options_max_drawdown": 4.373369150565218e-16,
+    "mean_with_options_return": 5.1198906320264226e-05,
+    "mean_with_options_sharpe": 2.548601554938258,
+    "mean_without_options_max_drawdown": 0.4922382482618293,
+    "mean_without_options_return": 1.5744551136778258,
+    "mean_without_options_sharpe": 2.7225521387082505,
+    "n_seeds": 5,
+    "n_windows": 25,
+    "per_window": [
+      {
+        "end": 140,
+        "n_bars": 41,
+        "seed": 1,
+        "start": 100,
+        "with_options_return": 5.3914203652148014e-05,
+        "with_options_sharpe": 2.5419556371898455,
+        "without_options_return": -0.47239263973588896,
+        "without_options_sharpe": -0.7309890867081953
+      },
+      {
+        "end": 180,
+        "n_bars": 41,
+        "seed": 1,
+        "start": 140,
+        "with_options_return": 0.00010219115650433981,
+        "with_options_sharpe": 2.5419556372137517,
+        "without_options_return": 0.5380906377465619,
+        "without_options_sharpe": 2.3320402011858627
+      },
+      {
+        "end": 220,
+        "n_bars": 41,
+        "seed": 1,
+        "start": 180,
+        "with_options_return": 6.643789429730011e-05,
+        "with_options_sharpe": 2.5419556372089698,
+        "without_options_return": 2.59751130083216,
+        "without_options_sharpe": 4.70362057155235
+      },
+      {
+        "end": 260,
+        "n_bars": 41,
+        "seed": 1,
+        "start": 220,
+        "with_options_return": 1.8466851625757943e-05,
+        "with_options_sharpe": 2.5419556372280963,
+        "without_options_return": 1.7706586802332682,
+        "without_options_sharpe": 3.993902971276252
+      },
+      {
+        "end": 299,
+        "n_bars": 40,
+        "seed": 1,
+        "start": 260,
+        "with_options_return": 6.6650698693567455e-06,
+        "with_options_sharpe": 2.575185225836856,
+        "without_options_return": 2.0754413235981914,
+        "without_options_sharpe": 4.364142565900382
+      },
+      {
+        "end": 140,
+        "n_bars": 41,
+        "seed": 2,
+        "start": 100,
+        "with_options_return": 0.00011230866952771429,
+        "with_options_sharpe": 2.5419556372089707,
+        "without_options_return": -0.29273269134255964,
+        "without_options_sharpe": 0.2578721773152394
+      },
+      {
+        "end": 180,
+        "n_bars": 41,
+        "seed": 2,
+        "start": 140,
+        "with_options_return": 0.00015879977615438915,
+        "with_options_sharpe": 2.5419556372161414,
+        "without_options_return": 3.4561426055697635,
+        "without_options_sharpe": 5.3427463601635665
+      },
+      {
+        "end": 220,
+        "n_bars": 41,
+        "seed": 2,
+        "start": 180,
+        "with_options_return": 3.563176367099031e-05,
+        "with_options_sharpe": 2.5419556372089698,
+        "without_options_return": 2.274461341244304,
+        "without_options_sharpe": 4.455155323264328
+      },
+      {
+        "end": 260,
+        "n_bars": 41,
+        "seed": 2,
+        "start": 220,
+        "with_options_return": 1.0881448303071318e-05,
+        "with_options_sharpe": 2.5419556372472214,
+        "without_options_return": -0.7760982062004221,
+        "without_options_sharpe": -2.8644618534935606
+      },
+      {
+        "end": 299,
+        "n_bars": 40,
+        "seed": 2,
+        "start": 260,
+        "with_options_return": 4.8601034219806355e-05,
+        "with_options_sharpe": 2.57518522584655,
+        "without_options_return": -0.5333667139137778,
+        "without_options_sharpe": -1.0375863168674309
+      },
+      {
+        "end": 140,
+        "n_bars": 41,
+        "seed": 3,
+        "start": 100,
+        "with_options_return": 2.7537207626670106e-05,
+        "with_options_sharpe": 2.5419556372280954,
+        "without_options_return": -0.11534075319843345,
+        "without_options_sharpe": 0.7507345658367024
+      },
+      {
+        "end": 180,
+        "n_bars": 41,
+        "seed": 3,
+        "start": 140,
+        "with_options_return": 3.112758566904796e-05,
+        "with_options_sharpe": 2.5419556371898455,
+        "without_options_return": 1.5659362825610355,
+        "without_options_sharpe": 3.756299102410711
+      },
+      {
+        "end": 220,
+        "n_bars": 41,
+        "seed": 3,
+        "start": 180,
+        "with_options_return": 1.2130852421457284e-05,
+        "with_options_sharpe": 2.5419556373237238,
+        "without_options_return": 7.373294003320181,
+        "without_options_sharpe": 7.447190277731727
+      },
+      {
+        "end": 260,
+        "n_bars": 41,
+        "seed": 3,
+        "start": 220,
+        "with_options_return": 1.4487396276427964e-06,
+        "with_options_sharpe": 2.541955636596945,
+        "without_options_return": 1.1063592877248531,
+        "without_options_sharpe": 3.2808256006146084
+      },
+      {
+        "end": 299,
+        "n_bars": 40,
+        "seed": 3,
+        "start": 260,
+        "with_options_return": 6.877926925161126e-07,
+        "with_options_sharpe": 2.5751852264572914,
+        "without_options_return": 3.421814736776202,
+        "without_options_sharpe": 5.438582899729893
+      },
+      {
+        "end": 140,
+        "n_bars": 41,
+        "seed": 4,
+        "start": 100,
+        "with_options_return": 0.00022767766059733958,
+        "with_options_sharpe": 2.5419556372113608,
+        "without_options_return": 4.330768463592559,
+        "without_options_sharpe": 6.010562384580257
+      },
+      {
+        "end": 180,
+        "n_bars": 41,
+        "seed": 4,
+        "start": 140,
+        "with_options_return": 4.270220268591582e-05,
+        "with_options_sharpe": 2.5419556372089698,
+        "without_options_return": 2.6542648423004165,
+        "without_options_sharpe": 4.76454749445947
+      },
+      {
+        "end": 220,
+        "n_bars": 41,
+        "seed": 4,
+        "start": 180,
+        "with_options_return": 1.1685217161761263e-05,
+        "with_options_sharpe": 2.54195563720897,
+        "without_options_return": -0.5829100558352369,
+        "without_options_sharpe": -1.244016227539013
+      },
+      {
+        "end": 260,
+        "n_bars": 41,
+        "seed": 4,
+        "start": 220,
+        "with_options_return": 2.8016518158284665e-05,
+        "with_options_sharpe": 2.5419556372089698,
+        "without_options_return": -0.1820351359913997,
+        "without_options_sharpe": 0.5847092921773175
+      },
+      {
+        "end": 299,
+        "n_bars": 40,
+        "seed": 4,
+        "start": 260,
+        "with_options_return": 3.425170697977519e-05,
+        "with_options_sharpe": 2.575185225856244,
+        "without_options_return": 0.6521908753744725,
+        "without_options_sharpe": 2.55995400534393
+      },
+      {
+        "end": 140,
+        "n_bars": 41,
+        "seed": 5,
+        "start": 100,
+        "with_options_return": 0.0001091860983474252,
+        "with_options_sharpe": 2.54195563720897,
+        "without_options_return": 1.7144368093035331,
+        "without_options_sharpe": 3.9474472310375113
+      },
+      {
+        "end": 180,
+        "n_bars": 41,
+        "seed": 5,
+        "start": 140,
+        "with_options_return": 4.0221444394584614e-05,
+        "with_options_sharpe": 2.54195563720897,
+        "without_options_return": -0.46308578465650535,
+        "without_options_sharpe": -0.5139154390339419
+      },
+      {
+        "end": 220,
+        "n_bars": 41,
+        "seed": 5,
+        "start": 180,
+        "with_options_return": 7.49148348235664e-05,
+        "with_options_sharpe": 2.5419556372137513,
+        "without_options_return": 2.5581264993134134,
+        "without_options_sharpe": 4.669604963985984
+      },
+      {
+        "end": 260,
+        "n_bars": 41,
+        "seed": 5,
+        "start": 220,
+        "with_options_return": 2.1053439253523667e-05,
+        "with_options_sharpe": 2.541955637247222,
+        "without_options_return": 5.131682305676617,
+        "without_options_sharpe": 6.3124283458107735
+      },
+      {
+        "end": 299,
+        "n_bars": 40,
+        "seed": 5,
+        "start": 260,
+        "with_options_return": 3.4334897422208796e-06,
+        "with_options_sharpe": 2.5751852256817487,
+        "without_options_return": -0.4418401723476593,
+        "without_options_sharpe": -0.5175939430284623
+      }
+    ],
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "spread_bps": 1.0,
+    "strike": 65000.0,
+    "t0_years": 0.08213552361396304
+  },
+  "deployment_authorization": {
+    "authorized": false,
+    "mode": "paper_only",
+    "note": "GO certifies the options surface/greeks evaluation only; not authorization to trade live."
+  },
+  "evidence_matrix": {
+    "arbitrage_checked_on_grid": true,
+    "book_greeks_present": true,
+    "delta_hedge_oos_windows": true,
+    "greeks_recomputed_from_surface": true,
+    "live_trading_enabled": false,
+    "options_chain_loaded": true,
+    "paper_only": true,
+    "surface_reconstructed": true
+  },
+  "generated_at": "2026-11-13T07:04:26Z",
+  "greeks": {
+    "delta_err_max": 0.8493819371326954,
+    "delta_err_mean": 0.3402194654281347,
+    "delta_match_fraction": 1.0,
+    "fd_tol": 0.01,
+    "n_delta_match": 30,
+    "n_evaluated": 30,
+    "n_vega_match": 30,
+    "recomputed": [
+      {
+        "delta_match": true,
+        "fd_delta": 0.9982280607800931,
+        "fd_vega": 22.050174011383206,
+        "option_type": "call",
+        "recomputed_delta": 0.9982280467994212,
+        "recomputed_gamma": 2.403356601569348e-06,
+        "recomputed_vega": 22.050169438114242,
+        "strike": 58500.0,
+        "surface_iv": 0.6087,
+        "symbol": "BTC-1793517381-58500.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.0016868580132722855,
+        "fd_vega": 21.0844146204181,
+        "option_type": "put",
+        "recomputed_delta": -0.0016868718168601138,
+        "recomputed_gamma": 2.310317133042678e-06,
+        "recomputed_vega": 21.084410206921486,
+        "strike": 58500.0,
+        "surface_iv": 0.6054795,
+        "symbol": "BTC-1793517381-58500.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.9462269008508883,
+        "fd_vega": 424.24110339197796,
+        "option_type": "call",
+        "recomputed_delta": 0.9462268885945708,
+        "recomputed_gamma": 5.2218004612057014e-05,
+        "recomputed_vega": 424.2411062552745,
+        "strike": 61750.0,
+        "surface_iv": 0.5390164999999999,
+        "symbol": "BTC-1793517381-61750.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.0466320852865465,
+        "fd_vega": 378.68479685130296,
+        "option_type": "put",
+        "recomputed_delta": -0.04663212932752714,
+        "recomputed_gamma": 4.865210594247193e-05,
+        "recomputed_vega": 378.6847983520937,
+        "strike": 61750.0,
+        "surface_iv": 0.5163995,
+        "symbol": "BTC-1793517381-61750.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.5089250225864816,
+        "fd_vega": 1548.447815275722,
+        "option_type": "call",
+        "recomputed_delta": 0.5089250450026146,
+        "recomputed_gamma": 0.00013712651326237368,
+        "recomputed_vega": 1548.4478152617191,
+        "strike": 65000.0,
+        "surface_iv": 0.7491774999999999,
+        "symbol": "BTC-1793517381-65000.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.4932780939270742,
+        "fd_vega": 1548.6155627149856,
+        "option_type": "put",
+        "recomputed_delta": -0.4932780983217543,
+        "recomputed_gamma": 0.00018209684402940423,
+        "recomputed_vega": 1548.6155626976697,
+        "strike": 65000.0,
+        "surface_iv": 0.5642229999999999,
+        "symbol": "BTC-1793517381-65000.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.09657011560193496,
+        "fd_vega": 664.1503458422449,
+        "option_type": "call",
+        "recomputed_delta": 0.09657011298454798,
+        "recomputed_gamma": 7.11939730844911e-05,
+        "recomputed_vega": 664.15035218829,
+        "strike": 68250.0,
+        "surface_iv": 0.6189175,
+        "symbol": "BTC-1793517381-68250.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.9108502854360268,
+        "fd_vega": 626.0232895874651,
+        "option_type": "put",
+        "recomputed_delta": -0.9108502996205645,
+        "recomputed_gamma": 6.934751473285006e-05,
+        "recomputed_vega": 626.0232957321858,
+        "strike": 68250.0,
+        "surface_iv": 0.5989205,
+        "symbol": "BTC-1793517381-68250.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.0017420682496549489,
+        "fd_vega": 21.711465268836605,
+        "option_type": "call",
+        "recomputed_delta": 0.0017420628673046057,
+        "recomputed_gamma": 2.6518175254561955e-06,
+        "recomputed_vega": 21.711459321504105,
+        "strike": 71500.0,
+        "surface_iv": 0.543194,
+        "symbol": "BTC-1793517381-71500.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.9987349403672852,
+        "fd_vega": 16.214230527111795,
+        "option_type": "put",
+        "recomputed_delta": -0.9987349786958633,
+        "recomputed_gamma": 2.0462929213263587e-06,
+        "recomputed_vega": 16.214224934226156,
+        "strike": 71500.0,
+        "surface_iv": 0.5257,
+        "symbol": "BTC-1793517381-71500.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.8569327837903984,
+        "fd_vega": 2075.9977687339415,
+        "option_type": "call",
+        "recomputed_delta": 0.8569327708711283,
+        "recomputed_gamma": 3.3466775527986584e-05,
+        "recomputed_vega": 2075.9977817679755,
+        "strike": 58500.0,
+        "surface_iv": 0.7343,
+        "symbol": "BTC-1794035781-58500.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.13365828635869548,
+        "fd_vega": 1981.9269674189854,
+        "option_type": "put",
+        "recomputed_delta": -0.13365827750999237,
+        "recomputed_gamma": 3.336149661083684e-05,
+        "recomputed_vega": 1981.9269815315395,
+        "strike": 58500.0,
+        "surface_iv": 0.7032385,
+        "symbol": "BTC-1794035781-58500.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.7531943992944434,
+        "fd_vega": 2900.780129748455,
+        "option_type": "call",
+        "recomputed_delta": 0.7531944308361265,
+        "recomputed_gamma": 6.103762142283092e-05,
+        "recomputed_vega": 2900.780146165532,
+        "strike": 61750.0,
+        "surface_iv": 0.5625715,
+        "symbol": "BTC-1794035781-61750.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.29172417271183804,
+        "fd_vega": 3154.8970926814945,
+        "option_type": "put",
+        "recomputed_delta": -0.2917242141323255,
+        "recomputed_gamma": 5.1139409746529505e-05,
+        "recomputed_vega": 3154.89709943516,
+        "strike": 61750.0,
+        "surface_iv": 0.7302810000000001,
+        "symbol": "BTC-1794035781-61750.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.5130583303980529,
+        "fd_vega": 3664.772929132596,
+        "option_type": "call",
+        "recomputed_delta": 0.5130583743944461,
+        "recomputed_gamma": 9.368657263797106e-05,
+        "recomputed_vega": 3664.7729292117583,
+        "strike": 65000.0,
+        "surface_iv": 0.4630525,
+        "symbol": "BTC-1794035781-65000.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.47870893467916176,
+        "fd_vega": 3661.514336927212,
+        "option_type": "put",
+        "recomputed_delta": -0.4787089816877582,
+        "recomputed_gamma": 5.739247563742894e-05,
+        "recomputed_vega": 3661.5143370139967,
+        "strike": 65000.0,
+        "surface_iv": 0.7552074999999999,
+        "symbol": "BTC-1794035781-65000.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.2147730174328899,
+        "fd_vega": 2683.9160632425774,
+        "option_type": "call",
+        "recomputed_delta": 0.21477300832158686,
+        "recomputed_gamma": 7.54785759070048e-05,
+        "recomputed_vega": 2683.916102793435,
+        "strike": 68250.0,
+        "surface_iv": 0.420926,
+        "symbol": "BTC-1794035781-68250.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.6888214556965977,
+        "fd_vega": 3247.930255092797,
+        "option_type": "put",
+        "recomputed_delta": -0.6888214869860656,
+        "recomputed_gamma": 5.993311158659823e-05,
+        "recomputed_vega": 3247.9302654354547,
+        "strike": 68250.0,
+        "surface_iv": 0.6415055,
+        "symbol": "BTC-1794035781-68250.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.12636174687941093,
+        "fd_vega": 1906.386814102916,
+        "option_type": "call",
+        "recomputed_delta": 0.12636176077144257,
+        "recomputed_gamma": 3.964088386390397e-05,
+        "recomputed_vega": 1906.3868361292816,
+        "strike": 71500.0,
+        "surface_iv": 0.569283,
+        "symbol": "BTC-1794035781-71500.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.8815886394586414,
+        "fd_vega": 1821.3866221049102,
+        "option_type": "put",
+        "recomputed_delta": -0.8815886709785326,
+        "recomputed_gamma": 3.908754588980202e-05,
+        "recomputed_vega": 1821.3866446313655,
+        "strike": 71500.0,
+        "surface_iv": 0.5516,
+        "symbol": "BTC-1794035781-71500.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.7655338777112775,
+        "fd_vega": 5746.183770643256,
+        "option_type": "call",
+        "recomputed_delta": 0.7655339338591343,
+        "recomputed_gamma": 2.8779749502029684e-05,
+        "recomputed_vega": 5746.183802477011,
+        "strike": 58500.0,
+        "surface_iv": 0.5696,
+        "symbol": "BTC-1796022981-58500.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.27791586035164073,
+        "fd_vega": 6279.529752246162,
+        "option_type": "put",
+        "recomputed_delta": -0.2779158648879496,
+        "recomputed_gamma": 2.3463126851462967e-05,
+        "recomputed_vega": 6279.529763977395,
+        "strike": 58500.0,
+        "surface_iv": 0.763517,
+        "symbol": "BTC-1796022981-58500.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.6461027442128398,
+        "fd_vega": 6962.4856747395825,
+        "option_type": "call",
+        "recomputed_delta": 0.6461028066113642,
+        "recomputed_gamma": 3.176134206873871e-05,
+        "recomputed_vega": 6962.485682033292,
+        "strike": 61750.0,
+        "surface_iv": 0.6253785000000001,
+        "symbol": "BTC-1796022981-61750.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.36263234505895525,
+        "fd_vega": 7021.869701129617,
+        "option_type": "put",
+        "recomputed_delta": -0.36263236012094024,
+        "recomputed_gamma": 2.790113228721292e-05,
+        "recomputed_vega": 7021.86970543818,
+        "strike": 61750.0,
+        "surface_iv": 0.7179734999999999,
+        "symbol": "BTC-1796022981-61750.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.5361151488614269,
+        "fd_vega": 7438.52596693614,
+        "option_type": "call",
+        "recomputed_delta": 0.5361151892061108,
+        "recomputed_gamma": 3.37138190748721e-05,
+        "recomputed_vega": 7438.525967164745,
+        "strike": 65000.0,
+        "surface_iv": 0.629443,
+        "symbol": "BTC-1796022981-65000.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.45610668166773394,
+        "fd_vega": 7423.8985050760675,
+        "option_type": "put",
+        "recomputed_delta": -0.45610668612464833,
+        "recomputed_gamma": 2.766687146201056e-05,
+        "recomputed_vega": 7423.898505287891,
+        "strike": 65000.0,
+        "surface_iv": 0.7655075,
+        "symbol": "BTC-1796022981-65000.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.4524201722233556,
+        "fd_vega": 7415.968254153995,
+        "option_type": "call",
+        "recomputed_delta": 0.4524201738396338,
+        "recomputed_gamma": 2.835359533205815e-05,
+        "recomputed_vega": 7415.968257822044,
+        "strike": 68250.0,
+        "surface_iv": 0.7461690000000001,
+        "symbol": "BTC-1796022981-68250.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.5387622877606191,
+        "fd_vega": 7433.868123116554,
+        "option_type": "put",
+        "recomputed_delta": -0.5387623018581492,
+        "recomputed_gamma": 2.6574057703058714e-05,
+        "recomputed_vega": 7433.8681259683635,
+        "strike": 68250.0,
+        "surface_iv": 0.798058,
+        "symbol": "BTC-1796022981-68250.0-P",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": 0.33711385185597464,
+        "fd_vega": 6837.575772151467,
+        "option_type": "call",
+        "recomputed_delta": 0.33711382809066964,
+        "recomputed_gamma": 3.0254029585711765e-05,
+        "recomputed_vega": 6837.575792256083,
+        "strike": 71500.0,
+        "surface_iv": 0.6447575,
+        "symbol": "BTC-1796022981-71500.0-C",
+        "vega_match": true
+      },
+      {
+        "delta_match": true,
+        "fd_delta": -0.6643893357249908,
+        "fd_vega": 6825.687521159125,
+        "option_type": "put",
+        "recomputed_delta": -0.6643893841587184,
+        "recomputed_gamma": 3.040692879327132e-05,
+        "recomputed_vega": 6825.687541739281,
+        "strike": 71500.0,
+        "surface_iv": 0.6404,
+        "symbol": "BTC-1796022981-71500.0-P",
+        "vega_match": true
+      }
+    ],
+    "vega_match_fraction": 1.0
+  },
+  "live_trading_enabled": false,
+  "never_valid_true": true,
+  "report_id": "OPTIONS_SURFACE_GREEKS_EVAL_16",
+  "surface": {
+    "n_expiries": 3,
+    "n_points": 30,
+    "points_per_expiry": {
+      "2026-11-01 07:16:21.665295+00:00": 10,
+      "2026-11-07 07:16:21.665295+00:00": 10,
+      "2026-11-30 07:16:21.665295+00:00": 10
+    },
+    "residual_report": {
+      "num_points": 30,
+      "residual_max_abs": 0.0,
+      "residual_mean": 0.0,
+      "residual_std": 0.0,
+      "seed": 42,
+      "smoothing": 0.01
+    }
+  },
+  "trading_mode": "paper",
+  "verdict": "NO-GO",
+  "verdict_checks": {
+    "all_checks_pass": false,
+    "checks": [
+      {
+        "name": "data_quality_bs_vs_mark",
+        "observed": 8516.364168262107,
+        "pass": false,
+        "reason": "FAIL: BS(mark_iv) vs mark max abs 8516.3642 > 1.0",
+        "threshold": 1.0
+      },
+      {
+        "name": "data_quality_put_call_parity",
+        "observed": 6634.6831,
+        "pass": false,
+        "reason": "FAIL: parity residual max abs 6634.6831 > 1.0",
+        "threshold": 1.0
+      },
+      {
+        "name": "data_quality_mark_iv_range",
+        "observed": 0.7991,
+        "pass": true,
+        "reason": "PASS: mark IV range [0.4181, 0.7991] within [0.01, 5.0]",
+        "threshold": 5.0
+      },
+      {
+        "name": "surface_calibration_residual",
+        "observed": 0.0,
+        "pass": true,
+        "reason": "PASS: surface residual max abs 0.000e+00 <= 1.0e-06",
+        "threshold": 1e-06
+      },
+      {
+        "name": "surface_arbitrage_free",
+        "observed": 1.0,
+        "pass": false,
+        "reason": "FAIL: 1 arbitrage violations (butterfly 1, calendar 0)",
+        "threshold": 0.0
+      },
+      {
+        "name": "greeks_stored_vs_recomputed_delta",
+        "observed": 0.3402194654281347,
+        "pass": false,
+        "reason": "FAIL: mean stored-vs-recomputed delta error 0.3402 > 0.05",
+        "threshold": 0.05
+      },
+      {
+        "name": "greeks_analytic_vs_finite_difference",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: analytic vs FD match fraction 1.0000 >= 0.99",
+        "threshold": 0.99
+      },
+      {
+        "name": "net_of_cost_delta_hedge_finite",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: delta-hedge metrics finite (with Sharpe 2.5486, return 0.0001)",
+        "threshold": 1.0
+      },
+      {
+        "name": "metrics_non_degenerate",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: all measured blocks finite and non-empty",
+        "threshold": 1.0
+      }
+    ],
+    "failed_checks": [
+      "data_quality_bs_vs_mark",
+      "data_quality_put_call_parity",
+      "surface_arbitrage_free",
+      "greeks_stored_vs_recomputed_delta"
+    ],
+    "n_checks": 9,
+    "n_passed": 5,
+    "verdict": "NO-GO"
+  }
+}
