@@ -2,24 +2,23 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name:** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers.
-**Refreshed:** 2026-11-13T01:52:00Z (UTC). Verified: EVAL-13 SEALED (GO) with module+tests+CLI+artifact `FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}`; EVAL-12/EVAL-11/EVAL-10 sealed as listed below; `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs remain retired pointers.
+**Refreshed:** 2026-11-13T02:00:21Z (UTC). Verified: EVAL-13 SEALED (GO) with module+tests+CLI+artifact `FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}`; EVAL-12/EVAL-11/EVAL-10 sealed as listed below; `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs remain retired pointers. EVAL-14 ACTIVE (paper deployment readiness package).
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope), not task sources.
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T01:17:09Z (copy-paste to the next agent)
+## INITIAL TASK MESSAGE — 2026-11-13T02:00:21Z (copy-paste to the next agent)
 
-**TASK ID:** `INIT-2026-11-13T01:17:09Z-EVAL-13-FINAL-STRATEGY-CERTIFICATION`
-**STATUS:** SEALED 2026-11-13T01:52:26Z (UTC). EVAL-13 complete and shipped: `src/analytics/final_strategy_certification.py`, `tests/test_final_strategy_certification.py` (6 numeric-invariant tests), CLI, and artifacts `research_state/FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}`. Deterministic verdict GO (8/8 checks pass). Do not re-open EVAL-13. Next task is EVAL-14 (paper deployment readiness package, PENDING).
+**TASK ID:** `INIT-2026-11-13T02:00:21Z-EVAL-14-PAPER-DEPLOYMENT-READINESS`
+**STATUS:** PENDING — EVAL-13 sealed 2026-11-13T01:52:26Z (verdict GO, artifact `FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}`). EVAL-14 is the next and only active task. Do not re-open EVAL-13. Do not implement Phase 292+ or any `phaseNN_*_post_attribution_seal_orchestrator` wrapper.
 
-**EVAL-13 (Final strategy certification + risk guardrails, paper-only) — SEALED:**
-1. Built `src/analytics/final_strategy_certification.py` (CLI + programmatic entrypoint) combining sealed evidence: EVAL-11 best config (`target_delta_usd=-20000.0`, `toxicity_threshold=0.7`, `cost_budget_bps=0.5`, final mean net Sharpe `13.188322401914279`, mean net return `0.39999544362288453`, mean abs delta `161.88674197953094`, hedges `3800`, total cost `646.4230312530128` vs no-hedge Sharpe `5.590936162120627`), EVAL-12 real walk-forward (`REAL_WF_CERTIFICATION_20261113T010508Z.json`: verdict GO, DSR both configs `0.0`, PBO EVAL11_best `0.46875`/EVAL10_default `0.5234375` overall `0.5`, BH FDR=0.10 survivors `['EVAL11_best','EVAL10_default']`, 15 series × 10 windows each), EVAL-10 default NO-GO baseline (pass_fraction `0.0`, mean net Sharpe `-22.765929562035716`, mean net return `-0.5580107668605527`).
-2. Computed/verified net-of-cost metrics via existing primitives: DSR via `src.analytics.strategy_falsification._deflated_sharpe` recomputed from EVAL-12 raw window returns (recompute-consistent with sealed: `0.0`/`0.0`), bootstrap CI via `block_bootstrap_ci` (mean net return `[0.298731, 0.494794]`, lower>0; mean net Sharpe `[9.378864, 18.878999]`, lower>0), paired permutation test EVAL-11 vs EVAL-10 aligned series `p=0.001499` significant (observed difference `0.958006`), PBO/multiple-testing evidence reported from sealed EVAL-12 artifact. Verdict computed by deterministic `compute_certification_verdict` (not prose): 3 evidence sources, EVAL-12 GO, >=1 BH survivor, EVAL-11 best > no-hedge control and > EVAL-10 default, permutation significant, all 9 guardrails pass, all fields finite.
-3. Emitted paper-only deployment guardrails with explicit numeric thresholds + rationale: max notional cap `1,000,000.0` USD (observed max single-series notional `519,749.88`), delta band `±323.77` USD around `target_delta_usd=-20000.0` (derived from EVAL-11 mean abs delta `161.89`), toxicity gate threshold `0.7` (observed mean toxic_gate_active_fraction `0.333`), cost budget `0.5` bps (ceiling `2.0`), kill-switch conditions (drawdown `20%`, observed `0.1887`; toxicity `80%` mean; cost `5.00 bps`, observed `1.06`; max daily loss `50,000` USD), `live_trading_enabled=false`. Not an authorization to deploy/live.
-4. Strict-serializable artifacts: `research_state/FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}` (never `{"valid": true}`, no NaN/Infinity, validated with `allow_nan=False`). Non-degeneracy asserted: >=2 configs/evidence sources, finite metrics/CI/PBO/DSR/guardrails, explicit pass/fail reasons list.
-5. `tests/test_final_strategy_certification.py` with numeric-invariant tests (determinism after timestamp normalization, artifact schema/finite fields, verdict GO/NO-GO behavior incl. evidence flip and guardrail flip, guardrail thresholds present/numeric, no `valid:true`). CLI shipped.
-6. Verified with `python3 -m py_compile` + targeted pytest `tests/test_final_strategy_certification.py` (6 passed); avoided full suite.
-7. This handoff updated in place below to seal EVAL-13.
+**EVAL-14 (Paper deployment readiness package, paper-only) — PENDING:**
+1. Build `src/analytics/paper_deployment_readiness.py` (CLI + programmatic entrypoint) combining sealed evidence: EVAL-13 artifact `FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.json` (verdict GO, 8/8 checks; mean net Sharpe `13.188322401914279` vs no-hedge `5.590936162120627` vs EVAL-10 default `-22.765929562035716`), EVAL-12 `REAL_WF_CERTIFICATION_20261113T010508Z.json` (GO; DSR `0.0`/`0.0`; PBO overall `0.5`; BH survivors `['EVAL11_best','EVAL10_default']`), EVAL-11 best config (`target_delta_usd=-20000.0`, `toxicity_threshold=0.7`, `cost_budget_bps=0.5`), plus `PAPER_TRADING_PRE_LIVE_READINESS_latest.json` (all gates passed, mode paper, `live_trading_enabled=false`) and `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json` (5/5 CV passed, reconciliation freshness >=0.99 met). Cite key numbers in the output artifact.
+2. Wire monitoring/alert thresholds to EVAL-13's 9 paper-only guardrails as structured fields with rationale: `max_notional_cap_usd` `1,000,000.0`; `delta_band_usd` `±323.77` around `target_delta_usd=-20000.0`; `toxicity_gate_threshold` `0.7` (mean toxic gate fraction `0.333`); `cost_budget_bps` `0.5` (ceiling `2.0` bps); kill-switch `max_drawdown` `0.20` / `toxicity` `0.80` / `cost` `5.00` bps; `max_daily_loss_usd` `50,000.0`; `live_trading_enabled=false`. Include kill-switch halt conditions and alert (not block) watch levels. Paper-only — no live enablement, no `.env`, no venue/config/credential mutation, no network calls to exchanges.
+3. Emit strict-serializable artifact `research_state/PAPER_DEPLOYMENT_READINESS_<UTC>.{json,md}` (never `{"valid": true}`, no NaN/Infinity, validated with `allow_nan=False`). Non-degeneracy: >=1 evidence source, finite metrics/thresholds, explicit pass/fail reasons list, evidence matrix present, verdict consistent with function.
+4. Ship module + numeric-invariant tests + CLI + artifact. Deterministic `compute_paper_readiness_verdict` function (not prose-only verdict).
+5. Run `python3 -m py_compile` + targeted pytest for EVAL-14; report results. Avoid full suite.
+6. Update this handoff in place to seal EVAL-14. A session that only edits timestamps/handoff without EVAL-14 artifacts is FAILED.
 
 
 ---
@@ -47,7 +46,7 @@
 |---|---|---|---|
 | EVAL-02..EVAL-12 | Prior evaluations | **COMPLETE** | Sealed artifacts/modules/tests listed above. |
 | EVAL-13 | Final strategy certification + risk guardrails | **COMPLETE** | `src/analytics/final_strategy_certification.py` + `tests/test_final_strategy_certification.py` (6) + CLI + `research_state/FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}`; deterministic `GO` from EVAL-11/12/10 evidence; 9 paper-only deployment guardrails (max notional, delta band, toxicity gate, cost budget, kill-switch); all 8 verdict checks pass. |
-| EVAL-14 (next, only after EVAL-13 sealed) | Paper deployment readiness package | **PENDING** | Bounded paper-runbook + monitoring/alert thresholds wired to EVAL-13 guardrails; no live enablement. |
+| EVAL-14 (next, only after EVAL-13 sealed) | Paper deployment readiness package | **ACTIVE** | Bounded paper-runbook + monitoring/alert thresholds wired to EVAL-13 guardrails; no live enablement. Ship `src/analytics/paper_deployment_readiness.py` + numeric-invariant tests + CLI + `research_state/PAPER_DEPLOYMENT_READINESS_<UTC>.{json,md}`. |
 
 **Rule:** do not re-open sealed EVALs. Do not advance beyond EVAL-13 until sealed with real artifact. Do not implement or advance Phase 292+ or any `phaseNN_*_post_attribution_seal_orchestrator` wrapper.
 
@@ -63,6 +62,17 @@ EVAL-13 must, at minimum:
 5. **Assert non-degeneracy/consistency** — finite metrics, explicit pass/fail reasons list, evidence matrix present, guardrails numeric, verdict matches function.
 6. **Run verification** (`py_compile` + targeted pytest for EVAL-13) and report results.
 7. **Update this handoff in place** to seal EVAL-13 (or leave exact next line/blocker if genuinely incomplete). A future session that only edits handoff/timestamps without EVAL-13 artifacts is FAILED.
+
+## EVAL-14 HEAVY-WORK FLOOR (a session that does less is FAILED)
+
+EVAL-14 must, at minimum:
+1. **Read and use real sealed artifacts** (`FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.json`, `REAL_WF_CERTIFICATION_20261113T010508Z.json`, `PAPER_TRADING_PRE_LIVE_READINESS_latest.json`, `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`) as evidence inputs; cite key numbers in output artifact.
+2. **Wire monitoring/alert thresholds to EVAL-13 guardrails** — structured numeric fields (max notional, delta band, toxicity gate, cost budget bps, kill-switch drawdown/toxicity/cost, max daily loss, `live_trading_enabled=false`) with rationale; paper-only; no live enablement.
+3. **Compute deterministic paper-readiness verdict in code** — explicit verdict function; no prose-only verdict.
+4. **Ship module + numeric-invariant tests + CLI + artifact** `PAPER_DEPLOYMENT_READINESS_<UTC>.{json,md}`. Strict-serializable; never `{"valid": true}`; no NaN/Infinity.
+5. **Assert non-degeneracy/consistency** — finite metrics/thresholds, explicit pass/fail reasons list, evidence matrix present, verdict matches function.
+6. **Run verification** (`py_compile` + targeted pytest for EVAL-14) and report results.
+7. **Update this handoff in place** to seal EVAL-14. A future session that only edits handoff/timestamps without EVAL-14 artifacts is FAILED.
 
 ---
 
@@ -82,9 +92,10 @@ EVAL-13 must, at minimum:
 |---|---|
 | Stale handoff showing EVAL-12 ACTIVE after it was sealed | **RESOLVED.** Verified EVAL-12 module/tests/artifacts present (`REAL_WF_CERTIFICATION_20261113T010508Z.{json,md}`, verdict GO, DSR/PBO/BH evidence) and advanced queue to EVAL-13 with explicit heavy-work spec/guardrails. |
 | Competing/stale root handoff files | **CLEARED (verified).** Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers with no task IDs; this file remains sole authority. |
-| Prior data/primitive blockers (load_trades unwrap, permutation, cost-grid semantics, inert hedge_cost_bps) | **RESOLVED in prior sessions** and documented above; EVAL-13 must build on sealed evidence, not reopen. |
+| Prior data/primitive blockers (load_trades unwrap, permutation, cost-grid semantics, inert hedge_cost_bps) | **RESOLVED in prior sessions** and documented above; EVAL-13/EVAL-14 must build on sealed evidence, not reopen. |
+| EVAL-14 start clearance | **CLEAR.** EVAL-13 sealed (GO); P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`, no live trading); no data/primitive blockers; EVAL-14 context artifacts present (`PAPER_TRADING_PRE_LIVE_READINESS_latest.json`, `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`, `END2END_LIVE_TRADING_READINESS_latest.json`). |
 
-**Tree verified 2026-11-13T01:52:00Z:** EVAL-13 sealed with real artifacts; `src/analytics/final_strategy_certification.py` present, `tests/test_final_strategy_certification.py` present (6 tests), CLI shipped, `research_state/FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}` emitted and strict-valid. Modified this session: `research_state/durable_handoff.md` (this update), `src/analytics/final_strategy_certification.py`, `tests/test_final_strategy_certification.py`. No active blockers; EVAL-14 pending after seal.
+**Tree verified 2026-11-13T02:00:21Z:** EVAL-13 sealed with real artifacts; `src/analytics/final_strategy_certification.py` present, `tests/test_final_strategy_certification.py` present (6 tests), CLI shipped, `research_state/FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}` emitted and strict-valid. EVAL-14 ACTIVE with no blockers; context artifacts present. Modified this session: `research_state/durable_handoff.md` (this update). No active blockers; EVAL-14 in progress.
 
 
 ---
@@ -108,7 +119,7 @@ EVAL-13 must, at minimum:
 ## HANDOFF DISCIPLINE
 
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
-- Work queue strictly in order: **EVAL-13 ACTIVE** (then EVAL-14 pending after seal).
+- Work queue strictly in order: **EVAL-13 SEALED** (then **EVAL-14 ACTIVE**). Do not advance beyond EVAL-14 until sealed with real artifact.
 - Each task must ship a real module, numeric-invariant tests, CLI, and a real-run artifact — no wrappers, no stubs, no "verified env only" sessions.
 - If incomplete: commit/push partial module and leave exact next line/blocker here. Never leave tree clean with task pending.
 - Final responses must not ask follow-up questions.
