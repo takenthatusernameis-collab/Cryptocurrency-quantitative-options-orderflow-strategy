@@ -2,12 +2,12 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission (inferred priority):** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. Deliverable is the strategy and its measured performance, not orchestrator wrappers.
-**Refreshed:** 2026-11-13T10:58:00Z (UTC)
+**Refreshed:** 2026-11-13T11:03:07Z (UTC)
 **Authority:** this file is the only actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action. Do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope).
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T10:58:00Z (copy-paste to the next agent — EVAL-20 ACTIVE)
+## INITIAL TASK MESSAGE — 2026-11-13T11:03:07Z (copy-paste to the next agent — EVAL-20 ACTIVE)
 
 **TASK ID:** `INIT-2026-11-13T10:58:00Z-EVAL-20-PROFITABILITY-ROBUSTNESS`
 **STATUS:** **EVAL-20 (Net-of-Cost Profitability & Regime Robustness Remediation) — ACTIVE, not yet implemented.** EVAL-02..EVAL-19 are sealed (EVAL-19 NO-GO 4/6, see SEALED EVALUATIONS). EVAL-20 is the single next heavy-work campaign.
@@ -32,6 +32,8 @@
 > - `robust_across_regimes`: combined Sharpe >= flat Sharpe in BOTH low- and high-VPIN toxicity regimes (both finite).
 > - `kill_switch_not_triggered`: observed max DD < 0.20, max toxicity < 0.80, main cost bps < 5.0.
 > - `guardrails_consistent_with_eval13_14_15`: guardrail constants consistent and cost model applied.
+>
+> Environment verified 2026-11-13T11:03:07Z: Python 3.12.3; `python3 -m py_compile` OK on `src/analytics/strategy_evaluation.py` + `capacity_aware_tca.py`; targeted `python3 -m pytest -q tests/test_production_simulation_evaluation.py` → 16 passed. No network, no `.env`, paper-only enforced.
 >
 > A session ending with no new EVAL-20 artifact (module + tests + CLI + artifact + verification) is FAILED. If remediation cannot reach GO, seal as NO-GO with measured numbers and state exactly what blocked profitability in this file.
 
@@ -69,6 +71,7 @@
 | Competing handoff files | **CLEARED (verified).** Root handoffs are retired pointers (no task IDs); only `research_state/durable_handoff.md` is actionable. |
 | Ambiguous next work with all defined EVALs sealed (STOP state) | **CLEARED.** EVAL-20 defined as the single active heavy-work campaign with explicit scope, acceptance checks, and heavy-work floor. No STOP state. |
 | Safety ambiguity | **CLEARED.** `.env` absent, `LIVE_TRADING_ENABLED=false`, no NEXT9 unblock — paper-only enforced. |
+| Environment/verification bottleneck | **CLEARED (2026-11-13T11:03:07Z).** `py_compile` OK on required analytics modules; targeted pytest on EVAL-19 tests passes (16/16). EVAL-20 can begin immediately — no missing prerequisites. |
 | 248 pre-existing `phaseNN_*_post_attribution_seal_orchestrator` wrapper test files | **NOT a new bottleneck.** Pre-existing test clutter; forbidden to create new ones. Do not touch; they do not block EVAL-20. |
 
 ---
