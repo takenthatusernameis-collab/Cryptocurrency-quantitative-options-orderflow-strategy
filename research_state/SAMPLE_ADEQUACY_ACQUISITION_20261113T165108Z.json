@@ -1,0 +1,534 @@
+{
+  "adequacy": {
+    "alpha": 0.05,
+    "bar_return_mean_bps": -1.212011060799341,
+    "bar_return_std_bps": 20.045956194342075,
+    "bar_return_tstat": -3.5249697024657625,
+    "min_detectable_ic_at_floor": 0.08859390348296596,
+    "min_detectable_ic_at_n": 1.6174959798351989,
+    "min_returns_floor": 1000,
+    "min_windows_floor": 20,
+    "n_ic_observations": 3,
+    "n_returns": 3399,
+    "n_windows": 82,
+    "power_target": 0.8,
+    "returns_floor_met": true,
+    "sample_adequate": true,
+    "windows_floor_met": true
+  },
+  "alpha": {
+    "combined": {
+      "horizons": [
+        1,
+        5,
+        20
+      ],
+      "ic_by_horizon": {
+        "1": {
+          "ic": 0.13903220407452158,
+          "min_detectable_ic": 0.04805385736967488,
+          "n": 3399,
+          "power": 0.9999999996020539,
+          "tstat": 8.103323574686904
+        },
+        "20": {
+          "ic": 0.03449142653053051,
+          "min_detectable_ic": 0.0481887307112244,
+          "n": 3380,
+          "power": 0.5180988040735595,
+          "tstat": 2.004661175083436
+        },
+        "5": {
+          "ic": 0.11363517269489767,
+          "min_detectable_ic": 0.04808215764148593,
+          "n": 3395,
+          "power": 0.9999984279492881,
+          "tstat": 6.619187846121573
+        }
+      },
+      "ic_mean": 0.09571960109998325,
+      "ic_std": 0.04451905450893984,
+      "ic_tstat": 3.724050616396275,
+      "n_horizons": 3,
+      "power_note": "MDE = (z_{1-alpha/2} + z_{power}) / sqrt(n); power is the two-sided normal approximation at the observed IC."
+    },
+    "options": {
+      "horizons": [
+        1,
+        5,
+        20
+      ],
+      "ic_by_horizon": {
+        "1": {
+          "ic": 0.0,
+          "min_detectable_ic": 0.04805385736967488,
+          "n": 3399,
+          "power": 0.05,
+          "tstat": 0.0
+        },
+        "20": {
+          "ic": 0.0,
+          "min_detectable_ic": 0.0481887307112244,
+          "n": 3380,
+          "power": 0.05,
+          "tstat": 0.0
+        },
+        "5": {
+          "ic": 0.0,
+          "min_detectable_ic": 0.04808215764148593,
+          "n": 3395,
+          "power": 0.05,
+          "tstat": 0.0
+        }
+      },
+      "ic_mean": 0.0,
+      "ic_std": 0.0,
+      "ic_tstat": 0.0,
+      "n_horizons": 3,
+      "power_note": "MDE = (z_{1-alpha/2} + z_{power}) / sqrt(n); power is the two-sided normal approximation at the observed IC."
+    },
+    "orderflow": {
+      "horizons": [
+        1,
+        5,
+        20
+      ],
+      "ic_by_horizon": {
+        "1": {
+          "ic": 0.45796063266404147,
+          "min_detectable_ic": 0.04805385736967488,
+          "n": 3399,
+          "power": 1.0,
+          "tstat": 26.691680648002606
+        },
+        "20": {
+          "ic": 0.23552916253509623,
+          "min_detectable_ic": 0.0481887307112244,
+          "n": 3380,
+          "power": 1.0,
+          "tstat": 13.689087846688185
+        },
+        "5": {
+          "ic": 0.43188862245633647,
+          "min_detectable_ic": 0.04808215764148593,
+          "n": 3395,
+          "power": 1.0,
+          "tstat": 25.157280557109864
+        }
+      },
+      "ic_mean": 0.3751261392184914,
+      "ic_std": 0.09928217145565779,
+      "ic_tstat": 6.544352554413802,
+      "n_horizons": 3,
+      "power_note": "MDE = (z_{1-alpha/2} + z_{power}) / sqrt(n); power is the two-sided normal approximation at the observed IC."
+    }
+  },
+  "artifact_paths": {
+    "json": "research_state/SAMPLE_ADEQUACY_ACQUISITION_20261113T165108Z.json",
+    "md": "research_state/SAMPLE_ADEQUACY_ACQUISITION_20261113T165108Z.md"
+  },
+  "config": {
+    "annualisation": 2102400.0,
+    "bar_duration_seconds": 15.0,
+    "cost_budget_bps": 0.5,
+    "ic_mde_floor": 0.05,
+    "max_position_pct": 0.2,
+    "min_returns": 1000,
+    "min_windows": 20,
+    "power_alpha": 0.05,
+    "power_target": 0.8,
+    "risk_config_max_drawdown_limit": 0.2,
+    "signal_lookback_seconds": 60.0,
+    "signal_threshold": 0.1,
+    "spot": 65000.0,
+    "spread_bps": 0.0,
+    "step_size": 40,
+    "symbol": "BTC",
+    "test_window": 40,
+    "toxicity_threshold": 0.7,
+    "toxicity_window_trades": 5,
+    "train_window": 120,
+    "venue": "synthetic"
+  },
+  "cost_grid": {
+    "grid": {
+      "0": {
+        "mean_cost_bps": 0.00017743036895100922,
+        "net_return_annualised": 185.81758967155852,
+        "net_return_total": 0.3004157093291607,
+        "net_sharpe": 154.50910782426183,
+        "rejections": 0,
+        "spread_bps": 0.0,
+        "total_cost_bps": 0.6030858240644803
+      },
+      "0.5": {
+        "mean_cost_bps": 0.0003245324578006709,
+        "net_return_annualised": 185.78666292839875,
+        "net_return_total": 0.3003657093291607,
+        "net_sharpe": 154.4828182076907,
+        "rejections": 0,
+        "spread_bps": 0.5,
+        "total_cost_bps": 1.1030858240644803
+      },
+      "1": {
+        "mean_cost_bps": 0.00047163454665033255,
+        "net_return_annualised": 185.75573618523902,
+        "net_return_total": 0.3003157093291607,
+        "net_sharpe": 154.45636370259663,
+        "rejections": 0,
+        "spread_bps": 1.0,
+        "total_cost_bps": 1.6030858240644803
+      },
+      "5": {
+        "mean_cost_bps": 0.00158953889081019,
+        "net_return_annualised": 185.52070797592285,
+        "net_return_total": 0.29993573364258075,
+        "net_sharpe": 154.24994405700622,
+        "rejections": 0,
+        "spread_bps": 5.0,
+        "total_cost_bps": 5.402842689863836
+      }
+    },
+    "monotone_non_increasing": true
+  },
+  "data_provenance": {
+    "deterministic_seed": 42,
+    "disclosure": "SYNTHETIC tape: the net-of-cost verdict on this sample is on synthetic data and MUST be re-confirmed on a real tape before any capital decision.",
+    "fingerprint": "10527b9f431a4d5e35edd34713843d3b1f06a95066814b5621414a6fdee9125e",
+    "provenance": "synthetic",
+    "real_candidates_rejected": [
+      {
+        "n_returns": 239,
+        "n_windows": 3,
+        "path": "data/raw/orderflow_btcusdt_synthetic.json",
+        "reason": "real_tape_below_adequacy_floors",
+        "sample_adequate": false
+      }
+    ],
+    "seed": 42,
+    "selection_reason": "no_real_tape_meets_adequacy_floors",
+    "source_path": null,
+    "tape": {
+      "first_timestamp": "2026-10-31T00:00:01.250000+00:00",
+      "last_timestamp": "2026-10-31T14:10:00+00:00",
+      "n_funding_rates": 0,
+      "n_liquidations": 72,
+      "n_trades": 40800,
+      "symbol": "BTCUSDT",
+      "venue": "synthetic"
+    }
+  },
+  "degeneracy": {
+    "any_degenerate": true,
+    "options_leg_degenerate": true,
+    "orderflow_leg_degenerate": false,
+    "pillars": {
+      "options": {
+        "degenerate": true,
+        "n_unique": 1,
+        "n_values": 3400,
+        "unique_values": [
+          0.3333333333333333
+        ]
+      },
+      "orderflow": {
+        "degenerate": false,
+        "n_unique": 3345,
+        "n_values": 3400,
+        "unique_values": [
+          -1.0,
+          -0.9906985921169285,
+          -0.989317201026739,
+          -0.9892238045031495,
+          -0.9887640674418053,
+          -0.9886485715810176,
+          -0.9871462994599984,
+          -0.9863225750085819
+        ]
+      },
+      "toxicity": {
+        "degenerate": false,
+        "n_unique": 2167,
+        "n_values": 3400,
+        "unique_values": [
+          0.0002084635226674557,
+          0.00043072492917824667,
+          0.002170215341168391,
+          0.0032584470917395685,
+          0.003364438707293245,
+          0.003744509992114699,
+          0.0039007091091102413,
+          0.0044420073930105915
+        ]
+      }
+    }
+  },
+  "determinism": {
+    "fingerprint_run_1": "10527b9f431a4d5e35edd34713843d3b1f06a95066814b5621414a6fdee9125e",
+    "fingerprint_run_2": "10527b9f431a4d5e35edd34713843d3b1f06a95066814b5621414a6fdee9125e",
+    "full_stack_checked": false,
+    "full_stack_identical": true,
+    "identical": true,
+    "tape_identical": true
+  },
+  "generated_at": "2026-11-13T16:51:08.037643Z",
+  "live_trading_enabled": false,
+  "net_of_cost": {
+    "complete": true,
+    "non_negative": true,
+    "series": {
+      "combined": {
+        "gross_return_total": 0.30047601791156714,
+        "net_minus_gross": -0.0001103085824064598,
+        "net_return_total": 0.3003657093291607,
+        "total_cost_bps": 1.1030858240644803,
+        "turnover": 0.9964695498676082
+      },
+      "flat": {
+        "gross_return_total": 0.0,
+        "net_minus_gross": 0.0,
+        "net_return_total": 0.0,
+        "total_cost_bps": 0.0,
+        "turnover": 0.0
+      },
+      "options_only": {
+        "gross_return_total": -0.411962559565696,
+        "net_minus_gross": -0.00011091424496278979,
+        "net_return_total": -0.4120734738106588,
+        "total_cost_bps": 1.1091424496280347,
+        "turnover": 1.0
+      },
+      "orderflow_only": {
+        "gross_return_total": 2.624589439258214,
+        "net_minus_gross": -0.00011091424496312285,
+        "net_return_total": 2.624478525013251,
+        "total_cost_bps": 1.1091424496280347,
+        "turnover": 1.0
+      }
+    }
+  },
+  "never_valid_true": true,
+  "pillars": {
+    "combined": {
+      "gross_eq_final": 134890.67359467133,
+      "gross_return_annualised": 185.8548926323268,
+      "gross_return_total": 0.30047601791156714,
+      "gross_sharpe": 154.54059810346385,
+      "max_drawdown_gross": 0.027551658980444906,
+      "max_drawdown_net": 0.02755165898044484,
+      "mean_cost_bps": 0.0003245324578006709,
+      "n_returns": 3399,
+      "net_eq_final": 134875.79399568753,
+      "net_return_annualised": 185.78666292839875,
+      "net_return_total": 0.3003657093291607,
+      "net_sharpe": 154.4828182076907,
+      "rejection_reasons": {},
+      "rejections": 0,
+      "risk_config_max_position_pct": 0.2,
+      "total_cost_bps": 1.1030858240644803,
+      "turnover": 0.9964695498676082
+    },
+    "flat": {
+      "gross_eq_final": 100000.0,
+      "gross_return_annualised": 0.0,
+      "gross_return_total": 0.0,
+      "gross_sharpe": 0.0,
+      "max_drawdown_gross": 0.0,
+      "max_drawdown_net": 0.0,
+      "mean_cost_bps": 0.0,
+      "n_returns": 3399,
+      "net_eq_final": 100000.0,
+      "net_return_annualised": 0.0,
+      "net_return_total": 0.0,
+      "net_sharpe": 0.0,
+      "rejection_reasons": {},
+      "rejections": 0,
+      "risk_config_max_position_pct": 0.2,
+      "total_cost_bps": 0.0,
+      "turnover": 0.0
+    },
+    "options_only": {
+      "gross_eq_final": 65782.29660915617,
+      "gross_return_annualised": -254.81320542245345,
+      "gross_return_total": -0.411962559565696,
+      "gross_sharpe": -87.66726950512056,
+      "max_drawdown_gross": 0.4292558609220284,
+      "max_drawdown_net": 0.4292558609220247,
+      "mean_cost_bps": 0.0003263143423442291,
+      "n_returns": 3399,
+      "net_eq_final": 65775.01776302737,
+      "net_return_annualised": -254.8818097497879,
+      "net_return_total": -0.4120734738106588,
+      "net_sharpe": -87.6926165048068,
+      "rejection_reasons": {},
+      "rejections": 0,
+      "risk_config_max_position_pct": 0.2,
+      "total_cost_bps": 1.1091424496280347,
+      "turnover": 1.0
+    },
+    "orderflow_only": {
+      "gross_eq_final": 1371346.7610180082,
+      "gross_return_annualised": 1623.400069754772,
+      "gross_return_total": 2.624589439258214,
+      "gross_sharpe": 639.630113913485,
+      "max_drawdown_gross": 0.014617650429266889,
+      "max_drawdown_net": 0.014617650429266856,
+      "mean_cost_bps": 0.0003263143423442291,
+      "n_returns": 3399,
+      "net_eq_final": 1371195.020769067,
+      "net_return_annualised": 1623.3314654274373,
+      "net_return_total": 2.624478525013251,
+      "net_sharpe": 639.613680832405,
+      "rejection_reasons": {},
+      "rejections": 0,
+      "risk_config_max_position_pct": 0.2,
+      "total_cost_bps": 1.1091424496280347,
+      "turnover": 1.0
+    }
+  },
+  "report_id": "SAMPLE_ADEQUACY_ACQUISITION_21",
+  "sample": {
+    "bar_return_mean_bps": -1.212011060799341,
+    "bar_return_std_bps": 20.045956194342075,
+    "bar_return_tstat": -3.5249697024657625,
+    "end_timestamp": "2026-10-31T14:10:00Z",
+    "n_bars": 3400,
+    "n_returns": 3399,
+    "n_trades": 40800,
+    "n_windows": 82,
+    "start_timestamp": "2026-10-31T00:00:01.250000Z"
+  },
+  "sharpe": {
+    "abs_error": 0.0,
+    "annualisation": 2102400.0,
+    "expected_annualisation": 2102400.0,
+    "n_returns": 3399,
+    "sharpe": 154.4828182076907,
+    "window_count": 84,
+    "window_sharpe": 842.8423750293033
+  },
+  "sizing": {
+    "max_drawdown_limit": 0.2,
+    "rejection_reasons": {},
+    "rejections": 0,
+    "requested_max_position_pct": 0.2,
+    "risk_config_max_position_pct": 0.2,
+    "sizing_consistent": true
+  },
+  "trading_mode": "paper",
+  "verdict": "GO",
+  "verdict_checks": {
+    "all_checks_pass": true,
+    "checks": [
+      {
+        "name": "measurement_reproducible",
+        "observed": true,
+        "pass": true,
+        "reason": "Two independent tape builds must be byte-identical; optional full-stack rebuild hashes the signal/sim payload.",
+        "threshold": true
+      },
+      {
+        "name": "sample_adequate_declared",
+        "observed": {
+          "n_returns": 3399,
+          "n_windows": 82
+        },
+        "pass": true,
+        "reason": "Adequacy is judged against the pre-declared floors; both counts are emitted.",
+        "threshold": {
+          "min_returns": 1000,
+          "min_windows": 20
+        }
+      },
+      {
+        "name": "causal_no_lookahead",
+        "observed": true,
+        "pass": true,
+        "reason": "Signal at bar t must use only trades with timestamp <= bar_end[t] (asserted + unit tested).",
+        "threshold": true
+      },
+      {
+        "name": "sizing_consistent",
+        "observed": {
+          "rejections": 0,
+          "risk_config_max_position_pct": 0.2
+        },
+        "pass": true,
+        "reason": "Requested max_position_pct must equal RiskConfig.max_position_pct and engine rejections must be counted, not swallowed.",
+        "threshold": {
+          "risk_config_max_position_pct": 0.2,
+          "swallowed_rejections": 0
+        }
+      },
+      {
+        "name": "sharpe_basis_valid",
+        "observed": {
+          "abs_error": 0.0,
+          "annualisation": 2102400.0,
+          "sharpe": 154.4828182076907
+        },
+        "pass": true,
+        "reason": "Sharpe must be reproducible from the emitted per-bar returns with the bar-duration annualisation.",
+        "threshold": {
+          "annualisation": 2102400.0,
+          "max_abs_error": 1e-09
+        }
+      },
+      {
+        "name": "non_degenerate_pillars_reported",
+        "observed": {
+          "options_leg_degenerate": true,
+          "orderflow_leg_degenerate": false
+        },
+        "pass": true,
+        "reason": "Every pillar with < 2 unique values must be flagged explicitly (options leg may stay degenerate: static snapshot).",
+        "threshold": true
+      },
+      {
+        "name": "net_of_cost_honest",
+        "observed": {
+          "complete": true,
+          "non_negative": true
+        },
+        "pass": true,
+        "reason": "gross, net, turnover and cost bps must be emitted for all four series; cost non-negative.",
+        "threshold": {
+          "complete": true,
+          "non_negative": true
+        }
+      },
+      {
+        "name": "ic_reported_with_power",
+        "observed": {
+          "ic_mean": 0.3751261392184914,
+          "ic_tstat": 6.544352554413802,
+          "max_horizon_mde": 0.0481887307112244,
+          "min_abs_horizon_ic": 0.23552916253509623,
+          "min_detectable_ic_at_n_returns": 0.04805385736967488,
+          "n_ic_observations": 3,
+          "n_returns": 3399
+        },
+        "pass": true,
+        "reason": "IC mean, t-stat, n and the MDE at the acquired return count must be emitted; MDE at n_returns must be small enough to detect plausible IC and every horizon IC must exceed its own MDE.",
+        "threshold": {
+          "detectable_all_horizons": true,
+          "max_min_detectable_ic_at_n_returns": 0.05
+        }
+      },
+      {
+        "name": "strict_serialization",
+        "observed": {
+          "never_valid_true": true
+        },
+        "pass": true,
+        "reason": "Artifact must validate with allow_nan=False and never contain {\"valid\": true}.",
+        "threshold": {
+          "allow_nan": false
+        }
+      }
+    ],
+    "n_checks": 9,
+    "n_passed": 9,
+    "verdict": "GO"
+  }
+}

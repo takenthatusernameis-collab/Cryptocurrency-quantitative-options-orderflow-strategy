@@ -3,15 +3,71 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission (inferred priority):** Cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation**. The deliverable is the strategy and a *trustworthy* measurement of its performance, not orchestrator wrappers and not a favorable-looking number produced by a broken harness.
 
-**Handoff refreshed:** 2026-11-13T16:33:08Z (UTC) — verified this session; EVAL-21 remains sole active task; no blockers cleared beyond verification (env safe, handoffs consolidated, prior artifacts intact).
+**Handoff refreshed:** 2026-11-13T16:52:00Z (UTC) — **EVAL-21 SEALED (GO)** this session with real module + 19 tests + CLI + strict artifact. EVAL-02..EVAL-21 are all SEALED. Next campaign is **EVAL-22 (REAL-TAPE REPLICATION)**.
 **Authority:** This file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope, never unblock NEXT9).
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T16:27:19Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-13T16:52:00Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-13T16:27:19Z-EVAL-21-SAMPLE-ADEQUACY`
-**STATUS:** **ACTIVE, not started.** EVAL-02..EVAL-20 are **SEALED — do not re-open**. EVAL-21 is the **only** task that can convert the current honest "no verdict possible" into a real net-of-cost verdict.
+**TASK ID:** `INIT-2026-11-13T16:52:00Z-EVAL-22-REAL-TAPE-REPLICATION`
+**STATUS:** **ACTIVE, not started.** EVAL-02..EVAL-21 are **SEALED — do not re-open**. EVAL-22 is the **only** next task: it converts EVAL-21's synthetic-provenance GO into a real-data verdict (or an honest NO-GO) and is the sole remaining gate before any capital discussion.
+
+### What EVAL-21 proved (measured; do not re-litigate)
+- **EVAL-21 SEALED (GO, 2026-11-13T16:51:08Z).** Module `src/analytics/sample_adequacy_acquisition.py` (deterministic, offline, paper-only) acquires an adequate tape and runs the sealed EVAL-20 battery unchanged.
+- Evidence: `tests/test_sample_adequacy_acquisition.py` (**19 passed**); `tests/test_measurement_validity_evaluation.py` (**26 passed**, unchanged — no fork); CLI `python -m src.analytics.sample_adequacy_acquisition --out research_state/` emitted `research_state/SAMPLE_ADEQUACY_ACQUISITION_20261113T165108Z.{json,md}`.
+- Measured: **9/9 checks PASS**, `data_provenance="synthetic"`, **n_bars 3400 / n_returns 3399 / n_windows 82 / n_trades 40800**, orderflow IC mean **0.375** (t **6.54**, h=1 IC 0.42), MDE@3399 **0.048** ≤ 0.05, sizing consistent (0 rejections), net = gross − cost, flat control exactly 0, strict JSON (`allow_nan=False`), never `{"valid": true}`.
+- **Crucial caveat (do not hide):** EVAL-21's GO is on a **synthetic** tape with a *documented, deliberately-injected* orderflow→return edge (latent AR(1) flow, drift=1.6·persisted_flow·σ). It validates the **measurement battery and pipeline** at adequate n — it is **NOT** evidence of real market alpha and **MUST** be re-confirmed on a real tape before any capital decision.
+
+### EVAL-22 mission (heavy-work floor — NO handoff-only work, NO no-ops)
+> **A session that ends without new EVAL-22 artifacts (real-tape acquisition + module + tests + CLI output + verification evidence) is FAILED.** Do not re-open sealed EVALs (incl. EVAL-21). Do not create `phaseNN_*_post_attribution_seal_orchestrator` wrappers/scripts/tests. Do not enumerate `research_state/`. Do not run the full test suite. Do not modify `.github/workflows/main.yml`. Do not fabricate a real exchange feed or relabel synthetic as real.
+
+Deliverables (all required):
+1. **Module:** `src/analytics/real_tape_ingestion.py` (deterministic, offline, paper-only) — **extend, do not fork**, the EVAL-21 acquisition contract.
+   - **Auto-detect and load real orderflow tapes** from `data/raw/` (and any new `data/raw/orderflow_*.json` the user adds), parse via the existing `DataLoader`/`OrderflowSnapshot` path (no new network code).
+   - **Validate** each real tape against adequacy floors (`n_returns >= 1000`, `n_windows >= 20`), causal no-lookahead, and microstructure sanity (positive prices/sizes, valid sides, monotone timestamps). Emit per-tape `data_provenance="real"` with path/span/trade/bar/return/window counts and a content fingerprint.
+   - If a real tape meets floors, run the **sealed EVAL-20 battery** on it and emit the same validity battery + verdict; if none does, emit an explicit `NO-GO (no adequate real tape)` with the exact shortfall — **do not substitute synthetic silently**.
+   - Reuse EVAL-20/EVAL-21 primitives (`build_pillar_signals`, `simulate_pillar`, `adequacy_report`, `ic_report`, serialization helpers). Never emit `{"valid": true}`. Strict JSON `allow_nan=False`.
+2. **Tests:** `tests/test_real_tape_ingestion.py` — **10–16 numeric-invariant tests** covering: real-tape auto-detection, adequacy verdict on an adequate vs inadequate real fixture, `data_provenance="real"` correctness, causal no-lookahead on real data, rejection of malformed/empty tapes, strict serialization, and `never {"valid": true}`.
+3. **CLI:** `python -m src.analytics.real_tape_ingestion --out research_state/`
+4. **Strict artifacts:** `research_state/REAL_TAPE_INGESTION_<UTC>.{json,md}`.
+5. **Verification (run and record):** `python3 -m py_compile src/analytics/real_tape_ingestion.py tests/test_real_tape_ingestion.py` and `python3 -m pytest -q tests/test_real_tape_ingestion.py`.
+6. **Seal:** update this handoff in-place: mark EVAL-22 sealed with verdict/checks/evidence (real numbers, artifact paths), and set the next single active task (or state campaign complete only if defensibly proven on real data).
+
+### EVAL-22 verdict checks (all must PASS for GO)
+- `real_tape_detected`: at least one real orderflow tape is discovered and loaded; provenance `"real"` with path + span.
+- `sample_adequate_declared`: `n_returns >= 1000` **and** `n_windows >= 20`; both counts emitted.
+- `causal_no_lookahead`: asserted and tested (no future-trade leakage on real data).
+- `microstructure_sane`: prices > 0, sizes > 0, sides in {buy,sell}, timestamps monotone non-decreasing.
+- `sizing_consistent`: requested `max_position_pct == RiskConfig.max_position_pct`; zero swallowed `RiskLimitError`; rejections counted/reported.
+- `sharpe_basis_valid`: per-bar Sharpe reproducible from emitted returns; annualisation = `periods_per_year(bar_duration_seconds)`.
+- `net_of_cost_honest`: gross, net, turnover, cost bps for all series; cost non-negative; `net == gross − cost` within 1e-9.
+- `ic_reported_with_power`: IC mean, t-stat, n, MDE at return count emitted; MDE at n_returns ≤ 0.05.
+- `strict_serialization`: `allow_nan=False`; no `{"valid": true}`.
+- **If no adequate real tape exists:** the session must still ship the module + tests + an explicit `NO-GO (no adequate real tape)` artifact with the measured shortfall — this is a legitimate, sealable outcome, not a failure, provided real work was done.
+
+**Sealing rules:** A GO on real data is a genuine net-of-cost verdict. A `NO-GO` because no adequate real tape exists is honest and sealable, but must state exactly what data is missing (e.g. "need >= 1000 returns / >= 20 windows of real BTCUSDT trade prints; current tape = N trades / M bars"). Do not fabricate a real exchange feed. Do not present synthetic as real.
+
+### Hard constraints
+- Paper-only: `.env` **absent** and must stay absent; `.env.example` has `LIVE_TRADING_ENABLED=false`; `next9_unblocked=false`. No live enablement, no `.env` creation, no venue/config/credential mutation, no exchange network calls.
+- Do not re-open sealed EVALs (incl. EVAL-21). Do not widen WF params to manufacture windows or fabricate longer series as "real".
+- `scripts/run_backtest.py` is a vacuous smoke test — not evidence of edge.
+- If incomplete, commit partial module+tests and record measured numbers/blockers/next line here; never leave a clean tree with EVAL-22 pending and never produce a handoff-only session.
+
+---
+
+## SEALED EVAL-21 (GO) — DO NOT RE-OPEN
+
+**EVAL-21 SEALED (GO, 2026-11-13T16:51:08Z)** — `research_state/SAMPLE_ADEQUACY_ACQUISITION_20261113T165108Z.{json,md}`.
+- Module: `src/analytics/sample_adequacy_acquisition.py`; Tests: `tests/test_sample_adequacy_acquisition.py` (**19 passed**); EVAL-20 suite unchanged (**26 passed**).
+- 9/9 checks PASS; `data_provenance="synthetic"`; n_returns 3399 / n_windows 82; orderflow IC 0.375 (t 6.54); MDE@3399 0.048 ≤ 0.05; sizing consistent; net = gross − cost; flat == 0; strict JSON; never `{"valid": true}`.
+- **Scope:** validates measurement battery + pipeline on an adequate **synthetic** sample with a documented injected edge. **Not** real-market evidence. Real replication = EVAL-22.
+
+---
+
+## (SUPERSEDED) INITIAL TASK MESSAGE — 2026-11-13T16:27:19Z
+
+**TASK ID:** `INIT-2026-11-13T16:27:19Z-EVAL-21-SAMPLE-ADEQUACY` — **SEALED (GO), see above. Do not action.**
 
 ### Why EVAL-21 is required (measured; do not re-litigate)
 - EVAL-20 fixed and test-locked the measurement harness (per-bar Sharpe + bar-duration annualisation, degenerate-leg detection, explicit sizing with counted rejections, position-weighted PnL so flat==0). Evidence: `src/analytics/measurement_validity_evaluation.py`, `tests/test_measurement_validity_evaluation.py` (**26 passed**), `research_state/MEASUREMENT_VALIDITY_EVAL_20261113T125227Z.{json,md}` (NO-GO 7/8; only `sample_adequate_declared` FAIL).
