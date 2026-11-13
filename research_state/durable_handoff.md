@@ -3,7 +3,7 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission (inferred priority):** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation**. The deliverable is the strategy and a *trustworthy* measurement of its performance, not orchestrator wrappers and not a favourable-looking number produced by a broken harness.
 
-**Refreshed:** 2026-11-13T11:56:00Z (UTC) — this session verified: single actionable handoff; root pointers retired; `.env` absent; EVAL-19 tests 16/16 pass; **the EVAL-19/18/17/16 benchmarks are structurally invalid (measured evidence below)**; EVAL-20 as previously written was therefore unsatisfiable and has been **withdrawn and replaced**.
+**Refreshed:** 2026-11-13T12:44:33Z (UTC) — this session verified: single actionable handoff; root pointers retired; `.env` absent; EVAL-19 tests 16/16 pass; **the EVAL-19/18/17/16 benchmarks are structurally invalid (measured evidence below)**; EVAL-20 as previously written was therefore unsatisfiable and has been **withdrawn and replaced**. **EVAL-20 module/tests not yet created — task remains not started.**
 
 **Authority:** this file is the only actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope, never unblock NEXT9).
 
