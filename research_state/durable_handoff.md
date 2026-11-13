@@ -2,14 +2,14 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name:** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers.
-**Refreshed:** 2026-11-13T01:14:00Z (UTC). Verified: EVAL-12 module/tests/artifacts present and sealed GO (`REAL_WF_CERTIFICATION_20261113T010508Z.{json,md}`); EVAL-11 FEASIBLE_POSITIVE_SHARPE (`HEDGE_COST_OPTIMIZER_20261113T004000Z.{json,md}`); EVAL-10 NO-GO (`STRATEGY_EVAL_10_FINAL_GONOGO_20261113T000249Z.{json,md}`); `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs remain retired pointers.
+**Refreshed:** 2026-11-13T01:17:09Z (UTC). Verified: EVAL-12 module/tests/artifacts present and sealed GO (`REAL_WF_CERTIFICATION_20261113T010508Z.{json,md}`); EVAL-11 FEASIBLE_POSITIVE_SHARPE (`HEDGE_COST_OPTIMIZER_20261113T004000Z.{json,md}`); EVAL-10 NO-GO (`STRATEGY_EVAL_10_FINAL_GONOGO_20261113T000249Z.{json,md}`); `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs remain retired pointers.
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope), not task sources.
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T01:14:00Z (copy-paste to the next agent)
+## INITIAL TASK MESSAGE — 2026-11-13T01:17:09Z (copy-paste to the next agent)
 
-**TASK ID:** `INIT-2026-11-13T01:14:00Z-EVAL-13-FINAL-STRATEGY-CERTIFICATION`
+**TASK ID:** `INIT-2026-11-13T01:17:09Z-EVAL-13-FINAL-STRATEGY-CERTIFICATION`
 **STATUS:** ACTIVE. This is the single next task. Do not pick a different task. Do not re-verify the environment (deps installed; `.env` absent; safety flags set; EVAL-10/11/12 sealed). Your first code change must add `src/analytics/final_strategy_certification.py` and execute real computation.
 
 **EVAL-13 (Final strategy certification + risk guardrails, paper-only):**
@@ -83,7 +83,7 @@ EVAL-13 must, at minimum:
 | Competing/stale root handoff files | **CLEARED (verified).** Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers with no task IDs; this file remains sole authority. |
 | Prior data/primitive blockers (load_trades unwrap, permutation, cost-grid semantics, inert hedge_cost_bps) | **RESOLVED in prior sessions** and documented above; EVAL-13 must build on sealed evidence, not reopen. |
 
-**Tree verified 2026-11-13T01:14:00Z:** EVAL-12 sealed; `src/analytics/final_strategy_certification.py` absent (EVAL-13 not started). Modified this session: `research_state/durable_handoff.md` (this update). No active blockers besides executing EVAL-13.
+**Tree verified 2026-11-13T01:17:09Z:** EVAL-12 sealed; `src/analytics/final_strategy_certification.py` absent (EVAL-13 not started). Modified this session: `research_state/durable_handoff.md` (this update). No active blockers besides executing EVAL-13.
 
 ---
 
