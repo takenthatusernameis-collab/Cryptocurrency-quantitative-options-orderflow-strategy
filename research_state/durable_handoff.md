@@ -3,15 +3,15 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission (inferred priority):** Cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation**. The deliverable is the strategy and a *trustworthy* measurement of its performance, not orchestrator wrappers and not a favorable-looking number produced by a broken harness.
 
-**Handoff refreshed:** 2026-11-13T19:02:13Z (UTC) — re-verified repo state: EVAL-02..EVAL-21 **SEALED**. **EVAL-22 is ACTIVE and UNSTARTED** (no `src/analytics/real_tape_ingestion.py`, no `tests/test_real_tape_ingestion.py`, no `research_state/REAL_TAPE_INGESTION_*`; `.env` absent). Root handoff files are retired pointers. Session-gate dependencies present/compile. Next campaign: **EVAL-22 (REAL-TAPE INGESTION GATE)** → EVAL-23 (REAL NET-OF-COST VERDICT) → EVAL-24 (OPTIONS-LEG VALIDITY) → EVAL-25 (REAL-TAPE FALSIFICATION); **EVAL-23B is the unblocked fallback**. No other blocked/inefficient session bottlenecks found in-repo beyond the documented data absence and sealed-module constraints.
+**Handoff refreshed:** 2026-11-13T19:10:37Z (UTC) — re-verified repo state: EVAL-02..EVAL-21 **SEALED**. **EVAL-22 is ACTIVE and UNSTARTED** (no `src/analytics/real_tape_ingestion.py`, no `tests/test_real_tape_ingestion.py`, no `research_state/REAL_TAPE_INGESTION_*`; `.env` absent). Root handoff files are retired pointers. Session-gate dependencies present/compile. Next campaign: **EVAL-22 (REAL-TAPE INGESTION GATE)** → EVAL-23 (REAL NET-OF-COST VERDICT) → EVAL-24 (OPTIONS-LEG VALIDITY) → EVAL-25 (REAL-TAPE FALSIFICATION); **EVAL-23B is the unblocked fallback**. No other blocked/inefficient session bottlenecks found in-repo beyond the documented data absence and sealed-module constraints.
 
 **Authority:** This file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope, never unblock NEXT9).
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T19:02:13Z (copy-paste for the next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-13T19:10:37Z (copy-paste for the next agentic work session)
 
-**TASK ID:** `INIT-2026-11-13T19:02:13Z-EVAL-22-REAL-TAPE-GATE`
+**TASK ID:** `INIT-2026-11-13T19:10:37Z-EVAL-22-REAL-TAPE-GATE`
 **STATUS:** **ACTIVE, not started.** EVAL-02..EVAL-21 are **SEALED — do not re-open**. EVAL-22 is the active task; EVAL-23..EVAL-25 are the sequential campaign queue below (EVAL-23B is the fallback if EVAL-23 is data-blocked).
 
 > **Start here (no discovery needed).** Re-verified at 2026-11-13T19:02:13Z: no EVAL-22 module/tests/artifacts exist; `.env` absent; only synthetic tape in `data/raw/`. The previous session(s) ended handoff-only — that is the one forbidden outcome. Produce real artifacts this session.
