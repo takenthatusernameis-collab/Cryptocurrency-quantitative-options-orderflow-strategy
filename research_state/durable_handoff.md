@@ -127,14 +127,14 @@
 
 ---
 
-## FOCUS CAMPAIGN (strictly sequential — ALL EVALS COMPLETE)
+## FOCUS CAMPAIGN (strictly sequential — EVAL-02..EVAL-18 COMPLETE (all sealed); EVAL-19 ACTIVE (next required))
 
 | Order | Task | Status | Required output |
 |---|---|---|---|
 | EVAL-02..EVAL-18 | All evaluations/readiness | **COMPLETE (sealed)** | Modules/tests/CLIs/artifacts listed above. EVAL-16 sealed NO-GO (legitimate). EVAL-17 sealed NO-GO (legitimate). EVAL-18 sealed NO-GO (legitimate, 5/7 checks). |
 | **EVAL-18** | **Integrated options+orderflow net-of-cost evaluation** | **COMPLETE (sealed)** | `src/analytics/integrated_options_orderflow_evaluation.py` + `tests/test_integrated_options_orderflow_evaluation.py` (28 numeric-invariant tests, all pass) + CLI + strict artifact `INTEGRATED_OPTIONS_ORDERFLOW_EVAL_20261113T081000Z.{json,md}`; loads both real data sources (EVAL-16 30-quote chain + EVAL-17 1000-trade orderflow); options signal from reconstructed surface (causal); orderflow signal from EVAL-17 causal `net_aggression`; VPIN toxicity gate (measured 0.225 engagement); combined net-of-cost walk-forward vs 3 controls (flat, options-only, orderflow-only); IC + block-bootstrap CI + permutation + DSR/PBO + BH-FDR; deterministic verdict with 7 explicit checks (NO-GO 5/7 legitimate); strict-serializable; paper-only. |
 
-**Rule:** do not re-open sealed EVALs. Do not implement or advance Phase 292+ or any `phaseNN_*_post_attribution_seal_orchestrator` wrapper. A session must seal at least one EVAL task; a session that ends with no new EVAL artifact (only handoff/timestamp edits) is FAILED.
+**Rule:** do not re-open sealed EVALs. Do not implement or advance Phase 292+ or any `phaseNN_*_post_attribution_seal_orchestrator` wrapper. A session must seal at least one EVAL task (EVAL-19 next); a session that ends with no new EVAL artifact (only handoff/timestamp edits) is FAILED.
 
 ---
 
@@ -207,3 +207,36 @@ Any of these tasks must, at minimum:
 - Each new task must ship a real module, numeric-invariant tests, CLI, and a real-run artifact — no wrappers, no stubs, no "verified env only" sessions.
 - If incomplete: commit/push partial module and leave exact next line/blocker here. Never leave tree clean with a pending EVAL.
 - Final responses must not ask follow-up questions.
+
+## INITIAL TASK MESSAGE — 2026-11-13T10:04:20Z (copy-paste to the next agent — THIS IS YOUR WORK)
+
+**TASK ID:** `INIT-2026-11-13T10:04:20Z-EVAL-19-ACTIVE`
+**STATUS:** Focus campaign EVAL-02..EVAL-18 is COMPLETE — all sealed (EVAL-16/EVAL-17/EVAL-18 NO-GO legitimate, measured; EVAL-12/13/14/15 GO). No active EVAL remains. `.env` absent, `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`. All bottlenecks cleared (see BOTTLENECKS REMOVED table). Sole durable handoff: `research_state/durable_handoff.md`; root/legacy handoffs are retired pointers.
+
+**Next focus campaign (heavy work — mandatory):** implement **EVAL-19 — Net-of-Cost Production Simulation & Robustness Certification** (paper-only, deterministic, no network, no `.env`, no live). This campaign combines both repo pillars (options + orderflow) into a production-grade net-of-cost simulation with robustness stress. Do not re-open sealed EVALs; do not create `phaseNN_*_post_attribution_seal_orchestrator` wrappers; do not enumerate `research_state/`; do not run the full test suite.
+
+> **DELIVERABLES (all required, no exceptions):**
+> 1. `src/analytics/production_simulation_evaluation.py` — module with `compute_production_simulation_verdict(...) -> dict`
+> 2. `tests/test_production_simulation_evaluation.py` — **12–18 numeric-invariant tests** (not smoke tests)
+> 3. CLI: `python -m src.analytics.production_simulation_evaluation --out research_state/`
+> 4. **Strict artifact:** `research_state/PRODUCTION_SIMULATION_EVAL_<UTC>.{json,md}` emitted by CLI
+
+> **HEAVY WORK FLOOR — EVERY ITEM IS MANDATORY (no prose-only verdicts, no stubs):**
+>
+> 1. **LOAD BOTH REAL DATA SOURCES** — Use existing loaders only: `src.campaign.integrated._load_options_chain("BTC", 65000.0, DETERMINISTIC_NOW, "synthetic")` (EVAL-16 30-quote chain) and `src.campaign.integrated._load_orderflow("BTC", "synthetic")` (EVAL-17 1000 trades + 20 liqs + 8 funding, BTCUSDT). Do not enumerate `research_state/`; no network calls.
+>
+> 2. **COMBINED SIGNAL WALK-FORWARD** — Reuse the EVAL-18 combined options+orderflow signal pattern (reconstructed-surface options signal + causal EVAL-17 `net_aggression` orderflow signal + VPIN toxicity gate at 0.7). Run a deterministic multi-seed walk-forward (seeds 1–10) through `src.analytics.strategy_evaluation.compute_metrics` with the capacity-aware cost model (`DEFAULT_SPREAD_BPS`, `DEFAULT_IMPACT_COEFF`, `DEFAULT_MAX_PARTICIPATION` from `src.analytics.capacity_aware_tca`).
+>
+> 3. **CONTROLS** — Report net return, Sharpe, max-DD, total cost USD, num trades, num windows for: (a) combined strategy, (b) always-flat, (c) options-only, (d) orderflow-only — all with the same toxicity gate and cost model.
+>
+> 4. **ROBUSTNESS / STRESS** — Regime stress (high vs low VPIN toxicity; high vs low IV skew), cost sensitivity (0 / 0.5 / 1 / 5 bps), kill-switch triggers (drawdown 20% / toxicity 80% / cost 5 bps). Report results per regime/cost setting.
+>
+> 5. **STATISTICAL DEFENSIBILITY** — IC (Pearson) for combined signal vs forward returns (horizons 1/5/20) + block-bootstrap CI (reuse `block_bootstrap_ci`); paired permutation test (combined vs best single-pillar control) via `permutation_test`; DSR and PBO/CSCV across seeds/windows; Benjamini–Hochberg FDR correction across the four series.
+>
+> 6. **DETERMINISTIC VERDICT FUNCTION** — `compute_production_simulation_verdict(...) -> dict` with explicit `checks` list: `signal_exists` (combined IC != 0), `ic_significant` (t-stat / permutation p), `net_of_cost_superior_vs_controls` (combined Sharpe > all three controls, finite cost), `toxicity_gate_measured` (gate engages at measured non-0/1 fraction), `robust_across_regimes` (verdict stable across stress regimes), `guardrails_consistent_with_eval13_14_15` (delta band ±323.77 USD, toxicity gate 0.7, cost budget 0.5 bps, kill-switch DD 20%/toxicity 80%/cost 5 bps, max notional 1M USD, max daily loss 50k USD). Each check: numeric threshold + rationale, finite metrics, evidence matrix. Strict-serializable via `serialize_metrics_strict`/`assert_json_valid` (`allow_nan=False`). **Never emit `{"valid": true}`.**
+>
+> 7. **VERIFY & SEAL** — `python -m py_compile src/analytics/production_simulation_evaluation.py` + `pytest -q tests/test_production_simulation_evaluation.py` → must pass. Then **update this handoff in place** to seal EVAL-19 with verdict/artifact/timestamps/tests.
+>
+> **IF EVAL-19 IS ALREADY SEALED WHEN YOU READ THIS, STOP — no next EVAL is defined. Do not re-open sealed EVALs, do not create phaseNN wrappers, do not do handoff-only/no-op work. A session that ends with no new EVAL artifact is FAILED.**
+
+**SESSION CONFIRM — 2026-11-13T10:04:20Z (scan):** EVAL-02..EVAL-18 sealed (campaign complete). EVAL-19 defined as next required focus campaign. Bottlenecks removed. P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`). Sole actionable handoff: `research_state/durable_handoff.md`.
