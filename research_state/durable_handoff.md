@@ -84,12 +84,28 @@ EVAL-14 shipped, at minimum:
 
 ---
 
+## EVAL-15 HEAVY-WORK FLOOR (a session that does less is FAILED)
+
+EVAL-15 must, at minimum:
+1. **Read and use real sealed artifacts** (`PAPER_DEPLOYMENT_READINESS_20261113T030007Z.json`, `FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.json`, `REAL_WF_CERTIFICATION_20261113T010508Z.json`, `HEDGE_COST_OPTIMIZER_20261113T004000Z.json`, `PAPER_TRADING_PRE_LIVE_READINESS_latest.json`, `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`) as evidence inputs; cite key numbers in output artifact.
+2. **Build paper-execution harness with guardrail enforcement, kill-switch, alerts, reconciliation** — deterministic `compute_paper_execution_verdict` combining: 9 EVAL-13 guardrails (max notional `1M`, delta band `±323.77` around `-20000`, toxicity gate `0.7`, cost budget `0.5 bps`, kill-switch drawdown `20%`/toxicity `80%`/cost `5 bps`, max daily loss `50k`, live disabled) + EVAL-14 alert watch levels (75% notional, 75% delta band, 0.5 toxicity, 1.5 bps cost, 10% drawdown watch, 25k daily loss watch).
+3. **Simulate orderflow-driven signals/hedges** using `src/analytics/gamma_inventory_hedge.evaluate_gamma_inventory_hedge` and `src/campaign/integrated` loaders; track `notional_usd`, `net_delta_usd` vs band, `toxicity_score`, `cost_bps`, `daily_loss_usd`, `drawdown` in real-time paper simulation. Kill-switch halts on `drawdown>=0.20`, `toxicity>=0.80`, `cost>=5.00 bps`, `daily_loss>=50000.0` or hard cap breach; alerts on watch levels.
+4. **Ship module + numeric-invariant tests (>=10) + CLI + artifact** `PAPER_EXECUTION_HARDENING_<UTC>.{json,md}`. Strict-serializable (`allow_nan=False`); never `{"valid": true}`; no NaN/Infinity.
+5. **Assert non-degeneracy/consistency** — finite metrics/thresholds, explicit pass/fail reasons list, evidence matrix present, guardrails numeric, verdict matches function, alert log + reconciliation metrics included.
+6. **Run verification** (`py_compile` + targeted pytest for EVAL-15) and report results.
+7. **Update this handoff in place** to seal EVAL-15 with verdict/artifact/timestamps/tests when complete. A future session that only edits handoff/timestamps without EVAL-15 artifacts is FAILED.
+
+---
+
 ## VERIFIED STATE — ground truth (do not re-verify environment)
 
 - **Environment:** Python 3.12.3; deps installed (numpy/pandas/scipy/pydantic/pytest/PyYAML/requests). `mypy/ruff/flake8` not installed; use `python3 -m py_compile` + targeted pytest.
-- **Key sealed artifacts present:** `research_state/HEDGE_COST_OPTIMIZER_20261113T004000Z.{json,md}`, `research_state/REAL_WF_CERTIFICATION_20261113T010508Z.{json,md}`, `research_state/STRATEGY_EVAL_10_FINAL_GONOGO_20261113T000249Z.{json,md}`, `research_state/GAMMA_INVENTORY_HEDGE_20261112T221000Z.{json,md}`, campaign checkpoints (`END2END_LIVE_TRADING_READINESS_latest.json`, `PAPER_TRADING_PRE_LIVE_READINESS_latest.json`, `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`).
+- **Key sealed artifacts present:** `research_state/HEDGE_COST_OPTIMIZER_20261113T004000Z.{json,md}`, `research_state/REAL_WF_CERTIFICATION_20261113T010508Z.{json,md}`, `research_state/STRATEGY_EVAL_10_FINAL_GONOGO_20261113T000249Z.{json,md}`, `research_state/GAMMA_INVENTORY_HEDGE_20261112T221000Z.{json,md}`, `research_state/PAPER_DEPLOYMENT_READINESS_20261113T030007Z.{json,md}`, campaign checkpoints (`END2END_LIVE_TRADING_READINESS_latest.json`, `PAPER_TRADING_PRE_LIVE_READINESS_latest.json`, `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`).
 - **EVAL-12 key numbers:** verdict GO; EVAL11_best mean Sharpe/return `13.188322`/`0.399995` (15 series); EVAL10_default `-22.765930`/`-0.558011`; DSR both `0.0`; PBO EVAL11_best `0.46875`, EVAL10_default `0.5234375`, overall `0.5`; BH FDR 0.10 survivors both configs.
+- **EVAL-13 key numbers:** verdict GO (8/8); best config `target_delta_usd=-20000.0, toxicity_threshold=0.7, cost_budget_bps=0.5`; mean net Sharpe `13.188322`; bootstrap CI return `[0.298731, 0.494794]`, Sharpe `[9.378864, 18.878999]` (lower bounds > 0); PBO overall `0.5`; 9 guardrails all pass (max notional `1M`, delta band `±323.77` around `-20000`, toxicity gate `0.7`, cost budget `0.5 bps`, kill-switch drawdown `20%`/toxicity `80%`/cost `5 bps`, max daily loss `50k`, live disabled).
+- **EVAL-14 key numbers:** verdict GO (10/10); 9 guardrails wired as structured fields; 6 alert watch levels (75% notional `750k`, 75% delta band `242.83`, toxicity watch `0.5`, cost watch `1.5 bps`, drawdown watch `10%`, daily loss watch `25k`); 3 kill-switch halt conditions (drawdown `20%`, toxicity `80%`, cost `5 bps`); all pass; paper-only.
 - **Data reality:** BTC real trades `data/raw/orderflow_btcusdt_synthetic.json` (1000); BTC options 30 quotes; no ETH orderflow/options files (synthetic fallback); processed venue snapshots aggregate-only (6 files).
+- **Reuse points for EVAL-15:** `src/analytics/gamma_inventory_hedge.evaluate_gamma_inventory_hedge`, `src/analytics/hedge_cost_optimizer.evaluate_hedge_cost_optimizer`, `src/analytics/strategy_evaluation` (`compute_metrics`, `block_bootstrap_ci`, `permutation_test`, `assert_json_valid`, `serialize_metrics_strict`), `src/analytics/paper_deployment_readiness` (load_sealed_evidence, metrics, thresholds, verdict), `src/campaign/integrated` loaders/paths, `src/data.loader.DataLoader.load_trades` (unwraps dict-wrapped JSON).
 - **Avoid traps:** never run full 865-file `pytest`; never enumerate `research_state/` (5GB+/~77k files); `scripts/run_backtest.py` vacuous.
 
 ---
@@ -102,8 +118,9 @@ EVAL-14 shipped, at minimum:
 | Competing/stale root handoff files | **CLEARED (verified).** Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers with no task IDs; this file remains sole authority. |
 | Prior data/primitive blockers (load_trades unwrap, permutation, cost-grid semantics, inert hedge_cost_bps) | **RESOLVED in prior sessions** and documented above; EVAL-13/EVAL-14 must build on sealed evidence, not reopen. |
 | EVAL-14 start clearance | **CLEAR.** EVAL-13 sealed (GO); P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`, no live trading); no data/primitive blockers; EVAL-14 context artifacts present (`PAPER_TRADING_PRE_LIVE_READINESS_latest.json`, `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`, `END2END_LIVE_TRADING_READINESS_latest.json`). |
+| EVAL-15 start clearance | **CLEAR.** EVAL-14 sealed (GO); P0 safety clear; all evidence artifacts present (`PAPER_DEPLOYMENT_READINESS_20261113T030007Z.json`, `FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.json`, `REAL_WF_CERTIFICATION_20261113T010508Z.json`, `HEDGE_COST_OPTIMIZER_20261113T004000Z.json`); no active blockers. |
 
-**Tree verified 2026-11-13T03:52:00Z:** EVAL-13 sealed with real artifacts; **EVAL-14 sealed (GO)** with real artifacts (`src/analytics/paper_deployment_readiness.py`, `tests/test_paper_deployment_readiness.py` (8), CLI, `research_state/PAPER_DEPLOYMENT_READINESS_20261113T030007Z.{json,md}`). P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`); required evidence artifacts/checkpoints present; no active blockers. Focus campaign complete — no pending work.
+**Tree verified 2026-11-13T03:54:46Z:** EVAL-13 sealed with real artifacts; **EVAL-14 sealed (GO)** with real artifacts (`src/analytics/paper_deployment_readiness.py`, `tests/test_paper_deployment_readiness.py` (8), CLI, `research_state/PAPER_DEPLOYMENT_READINESS_20261113T030007Z.{json,md}`). P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`); required evidence artifacts/checkpoints present for EVAL-15; **EVAL-15 ACTIVE**. Next session must ship `src/analytics/paper_execution_hardening.py` + tests + CLI + artifact.
 
 
 ---
@@ -127,7 +144,7 @@ EVAL-14 shipped, at minimum:
 ## HANDOFF DISCIPLINE
 
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
-- Work queue strictly in order: **EVAL-13 SEALED** (then **EVAL-14 ACTIVE**). Do not advance beyond EVAL-14 until sealed with real artifact.
+- Work queue strictly in order: **EVAL-13 SEALED** → **EVAL-14 SEALED** → **EVAL-15 ACTIVE**. Do not advance beyond EVAL-15 until sealed with real artifact.
 - Each task must ship a real module, numeric-invariant tests, CLI, and a real-run artifact — no wrappers, no stubs, no "verified env only" sessions.
 - If incomplete: commit/push partial module and leave exact next line/blocker here. Never leave tree clean with task pending.
 - Final responses must not ask follow-up questions.
