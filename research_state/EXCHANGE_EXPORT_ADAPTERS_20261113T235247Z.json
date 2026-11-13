@@ -1,0 +1,114 @@
+{
+  "adapter_verdict": "PASS",
+  "adequacy": {
+    "bar_duration_seconds": 15.0,
+    "min_returns": 1000,
+    "min_windows": 20,
+    "n_bars": 2,
+    "n_returns": 1,
+    "n_windows": 0,
+    "sample_adequate": false,
+    "shortfall_returns": 999,
+    "shortfall_windows": 20,
+    "step_size": 50,
+    "test_window": 100,
+    "train_window": 500
+  },
+  "authenticity_verified": false,
+  "auto_trade_ids": 0,
+  "canonical_fingerprint": "744a37d319f60205bf6fc03d57be715fa47771120600f7db77f392af84a76676",
+  "canonical_order": true,
+  "content_sha256": "6248531ba5ceaeeee24304f50c817dc7e551fe066f5e08bfeb3abdcada22c923",
+  "data_provenance": "exchange_export",
+  "end_timestamp": "2026-01-01T00:00:30Z",
+  "floors": {
+    "bar_duration_seconds": 15.0,
+    "min_returns": 1000,
+    "min_windows": 20
+  },
+  "format": "csv",
+  "generated_at": "2026-11-13T23:52:47Z",
+  "live_trading_enabled": false,
+  "loader_compatible": true,
+  "microstructure_sane": true,
+  "n_records": 3,
+  "n_trades": 3,
+  "never_valid_true": true,
+  "normalized_symbol": "BTCUSDT",
+  "normalized_tape_path": "data/examples/normalized/orderflow_okx_BTCUSDT_20261113T235247Z.json",
+  "normalized_tape_sha256": "92ef9cd802daa68ebfb2aacd79063c30fd224a073c4760cd6a9853a4b8f59729",
+  "overall_reason": "adapter parsed export but tape is below EVAL-23 adequacy floors (returns 1/1000, windows 0/20)",
+  "overall_verdict": "NO-GO",
+  "report_id": "EXCHANGE_EXPORT_ADAPTERS_23B",
+  "requested_symbol": "BTCUSDT",
+  "source_path": "data/examples/exchange_exports/okx_btcusdt_sample.csv",
+  "source_symbols": [
+    "BTCUSDT"
+  ],
+  "span_seconds": 30.0,
+  "start_timestamp": "2026-01-01T00:00:00Z",
+  "supported_formats": [
+    {
+      "csv_headers": [
+        "tradeId",
+        "instId",
+        "px",
+        "sz",
+        "side",
+        "ts"
+      ],
+      "json_shape": "list | {data: [...]} | {trades: [...]}",
+      "side_forms": [
+        "buy",
+        "sell"
+      ],
+      "timestamp_forms": [
+        "ISO-8601",
+        "epoch-ms"
+      ],
+      "venue": "okx"
+    },
+    {
+      "csv_headers": [
+        "Id",
+        "Price",
+        "Qty",
+        "QuoteQty",
+        "Time",
+        "IsBuyerMaker"
+      ],
+      "json_shape": "list | {trades: [...]} | {data: [...]}",
+      "side_forms": [
+        "isBuyerMaker=true -> sell",
+        "isBuyerMaker=false -> buy"
+      ],
+      "timestamp_forms": [
+        "ISO-8601",
+        "epoch-ms"
+      ],
+      "venue": "binance"
+    },
+    {
+      "csv_headers": [
+        "trade_id",
+        "timestamp",
+        "instrument_name",
+        "price",
+        "amount",
+        "direction"
+      ],
+      "json_shape": "list | {result: [...]} | {trades: [...]}",
+      "side_forms": [
+        "buy",
+        "sell"
+      ],
+      "timestamp_forms": [
+        "epoch-ms",
+        "ISO-8601"
+      ],
+      "venue": "deribit"
+    }
+  ],
+  "trading_mode": "paper",
+  "venue": "okx"
+}
