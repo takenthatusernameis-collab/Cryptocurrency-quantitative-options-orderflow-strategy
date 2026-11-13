@@ -3,14 +3,14 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission (inferred priority):** Cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation**. The deliverable is the strategy and a *trustworthy* measurement of its performance, not orchestrator wrappers and not a favorable-looking number produced by a broken harness.
 
-**Handoff refreshed:** 2026-11-13T16:10:47Z (UTC)
+**Handoff refreshed:** 2026-11-13T16:27:19Z (UTC)
 **Authority:** This file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope, never unblock NEXT9).
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T16:10:47Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-13T16:27:19Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-13T16:10:47Z-EVAL-21-SAMPLE-ADEQUACY`
+**TASK ID:** `INIT-2026-11-13T16:27:19Z-EVAL-21-SAMPLE-ADEQUACY`
 **STATUS:** **ACTIVE, not started.** EVAL-02..EVAL-20 are **SEALED — do not re-open**. EVAL-21 is the **only** task that can convert the current honest "no verdict possible" into a real net-of-cost verdict.
 
 ### Why EVAL-21 is required (measured; do not re-litigate)
@@ -84,7 +84,7 @@ Deliverables (all required):
 
 ## HANDOFF DISCIPLINE
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
-- Work queue: **EVAL-02..EVAL-20 SEALED. EVAL-21 ACTIVE (`INIT-2026-11-13T16:10:47Z-EVAL-21-SAMPLE-ADEQUACY`).**
+- Work queue: **EVAL-02..EVAL-20 SEALED. EVAL-21 ACTIVE (`INIT-2026-11-13T16:27:19Z-EVAL-21-SAMPLE-ADEQUACY`).**
 - New EVALs must ship real module + numeric-invariant tests + CLI + strict artifact (no wrappers/stubs/no-ops). Handoff-only session = FAILED.
 - If incomplete, record measured numbers, not intentions. Never claim persistence or GO without a verifying artifact.
 - Final responses must not ask follow-up questions.
