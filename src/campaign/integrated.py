@@ -228,7 +228,7 @@ def _load_options_chain(symbol: str, spot: float, now: datetime, venue: str) -> 
     for path in candidates:
         if path.exists():
             try:
-                data = loader.load_options_chain(str(path), venue=venue, symbol=symbol)
+                data = loader.load_options_chain(str(path), venue=venue, underlying=symbol)
                 if isinstance(data, OptionsChain) and data.quotes:
                     return data
             except Exception:
