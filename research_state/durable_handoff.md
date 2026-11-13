@@ -2,7 +2,7 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name (priority order):** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers. **Options** is the first-named pillar and **orderflow alpha/toxicity** the second; the analytics layer still has no dedicated EVAL for either (see next focus below).
-**Refreshed:** 2026-11-13T05:03:00Z (UTC). Verified this session: EVAL-15 SEALED (GO) re-run `pytest -q tests/test_paper_execution_hardening.py` → **20 passed**; `py_compile` OK; reuse primitives for the new campaign import cleanly. `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs are retired pointers; no blocked/failed EVAL tasks.
+**Refreshed:** 2026-11-13T06:00:18Z (UTC). Verified this session: EVAL-15 SEALED (GO) re-run `pytest -q tests/test_paper_execution_hardening.py` → **20 passed**; `py_compile` OK. EVAL-16 **still ACTIVE and unimplemented**: no `src/analytics/options_surface_greeks_evaluation.py`, no `tests/test_options_surface_greeks_evaluation.py`, no `research_state/OPTIONS_SURFACE_GREEKS_EVAL_*.{json,md}` artifacts exist (glob verified). `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs are retired pointers; no blocked/failed EVAL tasks; working tree clean.
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope), not task sources.
 
 ---
@@ -27,6 +27,8 @@
 >    **CAUTION:** `src.options.phase25_vol_surface.VolSurface.build_surface` is a SIMPLIFIED STUB (hardcoded `tenor_days=30.0`/`moneyness=1.0`, reads `q.get("iv", 0.5)`, data has `mark_iv`/`open_interest`) — do **not** use it as the primary surface source.
 >
 > **If EVAL-16 is already sealed in this file when you read it, move to EVAL-17 (orderflow alpha & toxicity) below — never end a session with no sealed EVAL task.**
+
+**SESSION CONFIRM — 2026-11-13T06:00:18Z:** EVAL-16 remains the single active initial task for the next agentic work session. It is unimplemented (no module, no tests, no artifact). The next agent's first action must be to execute the EVAL-16 copy-paste task above and ship `src/analytics/options_surface_greeks_evaluation.py` + `tests/test_options_surface_greeks_evaluation.py` + CLI + `research_state/OPTIONS_SURFACE_GREEKS_EVAL_<UTC>.{json,md}`. Do not end the session with only a handoff edit; a session ending with no new EVAL-16 artifact is FAILED. If EVAL-16 is sealed, proceed to EVAL-17 (orderflow alpha & toxicity).
 
 **CONSTRAINTS:** Paper-only. `.env` absent, `LIVE_TRADING_ENABLED=false`. No live enablement, no `.env` creation, no venue/config/credential mutation, no network calls to exchanges, no NEXT9 unblock, no enumerating `research_state/` (glob specific files), no full 865-file test suite, no new phase orchestrator wrappers, no re-opening sealed EVALs. Use existing loaders/primitives; `scripts/run_backtest.py` is vacuous smoke test.
 
