@@ -3,18 +3,18 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
 **Mission (inferred priority):** Deliver the strategy and a *trustworthy*, net-of-cost measurement of its performance — not orchestrator wrappers, not a favorable-looking number from a broken harness.
 
-**Handoff refreshed:** 2026-11-13T20:01:08Z (UTC) — re-verified repo state: EVAL-02..EVAL-21 **SEALED**. **EVAL-22 remains ACTIVE and UNSTARTED** (confirmed absent: `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `research_state/REAL_TAPE_INGESTION_*`). `.env` **ABSENT** (paper-only). Only tape in `data/raw/` is synthetic (`orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`; `options_btc_synthetic.json` also present, 30 internally-inconsistent BTC quotes → EVAL-16 NO-GO). Regression baseline files present (`tests/test_sample_adequacy_acquisition.py`, `tests/test_measurement_validity_evaluation.py`, 45 passed at 19:34Z baseline). Root handoff files are retired pointers (no task IDs); session-gate scripts compile. **No in-repo blocked sessions beyond documented real-data absence** — EVAL-22 must seal explicit `NO-GO (no adequate real tape)` with data contract if no real tape, or proceed to EVAL-23 verdict if one exists; EVAL-23B is the unblocked fallback. **This session must produce EVAL-22 code/tests/artifacts (no handoff-only work).** Next campaign: **EVAL-22 → EVAL-23B → EVAL-24 → EVAL-25** (EVAL-23 is data-blocked; skip to EVAL-23B).
+**Handoff refreshed:** 2026-11-13T20:12:00Z (UTC) — re-verified repo state: EVAL-02..EVAL-21 **SEALED**. **EVAL-22 remains ACTIVE and UNSTARTED** (confirmed absent: `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `research_state/REAL_TAPE_INGESTION_*`). `.env` **ABSENT** (paper-only). Only tape in `data/raw/` is synthetic (`orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`; `options_btc_synthetic.json` also present, 30 internally-inconsistent BTC quotes → EVAL-16 NO-GO). Regression baseline files present (`tests/test_sample_adequacy_acquisition.py`, `tests/test_measurement_validity_evaluation.py`, 45 passed at 17:41Z baseline). Root handoff files are retired pointers (no task IDs); session-gate scripts compile. **No in-repo blocked sessions beyond documented real-data absence** — EVAL-22 must seal explicit `NO-GO (no adequate real tape)` with data contract if no real tape, or proceed to EVAL-23 verdict if one exists; EVAL-23B is the unblocked fallback. **This session must produce EVAL-22 code/tests/artifacts (no handoff-only work).** Next campaign: **EVAL-22 → EVAL-23B → EVAL-24 → EVAL-25** (EVAL-23 is data-blocked; skip to EVAL-23B).
 
 **Authority:** This file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope, never unblock NEXT9).
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T20:01:08Z (copy-paste for the next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-13T20:12:00Z (copy-paste for the next agentic work session)
 
-**TASK ID:** `INIT-2026-11-13T20:01:08Z-EVAL-22-REAL-TAPE-GATE`
+**TASK ID:** `INIT-2026-11-13T20:12:00Z-EVAL-22-REAL-TAPE-GATE`
 **STATUS:** **ACTIVE, not started.** EVAL-02..EVAL-21 are **SEALED — do not re-open**. EVAL-22 is the active task; EVAL-23B is the fallback campaign queue entry when no adequate real tape exists.
 
-> **Start here (no discovery needed).** Re-verified at 2026-11-13T20:01:08Z: no EVAL-22 module/tests/artifacts exist; `.env` absent; only synthetic tape in `data/raw/` (`orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`). Regression baseline **45 passed** (19:34Z verification). A session that ends without new EVAL-22 artifacts (module + tests + CLI output + verification evidence) is FAILED — do not leave handoff-only work. Produce real artifacts this session.
+> **Start here (no discovery needed).** Re-verified at 2026-11-13T20:12:00Z: no EVAL-22 module/tests/artifacts exist; `.env` absent; only synthetic tape in `data/raw/` (`orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`). Regression baseline **45 passed** (17:41Z verification). A session that ends without new EVAL-22 artifacts (module + tests + CLI output + verification evidence) is FAILED — do not leave handoff-only work. Produce real artifacts this session.
 
 ### Why this task (measured; do not re-litigate)
 - **EVAL-21 SEALED (GO, 2026-11-13T16:51:08Z)** on a **synthetic** tape: 9/9 checks, n_bars 3400, n_returns 3399, n_windows 82, n_trades 40800, orderflow IC **0.375126** (t **6.5444**), MDE@3399 **0.048054** ≤ 0.05, sizing 0 rejections, net = gross − cost, flat control 0, strict JSON, never `{"valid": true}`. Validates the **measurement battery and pipeline**, not real alpha.
@@ -123,7 +123,7 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 
 ---
 
-## BOTTLENECK REMOVAL — ACTIONS THIS REFRESH (2026-11-13T20:01:08Z)
+## BOTTLENECK REMOVAL — ACTIONS THIS REFRESH (2026-11-13T20:12:00Z)
 - **Single actionable handoff enforced:** confirmed root files `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs); `research_state/durable_handoff.md` remains the only task source.
 - **EVAL-22 still unstarted (primary throughput bottleneck):** re-verified absent `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `research_state/REAL_TAPE_INGESTION_*`. No code shipped since prior refresh — next session must implement EVAL-22 deliverables and seal with artifact (GO on adequate real tape, else explicit `NO-GO (no adequate real tape)` with measured shortfall + data contract).
 - **Data bottleneck made non-blocking:** only `data/raw/orderflow_btcusdt_synthetic.json` exists (SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`); no real/adequate tape discovered. EVAL-22 must not treat this as a reason to idle — ship module/tests/CLI/strict artifact and use EVAL-23B fallback campaign when real tape absent.
@@ -167,7 +167,7 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 
 ## HANDOFF DISCIPLINE
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
-- Work queue: **EVAL-02..EVAL-21 SEALED. EVAL-22 ACTIVE (`INIT-2026-11-13T20:01:08Z-EVAL-22-REAL-TAPE-GATE`).**
+- Work queue: **EVAL-02..EVAL-21 SEALED. EVAL-22 ACTIVE (`INIT-2026-11-13T20:12:00Z-EVAL-22-REAL-TAPE-GATE`).**
 - New EVALs must ship real module + numeric-invariant tests + CLI + strict artifact (no wrappers/stubs/no-ops). Handoff-only session = FAILED.
 - If incomplete, record measured numbers, not intentions. Never claim persistence or GO without a verifying artifact.
 - Final responses must not ask follow-up questions.
