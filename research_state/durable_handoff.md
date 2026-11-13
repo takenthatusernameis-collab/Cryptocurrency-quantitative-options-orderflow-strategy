@@ -3,15 +3,15 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission (inferred priority):** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation**. The deliverable is the strategy and a *trustworthy* measurement of its performance, not orchestrator wrappers and not a favourable-looking number produced by a broken harness.
 
-**Refreshed:** 2026-11-13T12:53:00Z (UTC) — this session **completed EVAL-20 and sealed it.** `src/analytics/measurement_validity_evaluation.py` (1161 lines) + `tests/test_measurement_validity_evaluation.py` (26 tests, all pass) + `research_state/MEASUREMENT_VALIDITY_EVAL_20261113T125227Z.{json,md}`. Verdict **NO-GO — 7/8 checks PASS**; the sole FAIL is `sample_adequate_declared` (measured 239 returns / 3 windows vs floors 1000/20) — the legitimate, sealable outcome the previous session anticipated. **EVAL-20 is now SEALED; EVAL-21 is the next actionable task (see the new INITIAL TASK MESSAGE below).**
+**Refreshed:** 2026-11-13T15:48:00Z (UTC) — EVAL-20 **SEALED** (NO-GO, 7/8 PASS; only `sample_adequate_declared` FAIL on 239 returns / 3 windows). **EVAL-21 is ACTIVE** — the only task that can convert the honest "no verdict possible" into a real net-of-cost verdict. `src/analytics/measurement_validity_evaluation.py` + 26 tests are the frozen reuse primitives for EVAL-21.
 
 **Authority:** this file is the only actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope, never unblock NEXT9).
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T12:53:00Z (copy-paste to the next agent — EVAL-21 ACTIVE, DATA ACQUISITION)
+## INITIAL TASK MESSAGE — 2026-11-13T15:48:00Z (copy-paste to the next agent — EVAL-21 ACTIVE, DATA ACQUISITION)
 
-**TASK ID:** `INIT-2026-11-13T12:53:00Z-EVAL-21-SAMPLE-ADEQUACY`
+**TASK ID:** `INIT-2026-11-13T15:48:00Z-EVAL-21-SAMPLE-ADEQUACY`
 **STATUS:** **ACTIVE, not started.** EVAL-20 is SEALED (do not re-open). EVAL-02..EVAL-20 are all sealed. EVAL-21 is the **only** thing that can turn the honest "no verdict possible" into a real net-of-cost verdict.
 
 ### Why EVAL-21 exists (measured this session, 2026-11-13T12:51–12:53Z)
