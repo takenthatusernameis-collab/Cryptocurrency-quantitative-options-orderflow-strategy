@@ -114,19 +114,22 @@ class NoAdequateRealTape(RuntimeError):
 
 def _parse_ts(value: Any) -> datetime:
     """Strictly parse a raw timestamp; raise instead of substituting ``now``."""
-    if isinstance(value, datetime):
-        dt = value
-    elif isinstance(value, (int, float)):
-        dt = datetime.fromtimestamp(float(value), tz=timezone.utc)
-    elif isinstance(value, str) and value.strip():
-        dt = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
-    else:
-        raise RealTapeRejected(f"unparseable timestamp: {value!r}")
-    if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    if not math.isfinite(dt.timestamp()):
-        raise RealTapeRejected(f"non-finite timestamp: {value!r}")
-    return dt.astimezone(timezone.utc)
+    try:
+        if isinstance(value, datetime):
+            dt = value
+        elif isinstance(value, (int, float)):
+            dt = datetime.fromtimestamp(float(value), tz=timezone.utc)
+        elif isinstance(value, str) and value.strip():
+            dt = datetime.fromisoformat(value.strip().replace("Z", "+00:00"))
+        else:
+            raise RealTapeRejected(f"unparseable timestamp: {value!r}")
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        if not math.isfinite(dt.timestamp()):
+            raise RealTapeRejected(f"non-finite timestamp: {value!r}")
+        return dt.astimezone(timezone.utc)
+    except (ValueError, OverflowError, OSError) as exc:
+        raise RealTapeRejected(f"unparseable timestamp: {value!r}") from exc
 
 
 def _canonical_trades(trades: Sequence[Any]) -> List[Any]:
