@@ -2,33 +2,49 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name (priority order):** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers. **Options** is the first-named pillar and **orderflow alpha/toxicity** the second; the analytics layer still has no dedicated EVAL for either (see next focus below).
-**Refreshed:** 2026-11-13T06:00:18Z (UTC). Verified this session: EVAL-15 SEALED (GO) re-run `pytest -q tests/test_paper_execution_hardening.py` → **20 passed**; `py_compile` OK. EVAL-16 **still ACTIVE and unimplemented**: no `src/analytics/options_surface_greeks_evaluation.py`, no `tests/test_options_surface_greeks_evaluation.py`, no `research_state/OPTIONS_SURFACE_GREEKS_EVAL_*.{json,md}` artifacts exist (glob verified). `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs are retired pointers; no blocked/failed EVAL tasks; working tree clean.
+**Refreshed:** 2026-11-13T06:13:01Z (UTC). Verified: EVAL-15 SEALED (GO) re-run `pytest -q tests/test_paper_execution_hardening.py` → **20 passed**; `py_compile` OK. EVAL-16 **still ACTIVE and unimplemented**: no `src/analytics/options_surface_greeks_evaluation.py`, no `tests/test_options_surface_greeks_evaluation.py`, no `research_state/OPTIONS_SURFACE_GREEKS_EVAL_*.{json,md}` artifacts exist (glob verified). `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs are retired pointers; no blocked/failed EVAL tasks; working tree clean.
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope), not task sources.
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T05:03:00Z (copy-paste to the next agent)
+## INITIAL TASK MESSAGE — 2026-11-13T06:13:01Z (copy-paste to the next agent — THIS IS YOUR WORK)
 
-**TASK ID:** `INIT-2026-11-13T05:03:00Z-EVAL-16-ACTIVE`
-**STATUS:** **EVAL-16 IS ASSIGNED AND ACTIVE — DO IT THIS SESSION. Do not defer, do not just edit this file, do not claim "nothing assigned".** The previous session sealed EVAL-15 (paper execution hardening) and defined this campaign; your session exists to execute EVAL-16 and ship real artifacts.
+**TASK ID:** `INIT-2026-11-13T06:13:01Z-EVAL-16-ACTIVE`
+**STATUS:** **EVAL-16 IS ASSIGNED AND ACTIVE — EXECUTE IT NOW. NO DEFERRAL. NO HANDOFF-ONLY SESSIONS. SHIP ARTIFACTS OR THE SESSION IS FAILED.**
 
-> **COPY-PASTE TASK (execute as your session work):**
+> **MANDATORY COPY-PASTE TASK (your session work — do not just read, DO):**
 >
 > Implement **EVAL-16 — Options vol-surface & greeks evaluation** (paper-only, deterministic, no network, no `.env`, no live).
-> Create `src/analytics/options_surface_greeks_evaluation.py`, `tests/test_options_surface_greeks_evaluation.py` (~12–18 numeric-invariant tests), and a CLI (`python -m src.analytics.options_surface_greeks_evaluation --out research_state/`), emitting the strict artifact `research_state/OPTIONS_SURFACE_GREEKS_EVAL_<UTC>.{json,md}`.
-> Required heavy work (no prose-only verdict):
-> 1. Load the **real** BTC options quotes via `src.campaign.integrated._load_options_chain(symbol="BTC", spot=DEFAULT_SPOT["BTC"], now=DETERMINISTIC_NOW, venue="synthetic")` (`data/raw/options_btc_synthetic.json`: 30 quotes, 3 expiries, calls+puts). Do **not** enumerate `research_state/`; do **not** touch the network.
-> 2. **Reconstruct a coherent surface** with `src.features.iv_surface.build_iv_surface_from_chain(chain, spot=DEFAULT_SPOT["BTC"], rate=0.0, now=DETERMINISTIC_NOW, seed=42)` (returns `IVSurface`, verified: 30 points from the real chain), then `src.features.iv_surface.calibrate_iv_surface(surface.points, spot, rate=0.0, seed=42, underlying="BTC", venue="synthetic")` → `(surface, {num_points,residual_mean,residual_std,residual_max_abs,...})`. Also compute the `src.features.volatility` term-structure/skew primitives (`calculate_atm_term_structure`, `calculate_iv_skew_term_structure`) for the expiry-monotonicity check.
-> 3. **DATA-QUALITY (do NOT assume arbitrage-free):** the real `data/raw/options_btc_synthetic.json` is synthetic and internally INCONSISTENT — measured this session at `spot=65000`: Black-Scholes(mark_iv) vs stored `mark` max abs diff `8516.364` / mean `3192.683`; put–call parity residual `(C-P)-(S-K)` range `[-6480.2, +6634.7]` / mean `84.9`; `mark_iv` range `0.418..0.799`. So report **measured** BS-price residual and parity residual as explicit fields with thresholds, and compute **butterfly/calendar** on the **reconstructed** IV grid (not the raw quotes). A NO-GO on raw-data quality is a legitimate deterministic outcome — do not fudge it to GO.
-> 4. Recompute greeks with `src.features.options_pricing.black_scholes_greeks(PricingInputs(spot,strike,rate,volatility,time_to_expiry,option_type,seed))` from the **reconstructed surface** (not the raw stored greeks); cross-check analytic vs central finite-difference greeks (`<= tol`). Report stored-vs-recomputed delta error as a data-quality metric (expected large; see item 3). Compute book greeks: `calculate_total_gex`, `gamma_flip_level`, `calculate_put_call_ratio`, `calculate_max_pain`, `calculate_iv_skew`, `calculate_chain_liquidity_metrics`.
-> 5. **Net-of-cost**: run a deterministic delta-hedge of the options book (bid/ask spread cost) through the OOS windows with `src.analytics.strategy_evaluation.compute_metrics`; report net return/Sharpe **with** options vs a no-options control.
-> 6. Deterministic `compute_options_surface_verdict(...) -> dict` with an explicit `checks` list (data-quality, surface residual, greeks consistency, net-of-cost), numeric thresholds + rationale, finite metrics, evidence matrix, strict-serializable (`serialize_metrics_strict`/`assert_json_valid`, `allow_nan=False`), **never** `{"valid": true}`.
-> 7. Verify: `python -m py_compile ...` + targeted `pytest -q tests/test_options_surface_greeks_evaluation.py`; then update this handoff in place to seal EVAL-16 with verdict/artifact/timestamps/tests.
->    **CAUTION:** `src.options.phase25_vol_surface.VolSurface.build_surface` is a SIMPLIFIED STUB (hardcoded `tenor_days=30.0`/`moneyness=1.0`, reads `q.get("iv", 0.5)`, data has `mark_iv`/`open_interest`) — do **not** use it as the primary surface source.
+> **DELIVERABLES (all required, no exceptions):**
+> 1. `src/analytics/options_surface_greeks_evaluation.py` — module with `compute_options_surface_verdict(...) -> dict`
+> 2. `tests/test_options_surface_greeks_evaluation.py` — **12–18 numeric-invariant tests** (not smoke tests)
+> 3. CLI: `python -m src.analytics.options_surface_greeks_evaluation --out research_state/`
+> 4. **Strict artifact:** `research_state/OPTIONS_SURFACE_GREEKS_EVAL_<UTC>.{json,md}` emitted by CLI
 >
-> **If EVAL-16 is already sealed in this file when you read it, move to EVAL-17 (orderflow alpha & toxicity) below — never end a session with no sealed EVAL task.**
+> **HEAVY WORK FLOOR — EVERY ITEM IS MANDATORY (no prose-only verdicts, no stubs):**
+>
+> 1. **LOAD REAL DATA** — Use `src.campaign.integrated._load_options_chain(symbol="BTC", spot=DEFAULT_SPOT["BTC"], now=DETERMINISTIC_NOW, venue="synthetic")` to load `data/raw/options_btc_synthetic.json` (30 quotes, 3 expiries: 2026-11-01/2026-11-07/2026-11-30, calls+puts, `mark_iv`/`open_interest` present). **Do not enumerate `research_state/`; no network calls.**
+>
+> 2. **RECONSTRUCT COHERENT SURFACE** — Call `src.features.iv_surface.build_iv_surface_from_chain(chain, spot=DEFAULT_SPOT["BTC"], rate=0.0, now=DETERMINISTIC_NOW, seed=42)` → `IVSurface` (30 points). Then `src.features.iv_surface.calibrate_iv_surface(surface.points, spot, rate=0.0, seed=42, underlying="BTC", venue="synthetic")` → `(surface, {num_points,residual_mean,residual_std,residual_max_abs,...})`. Compute `src.features.volatility` term-structure/skew: `calculate_atm_term_structure`, `calculate_iv_skew_term_structure` for expiry-monotonicity check.
+>
+> 3. **MEASURE DATA-QUALITY (DO NOT ASSUME ARBITRAGE-FREE)** — The raw file is **internally INCONSISTENT** (verified at `spot=65000`):
+>    - BS(mark_iv) vs stored `mark`: max abs diff `8516.364`, mean `3192.683`
+>    - Put–call parity `(C-P)-(S-K)`: range `[-6480.2, +6634.7]`, mean `84.9`
+>    - `mark_iv` range: `0.418..0.799`
+>    **Report these as explicit measured fields with thresholds.** Compute butterfly/calendar arbitrage checks on the **reconstructed IV grid** (not raw quotes). A NO-GO on data-quality is a legitimate deterministic outcome — **do not fudge to GO**.
+>
+> 4. **RECOMPUTE GREEKS FROM RECONSTRUCTED SURFACE** — Use `src.features.options_pricing.black_scholes_greeks(PricingInputs(spot,strike,rate,volatility,time_to_expiry,option_type,seed))` with IV from the reconstructed surface (NOT raw stored greeks). Cross-check analytic vs central finite-difference greeks (`greeks_match_analytic`, `tol=1e-2`). Report stored-vs-recomputed delta error as data-quality metric. Compute book greeks: `calculate_total_gex`, `gamma_flip_level`, `calculate_put_call_ratio`, `calculate_max_pain`, `calculate_iv_skew`, `calculate_chain_liquidity_metrics`.
+>
+> 5. **NET-OF-COST DELTA-HEDGE** — Run deterministic delta-hedge of the options book (bid/ask spread cost) through OOS windows via `src.analytics.strategy_evaluation.compute_metrics`. Report net return/Sharpe **with options vs no-options control**.
+>
+> 6. **DETERMINISTIC VERDICT FUNCTION** — `compute_options_surface_verdict(...) -> dict` with explicit `checks` list: data-quality, surface residual, greeks consistency, net-of-cost. Each check: numeric threshold + rationale, finite metrics, evidence matrix. Strict-serializable via `serialize_metrics_strict`/`assert_json_valid` (`allow_nan=False`). **Never emit `{"valid": true}`**.
+>
+> 7. **VERIFY & SEAL** — `python -m py_compile src/analytics/options_surface_greeks_evaluation.py` + `pytest -q tests/test_options_surface_greeks_evaluation.py` → must pass. Then **update this handoff in place** to seal EVAL-16 with verdict/artifact/timestamps/tests.
+>    **CAUTION:** `src.options.phase25_vol_surface.VolSurface.build_surface` is a SIMPLIFIED STUB (hardcoded `tenor_days=30.0`/`moneyness=1.0`, reads `q.get("iv", 0.5)`) — **do not use as primary surface source**.
+>
+> **IF EVAL-16 IS ALREADY SEALED WHEN YOU READ THIS, MOVE TO EVAL-17 (ORDERFLOW ALPHA & TOXICITY) BELOW. NEVER END A SESSION WITH NO NEW SEALED EVAL ARTIFACT.**
 
-**SESSION CONFIRM — 2026-11-13T06:00:18Z:** EVAL-16 remains the single active initial task for the next agentic work session. It is unimplemented (no module, no tests, no artifact). The next agent's first action must be to execute the EVAL-16 copy-paste task above and ship `src/analytics/options_surface_greeks_evaluation.py` + `tests/test_options_surface_greeks_evaluation.py` + CLI + `research_state/OPTIONS_SURFACE_GREEKS_EVAL_<UTC>.{json,md}`. Do not end the session with only a handoff edit; a session ending with no new EVAL-16 artifact is FAILED. If EVAL-16 is sealed, proceed to EVAL-17 (orderflow alpha & toxicity).
+**SESSION CONFIRM — 2026-11-13T06:13:01Z:** EVAL-16 is the single active initial task. It is unimplemented (no module, no tests, no artifact). The next agent's **first action** must be to execute the EVAL-16 task above and ship all 4 deliverables. A session that only edits this handoff/timestamps without shipping EVAL-16 artifacts is **FAILED**. If EVAL-16 is sealed, proceed to EVAL-17.
 
 **CONSTRAINTS:** Paper-only. `.env` absent, `LIVE_TRADING_ENABLED=false`. No live enablement, no `.env` creation, no venue/config/credential mutation, no network calls to exchanges, no NEXT9 unblock, no enumerating `research_state/` (glob specific files), no full 865-file test suite, no new phase orchestrator wrappers, no re-opening sealed EVALs. Use existing loaders/primitives; `scripts/run_backtest.py` is vacuous smoke test.
 
