@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Handoff refreshed:** 2026-11-13T22:38:52Z (UTC). Verified at HEAD `34a586130c392554eedb46c1d86942d0853d1381`, clean tree.
+**Initial task message (timestamped, for next agentic work session): 2026-11-13T22:42:24Z (UTC).** Handoff refreshed/verified: 2026-11-13T22:42:24Z (UTC) at HEAD `34a586130c392554eedb46c1d86942d0853d1381`, clean tree.
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
 **Repo priority:** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
