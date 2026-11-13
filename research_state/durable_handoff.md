@@ -2,7 +2,7 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name (priority order):** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers. **Options** is the first-named pillar and **orderflow alpha/toxicity** the second; the analytics layer still has no dedicated EVAL for either (see next focus below).
-**Refreshed:** 2026-11-13T06:17:32Z (UTC). Verified: EVAL-15 SEALED (GO) artifact `PAPER_EXECUTION_HARDENING_20261113T045715Z` present; EVAL-16 **ACTIVE and unimplemented** (no `src/analytics/options_surface_greeks_evaluation.py`, no `tests/test_options_surface_greeks_evaluation.py`, no `research_state/OPTIONS_SURFACE_GREEKS_EVAL_*.{json,md}`; glob confirmed). `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs are retired pointers; no blocked/failed EVAL tasks; no other session bottlenecks detected.
+**Refreshed:** 2026-11-13T06:50:59Z (UTC). Verified: EVAL-15 SEALED (GO) artifact `PAPER_EXECUTION_HARDENING_20261113T045715Z` present; EVAL-16 **ACTIVE and unimplemented** (no `src/analytics/options_surface_greeks_evaluation.py`, no `tests/test_options_surface_greeks_evaluation.py`, no `research_state/OPTIONS_SURFACE_GREEKS_EVAL_*.{json,md}`; glob confirmed); EVAL-17 unimplemented (no `src/analytics/orderflow_alpha_toxicity_evaluation.py`, no `research_state/ORDERFLOW_ALPHA_TOXICITY_EVAL_*`). `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs remain retired pointers; no blocked/failed EVAL tasks; no session bottlenecks detected. Next session must execute EVAL-16 immediately and ship all required artifacts.
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope), not task sources.
 
 ---
@@ -44,7 +44,7 @@
 >
 > **IF EVAL-16 IS ALREADY SEALED WHEN YOU READ THIS, MOVE TO EVAL-17 (ORDERFLOW ALPHA & TOXICITY) BELOW. NEVER END A SESSION WITH NO NEW SEALED EVAL ARTIFACT.**
 
-**SESSION CONFIRM — 2026-11-13T06:13:01Z:** EVAL-16 is the single active initial task. It is unimplemented (no module, no tests, no artifact). The next agent's **first action** must be to execute the EVAL-16 task above and ship all 4 deliverables. A session that only edits this handoff/timestamps without shipping EVAL-16 artifacts is **FAILED**. If EVAL-16 is sealed, proceed to EVAL-17.
+**SESSION CONFIRM — 2026-11-13T06:50:59Z (refreshed):** EVAL-16 is the single active initial task. It remains unimplemented (no module, no tests, no artifact). The next agent's **first action** must be to execute the EVAL-16 task above and ship all 4 deliverables. A session that only edits this handoff/timestamps without shipping EVAL-16 artifacts is **FAILED**. If EVAL-16 is sealed, proceed to EVAL-17 immediately. Do not end with "env verified only".
 
 **CONSTRAINTS:** Paper-only. `.env` absent, `LIVE_TRADING_ENABLED=false`. No live enablement, no `.env` creation, no venue/config/credential mutation, no network calls to exchanges, no NEXT9 unblock, no enumerating `research_state/` (glob specific files), no full 865-file test suite, no new phase orchestrator wrappers, no re-opening sealed EVALs. Use existing loaders/primitives; `scripts/run_backtest.py` is vacuous smoke test.
 
@@ -121,7 +121,7 @@ Any of these tasks must, at minimum:
 | EVAL-15 implementation state unclear vs handoff | **RE-VERIFIED.** `pytest -q tests/test_paper_execution_hardening.py` → 20 passed; `py_compile` OK; sealed EVAL-15 stands. |
 | Competing/stale root handoff files | **CLEARED (verified).** Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` remain retired pointers with no task IDs; this file remains sole authority. |
 
-**Tree verified 2026-11-13T05:03:00Z:** EVAL-15 sealed and re-passing; EVAL-16 assigned as the active heavy task. P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`). No blocked tasks.
+**Tree verified 2026-11-13T06:50:59Z:** EVAL-15 sealed (GO, `PAPER_EXECUTION_HARDENING_20261113T045715Z`); EVAL-16 **ACTIVE, unimplemented** — no module/tests/artifact; EVAL-17 queued. P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`). Root handoffs are retired pointers only. No blocked/inefficient sessions detected; progress bottleneck is execution of EVAL-16.
 
 ---
 
