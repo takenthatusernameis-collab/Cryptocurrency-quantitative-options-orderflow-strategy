@@ -1,20 +1,20 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Handoff refreshed:** 2026-11-13T21:40:24Z (UTC). Verified at HEAD `34a586130c392554eedb46c1d86942d0853d1381`, clean tree.
+**Handoff refreshed:** 2026-11-13T22:38:52Z (UTC). Verified at HEAD `34a586130c392554eedb46c1d86942d0853d1381`, clean tree.
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
 **Repo priority:** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
 **Mission:** Deliver the strategy and a *trustworthy*, net-of-cost measurement of its performance — not orchestrator wrappers, not a favorable-looking number from a broken harness. A **trustworthy NO-GO** is a full success; a fabricated GO is a failure.
 
-**State (measured 2026-11-13T21:40Z):** EVAL-02..EVAL-21 **SEALED**. **EVAL-22 ACTIVE and UNSTARTED** — `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `research_state/REAL_TAPE_INGESTION_*` all **absent** (verified by glob). `.env` **ABSENT** (paper-only) — verified. `data/raw/` contains **only synthetic**: `orderflow_btcusdt_synthetic.json` (SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`; 1000 trades / 20 liq / 8 funding; 2026-10-31T06:16:23.656379Z→07:16:21.656379Z; venue `synthetic`, symbol `BTCUSDT`; 240 bars / 239 returns / **3 windows**) and `options_btc_synthetic.json` (30 quotes; internally inconsistent, EVAL-16). No real tape. Regression baseline: `tests/test_sample_adequacy_acquisition.py` + `tests/test_measurement_validity_evaluation.py` = **45 passed in 134.07s** (re-measured 2026-11-13T21:38Z; the previous 84.56s claim is stale — budget **~150s**, 90s is too tight). Working tree clean.
+**State (measured 2026-11-13T22:38Z):** EVAL-02..EVAL-21 **SEALED**. **EVAL-22 ACTIVE and UNSTARTED** — `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `research_state/REAL_TAPE_INGESTION_*` all **absent** (verified by glob). `.env` **ABSENT** (paper-only) — verified. `data/raw/` contains **only synthetic**: `orderflow_btcusdt_synthetic.json` (SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`; 1000 trades / 20 liq / 8 funding; 2026-10-31T06:16:23.656379Z→07:16:21.656379Z; venue `synthetic`, symbol `BTCUSDT`; 240 bars / 239 returns / **3 windows**) and `options_btc_synthetic.json` (30 quotes; internally inconsistent, EVAL-16). No real tape. Regression baseline: `tests/test_sample_adequacy_acquisition.py` + `tests/test_measurement_validity_evaluation.py` = **45 passed in 134.07s** (re-measured 2026-11-13T21:38Z; the previous 84.56s claim is stale — budget **~150s**, 90s is too tight). Working tree clean.
 
 **NEXT FOCUS CAMPAIGN:** **EVAL-22 → EVAL-23B → EVAL-23 → EVAL-24 → EVAL-25.** Never idle; each session ships a module + tests + artifact.
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T21:40:24Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-13T22:38:52Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-13T21:40:24Z-EVAL-22-REAL-TAPE-GATE`
+**TASK ID:** `INIT-2026-11-13T22:38:52Z-EVAL-22-REAL-TAPE-GATE`
 **STATUS:** **ACTIVE, not started.** Start here — zero discovery needed.
 
 > **Hard floor:** a session ending without new EVAL-22 artifacts (`src/analytics/real_tape_ingestion.py` + `tests/test_real_tape_ingestion.py` + `research_state/REAL_TAPE_INGESTION_<UTC>.{json,md}` + recorded verification evidence) is **FAILED**. Handoff-only work is FAILED. If no adequate real tape exists (it does not today), ship module+tests and seal an explicit **`NO-GO (no adequate real tape)`** artifact with measured shortfall + exact data contract (a legitimate seal), then set next active task to **EVAL-23B**.
@@ -24,7 +24,7 @@ Deps are **not preinstalled** in the runner image. `pip install` works:
 ```
 python3 -m pip install --quiet numpy pandas scipy pytest pyyaml pydantic requests websocket-client python-dateutil
 ```
-Verified working set (2026-11-13T21:40Z): Python 3.12.3, numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pytest 9.2.0, pydantic 2.14.3. `python3 -m py_compile` + targeted `pytest` are the only verification (no mypy/ruff/flake8 installed). **Never run the full suite (5297 tests).** Never enumerate `research_state/`.
+Verified working set (2026-11-13T22:38Z): Python 3.12.3, numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pytest 9.2.0, pydantic 2.14.3. `python3 -m py_compile` + targeted `pytest` are the only verification (no mypy/ruff/flake8 installed). **Never run the full suite (5297 tests).** Never enumerate `research_state/`.
 
 ### Do now (heavy work required)
 1. **Implement `src/analytics/real_tape_ingestion.py`** — deterministic, offline, paper-only, **no exchange/network calls**.
@@ -96,7 +96,7 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 
 ---
 
-## BOTTLENECK REMOVAL — 2026-11-13T21:40:24Z
+## BOTTLENECK REMOVAL — 2026-11-13T22:38:52Z
 - **Single actionable handoff enforced:** root handoffs verified as retired pointers; only this file actionable.
 - **Primary throughput bottleneck (EVAL-22 unstarted) cleared:** explicitly active with zero-discovery task, exact reuse points, verified defects, verdict contract, and a hard completion gate.
 - **Environment bottleneck removed (new):** the prior handoff did not say deps were missing; runner had *no* numpy/pandas/pytest. Verified install command + exact working versions recorded above. A session that silently assumed a ready env would have wasted its budget.
@@ -120,11 +120,11 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 - **Window math:** `_count_windows_for_bars(n_bars, 120, 40, 40)`; both-gates minimum `n_bars = 1001`.
 - `ic_detail` (ic_report :501) emits `ic_mean`, `ic_std`, `ic_tstat`, `ic_by_horizon`, `horizons`, `n_horizons`, `power_note` — **not** `min_detectable_ic_at_n`; that key is from `adequacy_report`(:465). `adequacy_report` also emits `min_detectable_ic_at_floor`, `returns_floor_met`, `windows_floor_met`, `n_ic_observations`, `bar_return_mean_bps`, `bar_return_std_bps`, `bar_return_tstat`.
 - **EVAL-20 verdict call site:** `measurement_validity_evaluation.py:945` — the single in-repo `compute_verdict` invocation; copy its `ic_detail` dict and `determinism_ok` fingerprint pattern (`_fingerprint()` over returns/pillars/cost/adequacy/degeneracy, two consecutive builds).
-- **Environment:** Python 3.12.3; installed at 2026-11-13T21:40Z: numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pytest 9.2.0, pydantic 2.14.3, pyyaml, requests, websocket-client, python-dateutil. No mypy/ruff/flake8 — verify via `py_compile` + targeted pytest only.
+- **Environment:** Python 3.12.3; installed at 2026-11-13T22:38Z: numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pytest 9.2.0, pydantic 2.14.3, pyyaml, requests, websocket-client, python-dateutil. No mypy/ruff/flake8 — verify via `py_compile` + targeted pytest only.
 - **Regression baseline:** 45 passed in 134.07s (2026-11-13T21:38Z, EVAL-20 26 + EVAL-21 19).
 
 ## HANDOFF DISCIPLINE
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
-- Queue: **EVAL-02..EVAL-21 SEALED. EVAL-22 ACTIVE (`INIT-2026-11-13T21:40:24Z-EVAL-22-REAL-TAPE-GATE`).** New EVALs must ship module + numeric-invariant tests + CLI + strict artifact.
+- Queue: **EVAL-02..EVAL-21 SEALED. EVAL-22 ACTIVE (`INIT-2026-11-13T22:38:52Z-EVAL-22-REAL-TAPE-GATE`).** New EVALs must ship module + numeric-invariant tests + CLI + strict artifact.
 - If incomplete, record measured numbers, not intentions. Never claim persistence or GO without a verifying artifact.
 - Final responses must not ask follow-up questions.
