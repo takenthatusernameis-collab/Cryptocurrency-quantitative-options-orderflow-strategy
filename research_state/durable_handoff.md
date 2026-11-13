@@ -3,18 +3,18 @@
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission (inferred priority):** Cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation**. The deliverable is the strategy and a *trustworthy* measurement of its performance, not orchestrator wrappers and not a favorable-looking number produced by a broken harness.
 
-**Handoff refreshed:** 2026-11-13T19:10:37Z (UTC) — re-verified repo state: EVAL-02..EVAL-21 **SEALED**. **EVAL-22 is ACTIVE and UNSTARTED** (no `src/analytics/real_tape_ingestion.py`, no `tests/test_real_tape_ingestion.py`, no `research_state/REAL_TAPE_INGESTION_*`; `.env` absent). Root handoff files are retired pointers. Session-gate dependencies present/compile. Next campaign: **EVAL-22 (REAL-TAPE INGESTION GATE)** → EVAL-23 (REAL NET-OF-COST VERDICT) → EVAL-24 (OPTIONS-LEG VALIDITY) → EVAL-25 (REAL-TAPE FALSIFICATION); **EVAL-23B is the unblocked fallback**. No other blocked/inefficient session bottlenecks found in-repo beyond the documented data absence and sealed-module constraints.
+**Handoff refreshed:** 2026-11-13T19:34:07Z (UTC) — re-verified repo state: EVAL-02..EVAL-21 **SEALED**. **EVAL-22 is ACTIVE and UNSTARTED** (no `src/analytics/real_tape_ingestion.py`, no `tests/test_real_tape_ingestion.py`, no `research_state/REAL_TAPE_INGESTION_*`; `.env` absent). Regression baseline re-verified: `pytest -q tests/test_sample_adequacy_acquisition.py tests/test_measurement_validity_evaluation.py` → **45 passed** (84.07s). Root handoff files remain retired pointers (no task IDs). Next campaign: **EVAL-22 (REAL-TAPE INGESTION GATE)** → EVAL-23 (REAL NET-OF-COST VERDICT) → EVAL-24 (OPTIONS-LEG VALIDITY) → EVAL-25 (REAL-TAPE FALSIFICATION); **EVAL-23B is the unblocked fallback**. No other blocked/inefficient session bottlenecks found in-repo beyond documented real-data absence and sealed-module constraints.
 
 **Authority:** This file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope, never unblock NEXT9).
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T19:10:37Z (copy-paste for the next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-13T19:34:07Z (copy-paste for the next agentic work session)
 
-**TASK ID:** `INIT-2026-11-13T19:10:37Z-EVAL-22-REAL-TAPE-GATE`
+**TASK ID:** `INIT-2026-11-13T19:34:07Z-EVAL-22-REAL-TAPE-GATE`
 **STATUS:** **ACTIVE, not started.** EVAL-02..EVAL-21 are **SEALED — do not re-open**. EVAL-22 is the active task; EVAL-23..EVAL-25 are the sequential campaign queue below (EVAL-23B is the fallback if EVAL-23 is data-blocked).
 
-> **Start here (no discovery needed).** Re-verified at 2026-11-13T19:02:13Z: no EVAL-22 module/tests/artifacts exist; `.env` absent; only synthetic tape in `data/raw/`. The previous session(s) ended handoff-only — that is the one forbidden outcome. Produce real artifacts this session.
+> **Start here (no discovery needed).** Re-verified at 2026-11-13T19:34:07Z: no EVAL-22 module/tests/artifacts exist; `.env` absent; only synthetic tape in `data/raw/` (`orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`). Regression baseline **45 passed**. A session that ends without new EVAL-22 artifacts (module + tests + CLI output + verification evidence) is FAILED — do not leave handoff-only work. Produce real artifacts this session.
 
 ### Why this task (measured; do not re-litigate)
 - **EVAL-21 SEALED (GO, 2026-11-13T16:51:08Z)** on a **synthetic** tape: 9/9 checks, n_bars 3400, n_returns 3399, n_windows 82, n_trades 40800, orderflow IC **0.375126** (t **6.5444**), MDE@3399 **0.048054** ≤ 0.05, sizing 0 rejections, net = gross − cost, flat control 0, strict JSON, never `{"valid": true}`. Validates the **measurement battery and pipeline**, not real alpha.
@@ -123,9 +123,9 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 
 ---
 
-## BOTTLENECK REMOVAL — ACTIONS THIS REFRESH (2026-11-13T19:02:13Z)
+## BOTTLENECK REMOVAL — ACTIONS THIS REFRESH (2026-11-13T19:34:07Z)
 - **Single actionable handoff enforced:** confirmed `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers; this file remains the only task source.
-- **EVAL-22 still unstarted (handoff-only drift risk):** re-verified absent module/tests/artifacts and refreshed the initial task message timestamp/ID to `INIT-2026-11-13T19:02:13Z-EVAL-22-REAL-TAPE-GATE` so the next session has an unambiguous, current directive.
+- **EVAL-22 still unstarted (handoff-only drift risk):** re-verified absent module/tests/artifacts and refreshed the initial task message timestamp/ID to `INIT-2026-11-13T19:34:07Z-EVAL-22-REAL-TAPE-GATE` so the next session has an unambiguous, current directive. Regression baseline re-verified **45 passed** (84.07s).
 - **Bottlenecks preserved from prior analysis (still true):** no real tape in `data/raw/` (only synthetic, SHA-256 `c75ced1994a78a2b...`); sealed EVAL-21 real-tape discovery defect (`sample_adequacy_acquisition.py:346` + hardcoded synthetic loader) and `evaluate_measurement_validity()` no-snapshot defect — EVAL-22 must implement strict real-only discovery and drive lower-level primitives, not modify sealed modules.
 - **Safety/invariants re-verified:** `.env` absent, `.env.example` `LIVE_TRADING_ENABLED=false`, paper-only, NEXT9 out of scope; no live enablement/credentials/workflow edits; `research_state/` bloat and phase-wrapper/test-suite sprawl remain contained (no deletions/history rewrites, targeted tests only).
 - **No additional in-repo blocked sessions found:** session-gate scripts (`scripts/run_session_gate.py`, `check_paper_ops_readiness.py`, `validate_next9_approval_artifact.py`) exist and compile; workflow diagnostics live in `research_state/` (not in-repo actionable from this session).
