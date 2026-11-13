@@ -1,25 +1,25 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
-**Mission (inferred priority):** Cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation**. The deliverable is the strategy and a *trustworthy* measurement of its performance, not orchestrator wrappers and not a favorable-looking number produced by a broken harness.
+**Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
+**Mission (inferred priority):** Deliver the strategy and a *trustworthy*, net-of-cost measurement of its performance — not orchestrator wrappers, not a favorable-looking number from a broken harness.
 
-**Handoff refreshed:** 2026-11-13T19:56:57Z (UTC) — re-verified repo state: EVAL-02..EVAL-21 **SEALED**. **EVAL-22 remains ACTIVE and UNSTARTED** (confirmed absent: `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `research_state/REAL_TAPE_INGESTION_*`). `.env` **ABSENT** (paper-only). Only tape in `data/raw/` is synthetic (`orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`); regression baseline files present (`tests/test_sample_adequacy_acquisition.py`, `tests/test_measurement_validity_evaluation.py`, 45 passed at 19:34Z baseline). Root handoff files are retired pointers (no task IDs); session-gate scripts compile. **No in-repo blocked sessions beyond documented real-data absence** — EVAL-22 must seal explicit `NO-GO (no adequate real tape)` with data contract if no real tape, or proceed to EVAL-23 verdict if one exists; EVAL-23B is the unblocked fallback. **This session must produce EVAL-22 code/tests/artifacts (no handoff-only work).** Next campaign: **EVAL-22 → EVAL-23 (or EVAL-23B fallback) → EVAL-24 → EVAL-25**.
+**Handoff refreshed:** 2026-11-13T20:01:08Z (UTC) — re-verified repo state: EVAL-02..EVAL-21 **SEALED**. **EVAL-22 remains ACTIVE and UNSTARTED** (confirmed absent: `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `research_state/REAL_TAPE_INGESTION_*`). `.env` **ABSENT** (paper-only). Only tape in `data/raw/` is synthetic (`orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`; `options_btc_synthetic.json` also present, 30 internally-inconsistent BTC quotes → EVAL-16 NO-GO). Regression baseline files present (`tests/test_sample_adequacy_acquisition.py`, `tests/test_measurement_validity_evaluation.py`, 45 passed at 19:34Z baseline). Root handoff files are retired pointers (no task IDs); session-gate scripts compile. **No in-repo blocked sessions beyond documented real-data absence** — EVAL-22 must seal explicit `NO-GO (no adequate real tape)` with data contract if no real tape, or proceed to EVAL-23 verdict if one exists; EVAL-23B is the unblocked fallback. **This session must produce EVAL-22 code/tests/artifacts (no handoff-only work).** Next campaign: **EVAL-22 → EVAL-23B → EVAL-24 → EVAL-25** (EVAL-23 is data-blocked; skip to EVAL-23B).
 
 **Authority:** This file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope, never unblock NEXT9).
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T19:56:57Z (copy-paste for the next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-13T20:01:08Z (copy-paste for the next agentic work session)
 
-**TASK ID:** `INIT-2026-11-13T19:56:57Z-EVAL-22-REAL-TAPE-GATE`
-**STATUS:** **ACTIVE, not started.** EVAL-02..EVAL-21 are **SEALED — do not re-open**. EVAL-22 is the active task; EVAL-23..EVAL-25 are the sequential campaign queue below (EVAL-23B is the fallback if EVAL-23 is data-blocked).
+**TASK ID:** `INIT-2026-11-13T20:01:08Z-EVAL-22-REAL-TAPE-GATE`
+**STATUS:** **ACTIVE, not started.** EVAL-02..EVAL-21 are **SEALED — do not re-open**. EVAL-22 is the active task; EVAL-23B is the fallback campaign queue entry when no adequate real tape exists.
 
-> **Start here (no discovery needed).** Re-verified at 2026-11-13T19:56:57Z: no EVAL-22 module/tests/artifacts exist; `.env` absent; only synthetic tape in `data/raw/` (`orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`). Regression baseline **45 passed** (19:34Z verification). A session that ends without new EVAL-22 artifacts (module + tests + CLI output + verification evidence) is FAILED — do not leave handoff-only work. Produce real artifacts this session.
+> **Start here (no discovery needed).** Re-verified at 2026-11-13T20:01:08Z: no EVAL-22 module/tests/artifacts exist; `.env` absent; only synthetic tape in `data/raw/` (`orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`). Regression baseline **45 passed** (19:34Z verification). A session that ends without new EVAL-22 artifacts (module + tests + CLI output + verification evidence) is FAILED — do not leave handoff-only work. Produce real artifacts this session.
 
 ### Why this task (measured; do not re-litigate)
 - **EVAL-21 SEALED (GO, 2026-11-13T16:51:08Z)** on a **synthetic** tape: 9/9 checks, n_bars 3400, n_returns 3399, n_windows 82, n_trades 40800, orderflow IC **0.375126** (t **6.5444**), MDE@3399 **0.048054** ≤ 0.05, sizing 0 rejections, net = gross − cost, flat control 0, strict JSON, never `{"valid": true}`. Validates the **measurement battery and pipeline**, not real alpha.
 - **Re-verified 2026-11-13T17:41:22Z:** `tests/test_sample_adequacy_acquisition.py` + `tests/test_measurement_validity_evaluation.py` = **45 passed** (83.8 s). This is the regression baseline.
-- **The only tape in `data/raw/` is synthetic:** `data/raw/orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`, 1000 trades + 20 liquidations + 8 funding rates, span 2026-10-31T06:16:23Z–07:16:21Z (~1 h), venue `synthetic`, symbol `BTCUSDT` → **240 bars / 239 returns / 3 walk-forward windows** at 15 s bars (train 120 / test 40 / step 40). `data/processed/*.json` are derived from the same synthetic tape — **not real data**. **No real tape exists.**
+- **The only tape in `data/raw/` is synthetic:** `data/raw/orderflow_btcusdt_synthetic.json`, SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`, 1000 trades + 20 liquidations + 8 funding rates, span 2026-10-31T06:16:23Z–07:16:21Z (~1 h), venue `synthetic`, symbol `BTCUSDT` → 240 bars / 239 returns / 3 walk-forward windows at 15 s bars (train 120 / test 40 / step 40). `data/processed/*.json` are derived from the same synthetic tape — **not real data**. **No real tape exists.**
 - **Confirmed EVAL-21 defect (do NOT fix the sealed file):** `src/analytics/sample_adequacy_acquisition.py:346` `acquire_tape()` iterates `data/raw/orderflow_*.json` but loads each candidate via `load_btc_orderflow()` (imported at `:86` from `production_simulation_evaluation`, which delegates to `src/campaign/integrated.py:184` `_load_orderflow`). That loader **hardcodes** `data/raw/orderflow_<symbol>usdt_synthetic.json` (`:188`) and never reads the iterated path, and `acquire_tape` only accepts filenames ending in `orderflow_btcusdt_synthetic.json` (`:369`). Consequences: (a) **no arbitrary real tape can ever be discovered or loaded**; (b) **if the synthetic tape ever met the floors, it would be labeled `provenance="real"`** — it does not misfire today only because the synthetic tape has 239 returns < 1000. EVAL-22 must implement strict real-only discovery via `DataLoader().load_orderflow(path, ...)` (`src/data/loader.py:103`) and a regression test that the canonical synthetic file is never accepted as real.
 - **Confirmed second defect:** `src/analytics/measurement_validity_evaluation.py:751` `evaluate_measurement_validity()` calls `load_btc_orderflow()` with **no snapshot parameter** — it cannot be pointed at a real tape. Do not call it for real-data verdicts; drive the lower-level primitives instead.
 - **Bottleneck removed:** real-data absence is no longer a silent blocker. EVAL-22 seals with an explicit, measured `NO-GO (no adequate real tape)` plus the exact data contract; EVAL-23B supplies unblocked fallback work if no tape exists.
@@ -54,7 +54,7 @@
    - `python3 -m py_compile src/analytics/real_tape_ingestion.py tests/test_real_tape_ingestion.py`
    - `python3 -m pytest -q tests/test_real_tape_ingestion.py`
    - `python3 -m pytest -q tests/test_sample_adequacy_acquisition.py tests/test_measurement_validity_evaluation.py` (expect **45 passed**; proves no regression).
-6. **Seal:** update this handoff in place: mark EVAL-22 sealed with verdict/checks/evidence (real numbers, artifact paths), and set the next active task (EVAL-23 if an adequate real tape was found; otherwise EVAL-23B).
+6. **Seal:** update this handoff in place: mark EVAL-22 sealed with verdict/checks/evidence (real numbers, artifact paths), and set the next active task (EVAL-23B since no adequate real tape exists; otherwise EVAL-23).
 
 ### EVAL-22 verdict checks
 The sealed `compute_verdict` (`measurement_validity_evaluation.py:650`) emits **exactly these 8 checks** — use them verbatim; do not invent new check names (the artifact must be comparable to EVAL-20/21). It returns `{"checks": [...], "n_checks": 8, "n_passed": N, "all_checks_pass": bool, "verdict": "GO"|"NO-GO"}`.
@@ -114,8 +114,8 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 | Eval | Focus | Dependency | Heavy-work floor | If data absent |
 |---|---|---|---|---|
 | **EVAL-22 (ACTIVE)** | Real-tape ingestion gate | none | `real_tape_ingestion.py` + 10–16 tests + CLI + strict artifact; NO-GO if no real tape | n/a — NO-GO is the seal |
-| **EVAL-23** | Real net-of-cost verdict | EVAL-22 finds adequate real tape | drive sealed EVAL-20 primitives on real tape (not the hardcoded top-level function); GO only if net-of-cost + multiple-testing corrected; artifact | go to EVAL-23B |
 | **EVAL-23B** | Exchange export adapters (fallback) | none | `src/data/exchange_exports.py`: deterministic OKX/Binance/Deribit trade-export parsers → `OrderflowSnapshot`; fixtures + 12 tests + CLI; no network | n/a |
+| **EVAL-23** | Real net-of-cost verdict | EVAL-22 finds adequate real tape | drive sealed EVAL-20 primitives on real tape (not the hardcoded top-level function); GO only if net-of-cost + multiple-testing corrected; artifact | go to EVAL-23B |
 | **EVAL-24** | Options-leg validity | real option chain | `src/analytics/options_chain_validation.py`: quote sanity, put-call parity, no-arb bounds, greeks/IV surface; tests + CLI; NO-GO with exact chain shortfall | ship validator + tests |
 | **EVAL-25** | Real-tape falsification | EVAL-23 | parameter perturbation, placebo/label shuffle, subperiod stability, Benjamini-Hochberg correction; artifact | n/a |
 
@@ -123,44 +123,14 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 
 ---
 
-## BOTTLENECK REMOVAL — ACTIONS THIS REFRESH (2026-11-13T19:56:57Z)
+## BOTTLENECK REMOVAL — ACTIONS THIS REFRESH (2026-11-13T20:01:08Z)
 - **Single actionable handoff enforced:** confirmed root files `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs); `research_state/durable_handoff.md` remains the only task source.
 - **EVAL-22 still unstarted (primary throughput bottleneck):** re-verified absent `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `research_state/REAL_TAPE_INGESTION_*`. No code shipped since prior refresh — next session must implement EVAL-22 deliverables and seal with artifact (GO on adequate real tape, else explicit `NO-GO (no adequate real tape)` with measured shortfall + data contract).
 - **Data bottleneck made non-blocking:** only `data/raw/orderflow_btcusdt_synthetic.json` exists (SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`); no real/adequate tape discovered. EVAL-22 must not treat this as a reason to idle — ship module/tests/CLI/strict artifact and use EVAL-23B fallback campaign when real tape absent.
+- **Campaign queue re-sequenced:** with no real tape, EVAL-23 is data-blocked; the next active fallback after EVAL-22 seals NO-GO is **EVAL-23B** (exchange export adapters), then EVAL-24, then EVAL-25.
 - **Known sealed defects contained (do not re-open):** `src/analytics/sample_adequacy_acquisition.py:346` + hardcoded synthetic loader path prevents real-tape discovery/labeling; `src/analytics/measurement_validity_evaluation.py:751` lacks snapshot parameter — EVAL-22 must use `DataLoader().load_orderflow(...)` discovery and drive lower-level EVAL-20 primitives.
 - **Safety/invariants re-verified:** `.env` absent, paper-only (`.env.example` `LIVE_TRADING_ENABLED=false`), NEXT9 artifacts human-only/out of scope. No live enablement, no credential/venue/workflow mutation, no full-suite runs, no `research_state/` enumeration, no new phase wrappers.
 - **No other in-repo blocked sessions found:** session-gate scripts compile (`scripts/run_session_gate.py`, `check_paper_ops_readiness.py`, `scripts/validate_next9_approval_artifact.py`); docs present (`docs/DEPLOYMENT.md`, `docs/PAPER_RUNBOOK.md`). Workflow diagnostics (`research_state/workflow_run_diagnostics.jsonl`) remain not agent-actionable in-repo.
-
-## BOTTLENECK REMOVAL — ACTIONS PRIOR REFRESH (2026-11-13T19:34:07Z)
-- **Single actionable handoff enforced:** confirmed `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers; this file remains the only task source.
-- **EVAL-22 still unstarted (handoff-only drift risk):** re-verified absent module/tests/artifacts and refreshed the initial task message timestamp/ID to `INIT-2026-11-13T19:34:07Z-EVAL-22-REAL-TAPE-GATE` so the next session has an unambiguous, current directive. Regression baseline re-verified **45 passed** (84.07s).
-- **Bottlenecks preserved from prior analysis (still true):** no real tape in `data/raw/` (only synthetic, SHA-256 `c75ced1994a78a2b...`); sealed EVAL-21 real-tape discovery defect (`sample_adequacy_acquisition.py:346` + hardcoded synthetic loader) and `evaluate_measurement_validity()` no-snapshot defect — EVAL-22 must implement strict real-only discovery and drive lower-level primitives, not modify sealed modules.
-- **Safety/invariants re-verified:** `.env` absent, `.env.example` `LIVE_TRADING_ENABLED=false`, paper-only, NEXT9 out of scope; no live enablement/credentials/workflow edits; `research_state/` bloat and phase-wrapper/test-suite sprawl remain contained (no deletions/history rewrites, targeted tests only).
-- **No additional in-repo blocked sessions found:** session-gate scripts (`scripts/run_session_gate.py`, `check_paper_ops_readiness.py`, `validate_next9_approval_artifact.py`) exist and compile; workflow diagnostics live in `research_state/` (not in-repo actionable from this session).
-
-## BOTTLENECK REMOVAL — ACTIONS PRIOR REFRESH (2026-11-13T17:41:22Z)
-- **Handoff-only session (the live bottleneck):** the prior refresh (17:34Z) restated EVAL-22 but no code was written — EVAL-22 was ACTIVE and UNSTARTED at 17:41:22Z. **Fixed by making this message zero-discovery:** the task now carries exact file:line reuse points, verified constants, the measured baseline (45 passed), the confirmed EVAL-21 defect location, and the synthetic tape's SHA-256 so "is this real?" needs no exploration. Start coding from the Deliverables section directly.
-- **Real-tape detection defect** (`sample_adequacy_acquisition.py:346` loads the canonical synthetic path; would label synthetic as `"real"` if it met floors): **scoped to EVAL-22**. Sealed EVAL-21 is not modified; EVAL-22 implements strict real-only discovery + a regression test that the synthetic file is never accepted.
-- **Hardcoded synthetic loader** (`measurement_validity_evaluation.py:751` `evaluate_measurement_validity()` takes no snapshot): **documented as unusable for real data**; EVAL-22 drives the lower-level primitives instead. Do not fork it.
-- **No real tape** (`data/raw/` = one synthetic orderflow tape, 239 returns / 3 windows; `data/processed/` derived from it): **converted from a silent blocker into an explicit, sealable NO-GO** with exact shortfall and a user data contract; EVAL-23B is the unblocked fallback.
-- **Stale/competing handoff text**: the superseded EVAL-21 task message was removed from the active queue (kept only as a sealed record); root files are retired pointers. **Single durable handoff enforced.**
-- **Full-suite / `research_state/` bloat**: constraints restated (targeted tests only, no enumeration, no new `phase*` wrappers).
-- **Impossible power gate**: the prior EVAL-22 text required "MDE ≤ 0.05" as a verdict check, but `min_detectable_ic` is 0.0886 at the adequacy floor `n=1000` and only reaches 0.05 at `n >= 3140` (measured) — the check was unsatisfiable for a just-adequate tape. **Fixed:** EVAL-22 now requires reporting MDE at the observed `n` and declaring an effect only when `|IC| >= MDE(n)` (the statistically honest form), plus power at observed `n`.
-- **Safety**: `.env` absent, `LIVE_TRADING_ENABLED=false`, paper-only — unchanged.
-
----
-
-## SEALED EVALUATIONS (do not re-open)
-
-- **EVAL-02..EVAL-15:** sealed per prior campaign (EVAL-12/13/14/15 GO; EVAL-06/10 NO-GO legitimate).
-- **EVAL-16 SEALED (NO-GO, 2026-11-13T07:04:26Z):** `research_state/OPTIONS_SURFACE_GREEKS_EVAL_20261113T070426Z.*` — real 30-quote BTC chain data-quality/greeks failures are true state.
-- **EVAL-17 SEALED (NO-GO, 2026-11-13T08:00:05Z):** `research_state/ORDERFLOW_ALPHA_TOXICITY_EVAL_20261113T080005Z.*` — IC -0.00820, t -1.3512, p 0.0889.
-- **EVAL-18 SEALED (NO-GO, 2026-11-13T08:10:00Z):** `research_state/INTEGRATED_OPTIONS_ORDERFLOW_EVAL_20261113T081000Z.*` — harness invalidities later fixed by EVAL-20.
-- **EVAL-19 SEALED (NO-GO, 2026-11-13T10:52:00Z):** `research_state/PRODUCTION_SIMULATION_EVAL_20261113T104657Z.*` — measured on invalid harness; seal stands historically.
-- **EVAL-20 SEALED (NO-GO, 2026-11-13T12:53:00Z):** `research_state/MEASUREMENT_VALIDITY_EVAL_20261113T125227Z.*`; module + **26 tests**. 7/8 (only `sample_adequate_declared` FAIL: 239 returns / 3 windows). Harness defects fixed and locked; sole blocker was sample size.
-- **EVAL-21 SEALED (GO, 2026-11-13T16:51:08Z):** `research_state/SAMPLE_ADEQUACY_ACQUISITION_20261113T165108Z.{json,md}`; module + **19 tests**. 9/9 checks; `data_provenance="synthetic"`; n_bars 3400 / n_returns 3399 / n_windows 82 / n_trades 40800; IC 0.375126 (t 6.5444); MDE@3399 0.048054; sizing 0 rejections; net = gross − cost; flat 0; strict JSON; never `{"valid": true}`. **Synthetic only — not real-market evidence.**
-- **SUPERSEDED (not sealed):** `INIT-2026-11-13T16:52:00Z-EVAL-22-REAL-TAPE-REPLICATION` — active, not started; replaced by the EVAL-22 gate above.
-- **SUPERSEDED (not sealed):** `INIT-2026-11-13T17:34:00Z-EVAL-22-REAL-TAPE-GATE` — restatement that produced no artifacts (handoff-only session); replaced by `INIT-2026-11-13T17:41:22Z-EVAL-22-REAL-TAPE-GATE`.
 
 ---
 
@@ -168,7 +138,7 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 
 | Bottleneck | Status |
 |---|---|
-| Handoff-only session (EVAL-22 restated at 17:34Z with no code written) | **FIXED.** Task message is now zero-discovery: exact reuse file:line, verified constants, 45-passed baseline, defect location, synthetic SHA-256. |
+| Handoff-only session (EVAL-22 restated with no code written) | **FIXED.** Task message is now zero-discovery: exact reuse file:line, verified constants, 45-passed baseline, defect location, synthetic SHA-256. |
 | Real-tape detection defect in sealed EVAL-21 (`acquire_tape` loads canonical synthetic path; would label synthetic as real if adequate) | **SCOPED TO EVAL-22.** Do not modify sealed EVAL-21; EVAL-22 implements strict real-only discovery + regression test. |
 | Hardcoded synthetic loader in `evaluate_measurement_validity()` (no snapshot param) | **DOCUMENTED.** Not usable for real data; drive lower-level primitives. |
 | No real tape (`data/raw/` = 1 synthetic orderflow tape, 239 returns / 3 windows; `data/processed/` derived from it) | **CONVERTED TO EXPLICIT GATE.** EVAL-22 seals `NO-GO (no adequate real tape)` with exact shortfall; user data contract above; EVAL-23B fallback work. |
@@ -178,6 +148,8 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 | Phase orchestrator/wrapper clutter + 5,297-test corpus | **CONTAINED.** Forbidden to add more; targeted tests only. |
 | Workflow edit-tool invalid-argument failures (`research_state/workflow_run_diagnostics.jsonl`) | **NOT in-repo actionable.** Do not attempt to fix from an agent session. |
 | Safety/live-trading risk | **CLEARED.** `.env` absent, `LIVE_TRADING_ENABLED=false`, paper-only. |
+
+---
 
 ## VERIFIED STATE / REUSE POINTS (ground truth, re-checked 2026-11-13T17:41:22Z)
 
@@ -191,9 +163,11 @@ Drop a real orderflow tape at `data/raw/orderflow_<venue>_<symbol>_<UTC>.json` (
 - **Environment:** Python 3.12.3; numpy/pandas/scipy/pydantic/pytest/PyYAML/requests installed. No mypy/ruff/flake8 → verify with `python3 -m py_compile` + **targeted** pytest only. Never run the full suite (5,297 tests / ~17 s collection). Never enumerate `research_state/`.
 - **Verification baseline:** 45 passed (EVAL-20 26 + EVAL-21 19) at 2026-11-13T17:41:22Z (**83.8 s** wall). The cost is two `scope="module"` heavy fixtures — `tests/test_sample_adequacy_acquisition.py:50` (`evaluate_sample_adequacy`) and `tests/test_measurement_validity_evaluation.py:56` (`evaluate_measurement_validity`) — each running one full 3400-bar evaluation, not the test count. Budget ~90 s for this gate; it is not a hang.
 
+---
+
 ## HANDOFF DISCIPLINE
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
-- Work queue: **EVAL-02..EVAL-21 SEALED. EVAL-22 ACTIVE (`INIT-2026-11-13T19:02:13Z-EVAL-22-REAL-TAPE-GATE`).**
+- Work queue: **EVAL-02..EVAL-21 SEALED. EVAL-22 ACTIVE (`INIT-2026-11-13T20:01:08Z-EVAL-22-REAL-TAPE-GATE`).**
 - New EVALs must ship real module + numeric-invariant tests + CLI + strict artifact (no wrappers/stubs/no-ops). Handoff-only session = FAILED.
 - If incomplete, record measured numbers, not intentions. Never claim persistence or GO without a verifying artifact.
 - Final responses must not ask follow-up questions.
