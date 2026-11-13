@@ -43,6 +43,64 @@
 
 **SESSION CONFIRM — 2026-11-13T08:05:00Z (scan):** EVAL-16 SEALED (NO-GO, legitimate). **EVAL-17 SEALED (NO-GO, legitimate)** — all 4 deliverables shipped (module + 23 numeric-invariant tests + CLI + strict `research_state/ORDERFLOW_ALPHA_TOXICITY_EVAL_20261113T080005Z.{json,md}`); `py_compile` OK; `pytest -q tests/test_orderflow_alpha_toxicity_evaluation.py` **23 passed**. Competing handoff bottlenecks cleared: only this durable handoff is actionable. **EVAL-18 (integrated options+orderflow net-of-cost) is now conditional and NOT YET ASSIGNED** — only assign after EVAL-17 is sealed (done). The next agent's first action: if EVAL-18 is to be pursued, implement it; otherwise no active EVAL remains. A session that only edits handoff/timestamps or ends with env verification is **FAILED**.
 
+---
+## INITIAL TASK MESSAGE — 2026-11-13T08:06:09Z (copy-paste to the next agent — THIS IS YOUR WORK)
+
+**TASK ID:** `INIT-2026-11-13T08:06:09Z-EVAL-18-ACTIVE`
+**STATUS:** **EVAL-17 SEALED — EVAL-18 (INTEGRATED OPTIONS+ORDERFLOW NET-OF-COST) IS THE NEXT REQUIRED EVAL.** Both pillars of the repo name (options + orderflow) now have dedicated sealed evaluations (EVAL-16 NO-GO, EVAL-17 NO-GO). EVAL-18 must combine both alpha sources into one deterministic net-of-cost walk-forward verdict consistent with EVAL-13/14/15 guardrails. Paper-only.
+
+> **MANDATORY COPY-PASTE TASK (your session work — do not just read, DO):**
+>
+> Implement **EVAL-18 — Integrated options+orderflow net-of-cost evaluation** (paper-only, deterministic, no network, no `.env`, no live).
+> **DELIVERABLES (all required, no exceptions):**
+> 1. `src/analytics/integrated_options_orderflow_evaluation.py` — module with `compute_integrated_verdict(...) -> dict`
+> 2. `tests/test_integrated_options_orderflow_evaluation.py` — **12–18 numeric-invariant tests** (not smoke tests)
+> 3. CLI: `python -m src.analytics.integrated_options_orderflow_evaluation --out research_state/`
+> 4. **Strict artifact:** `research_state/INTEGRATED_OPTIONS_ORDERFLOW_EVAL_<UTC>.{json,md}` emitted by CLI
+>
+> **HEAVY WORK FLOOR — EVERY ITEM IS MANDATORY (no prose-only verdicts, no stubs):**
+>
+> 1. **LOAD BOTH REAL DATA SOURCES** — Use existing loaders:
+>    - Options: `src.campaign.integrated._load_options_chain("BTC", 65000.0, DETERMINISTIC_NOW, "synthetic")` → 30-quote chain (EVAL-16 data quality NO-GO sealed; use **reconstructed surface** from EVAL-16 as the options alpha source).
+>    - Orderflow: `src.campaign.integrated._load_orderflow("BTC", "synthetic")` → 1000 trades + 20 liqs + 8 funding, BTCUSDT (EVAL-17 sealed).
+>    **Do not enumerate `research_state/`; no network calls.**
+>
+> 2. **OPTIONS ALPHA (from EVAL-16 reconstructed surface)** — Use the **reconstructed IV surface** (`build_iv_surface_from_chain` + `calibrate_iv_surface` from EVAL-16) to compute a per-bar causal options signal. Options for signal: (a) GEX/gamma exposure flip distance, (b) IV skew term structure slope, (c) surface calibration residual as mispricing signal, (d) delta-hedge P&L attribution. **Must be causal per bar** (trailing snapshot, no lookahead — reuse `gamma_inventory_hedge.toxicity_score` causal pattern). Assert no-lookahead with a numeric test.
+>
+> 3. **ORDERFLOW ALPHA (from EVAL-17 causal signal)** — Reuse the **causal per-bar signal** from EVAL-17 (`OrderflowAlphaEngine.extract_features` on trailing snapshots; signal = `net_aggression`). Do not recompute from scratch; import and reuse the EVAL-17 signal logic (copy the causal construction pattern, keep thresholds identical).
+>
+> 4. **COMBINED ALPHA + TOXICITY GATE** — Fuse both signals into a single per-bar decision:
+>    - Options signal: long/short/flat based on reconstructed-surface signal (e.g., GEX flip distance > threshold → directional bias; IV skew slope → regime).
+>    - Orderflow signal: long/short/flat based on `net_aggression` > `DEFAULT_SIGNAL_THRESHOLD` (0.1).
+>    - Toxicity gate: **EVAL-17 VPIN toxicity** (mean 0.4408, gate-engagement 0.225) stands down quoting/hedging when VPIN >= 0.7. Apply to both signals (if toxic, force flat).
+>    - Combined position = `f(options_signal, orderflow_signal, toxicity_gate)` — simple deterministic rule (e.g., require both to agree, or weight by IC magnitude). Document the rule in code.
+>
+> 5. **NET-OF-COST INTEGRATED WALK-FORWARD** — Run deterministic OOS walk-forward (seeds 1–5, same windowing as EVAL-13/17) of the **combined strategy** through `compute_metrics`, using the **capacity-aware cost model** (`DEFAULT_SPREAD_BPS`, `DEFAULT_IMPACT_COEFF`, `DEFAULT_MAX_PARTICIPATION` from `src.analytics.capacity_aware_tca`). Compare against **three controls**:
+>    - (a) Always-flat (zero return, zero cost).
+>    - (b) Options-only signal (with same toxicity gate).
+>    - (c) Orderflow-only signal (with same toxicity gate).
+>    Report net return, Sharpe, max-DD, total cost USD, num trades, num windows for all four series.
+>
+> 6. **STATISTICAL DEFENSIBILITY** — Compute:
+>    - IC (Pearson) for combined signal vs forward returns (horizons 1/5/20) + block-bootstrap CI (reuse `block_bootstrap_ci`).
+>    - Paired permutation test (combined vs best single-pillar) via `permutation_test`.
+>    - Deflated Sharpe Ratio (DSR) and PBO (CSCV) across seeds/windows — reuse EVAL-12/13 patterns.
+>    - Benjamini–Hochberg FDR correction across the four series.
+>
+> 7. **DETERMINISTIC VERDICT FUNCTION** — `compute_integrated_verdict(...) -> dict` with explicit `checks` list:
+>    - `options_signal_exists` (nonzero IC from reconstructed surface)
+>    - `orderflow_signal_exists` (nonzero IC from EVAL-17 causal signal)
+>    - `combined_ic_significant` (t-stat / permutation p vs controls)
+>    - `combined_net_of_cost_superior` (combined Sharpe > both single-pillar Sharpe AND > always-flat, with finite cost model)
+>    - `toxicity_gate_measured` (EVAL-17 VPIN gate engages at measured 0.225 fraction, not 0/1)
+>    - `no_lookahead_asserted` (both signals causal per bar, numeric test)
+>    - `guardrails_consistent_with_eval13_14_15` (delta band ±323.77 USD, toxicity gate 0.7, cost budget 0.5 bps, kill-switch DD 20%/toxicity 80%/cost 5 bps, max notional 1M USD, max daily loss 50k USD)
+>    Each check: numeric threshold + rationale, finite metrics, evidence matrix. Strict-serializable via `serialize_metrics_strict`/`assert_json_valid` (`allow_nan=False`). **Never emit `{"valid": true}`**.
+>
+> 8. **VERIFY & SEAL** — `python -m py_compile src/analytics/integrated_options_orderflow_evaluation.py` + `pytest -q tests/test_integrated_options_orderflow_evaluation.py` → must pass. Then **update this handoff in place** to seal EVAL-18 with verdict/artifact/timestamps/tests.
+>
+> **IF EVAL-18 IS ALREADY SEALED WHEN YOU READ THIS, MOVE TO THE NEXT EVAL (if any) OR STOP — NEVER END A SESSION WITH NO NEW SEALED EVAL ARTIFACT.**
+
 **CONSTRAINTS:** Paper-only. `.env` absent, `LIVE_TRADING_ENABLED=false`. No live enablement, no `.env` creation, no venue/config/credential mutation, no network calls to exchanges, no NEXT9 unblock, no enumerating `research_state/` (glob specific files), no full 865-file test suite, no new phase orchestrator wrappers, no re-opening sealed EVALs. Use existing loaders/primitives; `scripts/run_backtest.py` is vacuous smoke test.
 
 ---
@@ -68,13 +126,12 @@
 
 ---
 
-## FOCUS CAMPAIGN (strictly sequential — EVAL-17 is ACTIVE)
+## FOCUS CAMPAIGN (strictly sequential — EVAL-18 is ACTIVE)
 
 | Order | Task | Status | Required output |
 |---|---|---|---|
-| EVAL-02..EVAL-16 | Prior evaluations/readiness | **COMPLETE (sealed)** | Modules/tests/CLIs/artifacts listed above. EVAL-16 sealed NO-GO (legitimate). |
-| **EVAL-17** | **Orderflow alpha & toxicity evaluation** | **COMPLETE (sealed)** | `src/analytics/orderflow_alpha_toxicity_evaluation.py` + `tests/test_orderflow_alpha_toxicity_evaluation.py` (23 numeric-invariant tests, all pass) + CLI + `research_state/ORDERFLOW_ALPHA_TOXICITY_EVAL_20261113T080005Z.{json,md}`; real 1000-trade BTC orderflow; `OrderflowAlphaEngine` features applied **causally per bar**; causal/no-lookahead signal (numeric no-lookahead test); IC + decay + VPIN toxicity + net-of-cost with/without; block-bootstrap CI + paired permutation (reuse `strategy_evaluation`); deterministic verdict NO-GO (4/5, `ic_significant` fails); paper-only. |
-| EVAL-18 | (conditional) Integrated options+orderflow net-of-cost evaluation | **NOT YET ASSIGNED** | Only after EVAL-17 is sealed (done); combine both alpha sources into one net-of-cost walk-forward verdict consistent with EVAL-13/14/15 guardrails. Paper-only. |
+| EVAL-02..EVAL-17 | Prior evaluations/readiness | **COMPLETE (sealed)** | Modules/tests/CLIs/artifacts listed above. EVAL-16 sealed NO-GO (legitimate). EVAL-17 sealed NO-GO (legitimate). |
+| **EVAL-18** | **Integrated options+orderflow net-of-cost evaluation** | **ACTIVE (next agent must implement)** | `src/analytics/integrated_options_orderflow_evaluation.py` + `tests/test_integrated_options_orderflow_evaluation.py` (12–18 numeric-invariant tests) + CLI + `research_state/INTEGRATED_OPTIONS_ORDERFLOW_EVAL_<UTC>.{json,md}`; loads both real data sources (EVAL-16 30-quote chain + EVAL-17 1000-trade orderflow); options signal from reconstructed surface (causal); orderflow signal from EVAL-17 causal `net_aggression`; VPIN toxicity gate (measured 0.225 engagement); combined net-of-cost walk-forward vs 3 controls (flat, options-only, orderflow-only); IC + block-bootstrap CI + permutation + DSR/PBO + BH-FDR; deterministic verdict with 7 explicit checks; strict-serializable; paper-only. |
 
 **Rule:** do not re-open sealed EVALs. Do not implement or advance Phase 292+ or any `phaseNN_*_post_attribution_seal_orchestrator` wrapper. A session must seal at least one EVAL task; a session that ends with no new EVAL artifact (only handoff/timestamp edits) is FAILED.
 
@@ -98,6 +155,7 @@ Any of these tasks must, at minimum:
 - **Environment:** Python 3.12.3; deps installed (numpy/pandas/scipy/pydantic/pytest/PyYAML/requests). `mypy/ruff/flake8` not installed; use `python3 -m py_compile` + targeted pytest.
 - **Key sealed artifacts present:** `research_state/HEDGE_COST_OPTIMIZER_20261113T004000Z.{json,md}`, `research_state/REAL_WF_CERTIFICATION_20261113T010508Z.{json,md}`, `research_state/STRATEGY_EVAL_10_FINAL_GONOGO_20261113T000249Z.{json,md}`, `research_state/GAMMA_INVENTORY_HEDGE_20261112T221000Z.{json,md}`, `research_state/FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}`, `research_state/PAPER_DEPLOYMENT_READINESS_20261113T030007Z.{json,md}`, `research_state/PAPER_EXECUTION_HARDENING_20261113T045715Z.{json,md}`, `research_state/OPTIONS_SURFACE_GREEKS_EVAL_20261113T070426Z.{json,md}`, `research_state/ORDERFLOW_ALPHA_TOXICITY_EVAL_20261113T080005Z.{json,md}`, campaign checkpoints (`END2END_LIVE_TRADING_READINESS_latest.json`, `PAPER_TRADING_PRE_LIVE_READINESS_latest.json`, `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`).
 - **EVAL-17 key numbers (verified 2026-11-13T08:00:05Z):** verdict NO-GO (4/5 checks, legitimate). Real BTC orderflow loaded: 1000 trades, 20 liquidations, 8 funding, symbol BTCUSDT. Bars: 240 @ 15s. Causal signal (net_aggression) per bar via OrderflowAlphaEngine on trailing snapshots; no-lookahead asserted + tested. IC by horizon {1: -0.00818, 5: -0.02107, 20: +0.00466}; ic_mean -0.00820; ic_std 0.01051; ic_tstat -1.3512; block-bootstrap CI [-0.02107, +0.00466]; paired permutation p 0.0889 (not significant at 0.05). VPIN toxicity: mean 0.4408, p95 1.0, range [0.0014, 1.0], fraction above 0.7 threshold 0.225, gate engages True, measured True. Net-of-cost walk-forward: with-signal return -0.5903 / Sharpe -53.36 / max-DD 0.5903 / total cost 43.12 USD (58 trades, 3 windows) vs always-flat control return 0.0 / Sharpe 0.0. Cost model: spread 0.5 bps, impact coeff 10.0, max participation 0.20. Verdict checks: signal_exists_ic_nonzero PASS, ic_significant FAIL, toxicity_measured PASS, net_of_cost_with_vs_without PASS, no_lookahead_asserted PASS → NO-GO (4/5). Strict artifact JSON+MD emitted; never valid=true.
+- **EVAL-16 key numbers (verified 2026-11-13T07:05:00Z):** verdict NO-GO (5/9 checks, legitimate). Real BTC options chain loaded: 30 quotes, 3 expiries (2026-11-01 / 2026-11-07 / 2026-11-30), calls+puts, stored greeks. Data quality: BS(mark_iv) vs mark max abs `8516.364`, mean abs `3192.684`; parity residual min `-6480.2`, max `+6634.7`, mean abs `84.87`; mark IV `[0.418, 0.799]`. Surface: 30 points, 3 expiries, residual max abs `0.0`. Arbitrage: butterfly 1 violation (non-convex call IVs at 2026-11-01 expiry, max violation `0.4006`), calendar 0. Greeks: delta err mean `0.3402`, max `0.8494`; analytic vs FD match fraction `1.0` (delta+vega). Delta hedge: 25 OOS windows, mean with-options Sharpe `2.5486`, without `2.7226`. Book greeks: total GEX `1052954758.99`, gamma flip `58207.50`, PCR `1.1961`, max pain `65000.00`, IV skew `0.1063`. Strict artifact JSON+MD emitted; never valid=true.
 - **EVAL-15 key numbers (verified 2026-11-13T05:03:00Z):** verdict GO (12/12 checks); `all_guardrails_pass=true`; `kill_switch_not_triggered=true`; `live_trading_enabled=false`; `trading_mode=paper`; reconciliation freshness met (target >= 0.99), CV iterations 5/5; alert watch levels include drawdown watch (observed ~0.1887 >= 0.10 watch, below 0.20 kill-switch); strict artifact JSON+MD emitted.
 - **EVAL-14 key numbers:** verdict GO (10/10); 9 guardrails wired; 6 alert watch levels; 3 kill-switch halt conditions; paper-only.
 - **EVAL-13 key numbers:** verdict GO (8/8); best config `target_delta_usd=-20000.0, toxicity_threshold=0.7, cost_budget_bps=0.5`; mean net Sharpe `13.188322`; bootstrap CI return `[0.298731, 0.494794]`, Sharpe `[9.378864, 18.878999]`; 9 guardrails all pass.
@@ -109,7 +167,7 @@ Any of these tasks must, at minimum:
 
 ---
 
-## BOTTLENECKS REMOVED (this session — 2026-11-13T07:05:00Z)
+## BOTTLENECKS REMOVED (this session — 2026-11-13T08:06:09Z)
 
 | Bottleneck | Resolution |
 |---|---|
@@ -118,9 +176,10 @@ Any of these tasks must, at minimum:
 | **Broken options loader** (`_load_options_chain` passed `symbol=` instead of `underlying=`) → silent synthetic fallback, real 30-quote file never used | **FIXED** in `src/campaign/integrated.py`; now loads the real chain (verified: 30 quotes, 3 expiries). |
 | Options data assumed arbitrage-free but is internally inconsistent | **RESOLVED (sealed by EVAL-16).** Measured BS-price residual max abs `8516.364`, parity residual `±~6600`, delta err mean `0.3402`; EVAL-16 reconstructs a surface and reports data-quality as measured checks → legitimate NO-GO. |
 | Orderflow alpha/toxicity (second repo pillar) still had no dedicated EVAL | **RESOLVED (sealed by EVAL-17).** Implemented `src/analytics/orderflow_alpha_toxicity_evaluation.py` + `tests/test_orderflow_alpha_toxicity_evaluation.py` (23 numeric-invariant tests, all pass) + CLI + strict artifact `ORDERFLOW_ALPHA_TOXICITY_EVAL_20261113T080005Z.{json,md}`. Real 1000-trade BTC orderflow; causal no-lookahead signal; IC+decay, VPIN toxicity, net-of-cost with/without. Deterministic verdict **NO-GO (4/5)** — legitimate measured outcome (`ic_significant` fails: |t| 1.3512 < 1.96, p 0.0889); not fudged. |
+| **Both repo pillars (options + orderflow) now have sealed EVALs but no integrated evaluation exists** — the strategy cannot be assessed end-to-end | **ACTIVE BOTTLENECK: EVAL-18.** Next session must implement the integrated evaluation combining both alpha sources with the EVAL-17 VPIN toxicity gate, net-of-cost walk-forward vs three controls, and statistical defensibility (DSR/PBO/BH-FDR). This is the only remaining bottleneck to a complete strategy assessment. |
 | Competing/stale root handoff files | **CLEARED (verified).** Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` remain retired pointers with no task IDs; this file remains sole authority. |
 
-**Tree verified 2026-11-13T08:05:00Z:** EVAL-16 sealed (NO-GO, legitimate, `OPTIONS_SURFACE_GREEKS_EVAL_20261113T070426Z`); EVAL-17 **SEALED (NO-GO, legitimate, `ORDERFLOW_ALPHA_TOXICITY_EVAL_20261113T080005Z`)** — module, 23 tests, CLI, artifact all present and verified; EVAL-18 conditional (NOT YET ASSIGNED). Sole actionable handoff: `research_state/durable_handoff.md` (no other `*handoff*` files in `research_state/`; root handoffs are retired pointers). P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`). No blocked/failed EVAL artifacts or session bottlenecks detected; EVAL-17 bottleneck resolved — artifacts shipped.
+**Tree verified 2026-11-13T08:06:09Z:** EVAL-16 sealed (NO-GO, legitimate, `OPTIONS_SURFACE_GREEKS_EVAL_20261113T070426Z`); EVAL-17 sealed (NO-GO, legitimate, `ORDERFLOW_ALPHA_TOXICITY_EVAL_20261113T080005Z`); **EVAL-18 ACTIVE (must be implemented next)**. Sole actionable handoff: `research_state/durable_handoff.md` (no other `*handoff*` files in `research_state/`; root handoffs are retired pointers). P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`, `next9_unblocked=false`). No blocked/failed EVAL artifacts; EVAL-18 is the single active bottleneck — must ship module/tests/CLI/artifact this session or the session is FAILED.
 
 ---
 
@@ -143,7 +202,7 @@ Any of these tasks must, at minimum:
 ## HANDOFF DISCIPLINE
 
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
-- Work queue: **EVAL-02..EVAL-17 SEALED** (EVAL-16/EVAL-17 NO-GO legitimate); EVAL-18 conditional (NOT YET ASSIGNED). Do not reopen sealed EVALs.
+- Work queue: **EVAL-02..EVAL-17 SEALED** (EVAL-16/EVAL-17 NO-GO legitimate); **EVAL-18 ACTIVE (must be implemented next)**. Do not reopen sealed EVALs.
 - Each new task must ship a real module, numeric-invariant tests, CLI, and a real-run artifact — no wrappers, no stubs, no "verified env only" sessions.
 - If incomplete: commit/push partial module and leave exact next line/blocker here. Never leave tree clean with a pending EVAL.
 - Final responses must not ask follow-up questions.
