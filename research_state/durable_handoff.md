@@ -2,14 +2,14 @@
 
 **Repo (priority context):** `Cryptocurrency-quantitative-options-orderflow-strategy`
 **Mission inferred from repo name:** cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, and a **statistically-defensible, net-of-cost evaluation of the strategy**. The deliverable is the **strategy and its measured performance**, not orchestrator wrappers.
-**Refreshed:** 2026-11-13T02:00:21Z (UTC). Verified: EVAL-13 SEALED (GO) with module+tests+CLI+artifact `FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}`; EVAL-12/EVAL-11/EVAL-10 sealed as listed below; `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs remain retired pointers. EVAL-14 ACTIVE (paper deployment readiness package).
+**Refreshed:** 2026-11-13T02:47:40Z (UTC). Verified: EVAL-13 SEALED (GO) with module+tests+CLI+artifact `FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}`; EVAL-12/EVAL-11/EVAL-10 sealed; `.env` absent; `.env.example:15` `LIVE_TRADING_ENABLED=false`; root handoffs retired pointers. EVAL-14 ACTIVE (paper deployment readiness package). No active bottlenecks.
 **Authority:** this file is the only actionable handoff. `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, and `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are **retired pointer stubs** — do not action them and do not create new handoff files. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` are human-only NEXT9 artifacts (out of scope), not task sources.
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-13T02:00:21Z (copy-paste to the next agent)
+## INITIAL TASK MESSAGE — 2026-11-13T02:47:40Z (copy-paste to the next agent)
 
-**TASK ID:** `INIT-2026-11-13T02:00:21Z-EVAL-14-PAPER-DEPLOYMENT-READINESS`
+**TASK ID:** `INIT-2026-11-13T02:47:40Z-EVAL-14-PAPER-DEPLOYMENT-READINESS`
 **STATUS:** PENDING — EVAL-13 sealed 2026-11-13T01:52:26Z (verdict GO, artifact `FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}`). EVAL-14 is the next and only active task. Do not re-open EVAL-13. Do not implement Phase 292+ or any `phaseNN_*_post_attribution_seal_orchestrator` wrapper.
 
 **EVAL-14 (Paper deployment readiness package, paper-only) — PENDING:**
@@ -95,7 +95,7 @@ EVAL-14 must, at minimum:
 | Prior data/primitive blockers (load_trades unwrap, permutation, cost-grid semantics, inert hedge_cost_bps) | **RESOLVED in prior sessions** and documented above; EVAL-13/EVAL-14 must build on sealed evidence, not reopen. |
 | EVAL-14 start clearance | **CLEAR.** EVAL-13 sealed (GO); P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`, no live trading); no data/primitive blockers; EVAL-14 context artifacts present (`PAPER_TRADING_PRE_LIVE_READINESS_latest.json`, `CONTINUOUS_VALIDATION_AND_MONITORING_latest.json`, `END2END_LIVE_TRADING_READINESS_latest.json`). |
 
-**Tree verified 2026-11-13T02:00:21Z:** EVAL-13 sealed with real artifacts; `src/analytics/final_strategy_certification.py` present, `tests/test_final_strategy_certification.py` present (6 tests), CLI shipped, `research_state/FINAL_STRATEGY_CERTIFICATION_20261113T015226Z.{json,md}` emitted and strict-valid. EVAL-14 ACTIVE with no blockers; context artifacts present. Modified this session: `research_state/durable_handoff.md` (this update). No active blockers; EVAL-14 in progress.
+**Tree verified 2026-11-13T02:47:40Z:** EVAL-13 sealed with real artifacts; EVAL-14 not yet started (`src/analytics/paper_deployment_readiness.py` absent, no `PAPER_DEPLOYMENT_READINESS_*` artifact). P0 safety clear (`.env` absent, `LIVE_TRADING_ENABLED=false`); required evidence artifacts/checkpoints present; no active blockers. EVAL-14 is the only pending work.
 
 
 ---
