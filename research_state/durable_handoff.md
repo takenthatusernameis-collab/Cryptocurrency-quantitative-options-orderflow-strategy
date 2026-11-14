@@ -1,8 +1,10 @@
-# SINGLE DURABLE HANDOFF — READ FIRST
+# SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T09:32:00Z (UTC).** Handoff rewritten after a **measured** session (not narrative): environment bootstrap verified, real data re-acquired, parity GO re-confirmed on fresh snapshots, integrated net-of-cost eval re-run, and **EVAL-29 sealed** (`OPTIONS_LEG_TRADABILITY_29_20261114T093151Z.{json,md}`, verdict NO-GO). Active task advanced to `INIT-2026-11-14T09:32:00Z-EVAL-30-TIME-VARYING-OPTIONS-SIGNAL`.
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T09:32:00Z (UTC).**
+**Active task:** `INIT-2026-11-14T09:32:00Z-EVAL-30-TIME-VARYING-OPTIONS-SIGNAL` (mandatory heavy work; see "INITIAL TASK MESSAGE" below — execute to a sealed artifact, not analysis-only).
+**Handoff state basis:** rewritten after a **measured** session (2026-11-14T09:32:00Z): environment bootstrap verified, real data re-acquired, parity GO re-confirmed on fresh snapshots, integrated net-of-cost eval re-run, and **EVAL-29 sealed** (`OPTIONS_LEG_TRADABILITY_29_20261114T093151Z.{json,md}`, verdict NO-GO).
 
-`research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/INITIAL_TASK_20261114T063750Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
+**Session verification (2026-11-14T10:26:05Z):** repo inspected; this file remains the single durable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/INITIAL_TASK_20261114T063750Z.md` are retired pointers (no task IDs). No other competing handoff files found. **Bottleneck removal for next session is explicit below:** bootstrap deps + re-acquire gitignored real data first, then do heavy EVAL-30 work to produce `>=1` new sealed `research_state/<EVAL-ID>_<UTC>.{json,md}` (trustworthy NO-GO counts). Do not create new handoff files.
 
 **Repo priority:** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
 **Mission:** Deliver the strategy and a *trustworthy*, net-of-cost measurement of its performance — not orchestrator wrappers, not a favorable-looking number from a broken harness. A **trustworthy NO-GO** is a full success; a fabricated GO is a failure.
@@ -41,7 +43,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-14T08:59:28Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-14T09:32:00Z (copy-paste for next agentic work session)
 
 **TASK ID:** `INIT-2026-11-14T09:32:00Z-EVAL-30-TIME-VARYING-OPTIONS-SIGNAL`
 **STATUS:** **ACTIVE — mandatory heavy-work session.** EVAL-29 sealed NO-GO with a *measured* root cause: the options signal is broadcast-static (`_causal_options_signal_series`), giving IC 0.0. EVAL-30 must produce a **time-varying** causal options signal and re-measure net-of-cost.
