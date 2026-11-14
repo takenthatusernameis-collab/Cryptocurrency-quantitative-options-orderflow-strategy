@@ -1,0 +1,146 @@
+{
+  "adapter_verdict": "PASS",
+  "adequacy": {
+    "min_contracts": 8,
+    "min_expiries": 2,
+    "min_quotes": 8,
+    "n_contracts": 3,
+    "n_expiries": 2,
+    "n_quotes": 3,
+    "n_strikes": 3,
+    "sample_adequate": false,
+    "shortfall_contracts": 5,
+    "shortfall_expiries": 0,
+    "shortfall_quotes": 5
+  },
+  "authenticity_verified": false,
+  "canonical_fingerprint": "52c27da9c3f13ab119e08d976d4aa86e6fc98bd2bb38bfacdc205039bf627121",
+  "canonical_order": true,
+  "content_sha256": "510206dc7ce8a5513f99b246623fe634a0d1318496b5fb0b9844aaf43e2fd92a",
+  "data_provenance": "exchange_export",
+  "end_timestamp": "2026-01-01T00:00:00Z",
+  "floors": {
+    "min_contracts": 8,
+    "min_expiries": 2,
+    "min_quotes": 8
+  },
+  "format": "json",
+  "generated_at": "2026-11-14T00:45:00Z",
+  "live_trading_enabled": false,
+  "loader_compatible": true,
+  "microstructure_sane": true,
+  "n_contracts": 3,
+  "n_expiries": 2,
+  "n_quotes": 3,
+  "n_records": 3,
+  "n_strikes": 3,
+  "never_valid_true": true,
+  "normalized_chain_path": "data/examples/normalized/options_deribit_BTC_20261114T004349Z.json",
+  "normalized_chain_sha256": "7978f2f8a65742e70f49dc2aca91c208f5f7db08edae9084581bfa3fbf98414c",
+  "normalized_underlying": "BTC",
+  "option_types": [
+    "call"
+  ],
+  "overall_reason": "adapter parsed export but chain is below EVAL-24 adequacy floors (contracts 3/8, quotes 3/8, expiries 2/2)",
+  "overall_verdict": "NO-GO",
+  "report_id": "OPTIONS_EXPORT_ADAPTERS_24A",
+  "requested_underlying": "BTC",
+  "source_path": "data/examples/options_exports/deribit_btc_option_sample.json",
+  "span_seconds": 0.0,
+  "start_timestamp": "2026-01-01T00:00:00Z",
+  "strikes_max": 70000.0,
+  "strikes_min": 60000.0,
+  "supported_formats": [
+    {
+      "csv_headers": [
+        "instId",
+        "strike",
+        "expiry",
+        "optionType",
+        "bid",
+        "ask",
+        "mark",
+        "markIv",
+        "delta",
+        "gamma",
+        "theta",
+        "vega",
+        "openInterest",
+        "volume",
+        "ts"
+      ],
+      "json_shape": "list | {data: [...]} | {quotes: [...]}",
+      "option_type_forms": [
+        "C",
+        "P",
+        "call",
+        "put"
+      ],
+      "timestamp_forms": [
+        "ISO-8601",
+        "epoch-ms"
+      ],
+      "venue": "okx"
+    },
+    {
+      "csv_headers": [
+        "symbol",
+        "strike",
+        "expiry",
+        "optionType",
+        "bid",
+        "ask",
+        "mark",
+        "markIv",
+        "delta",
+        "gamma",
+        "theta",
+        "vega",
+        "openInterest",
+        "volume",
+        "timestamp"
+      ],
+      "json_shape": "list | {quotes: [...]} | {data: [...]}",
+      "option_type_forms": [
+        "CALL",
+        "PUT"
+      ],
+      "timestamp_forms": [
+        "ISO-8601",
+        "epoch-ms"
+      ],
+      "venue": "binance"
+    },
+    {
+      "csv_headers": [
+        "instrument_name",
+        "strike",
+        "expiration_timestamp",
+        "option_type",
+        "bid_price",
+        "ask_price",
+        "mark_price",
+        "mark_iv",
+        "delta",
+        "gamma",
+        "theta",
+        "vega",
+        "open_interest",
+        "volume",
+        "timestamp"
+      ],
+      "json_shape": "list | {result: [...]} | {quotes: [...]}",
+      "option_type_forms": [
+        "call",
+        "put"
+      ],
+      "timestamp_forms": [
+        "epoch-ms",
+        "ISO-8601"
+      ],
+      "venue": "deribit"
+    }
+  ],
+  "trading_mode": "paper",
+  "venue": "deribit"
+}
