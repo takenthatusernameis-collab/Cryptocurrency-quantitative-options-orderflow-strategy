@@ -349,9 +349,14 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def prepare_tape(name: str, tape_path: str) -> Dict[str, Any]:
-    """Load one real tape and build bars, signal, toxicities (heavy step)."""
-    snapshot = load_real_orderflow("BTC", orderflow_path=tape_path)
+def prepare_tape(name: str, tape_path: str, *, symbol: str = "BTC") -> Dict[str, Any]:
+    """Load one real tape and build bars, signal, toxicities (heavy step).
+
+    ``symbol`` defaults to ``"BTC"`` so the sealed EVAL-43 numbers are
+    reproducible unchanged; EVAL-45 passes ``symbol="ETH"`` for cross-asset
+    replication (the loader keys the price series on the symbol).
+    """
+    snapshot = load_real_orderflow(str(symbol), orderflow_path=tape_path)
     bars = _build_bars(snapshot, bar_duration_seconds=DEFAULT_BAR_DURATION_SECONDS)
     bar_ends = list(bars["bar_ends_dt"])
     prices = [float(v) for v in bars["bar_closes"]]
@@ -390,6 +395,7 @@ def evaluate_tape(
     prepared: Dict[str, Any],
     cfg: IntegratedConfig,
     sizer: CapacityAwareSizer,
+    symbol: str = "BTC",
 ) -> Dict[str, Any]:
     """Run the pre-declared orderflow-only protocol on one prepared tape."""
     prices = prepared["prices"]
@@ -400,7 +406,7 @@ def evaluate_tape(
         toxicity_threshold=DEFAULT_TOXICITY_THRESHOLD,
     )
     wf_args = dict(
-        symbol="BTC", sizer=sizer, cfg=cfg, n_points=DEFAULT_N_POINTS, seed=SEED,
+        symbol=str(symbol), sizer=sizer, cfg=cfg, n_points=DEFAULT_N_POINTS, seed=SEED,
         max_position_pct=DEFAULT_MAX_POSITION_PCT,
     )
     wf = _run_walkforward(positions=positions, prices=prices, timestamps=timestamps, **wf_args)
@@ -474,6 +480,9 @@ def _build_report(
     tape_results: List[Dict[str, Any]],
     input_resolution: Dict[str, Any],
     protocol: Dict[str, Any],
+    report_id: str = REPORT_ID,
+    symbol: str = "BTC",
+    task_label: str = "EVAL-43-ORDERFLOW-FULL-ROSTER-META",
 ) -> Dict[str, Any]:
     pooled = pooled_verdict(tape_results)
     p_values = {
@@ -485,9 +494,10 @@ def _build_report(
         n_combinations=PBO_N_COMBINATIONS, k_folds=PBO_K_FOLDS, seed=SEED,
     ) if len(tape_results) >= 2 else {"overall_pbo": 0.0, "note": "insufficient tapes"}
     return {
-        "report_id": REPORT_ID,
+        "report_id": report_id,
         "generated_at": generated_at,
-        "task_id": f"INIT-{generated_at}-EVAL-43-ORDERFLOW-FULL-ROSTER-META",
+        "symbol": str(symbol),
+        "task_id": f"INIT-{generated_at}-{task_label}",
         "campaign_state": "TERMINATED (EVAL-36 TERMINATE_NO_GO); EVAL-37 PASS 9/9",
         "verdict": pooled["verdict"],
         "verdict_reason": pooled["verdict_reason"],
@@ -579,6 +589,11 @@ def run_eval43(
     tape_overrides: Optional[Dict[str, str]] = None,
     tapes_spec: Optional[Dict[str, str]] = None,
     blocked_report_id: str = BLOCKED_REPORT_ID,
+    report_id: str = REPORT_ID,
+    symbol: str = "BTC",
+    task_label: str = "EVAL-43-ORDERFLOW-FULL-ROSTER-META",
+    go_min_positive_tapes: int = GO_MIN_POSITIVE_TAPES,
+    go_min_tapes: int = GO_MIN_TAPES,
 ) -> Dict[str, Any]:
     generated_at = _utc_now_iso()
     declared_tapes = dict(tapes_spec if tapes_spec is not None else TAPES)
@@ -602,9 +617,11 @@ def run_eval43(
         "fdr_alpha": float(FDR_ALPHA),
         "seed": int(SEED),
         "go_criteria": (
-            f"orderflow-only net-of-cost Sharpe > 0 on >= {GO_MIN_POSITIVE_TAPES}/"
-            f"{GO_MIN_TAPES} tapes AND no kill-switch breach (max-DD <= {KILL_SWITCH_MAX_DD})"
+            f"orderflow-only net-of-cost Sharpe > 0 on >= {go_min_positive_tapes}/"
+            f"{go_min_tapes} tapes AND no kill-switch breach (max-DD <= {KILL_SWITCH_MAX_DD})"
         ),
+        "go_min_positive_tapes": int(go_min_positive_tapes),
+        "go_min_tapes": int(go_min_tapes),
     }
 
     cfg = IntegratedConfig(
@@ -625,8 +642,10 @@ def run_eval43(
         if not path:
             continue
         try:
-            prepared = prepare_tape(name, path)
-            tape_results.append(evaluate_tape(prepared=prepared, cfg=cfg, sizer=sizer))
+            prepared = prepare_tape(name, path, symbol=symbol)
+            tape_results.append(
+                evaluate_tape(prepared=prepared, cfg=cfg, sizer=sizer, symbol=symbol)
+            )
         except Exception as exc:  # noqa: BLE001 - record and continue (partial)
             errors.append({"tape": name, "error_type": type(exc).__name__, "error": str(exc)})
 
@@ -635,6 +654,9 @@ def run_eval43(
         tape_results=tape_results,
         input_resolution=resolved,
         protocol=protocol,
+        report_id=report_id,
+        symbol=symbol,
+        task_label=task_label,
     )
     report["tape_errors"] = errors
     assert _all_finite(report), "non-finite values in report"
@@ -643,8 +665,8 @@ def run_eval43(
     if write:
         OUT_DIR.mkdir(parents=True, exist_ok=True)
         stamp = _stamp_for_filename(generated_at)
-        jpath = OUT_DIR / f"{REPORT_ID}_{stamp}.json"
-        mpath = OUT_DIR / f"{REPORT_ID}_{stamp}.md"
+        jpath = OUT_DIR / f"{report_id}_{stamp}.json"
+        mpath = OUT_DIR / f"{report_id}_{stamp}.md"
         _write_json(jpath, report)
         mpath.write_text(build_md(report) + "\n", encoding="utf-8")
         artifact_paths = {"json": str(jpath), "md": str(mpath)}
@@ -655,15 +677,23 @@ def run_eval43(
     return report
 
 
-def _seal_blocked(generated_at: str, exc: BaseException) -> Dict[str, str]:
+def _seal_blocked(
+    generated_at: str,
+    exc: BaseException,
+    *,
+    report_id: str = BLOCKED_REPORT_ID,
+    symbol: str = "BTC",
+) -> Dict[str, str]:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     stamp = _stamp_for_filename(generated_at)
-    jpath = OUT_DIR / f"{BLOCKED_REPORT_ID}_{stamp}.json"
-    mpath = OUT_DIR / f"{BLOCKED_REPORT_ID}_{stamp}.md"
+    jpath = OUT_DIR / f"{report_id}_{stamp}.json"
+    mpath = OUT_DIR / f"{report_id}_{stamp}.md"
     report = _build_blocked_report(generated_at, exc)
+    report["report_id"] = str(report_id)
+    report["symbol"] = str(symbol)
     _write_json(jpath, report)
     mpath.write_text(
-        f"# {BLOCKED_REPORT_ID}\n\n- **Generated:** {generated_at}\n"
+        f"# {report_id}\n\n- **Generated:** {generated_at}\n"
         f"- **Error:** {type(exc).__name__}: {exc}\n\n```\n{traceback.format_exc()}\n```\n",
         encoding="utf-8",
     )
@@ -696,7 +726,9 @@ def main(argv: Any = None) -> int:
         report = run_eval43(write=not args.no_write, tape_overrides=overrides or None)
     except Exception as exc:  # noqa: BLE001 - seal a BLOCKED artifact, never silent
         traceback.print_exc()
-        paths = _seal_blocked(generated_at, exc) if not args.no_write else {}
+        paths = _seal_blocked(
+            generated_at, exc, report_id=BLOCKED_REPORT_ID, symbol="BTC"
+        ) if not args.no_write else {}
         print(json.dumps({
             "report_id": BLOCKED_REPORT_ID,
             "verdict": "BLOCKED",
