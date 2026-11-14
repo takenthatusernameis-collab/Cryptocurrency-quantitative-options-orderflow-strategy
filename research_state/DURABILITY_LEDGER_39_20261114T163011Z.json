@@ -1,0 +1,427 @@
+{
+  "authenticity_verified": false,
+  "data_provenance": "real",
+  "generated_at": "2026-11-14T16:35:54Z",
+  "ledger_rows": [
+    {
+      "claim": "Combined IC adverse on sealed real window; combined not net-of-cost tradable; options leg degenerate.",
+      "eval": "EVAL-23",
+      "note": "Original sealed window/tape absent from data/raw. Qualitatively reproduced on re-acquired real window: NO-GO 8/11, failed [options_signal_exists, combined_net_of_cost_superior, options_signal_tradable], options_leg_degenerate=true (sealed rerun REAL_NET_OF_COST_EVAL_23_20261114T162521Z). Not bit/window-level reproduction.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "REAL_NET_OF_COST_EVAL_23_20261114T040000Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "949a5ba6f5afb916ddd14aceaf656fd7db861a7b34254a7fb5686e81adc1fedc",
+        "md_sha256": "4e786a4bf31f9deb3129f83b01379980c20520eaac685c0547a7d4d6bd71aeea"
+      },
+      "verifying_command": "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\" && python3 -m src.analytics.real_net_of_cost_evaluation --data-dir data/raw --out research_state (re-acquired independent window 09:05:22Z->15:33:56Z; not the original sealed tape/window)"
+    },
+    {
+      "claim": "Options leg parity-consistent but not tradable; venue IV/greeks/OI coverage 0%.",
+      "eval": "EVAL-24",
+      "note": "Requires original sealed inputs/context; raw inputs for direct recomputation not fully re-acquirable in identical form.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "OPTIONS_LEG_VALIDITY_24_20261114T041000Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "5b8bd2486567acd12afe827b20595652e8aefa575f41770f55cf805bc681d255",
+        "md_sha256": "05307e28892695514677849db3a47b33d64d56761797aa622b519b843c2e83c7"
+      },
+      "verifying_command": "python3 -m json.tool research_state/OPTIONS_LEG_VALIDITY_24_20261114T041000Z.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "GO additive (real-data falsification; not deployment authorization).",
+      "eval": "EVAL-25",
+      "note": "Sealed inputs only; not recomputed on identical inputs this session.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "REAL_DATA_FALSIFICATION_20261114T025046Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "be13fe330c7e0c82368d0a0b5c8fcca10543da251adecf335f536e801b379a09",
+        "md_sha256": "5b7ff3e2e4515bdb1a1c063a0d6f350e548fd3f7922626f37b64c4544a5ac008"
+      },
+      "verifying_command": "python3 -m json.tool research_state/REAL_DATA_FALSIFICATION_20261114T025046Z.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "Public export acquisition sealed (OKX public read-only; authenticity_verified=false).",
+      "eval": "EVAL-26",
+      "note": "Original acquisition event sealed; a separate later re-acquisition is sealed as PUBLIC_EXPORT_ACQUISITION_20261114T153357Z (EVAL-38 context).",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "PUBLIC_EXPORT_ACQUISITION_20261114T103323Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "344c362d3f831f75b6817ac61d45ab9d7d51ea284387b4842d1091bb0e372b41",
+        "md_sha256": "d09477c71647f96938aa31b1b914166908486fdc70fb31a061f388278e4b836c"
+      },
+      "verifying_command": "python3 -m json.tool research_state/PUBLIC_EXPORT_ACQUISITION_20261114T103323Z.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "Options time-series ingestion NO-GO (insufficient real snapshots).",
+      "eval": "EVAL-27",
+      "note": "Multi-snapshot options series inputs absent (only one real options snapshot in data/raw now); cannot re-run without synthetic fallback (forbidden).",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "OPTIONS_TIMESERIES_INGESTION_27_20261114T064908Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "e66d0bf4e94ef8025ad7887174235fce1a1a1162f192dbcc2ccedf2f66e62453",
+        "md_sha256": "3438e64a77f79af3cb6e35c746a10f206bdd1ffbd01796e7c63ddc45e80fd503"
+      },
+      "verifying_command": "python3 -m json.tool research_state/OPTIONS_TIMESERIES_INGESTION_27_20261114T064908Z.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "Parity calibration GO additive (1017/1017 pairs, min R^2 0.999919).",
+      "eval": "EVAL-28",
+      "note": "Companion sealed artifact OPTIONS_LEG_PARITY_CALIBRATION_28_20261114T093132Z also present; sealed inputs only.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "OPTIONS_LEG_PARITY_CALIBRATION_28_20261114T085233Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "9cca6a6d109d13f6d436baaf2a78cd5c3581fc5af6acba62966ec18b6ee17579",
+        "md_sha256": "233abeacb384afb01a4d445432a7fef2f90d636e808f43bf8572979303cc49db"
+      },
+      "verifying_command": "python3 -m json.tool research_state/OPTIONS_LEG_PARITY_CALIBRATION_28_20261114T085233Z.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "Options leg tradability NO-GO (broadcast-static, mean IC 0.0).",
+      "eval": "EVAL-29",
+      "note": "Mechanism re-confirmed on re-acquired combined re-run: options_alpha IC 0.0 across horizons (REAL_NET_OF_COST_EVAL_23_20261114T162521Z).",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "OPTIONS_LEG_TRADABILITY_29_20261114T093151Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "61e504cb7f4d9a8cafb28e8309998e9742007a950a8d4fd9246e50e7a413c947",
+        "md_sha256": "1b2a73cb5db494c24e4a33a64d7cfaf8095ae47fcfd400b7d83033b7d66e334d"
+      },
+      "verifying_command": "python3 -m json.tool research_state/OPTIONS_LEG_TRADABILITY_29_20261114T093151Z.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "Time-varying options signal NO-GO (ic_mean -0.002957).",
+      "eval": "EVAL-30",
+      "note": "Requires absent multi-snapshot options series inputs for direct recomputation.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "OPTIONS_LEG_TRADABILITY_30_20261114T113051395ZZ",
+      "sealed_artifact_hashes": {
+        "json_sha256": "8b9e5b4c411c00b8901c93676cdb5ef6c597d908190beef508dd0aa1eb4287cc",
+        "md_sha256": "e775a03382fff89ebf90462e5cc310315040ed3bb6ba40c85757773ee311358e"
+      },
+      "verifying_command": "python3 -m json.tool research_state/OPTIONS_LEG_TRADABILITY_30_20261114T113051395ZZ.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "Amended Rule-A fusion GO (marginal; combined OOS Sharpe 0.3016).",
+      "eval": "EVAL-31",
+      "note": "Sealed inputs only; not recomputed on identical inputs this session.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "AMENDED_FUSION_EVAL_31_20261114T114328Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "3d0bb9e673927e1a59fc35ecad217d9ee618133076594bb826e4dc01b934e5c2",
+        "md_sha256": "79a77976488c9710c734c2770ee5b42c490bf6b3651327f9ff5b5e763f3d6272"
+      },
+      "verifying_command": "python3 -m json.tool research_state/AMENDED_FUSION_EVAL_31_20261114T114328Z.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "Held-out validation NO-GO (EVAL-31 fails held-out criteria).",
+      "eval": "EVAL-32",
+      "note": "Sealed inputs only; not recomputed on identical inputs this session.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "EVAL_32_OOS_VALIDATION_20261114T124437Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "95feb93cde8067cd7d88c59203dc25df387e2724c9a9582c6f1685965a6089f1",
+        "md_sha256": "788dfbca045a4230817487ecc7edf1d51b833181b241fdc39d99a0aba16c5243"
+      },
+      "verifying_command": "python3 -m json.tool research_state/EVAL_32_OOS_VALIDATION_20261114T124437Z.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "Options leg carries zero net-of-cost alpha; all options-only variants flat; orderflow-only only non-degenerate control.",
+      "eval": "EVAL-33",
+      "note": "Re-confirmed qualitatively on re-acquired combined re-run (options_alpha IC 0.0; options leg degenerate).",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "OPTIONS_LEG_FALSIFICATION_33_20261114T134105Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "5c438a207bc732921bbf0aaffcbface3dda7d8569fb32e5e85added19c070a08",
+        "md_sha256": "190fee392e2149049cce558de4c9b991e3cdeda0ad2fb298ea4b493222e542d0"
+      },
+      "verifying_command": "python3 -m json.tool research_state/OPTIONS_LEG_FALSIFICATION_33_20261114T134105Z.json >/dev/null && echo SEALED_JSON_OK"
+    },
+    {
+      "claim": "Final consolidated falsification: combined NOT net-of-cost tradable; DEPLOY_ORDERFLOW_ONLY_WITH_CAVEATS (paper-only, invalidated by EVAL-35).",
+      "eval": "EVAL-34",
+      "note": "Aggregation-of-sealed-facts script. Duplicate immutable seal FINAL_STRATEGY_FALSIFICATION_34_20261114T143115Z also exists; _find_artifact picks newest by filename sort. In this checkout, running tests after sealing REAL_NET_OF_COST_EVAL_23_20261114T162521Z caused 1 failure (EVAL-23 expected sealed IC -0.016776209431115855 but _find_artifact selected newest EVAL-23 artifact with IC -0.000258034540635755) and 7 passes; this is an interaction with newly sealed rerun artifact, not modification of sealed EVAL-34. Pin timestamp explicitly when citing.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": true,
+      "sealed_artifact": "FINAL_STRATEGY_FALSIFICATION_34_20261114T135416Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "75bb0ac7e3ddd3eab07f9c32916cecb14dd9017d7c44ca9301cb282d03bb634a",
+        "md_sha256": "2f6d4102efa2577145e11e7e82362fdd26161ce657cb58aa8b5bb4b2f05187bc"
+      },
+      "verifying_command": "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\" && python3 -m pytest -q tests/test_eval34_final_strategy_falsification.py"
+    },
+    {
+      "claim": "Second independent real window replication failure (orderflow-only NO-GO; Sharpe -18.1777, kill-switch breach).",
+      "eval": "EVAL-35",
+      "note": "Its tape data/raw/orderflow_okx_BTC-USD-SWAP_20261114T080515Z.json is absent; 5 tests failed with RealDataUnavailable (missing tape) and 3 passed in this session. Window-level claim replicated by EVAL-38 on a different fresh tape.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": false,
+      "sealed_artifact": "ORDERFLOW_ONLY_SECOND_WINDOW_VALIDATION_35_20261114T144800Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "f0d095482c846f54b93a46289cb61a838e6a4f2c017a4f67061a7b7ae17d408f",
+        "md_sha256": "a1d8c2ae2682f187d6285c67e87afcdfe339a4da78afe07a91efcca660f0dd61"
+      },
+      "verifying_command": "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\" && python3 -m pytest -q tests/test_eval35_orderflow_only_second_window_validation.py"
+    },
+    {
+      "claim": "Final termination memo: campaign TERMINATED (TERMINATE_NO_GO), 11 evidence rows EVAL-23..35.",
+      "eval": "EVAL-36",
+      "note": "Aggregation artifact; targeted tests passed (7 passed) in this session.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": true,
+      "sealed_artifact": "FINAL_TERMINATION_MEMO_36_20261114T145419Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "e05da3950a32bc4344acdaeac7382dc298748a9ca8262ad6c39fa06e17af8d58",
+        "md_sha256": "6ae23e9b5387837767a4ec54641281fac61af02bbd5e1b860780d51dc7ff396c"
+      },
+      "verifying_command": "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\" && python3 -m pytest -q tests/test_eval36_final_termination_memo.py"
+    },
+    {
+      "claim": "Independent post-termination audit PASS 9/9.",
+      "eval": "EVAL-37",
+      "note": "Targeted tests passed (6 passed) in this session. Earlier immutable FAIL artifact FINAL_TERMINATION_AUDIT_37_20261114T151805Z remains as history.",
+      "raw_data_status": "sealed_inputs_only",
+      "reproducible": true,
+      "sealed_artifact": "FINAL_TERMINATION_AUDIT_37_20261114T152849Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "74a1869d62ea5f706e1ded359b0c1d6d1527bd9a455826a09e84011b83a2819c",
+        "md_sha256": "ca5cd7857ea6fd4eeb59abb98802cbdd07407ddebcac34d67c90e5a39220d754"
+      },
+      "verifying_command": "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\" && python3 -m pytest -q tests/test_eval37_final_termination_audit.py"
+    },
+    {
+      "claim": "EVAL-35 orderflow-only NO-GO replicated on independently re-acquired real OKX tape.",
+      "eval": "EVAL-38",
+      "note": "Re-acquired inputs present in data/raw (orderflow_okx_BTC-USD-SWAP.json, options_okx_BTC_20261114T153357Z.json). Prior sealed run recorded 9 passed; this session's pytest run exceeded 120s and was terminated (RC=124) without a completed result, so pass count not re-measured here.",
+      "raw_data_status": "re_acquired_reproduced",
+      "reproducible": true,
+      "sealed_artifact": "EVIDENCE_DURABILITY_REPLICATION_38_20261114T153945Z",
+      "sealed_artifact_hashes": {
+        "json_sha256": "f5acac82352c605350083f90f8ef37346748f7abacb08fc9a265e462960f249a",
+        "md_sha256": "c1bdb08407e87e6d05d0108d136d24b1724b78799595a1c59748b4aa1c96929c"
+      },
+      "verifying_command": "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\" && python3 -m pytest -q tests/test_eval38_evidence_durability_replication.py"
+    }
+  ],
+  "live_trading_enabled": false,
+  "measured": {
+    "adequacy": {
+      "adequate": true,
+      "chain_stats": {
+        "has_mark_iv": 0,
+        "has_stored_delta": 0,
+        "n_calls": 368,
+        "n_contracts": 815,
+        "n_expiries": 14,
+        "n_puts": 447,
+        "n_quotes": 815,
+        "n_strikes": 93,
+        "strike_max": 240000.0,
+        "strike_min": 25000.0
+      },
+      "n_bars": 1555,
+      "n_trades": 77700,
+      "options_adequate": true,
+      "options_min_expiries": 2,
+      "options_min_quotes": 8,
+      "options_min_strikes": 5,
+      "orderflow_adequate": true,
+      "orderflow_min_bars": 400,
+      "orderflow_min_trades": 1000
+    },
+    "authenticity_verified": false,
+    "bars": {
+      "bar_duration_seconds": 15.0,
+      "end_timestamp": "2026-11-14T15:33:56.432000Z",
+      "n_bars": 1555,
+      "n_trades_total": 77700,
+      "start_timestamp": "2026-11-14T09:05:22.330000Z"
+    },
+    "combined_alpha": {
+      "horizons": [
+        1,
+        5,
+        20
+      ],
+      "ic_bootstrap_ci": {
+        "hi": 0.06277110527502716,
+        "lo": -0.03871497585893343,
+        "point": -0.0002580345406357545
+      },
+      "ic_by_horizon": {
+        "1": -0.03871497585893343,
+        "20": 0.06277110527502716,
+        "5": -0.024830233038000995
+      },
+      "ic_mean": -0.0002580345406357545,
+      "ic_std": 0.04492735521726636,
+      "ic_tstat": -0.009947813138064721,
+      "n_horizons": 3
+    },
+    "combined_wf": {
+      "num_trades": 245,
+      "num_windows": 36,
+      "oos_ann_vol": 1.5604120031638353,
+      "oos_max_drawdown": 0.20840906300699194,
+      "oos_return": 3.3457892187641125,
+      "oos_sharpe": 7.456068789210498,
+      "total_cost_usd": 420.796502186476
+    },
+    "command": "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\" && python3 -m src.analytics.real_net_of_cost_evaluation --data-dir data/raw --out research_state",
+    "data_provenance": "real",
+    "evidence_matrix": {
+      "authenticity_verified": false,
+      "causal_no_lookahead": true,
+      "data_provenance": "real",
+      "live_trading_enabled": false,
+      "n_bars": 1555,
+      "n_expiries": 14,
+      "n_options_contracts": 815,
+      "n_options_quotes": 815,
+      "n_strikes": 93,
+      "n_trades": 77700,
+      "never_synthetic": true,
+      "now_used": "2026-11-14T15:33:56.432000Z",
+      "orderflow_symbol": "BTC",
+      "paper_only": true,
+      "real_options_loaded": true,
+      "real_orderflow_loaded": true,
+      "spot_used": 65136.1,
+      "venue": "okx"
+    },
+    "failed_checks": [
+      "options_signal_exists",
+      "combined_net_of_cost_superior",
+      "options_signal_tradable"
+    ],
+    "flat_wf": {
+      "num_trades": 0,
+      "num_windows": 36,
+      "oos_max_drawdown": 0.0,
+      "oos_return": 0.0,
+      "oos_sharpe": 0.0,
+      "total_cost_usd": 0.0
+    },
+    "generated_at": "2026-11-14T16:25:21Z",
+    "input_shas": {
+      "options": {
+        "path": "data/raw/options_okx_BTC_20261114T153357Z.json",
+        "sha256": "96b2e196811a798237d2506f115c26b36dad4569262ebf7f90f662eafe77f1a1"
+      },
+      "orderflow": {
+        "path": "data/raw/orderflow_okx_BTC-USD-SWAP.json",
+        "sha256": "fa9e43b8edeeeace7b7c551b23158aa68778dbf3909898f7e629da843baa43b6"
+      }
+    },
+    "n_checks": 11,
+    "n_passed": 8,
+    "never_valid_true": true,
+    "options_alpha": {
+      "horizons": [
+        1,
+        5,
+        20
+      ],
+      "ic_bootstrap_ci": {
+        "hi": 0.0,
+        "lo": 0.0,
+        "point": 0.0
+      },
+      "ic_by_horizon": {
+        "1": 0.0,
+        "20": 0.0,
+        "5": 0.0
+      },
+      "ic_mean": 0.0,
+      "ic_std": 0.0,
+      "ic_tstat": 0.0,
+      "n_horizons": 3
+    },
+    "options_leg_degenerate": true,
+    "options_only_wf": {
+      "num_trades": 589,
+      "num_windows": 36,
+      "oos_ann_vol": 1.8428448259111785,
+      "oos_max_drawdown": 0.17060125080098731,
+      "oos_return": 5.113340827499302,
+      "oos_sharpe": 7.8933794326469275,
+      "total_cost_usd": 666.7463847061821
+    },
+    "orderflow_alpha": {
+      "horizons": [
+        1,
+        5,
+        20
+      ],
+      "ic_bootstrap_ci": {
+        "hi": 0.08852662007469232,
+        "lo": 0.013204189267149178,
+        "point": 0.041875591020595127
+      },
+      "ic_by_horizon": {
+        "1": 0.01320418926714918,
+        "20": 0.08852662007469232,
+        "5": 0.023895963719943868
+      },
+      "ic_mean": 0.041875591020595127,
+      "ic_std": 0.03327478919634727,
+      "ic_tstat": 2.1797478810957527,
+      "n_horizons": 3
+    },
+    "orderflow_only_wf": {
+      "num_trades": 540,
+      "num_windows": 36,
+      "oos_ann_vol": 2.055778319441474,
+      "oos_max_drawdown": 0.6896679484983017,
+      "oos_return": -0.28870551097518415,
+      "oos_sharpe": -0.1381833092643456,
+      "total_cost_usd": 635.9431820718213
+    },
+    "permutation": {
+      "alternative": "two-sided",
+      "n_permutations": 1000,
+      "null_mean": 0.0005672543088086395,
+      "observed_difference": -0.11266600582057909,
+      "p_value": 0.000999000999000999,
+      "paired": true,
+      "significant_at_05": true,
+      "statistic_a": -0.07752442996742671,
+      "statistic_b": 0.03514157585315237
+    },
+    "rerun_artifact_json": "research_state/REAL_NET_OF_COST_EVAL_23_20261114T162521Z.json",
+    "rerun_artifact_json_sha256": "02d46051ade24fc89fcbc920f9483edc184ad4a8ca75ac5954eeb68c7ef49457",
+    "rerun_artifact_md": "research_state/REAL_NET_OF_COST_EVAL_23_20261114T162521Z.md",
+    "rerun_artifact_md_sha256": "403c06eedcdfa5bbc0622c5932902260afad19ef27ca4ad5991cd1ca68edbf6f",
+    "verdict": "NO-GO"
+  },
+  "never_valid_true": true,
+  "provenance_notes": {
+    "bottleneck_10": "Only one real orderflow and one real options export in data/raw plus synthetic fixtures; absent prior tapes/multi-snapshot series -> many rows sealed_inputs_only.",
+    "bottleneck_7": "EVAL-34 aggregation-only; rerun target is src.analytics.real_net_of_cost_evaluation (no hardcoded window).",
+    "bottleneck_8": "Do not use src.campaign.integrated or src.analytics.integrated_options_orderflow_evaluation for EVAL-39 reruns (synthetic-preferring loaders).",
+    "bottleneck_9": "Duplicate EVAL-34 seals: ...135416Z and ...143115Z both exist; _find_artifact selects newest by filename sort so pin timestamp explicitly.",
+    "env_dotenv_absent": true,
+    "head_at_rerun": "6623db02f"
+  },
+  "report_id": "DURABILITY_LEDGER_39_20261114T163011Z",
+  "task_id": "INIT-2026-11-14T16:20:00Z-EVAL-39-DURABILITY-CROSS-CHECK",
+  "trading_mode": "paper",
+  "verdict": "REPLICATION",
+  "verdict_rationale": "Re-run of real_net_of_cost_evaluation on re-acquired real OKX data (independent window 09:05:22Z->15:33:56Z) reproduces the sealed non-tradable failure signature: NO-GO 8/11 with failed [options_signal_exists, combined_net_of_cost_superior, options_signal_tradable] and options_leg_degenerate=true. This is a qualitative/window-level replication of EVAL-23 non-tradability, not a bit-level reproduction of the original sealed window (which is absent). Campaign remains TERMINATED (EVAL-36).",
+  "verification_summary": {
+    "eval34_tests": "7 passed, 1 failed (tests/test_eval34_final_strategy_falsification.py::test_consolidated_table_extracts_correct_measured_numbers) due to _find_artifact selecting newest EVAL-23 rerun artifact (REAL_NET_OF_COST_EVAL_23_20261114T162521Z) instead of sealed 040000Z; interaction from newly sealed artifact.",
+    "eval35_tests": "3 passed, 5 failed (RealDataUnavailable: missing data/raw/orderflow_okx_BTC-USD-SWAP_20261114T080515Z.json).",
+    "eval36_tests": "7 passed.",
+    "eval37_tests": "6 passed.",
+    "eval38_tests": "Prior sealed record 9 passed; this session pytest run exceeded 120s and terminated RC=124 (no completed count)."
+  }
+}

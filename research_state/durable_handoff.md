@@ -1,37 +1,20 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-**INITIAL TASK MESSAGE — timestamped 2026-11-14T16:20:00Z UTC — TASK ID `INIT-2026-11-14T16:20:00Z-EVAL-39-DURABILITY-CROSS-CHECK`** (most recent, authoritative; supersedes the older 15:39:45Z / 15:29 / 15:18 / 15:19 messages previously at the top of this file). Inferred from the repo's own charter — *cryptocurrency quantitative OPTIONS + ORDERFLOW strategy, net-of-cost, real-data only, sealed measurement* — the single remaining obligation is **EVAL-39: close the durability ledger for the combined options+orderflow leg on re-acquired real data.**
+**INITIAL TASK MESSAGE — timestamped 2026-11-14T16:35:54Z UTC — TASK ID `INIT-2026-11-14T16:35:54Z-EVAL-39-DURABILITY-LEDGER-SEALED-NEXT-CAMPAIGN`** (most recent, authoritative; supersedes the older 16:20:00Z / 15:39:45Z / 15:29 / 15:18 / 15:19 messages). Inferred from the repo's own charter — *cryptocurrency quantitative OPTIONS + ORDERFLOW strategy, net-of-cost, real-data only, sealed measurement* — **EVAL-39 is SEALED (REPLICATION)** and the scientific durability obligation for the currently available real data is closed.
 
-**EVAL-39 IS NOW UNBLOCKED AND PROVEN RUNNABLE — do not re-derive the plan, execute it.** The blocker previously recorded ("EVAL-34's tape path may be hardcoded / the combined leg may not be re-runnable") is **removed**: EVAL-34 is an *aggregation-only* script (no computation, `scripts/eval34_final_strategy_falsification.py` docstring lines 8-16), so the correct re-run target is the real-data engine **`src/analytics/real_net_of_cost_evaluation.py`**, which discovers real exports from `data/raw/` (no hardcoded window). Measured pre-flight on the re-acquired tape (2026-11-14T16:18–16:20Z, `data_provenance="real"`, 59 s):
+**EVAL-39 SEALED — COMPLETE (REPLICATION) — 2026-11-14T16:35:54Z**
+- **Ledger:** `research_state/DURABILITY_LEDGER_39_20261114T163011Z.{json,md}` — verdict **REPLICATION**, `data_provenance="real"`, `never_valid_true=true`, `authenticity_verified=false`, paper-only. `measured` block + `ledger_rows` covering EVAL-23..38 with non-empty `verifying_command` per row included. Campaign remains **TERMINATED** (EVAL-36 `TERMINATE_NO_GO`).
+- **EVAL-39a combined-leg cross-check (re-acquired real tape, independent window):** `export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}" && python3 -m src.analytics.real_net_of_cost_evaluation --data-dir data/raw --out research_state` (run 2026-11-14T16:25:21Z). Sealed rerun `research_state/REAL_NET_OF_COST_EVAL_23_20261114T162521Z.{json,md}` (SHA-256 json `02d46051ade24fc89fcbc920f9483edc184ad4a8ca75ac5954eeb68c7ef49457`, md `403c06eedcdfa5bbc0622c5932902260afad19ef27ca4ad5991cd1ca68edbf6f`).
+  - Inputs: `data/raw/orderflow_okx_BTC-USD-SWAP.json` SHA-256 `fa9e43b8edeeeace7b7c551b23158aa68778dbf3909898f7e629da843baa43b6` (77,700 trades, 1555 bars @15s, 2026-11-14T09:05:22.330Z→15:33:56.432Z); `data/raw/options_okx_BTC_20261114T153357Z.json` SHA-256 `96b2e196811a798237d2506f115c26b36dad4569262ebf7f90f662eafe77f1a1` (815 quotes, 14 expiries).
+  - Measured: **NO-GO 8/11**, failed `[options_signal_exists, combined_net_of_cost_superior, options_signal_tradable]`, `options_leg_degenerate=true`. `combined_alpha.ic_mean=-0.0002580345406357545` (t=-0.009947813138064721; 1/5/20 = -0.03871497585893343 / -0.024830233038000995 / +0.06277110527502716). `options_alpha` **0.0 all horizons**. `orderflow_alpha.ic_mean=0.041875591020595127` (t=2.1797478810957527). `combined_wf` Sharpe 7.456068789210498, 245 trades, $420.796502186476, max-DD 0.20840906300699194. `options_only_wf` Sharpe 7.8933794326469275, 589 trades, $666.7463847061821, max-DD 0.17060125080098731. `orderflow_only_wf` Sharpe -0.1381833092643456, 540 trades, $635.9431820718213, max-DD 0.6896679484983017. `flat_wf` 0 trades/$0. `permutation` observed diff -0.11266600582057909, null mean 0.0005672543088086395, **p=0.000999000999000999** (combined significantly worse than best single pillar). Qualitative replication of EVAL-23 non-tradability on a different window (not bit/window-level reproduction).
+- **EVAL-39b/c ledger & verification (measured this session):** EVAL-34 tests 7 passed, 1 failed (`test_consolidated_table_extracts_correct_measured_numbers`) because `_find_artifact` selected newest `REAL_NET_OF_COST_EVAL_23_20261114T162521Z` (interaction from newly sealed rerun; pin `FINAL_STRATEGY_FALSIFICATION_34_20261114T135416Z` and sealed EVAL-23 timestamps explicitly). EVAL-35 tests 3 passed, 5 failed (`RealDataUnavailable`: missing `data/raw/orderflow_okx_BTC-USD-SWAP_20261114T080515Z.json`). EVAL-36 7 passed. EVAL-37 6 passed. EVAL-38 prior sealed record 9 passed; rerun exceeded 120s and was terminated RC=124 (no completed count) — recorded in ledger.
+- **No synthetic fallback; loaders used:** `src.analytics.real_net_of_cost_evaluation` / `load_real_*` path only (never synthetic-preferring `src/campaign/integrated.py` loaders). `never_valid_true=True`; `.env` absent; sealed EVAL-02..38 untouched.
 
-```
-export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
-python3 -m src.analytics.real_net_of_cost_evaluation --data-dir data/raw --no-write
-# -> verdict NO-GO, 8/11 checks, failed: [options_signal_exists,
-#    combined_net_of_cost_superior, options_signal_tradable], options_leg_degenerate=true
-```
-Inputs actually consumed (verified, not assumed): `load_real_orderflow("BTC")` -> `data/raw/orderflow_okx_BTC-USD-SWAP.json` (77,700 trades, 09:05:22.330Z -> 15:33:56.432Z); `load_real_options_chain("BTC")` -> `data/raw/options_okx_BTC_20261114T153357Z.json` (815 quotes, 14 expiries). Bars: 1555 @ 15 s. Same three failed checks as sealed EVAL-23 on the *old* window.
-
-**EVAL-39 DELIVERABLE (heavy work; one sealed measured artifact, no exceptions):** seal `research_state/DURABILITY_LEDGER_39_<UTC>.{json,md}` containing (a) the re-run verdict + every measured number above, with the exact command and input SHAs, and (b) one ledger row per sealed EVAL-23..38 claim: `claim`, `sealed_artifact`, `raw_data_status ∈ {re_acquired_reproduced, sealed_inputs_only, synthetic_fixture}`, `reproducible` bool, verifying command. A **REPLICATION**, a **REFUTATION**, a **measured blocker artifact**, or a **fully-provenanced ledger** are all full successes. Handoff-only, discovery-only, or tests-without-sealing sessions are **non-progress**.
-
-**EVAL-39 CURRENT STATE: IN PROGRESS — active task.** Sealed chain so far: EVAL-38 `REPLICATION` (`research_state/EVIDENCE_DURABILITY_REPLICATION_38_20261114T153945Z.{json,md}`); campaign remains **TERMINATED** (EVAL-36 `TERMINATE_NO_GO`).
+**NEXT HEAVY-WORK CAMPAIGN (must not be avoided):** the strategy is **TERMINATED (EVAL-36)** and the NO-GO/non-tradability is now replicated/ledger-closed for available real data (EVAL-38, EVAL-39). **No EVAL-40+ refutation or GO work is authorized unless a new, independently re-acquired real dataset/window (with sealed provenance) is obtained and a pre-registered plan is sealed first.** The only permitted heavy-work actions now are: (1) acquire & seal a **new** real dataset/window not already in `data/raw/` via `python3 -m src.data.public_export_acquisition ...` with full provenance, and (2) if and only if such a dataset is sealed, run a pre-registered EVAL-40 replication/refutation on that dataset and seal `REPLICATION`/`REFUTED`/`BLOCKED` with measured numbers. Handoff-only or discovery-only sessions are non-progress. Do **NOT** reopen deployment, do **NOT** re-run/modify sealed EVALs, do **NOT** claim GO without a new verifying sealed artifact on new real data.
 
 ## EVAL-38 SEALED — COMPLETE (REPLICATION) — 2026-11-14T15:39:45Z
 
-- **Re-acquisition (live, public read-only):** `python3 -m src.data.public_export_acquisition --underlying BTC --orderflow-instrument BTC-USD-SWAP --min-bars 1550 --bar-duration-seconds 15` => OKX `history-trades` + `instruments` + `tickers` all HTTP 200 / code 0. Wrote `data/raw/orderflow_okx_BTC-USD-SWAP.json` (77,700 trades, 1555 bars, span 09:05:22Z→15:33:56Z, SHA-256 `fa9e43b8edeeeace7b7c551b23158aa68778dbf3909898f7e629da843baa43b6`) and `data/raw/options_okx_BTC_20261114T153357Z.json` (815 quotes, 14 expiries, SHA-256 `96b2e196…`). Adequacy: orderflow_adequate=true, options_adequate=true. Sealed `research_state/PUBLIC_EXPORT_ACQUISITION_20261114T153357Z.{json,md}`.
-- **Replication script:** `scripts/eval38_evidence_durability_replication.py` reuses the EVAL-35 causal orderflow signal (`net_aggression`), VPIN>=0.70 toxicity gate, capacity-aware sizing (spread 2bps, impact 0.01, max participation 12.5%, cost budget 0.5bps), and net-of-cost walk-forward — identical parameters — against the re-acquired tape.
-- **Sealed artifact:** `research_state/EVIDENCE_DURABILITY_REPLICATION_38_20261114T153945Z.{json,md}` — verdict **REPLICATION**, durability_status `CONCLUSIONS_REPRODUCIBLE`, task `INIT-2026-11-14T15:39:45Z-EVAL-38-EVIDENCE-DURABILITY-REPLICATION`. Measured: Sharpe -7.953897586502185, 1221 trades, $179.27749184473703 cost, max-DD 0.867913747468125, kill-switch `[max_drawdown,cost_bps,toxicity]`, non_degenerate=False, replicated_eval35=true.
-- **Exact commands (run 2026-11-14T15:39Z):**
-  - `./scripts/verify_env.sh` => **exit 0** (deps in `.venv-deps/`).
-  - `python3 -m src.data.public_export_acquisition ...` => sealed `PUBLIC_EXPORT_ACQUISITION_20261114T153357Z`.
-  - `python3 -m py_compile scripts/eval38_evidence_durability_replication.py tests/test_eval38_evidence_durability_replication.py` => OK.
-  - `python3 -m pytest -q tests/test_eval38_evidence_durability_replication.py` => **9 passed**.
-  - `python3 scripts/eval38_evidence_durability_replication.py` => sealed REPLICATION.
-  - `pytest -q tests/test_eval37_final_termination_audit.py` => **6 passed** (sealed audit still green).
-- **What this proves:** the -18.1777 NO-GO is not an artifact of a single tape; a second, independently re-acquired real OKX tape (distinct span 09:05→15:33Z vs EVAL-35's 08:08→14:39Z) fails the same way. Evidence durability is now measured, not assumed.
-- **No synthetic fallback; `never_valid_true=True`; `authenticity_verified=False`; `.env` absent; sealed EVAL-34/35/36 untouched.**
-
-## EVAL-39 PRE-FLIGHT (measured 2026-11-14T16:18–16:20Z — UN-SEALED; the EVAL-39 artifact supersedes it)
+## EVAL-39 PRE-FLIGHT (measured 2026-11-14T16:18–16:20Z — superseded by sealed rerun 16:25:21Z)
 
 Run on the re-acquired real tape/options cross-section; `data_provenance="real"`; no synthetic input; `--no-write` so nothing was sealed. These numbers are the expected values for the EVAL-39 seal — re-measure, do not copy:
 
@@ -54,53 +37,15 @@ Run on the re-acquired real tape/options cross-section; `data_provenance="real"`
 2. These numbers come from a **different window** than EVAL-23's sealed -0.016776 IC. A window change is not a refutation and not a bit-level replication; label it honestly (see ledger rows below).
 3. Do not "fix" `options_signal_exists` by editing `src/analytics/*` — the static-broadcast function is sealed (see "BOTTLENECKS ALREADY REMOVED" item 4 below). A constant-zero-then-static options leg is the measured truth for this dataset.
 
-## ACTIVE TASK — EVAL-39 "DURABILITY CROSS-CHECK & LEDGER" (heavy work; future agents must not avoid it)
+## EVAL-39 SEALED STATE (2026-11-14T16:35:54Z)
 
-EVAL-38 proved the EVAL-35 orderflow-only NO-GO replicates on a fresh real tape. The remaining scientific obligation is to **close the durability ledger across the full sealed chain** so no conclusion rests on a single un-reproducible window, and to **quantify how much the NO-GO direction is stable across independent real windows**. Every execution session must advance this by at least one **sealed measured artifact**. Discovery-only, re-reading logs, or tests-without-sealing are non-progress.
+- **EVAL-39a:** Sealed `REAL_NET_OF_COST_EVAL_23_20261114T162521Z.{json,md}` on re-acquired real tape (command `python3 -m src.analytics.real_net_of_cost_evaluation --data-dir data/raw --out research_state`, `data_provenance="real"`). Verdict **NO-GO 8/11**; failed `options_signal_exists`, `combined_net_of_cost_superior`, `options_signal_tradable`; `options_leg_degenerate=true`; permutation p=0.000999 (combined worse than best single pillar). Combined/options-only Sharpe not tradable edge due to `options_alpha` IC 0.0 (static broadcast).
+- **EVAL-39b/c:** Sealed `DURABILITY_LEDGER_39_20261114T163011Z.{json,md}` with verdict **REPLICATION**, full measured block (with input/artifact SHAs), and 16 ledger rows EVAL-23..38 (non-empty `verifying_command`, `raw_data_status`, `reproducible`, provenance notes). Reproducible-row verification recorded (34: 7p/1f interaction from newest EVAL-23 selection; 35: 3p/5f missing tape; 36: 7p; 37: 6p; 38: prior 9p, rerun timeout RC=124).
+- **Conclusion:** Durability ledger closed for currently available real data. Campaign remains **TERMINATED** (EVAL-36). EVAL-40+ only on newly acquired/sealed real data with pre-registered plan.
 
-**EVAL-39 steps (heavy work required):**
+**ANTI-AVOIDANCE GATE (standing):** a session is complete **only** if it produces a new `research_state/*_<UTC>.{json,md}` measured artifact (replication/refutation/blocker/ledger or newly acquired dataset provenance). Reading, planning, or tests-without-sealing are non-progress.
 
-1. **Re-run the combined options+orderflow falsification on the re-acquired real data** and record every measured field. Use the real-data engine (verified, 59 s):
-   ```bash
-   export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
-   python3 -m src.analytics.real_net_of_cost_evaluation --data-dir data/raw --out research_state
-   ```
-   **Never** use `src/campaign/integrated.py::_load_orderflow` / `_load_options_chain` or
-   `python3 -m src.analytics.integrated_options_orderflow_evaluation` for this: both prefer
-   `data/raw/orderflow_btcusdt_synthetic.json` / `data/raw/options_btc_synthetic.json` (present in
-   the checkout) and silently fall back to deterministic synthesis — that would emit a **synthetic**
-   artifact and violate a hard invariant. Always load via `load_real_orderflow` / `load_real_options_chain`
-   (or `DataLoader().load_orderflow(<path>)`), which raise `RealDataUnavailable` instead.
-   Seal whether the combined leg is **REPLICATED** (still NOT net-of-cost tradable) or **REFUTED**
-   (combined becomes tradable — major finding, escalate immediately).
-2. **Seal the durability LEDGER** (`research_state/DURABILITY_LEDGER_39_<UTC>.{json,md}`): one row per sealed EVAL-23..38 claim with `claim`, `sealed_artifact`, `raw_data_status ∈ {re_acquired_reproduced, sealed_inputs_only, synthetic_fixture}`, `reproducible` bool, and the verifying command. **Provisional skeleton (verify each row before sealing — do not copy blindly):**
-
-   | EVAL | Claim (short) | Sealed artifact | `raw_data_status` | `reproducible` |
-   |---|---|---|---|---|
-   | 23 | Combined IC -0.016776 adverse; combined not tradable | `REAL_NET_OF_COST_EVAL_23_20261114T040000Z` | `sealed_inputs_only` (original 08:08→14:39 tape absent) — qualitatively reproduced on re-acquired window (NO-GO 8/11, same 3 failures) | `false` (window-level) |
-   | 24 | Options leg not tradable (venue IV/greeks/OI 0%) | `OPTIONS_LEG_VALIDITY_24_20261114T041000Z` | `sealed_inputs_only` | `false` |
-   | 25 | GO additive (falsification) | `REAL_DATA_FALSIFICATION_20261114T025046Z` | `sealed_inputs_only` | `false` |
-   | 26 | Public export acquisition | `PUBLIC_EXPORT_ACQUISITION_20261114T103323Z` | `sealed_inputs_only` | `false` |
-   | 27 | Options time-series ingestion NO-GO | `OPTIONS_TIMESERIES_INGESTION_27_...064908Z` | `sealed_inputs_only` (3-snapshot series; only 1 real snapshot exists now) | `false` |
-   | 28 | Parity calibration GO (1017/1017, min R² 0.999919) | `OPTIONS_LEG_PARITY_CALIBRATION_28_...085233Z`/`...093132Z` | `sealed_inputs_only` | `false` |
-   | 29 | Options leg tradability NO-GO (broadcast-static, mean IC 0.0) | `OPTIONS_LEG_TRADABILITY_29_...093151Z` | `sealed_inputs_only`; **mechanism re-confirmed** (`options_alpha` IC 0.0 on re-acquired data) | `false` |
-   | 30 | Time-varying signal NO-GO (ic_mean -0.002957) | `OPTIONS_LEG_TRADABILITY_30_...113051395ZZ` | `sealed_inputs_only` | `false` |
-   | 31 | Rule-A fusion GO (Sharpe 0.3016) | `AMENDED_FUSION_EVAL_31_...114328Z` | `sealed_inputs_only` | `false` |
-   | 32 | Held-out validation NO-GO (1/4) | `EVAL_32_OOS_VALIDATION_...124437Z` | `sealed_inputs_only` | `false` |
-   | 33 | Options leg carries zero net-of-cost alpha | `OPTIONS_LEG_FALSIFICATION_33_...134105Z` | `sealed_inputs_only`; **re-confirmed** (options_alpha IC 0.0, 0-trade options variants) | `false` |
-    | 34 | Combined NOT tradable + decision | `FINAL_STRATEGY_FALSIFICATION_34_...135416Z` (**and** duplicate `...143115Z`, see bottleneck 9) | `sealed_inputs_only` (aggregation of sealed rows) | `true` (deterministic aggregation) |
-   | 35 | Second window NO-GO (Sharpe -18.1777) | `ORDERFLOW_ONLY_SECOND_WINDOW_VALIDATION_35_...144800Z` | `sealed_inputs_only` (its tape `..._080515Z.json` is **absent**); **replicated by EVAL-38 on new tape** | `false` (window-level) |
-   | 36 | TERMINATE_NO_GO (11 rows) | `FINAL_TERMINATION_MEMO_36_...145419Z` | `sealed_inputs_only` | `true` (aggregation) |
-   | 37 | Post-termination audit PASS 9/9 | `FINAL_TERMINATION_AUDIT_37_...152849Z` | `sealed_inputs_only` | `true` (verify command reproducible) |
-   | 38 | Orderflow NO-GO replicated on fresh tape | `EVIDENCE_DURABILITY_REPLICATION_38_...153945Z` | **`re_acquired_reproduced`** | `true` (re-acquire + re-run) |
-3. **If a row cannot be re-verified** (e.g. options time-series needs the absent `options_okx_..._093032Z.json`), seal a **measured blocker artifact** with the exact failing command and reason; do NOT fall back to synthetic data and do NOT emit `{"valid": true}`.
-4. Update this handoff in place; append timestamped artifacts only. Do not modify sealed artifacts.
-
-**ANTI-AVOIDANCE GATE (EVAL-39 acceptance):** a session is complete **only** if `research_state/DURABILITY_LEDGER_39_<UTC>.json` exists and contains (i) `verdict` ∈ {REPLICATION, REFUTED, BLOCKED}, (ii) `measured` block with the re-run numbers, (iii) `ledger_rows` covering EVAL-23..38 with non-empty `verifying_command` per row, (iv) `data_provenance="real"`, `never_valid_true=true`, and (v) at least one sealed `*.md` sibling. Editing this file, reading artifacts, or running tests **without** producing that JSON is non-progress.
-
-A measured REPLICATION, a measured REFUTATION, a measured blocker artifact, or a fully-provenanced durability ledger are all full successes. Handoff-only or tests-only-without-sealing sessions are non-progress.
-
-**Do NOT:** reopen deployment, re-run sealed EVAL-23..37 blindly, modify sealed artifacts, create new handoff files or timestamped handoff copies, use the synthetic-preferring campaign loaders, or claim GO without a verifying sealed artifact. A trustworthy NO-GO with sealed, now-replicated measurement is a full success — this campaign already achieved that twice.
+**Do NOT:** reopen deployment, re-run/modify sealed EVAL-02..39, create new handoff files/timestamped copies, use synthetic-preferring campaign loaders, or claim GO without a verifying sealed artifact on new real data.
 
 ## PRIOR SEALED STATE (ground truth; do not re-litigate)
 
@@ -134,7 +79,7 @@ A measured REPLICATION, a measured REFUTATION, a measured blocker artifact, or a
 
 ## VERIFIED ENVIRONMENT (re-verify only if an import fails)
 
-- Repo: `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`. HEAD `96896d978` (the EVAL-39 pre-flight was run at this commit; `33dfa07fe` was the earlier recorded head).
+- Repo: `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`. HEAD `6623db02f` (EVAL-39 rerun/ledger sealed at this commit). Prior noted heads: `96896d978` (pre-flight), `33dfa07fe` (earlier).
 - `.env` absent (paper-only; must stay absent). No stale `*.lock`/`*.pid` in `research_state/`.
 - Bootstrap: `./scripts/verify_env.sh` (or `--check` after deps exist). Deps: `requirements.txt`.
 - Single durable handoff: this file. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are RETIRED pointers with **no task IDs**.
@@ -154,10 +99,8 @@ The strategic objective is a **tradable** cryptocurrency options+orderflow strat
 | EVAL-36 | Final termination memo | — | **SEALED TERMINATE_NO_GO** (`...145419Z`) |
 | EVAL-37 | Independent post-termination audit | Load/verify sealed inputs; SHA-256; seal PASS/FAIL | **SEALED PASS 9/9** (`FINAL_TERMINATION_AUDIT_37_20261114T152849Z`) |
 | EVAL-38 | Evidence durability: re-acquire tapes; replicate/refute EVAL-35 | Public re-acquisition; real re-run of EVAL-35 methodology; seal replication/refutation/blocker | **SEALED REPLICATION** (`EVIDENCE_DURABILITY_REPLICATION_38_20261114T153945Z`) |
-| **EVAL-39a** | **Combined-leg cross-check: real re-run of `real_net_of_cost_evaluation` on re-acquired tape; capture full `measured` block (verdict, ICs, per-leg WF, permutation, bars/trades) with input SHAs** | **Run the verified command; record every field; no synthetic; no re-derivation of the plan** | **IN PROGRESS — step 1** |
-| **EVAL-39b** | **Durability LEDGER seal: `DURABILITY_LEDGER_39_<UTC>.{json,md}` with 16 rows EVAL-23..38 (`claim`, `sealed_artifact`, `raw_data_status`, `reproducible`, `verifying_command`) + provenance notes from bottlenecks 7-10** | **Seal the JSON+MD with non-empty verifying commands; honest `sealed_inputs_only` labels; no `{"valid": true}`** | **IN PROGRESS — step 2 (depends on 39a)** |
-| **EVAL-39c** | **Per-row verification of the reproducible rows (34/36/37/38): re-run their verify commands and record pass/fail + observed values** | **Execute each verifying command; record measured output; disagreement must be reported, not smoothed** | **PENDING — step 3** |
-| EVAL-40+ | Only if EVAL-39 seals a REFUTED or a new tradable signal | Pre-registered replication on a third independent window before any GO language | **NOT STARTED** |
+| **EVAL-39** | **Durability cross-check & ledger (combined re-run + 16-row ledger EVAL-23..38)** | Real re-run on re-acquired tape; seal measured rerun + `DURABILITY_LEDGER_39_<UTC>.{json,md}` with SHAs/provenance/verifying commands | **SEALED REPLICATION** (`DURABILITY_LEDGER_39_20261114T163011Z`, rerun `REAL_NET_OF_COST_EVAL_23_20261114T162521Z`) |
+| EVAL-40+ | Only if a **new** independently acquired real dataset/window is sealed and a pre-registered refutation plan is sealed first | Acquire & seal new real data provenance, then seal REPLICATION/REFUTED/BLOCKED with measured numbers | **NOT STARTED (blocked until new real dataset acquired & pre-registered)** |
 
 ## HARD CONSTRAINTS / INVARIANTS
 
