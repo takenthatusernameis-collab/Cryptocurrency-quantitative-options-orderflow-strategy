@@ -281,6 +281,109 @@ def _load_options_chain(symbol: str, spot: float, now: datetime, venue: str) -> 
     return OptionsChain(underlying=symbol, venue=venue, quotes=quotes, timestamp=now)
 
 
+class RealDataUnavailable(RuntimeError):
+    """No real (non-synthetic) export exists for the requested symbol."""
+
+
+def _normalized_symbol_token(value: str) -> str:
+    return str(value or "").upper().replace("-", "").replace("_", "").replace("/", "")
+
+
+def _symbol_matches(file_symbol: str, symbol: str) -> bool:
+    file_token = _normalized_symbol_token(file_symbol)
+    symbol_token = _normalized_symbol_token(symbol)
+    return bool(file_token and symbol_token and (symbol_token in file_token or file_token in symbol_token))
+
+
+def _discover_real_orderflow_exports(
+    symbol: str, data_raw: Path | str = Path("data/raw")
+) -> List[tuple[Path, str]]:
+    """Return non-synthetic orderflow exports whose filename matches ``symbol``."""
+    root = Path(data_raw)
+    if not root.exists():
+        return []
+    out: List[tuple[Path, str]] = []
+    for path in sorted(root.glob("orderflow_*.json")):
+        lowered = path.name.lower()
+        if "synthetic" in lowered:
+            continue
+        parts = path.stem.split("_")
+        if len(parts) < 3:
+            continue
+        venue = parts[1].strip()
+        file_symbol = parts[2].strip()
+        if not venue or not _symbol_matches(file_symbol, symbol):
+            continue
+        out.append((path, venue))
+    return out
+
+
+def _discover_real_options_exports(
+    symbol: str, data_raw: Path | str = Path("data/raw")
+) -> List[tuple[Path, str, str]]:
+    """Return non-synthetic option exports whose filename matches ``symbol``."""
+    root = Path(data_raw)
+    if not root.exists():
+        return []
+    out: List[tuple[Path, str, str]] = []
+    for path in sorted(root.glob("options_*.json")):
+        lowered = path.name.lower()
+        if "synthetic" in lowered:
+            continue
+        parts = path.stem.split("_")
+        if len(parts) < 3:
+            continue
+        venue = parts[1].strip()
+        underlying = parts[2].strip()
+        if not venue or not _symbol_matches(underlying, symbol):
+            continue
+        out.append((path, venue, underlying))
+    return out
+
+
+def load_real_orderflow(
+    symbol: str = "BTC",
+    venue: Optional[str] = None,
+    data_raw: Path | str = Path("data/raw"),
+) -> OrderflowSnapshot:
+    """Load the best real (non-synthetic) orderflow tape for ``symbol``.
+
+    Raises :class:`RealDataUnavailable` when no real export exists. This is the
+    EVAL-23 entry point: it never falls back to synthetic data.
+    """
+    candidates = _discover_real_orderflow_exports(symbol, data_raw)
+    if not candidates:
+        raise RealDataUnavailable(f"no real orderflow export for {symbol!r} under {data_raw}")
+    path, file_venue = candidates[0]
+    loader = DataLoader(cache=False)
+    return loader.load_orderflow(str(path), venue=venue or file_venue, symbol=symbol)
+
+
+def load_real_options_chain(
+    symbol: str = "BTC",
+    spot: float = float(DEFAULT_SPOT["BTC"]),
+    now: Optional[datetime] = None,
+    venue: Optional[str] = None,
+    data_raw: Path | str = Path("data/raw"),
+) -> OptionsChain:
+    """Load the best real (non-synthetic) option chain for ``symbol``.
+
+    Raises :class:`RealDataUnavailable` when no real export exists. This is the
+    EVAL-24 entry point: it never falls back to synthetic data.
+    """
+    candidates = _discover_real_options_exports(symbol, data_raw)
+    if not candidates:
+        raise RealDataUnavailable(f"no real option export for {symbol!r} under {data_raw}")
+    path, file_venue, file_underlying = candidates[0]
+    loader = DataLoader(cache=False)
+    chain = loader.load_options_chain(
+        str(path), venue=venue or file_venue, underlying=symbol or file_underlying
+    )
+    if not isinstance(chain, OptionsChain) or not chain.quotes:
+        raise RealDataUnavailable(f"real option export for {symbol!r} is empty: {path}")
+    return chain
+
+
 def _features_for_symbol(
     sym: str,
     spot: float,

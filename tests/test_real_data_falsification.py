@@ -303,19 +303,24 @@ def test_offline_guarantee(monkeypatch, tmp_path):
 # --- measured repo state ---
 
 
-def test_repo_data_raw_yields_zero_real_candidates():
+def test_repo_data_raw_excludes_synthetic_and_reports_real_candidates_honestly():
     data_raw = Path("data/raw")
     if not data_raw.exists():
         pytest.skip("data/raw not present")
     report = evaluate_real_data_falsification(
         repo_root=".", write=False, out_dir=Path("tests/__tmp_nogo__"), data_dir=data_raw, timestamp=FIXED_TS
     )
-    # Both files in data/raw are *_synthetic* and excluded from discovery.
-    assert report["n_candidates"] == 0
-    assert report["n_orderflow_candidates"] == 0
-    assert report["n_options_candidates"] == 0
-    assert report["n_adequate_orderflow"] == 0
-    assert report["n_adequate_options"] == 0
-    assert report["overall_verdict"] == "NO-GO"
-    assert "no real-data candidates" in report["overall_reason"]
+    # Synthetic files must never be discovered, whether or not real exports now exist.
+    for candidate in report["candidates"]:
+        assert "synthetic" not in Path(candidate["path"]).name.lower()
     assert report["authenticity_verified"] is False
+    assert report["never_valid_true"] is True
+    if report["n_candidates"] == 0:
+        assert report["overall_verdict"] == "NO-GO"
+        assert "no real-data candidates" in report["overall_reason"]
+    else:
+        # With real exports present, GO requires one adequate tape and chain.
+        if report["n_adequate_orderflow"] >= 1 and report["n_adequate_options"] >= 1:
+            assert report["overall_verdict"] == "GO"
+        else:
+            assert report["overall_verdict"] == "NO-GO"

@@ -9,6 +9,11 @@ data/*.parquet
 data/*.json
 *.log
 
+# Real public OKX exports are reproducible via EVAL-26 (src/data/public_export_acquisition.py)
+# and are large; keep them out of the checkout. Synthetic fixtures remain tracked.
+data/raw/orderflow_okx_*.json
+data/raw/options_okx_*.json
+
 research_state/INTEGRATED_CAMPAIGN_*.json
 research_state/INTEGRATED_STEP_*.json
 

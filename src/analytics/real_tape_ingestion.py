@@ -380,6 +380,35 @@ def load_real_tape(
 # ---------------------------------------------------------------------------
 
 
+def _bar_closes_through(
+    trades: Sequence[Any],
+    bar_duration_seconds: float,
+    n_bars: int,
+) -> List[float]:
+    """Causal bar closes for exactly ``n_bars`` bars, carrying forward gaps.
+
+    ``_build_bars`` stops at the last available trade, so a prefix tape whose
+    last trade precedes ``bar_end[k]`` would return fewer than ``k + 1`` bars
+    even though the full tape legitimately carries the previous close forward.
+    This helper forces the prefix to the same number of bars as the full tape.
+    """
+    if not trades or int(n_bars) <= 0:
+        return []
+    dur = max(float(bar_duration_seconds), 1.0)
+    canon = _canonical_trades(trades)
+    start = canon[0].timestamp
+    closes: List[float] = []
+    idx = 0
+    last_close = float(canon[0].price)
+    for i in range(int(n_bars)):
+        bar_end = start + timedelta(seconds=(i + 1) * dur)
+        while idx < len(canon) and canon[idx].timestamp <= bar_end:
+            last_close = float(canon[idx].price)
+            idx += 1
+        closes.append(float(last_close))
+    return closes
+
+
 def assert_causal_time_truncation(
     trades: Sequence[Any],
     bar_duration_seconds: float,
@@ -392,6 +421,8 @@ def assert_causal_time_truncation(
     ``timestamp <= start + (k+1) * bar_duration``; the first ``k+1`` bar closes
     must equal the full-tape closes. This catches any builder that peeks past
     ``bar_end[k]``, unlike the sealed ``_assert_causal`` which is vacuous.
+    Gaps are carried forward: a prefix ending before ``bar_end[k]`` must still
+    emit ``k + 1`` closes, exactly as the full tape does.
     """
     if not trades:
         return False
@@ -406,8 +437,8 @@ def assert_causal_time_truncation(
         prefix = [t for t in canon if t.timestamp <= bar_end]
         if not prefix:
             return False
-        sub = _build_bars(_OrderflowView(prefix), dur)["bar_closes"]
-        if len(sub) < k + 1 or sub[: k + 1] != full[: k + 1]:
+        sub = _bar_closes_through(prefix, dur, k + 1)
+        if sub != [float(x) for x in full[: k + 1]]:
             return False
     return True
 

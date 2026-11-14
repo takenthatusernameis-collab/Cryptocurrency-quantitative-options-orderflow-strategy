@@ -1,0 +1,105 @@
+{
+  "artifact_paths": {
+    "json": "research_state/REAL_DATA_FALSIFICATION_20261114T025046Z.json",
+    "md": "research_state/REAL_DATA_FALSIFICATION_20261114T025046Z.md"
+  },
+  "authenticity_verified": false,
+  "candidates": [
+    {
+      "content_sha256": "268bf34ef8a1099ea79bf353ddfa337388bb071ac4f0968b107fbd1bcb3cc8fa",
+      "kind": "options",
+      "loaded": true,
+      "option_adequacy": {
+        "min_contracts": 8,
+        "min_expiries": 2,
+        "min_quotes": 8,
+        "n_contracts": 739,
+        "n_expiries": 12,
+        "n_quotes": 739,
+        "n_strikes": 88,
+        "sample_adequate": true,
+        "shortfall_contracts": 0,
+        "shortfall_expiries": 0,
+        "shortfall_quotes": 0
+      },
+      "path": "data/raw/options_okx_BTC_20261114T024736Z.json",
+      "provenance": {
+        "content_sha256": "268bf34ef8a1099ea79bf353ddfa337388bb071ac4f0968b107fbd1bcb3cc8fa",
+        "end_timestamp": "2026-11-14T02:50:42.472000Z",
+        "kind": "real",
+        "n_contracts": 739,
+        "n_expiries": 12,
+        "n_quotes": 739,
+        "path": "data/raw/options_okx_BTC_20261114T024736Z.json",
+        "span_seconds": 0.383,
+        "start_timestamp": "2026-11-14T02:50:42.089000Z",
+        "underlying": "BTC",
+        "venue": "okx"
+      },
+      "rejection_reason": null,
+      "trade_adequacy": null,
+      "underlying": "BTC",
+      "venue": "okx",
+      "verdict": "GO",
+      "verdict_reason": "option chain clears EVAL-24 adequacy floors"
+    },
+    {
+      "content_sha256": "865d2e06157331bba01b067eafaefa839f9ce872a73830511289bf922837df83",
+      "kind": "orderflow",
+      "loaded": true,
+      "option_adequacy": null,
+      "path": "data/raw/orderflow_okx_BTC-USD-SWAP.json",
+      "provenance": {
+        "content_sha256": "865d2e06157331bba01b067eafaefa839f9ce872a73830511289bf922837df83",
+        "end_timestamp": "2026-11-14T02:47:31.736000Z",
+        "kind": "real",
+        "n_trades": 57400,
+        "path": "data/raw/orderflow_okx_BTC-USD-SWAP.json",
+        "span_seconds": 23265.964,
+        "start_timestamp": "2026-11-13T20:19:45.772000Z",
+        "symbol": "BTCUSDSWAP",
+        "venue": "okx"
+      },
+      "rejection_reason": null,
+      "symbol": "BTCUSDSWAP",
+      "trade_adequacy": {
+        "min_returns": 1000,
+        "min_windows": 20,
+        "n_bars": 1552,
+        "n_returns": 1551,
+        "n_trades": 57400,
+        "n_windows": 35,
+        "sample_adequate": true,
+        "shortfall_returns": 0,
+        "shortfall_windows": 0
+      },
+      "venue": "okx",
+      "verdict": "GO",
+      "verdict_reason": "orderflow tape clears EVAL-22 adequacy floors"
+    }
+  ],
+  "canonical_fingerprint": "fc5b24c2f4e79333faaad5b4f98de90a99ef2046d82f9dd07f4ef2a31bd521ca",
+  "data_dir": "data/raw",
+  "data_provenance": "real",
+  "floors": {
+    "bar_duration_seconds": 15.0,
+    "min_contracts": 8,
+    "min_expiries": 2,
+    "min_quotes": 8,
+    "min_returns": 1000,
+    "min_windows": 20
+  },
+  "generated_at": "2026-11-14T02:50:46Z",
+  "live_trading_enabled": false,
+  "n_adequate_options": 1,
+  "n_adequate_orderflow": 1,
+  "n_candidates": 2,
+  "n_options_candidates": 1,
+  "n_orderflow_candidates": 1,
+  "never_valid_true": true,
+  "overall_reason": "adequate real orderflow tape(s) and option chain(s) passed the EVAL-22 / EVAL-24 adequacy floors",
+  "overall_verdict": "GO",
+  "repo_root": ".",
+  "report_id": "REAL_DATA_FALSIFICATION_25",
+  "trading_mode": "paper"
+}

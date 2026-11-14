@@ -150,6 +150,28 @@ def test_causal_time_truncation_invariance():
     assert assert_causal_time_truncation(snap.trades, 15.0) is True
 
 
+def test_causal_time_truncation_handles_gaps_by_carrying_forward():
+    from src.data.schemas import Trade
+
+    start = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    offsets = [0, 10, 20, 30, 40, 50, 100]
+    trades = [
+        Trade(
+            trade_id=f"g{i:03d}",
+            symbol="BTCUSDT",
+            venue="okx",
+            price=60000.0 + i,
+            size=0.1,
+            side="buy",
+            timestamp=start + timedelta(seconds=offset),
+        )
+        for i, offset in enumerate(offsets)
+    ]
+    # No trades between 50s and 100s: the 75-90s bar must carry the 50s close
+    # forward in both the full tape and the 90s-truncated prefix.
+    assert assert_causal_time_truncation(trades, 15.0) is True
+
+
 # --- row-order invariance / determinism ---
 
 

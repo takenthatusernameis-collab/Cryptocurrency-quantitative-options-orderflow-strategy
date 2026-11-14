@@ -672,7 +672,7 @@ def _run_walkforward(
             slippage_seed=seed,
             risk_free_rate=0.0,
         ),
-        risk_config=RiskConfig(),
+        risk_config=RiskConfig(max_position_pct=max_position_pct),
     )
     wfres = wfb.run_walk_forward(
         price_series={symbol: list(prices)},
@@ -707,7 +707,7 @@ def _run_walkforward(
                 slippage_seed=seed,
                 risk_free_rate=0.0,
             ),
-            RiskConfig(),
+            RiskConfig(max_position_pct=max_position_pct),
         )
         nav = DEFAULT_INITIAL_CAPITAL
         window_cost_usd = 0.0
@@ -723,7 +723,12 @@ def _run_walkforward(
             ts = timestamps[i] if i < len(timestamps) else DETERMINISTIC_NOW
             target_pos = int(positions[i]) if i < len(positions) and math.isfinite(positions[i]) else 0
             nav = engine.get_equity({symbol: px}) or DEFAULT_INITIAL_CAPITAL
-            target_qty = float(target_pos) * (float(max_position_pct) * nav / px)
+            # The engine enforces notional <= cash * max_position_pct, while nav
+            # can exceed cash (long positions debit cash at open). Size off the
+            # conservative of nav/cash with 0.5% headroom so a valid signal is
+            # not silently rejected by a float-level notional overshoot.
+            sizing_capital = max(0.0, min(float(nav), float(getattr(engine, "cash", nav))))
+            target_qty = float(target_pos) * (float(max_position_pct) * 0.995 * sizing_capital / px)
             delta_qty = target_qty - cur_qty
             if abs(delta_qty) > 1e-9:
                 side = "buy" if delta_qty > 0 else "sell"
