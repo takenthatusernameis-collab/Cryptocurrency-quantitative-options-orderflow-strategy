@@ -404,15 +404,24 @@ def evaluate_real_net_of_cost(
     max_participation: float = DEFAULT_MAX_PARTICIPATION,
     cost_budget_bps: float = DEFAULT_COST_BUDGET_BPS,
     timestamp: Optional[str] = None,
+    orderflow_path: Optional[Path | str] = None,
 ) -> Dict[str, Any]:
     """Run EVAL-23 on real exports and return the strict-serialized report.
 
     Raises :class:`RealDataUnavailable` when either real export is missing;
     there is no synthetic fallback path.
+
+    ``orderflow_path`` pins the orderflow tape to a specific real file (EVAL-40
+    disjoint-window control) instead of the alphabetically-last discovery
+    winner.
     """
     stamp = timestamp or _utc_now_iso()
 
-    snapshot = load_real_orderflow(symbol, data_raw=Path(data_raw))
+    snapshot = load_real_orderflow(
+        symbol,
+        data_raw=Path(data_raw),
+        orderflow_path=orderflow_path,
+    )
     if not snapshot.trades:
         raise RealDataUnavailable(f"real orderflow export for {symbol!r} has no trades")
     last_price = _last_trade_price(snapshot)
@@ -616,6 +625,7 @@ def evaluate_real_net_of_cost(
     evidence_matrix = {
         "real_orderflow_loaded": bool(len(snapshot.trades or []) > 0),
         "real_options_loaded": bool(len(chain.quotes or []) > 0),
+        "orderflow_path": str(Path(orderflow_path).resolve()) if orderflow_path else None,
         "n_trades": int(len(snapshot.trades or [])),
         "n_bars": int(n_bars),
         "n_options_quotes": int(len(chain.quotes or [])),
@@ -805,6 +815,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--max-participation", type=float, default=DEFAULT_MAX_PARTICIPATION)
     parser.add_argument("--cost-budget-bps", type=float, default=DEFAULT_COST_BUDGET_BPS)
     parser.add_argument("--no-write", action="store_true")
+    parser.add_argument(
+        "--orderflow-path",
+        default=None,
+        help="pin the orderflow tape to a specific real file (EVAL-40 disjoint window)",
+    )
     args = parser.parse_args(argv)
 
     try:
@@ -824,6 +839,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             max_participation=args.max_participation,
             cost_budget_bps=args.cost_budget_bps,
             timestamp=args.timestamp,
+            orderflow_path=args.orderflow_path,
         )
     except RealDataUnavailable as e:
         print(json.dumps({"report_id": REPORT_ID, "verdict": "NO-GO", "error": str(e)}))

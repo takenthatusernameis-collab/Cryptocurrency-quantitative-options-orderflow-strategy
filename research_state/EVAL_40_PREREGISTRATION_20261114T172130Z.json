@@ -1,0 +1,71 @@
+{
+  "campaign": "EVAL-40",
+  "task_id": "INIT-2026-11-14T16:53:42Z-EVAL-40-ACQUIRE-PREREG-EVAL",
+  "generated_at": "2026-11-14T17:21:30Z",
+  "stage": "PREREGISTRATION",
+  "sealing_intent": "REPLICATION",
+  "data_provenance": "real_public_exchange_export",
+  "authenticity_verified": false,
+  "never_valid_true": true,
+  "paper_only": true,
+  "live_trading_enabled": false,
+  "inputs": {
+    "orderflow": {
+      "path": "data/raw/orderflow_okx_BTC-USD-SWAP-40.json",
+      "content_sha256": "a105db1c323c9c64db75882c367f84a81f2ac87374ed62ad490d334af484bc4b",
+      "instrument": "BTC-USD-SWAP",
+      "venue": "okx",
+      "n_trades": 84800,
+      "n_bars": 1602,
+      "n_returns": 1601,
+      "n_windows": 37,
+      "span_seconds": 24021.532,
+      "start_timestamp": "2026-11-14T02:25:00.798000Z",
+      "end_timestamp": "2026-11-14T09:05:22.330000Z",
+      "acquired_via": "src.data.public_export_acquisition.fetch_okx_history_trades(after_cursor=485524306)",
+      "non_overlap_verified": {
+        "vs": "data/raw/orderflow_okx_BTC-USD-SWAP.json",
+        "overlap_trade_ids": 0,
+        "new_min_id": "485439506",
+        "new_max_id": "485524305",
+        "existing_min_id": "485524306",
+        "existing_max_id": "485602005",
+        "disjoint_id_ranges": true
+      }
+    },
+    "options": {
+      "path": "data/raw/options_okx_BTC_20261114T171725Z.json",
+      "content_sha256": "159bc3b8f27a605f2ac3d2430a51485a16c0781aee04c7f3ec79e295934f2eca",
+      "underlying": "BTC",
+      "venue": "okx",
+      "n_quotes": 827,
+      "n_contracts": 827,
+      "n_expiries": 14
+    }
+  },
+  "evaluation": {
+    "module": "src.analytics.real_net_of_cost_evaluation",
+    "command": "python3 -m src.analytics.real_net_of_cost_evaluation --data-dir data/raw --out research_state --symbol BTC --bar-duration-seconds 15",
+    "rationale": "load_real_orderflow picks the alphabetically-last real orderflow export (orderflow_okx_BTC-USD-SWAP-40.json wins over orderflow_okx_BTC-USD-SWAP.json); load_real_options_chain picks the alphabetically-last real options export (options_okx_BTC_20261114T171725Z.json). Both are real, non-synthetic, and the orderflow tape is provably disjoint from the EVAL-23/38/39 window.",
+    "no_synthetic_fallback": true
+  },
+  "go_nogo_criteria": {
+    "GO_requires": [
+      "verifying sealed artifact on the NEW real dataset only",
+      "combined_net_of_cost_superior == true",
+      "options_signal_tradable == true",
+      "options_leg_degenerate == false",
+      "no kill-switch breach",
+      "permutation test combined not worse than best single pillar"
+    ],
+    "expected_verdict": "REPLICATION (NO-GO) or REFUTED",
+    "basis": "EVAL-36 TERMINATE_NO_GO, EVAL-38 REPLICATION (Sharpe -7.9539, 1221 trades, $179.28 cost, max-DD 0.8679, kill-switch breach), EVAL-39 REPLICATION (NO-GO 8/11, options_leg_degenerate=true, options_alpha 0.0 all horizons, combined_alpha.ic_mean=-0.000258)"
+  },
+  "constraints": [
+    "paper-only; .env absent; LIVE_TRADING_ENABLED=false",
+    "real data only; RealDataUnavailable raised on missing real export; no synthetic fallback",
+    "no modification of sealed EVAL-02..39 artifacts",
+    "no phaseNN_* orchestrator wrappers"
+  ],
+  "acquisition_artifact": "research_state/PUBLIC_EXPORT_ACQUISITION_20261114T171725Z.json"
+}

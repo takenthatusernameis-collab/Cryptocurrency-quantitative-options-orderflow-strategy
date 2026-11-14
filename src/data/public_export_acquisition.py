@@ -198,6 +198,7 @@ def fetch_okx_history_trades(
     request_delay_seconds: float = DEFAULT_REQUEST_DELAY_SECONDS,
     timeout: float = DEFAULT_TIMEOUT_SECONDS,
     max_retries: int = DEFAULT_MAX_RETRIES,
+    after_cursor: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Fetch a real, paginated public trade tape for ``inst_id``.
 
@@ -206,10 +207,17 @@ def fetch_okx_history_trades(
     dropped, so the result is independent of page overlap. The loop stops when
     the tape spans at least ``min_bars`` bars, the venue stops returning rows,
     or ``max_pages`` is reached.
+
+    ``after_cursor`` (an OKX trade id) seeds the first page, so a caller can
+    fetch a **non-overlapping** older window by passing the oldest trade id of
+    an existing tape. The cursor is never reinterpreted as a timestamp and is
+    only used when it is a non-empty string.
     """
     trades: List[Dict[str, Any]] = []
     seen_ids: set[str] = set()
     after: Optional[str] = None
+    if isinstance(after_cursor, str) and after_cursor.strip():
+        after = after_cursor.strip()
     pages = 0
     target_span_seconds = max(int(min_bars), 1) * max(float(bar_duration_seconds), 1.0)
 
@@ -534,7 +542,7 @@ def _write_markdown(report: Mapping[str, Any]) -> str:
 
 def acquire_public_exports(
     *,
-    underlying: str = "BTC",
+underlying: str = "BTC",
     orderflow_instrument: str = "BTC-USD-SWAP",
     orderflow_symbol: Optional[str] = None,
     data_dir: Path | str = DATA_RAW_DIR,
@@ -550,11 +558,15 @@ def acquire_public_exports(
     skip_orderflow: bool = False,
     skip_options: bool = False,
     session: Any = None,
+    after_cursor: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Fetch public OKX exports, write loader-compatible files and seal a report.
 
     ``session`` is injectable for offline tests; production uses a fresh
     ``requests.Session``. No credentials, no order placement, no ``.env``.
+
+    ``after_cursor`` seeds the orderflow fetch with an OKX trade id so the new
+    tape is provably non-overlapping with an existing tape.
     """
     stamp = timestamp or _utc_now_iso()
     data_dir = Path(data_dir)
@@ -602,6 +614,7 @@ def acquire_public_exports(
             request_delay_seconds=request_delay_seconds,
             timeout=timeout,
             max_retries=max_retries,
+            after_cursor=after_cursor,
         )
         write_orderflow_tape(of_result, orderflow_path)
         n_bars = int(of_result["n_bars"])
@@ -717,6 +730,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--max-retries", type=int, default=DEFAULT_MAX_RETRIES)
     parser.add_argument("--skip-orderflow", action="store_true")
     parser.add_argument("--skip-options", action="store_true")
+    parser.add_argument(
+        "--after-cursor",
+        default=None,
+        help="OKX trade id to seed the orderflow fetch (non-overlapping older window)",
+    )
     args = parser.parse_args(argv)
 
     report = acquire_public_exports(
@@ -735,6 +753,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         max_retries=args.max_retries,
         skip_orderflow=args.skip_orderflow,
         skip_options=args.skip_options,
+        after_cursor=args.after_cursor,
     )
     print(
         json.dumps(

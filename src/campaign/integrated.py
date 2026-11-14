@@ -359,13 +359,33 @@ def load_real_orderflow(
     symbol: str = "BTC",
     venue: Optional[str] = None,
     data_raw: Path | str = Path("data/raw"),
+    orderflow_path: Optional[Path | str] = None,
 ) -> OrderflowSnapshot:
     """Load the best real (non-synthetic) orderflow tape for ``symbol``.
 
     Raises :class:`RealDataUnavailable` when no real export exists. This is the
     EVAL-23 entry point: it never falls back to synthetic data. When several
     real exports exist the most recent filename wins.
+
+    ``orderflow_path`` overrides discovery and loads exactly that file. It is
+    only honoured when the path exists, is non-synthetic, and is a real orderflow
+    export; otherwise discovery proceeds as usual. Use it to evaluate a
+    specific disjoint tape (e.g. EVAL-40) instead of the alphabetically-last
+    export.
     """
+    if orderflow_path is not None:
+        candidate = Path(orderflow_path)
+        if (
+            candidate.exists()
+            and candidate.is_file()
+            and "synthetic" not in candidate.name.lower()
+            and candidate.stem.lower().startswith("orderflow_")
+        ):
+            file_venue = candidate.stem.split("_")[1].strip() or "okx"
+            loader = DataLoader(cache=False)
+            return loader.load_orderflow(
+                str(candidate), venue=venue or file_venue, symbol=symbol
+            )
     candidates = _discover_real_orderflow_exports(symbol, data_raw)
     if not candidates:
         raise RealDataUnavailable(f"no real orderflow export for {symbol!r} under {data_raw}")
