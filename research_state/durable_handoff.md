@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T08:52:41Z (UTC).** Handoff refreshed/verified at working tree 2026-11-14T08:52:41Z.
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T08:53:31Z (UTC).** Handoff refreshed/verified at working tree 2026-11-14T08:53:31Z.
 
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/INITIAL_TASK_20261114T063750Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
@@ -42,10 +42,10 @@
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-14T08:52:41Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-14T08:53:31Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-14T08:52:41Z-EVAL-29-OPTIONS-TRADABILITY-NET-OF-COST`
-**STATUS:** **ACTIVE — mandatory heavy-work session.** EVAL-27 sealed (parity confound), EVAL-28 sealed GO (per-expiry parity consistent); EVAL-29 must produce a measured options-leg tradability / net-of-cost verdict.
+**TASK ID:** `INIT-2026-11-14T08:53:31Z-EVAL-29-OPTIONS-TRADABILITY-NET-OF-COST`
+**STATUS:** **ACTIVE — mandatory heavy-work session.** EVAL-27 sealed (parity confound resolved by EVAL-28), EVAL-28 sealed GO (per-expiry parity consistent); EVAL-29 must produce a measured options-leg tradability / net-of-cost verdict.
 
 > **Hard success/failure floor:** session ends with **>=1 new sealed artifact** `research_state/<EVAL-ID>_<UTC>.{json,md}` containing measured numbers, code paths, tests/verification output, and explicit GO/NO-GO → PASS (NO-GO is success if trustworthy). No new sealed artifact / handoff-only / narrative-only → **FAILED**. Fabricated GO or synthetic relabeled as real → **FAILED**.
 
