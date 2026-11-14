@@ -1,12 +1,12 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T01:00:55Z (UTC).** Handoff refreshed/verified at HEAD `c957c33de` (working tree clean; prior session artifacts: `src/data/options_exports.py`, `tests/test_options_exports.py`, `data/examples/options_exports/*`, `data/examples/normalized/options_deribit_BTC_*.json`, `research_state/OPTIONS_EXPORT_ADAPTERS_20261114T004500Z.{json,md}`, `research_state/REAL_DATA_FALSIFICATION_20261114T004500Z.{json,md}`).
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T01:41:15Z (UTC).** Handoff refreshed/verified at HEAD `6add15519` (working tree clean; prior session artifacts: `src/data/options_exports.py`, `tests/test_options_exports.py`, `data/examples/options_exports/*`, `data/examples/normalized/options_deribit_BTC_*.json`, `research_state/OPTIONS_EXPORT_ADAPTERS_20261114T004500Z.{json,md}`, `research_state/REAL_DATA_FALSIFICATION_20261114T004500Z.{json,md}`, `research_state/REAL_DATA_FALSIFICATION_20261114T014115Z.{json,md}`).
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
 **Repo priority:** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
 **Mission:** Deliver the strategy and a *trustworthy*, net-of-cost measurement of its performance — not orchestrator wrappers, not a favorable-looking number from a broken harness. A **trustworthy NO-GO** is a full success; a fabricated GO is a failure.
 
-**State (measured 2026-11-14T00:57Z):** EVAL-02..EVAL-24A **SEALED**. EVAL-25 **SEALED code-complete; measured NO-GO (0 real candidates)** — gate+tests+artifact shipped (`research_state/REAL_DATA_FALSIFICATION_20261114T004500Z.{json,md}`, `report_id=REAL_DATA_FALSIFICATION_25`, `authenticity_verified=false`, `never_valid_true=true`, `canonical_fingerprint=350ca1a7293c929633493725ea0f7346f978897e34fc3bf347faf89936adbe67`); 14 new tests passed in 0.83s; regression 103 passed in 118.43s. `.env` **ABSENT** (paper-only) — verified. `data/raw/` contains **only synthetic**: `orderflow_btcusdt_synthetic.json` (SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`; 1000 trades / 20 liq / 8 funding; venue `synthetic`, symbol `BTCUSDT`) and `options_btc_synthetic.json` (30 quotes; internally inconsistent, EVAL-16). Real-tape discovery `data/raw` (excluding `*_synthetic*`) → **0 candidates**. No real tape, no real option chain. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` human-only, out of scope.
+**State (measured 2026-11-14T01:41Z):** EVAL-02..EVAL-24A **SEALED**. EVAL-25 **SEALED code-complete; measured NO-GO (0 real candidates)** — gate+tests+artifact shipped (`research_state/REAL_DATA_FALSIFICATION_20261114T014115Z.{json,md}`, `report_id=REAL_DATA_FALSIFICATION_25`, `authenticity_verified=false`, `never_valid_true=true`, `canonical_fingerprint=e783ccde8d5c6c97b26750244a53207e376e55371a5d7f868e3c2ce78f769dc3`); 14 new tests passed in 0.83s; regression 103 passed in 108.63s. `.env` **ABSENT** (paper-only) — verified. `data/raw/` contains **only synthetic**: `orderflow_btcusdt_synthetic.json` (SHA-256 `c75ced1994a78a2b7038885be0d49bdcdeeca51d36f91ecbfb952338ba7bcef7`; 1000 trades / 20 liq / 8 funding; venue `synthetic`, symbol `BTCUSDT`) and `options_btc_synthetic.json` (30 quotes; internally inconsistent, EVAL-16). Real-tape discovery `data/raw` (excluding `*_synthetic*`) → **0 candidates**. No real tape, no real option chain. `research_state/NEXT9_APPROVAL_VALIDATION_*.json` human-only, out of scope.
 
 **NEXT FOCUS CAMPAIGN:** **EVAL-25 (SEALED, code-complete) — real-data acquisition & gate re-validation.** The falsification gate is code-complete and testable; the only remaining blocker is **data availability**, not code. Every session must either (a) acquire a real venue orderflow tape + option export (non-`*_synthetic*` files in `data/raw/`) and re-run the gate, or (b) if still no real export, ship a refreshed measured NO-GO artifact (new timestamp) plus re-verified regression. EVAL-23 / EVAL-24 unblock **only** when an adequate real tape passes EVAL-22 and an adequate real option chain passes EVAL-24 through this gate. Never idle; never substitute synthetic; never fabricate provenance.
 
@@ -31,15 +31,15 @@
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-14T01:00:55Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-14T01:41:15Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-14T01:00:55Z-EVAL-25-REAL-DATA-ACQUISITION-READINESS`
+**TASK ID:** `INIT-2026-11-14T01:41:15Z-EVAL-25-REAL-DATA-ACQUISITION-READINESS`
 **STATUS:** **EVAL-25 SEALED (code-complete; measured NO-GO on data availability). Start here — zero discovery needed.**
 > **Hard floor:** a session ending without either (a) a re-run gate artifact showing real-data progress (adequate real tape + chain → GO, or refreshed `REAL_DATA_FALSIFICATION_<UTC>.{json,md}` NO-GO with a new timestamp) **or** (b) a documented acquisition attempt plus re-verified regression evidence is **FAILED**. Handoff-only work is FAILED. The gate `src/analytics/real_data_falsification.py` is already code-complete; the next session's heavy work is **real-data acquisition**: obtain a user/venue orderflow tape and option export, place them as non-`*_synthetic*` files under `data/raw/`, and re-run `python -m src.analytics.real_data_falsification --repo . --out research_state/ --data-dir data/raw [--timestamp <UTC>]`. EVAL-23 / EVAL-24 unblock **only** when an adequate real tape passes EVAL-22 (`min_returns=1000, min_windows=20, bar_duration_seconds=15.0`) AND an adequate real option chain passes EVAL-24 (`min_contracts=8, min_quotes=8, min_expiries=2`) through this gate. Never relabel synthetic as real; never fabricate provenance; never emit `{"valid": true}`.
 
 ### Environment setup (verified)
 
-Deps present in runner (re-verified 2026-11-14T00:57Z): Python 3.12.3, numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pytest 9.2.0, pydantic 2.14.3. If missing: `python3 -m pip install --quiet numpy pandas scipy pytest pyyaml pydantic requests websocket-client python-dateutil`. `python3 -m py_compile` + targeted `pytest` only (no mypy/ruff/flake8). **Never run the full suite (5297 tests). Never enumerate `research_state/` (75k files / ~5.0 GB).**
+Deps present in runner (re-verified 2026-11-14T01:41Z): Python 3.12.3, numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pytest 9.2.0, pydantic 2.14.3. If missing: `python3 -m pip install --quiet numpy pandas scipy pytest pyyaml pydantic requests websocket-client python-dateutil`. `python3 -m py_compile` + targeted `pytest` only (no mypy/ruff/flake8). **Never run the full suite (5297 tests). Never enumerate `research_state/` (75k files / ~5.0 GB).**
 
 ### Do now (heavy work required)
 
@@ -71,7 +71,7 @@ Deps present in runner (re-verified 2026-11-14T00:57Z): Python 3.12.3, numpy 2.5
 | **EVAL-22** | Real-tape ingestion gate | **SEALED NO-GO** (no adequate real tape; module+tests+artifact) |
 | **EVAL-23B** | Exchange export adapters (trade) | **SEALED** — adapter PASS; no real export; fixture NO-GO |
 | **EVAL-24A** | Options export adapters | **SEALED** — adapter PASS; no real export; fixture NO-GO |
-| **EVAL-25 (SEALED)** | Real-data falsification readiness | **SEALED code-complete; measured NO-GO (0 real candidates)** — gate+tests+artifact shipped; awaiting real-data acquisition / gate re-validation |
+| **EVAL-25 (SEALED)** | Real-data falsification readiness | **SEALED code-complete; measured NO-GO (0 real candidates)** — gate+tests+artifact shipped (`research_state/REAL_DATA_FALSIFICATION_20261114T014115Z.{json,md}`, `canonical_fingerprint=e783ccde8d5c6c97b26750244a53207e376e55371a5d7f868e3c2ce78f769dc3`); awaiting real-data acquisition / gate re-validation |
 | **EVAL-23** | Real net-of-cost verdict | blocked on adequate real tape passing EVAL-22 |
 | **EVAL-24** | Options-leg validity | blocked on real option chain; EVAL-24A unblocks acquisition |
 | **EVAL-25 (dep)** | Real-tape falsification | gated on EVAL-23; falsification-readiness gate is the prerequisite |
@@ -82,7 +82,7 @@ Deps present in runner (re-verified 2026-11-14T00:57Z): Python 3.12.3, numpy 2.5
 
 ## BOTTLENECK LEDGER
 
-- **Removed this session:** EVAL-24A option-export ingestion (code, tests, fixtures, artifact). Future sessions can acquire/normalize venue option exports without writing a parser.
+- **Removed this session:** EVAL-24A option-export ingestion (code, tests, fixtures, artifact). EVAL-25 gate re-validated 2026-11-14T01:41Z → NO-GO artifact `research_state/REAL_DATA_FALSIFICATION_20261114T014115Z.{json,md}` (fingerprint `e783ccde...`); 14 gate tests + 103 regression tests re-passed. Future sessions can acquire/normalize venue option exports without writing a parser.
 - **Remaining data bottleneck:** no real trade tape and no real option chain in `data/raw/`. EVAL-23 and EVAL-24 are data-blocked, not code-blocked. Acquisition requires a user/venue export; do not fabricate or relabel synthetic data.
 - **Test bottleneck:** 878 test files / 5,297 tests. Run only the targeted files named above; never the full suite.
 - **Workspace bottleneck:** `research_state/` is ~5.0 GB / 75k files (historical phaseNN trees). Never enumerate it; read exact paths only.
@@ -97,10 +97,11 @@ Deps present in runner (re-verified 2026-11-14T00:57Z): Python 3.12.3, numpy 2.5
 - **EVAL-24A artifacts:** `src/data/options_exports.py`, `tests/test_options_exports.py` (23 tests), `research_state/OPTIONS_EXPORT_ADAPTERS_20261114T004500Z.{json,md}` (`adapter PASS`, `NO-GO`).
 - **Loader/schemas:** `DataLoader(cache=False).load_orderflow` (`src/data/loader.py:103`), `load_options_chain` (`src/data/loader.py:191`); `OptionsChain`/`OptionContract`/`OptionQuote`/`OrderflowSnapshot`/`Trade` (`src/data/schemas.py`).
 - **Environment:** Python 3.12.3, numpy 2.5.4, pandas 3.1.1, scipy 1.18.1, pytest 9.2.0, pydantic 2.14.3.
-- **Regression baseline:** 103 passed in 114.32s (`test_real_tape_ingestion.py` 15 + `test_sample_adequacy_acquisition.py` 26 + `test_measurement_validity_evaluation.py` 19 + `test_exchange_exports.py` 20 + `test_options_exports.py` 23).
+- **Regression baseline:** 103 passed in 108.63s (`test_real_tape_ingestion.py` 15 + `test_sample_adequacy_acquisition.py` 26 + `test_measurement_validity_evaluation.py` 19 + `test_exchange_exports.py` 20 + `test_options_exports.py` 23).
+- **EVAL-25 artifacts:** `src/analytics/real_data_falsification.py`, `tests/test_real_data_falsification.py` (14 tests), `research_state/REAL_DATA_FALSIFICATION_20261114T014115Z.{json,md}` (`NO-GO`, 0 candidates, fingerprint `e783ccde8d5c6c97b26750244a53207e376e55371a5d7f868e3c2ce78f769dc3`).
 
 ## HANDOFF DISCIPLINE
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
-- Queue: **EVAL-02..EVAL-24A sealed; EVAL-25 SEALED code-complete (measured NO-GO); real-data acquisition & gate re-validation pending.**
+- Queue: **EVAL-02..EVAL-24A sealed; EVAL-25 SEALED code-complete (measured NO-GO, artifact `REAL_DATA_FALSIFICATION_20261114T014115Z.{json,md}`); real-data acquisition & gate re-validation pending.**
 - If incomplete, record measured numbers, not intentions. Never claim persistence or GO without a verifying artifact.
 - Final responses must not ask follow-up questions.
