@@ -1,0 +1,94 @@
+{
+  "authenticity_verified": false,
+  "checks_passed": 5,
+  "data_provenance": "real",
+  "defensible_edge": false,
+  "evidence_matrix": {
+    "bars_constructed": true,
+    "causal_options_signal_computed": true,
+    "causal_orderflow_signal_computed": true,
+    "combined_signal_computed": true,
+    "ic_computed": true,
+    "integrated_walkforward_run": true,
+    "live_trading_enabled": false,
+    "n_funding_rates": 8,
+    "n_liquidations": 20,
+    "n_options_quotes": 30,
+    "n_trades": 1000,
+    "options_chain_loaded": true,
+    "options_signal_from_reconstructed_surface": true,
+    "orderflow_loaded": true,
+    "paper_only": true,
+    "permutation_computed": true,
+    "symbol": "BTC",
+    "toxicity_gate_applied_to_all_pillars": true,
+    "toxicity_measured": true,
+    "venue": "synthetic"
+  },
+  "failed_checks": [
+    "options_signal_exists",
+    "combined_net_of_cost_superior"
+  ],
+  "generated_at": "2026-11-14T06:50:33.991340Z",
+  "ic": {
+    "combined_ic_by_horizon": {
+      "1": -0.10828468387648257,
+      "20": -0.04379092738706918,
+      "5": -0.07880029561638165
+    },
+    "combined_ic_mean": -0.07695863562664447,
+    "combined_ic_tstat": -5.056446145389047,
+    "options_ic_mean": 0.0,
+    "orderflow_ic_mean": -0.008195014529083021
+  },
+  "live_trading_enabled": false,
+  "n_checks": 7,
+  "never_valid_true": true,
+  "overall_reason": "options leg degenerate on single real snapshot; combined does not beat best pillar net-of-cost",
+  "path": "amended_fusion / orderflow-only when options leg degenerate",
+  "per_variant": {
+    "combined": {
+      "num_windows": 3,
+      "oos_max_drawdown": 0.31747080465903726,
+      "oos_return": -0.31747080465903726,
+      "oos_sharpe": -100.33254499674707,
+      "oos_trade_count": null
+    },
+    "flat": {
+      "num_windows": 3,
+      "oos_max_drawdown": 0.0,
+      "oos_return": 0.0,
+      "oos_sharpe": 0.0,
+      "oos_trade_count": null
+    },
+    "options_only": {
+      "num_windows": 3,
+      "oos_max_drawdown": 0.4356686057040438,
+      "oos_return": -0.4356686057040438,
+      "oos_sharpe": -483.87565740476566,
+      "oos_trade_count": null
+    },
+    "orderflow_only": {
+      "num_windows": 3,
+      "oos_max_drawdown": 0.31903987333846484,
+      "oos_return": -0.08317830244934434,
+      "oos_sharpe": 0.7851262573484745,
+      "oos_trade_count": null
+    }
+  },
+  "permutation": {
+    "p_value": 0.000999000999000999,
+    "statistic": null
+  },
+  "report_id": "AMENDED_FUSION_EVAL_27_20261114T065033Z",
+  "source_report_id": "INTEGRATED_OPTIONS_ORDERFLOW_EVAL_18",
+  "symbol": "BTC",
+  "toxicity": {
+    "mean_toxicity": 0.440837011802814,
+    "toxic_gate_active_fraction": 0.225,
+    "toxicity_measured": true
+  },
+  "trading_mode": "paper",
+  "venue": "okx",
+  "verdict": "NO-GO"
+}
