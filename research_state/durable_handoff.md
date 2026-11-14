@@ -101,6 +101,14 @@ The strategic objective is to determine, with real data and net-of-cost accounti
 - Real loaders must raise `RealDataUnavailable` and never fall back to synthetic. Never relabel synthetic as real. Never emit `{"valid": true}`.
 - Prohibited: discovery runs, re-litigating sealed EVALs, enumerating `research_state/` broadly, full test suite runs (~5k), modifying `.github/workflows/main.yml`, creating `phaseNN_*_post_attribution_seal_orchestrator` wrappers, handoff-only execution sessions.
 
+## INITIAL TASK MESSAGE — TIMESTAMPED 2026-11-14T15:19:46Z UTC — TASK ID `INIT-2026-11-14T15:19:46Z-CAMPAIGN-TERMINATED-FINAL-HANDOFF`
+
+**CAMPAIGN TERMINATED — NO FURTHER WORK QUEUED.** EVAL-37 post-termination audit sealed (FAIL, measured 7/9). All sealed artifacts (EVAL-23..37) are immutable. Active task: **NONE**. The single durable handoff is this file; all other handoff files are RETIRED pointers with no task IDs.
+
+**Do not:** reopen deployment, re-run EVAL-23..36, re-acquire data, modify sealed artifacts, create new handoff files, or claim GO without a verifying sealed artifact. A trustworthy NO-GO with sealed measurement is a full success — this campaign achieved that.
+
+**Repo priority (from name `Cryptocurrency-quantitative-options-orderflow-strategy`):** cryptocurrency quantitative OPTIONS + ORDERFLOW strategy — real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation. Mission complete: strategy measured NOT net-of-cost tradable on real data.
+
 ## HANDOFF DISCIPLINE
 
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands. No timestamped handoff copies.
