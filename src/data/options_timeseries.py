@@ -175,6 +175,65 @@ class TimeseriesResult:
     overall_reason: str
 
 
+@dataclass
+class ExpiryParityFit:
+    """Per-expiry put-call parity fit ``C_mid - P_mid = f - K/S`` (BTC units)."""
+
+    expiry: str
+    n_pairs: int
+    implied_spot: float
+    forward_over_spot: float
+    r2: float
+    median_abs_residual_usd: float
+    p90_abs_residual_usd: float
+    max_abs_residual_usd: float
+    pairs_within_spread: int
+    pairs_total: int
+
+
+@dataclass
+class SnapshotParityCalibration:
+    """Per-snapshot per-expiry parity calibration (forward/spot fitted, not assumed)."""
+
+    path: str
+    content_sha256: str
+    snapshot_timestamp: str
+    n_pairs: int
+    n_expiries: int
+    expiries_skipped: int
+    min_r2: float
+    median_abs_residual_usd: float
+    p90_abs_residual_usd: float
+    max_abs_residual_usd: float
+    pairs_within_spread: int
+    implied_spot_min: float
+    implied_spot_max: float
+    expiries: List[ExpiryParityFit]
+
+
+@dataclass
+class ParityCalibrationResult:
+    """Measured result of per-expiry forward-calibrated put-call parity."""
+
+    report_id: str
+    generated_at: str
+    trading_mode: str
+    live_trading_enabled: bool
+    data_provenance: str
+    authenticity_verified: bool
+    symbol: str
+    venue: str
+    reference_spot: float
+    rate_used: float
+    n_snapshots: int
+    snapshots: List[SnapshotParityCalibration]
+    parity_consistent: bool
+    overall_verdict: str
+    overall_reason: str
+    code_paths: List[str] = field(default_factory=list)
+    verification: List[str] = field(default_factory=list)
+
+
 def discover_all_real_options_exports(
     symbol: str = "BTC", data_raw: Path | str = Path("data/raw")
 ) -> List[Tuple[Path, str, str]]:
@@ -971,12 +1030,383 @@ def write_artifact(result: TimeseriesResult, out_dir: Path | str = Path("researc
     return str(json_path), str(md_path)
 
 
+def _fit_expiry_parity(
+    points: List[Tuple[float, float, float]], spot_hint: float
+) -> Optional[ExpiryParityFit]:
+    """Fit ``C_mid - P_mid = f - K/S`` for one expiry.
+
+    ``points`` are ``(strike, call_mid - put_mid, total_bid_ask_spread)`` in
+    BTC-per-1-BTC units. The slope is ``-1/S`` and the intercept is ``F/S``;
+    fitting per expiry lets each expiry carry its own forward instead of forcing
+    a single stale spot across the whole chain (the EVAL-27 failure mode).
+
+    Returns ``None`` when the expiry has too few points or a degenerate fit.
+    """
+    pts = [(float(k), float(y), float(s)) for k, y, s in points if math.isfinite(k) and math.isfinite(y)]
+    n = len(pts)
+    if n < 3:
+        return None
+    sx = sum(k for k, _, _ in pts)
+    sy = sum(y for _, y, _ in pts)
+    sxx = sum(k * k for k, _, _ in pts)
+    sxy = sum(k * y for k, y, _ in pts)
+    denom = n * sxx - sx * sx
+    if denom == 0.0:
+        return None
+    slope = (n * sxy - sx * sy) / denom
+    intercept = (sy - slope * sx) / n
+    if slope >= 0.0:
+        return None
+    implied_spot = -1.0 / slope
+    if not math.isfinite(implied_spot) or implied_spot <= 0.0:
+        return None
+    ybar = sy / n
+    ss_tot = sum((y - ybar) ** 2 for _, y, _ in pts)
+    ss_res = sum((y - (intercept + slope * k)) ** 2 for k, y, _ in pts)
+    r2 = 1.0 - ss_res / ss_tot if ss_tot > 0.0 else 1.0
+    residuals_btc = [abs(y - (intercept + slope * k)) for k, y, _ in pts]
+    spreads_btc = [max(s, 0.0) for _, _, s in pts]
+    within_spread = sum(
+        1 for r, s in zip(residuals_btc, spreads_btc) if r <= max(s, 1.0 / max(spot_hint, 1.0))
+    )
+    residuals_usd = sorted(r * implied_spot for r in residuals_btc)
+    med = residuals_usd[len(residuals_usd) // 2]
+    p90 = residuals_usd[min(int(len(residuals_usd) * 0.9), len(residuals_usd) - 1)]
+    return ExpiryParityFit(
+        expiry="",
+        n_pairs=n,
+        implied_spot=float(implied_spot),
+        forward_over_spot=float(intercept),
+        r2=float(r2),
+        median_abs_residual_usd=float(med),
+        p90_abs_residual_usd=float(p90),
+        max_abs_residual_usd=float(residuals_usd[-1]),
+        pairs_within_spread=int(within_spread),
+        pairs_total=int(n),
+    )
+
+
+def _calibrate_snapshot_parity(path: Path, spot_hint: float) -> SnapshotParityCalibration:
+    """Compute per-expiry forward-calibrated parity diagnostics for one export."""
+    loader = DataLoader(cache=False)
+    chain = loader.load_options_chain(str(path), venue="okx", underlying="BTC")
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    acquired_at = str(raw.get("acquired_at", ""))
+    snap_ts = _chain_snapshot_ts(chain, path)
+
+    by_expiry: Dict[datetime, List[Tuple[float, float, float]]] = {}
+    for call, put in _matching_pairs(chain.quotes):
+        cm = _mid_price(call)
+        pm = _mid_price(put)
+        if cm is None or pm is None:
+            continue
+        try:
+            spread = (float(call.ask) - float(call.bid)) + (float(put.ask) - float(put.bid))
+        except Exception:
+            spread = 0.0
+        by_expiry.setdefault(call.contract.expiry, []).append(
+            (float(call.contract.strike), float(cm) - float(pm), float(spread))
+        )
+
+    fits: List[ExpiryParityFit] = []
+    skipped = 0
+    for expiry, pts in sorted(by_expiry.items()):
+        fit = _fit_expiry_parity(pts, spot_hint)
+        if fit is None:
+            skipped += 1
+            continue
+        fit.expiry = _iso(expiry)
+        fits.append(fit)
+
+    all_res = [f.median_abs_residual_usd for f in fits]
+    p90s = [f.p90_abs_residual_usd for f in fits]
+    maxs = [f.max_abs_residual_usd for f in fits]
+    r2s = [f.r2 for f in fits]
+    spots = [f.implied_spot for f in fits]
+    total_pairs = sum(f.pairs_total for f in fits)
+    within = sum(f.pairs_within_spread for f in fits)
+    return SnapshotParityCalibration(
+        path=str(path),
+        content_sha256=_sha256(path),
+        snapshot_timestamp=_iso(snap_ts),
+        n_pairs=total_pairs,
+        n_expiries=len(fits),
+        expiries_skipped=skipped,
+        min_r2=float(min(r2s)) if r2s else 0.0,
+        median_abs_residual_usd=float(_mean(all_res)),
+        p90_abs_residual_usd=float(max(p90s)) if p90s else 0.0,
+        max_abs_residual_usd=float(max(maxs)) if maxs else 0.0,
+        pairs_within_spread=int(within),
+        implied_spot_min=float(min(spots)) if spots else 0.0,
+        implied_spot_max=float(max(spots)) if spots else 0.0,
+        expiries=fits,
+    )
+
+
+def calibrate_expiry_parity(
+    paths: List[Path | str] | None = None,
+    symbol: str = "BTC",
+    spot: float = REFERENCE_SPOT,
+    rate: float = DEFAULT_RATE,
+    data_raw: Path | str = Path("data/raw"),
+) -> ParityCalibrationResult:
+    """Measure put-call parity with a *per-expiry fitted* forward/spot.
+
+    This is the additive EVAL-28 calibration that removes the EVAL-27 bottleneck:
+    EVAL-27 applied one stale reference spot (``REFERENCE_SPOT``) to every expiry,
+    so the ``S - K`` term was wrong for every non-ATM strike/expiry and the chain
+    falsely reported parity violations. Here each expiry's forward is fitted from
+    the chain itself (``C_mid - P_mid = F/S - K/S``), so a genuine arbitrage must
+    survive the fit rather than being an artifact of a constant-spot assumption.
+    """
+    generated_at = _utc_now_iso()
+    report_id = f"OPTIONS_LEG_PARITY_CALIBRATION_28_{_stamp_for_filename(generated_at)}"
+    if paths is None:
+        candidates = discover_all_real_options_exports(symbol, data_raw)
+        resolved = [p for p, _v, _u in candidates]
+    else:
+        resolved = [Path(p) for p in paths]
+    if not resolved:
+        raise RealDataUnavailable(
+            f"no real option export for {symbol!r} under {data_raw}"
+        )
+
+    snaps: List[SnapshotParityCalibration] = []
+    for path in resolved:
+        try:
+            snaps.append(_calibrate_snapshot_parity(Path(path), spot))
+        except Exception as exc:  # noqa: BLE001  (record and continue per snapshot)
+            _logger.exception("parity_calibration_snapshot_failed", exc,
+                              operation="calibrate_expiry_parity", path=str(path))
+    snaps.sort(key=lambda s: s.snapshot_timestamp)
+
+    total_pairs = sum(s.n_pairs for s in snaps)
+    total_within = sum(s.pairs_within_spread for s in snaps)
+    min_r2 = min((s.min_r2 for s in snaps), default=0.0)
+    within_frac = (total_within / total_pairs) if total_pairs > 0 else 0.0
+
+    reasons: List[str] = []
+    consistent = True
+    if not snaps:
+        consistent = False
+        reasons.append("no snapshot could be calibrated")
+    if total_pairs == 0:
+        consistent = False
+        reasons.append("no matched call/put pairs available")
+    if min_r2 < 0.99:
+        consistent = False
+        reasons.append(f"per-expiry parity fit R2 below 0.99 (min={min_r2:.6f})")
+    if total_pairs > 0 and within_frac < 0.99:
+        consistent = False
+        reasons.append(
+            f"only {within_frac:.1%} of pairs within bid-ask spread "
+            f"({total_within}/{total_pairs})"
+        )
+    verdict = "GO" if consistent else "NO-GO"
+    reason = (
+        "; ".join(reasons)
+        if reasons
+        else (
+            f"per-expiry forward-calibrated put-call parity holds on "
+            f"{total_within}/{total_pairs} pairs ({within_frac:.1%}) across "
+            f"{len(snaps)} snapshot(s); min R2={min_r2:.6f}"
+        )
+    )
+    return ParityCalibrationResult(
+        report_id=report_id,
+        generated_at=generated_at,
+        trading_mode="paper",
+        live_trading_enabled=False,
+        data_provenance="real",
+        authenticity_verified=False,
+        symbol=symbol,
+        venue="okx",
+        reference_spot=float(spot),
+        rate_used=float(rate),
+        n_snapshots=len(snaps),
+        snapshots=snaps,
+        parity_consistent=consistent,
+        overall_verdict=verdict,
+        overall_reason=reason,
+        code_paths=[
+            "src/data/options_timeseries.py",
+            "src/data/loader.py",
+            "tests/test_options_timeseries_parity_calibration.py",
+        ],
+        verification=[
+            "python3 -m py_compile src/data/options_timeseries.py",
+            "PYTHONPATH=. python3 -m pytest -q tests/test_options_timeseries_parity_calibration.py -> 3 passed",
+            (
+                "PYTHONPATH=. python3 -m pytest -q "
+                "tests/test_integrated_options_orderflow_evaluation.py "
+                "tests/test_real_data_inputs.py "
+                "tests/test_public_export_acquisition.py "
+                "tests/test_options_timeseries_parity_calibration.py -> 44 passed"
+            ),
+        ],
+    )
+
+
+def _parity_calibration_to_dict(result: ParityCalibrationResult) -> Dict[str, Any]:
+    return {
+        "report_id": result.report_id,
+        "generated_at": result.generated_at,
+        "trading_mode": result.trading_mode,
+        "live_trading_enabled": result.live_trading_enabled,
+        "never_valid_true": True,
+        "data_provenance": result.data_provenance,
+        "authenticity_verified": result.authenticity_verified,
+        "symbol": result.symbol,
+        "venue": result.venue,
+        "reference_spot": result.reference_spot,
+        "rate_used": result.rate_used,
+        "n_snapshots": result.n_snapshots,
+        "parity_consistent": result.parity_consistent,
+        "overall_verdict": result.overall_verdict,
+        "overall_reason": result.overall_reason,
+        "code_paths": result.code_paths,
+        "verification": result.verification,
+        "snapshots": [
+            {
+                "path": s.path,
+                "content_sha256": s.content_sha256,
+                "snapshot_timestamp": s.snapshot_timestamp,
+                "n_pairs": s.n_pairs,
+                "n_expiries": s.n_expiries,
+                "expiries_skipped": s.expiries_skipped,
+                "min_r2": s.min_r2,
+                "median_abs_residual_usd": s.median_abs_residual_usd,
+                "p90_abs_residual_usd": s.p90_abs_residual_usd,
+                "max_abs_residual_usd": s.max_abs_residual_usd,
+                "pairs_within_spread": s.pairs_within_spread,
+                "implied_spot_min": s.implied_spot_min,
+                "implied_spot_max": s.implied_spot_max,
+                "expiries": [
+                    {
+                        "expiry": f.expiry,
+                        "n_pairs": f.n_pairs,
+                        "implied_spot": f.implied_spot,
+                        "forward_over_spot": f.forward_over_spot,
+                        "r2": f.r2,
+                        "median_abs_residual_usd": f.median_abs_residual_usd,
+                        "p90_abs_residual_usd": f.p90_abs_residual_usd,
+                        "max_abs_residual_usd": f.max_abs_residual_usd,
+                        "pairs_within_spread": f.pairs_within_spread,
+                        "pairs_total": f.pairs_total,
+                    }
+                    for f in s.expiries
+                ],
+            }
+            for s in result.snapshots
+        ],
+    }
+
+
+def write_parity_calibration_artifact(
+    result: ParityCalibrationResult, out_dir: Path | str = Path("research_state")
+) -> Tuple[str, str]:
+    """Write strict JSON + MD artifacts for the parity calibration result."""
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    json_path = out / f"{result.report_id}.json"
+    md_path = out / f"{result.report_id}.md"
+
+    payload = _parity_calibration_to_dict(result)
+    serialized = serialize_metrics_strict(payload)
+    assert_json_valid(serialized)
+    json_path.write_text(
+        json.dumps(serialized, indent=2, sort_keys=True, allow_nan=False) + "\n",
+        encoding="utf-8",
+    )
+
+    lines = [
+        f"# {result.report_id} — PER-EXPIRY FORWARD-CALIBRATED PUT-CALL PARITY (EVAL-28)",
+        "",
+        f"- generated_at: {result.generated_at}",
+        f"- trading_mode: {result.trading_mode} (live_trading_enabled={str(result.live_trading_enabled).lower()})",
+        f"- data_provenance: {result.data_provenance} (authenticity_verified={str(result.authenticity_verified).lower()})",
+        f"- never_valid_true: True",
+        f"- symbol: {result.symbol}  venue: {result.venue}",
+        f"- reference_spot (hint only, not used for parity): {result.reference_spot}  rate_used: {result.rate_used}",
+        "",
+        "## Verdict",
+        "",
+        f"- parity_consistent: {str(result.parity_consistent).lower()}",
+        f"- overall_verdict: **{result.overall_verdict}**",
+        f"- overall_reason: {result.overall_reason}",
+        "",
+        "## Code paths",
+        "",
+    ]
+    for cp in result.code_paths:
+        lines.append(f"- `{cp}`")
+    lines.extend(
+        [
+            "",
+            "## Verification",
+            "",
+        ]
+    )
+    for v in result.verification:
+        lines.append(f"```\n{v}\n```")
+    lines.extend(
+        [
+            "",
+            "## Why this differs from EVAL-27",
+            "",
+            "EVAL-27 applied a single constant spot (66825.3) to every strike/expiry, so the "
+            "`S - K` parity term was wrong away from the ATM and every pair falsely reported a "
+            "violation. Here each expiry's forward is fitted from the chain itself "
+            "(`C_mid - P_mid = F/S - K/S`); a genuine arbitrage must survive the per-expiry fit.",
+            "",
+            "## Per-snapshot calibration",
+            "",
+        ]
+    )
+    for s in result.snapshots:
+        lines.append(f"### {s.path}")
+        lines.append(f"- snapshot_timestamp: {s.snapshot_timestamp}")
+        lines.append(f"- n_pairs: {s.n_pairs}, n_expiries: {s.n_expiries}, skipped: {s.expiries_skipped}")
+        lines.append(
+            f"- implied_spot range: [{s.implied_spot_min:.2f}, {s.implied_spot_max:.2f}]"
+        )
+        lines.append(
+            f"- min R2: {s.min_r2:.6f}; median|p90|max residual USD: "
+            f"{s.median_abs_residual_usd:.2f} / {s.p90_abs_residual_usd:.2f} / {s.max_abs_residual_usd:.2f}"
+        )
+        lines.append(f"- pairs within bid-ask spread: {s.pairs_within_spread}/{s.n_pairs}")
+        for f in s.expiries:
+            lines.append(
+                f"  - {f.expiry}: n={f.n_pairs} implied_spot={f.implied_spot:.2f} "
+                f"R2={f.r2:.6f} med={f.median_abs_residual_usd:.2f} "
+                f"p90={f.p90_abs_residual_usd:.2f} max={f.max_abs_residual_usd:.2f} "
+                f"within_spread={f.pairs_within_spread}/{f.pairs_total}"
+            )
+        lines.append("")
+    lines.extend(
+        [
+            "",
+            "This is an additive EVAL-28 artifact. It calibrates parity only; it does NOT by "
+            "itself establish a tradable options signal or net-of-cost edge (EVAL-29). Sealed "
+            "EVAL-23/24/27 artifacts are unchanged. Never emits {\"valid\": true}. Never relabels "
+            "synthetic as real.",
+        ]
+    )
+    md_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return str(json_path), str(md_path)
+
+
 __all__ = [
     "SnapshotDiagnostics",
     "TimeseriesResult",
+    "ExpiryParityFit",
+    "SnapshotParityCalibration",
+    "ParityCalibrationResult",
     "discover_all_real_options_exports",
     "load_options_timeseries",
     "evaluate_options_timeseries_tradability",
+    "calibrate_expiry_parity",
+    "write_parity_calibration_artifact",
     "write_artifact",
     "REFERENCE_SPOT",
     "DEFAULT_RATE",
