@@ -130,6 +130,20 @@ SLICES: Tuple[Dict[str, Any], ...] = (
         "start": "2026-11-14T15:34:07.330Z",
         "end": "2026-11-14T19:50:33.993Z",
     },
+    # Supplementary stability level: two DISJOINT halves of the single verified
+    # fresh tape. Labelled single-tape (not independent replication).
+    {
+        "name": "fresh_early_half",
+        "tape": "fresh",
+        "start": "2026-11-14T13:22:33.993Z",
+        "end": "2026-11-14T16:36:31.500Z",
+    },
+    {
+        "name": "fresh_late_half",
+        "tape": "fresh",
+        "start": "2026-11-14T16:36:31.501Z",
+        "end": "2026-11-14T19:50:29.020Z",
+    },
 )
 
 # Pre-declared construction parameters.
@@ -459,6 +473,36 @@ def prepare_tape(name: str, tape_path: str) -> Dict[str, Any]:
     }
 
 
+def resolve_inputs(
+    tape_overrides: Optional[Dict[str, str]] = None,
+    *,
+    default_tapes: Optional[Dict[str, str]] = None,
+) -> Dict[str, Any]:
+    """Resolve tape paths and split them into present/missing (pure).
+
+    ``missing`` keeps the pre-declared name/path so a sealed BLOCKED artifact can
+    record exactly which real input is absent; it never substitutes a file.
+    """
+    resolved: Dict[str, str] = dict(default_tapes or TAPES)
+    for name, path in (tape_overrides or {}).items():
+        if path:
+            resolved[name] = str(path)
+    present: Dict[str, str] = {}
+    missing: List[Dict[str, str]] = []
+    for name in (default_tapes or TAPES):
+        path = resolved[name]
+        if Path(path).is_file():
+            present[name] = path
+        else:
+            missing.append({"tape": name, "path": path})
+    return {
+        "resolved": {name: resolved[name] for name in (default_tapes or TAPES)},
+        "present": present,
+        "missing": missing,
+        "full_bar_met": not missing,
+    }
+
+
 def _slice_indices(
     bar_ends: Sequence[datetime], start: Optional[str], end: Optional[str]
 ) -> List[int]:
@@ -657,9 +701,21 @@ def evaluate_slice(
 SNAPSHOT_SIGNALS: List[Any] = []
 
 
-def run_eval42(write: bool = True) -> Dict[str, Any]:
-    global SNAPSHOT_SIGNALS
+def run_eval42(
+    write: bool = True,
+    *,
+    tape_overrides: Optional[Dict[str, str]] = None,
+    options_dir: Optional[str] = None,
+    slices_spec: Optional[Sequence[Dict[str, Any]]] = None,
+    blocked_report_id: str = "EVAL_42_BLOCKED",
+) -> Dict[str, Any]:
+    global SNAPSHOT_SIGNALS, OPTIONS_DIR
     generated_at = _utc_now_iso()
+    declared_tapes = dict(TAPES)
+    declared_slices = list(slices_spec if slices_spec is not None else SLICES)
+    if options_dir:
+        OPTIONS_DIR = Path(options_dir)
+    resolved_inputs = resolve_inputs(tape_overrides, default_tapes=declared_tapes)
 
     SNAPSHOT_SIGNALS = load_snapshot_signals("BTC", OPTIONS_DIR)
     all_levels = len({round(float(s.options_signal_raw), 12) for s in SNAPSHOT_SIGNALS})
@@ -673,24 +729,60 @@ def run_eval42(write: bool = True) -> Dict[str, Any]:
         DEFAULT_COST_BUDGET_BPS, seed=SEED,
     )
 
-    tapes = {name: prepare_tape(name, path) for name, path in TAPES.items()}
+    tapes: Dict[str, Any] = {}
+    tape_errors: List[Dict[str, Any]] = []
+    for name, path in resolved_inputs["resolved"].items():
+        if name not in resolved_inputs["present"]:
+            continue
+        try:
+            tapes[name] = prepare_tape(name, path)
+        except Exception as exc:
+            tape_errors.append({
+                "tape": name,
+                "path": path,
+                "error": f"{type(exc).__name__}: {exc}",
+            })
 
-    # Component-wise IC on the two full tapes (diagnostic).
+    # Component-wise IC on every tape that loaded (diagnostic).
     component_ic: Dict[str, Any] = {}
-    for name in ("fresh", "midday"):
-        tape = tapes[name]
+    for name in declared_tapes:
+        tape = tapes.get(name)
+        if tape is None:
+            component_ic[name] = {"error": "tape_missing", "tape_path": resolved_inputs["resolved"][name]}
+            continue
         component_ic[name] = component_ic_table(
             SNAPSHOT_SIGNALS, tape["bar_ends"], tape["prices"]
         )
 
-    slice_results = [
-        evaluate_slice(slice_spec=s, tape=tapes[s["tape"]], signals=SNAPSHOT_SIGNALS,
-                       cfg=cfg, sizer=sizer)
-        for s in SLICES
-    ]
+    slice_results: List[Dict[str, Any]] = []
+    for spec in declared_slices:
+        tape = tapes.get(spec["tape"])
+        if tape is None:
+            slice_results.append({
+                "slice": spec["name"],
+                "tape": spec["tape"],
+                "tape_path": resolved_inputs["resolved"][spec["tape"]],
+                "skipped": True,
+                "reason": "tape_missing",
+                "constructions": [],
+            })
+            continue
+        slice_results.append(evaluate_slice(
+            slice_spec=spec, tape=tape, signals=SNAPSHOT_SIGNALS, cfg=cfg, sizer=sizer
+        ))
 
-    # Aggregate each construction across the four slices.
-    construction_names = [c["name"] for c in slice_results[0]["constructions"]] if slice_results and not slice_results[0].get("skipped") else []
+    skipped_slices = [s["slice"] for s in slice_results if s.get("skipped")]
+    ran_slices = [s for s in slice_results if not s.get("skipped")]
+    full_bar_met = bool(
+        resolved_inputs["full_bar_met"]
+        and not tape_errors
+        and len(ran_slices) == len(declared_slices)
+    )
+
+    # Aggregate each construction across the slices that actually ran.
+    construction_names = [
+        c["name"] for c in ran_slices[0]["constructions"]
+    ] if ran_slices and ran_slices[0].get("constructions") else []
     aggregated: List[Dict[str, Any]] = []
     for cname in construction_names:
         per_slice = []
@@ -713,30 +805,42 @@ def run_eval42(write: bool = True) -> Dict[str, Any]:
                 "abs_ic": match["abs_ic"],
                 "pass_four": match["pass_four"],
             })
-        all_pass = bool(per_slice) and all(
-            (not p.get("skipped")) and p.get("pass_four") for p in per_slice
-        )
+        measured = [p for p in per_slice if not p.get("skipped")]
+        all_pass = bool(measured) and all(p.get("pass_four") for p in measured)
         aggregated.append({
             "construction": cname,
             "per_slice": per_slice,
+            "n_measured_slices": len(measured),
             "passed_all_slices": all_pass,
             "mean_oos_sharpe": _mean([
-                p["oos_sharpe"] for p in per_slice if not p.get("skipped")
+                p["oos_sharpe"] for p in measured
             ]),
         })
 
-    any_falsified = any(a["passed_all_slices"] for a in aggregated)
-    verdict = "FALSIFIED" if any_falsified else "NO-GO CONFIRMED"
-    passing = [a["construction"] for a in aggregated if a["passed_all_slices"]]
-    verdict_reason = (
-        f"Construction(s) {passing} passed all four criteria on all four slices; "
-        f"the Track B NO-GO is falsified."
-        if any_falsified
-        else (
-            "No audit construction passed all four criteria on all four slices. "
-            "The Track B REPLICATION/NO-GO is independently corroborated."
+    if not aggregated:
+        verdict = "NO MEASUREMENT"
+        verdict_reason = (
+            "No slice could be measured: every declared real tape is missing or "
+            "failed to load, so the pre-declared bar cannot be evaluated. This is "
+            "not a falsification and not a corroboration."
         )
-    )
+        any_falsified = False
+    else:
+        any_falsified = any(a["passed_all_slices"] for a in aggregated)
+        verdict = "FALSIFIED" if any_falsified else "NO-GO CONFIRMED"
+        passing = [a["construction"] for a in aggregated if a["passed_all_slices"]]
+        verdict_reason = (
+            f"Construction(s) {passing} passed all four criteria on all measured "
+            f"slices; the Track B NO-GO is falsified."
+            if any_falsified
+            else (
+                f"No audit construction passed all four criteria on all "
+                f"{len(declared_slices)} pre-declared slices "
+                f"({len(ran_slices)} measured, {len(skipped_slices)} skipped). "
+                "The Track B REPLICATION/NO-GO is independently corroborated."
+            )
+        )
+    verdict_scope = "full" if full_bar_met else "partial"
 
     # BH-FDR across every construction x slice permutation p-value.
     pvals: Dict[str, float] = {}
@@ -784,6 +888,16 @@ def run_eval42(write: bool = True) -> Dict[str, Any]:
             "Inverse BTC-USD-SWAP orderflow tape vs spot option snapshots.",
             "Paper-only; no live trading; .env absent.",
         ],
+        "input_resolution": {
+            "declared_tapes": resolved_inputs["resolved"],
+            "present_tapes": sorted(resolved_inputs["present"]),
+            "missing_inputs": resolved_inputs["missing"],
+            "tape_errors": tape_errors,
+            "full_bar_met": bool(full_bar_met),
+        },
+        "verdict_scope": verdict_scope,
+        "skipped_slices": skipped_slices,
+        "measured_slices": [s["slice"] for s in ran_slices],
         "options_provenance": {
             "options_dir": str(OPTIONS_DIR),
             "n_snapshots": int(len(SNAPSHOT_SIGNALS)),
@@ -802,7 +916,7 @@ def run_eval42(write: bool = True) -> Dict[str, Any]:
             "zscore_window": ZSCORE_WINDOW,
             "zscore_min_samples": ZSCORE_MIN_SAMPLES,
             "sign_flip_threshold": SIGN_FLIP_THRESHOLD,
-            "slices": [s["name"] for s in SLICES],
+            "slices": [s["name"] for s in declared_slices],
             "toxicity_gate": True,
             "toxicity_threshold": float(DEFAULT_TOXICITY_THRESHOLD),
             "go_criteria": [
@@ -847,12 +961,25 @@ def run_eval42(write: bool = True) -> Dict[str, Any]:
             "python3 scripts/eval42_options_timeseries_independent_audit.py",
         ],
     }
+    if tape_overrides:
+        report["commands"].append(
+            "python3 scripts/eval42_options_timeseries_independent_audit.py "
+            + " ".join(f"--{k}-tape {v}" for k, v in sorted(tape_overrides.items()))
+        )
+    report["actual_command"] = (
+        "python3 scripts/eval42_options_timeseries_independent_audit.py "
+        + (" ".join(
+            [f"--{k}-tape {v}" for k, v in sorted((tape_overrides or {}).items())]
+            + ([f"--options-dir {options_dir}"] if options_dir else [])
+        ))
+    ).strip()
 
     assert _all_finite(report), "non-finite values in report"
     serialized = serialize_metrics_strict(report)
     assert_json_valid(serialized)
 
     artifact_paths: Dict[str, str] = {}
+    blocked_paths: Dict[str, str] = {}
     if write:
         OUT_DIR.mkdir(parents=True, exist_ok=True)
         stamp = _stamp_for_filename(generated_at)
@@ -868,7 +995,110 @@ def run_eval42(write: bool = True) -> Dict[str, Any]:
             encoding="utf-8",
         )
 
+        if not full_bar_met:
+            blocked = _build_blocked_report(
+                generated_at=generated_at,
+                missing=resolved_inputs["missing"],
+                tape_errors=tape_errors,
+                command=report["actual_command"],
+                slices_declared=[s["name"] for s in declared_slices],
+                slices_measured=[s["slice"] for s in ran_slices],
+            )
+            bstamp = _stamp_for_filename(generated_at)
+            bj = OUT_DIR / f"{blocked_report_id}_{bstamp}.json"
+            bm = OUT_DIR / f"{blocked_report_id}_{bstamp}.md"
+            bj.write_text(json.dumps(serialize_metrics_strict(blocked), indent=2, sort_keys=True) + "\n", encoding="utf-8")
+            bm.write_text(build_blocked_md(blocked) + "\n", encoding="utf-8")
+            blocked_paths = {"json": str(bj), "md": str(bm)}
+            serialized["blocked_artifact_paths"] = blocked_paths
+            jpath.write_text(
+                json.dumps(serialize_metrics_strict(serialized), indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+
+    serialized["artifact_paths"] = artifact_paths
+    serialized["blocked_artifact_paths"] = blocked_paths
     return serialized
+
+
+def _build_blocked_report(
+    *,
+    generated_at: str,
+    missing: Sequence[Dict[str, str]],
+    tape_errors: Sequence[Dict[str, Any]],
+    command: str,
+    slices_declared: Sequence[str],
+    slices_measured: Sequence[str],
+) -> Dict[str, Any]:
+    """Measured evidence that the pre-declared EVAL-42 bar cannot be satisfied."""
+    return {
+        "report_id": "EVAL_42_BLOCKED",
+        "generated_at": generated_at,
+        "task_id": f"INIT-{generated_at}-EVAL-42-BLOCKED",
+        "trading_mode": "paper",
+        "live_trading_enabled": False,
+        "never_valid_true": True,
+        "authenticity_verified": False,
+        "status": "BLOCKED",
+        "reason": "one or more pre-declared real orderflow tapes are absent from the checkout",
+        "command": command,
+        "exit_code": 0,
+        "missing_inputs": list(missing),
+        "tape_errors": list(tape_errors),
+        "declared_slices": list(slices_declared),
+        "measured_slices": list(slices_measured),
+        "unsatisfied_slices": [
+            s for s in slices_declared if s not in set(slices_measured)
+        ],
+        "attempts": [
+            "Path search: data/raw/orderflow_okx_BTC-USD-SWAP.json absent; only "
+            "data/raw/eval41/orderflow_okx_BTC-USD-SWAP.json present.",
+            "No substitution attempted: a different real tape is never relabelled "
+            "as the pre-declared midday tape and synthetic data is never used.",
+        ],
+        "remediation": [
+            "Restore the exact pre-declared tape from real public OKX "
+            "history-trades for the exact window with provenance preserved, or",
+            "Accept the partial single-tape audit as the maximum achievable "
+            "measurement on available real data.",
+        ],
+        "code_paths": [
+            "scripts/eval42_options_timeseries_independent_audit.py",
+            "src/analytics/options_time_varying_signal.py",
+            "src/analytics/integrated_options_orderflow_evaluation.py",
+        ],
+    }
+
+
+def build_blocked_md(r: Dict[str, Any]) -> str:
+    lines: List[str] = [
+        f"# {r['report_id']} — {r['generated_at']}",
+        "",
+        f"**Status:** {r['status']} — {r['reason']}",
+        "",
+        "## Missing real inputs",
+    ]
+    for m in r["missing_inputs"]:
+        lines.append(f"- `{m['tape']}`: `{m['path']}` (absent)")
+    for e in r["tape_errors"]:
+        lines.append(f"- `{e['tape']}`: {e['error']}")
+    lines += [
+        "",
+        "## Slices",
+        f"- Declared: {', '.join(r['declared_slices'])}",
+        f"- Measured: {', '.join(r['measured_slices']) or 'none'}",
+        f"- Unsatisfied: {', '.join(r['unsatisfied_slices']) or 'none'}",
+        "",
+        "## Command",
+        f"```bash\n{r['command']}\n```",
+        "",
+        "## Attempts",
+    ]
+    lines += [f"- {a}" for a in r["attempts"]]
+    lines += ["", "## Remediation"]
+    lines += [f"- {a}" for a in r["remediation"]]
+    lines.append("")
+    return "\n".join(lines)
 
 
 def build_md(r: Dict[str, Any]) -> str:
@@ -948,14 +1178,38 @@ def build_md(r: Dict[str, Any]) -> str:
 def main(argv: Any = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--no-write", action="store_true")
+    ap.add_argument("--fresh-tape", default=None, help="override fresh tape path")
+    ap.add_argument("--midday-tape", default=None, help="override midday tape path")
+    ap.add_argument("--options-dir", default=None, help="override options snapshot dir")
+    ap.add_argument(
+        "--fresh-only", action="store_true",
+        help="restrict to the single verified fresh tape (fresh_full, fresh_only, "
+             "fresh_early_half, fresh_late_half)",
+    )
     args = ap.parse_args(argv)
-    report = run_eval42(write=not args.no_write)
+    overrides = {}
+    if args.fresh_tape:
+        overrides["fresh"] = args.fresh_tape
+    if args.midday_tape:
+        overrides["midday"] = args.midday_tape
+    slices_spec = None
+    if args.fresh_only:
+        slices_spec = [s for s in SLICES if s["tape"] == "fresh"]
+    report = run_eval42(
+        write=not args.no_write,
+        tape_overrides=overrides or None,
+        options_dir=args.options_dir,
+        slices_spec=slices_spec,
+    )
     print(json.dumps({
         "report_id": report["report_id"],
         "verdict": report["verdict"],
+        "verdict_scope": report["verdict_scope"],
         "verdict_reason": report["verdict_reason"],
         "any_construction_falsified": report["any_construction_falsified"],
+        "missing_inputs": report["input_resolution"]["missing_inputs"],
         "artifact_paths": report.get("artifact_paths", {}),
+        "blocked_artifact_paths": report.get("blocked_artifact_paths", {}),
     }, sort_keys=True))
     return 0
 
