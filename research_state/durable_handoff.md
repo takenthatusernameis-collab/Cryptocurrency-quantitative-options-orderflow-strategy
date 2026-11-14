@@ -1,13 +1,13 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T08:53:31Z (UTC).** Handoff refreshed/verified at working tree 2026-11-14T08:53:31Z.
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T08:59:28Z (UTC).** Handoff refreshed/verified at working tree 2026-11-14T08:59:28Z.
 
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/INITIAL_TASK_20261114T063750Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
 **Repo priority:** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
 **Mission:** Deliver the strategy and a *trustworthy*, net-of-cost measurement of its performance — not orchestrator wrappers, not a favorable-looking number from a broken harness. A **trustworthy NO-GO** is a full success; a fabricated GO is a failure.
 
-## VERIFIED STATE (refreshed 2026-11-14T08:52:41Z)
+## VERIFIED STATE (refreshed 2026-11-14T08:59:28Z)
 
 - **Sealed gates:** EVAL-02..EVAL-22 **SEALED**. EVAL-23B/EVAL-24A adapters **SEALED**. EVAL-25 **GO** (`REAL_DATA_FALSIFICATION_20261114T025046Z.{json,md}`). EVAL-26 **SEALED** (`PUBLIC_EXPORT_ACQUISITION_20261114T064702Z.{json,md}` latest).
 - **EVAL-23 SEALED (NO-GO, trustworthy)** `REAL_NET_OF_COST_EVAL_23_20261114T040000Z.{json,md}` (8/11 checks). Combined IC mean -0.016776 (|t|=4.1008, p=0.0020, adverse); options-only OOS Sharpe 8.760 / 591 trades / cost 635.09; orderflow-only Sharpe -2.338 / 502 trades / cost 588.15; `options_leg_degenerate=true`, `options_signal_tradable` FAIL.
@@ -23,13 +23,15 @@
   - `data/raw/options_okx_BTC_20261114T035050Z.json` — 728 quotes, 12 expiries, 88 strikes.
   - `data/raw/options_okx_BTC_20261114T064702Z.json` — 730 quotes, 12 expiries, 89 strikes.
   - Synthetic fixtures (`orderflow_btcusdt_synthetic.json`, `options_btc_synthetic.json`) — **never relabel as real, never use via real loaders**.
-- **Targeted regression (2026-11-14T08:52Z):** `PYTHONPATH=. python3 -m pytest -q tests/test_integrated_options_orderflow_evaluation.py tests/test_real_data_inputs.py tests/test_public_export_acquisition.py tests/test_options_timeseries_parity_calibration.py` → **44 passed in 4.57s**.
+- **Targeted regression (2026-11-14T08:59Z, re-run this session):** `PYTHONPATH=. python3 -m pytest -q tests/test_integrated_options_orderflow_evaluation.py tests/test_real_data_inputs.py tests/test_public_export_acquisition.py tests/test_options_timeseries_parity_calibration.py` → **44 passed in 4.60s**.
+- **EVAL-29 entry point verified present this session:** `src/data/options_timeseries.py` exports `discover_all_real_options_exports`, `load_options_timeseries`, `calibrate_expiry_parity`; `src/analytics/{real_net_of_cost_evaluation,integrated_options_orderflow_evaluation,capacity_aware_tca,production_simulation_evaluation}.py` all present and importable. EVAL-29 is **unblocked**.
 
 ## BOTTLENECKS (active — must be resolved by measured evidence, not narrative)
 
 - **Removed (measured):**
   1. **Stale-constant-spot parity confound:** EVAL-27 used `REFERENCE_SPOT=66825.3` for every strike/expiry; per-expiry forward fitting (`C_mid - P_mid = F/S - K/S`) yields 100% within-spread, R²>0.9999 (EVAL-28). Options chain is internally arbitrage-free.
   2. EVAL-23/24 sealing, data acquisition plumbing, real loaders, sizing/causal-gap blockers, public export acquisition baseline.
+  3. **"Where do I start" blocker:** the exact EVAL-29 entry-point functions are named below; the net-of-cost walk-forward machinery exists and imports cleanly. No exploration tax — start at the named functions.
 - **Active:**
   1. **Options-leg tradability is parity-consistent but not yet net-of-cost evaluated.** EVAL-28 proves the chain is usable; it does **not** prove a time-varying signal or edge. EVAL-29 must compute causal per-snapshot options features/signals with per-expiry forwards and measure IC / time variation / net-of-cost OOS.
   2. **Orderflow-only net-of-cost negative** on current real tape (EVAL-23 Sharpe -2.338; EVAL-27 orderflow-only Sharpe 0.79 but return -0.083).
@@ -42,20 +44,20 @@
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-14T08:53:31Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-14T08:59:28Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-14T08:53:31Z-EVAL-29-OPTIONS-TRADABILITY-NET-OF-COST`
+**TASK ID:** `INIT-2026-11-14T08:59:28Z-EVAL-29-OPTIONS-TRADABILITY-NET-OF-COST`
 **STATUS:** **ACTIVE — mandatory heavy-work session.** EVAL-27 sealed (parity confound resolved by EVAL-28), EVAL-28 sealed GO (per-expiry parity consistent); EVAL-29 must produce a measured options-leg tradability / net-of-cost verdict.
 
 > **Hard success/failure floor:** session ends with **>=1 new sealed artifact** `research_state/<EVAL-ID>_<UTC>.{json,md}` containing measured numbers, code paths, tests/verification output, and explicit GO/NO-GO → PASS (NO-GO is success if trustworthy). No new sealed artifact / handoff-only / narrative-only → **FAILED**. Fabricated GO or synthetic relabeled as real → **FAILED**.
 
 ### Execute one path to completion (pick highest-leverage unblocked; if blocked, seal measured NO-GO). Do not stop at analysis.
 
-**Path A — preferred (options-leg tradability on real data, now unblocked by EVAL-28):**
+**Path A — preferred (options-leg tradability on real data, unblocked by EVAL-28):**
 1. **Reuse** `src/data/options_timeseries.py`: `discover_all_real_options_exports` (oldest-first), `load_options_timeseries`, `calibrate_expiry_parity` (per-expiry forward). Extend with a causal **per-snapshot signal** (e.g., per-expiry forward drift, ATM IV from solved surface, PCR, skew, gamma-flip distance, term-structure slope) — no lookahead, snapshot timestamp only.
 2. Compute options features/signals **per snapshot over time** (3 snapshots now; attempt to acquire more via public OKX read-only endpoints if feasible, polite rate limits). Reuse `src/features/{iv_surface,options_pricing,gamma_exposure,volatility}.py`, `src/data/{loader,schemas,options_exports,public_export_acquisition}.py`.
-3. Run net-of-cost walk-forward with real loaders: `src/analytics/integrated_options_orderflow_evaluation.py`, `src/campaign/integrated.py`, `src/analytics/capacity_aware_tca.py`, `src/analytics/production_simulation_evaluation.py`, `src/analytics/real_net_of_cost_evaluation.py`.
-4. Seal `OPTIONS_LEG_TRADABILITY_29_<UTC>.{json,md}`: n_snapshots, span, per-snapshot coverage, signal time-variation (stdev/mean, IC & significance), net-of-cost OOS Sharpe/return/drawdown/trades/cost/turnover, toxicity engagement, explicit GO/NO-GO answering “does the options leg constitute a defensible net-of-cost edge on current real data?” (expect NO-GO unless evidence proves otherwise; a measured NO-GO is success).
+3. Run net-of-cost walk-forward with real loaders: `src/analytics/real_net_of_cost_evaluation.py` (`evaluate_real_net_of_cost`), `src/analytics/integrated_options_orderflow_evaluation.py` (`evaluate_integrated_options_orderflow`), `src/analytics/capacity_aware_tca.py` (`evaluate_capacity_aware_tca`), `src/analytics/production_simulation_evaluation.py` (`evaluate_production_simulation`), `src/campaign/integrated.py`.
+4. Seal `OPTIONS_LEG_TRADABILITY_29_<UTC>.{json,md}`: n_snapshots, span, per-snapshot coverage, signal time-variation (stdev/mean, IC & significance), net-of-cost OOS Sharpe/return/drawdown/trades/cost/turnover, toxicity engagement, explicit GO/NO-GO answering "does the options leg constitute a defensible net-of-cost edge on current real data?" (expect NO-GO unless evidence proves otherwise; a measured NO-GO is success).
 
 **Path B — fallback (amended fusion / orderflow-only, only if options signal is non-time-varying):**
 1. Run measured evaluation on the same real inputs comparing: (i) sealed fusion baseline reproduced, (ii) orderflow-only when options leg degenerate, (iii) toxicity-filtered / regime-gated variant justified by diagnostics.
@@ -80,7 +82,7 @@
 - EVAL-27 parity NO-GO is **resolved** by EVAL-28: the chain is arbitrage-free per-expiry. Do not repeat the constant-spot parity test.
 - Orderflow-only net-of-cost Sharpe -2.338 (EVAL-23) / +0.79 with negative return (EVAL-27) is a measured NO-GO signal.
 - Real loaders select newest matching export by filename recency; multi-snapshot consumers must use `discover_all_real_options_exports` (oldest-first) and keep sealed semantics.
-- Three real option snapshots exist (03:49Z, 03:54Z, 06:47Z); “blocked on data” is not valid without attempting to use/acquire and measuring.
+- Three real option snapshots exist (03:49Z, 03:54Z, 06:47Z); "blocked on data" is not valid without attempting to use/acquire and measuring.
 
 ## CAMPAIGN QUEUE
 
