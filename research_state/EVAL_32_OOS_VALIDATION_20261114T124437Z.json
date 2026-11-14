@@ -1,0 +1,272 @@
+{
+  "artifact_paths": {
+    "json": "research_state/EVAL_32_OOS_VALIDATION_20261114T124437Z.json",
+    "md": "research_state/EVAL_32_OOS_VALIDATION_20261114T124437Z.md"
+  },
+  "authenticity_verified": false,
+  "code_paths": [
+    "src/analytics/options_time_varying_signal.py",
+    "src/analytics/integrated_options_orderflow_evaluation.py",
+    "src/analytics/real_walkforward_certification.py",
+    "src/analytics/strategy_evaluation.py",
+    "src/analytics/strategy_falsification.py",
+    "scripts/eval31_amended_fusion.py",
+    "scripts/eval32_oos_validation.py",
+    "tests/test_eval32_oos_validation.py"
+  ],
+  "commands": [
+    "python3 -m py_compile src/analytics/options_time_varying_signal.py scripts/eval31_amended_fusion.py scripts/eval32_oos_validation.py tests/test_eval32_oos_validation.py",
+    "python3 -m pytest -q tests/test_eval32_oos_validation.py",
+    "python3 scripts/eval32_oos_validation.py"
+  ],
+  "data_provenance": "real_public_exchange_export",
+  "eval30_reproduction": {
+    "ic_mean": -0.0029570304267226336,
+    "ic_present": true,
+    "matches_sealed_eval30": true,
+    "mean_signal": -0.008405461258530169,
+    "n_bars": 1553,
+    "n_snapshots": 3,
+    "non_constant": true,
+    "per_snapshot_signals": [
+      -0.03619112216524052,
+      -0.05184303954151161,
+      -0.029513227890609832
+    ]
+  },
+  "fusion": {
+    "constants": {
+      "embargo": 5,
+      "max_position_pct": 0.2,
+      "n_points": 500,
+      "purge": 10,
+      "seed": 42,
+      "signal_lookback_seconds": 60.0,
+      "signal_threshold": 0.1,
+      "step_size": 40,
+      "test_window": 40,
+      "toxicity_threshold": 0.7,
+      "toxicity_window_trades": 5,
+      "train_window": 120
+    },
+    "fitted_parameters": null,
+    "fusion_rule": "A_options_regime_filter_orderflow_direction",
+    "n_combined_nonflat_held_out": 50,
+    "n_options_nonflat_held_out": 0,
+    "n_orderflow_nonflat_held_out": 77,
+    "options_risk_off_fraction_held_out": 0.5429184549356223,
+    "toxicity_gate_fraction_held_out": 0.8047210300429185
+  },
+  "generated_at": "2026-11-14T12:44:37.589774Z",
+  "live_trading_enabled": false,
+  "never_valid_true": true,
+  "provenance_caveats": [
+    "Public read-only OKX exports; no signed venue attestation.",
+    "Inverse BTC-USD-SWAP orderflow tape vs spot option snapshots.",
+    "Paper-only; no live trading; .env absent."
+  ],
+  "report_id": "EVAL_32_OOS_VALIDATION",
+  "split": {
+    "chronological": true,
+    "held_out_end_utc": "2026-11-14T10:33:35.690000Z",
+    "held_out_indices": [
+      1087,
+      1552
+    ],
+    "held_out_n_bars": 466,
+    "held_out_start_utc": "2026-11-14T08:37:20.690000Z",
+    "n_bars_total": 1553,
+    "no_lookahead": true,
+    "slice_mechanism": "positions computed on full 1553-bar causal series, then sliced [1087:]",
+    "split_index": 1087,
+    "train_end_utc": "2026-11-14T08:37:05.690000Z",
+    "train_indices": [
+      0,
+      1086
+    ],
+    "train_n_bars": 1087
+  },
+  "statistical_defensibility": {
+    "bh_fdr": {
+      "alpha": 0.1,
+      "m_tests": 1,
+      "method": "Benjamini-Hochberg",
+      "rejected": [],
+      "thresholds": {
+        "combined_vs_best_control": 0.1
+      }
+    },
+    "bootstrap_ci_combined_sharpe": {
+      "block_size": 2,
+      "ci": [
+        5.019467339381366,
+        -6.823961182100189,
+        13.643447383223773
+      ],
+      "excludes_zero": false,
+      "n_bootstrap": 1000
+    },
+    "dsr_window_returns_by_benchmark": {
+      "0.0": 0.0,
+      "0.5": 0.0,
+      "1.0": 0.0
+    },
+    "pbo_cscv_k4": {
+      "config_valid_combinations": {
+        "combined": 4,
+        "flat": 4,
+        "options_only": 4,
+        "orderflow_only": 4
+      },
+      "k_folds": 4,
+      "overall_pbo": 0.25,
+      "pbo_per_config": {
+        "combined": 0.515625,
+        "flat": 0.0,
+        "options_only": 0.0,
+        "orderflow_only": 0.5
+      }
+    },
+    "pbo_cscv_k8_invalid": {
+      "config_valid_combinations": {
+        "combined": 0,
+        "flat": 0,
+        "options_only": 0,
+        "orderflow_only": 0
+      },
+      "k_folds": 8,
+      "note": "k_folds=8 on 466-bar held-out yields valid_combinations=0 -> INVALID; not a pass."
+    },
+    "permutation_vs_best_control": {
+      "alternative": "two-sided",
+      "best_control": "orderflow_only",
+      "n_permutations": 1000,
+      "null_mean": 3.274183445376583e-05,
+      "observed_difference": 0.0009212324007424125,
+      "p_value": 0.24975024975024976,
+      "paired": true,
+      "significant_at_05": false,
+      "statistic_a": 0.035007625119525994,
+      "statistic_b": 0.03408639271878358
+    }
+  },
+  "symbol": "BTC",
+  "task_id": "INIT-2026-11-14T12:38:04Z-EVAL-32-OOS-VALIDATION-MARGINAL-GO",
+  "trading_mode": "paper",
+  "validation_criteria": {
+    "all_pass": false,
+    "criteria": {
+      "a_combined_superior_and_trades": true,
+      "b_permutation_p_lt_0_05": false,
+      "c_bootstrap_ci_excludes_zero": false,
+      "d_pbo_combined_lt_0_5_valid": false
+    },
+    "detail": {
+      "best_control_sharpe": 4.811462185754629,
+      "bootstrap_ci": [
+        5.019467339381366,
+        -6.823961182100189,
+        13.643447383223773
+      ],
+      "combined_sharpe": 5.019467339381368,
+      "combined_trades": 108,
+      "pbo_combined": 0.515625,
+      "pbo_valid_combinations": 4,
+      "permutation_p": 0.24975024975024976
+    },
+    "validation_verdict": "NO-GO"
+  },
+  "venue": "okx",
+  "verdict": "NO-GO",
+  "verdict_reason": "Held-out validation NO-GO: combined Sharpe 5.019467 vs best control 4.811462 (orderflow_only), trades 108, perm p=0.2498, bootstrap CI [-6.8240,13.6434], PBO combined=0.5156 (valid_combos=4).",
+  "walkforward_held_out": {
+    "combined": {
+      "num_trades": 108,
+      "num_windows": 9,
+      "oos_max_drawdown": 0.17578603758815967,
+      "oos_return": 0.2930381262503177,
+      "oos_sharpe": 5.019467339381368,
+      "total_cost_usd": 122.07360953905403,
+      "total_traded_notional": 1093158.080860914
+    },
+    "flat": {
+      "num_trades": 0,
+      "num_windows": 9,
+      "oos_max_drawdown": 0.0,
+      "oos_return": 0.0,
+      "oos_sharpe": 0.0,
+      "total_cost_usd": 0.0,
+      "total_traded_notional": 0.0
+    },
+    "num_windows_by_config": {
+      "combined": 9,
+      "flat": 9,
+      "options_only": 9,
+      "orderflow_only": 9
+    },
+    "options_only": {
+      "num_trades": 0,
+      "num_windows": 9,
+      "oos_max_drawdown": 0.0,
+      "oos_return": 0.0,
+      "oos_sharpe": 0.0,
+      "total_cost_usd": 0.0,
+      "total_traded_notional": 0.0
+    },
+    "orderflow_only": {
+      "num_trades": 129,
+      "num_windows": 9,
+      "oos_max_drawdown": 0.1840532628635083,
+      "oos_return": 0.28006839027539565,
+      "oos_sharpe": 4.811462185754629,
+      "total_cost_usd": 157.0180100586245,
+      "total_traded_notional": 1411865.6103790484
+    },
+    "window_returns": {
+      "combined": [
+        0.0,
+        0.0,
+        -0.17578603758815967,
+        0.15005892871819523,
+        -0.00012179309325903887,
+        0.1673201642801991,
+        -0.01211409602009604,
+        -0.013313751647420578,
+        0.1990252114262749
+      ],
+      "flat": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "options_only": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "orderflow_only": [
+        -7.118534037057544e-05,
+        -5.854158319809358e-05,
+        -0.18394740227127274,
+        0.15005892871819523,
+        -0.00012179309325903887,
+        0.1673201642801991,
+        -0.01211409602009604,
+        -0.013313751647420578,
+        0.1990252114262749
+      ]
+    }
+  }
+}
