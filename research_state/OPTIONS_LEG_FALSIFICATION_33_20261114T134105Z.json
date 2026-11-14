@@ -1,0 +1,981 @@
+{
+  "artifact_paths": {
+    "json": "research_state/OPTIONS_LEG_FALSIFICATION_33_20261114T134105Z.json",
+    "md": "research_state/OPTIONS_LEG_FALSIFICATION_33_20261114T134105Z.md"
+  },
+  "authenticity_verified": false,
+  "code_paths": [
+    "src/analytics/options_time_varying_signal.py",
+    "src/analytics/integrated_options_orderflow_evaluation.py",
+    "src/analytics/capacity_aware_tca.py",
+    "scripts/eval33_options_leg_falsification.py",
+    "tests/test_eval33_options_leg_falsification.py"
+  ],
+  "commands": [
+    "python3 -m py_compile src/analytics/options_time_varying_signal.py src/analytics/integrated_options_orderflow_evaluation.py scripts/eval33_options_leg_falsification.py tests/test_eval33_options_leg_falsification.py",
+    "python3 -m pytest -q tests/test_eval33_options_leg_falsification.py",
+    "python3 scripts/eval33_options_leg_falsification.py"
+  ],
+  "data_provenance": "real_public_exchange_export",
+  "eval30_reproduction": {
+    "ic_mean": -0.0029570304267226336,
+    "ic_present": true,
+    "matches_sealed_eval30": true,
+    "mean_signal": -0.008405461258530169,
+    "n_bars": 1553,
+    "n_snapshots": 3,
+    "non_constant": true,
+    "per_snapshot_signals": [
+      -0.03619112216524052,
+      -0.05184303954151161,
+      -0.029513227890609832
+    ]
+  },
+  "generated_at": "2026-11-14T13:41:05.692346Z",
+  "live_trading_enabled": false,
+  "never_valid_true": true,
+  "provenance_caveats": [
+    "Public read-only OKX exports; no signed venue attestation.",
+    "Inverse BTC-USD-SWAP orderflow tape vs spot option snapshots.",
+    "Paper-only; no live trading; .env absent."
+  ],
+  "report_id": "OPTIONS_LEG_FALSIFICATION_33",
+  "split": {
+    "chronological": true,
+    "held_out_end_utc": "2026-11-14T10:33:35.690000Z",
+    "held_out_n_bars": 466,
+    "held_out_start_utc": "2026-11-14T08:37:20.690000Z",
+    "n_bars_total": 1553,
+    "no_lookahead": true,
+    "split_index": 1087,
+    "train_n_bars": 1087
+  },
+  "step1_bucket_ic": {
+    "2026-11-14T09:30:33.038452Z": {
+      "buckets": {
+        "ATM": {
+          "all": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.1253340339804223,
+            "mean_iv": 0.40515157324399115,
+            "n_contracts": 92,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "calls": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.05978882729072436,
+            "mean_iv": 0.4875492296021561,
+            "n_contracts": 46,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "puts": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.11943110454222033,
+            "mean_iv": 0.32275391688582616,
+            "n_contracts": 46,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          }
+        },
+        "NEAR": {
+          "all": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.2055298244050502,
+            "mean_iv": 0.38323913515430785,
+            "n_contracts": 137,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "calls": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.13109747104624297,
+            "mean_iv": 0.5043457224085368,
+            "n_contracts": 68,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "puts": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.1955411370310886,
+            "mean_iv": 0.2638877158312996,
+            "n_contracts": 69,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          }
+        },
+        "WING": {
+          "all": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.2904753905709634,
+            "mean_iv": 0.34303629751943937,
+            "n_contracts": 596,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "calls": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.18685701831036872,
+            "mean_iv": 0.5508032292629887,
+            "n_contracts": 275,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "puts": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.24100983156230446,
+            "mean_iv": 0.1650428201690466,
+            "n_contracts": 321,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          }
+        }
+      },
+      "n_expiries": 14,
+      "n_iv_points": 14,
+      "options_signal_raw": -0.03619112216524052,
+      "snapshot_path": "data/raw/options_okx_BTC_20261114T093032Z.json"
+    },
+    "2026-11-14T09:31:20.828170Z": {
+      "buckets": {
+        "ATM": {
+          "all": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.12712048350121022,
+            "mean_iv": 0.40460480734794685,
+            "n_contracts": 92,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "calls": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.061138105147904326,
+            "mean_iv": 0.48938613482125104,
+            "n_contracts": 46,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "puts": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.11918733059270784,
+            "mean_iv": 0.3198234798746427,
+            "n_contracts": 46,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          }
+        },
+        "NEAR": {
+          "all": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.21053513277049132,
+            "mean_iv": 0.383012356750484,
+            "n_contracts": 137,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "calls": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.13644968671906535,
+            "mean_iv": 0.5079891808322956,
+            "n_contracts": 68,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "puts": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.19772812416531266,
+            "mean_iv": 0.2598467909886987,
+            "n_contracts": 69,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          }
+        },
+        "WING": {
+          "all": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.2905501184984873,
+            "mean_iv": 0.3421332063142667,
+            "n_contracts": 595,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "calls": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.1879470792081186,
+            "mean_iv": 0.5500229313545908,
+            "n_contracts": 274,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "puts": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.24072206720422018,
+            "mean_iv": 0.16468216375648234,
+            "n_contracts": 321,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          }
+        }
+      },
+      "n_expiries": 14,
+      "n_iv_points": 14,
+      "options_signal_raw": -0.05184303954151161,
+      "snapshot_path": "data/raw/options_okx_BTC_20261114T093120Z.json"
+    },
+    "2026-11-14T10:36:17.936702Z": {
+      "buckets": {
+        "ATM": {
+          "all": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.13944769549822134,
+            "mean_iv": 0.3883133230524921,
+            "n_contracts": 94,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "calls": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.06683152193124797,
+            "mean_iv": 0.48318563896429473,
+            "n_contracts": 47,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "puts": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.12815363663565957,
+            "mean_iv": 0.2934410071406895,
+            "n_contracts": 47,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          }
+        },
+        "NEAR": {
+          "all": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.2169226253764285,
+            "mean_iv": 0.38168866362427706,
+            "n_contracts": 136,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "calls": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.1493343449285487,
+            "mean_iv": 0.5131325776372005,
+            "n_contracts": 68,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "puts": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.19301580029389376,
+            "mean_iv": 0.2502447496113535,
+            "n_contracts": 68,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          }
+        },
+        "WING": {
+          "all": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.2914562016708452,
+            "mean_iv": 0.33734495651831137,
+            "n_contracts": 587,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "calls": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.19393131018594495,
+            "mean_iv": 0.5478006385531053,
+            "n_contracts": 266,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          },
+          "puts": {
+            "coverage_greeks": 1.0,
+            "coverage_iv": 1.0,
+            "coverage_oi": 1.0,
+            "ic_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            },
+            "iv_stdev": 0.23886514680107046,
+            "mean_iv": 0.16294865925583413,
+            "n_contracts": 321,
+            "note": "Cross-sectional bucket; time-series IC requires per-snapshot alignment not feasible with 3 snapshots",
+            "tstat_by_horizon": {
+              "1": 0.0,
+              "20": 0.0,
+              "5": 0.0
+            }
+          }
+        }
+      },
+      "n_expiries": 14,
+      "n_iv_points": 14,
+      "options_signal_raw": -0.029513227890609832,
+      "snapshot_path": "data/raw/options_okx_BTC_20261114T103323Z.json"
+    }
+  },
+  "step2_frontier": {
+    "combined_reference": {
+      "num_trades": 108,
+      "num_windows": 9,
+      "oos_max_drawdown": 0.17578603758815967,
+      "oos_return": 0.2930381262503177,
+      "oos_sharpe": 5.019467339381368,
+      "total_cost_usd": 122.07360953905403,
+      "total_traded_notional": 1093158.080860914
+    },
+    "flat": {
+      "num_trades": 0,
+      "num_windows": 9,
+      "oos_max_drawdown": 0.0,
+      "oos_return": 0.0,
+      "oos_sharpe": 0.0,
+      "total_cost_usd": 0.0,
+      "total_traded_notional": 0.0
+    },
+    "orderflow_only": {
+      "num_trades": 129,
+      "num_windows": 9,
+      "oos_max_drawdown": 0.1840532628635083,
+      "oos_return": 0.28006839027539565,
+      "oos_sharpe": 4.811462185754629,
+      "total_cost_usd": 157.0180100586245,
+      "total_traded_notional": 1411865.6103790484
+    },
+    "variants": [
+      {
+        "direction": "long",
+        "name": "options_only_long_thresh0.1",
+        "num_trades": 0,
+        "num_windows": 9,
+        "oos_max_drawdown": 0.0,
+        "oos_return": 0.0,
+        "oos_sharpe": 0.0,
+        "threshold": 0.1,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "toxicity_gate_fraction": 0.8047210300429185,
+        "window_returns": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "direction": "long",
+        "name": "options_only_long_thresh0.2",
+        "num_trades": 0,
+        "num_windows": 9,
+        "oos_max_drawdown": 0.0,
+        "oos_return": 0.0,
+        "oos_sharpe": 0.0,
+        "threshold": 0.2,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "toxicity_gate_fraction": 0.8047210300429185,
+        "window_returns": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "direction": "long",
+        "name": "options_only_long_thresh0.5",
+        "num_trades": 0,
+        "num_windows": 9,
+        "oos_max_drawdown": 0.0,
+        "oos_return": 0.0,
+        "oos_sharpe": 0.0,
+        "threshold": 0.5,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "toxicity_gate_fraction": 0.8047210300429185,
+        "window_returns": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "direction": "short",
+        "name": "options_only_short_thresh0.1",
+        "num_trades": 0,
+        "num_windows": 9,
+        "oos_max_drawdown": 0.0,
+        "oos_return": 0.0,
+        "oos_sharpe": 0.0,
+        "threshold": 0.1,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "toxicity_gate_fraction": 0.8047210300429185,
+        "window_returns": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "direction": "short",
+        "name": "options_only_short_thresh0.2",
+        "num_trades": 0,
+        "num_windows": 9,
+        "oos_max_drawdown": 0.0,
+        "oos_return": 0.0,
+        "oos_sharpe": 0.0,
+        "threshold": 0.2,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "toxicity_gate_fraction": 0.8047210300429185,
+        "window_returns": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "direction": "short",
+        "name": "options_only_short_thresh0.5",
+        "num_trades": 0,
+        "num_windows": 9,
+        "oos_max_drawdown": 0.0,
+        "oos_return": 0.0,
+        "oos_sharpe": 0.0,
+        "threshold": 0.5,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "toxicity_gate_fraction": 0.8047210300429185,
+        "window_returns": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    ]
+  },
+  "step3_falsification_verdict": {
+    "any_variant_passed_all_criteria": false,
+    "best_control": "orderflow_only",
+    "best_control_sharpe": 4.811462185754629,
+    "variant_results": [
+      {
+        "all_criteria_pass": false,
+        "bootstrap_ci": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ci_excludes_zero": false,
+        "num_trades": 0,
+        "oos_sharpe": 0.0,
+        "perm_pass": false,
+        "permutation_p": 0.5324675324675324,
+        "superior_to_best_control": false,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "variant": "options_only_long_thresh0.1"
+      },
+      {
+        "all_criteria_pass": false,
+        "bootstrap_ci": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ci_excludes_zero": false,
+        "num_trades": 0,
+        "oos_sharpe": 0.0,
+        "perm_pass": false,
+        "permutation_p": 0.5324675324675324,
+        "superior_to_best_control": false,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "variant": "options_only_long_thresh0.2"
+      },
+      {
+        "all_criteria_pass": false,
+        "bootstrap_ci": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ci_excludes_zero": false,
+        "num_trades": 0,
+        "oos_sharpe": 0.0,
+        "perm_pass": false,
+        "permutation_p": 0.5324675324675324,
+        "superior_to_best_control": false,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "variant": "options_only_long_thresh0.5"
+      },
+      {
+        "all_criteria_pass": false,
+        "bootstrap_ci": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ci_excludes_zero": false,
+        "num_trades": 0,
+        "oos_sharpe": 0.0,
+        "perm_pass": false,
+        "permutation_p": 0.5324675324675324,
+        "superior_to_best_control": false,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "variant": "options_only_short_thresh0.1"
+      },
+      {
+        "all_criteria_pass": false,
+        "bootstrap_ci": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ci_excludes_zero": false,
+        "num_trades": 0,
+        "oos_sharpe": 0.0,
+        "perm_pass": false,
+        "permutation_p": 0.5324675324675324,
+        "superior_to_best_control": false,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "variant": "options_only_short_thresh0.2"
+      },
+      {
+        "all_criteria_pass": false,
+        "bootstrap_ci": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "ci_excludes_zero": false,
+        "num_trades": 0,
+        "oos_sharpe": 0.0,
+        "perm_pass": false,
+        "permutation_p": 0.5324675324675324,
+        "superior_to_best_control": false,
+        "total_cost_usd": 0.0,
+        "total_traded_notional": 0.0,
+        "variant": "options_only_short_thresh0.5"
+      }
+    ],
+    "verdict": "NO-GO",
+    "verdict_reason": "No options-only variant passed all three criteria: best Sharpe=0.000000 vs best_control=orderflow_only (4.811462), best perm_p=0.5325, best CI=[0.0000, 0.0000]"
+  },
+  "step3_statistical_defensibility": {
+    "best_variant": "options_only_long_thresh0.1",
+    "best_variant_sharpe": 0.0,
+    "bh_fdr": {
+      "alpha": 0.1,
+      "m_tests": 2,
+      "method": "Benjamini-Hochberg",
+      "rejected": [],
+      "thresholds": {
+        "best_vs_flat": 0.1,
+        "best_vs_orderflow": 0.05
+      }
+    },
+    "bootstrap_ci_best_variant_sharpe": {
+      "block_size": 2,
+      "ci": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "excludes_zero": false,
+      "n_bootstrap": 1000
+    },
+    "dsr_window_returns": {
+      "best_variant": {
+        "0.0": 0.0,
+        "0.5": 0.0,
+        "1.0": 0.0
+      },
+      "flat": {
+        "0.0": 0.0,
+        "0.5": 0.0,
+        "1.0": 0.0
+      },
+      "orderflow_only": {
+        "0.0": 0.0,
+        "0.5": 0.0,
+        "1.0": 0.0
+      }
+    },
+    "pbo_cscv": {
+      "config_valid_combinations": {
+        "best_variant": 4,
+        "flat": 4,
+        "orderflow_only": 4
+      },
+      "k_folds": 4,
+      "overall_pbo": 0.0,
+      "pbo_per_config": {
+        "best_variant": 0.0,
+        "flat": 0.0,
+        "orderflow_only": 0.4375
+      }
+    },
+    "permutation_vs_flat": {
+      "alternative": "two-sided",
+      "control": "flat",
+      "n_permutations": 1000,
+      "null_mean": 0.0,
+      "observed_difference": 0.0,
+      "p_value": 1.0,
+      "paired": true,
+      "significant_at_05": false,
+      "statistic_a": 0.0,
+      "statistic_b": 0.0
+    },
+    "permutation_vs_orderflow_only": {
+      "alternative": "two-sided",
+      "control": "orderflow_only",
+      "n_permutations": 1000,
+      "null_mean": 0.0021584173238362973,
+      "observed_difference": -0.03408639271878358,
+      "p_value": 0.5324675324675324,
+      "paired": true,
+      "significant_at_05": false,
+      "statistic_a": 0.0,
+      "statistic_b": 0.03408639271878358
+    }
+  },
+  "symbol": "BTC",
+  "task_id": "INIT-2026-11-14T13:41:05.692346Z-EVAL-33-OPTIONS-LEG-FALSIFICATION",
+  "trading_mode": "paper",
+  "venue": "okx",
+  "verdict": "NO-GO",
+  "verdict_reason": "No options-only variant passed all three criteria: best Sharpe=0.000000 vs best_control=orderflow_only (4.811462), best perm_p=0.5325, best CI=[0.0000, 0.0000]"
+}
