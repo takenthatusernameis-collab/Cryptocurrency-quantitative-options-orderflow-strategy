@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-**INITIAL TASK MESSAGE — timestamped 2026-11-14T16:46:11Z UTC — TASK ID `INIT-2026-11-14T16:46:11Z-EVAL-40-ACQUIRE-PREREG-EVAL`** (authoritative; supersedes all prior task IDs/messages). Inferred from repo charter: *cryptocurrency quantitative OPTIONS + ORDERFLOW strategy, net-of-cost, real-data only, sealed measurement*. Campaign **TERMINATED (EVAL-36 `TERMINATE_NO_GO`)** and durability-closed for available real data (EVAL-39 REPLICATION, ledger `DURABILITY_LEDGER_39_20261114T163011Z`). **No handoff-only, discovery-only, or re-read session is progress.**
+**INITIAL TASK MESSAGE — timestamped 2026-11-14T16:50:02Z UTC — TASK ID `INIT-2026-11-14T16:50:02Z-EVAL-40-ACQUIRE-PREREG-EVAL`** (authoritative; supersedes all prior task IDs/messages). Inferred from repo charter: *cryptocurrency quantitative OPTIONS + ORDERFLOW strategy, net-of-cost, real-data only, sealed measurement*. Campaign **TERMINATED (EVAL-36 `TERMINATE_NO_GO`)** and durability-closed for available real data (EVAL-39 REPLICATION, ledger `DURABILITY_LEDGER_39_20261114T163011Z`). **No handoff-only, discovery-only, or re-read session is progress. This session MUST execute the heavy-work campaign below; no other outcome advances the repository.**
 
 ## MANDATORY HEAVY-WORK CAMPAIGN (cannot be avoided)
 Complete the next sealed artifact in this chain every session (or seal BLOCKED with exact failing command + stderr). All steps are paper-only, real-data only.
@@ -19,11 +19,11 @@ Complete the next sealed artifact in this chain every session (or seal BLOCKED w
 
 **BLOCKED protocol:** if acquisition/eval cannot run (network, missing data window, tool failure), seal `EVAL_40_BLOCKED_<UTC>.{json,md}` with exact command, exit code, stderr, environment facts, and what was attempted. That is the only acceptable non-advancing outcome.
 
-## BOTTLENECKS REMOVED / SESSION READINESS (verified 2026-11-14T16:46Z)
+## BOTTLENECKS REMOVED / SESSION READINESS (verified 2026-11-14T16:50Z — **IMMEDIATE ACTION POSSIBLE**)
 - `.env` **absent** (paper-only; must stay absent). No stale `*.lock`/`*.pid` in `research_state/`.
 - Runtime deps bootstrapped in `.venv-deps/` (git-ignored). **Always** `export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"` before python/pytest; bare `python3 -m src.data.public_export_acquisition` fails with missing deps outside that PYTHONPATH.
 - `scripts/verify_env.sh` available for env bootstrap/check. `data/raw/` contains real `orderflow_okx_BTC-USD-SWAP.json` (09:05:22Z→15:33:56Z) and `options_okx_BTC_20261114T153357Z.json` plus synthetic fixtures (do not use synthetic).
-- Acquisition module: `src/data/public_export_acquisition.py` (public OKX, read-only, no credentials/.env). Prior sessions confirmed public endpoints reachable. **No remaining technical blocker to attempt step 1 now.**
+- Acquisition module: `src/data/public_export_acquisition.py` (public OKX, read-only, no credentials/.env). Prior sessions confirmed public endpoints reachable. **No remaining technical blocker to attempt step 1 now. The command in Step 1 is copy-paste runnable.**
 
 ## CURRENT MEASURED STATE (ground truth)
 - **EVAL-02..38 sealed** (immutable). **EVAL-36:** `FINAL_TERMINATION_MEMO_36_20261114T145419Z` — `TERMINATE_NO_GO`.
