@@ -1,0 +1,48 @@
+{
+  "adequacy": {
+    "options_adequate": false,
+    "options_min_contracts": 8,
+    "options_min_expiries": 2,
+    "options_min_quotes": 8,
+    "orderflow_adequate": true,
+    "orderflow_bar_duration_seconds": 15.0,
+    "orderflow_min_returns": 1000,
+    "orderflow_min_windows": 20
+  },
+  "artifact_paths": {
+    "json": "research_state/PUBLIC_EXPORT_ACQUISITION_20261114T185159Z.json",
+    "md": "research_state/PUBLIC_EXPORT_ACQUISITION_20261114T185159Z.md"
+  },
+  "authenticity_verified": false,
+  "data_provenance": "real_public_exchange_export",
+  "generated_at": "2026-11-14T18:51:59Z",
+  "live_trading_enabled": false,
+  "never_valid_true": true,
+  "options": null,
+  "orderflow": {
+    "content_sha256": "bd3c54b5911dec4adaf1d7debe02065120a4f96bc74e4c4ea8e087f53107f889",
+    "end_timestamp": "2026-11-13T13:27:53.992000Z",
+    "instrument": "BTC-USD-SWAP",
+    "n_bars": 1551,
+    "n_returns": 1550,
+    "n_trades": 59400,
+    "n_windows": 35,
+    "pages": 594,
+    "path": "data/raw/orderflow_okx_41c.json",
+    "span_seconds": 23264.307,
+    "start_timestamp": "2026-11-13T07:00:09.685000Z"
+  },
+  "report_id": "PUBLIC_EXPORT_ACQUISITION_26",
+  "source": {
+    "authenticated": false,
+    "endpoints": [
+      "/api/v5/market/history-trades",
+      "/api/v5/public/instruments",
+      "/api/v5/market/tickers"
+    ],
+    "network": "public_market_data_only",
+    "public_read_only": true,
+    "venue": "okx"
+  },
+  "trading_mode": "paper"
+}

@@ -1,0 +1,1873 @@
+{
+  "adequacy": {
+    "adequate": true,
+    "chain_stats": {
+      "has_mark_iv": 0,
+      "has_stored_delta": 0,
+      "n_calls": 374,
+      "n_contracts": 827,
+      "n_expiries": 14,
+      "n_puts": 453,
+      "n_quotes": 827,
+      "n_strikes": 93,
+      "strike_max": 240000.0,
+      "strike_min": 25000.0
+    },
+    "n_bars": 1555,
+    "n_trades": 80000,
+    "options_adequate": true,
+    "options_min_expiries": 2,
+    "options_min_quotes": 8,
+    "options_min_strikes": 5,
+    "orderflow_adequate": true,
+    "orderflow_min_bars": 400,
+    "orderflow_min_trades": 1000
+  },
+  "authenticity_verified": false,
+  "bars": {
+    "bar_duration_seconds": 15.0,
+    "end_timestamp": "2026-11-13T19:56:26.386000Z",
+    "n_bars": 1555,
+    "n_trades_total": 80000,
+    "start_timestamp": "2026-11-13T13:27:56.176000Z"
+  },
+  "combined_alpha": {
+    "horizons": [
+      1,
+      5,
+      20
+    ],
+    "ic_bootstrap_ci": {
+      "hi": 0.0026786223510996666,
+      "lo": -0.024744740082095013,
+      "point": -0.0122235602825026
+    },
+    "ic_by_horizon": {
+      "1": -0.014604563116512459,
+      "20": -0.024744740082095013,
+      "5": 0.0026786223510996666
+    },
+    "ic_mean": -0.0122235602825026,
+    "ic_std": 0.011321427550071017,
+    "ic_tstat": -1.870066947391513,
+    "n_horizons": 3
+  },
+  "combined_wf": {
+    "cost_budget_bps": 2.0,
+    "impact_coeff": 10.0,
+    "max_participation": 0.2,
+    "num_trades": 202,
+    "num_windows": 36,
+    "oos_ann_vol": 0.9290515676435422,
+    "oos_max_drawdown": 0.13286841478495368,
+    "oos_return": 0.3697957457213395,
+    "oos_sharpe": 2.7989302098145687,
+    "seed": 42,
+    "spread_bps": 0.5,
+    "symbol": "BTC",
+    "total_cost_usd": 377.9913437225272,
+    "total_traded_notional": 3430105.917764089,
+    "window_returns": [
+      -0.03987118400296429,
+      -2.0408988679700997e-05,
+      0.0,
+      0.19913878947630423,
+      -0.006892106894084572,
+      -0.03956942827152598,
+      0.0004346762125508394,
+      9.171633694466436e-05,
+      0.00015315621010799076,
+      0.19879031838656272,
+      2.0158407410926883e-05,
+      -0.03988653851164898,
+      -0.00018596097354748052,
+      3.917739858574351e-05,
+      2.38438974233577e-05,
+      0.00027877916638870375,
+      8.122957778847194e-05,
+      -2.786598538150429e-05,
+      0.00013001011218322675,
+      7.187705309101148e-05,
+      -9.353152437106473e-05,
+      0.0,
+      0.0,
+      4.440907509953831e-05,
+      -1.593538783083204e-05,
+      -8.625986421728157e-05,
+      -8.735325525543886e-05,
+      9.279599524103105e-05,
+      -0.039546948313923934,
+      -0.021161706894734525,
+      -6.53654760408972e-05,
+      -3.5523522297444286e-05,
+      -0.03946584543032892,
+      -2.0223682192881825e-05,
+      0.19900000899845924,
+      0.00011988341104006394
+    ],
+    "windows": [
+      {
+        "test_end": 160,
+        "test_start": 120,
+        "window_cost_usd": 8.275211533475588,
+        "window_index": 0,
+        "window_notional": 78056.87085506077,
+        "window_return": -0.03987118400296429,
+        "window_trades": 6
+      },
+      {
+        "test_end": 200,
+        "test_start": 160,
+        "window_cost_usd": 4.418306262138637,
+        "window_index": 1,
+        "window_notional": 39802.04089886796,
+        "window_return": -2.0408988679700997e-05,
+        "window_trades": 2
+      },
+      {
+        "test_end": 240,
+        "test_start": 200,
+        "window_cost_usd": 0.0,
+        "window_index": 2,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 280,
+        "test_start": 240,
+        "window_cost_usd": 11.327831877971569,
+        "window_index": 3,
+        "window_notional": 99499.97508470333,
+        "window_return": 0.19913878947630423,
+        "window_trades": 6
+      },
+      {
+        "test_end": 320,
+        "test_start": 280,
+        "window_cost_usd": 19.996231650813044,
+        "window_index": 4,
+        "window_notional": 177192.01887514233,
+        "window_return": -0.006892106894084572,
+        "window_trades": 15
+      },
+      {
+        "test_end": 360,
+        "test_start": 320,
+        "window_cost_usd": 14.004163588772965,
+        "window_index": 5,
+        "window_notional": 127427.92774038562,
+        "window_return": -0.03956942827152598,
+        "window_trades": 8
+      },
+      {
+        "test_end": 400,
+        "test_start": 360,
+        "window_cost_usd": 4.389027135677012,
+        "window_index": 6,
+        "window_notional": 39814.05511566243,
+        "window_return": 0.0004346762125508394,
+        "window_trades": 4
+      },
+      {
+        "test_end": 440,
+        "test_start": 400,
+        "window_cost_usd": 17.304032446377363,
+        "window_index": 7,
+        "window_notional": 159216.94677437597,
+        "window_return": 9.171633694466436e-05,
+        "window_trades": 8
+      },
+      {
+        "test_end": 480,
+        "test_start": 440,
+        "window_cost_usd": 19.843841313703184,
+        "window_index": 8,
+        "window_notional": 185145.8378749921,
+        "window_return": 0.00015315621010799076,
+        "window_trades": 10
+      },
+      {
+        "test_end": 520,
+        "test_start": 480,
+        "window_cost_usd": 14.047251650429642,
+        "window_index": 9,
+        "window_notional": 127343.58190073771,
+        "window_return": 0.19879031838656272,
+        "window_trades": 7
+      },
+      {
+        "test_end": 560,
+        "test_start": 520,
+        "window_cost_usd": 4.354947591202279,
+        "window_index": 10,
+        "window_notional": 39797.98415925891,
+        "window_return": 2.0158407410926883e-05,
+        "window_trades": 2
+      },
+      {
+        "test_end": 600,
+        "test_start": 560,
+        "window_cost_usd": 11.860388566825849,
+        "window_index": 11,
+        "window_notional": 109901.33059625463,
+        "window_return": -0.03988653851164898,
+        "window_trades": 8
+      },
+      {
+        "test_end": 640,
+        "test_start": 600,
+        "window_cost_usd": 4.530184137866901,
+        "window_index": 12,
+        "window_notional": 39818.59609735475,
+        "window_return": -0.00018596097354748052,
+        "window_trades": 2
+      },
+      {
+        "test_end": 680,
+        "test_start": 640,
+        "window_cost_usd": 4.537929460433611,
+        "window_index": 13,
+        "window_notional": 39796.082260141426,
+        "window_return": 3.917739858574351e-05,
+        "window_trades": 2
+      },
+      {
+        "test_end": 720,
+        "test_start": 680,
+        "window_cost_usd": 15.775580193973646,
+        "window_index": 14,
+        "window_notional": 139303.90671570168,
+        "window_return": 2.38438974233577e-05,
+        "window_trades": 7
+      },
+      {
+        "test_end": 760,
+        "test_start": 720,
+        "window_cost_usd": 13.248642487480637,
+        "window_index": 15,
+        "window_notional": 119389.40956854472,
+        "window_return": 0.00027877916638870375,
+        "window_trades": 6
+      },
+      {
+        "test_end": 800,
+        "test_start": 760,
+        "window_cost_usd": 8.634636268037017,
+        "window_index": 16,
+        "window_notional": 79592.81277316592,
+        "window_return": 8.122957778847194e-05,
+        "window_trades": 4
+      },
+      {
+        "test_end": 840,
+        "test_start": 800,
+        "window_cost_usd": 4.309953036351642,
+        "window_index": 17,
+        "window_notional": 39802.78659853815,
+        "window_return": -2.786598538150429e-05,
+        "window_trades": 2
+      },
+      {
+        "test_end": 880,
+        "test_start": 840,
+        "window_cost_usd": 12.91621045195479,
+        "window_index": 18,
+        "window_notional": 119392.24019193993,
+        "window_return": 0.00013001011218322675,
+        "window_trades": 6
+      },
+      {
+        "test_end": 920,
+        "test_start": 880,
+        "window_cost_usd": 17.486211853388063,
+        "window_index": 19,
+        "window_notional": 159198.70357118393,
+        "window_return": 7.187705309101148e-05,
+        "window_trades": 8
+      },
+      {
+        "test_end": 960,
+        "test_start": 920,
+        "window_cost_usd": 19.997898186791392,
+        "window_index": 20,
+        "window_notional": 179017.82181933566,
+        "window_return": -9.353152437106473e-05,
+        "window_trades": 10
+      },
+      {
+        "test_end": 1000,
+        "test_start": 960,
+        "window_cost_usd": 2.2675825839992316,
+        "window_index": 21,
+        "window_notional": 19900.0,
+        "window_return": 0.0,
+        "window_trades": 1
+      },
+      {
+        "test_end": 1040,
+        "test_start": 1000,
+        "window_cost_usd": 0.0,
+        "window_index": 22,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1080,
+        "test_start": 1040,
+        "window_cost_usd": 9.021934156593755,
+        "window_index": 23,
+        "window_notional": 79593.86918127694,
+        "window_return": 4.440907509953831e-05,
+        "window_trades": 4
+      },
+      {
+        "test_end": 1120,
+        "test_start": 1080,
+        "window_cost_usd": 17.692926025871746,
+        "window_index": 24,
+        "window_notional": 159194.63780475233,
+        "window_return": -1.593538783083204e-05,
+        "window_trades": 8
+      },
+      {
+        "test_end": 1160,
+        "test_start": 1120,
+        "window_cost_usd": 8.667847774896783,
+        "window_index": 25,
+        "window_notional": 79606.22938594253,
+        "window_return": -8.625986421728157e-05,
+        "window_trades": 4
+      },
+      {
+        "test_end": 1200,
+        "test_start": 1160,
+        "window_cost_usd": 12.9264137344917,
+        "window_index": 26,
+        "window_notional": 119406.29353140609,
+        "window_return": -8.735325525543886e-05,
+        "window_trades": 6
+      },
+      {
+        "test_end": 1240,
+        "test_start": 1200,
+        "window_cost_usd": 4.2972753228036735,
+        "window_index": 27,
+        "window_notional": 39790.7204004759,
+        "window_return": 9.279599524103105e-05,
+        "window_trades": 2
+      },
+      {
+        "test_end": 1280,
+        "test_start": 1240,
+        "window_cost_usd": 15.248830498669363,
+        "window_index": 28,
+        "window_notional": 143360.31195773528,
+        "window_return": -0.039546948313923934,
+        "window_trades": 9
+      },
+      {
+        "test_end": 1320,
+        "test_start": 1280,
+        "window_cost_usd": 19.997844665154293,
+        "window_index": 29,
+        "window_notional": 181243.54898082,
+        "window_return": -0.021161706894734525,
+        "window_trades": 16
+      },
+      {
+        "test_end": 1360,
+        "test_start": 1320,
+        "window_cost_usd": 8.999657856157876,
+        "window_index": 30,
+        "window_notional": 79604.46410705296,
+        "window_return": -6.53654760408972e-05,
+        "window_trades": 4
+      },
+      {
+        "test_end": 1400,
+        "test_start": 1360,
+        "window_cost_usd": 9.071323567988076,
+        "window_index": 31,
+        "window_notional": 79602.69017891116,
+        "window_return": -3.5523522297444286e-05,
+        "window_trades": 4
+      },
+      {
+        "test_end": 1440,
+        "test_start": 1400,
+        "window_cost_usd": 12.471272667079997,
+        "window_index": 32,
+        "window_notional": 111483.171070151,
+        "window_return": -0.03946584543032892,
+        "window_trades": 7
+      },
+      {
+        "test_end": 1480,
+        "test_start": 1440,
+        "window_cost_usd": 4.433814729434142,
+        "window_index": 33,
+        "window_notional": 39803.378671556464,
+        "window_return": -2.0223682192881825e-05,
+        "window_trades": 3
+      },
+      {
+        "test_end": 1520,
+        "test_start": 1480,
+        "window_cost_usd": 4.357519332117895,
+        "window_index": 34,
+        "window_notional": 39804.553229671925,
+        "window_return": 0.19900000899845924,
+        "window_trades": 3
+      },
+      {
+        "test_end": 1555,
+        "test_start": 1520,
+        "window_cost_usd": 17.278621113603993,
+        "window_index": 35,
+        "window_notional": 159201.11979298914,
+        "window_return": 0.00011988341104006394,
+        "window_trades": 8
+      }
+    ]
+  },
+  "config": {
+    "bar_duration_seconds": 15.0,
+    "cost_budget_bps": 2.0,
+    "horizons": [
+      1,
+      5,
+      20
+    ],
+    "impact_coeff": 10.0,
+    "max_participation": 0.2,
+    "max_position_pct": 0.2,
+    "now": "2026-11-13T19:56:26.386000Z",
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "signal_lookback_seconds": 60.0,
+    "signal_threshold": 0.1,
+    "spot": 68922.2,
+    "spread_bps": 0.5,
+    "symbol": "BTC",
+    "toxicity_threshold": 0.7,
+    "toxicity_window_trades": 5,
+    "venue": "okx"
+  },
+  "data_provenance": "real",
+  "deployment_authorization": {
+    "authorized": false,
+    "mode": "paper_only",
+    "note": "GO certifies the real net-of-cost evaluation only; not authorization to trade live."
+  },
+  "evidence_matrix": {
+    "authenticity_verified": false,
+    "causal_no_lookahead": true,
+    "data_provenance": "real",
+    "live_trading_enabled": false,
+    "n_bars": 1555,
+    "n_expiries": 14,
+    "n_options_contracts": 827,
+    "n_options_quotes": 827,
+    "n_strikes": 93,
+    "n_trades": 80000,
+    "never_synthetic": true,
+    "now_used": "2026-11-13T19:56:26.386000Z",
+    "orderflow_path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/orderflow_okx_41b.json",
+    "orderflow_symbol": "BTC",
+    "paper_only": true,
+    "real_options_loaded": true,
+    "real_orderflow_loaded": true,
+    "spot_used": 68922.2,
+    "venue": "okx"
+  },
+  "flat_wf": {
+    "cost_budget_bps": 2.0,
+    "impact_coeff": 10.0,
+    "max_participation": 0.2,
+    "num_trades": 0,
+    "num_windows": 36,
+    "oos_ann_vol": 0.0,
+    "oos_max_drawdown": 0.0,
+    "oos_return": 0.0,
+    "oos_sharpe": 0.0,
+    "seed": 42,
+    "spread_bps": 0.5,
+    "symbol": "BTC",
+    "total_cost_usd": 0.0,
+    "total_traded_notional": 0.0,
+    "window_returns": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "windows": [
+      {
+        "test_end": 160,
+        "test_start": 120,
+        "window_cost_usd": 0.0,
+        "window_index": 0,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 200,
+        "test_start": 160,
+        "window_cost_usd": 0.0,
+        "window_index": 1,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 240,
+        "test_start": 200,
+        "window_cost_usd": 0.0,
+        "window_index": 2,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 280,
+        "test_start": 240,
+        "window_cost_usd": 0.0,
+        "window_index": 3,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 320,
+        "test_start": 280,
+        "window_cost_usd": 0.0,
+        "window_index": 4,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 360,
+        "test_start": 320,
+        "window_cost_usd": 0.0,
+        "window_index": 5,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 400,
+        "test_start": 360,
+        "window_cost_usd": 0.0,
+        "window_index": 6,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 440,
+        "test_start": 400,
+        "window_cost_usd": 0.0,
+        "window_index": 7,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 480,
+        "test_start": 440,
+        "window_cost_usd": 0.0,
+        "window_index": 8,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 520,
+        "test_start": 480,
+        "window_cost_usd": 0.0,
+        "window_index": 9,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 560,
+        "test_start": 520,
+        "window_cost_usd": 0.0,
+        "window_index": 10,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 600,
+        "test_start": 560,
+        "window_cost_usd": 0.0,
+        "window_index": 11,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 640,
+        "test_start": 600,
+        "window_cost_usd": 0.0,
+        "window_index": 12,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 680,
+        "test_start": 640,
+        "window_cost_usd": 0.0,
+        "window_index": 13,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 720,
+        "test_start": 680,
+        "window_cost_usd": 0.0,
+        "window_index": 14,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 760,
+        "test_start": 720,
+        "window_cost_usd": 0.0,
+        "window_index": 15,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 800,
+        "test_start": 760,
+        "window_cost_usd": 0.0,
+        "window_index": 16,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 840,
+        "test_start": 800,
+        "window_cost_usd": 0.0,
+        "window_index": 17,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 880,
+        "test_start": 840,
+        "window_cost_usd": 0.0,
+        "window_index": 18,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 920,
+        "test_start": 880,
+        "window_cost_usd": 0.0,
+        "window_index": 19,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 960,
+        "test_start": 920,
+        "window_cost_usd": 0.0,
+        "window_index": 20,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1000,
+        "test_start": 960,
+        "window_cost_usd": 0.0,
+        "window_index": 21,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1040,
+        "test_start": 1000,
+        "window_cost_usd": 0.0,
+        "window_index": 22,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1080,
+        "test_start": 1040,
+        "window_cost_usd": 0.0,
+        "window_index": 23,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1120,
+        "test_start": 1080,
+        "window_cost_usd": 0.0,
+        "window_index": 24,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1160,
+        "test_start": 1120,
+        "window_cost_usd": 0.0,
+        "window_index": 25,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1200,
+        "test_start": 1160,
+        "window_cost_usd": 0.0,
+        "window_index": 26,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1240,
+        "test_start": 1200,
+        "window_cost_usd": 0.0,
+        "window_index": 27,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1280,
+        "test_start": 1240,
+        "window_cost_usd": 0.0,
+        "window_index": 28,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1320,
+        "test_start": 1280,
+        "window_cost_usd": 0.0,
+        "window_index": 29,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1360,
+        "test_start": 1320,
+        "window_cost_usd": 0.0,
+        "window_index": 30,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1400,
+        "test_start": 1360,
+        "window_cost_usd": 0.0,
+        "window_index": 31,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1440,
+        "test_start": 1400,
+        "window_cost_usd": 0.0,
+        "window_index": 32,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1480,
+        "test_start": 1440,
+        "window_cost_usd": 0.0,
+        "window_index": 33,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1520,
+        "test_start": 1480,
+        "window_cost_usd": 0.0,
+        "window_index": 34,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      },
+      {
+        "test_end": 1555,
+        "test_start": 1520,
+        "window_cost_usd": 0.0,
+        "window_index": 35,
+        "window_notional": 0.0,
+        "window_return": 0.0,
+        "window_trades": 0
+      }
+    ]
+  },
+  "fusion_adjudication": {
+    "bars_options_and_orderflow_agree": 620,
+    "bars_options_and_orderflow_disagree": 751,
+    "combined_flat_because_options_degenerate": false,
+    "combined_nonzero_bars": 116,
+    "combined_trades": 202,
+    "interpretation": "Both pillars produced time variation; the fusion rule is not the binding constraint.",
+    "options_leg_degenerate": true,
+    "options_nonzero_bars": 1555,
+    "orderflow_nonzero_bars": 1371,
+    "orderflow_only_sharpe": -8.785080309954699,
+    "orderflow_only_trades": 618,
+    "rule_amended": false,
+    "sealed_rule": "long only when options==+1 AND orderflow==+1 AND VPIN<threshold; short only when options==-1 AND orderflow==-1 AND VPIN<threshold; flat otherwise"
+  },
+  "generated_at": "2026-11-14T18:56:18Z",
+  "live_trading_enabled": false,
+  "never_valid_true": true,
+  "options_alpha": {
+    "horizons": [
+      1,
+      5,
+      20
+    ],
+    "ic_bootstrap_ci": {
+      "hi": 0.0,
+      "lo": 0.0,
+      "point": 0.0
+    },
+    "ic_by_horizon": {
+      "1": 0.0,
+      "20": 0.0,
+      "5": 0.0
+    },
+    "ic_mean": 0.0,
+    "ic_std": 0.0,
+    "ic_tstat": 0.0,
+    "n_horizons": 3
+  },
+  "options_components": {
+    "calib_residual_max_abs": 0.0,
+    "calib_residual_mean": 0.0,
+    "calib_signal": -0.0,
+    "gamma_flip_level": 71250.0,
+    "gex_flip_distance": -0.03377431364640135,
+    "gex_signal": -1.0,
+    "options_signal_raw": -0.3333333333333333,
+    "skew_signal": 0.0,
+    "skew_term_structure": {
+      "0.003200928270844424": 0.0,
+      "0.005938779057976525": 0.0,
+      "0.008676629845108627": 0.0,
+      "0.011414480632240728": 0.0,
+      "0.016890182206504928": 0.0,
+      "0.03605513771642964": 0.0,
+      "0.05522009322635435": 0.0,
+      "0.07438504873627906": 0.0,
+      "0.11271495975612848": 0.0,
+      "0.208539737305752": 0.0,
+      "0.2851995593454509": 0.0,
+      "0.36185938138514967": 0.0,
+      "0.6110038030141709": 0.0,
+      "0.8601482246431922": 0.0
+    },
+    "surface_expiries": 14,
+    "surface_points": 827
+  },
+  "options_leg_validity": {
+    "abs_options_ic": 0.0,
+    "distinct_signal_values": 1,
+    "gated_out_by_toxicity": 1253,
+    "ic_present": false,
+    "n_bars": 1555,
+    "n_nonzero_positions": 1555,
+    "non_constant": false,
+    "options_leg_degenerate": true,
+    "positions_present": true,
+    "reasons": [
+      "options signal is constant across bars (stdev 5.553e-17 <= 1.0e-12): the real chain is a single cross-section, so broadcasting it produces no time variation",
+      "options IC magnitude 0.000e+00 <= 1.0e-12: no measured relation to forward returns"
+    ],
+    "signal_stdev": 5.55290090896034e-17
+  },
+  "options_only_wf": {
+    "cost_budget_bps": 2.0,
+    "impact_coeff": 10.0,
+    "max_participation": 0.2,
+    "num_trades": 665,
+    "num_windows": 36,
+    "oos_ann_vol": 2.849771441112613,
+    "oos_max_drawdown": 0.4878587846173325,
+    "oos_return": 1.9429342922391155,
+    "oos_sharpe": 3.8495388445111534,
+    "seed": 42,
+    "spread_bps": 0.5,
+    "symbol": "BTC",
+    "total_cost_usd": 684.83240679011,
+    "total_traded_notional": 6215502.045707148,
+    "window_returns": [
+      0.12622960816217615,
+      -0.00010809561813613982,
+      -0.0001356429365040094,
+      0.1654004738380357,
+      -0.0013393736288699438,
+      -0.14533612374141885,
+      0.1995711029177427,
+      0.00018857697483050286,
+      -0.1073001308007093,
+      0.4629040705407073,
+      0.19157829899572826,
+      -0.042061586149353826,
+      -0.0006059686433343449,
+      5.4082009447738525e-05,
+      -0.06603235541409988,
+      0.19921714293555298,
+      0.43768395350376754,
+      -0.03952614358733321,
+      -0.07830226131049538,
+      -0.014818625437304873,
+      0.7046265859489882,
+      0.1988504314045109,
+      4.613947128236759e-06,
+      -0.001340865199876862,
+      -7.467623305667075e-05,
+      -0.03972586826677478,
+      -0.048716130356795326,
+      -0.02466802525420877,
+      -0.20612339531201854,
+      -0.0035759501474309945,
+      -0.16437492949646082,
+      -3.754357931306004e-05,
+      -0.04008259198765416,
+      -0.055289139252934695,
+      -0.03966685072963824,
+      0.00011988341104006394
+    ],
+    "windows": [
+      {
+        "test_end": 160,
+        "test_start": 120,
+        "window_cost_usd": 19.951312445665163,
+        "window_index": 0,
+        "window_notional": 188579.38280642903,
+        "window_return": 0.12622960816217615,
+        "window_trades": 19
+      },
+      {
+        "test_end": 200,
+        "test_start": 160,
+        "window_cost_usd": 13.290621322104695,
+        "window_index": 1,
+        "window_notional": 119408.71553024725,
+        "window_return": -0.00010809561813613982,
+        "window_trades": 6
+      },
+      {
+        "test_end": 240,
+        "test_start": 200,
+        "window_cost_usd": 19.999842860303275,
+        "window_index": 2,
+        "window_notional": 178791.44037650418,
+        "window_return": -0.0001356429365040094,
+        "window_trades": 33
+      },
+      {
+        "test_end": 280,
+        "test_start": 240,
+        "window_cost_usd": 20.004116850236276,
+        "window_index": 3,
+        "window_notional": 177212.08669644804,
+        "window_return": 0.1654004738380357,
+        "window_trades": 14
+      },
+      {
+        "test_end": 320,
+        "test_start": 280,
+        "window_cost_usd": 19.996771431405865,
+        "window_index": 4,
+        "window_notional": 177018.4664062355,
+        "window_return": -0.0013393736288699438,
+        "window_trades": 30
+      },
+      {
+        "test_end": 360,
+        "test_start": 320,
+        "window_cost_usd": 19.508682419471164,
+        "window_index": 5,
+        "window_notional": 180634.22229202813,
+        "window_return": -0.14533612374141885,
+        "window_trades": 12
+      },
+      {
+        "test_end": 400,
+        "test_start": 360,
+        "window_cost_usd": 21.074917977725914,
+        "window_index": 6,
+        "window_notional": 182990.6525372418,
+        "window_return": 0.1995711029177427,
+        "window_trades": 11
+      },
+      {
+        "test_end": 440,
+        "test_start": 400,
+        "window_cost_usd": 19.85763940652575,
+        "window_index": 7,
+        "window_notional": 184164.9820675226,
+        "window_return": 0.00018857697483050286,
+        "window_trades": 10
+      },
+      {
+        "test_end": 480,
+        "test_start": 440,
+        "window_cost_usd": 19.437231282117086,
+        "window_index": 8,
+        "window_notional": 190165.13834252057,
+        "window_return": -0.1073001308007093,
+        "window_trades": 22
+      },
+      {
+        "test_end": 520,
+        "test_start": 480,
+        "window_cost_usd": 24.954904282687934,
+        "window_index": 9,
+        "window_notional": 221233.2502232788,
+        "window_return": 0.4629040705407073,
+        "window_trades": 27
+      },
+      {
+        "test_end": 560,
+        "test_start": 520,
+        "window_cost_usd": 20.054673425948916,
+        "window_index": 10,
+        "window_notional": 184114.39893532317,
+        "window_return": 0.19157829899572826,
+        "window_trades": 15
+      },
+      {
+        "test_end": 600,
+        "test_start": 560,
+        "window_cost_usd": 19.445753007954874,
+        "window_index": 11,
+        "window_notional": 179771.73655456404,
+        "window_return": -0.042061586149353826,
+        "window_trades": 16
+      },
+      {
+        "test_end": 640,
+        "test_start": 600,
+        "window_cost_usd": 19.998399624249465,
+        "window_index": 12,
+        "window_notional": 177717.58004237706,
+        "window_return": -0.0006059686433343449,
+        "window_trades": 30
+      },
+      {
+        "test_end": 680,
+        "test_start": 640,
+        "window_cost_usd": 18.14517579559252,
+        "window_index": 13,
+        "window_notional": 159199.03756651684,
+        "window_return": 5.4082009447738525e-05,
+        "window_trades": 8
+      },
+      {
+        "test_end": 720,
+        "test_start": 680,
+        "window_cost_usd": 19.990457585053747,
+        "window_index": 14,
+        "window_notional": 178649.72751817713,
+        "window_return": -0.06603235541409988,
+        "window_trades": 38
+      },
+      {
+        "test_end": 760,
+        "test_start": 720,
+        "window_cost_usd": 17.659028592561764,
+        "window_index": 15,
+        "window_notional": 159205.9182000294,
+        "window_return": 0.19921714293555298,
+        "window_trades": 9
+      },
+      {
+        "test_end": 800,
+        "test_start": 760,
+        "window_cost_usd": 23.492542515910902,
+        "window_index": 16,
+        "window_notional": 206839.45254574402,
+        "window_return": 0.43768395350376754,
+        "window_trades": 11
+      },
+      {
+        "test_end": 840,
+        "test_start": 800,
+        "window_cost_usd": 11.867088300277699,
+        "window_index": 17,
+        "window_notional": 111478.79336093823,
+        "window_return": -0.03952614358733321,
+        "window_trades": 7
+      },
+      {
+        "test_end": 880,
+        "test_start": 840,
+        "window_cost_usd": 19.611456069563076,
+        "window_index": 18,
+        "window_notional": 188724.3555276653,
+        "window_return": -0.07830226131049538,
+        "window_trades": 28
+      },
+      {
+        "test_end": 920,
+        "test_start": 880,
+        "window_cost_usd": 19.999639254438048,
+        "window_index": 19,
+        "window_notional": 184793.28907313859,
+        "window_return": -0.014818625437304873,
+        "window_trades": 27
+      },
+      {
+        "test_end": 960,
+        "test_start": 920,
+        "window_cost_usd": 26.97865492565255,
+        "window_index": 20,
+        "window_notional": 230822.58469788628,
+        "window_return": 0.7046265859489882,
+        "window_trades": 26
+      },
+      {
+        "test_end": 1000,
+        "test_start": 960,
+        "window_cost_usd": 18.801081107995188,
+        "window_index": 21,
+        "window_notional": 159118.50097471307,
+        "window_return": 0.1988504314045109,
+        "window_trades": 8
+      },
+      {
+        "test_end": 1040,
+        "test_start": 1000,
+        "window_cost_usd": 9.081952334532403,
+        "window_index": 22,
+        "window_notional": 79599.43524200516,
+        "window_return": 4.613947128236759e-06,
+        "window_trades": 4
+      },
+      {
+        "test_end": 1080,
+        "test_start": 1040,
+        "window_cost_usd": 20.000365031733793,
+        "window_index": 23,
+        "window_notional": 177937.3256995411,
+        "window_return": -0.001340865199876862,
+        "window_trades": 19
+      },
+      {
+        "test_end": 1120,
+        "test_start": 1080,
+        "window_cost_usd": 19.998412622330058,
+        "window_index": 24,
+        "window_notional": 179603.37175401516,
+        "window_return": -7.467623305667075e-05,
+        "window_trades": 22
+      },
+      {
+        "test_end": 1160,
+        "test_start": 1120,
+        "window_cost_usd": 16.325763426290113,
+        "window_index": 25,
+        "window_notional": 151289.58522501143,
+        "window_return": -0.03972586826677478,
+        "window_trades": 9
+      },
+      {
+        "test_end": 1200,
+        "test_start": 1160,
+        "window_cost_usd": 19.442409966003098,
+        "window_index": 26,
+        "window_notional": 185143.39928426684,
+        "window_return": -0.048716130356795326,
+        "window_trades": 26
+      },
+      {
+        "test_end": 1240,
+        "test_start": 1200,
+        "window_cost_usd": 20.001428935213905,
+        "window_index": 27,
+        "window_notional": 187645.34499796125,
+        "window_return": -0.02466802525420877,
+        "window_trades": 29
+      },
+      {
+        "test_end": 1280,
+        "test_start": 1240,
+        "window_cost_usd": 19.61329070448812,
+        "window_index": 28,
+        "window_notional": 185779.25644807695,
+        "window_return": -0.20612339531201854,
+        "window_trades": 27
+      },
+      {
+        "test_end": 1320,
+        "test_start": 1280,
+        "window_cost_usd": 19.999062488463142,
+        "window_index": 29,
+        "window_notional": 182201.4287445541,
+        "window_return": -0.0035759501474309945,
+        "window_trades": 34
+      },
+      {
+        "test_end": 1360,
+        "test_start": 1320,
+        "window_cost_usd": 19.80282233503578,
+        "window_index": 30,
+        "window_notional": 179916.3581619337,
+        "window_return": -0.16437492949646082,
+        "window_trades": 15
+      },
+      {
+        "test_end": 1400,
+        "test_start": 1360,
+        "window_cost_usd": 13.605586466825953,
+        "window_index": 31,
+        "window_notional": 119401.94961191049,
+        "window_return": -3.754357931306004e-05,
+        "window_trades": 6
+      },
+      {
+        "test_end": 1440,
+        "test_start": 1400,
+        "window_cost_usd": 19.81388715512847,
+        "window_index": 32,
+        "window_notional": 176670.8655171698,
+        "window_return": -0.04008259198765416,
+        "window_trades": 28
+      },
+      {
+        "test_end": 1480,
+        "test_start": 1440,
+        "window_cost_usd": 19.977039077889508,
+        "window_index": 33,
+        "window_notional": 182352.09564389804,
+        "window_return": -0.055289139252934695,
+        "window_trades": 21
+      },
+      {
+        "test_end": 1520,
+        "test_start": 1480,
+        "window_cost_usd": 15.771774649129908,
+        "window_index": 34,
+        "window_notional": 148126.7973082841,
+        "window_return": -0.03966685072963824,
+        "window_trades": 10
+      },
+      {
+        "test_end": 1555,
+        "test_start": 1520,
+        "window_cost_usd": 17.278621113603993,
+        "window_index": 35,
+        "window_notional": 159201.11979298914,
+        "window_return": 0.00011988341104006394,
+        "window_trades": 8
+      }
+    ]
+  },
+  "orderflow_alpha": {
+    "horizons": [
+      1,
+      5,
+      20
+    ],
+    "ic_bootstrap_ci": {
+      "hi": -0.00022875057536095412,
+      "lo": -0.03409825329926728,
+      "point": -0.015648604762968393
+    },
+    "ic_by_horizon": {
+      "1": -0.00022875057536095414,
+      "20": -0.03409825329926728,
+      "5": -0.012618810414276945
+    },
+    "ic_mean": -0.015648604762968393,
+    "ic_std": 0.013992153611642405,
+    "ic_tstat": -1.9370984102456608,
+    "n_horizons": 3
+  },
+  "orderflow_only_wf": {
+    "cost_budget_bps": 2.0,
+    "impact_coeff": 10.0,
+    "max_participation": 0.2,
+    "num_trades": 618,
+    "num_windows": 36,
+    "oos_ann_vol": 2.025950727386454,
+    "oos_max_drawdown": 0.9492357617642345,
+    "oos_return": -0.9492296759741958,
+    "oos_sharpe": -8.785080309954699,
+    "seed": 42,
+    "spread_bps": 0.5,
+    "symbol": "BTC",
+    "total_cost_usd": 635.0486907477955,
+    "total_traded_notional": 5796482.269753034,
+    "window_returns": [
+      -0.3269381459472848,
+      5.548265491204802e-05,
+      -0.1865441412382963,
+      -0.15547705808060594,
+      -0.007304113918134244,
+      -0.1988985107648607,
+      0.20853071548958513,
+      -0.14847420757324856,
+      -0.02259604371319845,
+      -0.0019864792061466143,
+      -0.15939294574199855,
+      -0.019125255409330858,
+      -0.005995971764365095,
+      4.433746008464368e-05,
+      -0.16598411876092314,
+      0.0003127090278187825,
+      0.0077664223812840645,
+      -0.1594828564742743,
+      -0.026177339959832898,
+      -0.01712736082632531,
+      -0.16848007904514858,
+      0.007506292755338363,
+      -4.613984583120328e-06,
+      -0.16627101503553932,
+      -0.1840378126562707,
+      0.2085472342850767,
+      0.1915919067098752,
+      -0.11727619621047211,
+      -0.3268063015124068,
+      -0.003484539321197226,
+      -0.15556561251665918,
+      -3.3503465281974056e-05,
+      -0.2723949525490793,
+      -0.1590840103525597,
+      -0.012123204447154421,
+      0.00011988341104006394
+    ],
+    "windows": [
+      {
+        "test_end": 160,
+        "test_start": 120,
+        "window_cost_usd": 18.267292429629492,
+        "window_index": 0,
+        "window_notional": 174940.61319226908,
+        "window_return": -0.3269381459472848,
+        "window_trades": 19
+      },
+      {
+        "test_end": 200,
+        "test_start": 160,
+        "window_cost_usd": 8.858068512669547,
+        "window_index": 1,
+        "window_notional": 79608.81778547767,
+        "window_return": 5.548265491204802e-05,
+        "window_trades": 4
+      },
+      {
+        "test_end": 240,
+        "test_start": 200,
+        "window_cost_usd": 19.997352320940504,
+        "window_index": 2,
+        "window_notional": 178671.7989257918,
+        "window_return": -0.1865441412382963,
+        "window_trades": 26
+      },
+      {
+        "test_end": 280,
+        "test_start": 240,
+        "window_cost_usd": 19.979164032466976,
+        "window_index": 3,
+        "window_notional": 176945.07925008165,
+        "window_return": -0.15547705808060594,
+        "window_trades": 14
+      },
+      {
+        "test_end": 320,
+        "test_start": 280,
+        "window_cost_usd": 20.00077232157815,
+        "window_index": 4,
+        "window_notional": 177071.13664080767,
+        "window_return": -0.007304113918134244,
+        "window_trades": 30
+      },
+      {
+        "test_end": 360,
+        "test_start": 320,
+        "window_cost_usd": 17.36975369654967,
+        "window_index": 5,
+        "window_notional": 159324.94939257318,
+        "window_return": -0.1988985107648607,
+        "window_trades": 10
+      },
+      {
+        "test_end": 400,
+        "test_start": 360,
+        "window_cost_usd": 16.2091509938796,
+        "window_index": 6,
+        "window_notional": 153463.94431220856,
+        "window_return": 0.20853071548958513,
+        "window_trades": 11
+      },
+      {
+        "test_end": 440,
+        "test_start": 400,
+        "window_cost_usd": 19.85754758568316,
+        "window_index": 7,
+        "window_notional": 184164.00469356705,
+        "window_return": -0.14847420757324856,
+        "window_trades": 10
+      },
+      {
+        "test_end": 480,
+        "test_start": 440,
+        "window_cost_usd": 19.16136305890922,
+        "window_index": 8,
+        "window_notional": 175196.14264212525,
+        "window_return": -0.02259604371319845,
+        "window_trades": 20
+      },
+      {
+        "test_end": 520,
+        "test_start": 480,
+        "window_cost_usd": 20.849784829640395,
+        "window_index": 9,
+        "window_notional": 195415.24561538594,
+        "window_return": -0.0019864792061466143,
+        "window_trades": 25
+      },
+      {
+        "test_end": 560,
+        "test_start": 520,
+        "window_cost_usd": 16.473576424261694,
+        "window_index": 10,
+        "window_notional": 152890.66711142054,
+        "window_return": -0.15939294574199855,
+        "window_trades": 9
+      },
+      {
+        "test_end": 600,
+        "test_start": 560,
+        "window_cost_usd": 18.861181444225334,
+        "window_index": 11,
+        "window_notional": 167693.66394789924,
+        "window_return": -0.019125255409330858,
+        "window_trades": 22
+      },
+      {
+        "test_end": 640,
+        "test_start": 600,
+        "window_cost_usd": 20.001554486008203,
+        "window_index": 12,
+        "window_notional": 177753.8924614982,
+        "window_return": -0.005995971764365095,
+        "window_trades": 28
+      },
+      {
+        "test_end": 680,
+        "test_start": 640,
+        "window_cost_usd": 13.61945456252858,
+        "window_index": 13,
+        "window_notional": 119393.5051868073,
+        "window_return": 4.433746008464368e-05,
+        "window_trades": 6
+      },
+      {
+        "test_end": 720,
+        "test_start": 680,
+        "window_cost_usd": 19.381777914707943,
+        "window_index": 14,
+        "window_notional": 174677.61602296226,
+        "window_return": -0.16598411876092314,
+        "window_trades": 35
+      },
+      {
+        "test_end": 760,
+        "test_start": 720,
+        "window_cost_usd": 17.660488028836628,
+        "window_index": 15,
+        "window_notional": 159204.2330974767,
+        "window_return": 0.0003127090278187825,
+        "window_trades": 8
+      },
+      {
+        "test_end": 800,
+        "test_start": 760,
+        "window_cost_usd": 17.661647075707428,
+        "window_index": 16,
+        "window_notional": 170104.30118771677,
+        "window_return": 0.0077664223812840645,
+        "window_trades": 11
+      },
+      {
+        "test_end": 840,
+        "test_start": 800,
+        "window_cost_usd": 11.846685897545578,
+        "window_index": 17,
+        "window_notional": 113061.05449553064,
+        "window_return": -0.1594828564742743,
+        "window_trades": 7
+      },
+      {
+        "test_end": 880,
+        "test_start": 840,
+        "window_cost_usd": 19.364584119573315,
+        "window_index": 18,
+        "window_notional": 185202.80819705327,
+        "window_return": -0.026177339959832898,
+        "window_trades": 25
+      },
+      {
+        "test_end": 920,
+        "test_start": 880,
+        "window_cost_usd": 20.000494930279316,
+        "window_index": 19,
+        "window_notional": 184643.7010121034,
+        "window_return": -0.01712736082632531,
+        "window_trades": 23
+      },
+      {
+        "test_end": 960,
+        "test_start": 920,
+        "window_cost_usd": 19.99848991646153,
+        "window_index": 20,
+        "window_notional": 168119.77079352055,
+        "window_return": -0.16848007904514858,
+        "window_trades": 26
+      },
+      {
+        "test_end": 1000,
+        "test_start": 960,
+        "window_cost_usd": 9.690119575255327,
+        "window_index": 21,
+        "window_notional": 89962.54723819102,
+        "window_return": 0.007506292755338363,
+        "window_trades": 6
+      },
+      {
+        "test_end": 1040,
+        "test_start": 1000,
+        "window_cost_usd": 9.08198254361491,
+        "window_index": 22,
+        "window_notional": 79599.6419648237,
+        "window_return": -4.613984583120328e-06,
+        "window_trades": 4
+      },
+      {
+        "test_end": 1080,
+        "test_start": 1040,
+        "window_cost_usd": 19.995500409795508,
+        "window_index": 23,
+        "window_notional": 177849.73407277055,
+        "window_return": -0.16627101503553932,
+        "window_trades": 19
+      },
+      {
+        "test_end": 1120,
+        "test_start": 1080,
+        "window_cost_usd": 19.98890168232237,
+        "window_index": 24,
+        "window_notional": 180686.01717029026,
+        "window_return": -0.1840378126562707,
+        "window_trades": 12
+      },
+      {
+        "test_end": 1160,
+        "test_start": 1120,
+        "window_cost_usd": 18.776475197253866,
+        "window_index": 25,
+        "window_notional": 170318.5295847093,
+        "window_return": 0.2085472342850767,
+        "window_trades": 11
+      },
+      {
+        "test_end": 1200,
+        "test_start": 1160,
+        "window_cost_usd": 20.016313381970484,
+        "window_index": 26,
+        "window_notional": 177311.65086885152,
+        "window_return": 0.1915919067098752,
+        "window_trades": 31
+      },
+      {
+        "test_end": 1240,
+        "test_start": 1200,
+        "window_cost_usd": 19.9434653478467,
+        "window_index": 27,
+        "window_notional": 187312.1735308397,
+        "window_return": -0.11727619621047211,
+        "window_trades": 15
+      },
+      {
+        "test_end": 1280,
+        "test_start": 1240,
+        "window_cost_usd": 17.38395529304703,
+        "window_index": 28,
+        "window_notional": 168462.73803408953,
+        "window_return": -0.3268063015124068,
+        "window_trades": 28
+      },
+      {
+        "test_end": 1320,
+        "test_start": 1280,
+        "window_cost_usd": 20.00076092693304,
+        "window_index": 29,
+        "window_notional": 182212.19671624264,
+        "window_return": -0.003484539321197226,
+        "window_trades": 34
+      },
+      {
+        "test_end": 1360,
+        "test_start": 1320,
+        "window_cost_usd": 19.061643473972314,
+        "window_index": 30,
+        "window_notional": 167972.2210056298,
+        "window_return": -0.15556561251665918,
+        "window_trades": 20
+      },
+      {
+        "test_end": 1400,
+        "test_start": 1360,
+        "window_cost_usd": 13.605609960227474,
+        "window_index": 31,
+        "window_notional": 119402.11041627795,
+        "window_return": -3.3503465281974056e-05,
+        "window_trades": 6
+      },
+      {
+        "test_end": 1440,
+        "test_start": 1400,
+        "window_cost_usd": 19.618485297148926,
+        "window_index": 32,
+        "window_notional": 177673.76972779763,
+        "window_return": -0.2723949525490793,
+        "window_trades": 31
+      },
+      {
+        "test_end": 1480,
+        "test_start": 1440,
+        "window_cost_usd": 18.272041875430677,
+        "window_index": 33,
+        "window_notional": 170820.32843893307,
+        "window_return": -0.1590840103525597,
+        "window_trades": 13
+      },
+      {
+        "test_end": 1520,
+        "test_start": 1480,
+        "window_cost_usd": 16.91463008729049,
+        "window_index": 34,
+        "window_notional": 160150.54522632292,
+        "window_return": -0.012123204447154421,
+        "window_trades": 11
+      },
+      {
+        "test_end": 1555,
+        "test_start": 1520,
+        "window_cost_usd": 17.278621113603993,
+        "window_index": 35,
+        "window_notional": 159201.11979298914,
+        "window_return": 0.00011988341104006394,
+        "window_trades": 8
+      }
+    ]
+  },
+  "permutation": {
+    "alternative": "two-sided",
+    "n_permutations": 1000,
+    "null_mean": -0.0005904649157588972,
+    "observed_difference": -0.14815491375662934,
+    "p_value": 0.000999000999000999,
+    "paired": true,
+    "significant_at_05": true,
+    "statistic_a": -0.0749185667752443,
+    "statistic_b": 0.07323634698138504
+  },
+  "real_provenance": {
+    "authenticity_verified": false,
+    "data_provenance": "real_public_exchange_export",
+    "note": "public OKX read-only export; inverse BTC-USD-SWAP tape, spot options chain; no signed venue attestation (authenticity_verified=false)",
+    "orderflow_instrument_symbol": "BTC",
+    "real": true,
+    "venue": "okx"
+  },
+  "report_id": "REAL_NET_OF_COST_EVAL_23",
+  "toxicity": {
+    "fraction_above_threshold": 0.8057877813504823,
+    "gate_engages": true,
+    "max_toxicity": 1.0,
+    "mean_toxicity": 0.8566992403635695,
+    "min_toxicity": 0.0,
+    "n_bars": 1555,
+    "p95_toxicity": 1.0,
+    "toxic_gate_active_fraction": 0.8057877813504823,
+    "toxicity_measured": true,
+    "toxicity_threshold": 0.7
+  },
+  "trading_mode": "paper",
+  "verdict": "NO-GO",
+  "verdict_checks": {
+    "all_checks_pass": false,
+    "checks": [
+      {
+        "name": "options_signal_exists",
+        "observed": 0.0,
+        "pass": false,
+        "reason": "FAIL: options mean IC 0.000000e+00 indistinguishable from zero (<= 1e-09)",
+        "threshold": 1e-09
+      },
+      {
+        "name": "orderflow_signal_exists",
+        "observed": 0.015648604762968393,
+        "pass": true,
+        "reason": "PASS: orderflow mean IC -1.564860e-02 nonzero (> 1e-09)",
+        "threshold": 1e-09
+      },
+      {
+        "name": "combined_ic_significant",
+        "observed": 1.870066947391513,
+        "pass": true,
+        "reason": "PASS: combined IC significant (|t|=1.8701 > 1.96, permutation p=0.0010)",
+        "threshold": 1.96
+      },
+      {
+        "name": "combined_net_of_cost_superior",
+        "observed": -1.0506086346965846,
+        "pass": false,
+        "reason": "FAIL: combined not superior (combined 2.798930 vs options 3.849539, orderflow -8.785080, flat 0.000000; cost applied True)",
+        "threshold": 1.0
+      },
+      {
+        "name": "toxicity_gate_measured",
+        "observed": 0.8566992403635695,
+        "pass": true,
+        "reason": "PASS: toxicity mean 0.8567 in (0,1), gate engages fraction 0.8058 (measured EVAL-17 VPIN)",
+        "threshold": 1.0
+      },
+      {
+        "name": "no_lookahead_asserted",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: causal no-lookahead signal asserted and tested",
+        "threshold": 1.0
+      },
+      {
+        "name": "guardrails_consistent_with_eval13_14_15",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: guardrails consistent (delta band \u00b1323.77 USD around -20000.0, toxicity gate 0.7, cost budget 0.5 bps, kill-switch DD 0.2/tox 0.8/cost 5.0 bps, max notional 1000000.0 USD, max daily loss 50000.0 USD)",
+        "threshold": 1.0
+      },
+      {
+        "name": "real_data_provenance",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: inputs loaded from real OKX public exports (no synthetic fallback)",
+        "threshold": 1.0
+      },
+      {
+        "name": "real_data_adequate",
+        "observed": 1.0,
+        "pass": true,
+        "reason": "PASS: 80000 trades / 1555 bars, 827 quotes / 14 expiries / 93 strikes",
+        "threshold": 1.0
+      },
+      {
+        "name": "orderflow_signal_non_degenerate",
+        "observed": 0.015648604762968393,
+        "pass": true,
+        "reason": "PASS: orderflow mean IC -1.564860e-02 nonzero (> 1e-09)",
+        "threshold": 1.0
+      },
+      {
+        "name": "options_signal_tradable",
+        "observed": 0.0,
+        "pass": false,
+        "reason": "FAIL: options leg degenerate \u2014 options signal is constant across bars (stdev 5.553e-17 <= 1.0e-12): the real chain is a single cross-section, so broadcasting it produces no time variation; options IC magnitude 0.000e+00 <= 1.0e-12: no measured relation to forward returns",
+        "threshold": 1.0
+      }
+    ],
+    "eval23_added_checks": [
+      "real_data_provenance",
+      "real_data_adequate",
+      "orderflow_signal_non_degenerate",
+      "options_signal_tradable"
+    ],
+    "failed_checks": [
+      "options_signal_exists",
+      "combined_net_of_cost_superior",
+      "options_signal_tradable"
+    ],
+    "n_checks": 11,
+    "n_passed": 8,
+    "sealed_eval18_checks": [
+      "options_signal_exists",
+      "orderflow_signal_exists",
+      "combined_ic_significant",
+      "combined_net_of_cost_superior",
+      "toxicity_gate_measured",
+      "no_lookahead_asserted",
+      "guardrails_consistent_with_eval13_14_15"
+    ],
+    "verdict": "NO-GO"
+  }
+}
