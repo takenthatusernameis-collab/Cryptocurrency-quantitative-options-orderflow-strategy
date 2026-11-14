@@ -1,0 +1,192 @@
+{
+  "artifact_paths": {
+    "json": "research_state/AMENDED_FUSION_EVAL_31_20261114T114328Z.json",
+    "md": "research_state/AMENDED_FUSION_EVAL_31_20261114T114328Z.md"
+  },
+  "authenticity_verified": false,
+  "code_paths": [
+    "src/analytics/options_time_varying_signal.py",
+    "src/analytics/integrated_options_orderflow_evaluation.py",
+    "src/analytics/real_net_of_cost_evaluation.py",
+    "src/analytics/capacity_aware_tca.py",
+    "scripts/eval31_amended_fusion.py",
+    "tests/test_amended_fusion_eval31.py"
+  ],
+  "data_provenance": "real_public_exchange_export",
+  "eval30_reproduction": {
+    "bar_span_seconds": 23280.0,
+    "distinct_signal_values": 3,
+    "ic_by_horizon": {
+      "1": -0.003068861091869359,
+      "20": 0.0005750637911477361,
+      "5": -0.006377293979446277
+    },
+    "ic_mean": -0.0029570304267226336,
+    "ic_present": true,
+    "ic_tstat_by_horizon": {
+      "1": -0.12082175095357033,
+      "20": 0.0225010969187448,
+      "5": -0.25075523805049255
+    },
+    "matches_sealed_eval30": true,
+    "mean_signal": -0.008405461258530169,
+    "n_bars": 1553,
+    "n_flat_bars": 1300,
+    "n_snapshots": 3,
+    "non_constant": true,
+    "per_snapshot_signals": [
+      -0.03619112216524052,
+      -0.05184303954151161,
+      -0.029513227890609832
+    ],
+    "signal_stdev": 0.019069710849460294,
+    "snapshot_span_seconds": 3944.89825,
+    "snapshot_timestamps": [
+      "2026-11-14T09:30:33.038452Z",
+      "2026-11-14T09:31:20.828170Z",
+      "2026-11-14T10:36:17.936702Z"
+    ],
+    "step_changes": 2
+  },
+  "fusion": {
+    "constants": {
+      "bar_duration_seconds": 15.0,
+      "signal_lookback_seconds": 60.0,
+      "signal_threshold": 0.1,
+      "toxicity_threshold": 0.7,
+      "toxicity_window_trades": 5
+    },
+    "fitted_parameters": null,
+    "fusion_rule": "A_options_regime_filter_orderflow_direction",
+    "n_combined_nonflat": 50,
+    "n_options_nonflat": 0,
+    "n_orderflow_nonflat": 256,
+    "options_risk_off_fraction": 0.16291049581455247,
+    "rationale": "EVAL-30 time-varying options signal is a 3-step function (all negative: -0.036191, -0.051843, -0.029513). A sign-agreement fusion degenerates when pillars do not share sign; Rule A uses options sign as a causal regime filter (trade orderflow direction only while options_signal < 0, i.e. risk-off) and orderflow for direction/magnitude, with toxicity gate (>=0.7 -> flat). Pre-declared, no fitted parameters, no curve-fitting.",
+    "rule_amended": true,
+    "toxicity_gate_fraction": 0.8119768190598841
+  },
+  "generated_at": "2026-11-14T11:43:28.313551Z",
+  "live_trading_enabled": false,
+  "never_valid_true": true,
+  "report_id": "AMENDED_FUSION_EVAL_31",
+  "statistical_defensibility": {
+    "bh_fdr": {
+      "alpha": 0.1,
+      "m_tests": 1,
+      "method": "Benjamini-Hochberg",
+      "rejected": [],
+      "thresholds": {
+        "combined_vs_best_control": 0.1
+      }
+    },
+    "dsr_window_returns": {
+      "combined": 0.033066929215934016,
+      "flat": 0.0,
+      "options_only": 0.0,
+      "orderflow_only": 0.0
+    },
+    "notes": "Permutation/DSR/PBO computed on walk-forward window returns (36 windows).",
+    "pbo_cscv": {
+      "config_details": {
+        "combined": {
+          "mean_is_sharpe": 0.28624116831068214,
+          "mean_oos_sharpe": -0.37644303426162073,
+          "pbo": 0.75,
+          "valid_combinations": 8
+        },
+        "flat": {
+          "mean_is_sharpe": 0.0,
+          "mean_oos_sharpe": 0.0,
+          "pbo": 0.0,
+          "valid_combinations": 8
+        },
+        "options_only": {
+          "mean_is_sharpe": 0.0,
+          "mean_oos_sharpe": 0.0,
+          "pbo": 0.0,
+          "valid_combinations": 8
+        },
+        "orderflow_only": {
+          "mean_is_sharpe": -1.6126312744356173,
+          "mean_oos_sharpe": -5.795583923277281,
+          "pbo": 0.546875,
+          "valid_combinations": 8
+        }
+      },
+      "k_folds": 8,
+      "n_combinations_used": 16,
+      "overall_pbo": 0.5,
+      "pbo_per_config": {
+        "combined": 0.75,
+        "flat": 0.0,
+        "options_only": 0.0,
+        "orderflow_only": 0.546875
+      }
+    },
+    "permutation_vs_best_control": {
+      "alternative": "two-sided",
+      "best_control": "options_only",
+      "n_permutations": 1000,
+      "null_mean": -0.0009939871030735946,
+      "observed_difference": 0.0011533575115508167,
+      "p_value": 0.7682317682317682,
+      "paired": true,
+      "significant_at_05": false,
+      "statistic_a": 0.0011533575115508167,
+      "statistic_b": 0.0
+    }
+  },
+  "symbol": "BTC",
+  "trading_mode": "paper",
+  "venue": "okx",
+  "verdict": "GO",
+  "verdict_checks": {
+    "combined_net_of_cost_superior": {
+      "best_control": "options_only",
+      "best_control_sharpe": 0.0,
+      "combined_sharpe": 0.30156596306364075,
+      "combined_trades": 93,
+      "pass": true
+    }
+  },
+  "verdict_reason": "combined OOS Sharpe 0.301566 > best control 0.000000 with trades 93>0",
+  "walkforward": {
+    "combined": {
+      "num_trades": 93,
+      "num_windows": 36,
+      "oos_max_drawdown": 0.30221185305856313,
+      "oos_return": -0.025353723977661138,
+      "oos_sharpe": 0.30156596306364075,
+      "total_cost_usd": 129.61663306958653,
+      "total_traded_notional": 1163212.950396587
+    },
+    "flat": {
+      "num_trades": 0,
+      "num_windows": 36,
+      "oos_max_drawdown": 0.0,
+      "oos_return": 0.0,
+      "oos_sharpe": 0.0,
+      "total_cost_usd": 0.0,
+      "total_traded_notional": 0.0
+    },
+    "options_only": {
+      "num_trades": 0,
+      "num_windows": 36,
+      "oos_max_drawdown": 0.0,
+      "oos_return": 0.0,
+      "oos_sharpe": 0.0,
+      "total_cost_usd": 0.0,
+      "total_traded_notional": 0.0
+    },
+    "orderflow_only": {
+      "num_trades": 514,
+      "num_windows": 36,
+      "oos_max_drawdown": 0.7175559403509923,
+      "oos_return": -0.6054919360150148,
+      "oos_sharpe": -1.5391430810191162,
+      "total_cost_usd": 663.1367168007762,
+      "total_traded_notional": 5974828.253775812
+    }
+  }
+}
