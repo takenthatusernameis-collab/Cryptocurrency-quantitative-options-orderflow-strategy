@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T04:46:21Z (UTC).** Handoff refreshed/verified at HEAD working tree 2026-11-14T04:46:21Z. EVAL-23/EVAL-24 are now **SEALED with measured real-data NO-GO artifacts** (trustworthy NO-GO = success). Prior sealed artifacts remain: `src/data/public_export_acquisition.py`, `tests/test_public_export_acquisition.py`, `src/campaign/integrated.py` (`load_real_orderflow`/`load_real_options_chain`), `tests/test_real_data_inputs.py`, `src/data/options_exports.py`, `src/data/exchange_exports.py`, `src/analytics/real_tape_ingestion.py`, `src/analytics/real_data_falsification.py`, `research_state/REAL_DATA_FALSIFICATION_20261114T025046Z.{json,md}`, `research_state/REAL_TAPE_INGESTION_20261114T025322Z.{json,md}`.
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T05:35:49Z (UTC).** Handoff refreshed/verified at HEAD working tree 2026-11-14T05:35:49Z. EVAL-23/EVAL-24 are now **SEALED with measured real-data NO-GO artifacts** (trustworthy NO-GO = success). Prior sealed artifacts remain: `src/data/public_export_acquisition.py`, `tests/test_public_export_acquisition.py`, `src/campaign/integrated.py` (`load_real_orderflow`/`load_real_options_chain`), `tests/test_real_data_inputs.py`, `src/data/options_exports.py`, `src/data/exchange_exports.py`, `src/analytics/real_tape_ingestion.py`, `src/analytics/real_data_falsification.py`, `research_state/REAL_DATA_FALSIFICATION_20261114T025046Z.{json,md}`, `research_state/REAL_TAPE_INGESTION_20261114T025322Z.{json,md}`.
 
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
@@ -27,20 +27,21 @@
   2. **Orderflow-only is net-of-cost negative on current real tape** (Sharpe -2.338, 502 trades) — cannot be declared edge.
   3. **Combined/fusion does not beat best pillar net-of-cost** (`combined_net_of_cost_superior` FAIL) despite measured trades; options-only backtest outperforms but rests on a non-tradable degenerate options leg per sealed checks — **this tension must be resolved by measurement, not narrative**.
   4. **Provenance limits:** `authenticity_verified=false`; inverse BTC-USD-SWAP tape + spot option snapshot; no signed venue attestation.
+  5. **`research_state/` noise bottleneck:** directory contains thousands of non-actionable artifacts (`INTEGRATED_STEP_data_ingestion_*.json`, `BACKTEST_*.json`, `CONTINUOUS_VALIDATION_*.json`, `HEALTH_SLO_*.json`, `ALERT_AUDIT_*.json`). **Do not enumerate `research_state/`**. Read/write only by exact path. Enumeration is a time sink and is explicitly prohibited.
 - **Do not** rerun discovery, recreate sealed EVAL-23/24, enumerate `research_state/`, run full suite (5,297 tests), modify `.github/workflows/main.yml`, create `phaseNN_*_post_attribution_seal_orchestrator` wrappers, or leave a clean tree without a new sealed artifact when work is feasible.
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-14T04:46:21Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-14T05:35:49Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-14T04:46:21Z-EVAL-27-OPTIONS-TIMESERIES-OR-AMENDED-FUSION`
+**TASK ID:** `INIT-2026-11-14T05:35:49Z-EVAL-27-OPTIONS-TIMESERIES-OR-AMENDED-FUSION`
 **STATUS:** **ACTIVE — EVAL-23/24 sealed NO-GO; next campaign must resolve the options-leg tradability and fusion/edge tension with new measured evidence.**
 > **Hard floor:** a session ending without at least one **new sealed artifact** (`research_state/<EVAL-ID>_<UTC>.{json,md}`) containing measured numbers, code paths, tests/verification output, and an explicit GO/NO-GO verdict is **FAILED**. Handoff-only work is FAILED. A trustworthy NO-GO is success; a fabricated GO is failure.
 
 ### Mission for this session (pick the highest-leverage unblocked path and execute fully)
 
 **Path A (preferred, data work): Acquire/build a real options time-series input and re-evaluate options tradability.**
-1. Extend `src/data/public_export_acquisition.py` (or add a focused sibling module) to fetch **multiple sequential real option-chain snapshots** over time from public OKX read-only endpoints (same safety: no auth, no `.env`, no orders). Persist as loader-compatible exports under `data/raw/` with provenance (venue, instrument/underlying, timestamps, request params, hashes). Handle gitignore/absence by making acquisition reproducible.
+1. Extend `src/data/public_export_acquisition.py` (or add a focused sibling module) to fetch **multiple sequential real option-chain snapshots over time** from public OKX read-only endpoints (same safety: no auth, no `.env`, no orders). Persist as loader-compatible exports under `data/raw/` with provenance (venue, instrument/underlying, timestamps, request params, hashes). Handle gitignore/absence by making acquisition reproducible.
 2. Add/extend ingestion so options signals can be computed **per snapshot/bar over time** (causal, no lookahead) rather than broadcasting one cross-section. Reuse sealed primitives: `src/features/iv_surface.py`, `src/features/options_pricing.py`/greeks, `src/features/gamma_exposure.py`, `src/features/volatility.py`, `src/data/loader.py`, `src/data/schemas.py`, validators.
 3. Seal **`OPTIONS_TIMESERIES_INGESTION_27_<UTC>.{json,md}`** and/or **`OPTIONS_LEG_VALIDITY_27_<UTC>.{json,md}`** with: n_snapshots, time span, coverage (expiries/strikes/quotes per snapshot), IV/greeks/parity/arbitrage diagnostics over time, whether `options_leg_tradable` becomes true with evidence, and explicit provenance (`authenticity_verified=false` if unattested).
 
@@ -80,6 +81,16 @@
 | **EVAL-23** | Real net-of-cost verdict | **SEALED NO-GO** (`REAL_NET_OF_COST_EVAL_23_20261114T040000Z`, 8/11) |
 | **EVAL-24** | Options-leg validity | **SEALED NO-GO** (`OPTIONS_LEG_VALIDITY_24_20261114T041000Z`, 3/8, degenerate) |
 | **EVAL-27** | Options time-series tradability **or** amended-fusion measured evaluation | **ACTIVE — must seal new artifact with measured GO/NO-GO** |
+
+## FOCUS CAMPAIGN (heavy work — future agents cannot avoid this)
+
+This campaign is the only open gate. Every session must:
+1. Execute Path A (multi-snapshot real options time-series + tradability re-eval) **or** Path B (amended-fusion/orderflow-only measured eval).
+2. Produce at least one new sealed artifact with measured numbers and explicit GO/NO-GO.
+3. Record pass counts and artifact hashes in this handoff.
+4. Update the CAMPAIGN QUEUE and INITIAL TASK MESSAGE with the next timestamp/ID.
+
+A session that only reads, restates bottlenecks, or leaves the tree without a new sealed artifact has failed this campaign.
 
 ## HANDOFF DISCIPLINE
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands/hashes.
