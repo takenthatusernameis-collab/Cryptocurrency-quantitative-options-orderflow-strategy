@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T00:57:27Z (UTC).** Handoff refreshed/verified at HEAD `c957c33de` (working tree clean; prior session artifacts: `src/data/options_exports.py`, `tests/test_options_exports.py`, `data/examples/options_exports/*`, `data/examples/normalized/options_deribit_BTC_*.json`, `research_state/OPTIONS_EXPORT_ADAPTERS_20261114T004500Z.{json,md}`, `research_state/REAL_DATA_FALSIFICATION_20261114T004500Z.{json,md}`).
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T01:00:55Z (UTC).** Handoff refreshed/verified at HEAD `c957c33de` (working tree clean; prior session artifacts: `src/data/options_exports.py`, `tests/test_options_exports.py`, `data/examples/options_exports/*`, `data/examples/normalized/options_deribit_BTC_*.json`, `research_state/OPTIONS_EXPORT_ADAPTERS_20261114T004500Z.{json,md}`, `research_state/REAL_DATA_FALSIFICATION_20261114T004500Z.{json,md}`).
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
 **Repo priority:** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
@@ -31,9 +31,9 @@
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-14T00:57:27Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-14T01:00:55Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-14T00:57:27Z-EVAL-25-REAL-DATA-ACQUISITION-READINESS`
+**TASK ID:** `INIT-2026-11-14T01:00:55Z-EVAL-25-REAL-DATA-ACQUISITION-READINESS`
 **STATUS:** **EVAL-25 SEALED (code-complete; measured NO-GO on data availability). Start here — zero discovery needed.**
 > **Hard floor:** a session ending without either (a) a re-run gate artifact showing real-data progress (adequate real tape + chain → GO, or refreshed `REAL_DATA_FALSIFICATION_<UTC>.{json,md}` NO-GO with a new timestamp) **or** (b) a documented acquisition attempt plus re-verified regression evidence is **FAILED**. Handoff-only work is FAILED. The gate `src/analytics/real_data_falsification.py` is already code-complete; the next session's heavy work is **real-data acquisition**: obtain a user/venue orderflow tape and option export, place them as non-`*_synthetic*` files under `data/raw/`, and re-run `python -m src.analytics.real_data_falsification --repo . --out research_state/ --data-dir data/raw [--timestamp <UTC>]`. EVAL-23 / EVAL-24 unblock **only** when an adequate real tape passes EVAL-22 (`min_returns=1000, min_windows=20, bar_duration_seconds=15.0`) AND an adequate real option chain passes EVAL-24 (`min_contracts=8, min_quotes=8, min_expiries=2`) through this gate. Never relabel synthetic as real; never fabricate provenance; never emit `{"valid": true}`.
 
