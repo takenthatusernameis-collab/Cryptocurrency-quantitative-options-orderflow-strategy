@@ -1,13 +1,13 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T08:59:28Z (UTC).** Handoff refreshed/verified at working tree 2026-11-14T09:00:05Z (session review; no new measured artifacts produced this turn). Active task unchanged: `INIT-2026-11-14T08:59:28Z-EVAL-29-OPTIONS-TRADABILITY-NET-OF-COST`.
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T08:59:28Z (UTC).** Handoff refreshed/verified at working tree 2026-11-14T09:05:21Z (session review: repo/handoff state audited, retired pointers intact, EVAL-29 entry points import-verified `OK`, `.env` absent, git tree clean; no new measured artifacts produced this turn). Active task unchanged: `INIT-2026-11-14T08:59:28Z-EVAL-29-OPTIONS-TRADABILITY-NET-OF-COST`.
 
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/INITIAL_TASK_20261114T063750Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
 **Repo priority:** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
 **Mission:** Deliver the strategy and a *trustworthy*, net-of-cost measurement of its performance — not orchestrator wrappers, not a favorable-looking number from a broken harness. A **trustworthy NO-GO** is a full success; a fabricated GO is a failure.
 
-## VERIFIED STATE (refreshed 2026-11-14T08:59:28Z)
+## VERIFIED STATE (refreshed 2026-11-14T08:59:28Z; re-verified 2026-11-14T09:05:21Z)
 
 - **Sealed gates:** EVAL-02..EVAL-22 **SEALED**. EVAL-23B/EVAL-24A adapters **SEALED**. EVAL-25 **GO** (`REAL_DATA_FALSIFICATION_20261114T025046Z.{json,md}`). EVAL-26 **SEALED** (`PUBLIC_EXPORT_ACQUISITION_20261114T064702Z.{json,md}` latest).
 - **EVAL-23 SEALED (NO-GO, trustworthy)** `REAL_NET_OF_COST_EVAL_23_20261114T040000Z.{json,md}` (8/11 checks). Combined IC mean -0.016776 (|t|=4.1008, p=0.0020, adverse); options-only OOS Sharpe 8.760 / 591 trades / cost 635.09; orderflow-only Sharpe -2.338 / 502 trades / cost 588.15; `options_leg_degenerate=true`, `options_signal_tradable` FAIL.
@@ -23,8 +23,8 @@
   - `data/raw/options_okx_BTC_20261114T035050Z.json` — 728 quotes, 12 expiries, 88 strikes.
   - `data/raw/options_okx_BTC_20261114T064702Z.json` — 730 quotes, 12 expiries, 89 strikes.
   - Synthetic fixtures (`orderflow_btcusdt_synthetic.json`, `options_btc_synthetic.json`) — **never relabel as real, never use via real loaders**.
-- **Targeted regression (2026-11-14T08:59Z, re-run this session):** `PYTHONPATH=. python3 -m pytest -q tests/test_integrated_options_orderflow_evaluation.py tests/test_real_data_inputs.py tests/test_public_export_acquisition.py tests/test_options_timeseries_parity_calibration.py` → **44 passed in 4.60s**.
-- **EVAL-29 entry point verified present this session:** `src/data/options_timeseries.py` exports `discover_all_real_options_exports`, `load_options_timeseries`, `calibrate_expiry_parity`; `src/analytics/{real_net_of_cost_evaluation,integrated_options_orderflow_evaluation,capacity_aware_tca,production_simulation_evaluation}.py` all present and importable. EVAL-29 is **unblocked**.
+- **Targeted regression (2026-11-14T08:59Z):** `PYTHONPATH=. python3 -m pytest -q tests/test_integrated_options_orderflow_evaluation.py tests/test_real_data_inputs.py tests/test_public_export_acquisition.py tests/test_options_timeseries_parity_calibration.py` → **44 passed in 4.60s** (not re-run this verification-only turn).
+- **EVAL-29 entry points verified present 2026-11-14T09:05:21Z:** `src/data/options_timeseries.py` exports `discover_all_real_options_exports`, `load_options_timeseries`, `calibrate_expiry_parity`; `src/analytics/{real_net_of_cost_evaluation,integrated_options_orderflow_evaluation,capacity_aware_tca,production_simulation_evaluation}.py` all present and importable (`OK`). EVAL-29 is **unblocked**.
 
 ## BOTTLENECKS (active — must be resolved by measured evidence, not narrative)
 
