@@ -30,32 +30,33 @@ python3 -m pytest -q tests/test_eval37_final_termination_audit.py
 python3 scripts/eval37_final_termination_audit.py        # seals a new PASS/FAIL artifact
 ```
 
-EVAL-43 (orderflow full-roster meta-analysis) is built and ready; run it to seal:
-```bash
-python3 -m py_compile scripts/eval43_orderflow_full_roster_meta.py tests/test_eval43_orderflow_full_roster_meta.py
-python3 -m pytest -q tests/test_eval43_orderflow_full_roster_meta.py
-python3 scripts/eval43_orderflow_full_roster_meta.py    # seals EVAL_43_ORDERFLOW_FULL_ROSTER_META_<UTC>
-python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-14T22:35:30Z-EVAL-43-EXECUTE-AND-SEAL" --glob "EVAL_43_*"
-```
-**Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run the
-specific sealed tests for the work item.
+EVAL-43 (orderflow full-roster meta-analysis) is sealed at
+`research_state/EVAL_43_ORDERFLOW_FULL_ROSTER_META_20261114T224516Z.{json,md}` (`NO-GO CONFIRMED (PASS)`).
+**Next required task is EVAL-44 campaign closure certification** (see `research_state/durable_handoff.md`,
+task `INIT-2026-11-14T23:14:32Z-EVAL-44-CLOSURE-CERTIFY-AND-SEAL`): recompute the termination verdict from
+sealed artifact hashes + pre-declared bars only (no re-running), verify the EVAL-02..43 chain is append-only,
+seal `EVAL_44_CAMPAIGN_CLOSURE_<UTC>.{json,md}`, and pass
+`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-14T23:14:32Z-EVAL-44-CLOSURE-CERTIFY-AND-SEAL" --glob "EVAL_44_*"`.
+
+**Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
+specific to the work item.
 
 ## Hard constraints / invariants (non-negotiable)
 - **Paper-only.** `.env` must stay absent; `LIVE_TRADING_ENABLED=false`. No live enablement,
   venue/config/credential mutation, or order placement.
 - **Never fall back to synthetic data.** Real loaders raise `RealDataUnavailable`. Never relabel
   synthetic as real. Never emit `{"valid": true}`.
-- **Sealed artifacts are immutable.** EVAL-02..37 are sealed; append new timestamped artifacts only.
-  Do not modify sealed EVAL-34/35/36/37 to make a check pass.
+- **Sealed artifacts are immutable.** EVAL-02..43 are sealed; append new timestamped artifacts only.
+  Do not modify sealed artifacts to make a check pass.
 - Network is public read-only market data only, with polite rate limiting, if truly required.
 - Reuse existing modules under `src/analytics/`, `src/data/`, `src/backtest/`, `src/telemetry/`
   rather than writing new orchestrator wrappers (`phaseNN_*` wrappers are prohibited).
 
 ## Current measured state
 Campaign is **TERMINATED** (sealed EVAL-36 `TERMINATE_NO_GO`). The options+orderflow strategy is
-**not net-of-cost tradable** on the available real BTC/OKX data. EVAL-37's independent
-post-termination audit was re-run after fixing a checker schema bug and now seals **PASS 9/9**.
-This is a full success: a trustworthy NO-GO with sealed measurement. EVAL-41/42 sealed the
-options pillar closed; EVAL-43 (orderflow full-roster meta-analysis) is built and verified
-(`--no-write`: 5/5 tapes, 0 errors, `NO-GO CONFIRMED (PASS)`) but **not yet sealed** — the next
-session must run it with `--write` and pass `scripts/check_session_sealed.py`.
+**not net-of-cost tradable** on the available real BTC/OKX data. EVAL-37 post-termination audit
+sealed **PASS 9/9**. EVAL-41/42 sealed the options pillar closed; EVAL-43 sealed the orderflow
+pillar closed across the full roster (`NO-GO CONFIRMED (PASS)`,
+`research_state/EVAL_43_ORDERFLOW_FULL_ROSTER_META_20261114T224516Z.{json,md}`). **EVAL-44 campaign
+closure certification is the final required artifact** — see `research_state/durable_handoff.md`. After
+EVAL-44 seals, the repo is closed pending new real data.
