@@ -742,14 +742,20 @@ def _run_walkforward(
                     nav,
                 )
                 if res.qty > 0:
+                    # Only clamp a sell to the quantity actually held when the
+                    # result would *reduce* a long. Opening/increasing a short
+                    # (target below the current quantity, including from flat)
+                    # is a valid sell and must not be zeroed out: the engine
+                    # credits cash on a short open and enforces its own
+                    # notional limit.
                     fill_qty = float(res.qty)
-                    if side == "sell":
-                        fill_qty = min(fill_qty, cur_qty) if cur_qty > 0 else 0.0
+                    if side == "sell" and cur_qty > 0.0:
+                        fill_qty = min(fill_qty, cur_qty)
                     if fill_qty > 0:
                         try:
                             engine.execute_trade(symbol, fill_qty, px, side, ts)
                         except Exception:
-                            pass
+                            continue
                         window_cost_usd += float(res.cost_usd)
                         window_notional += float(res.notional_usd)
                         window_trades += 1

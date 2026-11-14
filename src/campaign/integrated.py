@@ -295,6 +295,17 @@ def _symbol_matches(file_symbol: str, symbol: str) -> bool:
     return bool(file_token and symbol_token and (symbol_token in file_token or file_token in symbol_token))
 
 
+def _export_recency_key(path: Path) -> str:
+    """Sort key that prefers the most recent export for a given instrument.
+
+    Filenames are ``<kind>_<venue>_<symbol>_<UTC stamp>.json`` (orderflow omits
+    the stamp, so it falls back to the full name). Using the full path name
+    keeps the ordering deterministic and makes the newest real snapshot win
+    instead of an older one that happens to sort first.
+    """
+    return path.name
+
+
 def _discover_real_orderflow_exports(
     symbol: str, data_raw: Path | str = Path("data/raw")
 ) -> List[tuple[Path, str]]:
@@ -303,7 +314,7 @@ def _discover_real_orderflow_exports(
     if not root.exists():
         return []
     out: List[tuple[Path, str]] = []
-    for path in sorted(root.glob("orderflow_*.json")):
+    for path in sorted(root.glob("orderflow_*.json"), key=_export_recency_key):
         lowered = path.name.lower()
         if "synthetic" in lowered:
             continue
@@ -321,12 +332,15 @@ def _discover_real_orderflow_exports(
 def _discover_real_options_exports(
     symbol: str, data_raw: Path | str = Path("data/raw")
 ) -> List[tuple[Path, str, str]]:
-    """Return non-synthetic option exports whose filename matches ``symbol``."""
+    """Return non-synthetic option exports whose filename matches ``symbol``.
+
+    Results are ordered oldest-first; the newest snapshot is the last element.
+    """
     root = Path(data_raw)
     if not root.exists():
         return []
     out: List[tuple[Path, str, str]] = []
-    for path in sorted(root.glob("options_*.json")):
+    for path in sorted(root.glob("options_*.json"), key=_export_recency_key):
         lowered = path.name.lower()
         if "synthetic" in lowered:
             continue
@@ -349,12 +363,13 @@ def load_real_orderflow(
     """Load the best real (non-synthetic) orderflow tape for ``symbol``.
 
     Raises :class:`RealDataUnavailable` when no real export exists. This is the
-    EVAL-23 entry point: it never falls back to synthetic data.
+    EVAL-23 entry point: it never falls back to synthetic data. When several
+    real exports exist the most recent filename wins.
     """
     candidates = _discover_real_orderflow_exports(symbol, data_raw)
     if not candidates:
         raise RealDataUnavailable(f"no real orderflow export for {symbol!r} under {data_raw}")
-    path, file_venue = candidates[0]
+    path, file_venue = candidates[-1]
     loader = DataLoader(cache=False)
     return loader.load_orderflow(str(path), venue=venue or file_venue, symbol=symbol)
 
@@ -369,12 +384,13 @@ def load_real_options_chain(
     """Load the best real (non-synthetic) option chain for ``symbol``.
 
     Raises :class:`RealDataUnavailable` when no real export exists. This is the
-    EVAL-24 entry point: it never falls back to synthetic data.
+    EVAL-24 entry point: it never falls back to synthetic data. When several
+    real exports exist the most recent filename wins.
     """
     candidates = _discover_real_options_exports(symbol, data_raw)
     if not candidates:
         raise RealDataUnavailable(f"no real option export for {symbol!r} under {data_raw}")
-    path, file_venue, file_underlying = candidates[0]
+    path, file_venue, file_underlying = candidates[-1]
     loader = DataLoader(cache=False)
     chain = loader.load_options_chain(
         str(path), venue=venue or file_venue, underlying=symbol or file_underlying

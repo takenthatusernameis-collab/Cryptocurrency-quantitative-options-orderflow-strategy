@@ -1,0 +1,70 @@
+{
+  "adequacy": {
+    "options_adequate": true,
+    "options_min_contracts": 8,
+    "options_min_expiries": 2,
+    "options_min_quotes": 8,
+    "orderflow_adequate": true,
+    "orderflow_bar_duration_seconds": 15.0,
+    "orderflow_min_returns": 1000,
+    "orderflow_min_windows": 20
+  },
+  "artifact_paths": {
+    "json": "research_state/PUBLIC_EXPORT_ACQUISITION_20261114T034546Z.json",
+    "md": "research_state/PUBLIC_EXPORT_ACQUISITION_20261114T034546Z.md"
+  },
+  "authenticity_verified": false,
+  "data_provenance": "real_public_exchange_export",
+  "generated_at": "20261114T034546Z",
+  "live_trading_enabled": false,
+  "never_valid_true": true,
+  "options": {
+    "content_sha256": "1cb40cde29777c27e544ac60c5f10a722cfb97d92114b6a5f5e489ec3e58467c",
+    "expiries": [
+      "2026-11-15T00:00:00Z",
+      "2026-11-16T00:00:00Z",
+      "2026-11-17T00:00:00Z",
+      "2026-11-20T00:00:00Z",
+      "2026-11-27T00:00:00Z",
+      "2026-12-04T00:00:00Z",
+      "2026-12-25T00:00:00Z",
+      "2027-01-29T00:00:00Z",
+      "2027-02-26T00:00:00Z",
+      "2027-03-26T00:00:00Z",
+      "2027-06-25T00:00:00Z",
+      "2027-09-24T00:00:00Z"
+    ],
+    "n_contracts": 731,
+    "n_expiries": 12,
+    "n_quotes": 731,
+    "path": "data/raw/options_okx_BTC_20261114T034546Z.json",
+    "uly": "BTC-USD",
+    "underlying": "BTC"
+  },
+  "orderflow": {
+    "content_sha256": "4407f03031e5548582dcbf934fd9947846d16a6b61eb789fbb1e940fc0582b1f",
+    "end_timestamp": "2026-11-14T03:45:46.234000Z",
+    "instrument": "BTC-USD-SWAP",
+    "n_bars": 1554,
+    "n_returns": 1553,
+    "n_trades": 71600,
+    "n_windows": 35,
+    "pages": 716,
+    "path": "data/raw/orderflow_okx_BTC-USD-SWAP.json",
+    "span_seconds": 23301.713,
+    "start_timestamp": "2026-11-13T21:17:24.521000Z"
+  },
+  "report_id": "PUBLIC_EXPORT_ACQUISITION_26",
+  "source": {
+    "authenticated": false,
+    "endpoints": [
+      "/api/v5/market/history-trades",
+      "/api/v5/public/instruments",
+      "/api/v5/market/tickers"
+    ],
+    "network": "public_market_data_only",
+    "public_read_only": true,
+    "venue": "okx"
+  },
+  "trading_mode": "paper"
+}

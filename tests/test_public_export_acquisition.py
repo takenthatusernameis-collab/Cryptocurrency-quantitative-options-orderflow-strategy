@@ -152,14 +152,16 @@ def test_option_chain_filters_invalid_quotes_and_counts_expiries():
         _instrument("BTC-USD-261113-90000-C", 90000, datetime(2026, 11, 13, tzinfo=timezone.utc), "C"),
         {"instId": "MALFORMED"},
     ]
+    # OKX quotes options in USD per 1 BTC, which is the canonical OptionQuote
+    # convention (spot/strikes are USD). No unit conversion is applied.
     tickers = [
-        _ticker("BTC-USD-261120-60000-C", 0.01, 0.02),
-        _ticker("BTC-USD-261120-65000-P", 0.02, 0.03),
-        _ticker("BTC-USD-261127-70000-C", 0.03, 0.04),
-        _ticker("BTC-USD-261127-75000-P", 0.04, 0.05),
-        _ticker("BTC-USD-261120-80000-C", 0.0, 0.02),
-        _ticker("BTC-USD-261120-85000-C", 0.05, 0.04),
-        _ticker("BTC-USD-261113-90000-C", 0.01, 0.02),
+        _ticker("BTC-USD-261120-60000-C", 1000.0, 2000.0),
+        _ticker("BTC-USD-261120-65000-P", 2000.0, 3000.0),
+        _ticker("BTC-USD-261127-70000-C", 3000.0, 4000.0),
+        _ticker("BTC-USD-261127-75000-P", 4000.0, 5000.0),
+        _ticker("BTC-USD-261120-80000-C", 0.0, 2000.0),
+        _ticker("BTC-USD-261120-85000-C", 5000.0, 4000.0),
+        _ticker("BTC-USD-261113-90000-C", 1000.0, 2000.0),
     ]
     session = FakeSession(instruments=instruments, tickers=tickers)
     result = acq.fetch_okx_option_chain("BTC", session=session, now=NOW)
@@ -172,6 +174,13 @@ def test_option_chain_filters_invalid_quotes_and_counts_expiries():
     ]
     assert all(q["ask"] >= q["bid"] > 0 for q in result["quotes"])
     assert all(q["expiry"] > NOW.isoformat() for q in result["quotes"])
+    # Premiums are kept in the venue's BTC-per-1-BTC quote unit, which is the
+    # canonical OptionQuote convention. No unit conversion is applied.
+    first = next(q for q in result["quotes"] if q["symbol"].endswith("60000-C"))
+    assert first["bid"] == pytest.approx(1000.0)
+    assert first["ask"] == pytest.approx(2000.0)
+    assert first["contract_size"] == pytest.approx(0.01)
+    assert first["price_unit"] == "btc_per_1btc"
 
 
 def _adequate_history_pages(n_trades: int = 1610, page_size: int = 100) -> List[List[Dict[str, Any]]]:

@@ -361,7 +361,17 @@ def fetch_okx_option_chain(
             continue
         if quote_ts <= now - timedelta(days=2):
             continue
+        # OKX BTC-USD options tickers already quote premium in BTC per 1 BTC of
+        # notional (e.g. 0.0175 BTC for an ATM call), which is exactly the
+        # canonical ``OptionQuote`` convention: it matches the inverse
+        # BTC-USD-SWAP tape and ``black_scholes_price(spot_usd, strike_usd)``.
+        # No conversion is applied; ``contract_size`` (ctVal, BTC per contract)
+        # is recorded for notional/exposure math only.
         contract_size = _as_float(instrument.get("ctVal")) or 1.0
+        if contract_size <= 0:
+            contract_size = 1.0
+        bid_px = float(bid)
+        ask_px = float(ask)
         quotes.append(
             {
                 "symbol": inst_id,
@@ -371,8 +381,8 @@ def fetch_okx_option_chain(
                 "option_type": parsed["option_type"],
                 "venue": "okx",
                 "contract_size": float(contract_size),
-                "bid": float(bid),
-                "ask": float(ask),
+                "bid": bid_px,
+                "ask": ask_px,
                 "last": _as_float(ticker.get("last")),
                 "mark": _as_float(ticker.get("markPx")),
                 "bid_iv": _as_float(ticker.get("bidVol")),
@@ -385,6 +395,8 @@ def fetch_okx_option_chain(
                 "open_interest": _as_float(ticker.get("oi")) or 0.0,
                 "volume": _as_float(ticker.get("vol24h")) or 0.0,
                 "timestamp": _iso(quote_ts),
+                "price_unit": "btc_per_1btc",
+                "venue_quote_unit": "btc_per_1btc",
             }
         )
         expiries.add(_iso(expiry))
