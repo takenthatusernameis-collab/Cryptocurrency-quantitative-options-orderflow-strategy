@@ -32,10 +32,10 @@
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-14T05:42:34Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-14T05:45:27Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-14T05:42:34Z-EVAL-27-OPTIONS-TIMESERIES-OR-AMENDED-FUSION`
-**STATUS:** **ACTIVE — EVAL-23/24 sealed NO-GO; next campaign must resolve the options-leg tradability and fusion/edge tension with new measured evidence.**
+**TASK ID:** `INIT-2026-11-14T05:45:27Z-EVAL-27-OPTIONS-TIMESERIES-OR-AMENDED-FUSION`
+**STATUS:** **ACTIVE — EVAL-23/24 SEALED (trustworthy NO-GO artifacts: REAL_NET_OF_COST_EVAL_23_20261114T040000Z, OPTIONS_LEG_VALIDITY_24_20261114T041000Z). EVAL-27 must resolve options-leg tradability / fusion-edge tension with measured evidence.**
 > **Hard floor:** a session ending without at least one **new sealed artifact** (`research_state/<EVAL-ID>_<UTC>.{json,md}`) containing measured numbers, code paths, tests/verification output, and an explicit GO/NO-GO verdict is **FAILED**. Handoff-only work is FAILED. A trustworthy NO-GO is success; a fabricated GO is failure.
 
 ### Mission for this session (pick the highest-leverage unblocked path and execute fully)
