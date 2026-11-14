@@ -1,12 +1,12 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-**Initial task message (timestamped, 2026-11-14T11:42:00Z UTC, for the next agentic work session):** Execute `INIT-2026-11-14T11:42:00Z-EVAL-31-TIME-VARYING-OPTIONS-FUSION-NET-OF-COST` now. This is mandatory heavy measurement work, not discovery. Do **not** re-run discovery, do **not** re-litigate any sealed EVAL, do **not** edit sealed artifacts, do **not** spend the session on handoff-only or tests-only edits. The single deliverable is a new sealed artifact `research_state/AMENDED_FUSION_EVAL_31_<UTC>.{json,md}` containing: reproduced EVAL-30 numbers, the new fused-signal walk-forward results (combined / options-only / orderflow-only / flat: OOS Sharpe, return, drawdown, trade count, cost, turnover, toxicity engagement), targeted pytest pass counts, exact commands, and an explicit `GO`/`NO-GO` verdict with rationale. **A trustworthy NO-GO is a full success. Fabricated GO, or synthetic relabeled as real, is failure. No new sealed measurement artifact = FAILED session.**
+**Initial task message (timestamped, 2026-11-14T12:28:55Z UTC, for the next agentic work session):** Execute `INIT-2026-11-14T12:28:55Z-EVAL-32-OOS-VALIDATION-MARGINAL-GO` now. This is mandatory heavy validation work, not discovery. Do **not** re-run discovery, do **not** re-litigate any sealed EVAL, do **not** edit sealed artifacts, do **not** spend the session on handoff-only or tests-only edits. The single deliverable is a new sealed artifact `research_state/EVAL_32_OOS_VALIDATION_<UTC>.{json,md}` containing: rigorous out-of-sample validation of the EVAL-31 marginal GO (Sharpe 0.3016, p=0.768, PBO=0.75), walk-forward on held-out period (different time window or venue), expanded statistical tests (DSR with multiple benchmarks, bootstrap CIs, permutation across venues/time-splits), explicit `GO`/`NO-GO` verdict with rationale on whether the marginal edge is statistically robust and tradable. **A trustworthy NO-GO on validation is a full success. Fabricated GO, or synthetic relabeled as real, is failure. No new sealed measurement artifact = FAILED session.**
 
-**Active task:** `INIT-2026-11-14T11:42:00Z-EVAL-31-TIME-VARYING-OPTIONS-FUSION-NET-OF-COST` (mandatory heavy work).
+**Active task:** `INIT-2026-11-14T12:28:55Z-EVAL-32-OOS-VALIDATION-MARGINAL-GO` (mandatory heavy work).
 
-**Session verification (2026-11-14T11:42:00Z):** repo `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy` inspected. This file is the single durable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/INITIAL_TASK_20261114T063750Z.md` are RETIRED pointers with **no task IDs** (non-actionable). No competing handoff files. `.env` absent (paper-only; must stay absent). Working tree clean at `dcc41673f`. EVAL-30 sealed prior session.
+**Session verification (2026-11-14T12:28:55Z):** repo `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy` inspected. This file is the single durable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md`, and `research_state/INITIAL_TASK_20261114T063750Z.md` are RETIRED pointers with **no task IDs** (non-actionable). No competing handoff files. `.env` absent (paper-only; must stay absent). Working tree clean at `ed06cf0d6`. EVAL-31 SEALED GO (`AMENDED_FUSION_EVAL_31_20261114T114328Z.{json,md}`).
 
-**Verified this session (2026-11-14T11:42:00Z):** EVAL-30 artifact, adapter, and tests all present; `PYTHONPATH=. python3 -c "import src.data.options_timeseries, src.analytics.integrated_options_orderflow_evaluation, src.analytics.real_net_of_cost_evaluation, src.analytics.options_time_varying_signal"` => `IMPORTS OK`; `python3 -m pytest -q tests/test_options_time_varying_signal.py` => **7 passed**; `scripts/_explore_eval30.py` deleted. All EVAL-31 building blocks import cleanly (`_build_bars`, `_causal_signal_series`, `_toxicities_per_bar`, `_signal_positions`, `_fuse_positions`, `_run_walkforward`, `CapacityAwareSizer`, `IntegratedConfig`, plus every `DEFAULT_*` constant).
+**Verified this session (2026-11-14T12:28:55Z):** EVAL-31 artifact, script, and tests all present; `python3 -m py_compile src/analytics/options_time_varying_signal.py scripts/eval31_amended_fusion.py tests/test_amended_fusion_eval31.py` => OK; `python3 -m pytest -q tests/test_amended_fusion_eval31.py` => **5 passed**; EVAL-31 verdict GO: combined OOS Sharpe 0.301566 > best control (options_only 0.0) with 93 trades. Statistical defensibility: permutation p=0.768 (not significant), PBO combined=0.75, overall PBO=0.5, DSR combined=0.033. EVAL-31 seal verified.
 
 **Repo priority (inferred from name):** Cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
 **Mission:** deliver the strategy and a *trustworthy*, net-of-cost measurement of its performance — not orchestrator wrappers, not favorable-looking numbers from broken harnesses. A **trustworthy NO-GO** is a full success.
@@ -19,11 +19,12 @@
 4. **EVAL-30 adapter sealed.** `src/analytics/options_time_varying_signal.py` provides `snapshot_options_signal`, `load_snapshot_signals`, `align_options_signal_to_bars` (causal step function, bar `i` uses newest snapshot `<= bar_end[i]`, pre-first-snapshot = 0.0), `measure_time_varying_signal`, `build_eval30_report`, `write_eval30_artifact`.
 5. **Where-to-start ambiguity cleared** by the timestamped task + exact commands below.
 6. **Competing handoff sources cleared** (all legacy pointers retired; this is the only actionable handoff).
-7. **Root cause of prior NO-GO recorded (do NOT re-fix):** `integrated_options_orderflow_evaluation.py::_causal_options_signal_series` broadcasts a single static options value to every bar → zero time-variation → mean IC 0.0. Do **not** modify that sealed function. EVAL-31 must instead inject the *time-varying* `SnapshotSignal` series through the existing public adapter — no changes to sealed semantics.
+7. **Root cause of prior NO-GO recorded (do NOT re-fix):** `integrated_options_orderflow_evaluation.py::_causal_options_signal_series` broadcasts a single static options value to every bar → zero time-variation → mean IC 0.0. Do **not** modify that sealed function. EVAL-31 correctly injected the *time-varying* `SnapshotSignal` series through the existing public adapter — no changes to sealed semantics.
+8. **EVAL-31 SEALED GO (marginal).** `AMENDED_FUSION_EVAL_31_20261114T114328Z.{json,md}` — fused time-varying options (Rule A: options sign as causal regime filter, orderflow for direction/magnitude, toxicity gate ≥0.7→flat) with causal orderflow. Combined OOS Sharpe 0.3016, return -2.54%, maxDD 30.2%, 93 trades, cost $129.62, notional $1.16M. Controls: options-only Sharpe 0.0 (0 trades, all flat — options signal all negative), orderflow-only Sharpe -1.539 (514 trades), flat 0.0. **Permutation p=0.768 (not significant), PBO combined=0.75, overall PBO=0.5.** This marginal GO requires rigorous OOS validation before any deployment consideration.
 
 ## ACTIVE BOTTLENECK (the only one left; shipping the artifact removes it)
 
-No EVAL-31 harness exists in `scripts/` or `tests/`. That cold-start is the last bottleneck. It is removed by following the exact plan below — everything it references is verified importable and runnable.
+EVAL-31 GO is marginal (Sharpe 0.30, permutation p=0.768, PBO 0.75). No rigorous OOS validation exists on held-out data/time/venue. That cold-start is the last bottleneck. It is removed by following the exact plan below — everything it references is verified importable and runnable.
 
 ## VERIFIED STATE (ground truth; re-verify only if an import fails)
 
@@ -34,55 +35,55 @@ No EVAL-31 harness exists in `scripts/` or `tests/`. That cold-start is the last
 - **EVAL-28 SEALED GO (additive):** `OPTIONS_LEG_PARITY_CALIBRATION_28_20261114T085233Z` / `...093132Z` — per-expiry forward-calibrated put-call parity 1017/1017 pairs (100.0%), min R²=0.999919. Overturns EVAL-27 stale-spot parity artifact.
 - **EVAL-29 SEALED NO-GO:** `OPTIONS_LEG_TRADABILITY_29_20261114T093151Z` — parity-consistent but static-broadcast signal → mean IC 0.0; options-only WF Sharpe -483.876/114; orderflow-only 0.785/97; combined -100.333/51.
 - **EVAL-30 SEALED NO-GO (trustworthy):** `OPTIONS_LEG_TRADABILITY_30_20261114T113051395ZZ.{json,md}` — time-varying options signal measured (3 snapshots, non-constant, IC present) but `integrated_net_of_cost_go` FAIL. Integrated verdict NO-GO: `options_signal_exists` FAIL (mean IC 0.0 from static broadcast), `combined_net_of_cost_superior` FAIL (combined Sharpe -100.33 vs orderflow 0.79 vs flat 0.0). Net-of-cost real data 1553 bars: combined Sharpe 7.76/171/cost 350.62; options-only Sharpe -∞ (degenerate); orderflow-only measured; flat 0.00.
+- **EVAL-31 SEALED GO (marginal):** `AMENDED_FUSION_EVAL_31_20261114T114328Z.{json,md}` — Rule A fusion (options regime filter + orderflow direction, toxicity gate). Combined OOS Sharpe 0.3016 > best control 0.0 (options_only) with 93 trades. **Permutation p=0.768 (not significant), PBO combined=0.75, overall PBO=0.5, DSR combined=0.033.** Controls: options-only 0.0/0 trades (all negative signal → flat), orderflow-only -1.539/514 trades, flat 0.0/0. Statistical defensibility WEAK — requires OOS validation on held-out data.
 
-## EXECUTE NOW — `INIT-2026-11-14T11:42:00Z-EVAL-31-TIME-VARYING-OPTIONS-FUSION-NET-OF-COST`
+## EXECUTE NOW — `INIT-2026-11-14T12:28:55Z-EVAL-32-OOS-VALIDATION-MARGINAL-GO`
 
 ### Step 0 — Bootstrap (only if an import below fails)
 `pip3 install -r requirements.txt`, then re-run the import line in "Verified this session". Do **not** re-acquire data unless a loader raises `RealDataUnavailable`.
 
-### Step 1 — Reproduce EVAL-30 measurement (fresh; must match sealed artifact)
-```python
-from src.analytics.integrated_options_orderflow_evaluation import load_btc_orderflow, _build_bars
-from src.analytics.options_time_varying_signal import load_snapshot_signals, measure_time_varying_signal
-snapshot = load_btc_orderflow("BTC")
-bars = _build_bars(snapshot)
-signals = load_snapshot_signals("BTC")
-m = measure_time_varying_signal(signals, bars["bar_ends_dt"], bars["bar_closes"], horizons=(1,5,20))
-```
-Verify `n_bars=1553`, `n_snapshots=3`, span ≈3945s, per-snapshot signals match sealed artifact, `non_constant=True`, `ic_present=True`, `ic_mean≈-0.002957`. Record these in the artifact.
+### Step 1 — Define held-out validation splits (causal, no lookahead)
+Use the existing 1553 bars (span ~6.47 hours from 2026-11-14T04:05:20Z to T10:33:22Z). Split **chronologically** into:
+- **Train/Calibration:** First 70% bars (≈1087 bars, up to ~T08:35Z) — used for any parameter calibration (none for Rule A, but needed for any sizer/window tuning)
+- **Test/Validation:** Last 30% bars (≈466 bars, from ~T08:35Z to T10:33Z) — strictly held-out for final verdict
 
-### Step 2 — Build the EVAL-31 fused signal (mechanism fixed BEFORE measurement; no curve-fitting)
-The EVAL-30 time-varying options signal is a 3-step function over bars: `-0.036191 → -0.051843 → -0.029513` (all **negative**). Because all three values share one sign, a sign-agreement fusion against a zero-mean orderflow signal degenerates (flat most of the time) — this is the *measured* reason the prior static fusion failed, and it must be stated.
+Also define **venue split** if additional venue data available (Deribit options snapshots present in `data/processed/deribit_*.json` — verify usability). If no additional venue, use **time-split only** with expanding-window walk-forward on the held-out 30% to maximize statistical power.
 
-Use this **pre-declared** mechanism (choose exactly one; state `fusion_rule` in the artifact):
-- **A (default) — options sign as causal regime filter, orderflow for direction/magnitude:** `position[i] = sign(orderflow_signal[i])` gated to flat when `toxicity[i] >= 0.7` **and** flat when `options_signal[i] >= 0` (i.e. trade orderflow direction only while the options step-function is risk-off/negative). Rationale: the options signal is a slow risk regime; the fast orderflow signal supplies timing. This is causal and uses no fitted parameters.
-- **B — weighted z-score blend:** standardize both series over an expanding causal window (min 60 bars), `blend = w*z_options + (1-w)*z_orderflow` with fixed `w=0.5`, then sign → position with the same toxicity gate.
+Record split timestamps and bar counts in the artifact.
 
-Build positions with the existing `_signal_positions` / a small explicit loop; apply the toxicity gate exactly as `evaluate_integrated_options_orderflow` does (`0 if tox >= 0.7 else position`).
-
-### Step 3 — Net-of-cost walk-forward vs the 3 controls (reuse sealed machinery)
-Reuse `CapacityAwareSizer(spread_bps, impact_coeff, max_participation, cost_budget_bps, seed=42)` and `IntegratedConfig(seed=42, train_window=DEFAULT_TRAIN_WINDOW, test_window=DEFAULT_TEST_WINDOW, step_size=DEFAULT_STEP_SIZE, purge=DEFAULT_PURGE, embargo=DEFAULT_EMBARGO)` and call `_run_walkforward("BTC", bar_closes, positions, bar_ends_dt, sizer, cfg, DEFAULT_N_POINTS, 42, max_position_pct=DEFAULT_MAX_POSITION_PCT)` for:
-1. **combined** — the EVAL-31 fused signal
+### Step 2 — Run expanding-window walk-forward on held-out 30% (reuse sealed machinery)
+Reuse `CapacityAwareSizer(spread_bps, impact_coeff, max_participation, cost_budget_bps, seed=42)` and `IntegratedConfig(seed=42, train_window=DEFAULT_TRAIN_WINDOW, test_window=DEFAULT_TEST_WINDOW, step_size=DEFAULT_STEP_SIZE, purge=DEFAULT_PURGE, embargo=DEFAULT_EMBARGO)` and call `_run_walkforward("BTC", bar_closes, positions, bar_ends_dt, sizer, cfg, DEFAULT_N_POINTS, 42, max_position_pct=DEFAULT_MAX_POSITION_PCT)` on the **held-out 30% segment only** for:
+1. **combined** — EVAL-31 Rule A fused signal (must recompute positions on held-out segment using same causal mechanism)
 2. **options-only** — time-varying options signal → `_signal_positions` → toxicity-gated
-3. **orderflow-only** — causal orderflow signal → `_signal_positions` → toxicity-gated (must reproduce sealed EVAL-30 orderflow-only ≈ Sharpe 0.79/97)
-4. **flat** — all zeros (control, Sharpe 0.00)
+3. **orderflow-only** — causal orderflow signal → `_signal_positions` → toxicity-gated (reproduce EVAL-31 orderflow-only on held-out)
+4. **flat** — all zeros (control)
 
-`combined_net_of_cost_superior` PASS iff combined OOS Sharpe > max(options-only, orderflow-only, flat) **and** combined trades > 0. Record OOS Sharpe, total return, max drawdown, trade count, total cost (USD), turnover, and fraction of bars with toxicity engagement for each.
+**Requirement:** `combined_net_of_cost_superior` PASS on held-out iff combined OOS Sharpe > max(options-only, orderflow-only, flat) **and** combined trades > 0. Record OOS Sharpe, total return, max drawdown, trade count, total cost (USD), turnover, and fraction of bars with toxicity engagement for each.
 
-### Step 4 — Seal EVAL-31 artifact + targeted tests (mandatory)
-Write `research_state/AMENDED_FUSION_EVAL_31_<UTC>.{json,md}` with: `report_id`, timestamps, provenance/authenticity caveats (`authenticity_verified=false`; no signed venue attestation; inverse BTC-USD-SWAP tape vs spot option snapshots), the exact fusion mechanism (`fusion_rule`, `rule_amended=true` + rationale, all constants, no fitted parameters), the Step-1 reproduced numbers, the 4-way walk-forward table, statistical defensibility (permutation vs best single pillar, DSR, PBO, BH-FDR) if applicable, exact commands, pytest results, and an explicit `GO`/`NO-GO` verdict with rationale.
+### Step 3 — Expanded statistical defensibility (no curve-fitting, pre-declared)
+On the held-out walk-forward window returns:
+- **Permutation test** vs best single-pillar control (1000 permutations, paired, seed=42) — record p-value
+- **Deflated Sharpe Ratio (DSR)** with multiple benchmarks (0.0, 0.5, 1.0) — record values
+- **Bootstrap CI** (block bootstrap, 1000 resamples, block size=5) on combined Sharpe — record 95% CI
+- **PBO (CSCV)** across the 4 configs on held-out windows — record overall PBO and per-config PBO
+- **BH-FDR** over permutation p-values (if multiple comparisons) — record rejected/thresholds
 
-Add `tests/test_amended_fusion_eval31.py` covering at minimum: (a) fused-signal construction matches the declared mechanism, (b) causality / no-lookahead (no bar uses a future snapshot), (c) toxicity gate forces flat at `tox >= 0.7`, (d) `_run_walkforward` runs on a deterministic fixture and returns the 4 required keys, (e) component parity on a deterministic fixture.
+**Pre-declared pass criteria for validation GO:** (a) held-out combined OOS Sharpe > best control AND trades > 0, (b) permutation p < 0.05 vs best control, (c) bootstrap 95% CI for combined Sharpe excludes 0, (d) PBO combined < 0.5. **All four must pass for validation GO.** State criteria in artifact.
+
+### Step 4 — Seal EVAL-32 artifact + targeted tests (mandatory)
+Write `research_state/EVAL_32_OOS_VALIDATION_<UTC>.{json,md}` with: `report_id`, timestamps, provenance/authenticity caveats (`authenticity_verified=false`; no signed venue attestation; inverse BTC-USD-SWAP tape vs spot option snapshots), the exact validation mechanism (Rule A fusion on held-out, split definition, all constants), Step-1 split details, Step-2 4-way walk-forward table on held-out, Step-3 statistical results, exact commands, pytest results, and an explicit `GO`/`NO-GO` verdict with rationale referencing the pre-declared criteria.
+
+Add `tests/test_eval32_oos_validation.py` covering at minimum: (a) held-out split is chronological (no future data in train), (b) combined positions on held-out match Rule A mechanism, (c) walk-forward on held-out returns required keys, (d) statistical tests execute without error on deterministic fixture, (e) pre-declared pass criteria correctly evaluated.
 
 Record and run:
 ```
-python3 -m py_compile src/analytics/options_time_varying_signal.py tests/test_amended_fusion_eval31.py
-python3 -m pytest -q tests/test_amended_fusion_eval31.py
+python3 -m py_compile src/analytics/options_time_varying_signal.py scripts/eval31_amended_fusion.py tests/test_eval32_oos_validation.py
+python3 -m pytest -q tests/test_eval32_oos_validation.py
 ```
 Plus any other targeted tests touched.
 
 ### Step 5 — Update this handoff in place (same file only)
-Replace stale state with measured numbers, sealed artifact paths, pytest counts, a **new TASK ID/timestamp**, and the next active task: **EVAL-32** if EVAL-31 seals NO-GO (prove the options leg cannot carry alpha on this data by exhaustive per-expiry/per-component IC and cost-frontier analysis; seal a falsification artifact; no new data required), otherwise state the measured blocker / next step. No competing handoff files.
+Replace stale state with measured numbers, sealed artifact paths, pytest counts, a **new TASK ID/timestamp**, and the next active task: **EVAL-33** if EVAL-32 seals NO-GO (exhaustive per-expiry/per-component IC + cost-frontier analysis to prove the options leg cannot carry alpha on this data; seal a falsification artifact; no new data required), or if EVAL-32 seals GO — define **EVAL-33: Live Paper Trading Shadow Execution** (deploy the validated Rule A fusion in a paper-trading loop for ≥48 hours with real-time data ingestion, order routing simulation, and continuous net-of-cost monitoring; seal artifact with live P&L, fills, slippage, and operational metrics). No competing handoff files.
 
 ## NEXT-FOCUS CAMPAIGN (heavy work — future agents must not avoid it)
 
@@ -100,8 +101,9 @@ The strategic objective is to determine, with real data and net-of-cost accounti
 | EVAL-28 | Per-expiry forward-calibrated parity | — | **SEALED GO** |
 | EVAL-29 | Options-leg tradability (calibrated forwards) | — | **SEALED NO-GO** (broadcast-static signal) |
 | EVAL-30 | Seal measured time-varying options signal + net-of-cost verdict | **Reproduce IC, walk-forward, seal artifact, ship tests** | **SEALED NO-GO** (`OPTIONS_LEG_TRADABILITY_30_20261114T113051395ZZ`) |
-| **EVAL-31** | **Fuse time-varying options signal with causal orderflow toxicity/alpha at bar resolution; re-test net-of-cost superiority (real mechanism only, no curve-fitting); seal artifact + targeted tests** | **Must seal a measured artifact; re-labeling sealed EVALs forbidden** | **ACTIVE — execute now** |
-| EVAL-32 | If EVAL-31 NO-GO: exhaustive per-expiry/per-component IC + cost-frontier analysis to prove the options leg cannot carry alpha on this data; seal a falsification artifact | **Seal artifact; no new data required** | QUEUED (contingent) |
+| EVAL-31 | Fuse time-varying options signal with causal orderflow toxicity/alpha at bar resolution; re-test net-of-cost superiority (real mechanism only, no curve-fitting); seal artifact + targeted tests | **Must seal a measured artifact; re-labeling sealed EVALs forbidden** | **SEALED GO (marginal)** (`AMENDED_FUSION_EVAL_31_20261114T114328Z`) |
+| **EVAL-32** | **Rigorous OOS validation of marginal EVAL-31 GO on held-out 30% (chronological split); expanded statistical tests (permutation, bootstrap CI, DSR multi-benchmark, PBO); pre-declared pass criteria (all 4 must pass); seal artifact + targeted tests** | **Must seal a measured artifact; no curve-fitting; pre-declared criteria** | **ACTIVE — execute now** |
+| EVAL-33 | If EVAL-32 NO-GO: exhaustive per-expiry/per-component IC + cost-frontier analysis (falsification); If EVAL-32 GO: Live paper trading shadow execution ≥48h with real-time data, order routing sim, continuous net-of-cost monitoring | **Seal artifact; no new data required (falsification) OR live paper deployment (validation GO)** | QUEUED (contingent) |
 
 ## HARD CONSTRAINTS / INVARIANTS
 
