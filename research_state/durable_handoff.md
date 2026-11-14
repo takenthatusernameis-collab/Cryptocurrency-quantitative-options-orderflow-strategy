@@ -1,9 +1,9 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T10:27:21Z (UTC).**
-**Active task:** `INIT-2026-11-14T10:27:21Z-EVAL-30-TIME-VARYING-OPTIONS-SIGNAL` (mandatory heavy work — execute to a sealed artifact, not analysis-only).
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T10:30:05Z (UTC).**
+**Active task:** `INIT-2026-11-14T10:30:05Z-EVAL-30-SEAL-TIME-VARYING-SIGNAL` (mandatory heavy work — execute to a sealed artifact, not analysis-only).
 
-**Session verification (2026-11-14T10:27:21Z):** repo inspected from `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`. This file remains the single durable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` and `research_state/INITIAL_TASK_20261114T063750Z.md` are retired pointers with no task IDs (non-actionable). No other competing handoff files found. `.env` is absent (paper-only, must remain absent). `AGENTS.md` absent.
+**Session verification (2026-11-14T10:30:05Z):** repo inspected from `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy`. This file remains the single durable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` and `research_state/INITIAL_TASK_20261114T063750Z.md` are retired pointers with no task IDs (non-actionable). No other competing handoff files found. `.env` absent (paper-only, must remain absent). `AGENTS.md` absent. Working tree clean; latest commit `a98bc1909`. **Bootstrap verified this session:** `pip3` deps present — `PYTHONPATH=. python3 -c "import src.data.options_timeseries, src.analytics.integrated_options_orderflow_evaluation, src.analytics.real_net_of_cost_evaluation, src.analytics.options_time_varying_signal"` succeeds. **Real data verified present in this checkout:** `data/raw/options_okx_BTC_20261114T093032Z.json` and `data/raw/options_okx_BTC_20261114T093120Z.json` (2 real snapshots, span ~48s; both discovered by `discover_all_real_options_exports` oldest-first) plus `data/raw/orderflow_okx_BTC-USD-SWAP.json` (1000 trades, loads via `load_btc_orderflow`).
 
 **Repo priority (inferred from name):** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
 **Mission:** Deliver the strategy and a *trustworthy*, net-of-cost measurement of its performance — not orchestrator wrappers, not a favorable-looking number from a broken harness. A **trustworthy NO-GO** is a full success; a fabricated GO is a failure.
@@ -19,54 +19,54 @@
 - **EVAL-28 SEALED (GO, additive):** `OPTIONS_LEG_PARITY_CALIBRATION_28_20261114T085233Z.{json,md}` (re-confirmed `..._20261114T093132Z`). Per-expiry forward-calibrated put-call parity holds on **1017/1017 pairs (100.0%)** within bid-ask spread across 3 snapshots / 12 expiries each; **min R² = 0.999919**. Re-confirmed on fresh snapshots: 777/777 pairs (100.0%), min R²=0.999903. **Overturns EVAL-27 parity NO-GO (stale-constant-spot artifact, not arbitrage).**
 - **EVAL-29 SEALED (NO-GO, trustworthy):** `OPTIONS_LEG_TRADABILITY_29_20261114T093151Z.{json,md}` (seal script `scripts/eval29_options_tradability_seal.py`). Options leg parity-consistent (GO) but `options_signal_exists` FAIL (mean IC 0.0) and `combined_net_of_cost_superior` FAIL; integrated eval 5/7 checks. Options-only WF Sharpe -483.876 / 114 trades / cost $55.83; orderflow-only Sharpe 0.785 / 97 trades / cost $58.26; combined Sharpe -100.333 / 51 trades / cost $53.35.
 - **Measured root cause (EVAL-29):** `src/analytics/integrated_options_orderflow_evaluation.py::_causal_options_signal_series` broadcasts a single static options snapshot value to every bar → zero time-variation → mean IC 0.0. **EVAL-30 must fix this with a time-varying causal options signal.**
-- **Real inputs are gitignored and absent in a fresh checkout:** `data/raw/orderflow_okx_BTC-USD-SWAP.json` and `data/raw/options_okx_BTC_<UTC>.json` are `.gitignore`d (fresh clone has only synthetic fixtures `orderflow_btcusdt_synthetic.json`, `options_btc_synthetic.json`). **Synthetic fixtures must never be relabeled as real or used via real loaders.** Re-acquire every session as needed.
-- **Environment bootstrap is a required first step:** in a fresh checkout deps may be missing; every EVAL entry point will fail to import until `pip3 install -r requirements.txt` succeeds. `pytest 9.2.0` was present at verification time but do not assume — verify imports before work.
+- **EVAL-30 adapter BUILT (committed, unmeasured, unsealed):** `src/analytics/options_time_varying_signal.py` — additive, opt-in module providing `snapshot_options_signal` (per-snapshot causal signal: fitted per-expiry forward-curve slope, ATM IV term slope, IV skew, put-call ratio; normalized weighted composite), `load_snapshot_signals` (oldest-first via `discover_all_real_options_exports`, raises `RealDataUnavailable`, never synthetic), `align_options_signal_to_bars` (newest snapshot with `timestamp <= bar_end`, flat before first snapshot), `measure_time_varying_signal` (stdev/mean, IC per horizon, t-stats), `build_eval30_report`, `write_eval30_artifact`. Verified: imports OK, `py_compile` OK. Sealed EVAL-18/23/24/27/29 semantics untouched. **Remaining: measurement wiring + net-of-cost run + targeted tests + sealed artifact (no `OPTIONS_LEG_TRADABILITY_30_*` artifact exists yet; no seal script in `scripts/`).**
+- **Real inputs are gitignored and absent in a fresh checkout:** `data/raw/orderflow_okx_BTC-USD-SWAP.json` and `data/raw/options_okx_BTC_<UTC>.json` are `.gitignore`d (fresh clone has only synthetic fixtures `orderflow_btcusdt_synthetic.json`, `options_btc_synthetic.json`). **Synthetic fixtures must never be relabeled as real or used via real loaders.** Re-acquire every session as needed (this checkout already has 2 real snapshots + real tape).
+- **Environment bootstrap is a required first step:** in a fresh checkout deps may be missing; every EVAL entry point will fail to import until `pip3 install -r requirements.txt` succeeds. `pytest 9.2.0` was present at verification time but do not assume — verify imports before work (verified OK this session).
 - **Provenance limits:** `authenticity_verified=false`; inverse BTC-USD-SWAP tape + spot option snapshots; no signed venue attestation.
 
 ## BOTTLENECKS — remove before/while doing heavy work
 
-- **Must-clear (session start):**
-  1. **Deps/bootstrap:** run `pip3 install -r requirements.txt`; verify `PYTHONPATH=. python3 -c "import src.data.options_timeseries, src.analytics.integrated_options_orderflow_evaluation, src.analytics.real_net_of_cost_evaluation"` succeeds.
-  2. **Real data absent (gitignored):** re-acquire with `PYTHONPATH=. python3 -m src.data.public_export_acquisition --underlying BTC --orderflow-instrument BTC-USD-SWAP --min-bars 1550 --bar-duration-seconds 15` (public read-only, network OK). If slow, ensure >=3 real options snapshots with meaningful wall-clock separation and a usable orderflow tape.
-- **Active research bottlenecks:**
-  1. **Broadcast-static options signal (measured):** `_causal_options_signal_series` → IC 0.0. Must become per-snapshot/time-varying and causal.
-  2. **Insufficient real snapshot span:** a defensible time-varying signal needs >=3 real snapshots separated by meaningful wall-clock window (or a documented, causally valid within-snapshot cross-sectional variant).
+- **Cleared this session (verified 2026-11-14T10:30:05Z, do not re-litigate):**
+  1. **Deps/bootstrap:** imports of all key modules verified OK in this checkout (command in header). Still run `pip3 install -r requirements.txt` first in any fresh checkout.
+  2. **Real data:** 2 real option snapshots (093032Z, 093120Z; span ~48s) + real orderflow tape (1000 trades) present and loadable. If a longer span is needed, re-acquire with `PYTHONPATH=. python3 -m src.data.public_export_acquisition --underlying BTC --orderflow-instrument BTC-USD-SWAP --min-bars 1550 --bar-duration-seconds 15` (public read-only, network OK).
+- **Active research bottleneck (the EVAL-30 work):**
+  1. **Broadcast-static options signal (measured):** `_causal_options_signal_series` → IC 0.0. **Adapter built** (`src/analytics/options_time_varying_signal.py`) but **not yet measured end-to-end**; wiring into the net-of-cost walk-forward and IC measurement is the remaining heavy work.
+  2. **Snapshot count:** only 2 real snapshots (~48s apart). The adapter's `multi_snapshot_span` check accepts >=2 snapshots with span>0, so Path A can proceed now; a 3rd snapshot with larger wall-clock separation strengthens the time-variation claim (acquire politely if feasible).
   3. **Orderflow-only net-of-cost weak/negative on current real tapes** (EVAL-23 Sharpe -2.338; EVAL-27 0.79 with negative return).
   4. **Fusion does not beat best pillar net-of-cost** (EVAL-29 combined Sharpe -100.33 vs orderflow-only 0.79).
   5. **Provenance limits:** no signed venue attestation; instrument/basis mismatch remains.
-- **Removed (do not re-litigate):** stale-constant-spot parity confound (EVAL-28 GO); EVAL-23/24/27/28/29 sealed artifacts; "where to start" (entry points named below); data acquisition plumbing exists.
+- **Removed (do not re-litigate):** stale-constant-spot parity confound (EVAL-28 GO); EVAL-23/24/27/28/29 sealed artifacts; "where to start" (entry points named below); data acquisition plumbing exists; EVAL-30 signal adapter exists and compiles.
 - **Prohibited (time sinks/regressions):** discovery runs, recreating/mutating sealed EVAL artifacts, enumerating `research_state/` (thousands of files), running the full test suite (~5k tests), modifying `.github/workflows/main.yml`, creating `phaseNN_*_post_attribution_seal_orchestrator` wrappers, ending with no new sealed artifact when work is feasible.
 
-## INITIAL TASK MESSAGE — 2026-11-14T10:27:21Z (execute now)
+## INITIAL TASK MESSAGE — 2026-11-14T10:30:05Z (execute now)
 
-**TASK ID:** `INIT-2026-11-14T10:27:21Z-EVAL-30-TIME-VARYING-OPTIONS-SIGNAL`
+**TASK ID:** `INIT-2026-11-14T10:30:05Z-EVAL-30-SEAL-TIME-VARYING-SIGNAL`
 **STATUS:** **ACTIVE — mandatory heavy-work session.**
 
-> **Hard success/failure floor:** session ends with **>=1 new sealed artifact** `research_state/<EVAL-ID>_<UTC>.{json,md}` containing measured numbers, code paths, tests/verification output, and explicit GO/NO-GO → PASS (trustworthy NO-GO is success). No new sealed artifact / handoff-only / narrative-only → **FAILED**. Fabricated GO or synthetic relabeled as real → **FAILED**.
+> **Hard success/failure floor:** session ends with **>=1 new sealed artifact** `research_state/<EVAL-ID>_<UTC>.{json,md}` containing measured numbers, code paths, tests/verification output, and explicit GO/NO-GO → PASS (trustworthy NO-GO is success). No new sealed artifact / handoff-only / narrative-only / adapter-only → **FAILED**. Fabricated GO or synthetic relabeled as real → **FAILED**.
 
-### 1) Bootstrap (non-negotiable)
-- `pip3 install -r requirements.txt`
-- Re-acquire real data (public read-only): `PYTHONPATH=. python3 -m src.data.public_export_acquisition --underlying BTC --orderflow-instrument BTC-USD-SWAP --min-bars 1550 --bar-duration-seconds 15` (bound if needed, but obtain real options snapshots + usable orderflow tape).
-- Verify imports: `PYTHONPATH=. python3 -c "import src.data.options_timeseries, src.analytics.integrated_options_orderflow_evaluation, src.analytics.real_net_of_cost_evaluation"`
+### 1) Bootstrap (non-negotiable, verified once this session — re-verify only if imports fail)
+- `pip3 install -r requirements.txt` (only if a module import fails).
+- Verify: `PYTHONPATH=. python3 -c "import src.data.options_timeseries, src.analytics.integrated_options_orderflow_evaluation, src.analytics.real_net_of_cost_evaluation, src.analytics.options_time_varying_signal"` (verified OK 2026-11-14T10:30:05Z).
+- Real data present (2 snapshots + orderflow tape). Optional strengthening: acquire a 3rd real snapshot with larger wall-clock separation via `PYTHONPATH=. python3 -m src.data.public_export_acquisition --underlying BTC --orderflow-instrument BTC-USD-SWAP --min-bars 1550 --bar-duration-seconds 15` (public read-only, polite; do not block the session on this).
 
-### 2) Execute one path to completion (do not stop at analysis)
+### 2) Execute to a sealed artifact (the adapter exists — the measurement does not)
 
-**Path A — preferred (fix measured root cause):**
-1. **Extend** `src/analytics/integrated_options_orderflow_evaluation.py::_causal_options_signal_series` (or add a new causal path) so it does **not** broadcast one static value. Compute a **per-snapshot, time-varying** causal options signal using `src/data/options_timeseries.load_options_timeseries` / `discover_all_real_options_exports` (oldest-first). Candidate features: per-expiry forward drift, ATM IV from solved surface, PCR, skew, gamma-flip distance, term-structure slope — **no lookahead** (each snapshot uses only its own timestamp). Preserve sealed EVAL-29 semantics (flag/compat) so prior artifacts remain valid.
-2. Acquire **>=3 real options snapshots** separated by meaningful wall-clock window (public OKX read-only, polite). Keep `discover_all_real_options_exports` oldest-first; note `load_real_options_chain`/discovery pick newest for single-snapshot semantics.
-3. Run net-of-cost walk-forward with real loaders (`evaluate_integrated_options_orderflow`, `evaluate_real_net_of_cost`, `evaluate_capacity_aware_tca`, `evaluate_production_simulation`, `src/campaign/integrated.py`).
-4. Seal `research_state/OPTIONS_LEG_TRADABILITY_30_<UTC>.{json,md}` with: n_snapshots, span, per-snapshot coverage, **signal time-variation (stdev/mean) and IC & significance**, net-of-cost OOS Sharpe/return/drawdown/trades/cost/turnover, toxicity engagement, explicit GO/NO-GO, and verification commands/results.
+**Path A — preferred (measure with what is present; 2 snapshots passes the adapter's own `multi_snapshot_span` check):**
+1. Build causal bars from the real tape: `snapshot = load_btc_orderflow()` then `bars = _build_bars(snapshot)` (both in `src/analytics/integrated_options_orderflow_evaluation.py`).
+2. Load per-snapshot signals oldest-first: `load_snapshot_signals('BTC')` (raises `RealDataUnavailable` if data missing — never synthetic).
+3. Measure: `measure_time_varying_signal(signals, bars['bar_ends_dt'], bars['bar_closes'])` → record per-bar stdev/mean, distinct values, step changes, IC & t-stat per horizon, flat-bar count.
+4. Run net-of-cost walk-forward on the time-varying signal (options-only / orderflow-only / combined / flat) using `_run_walkforward`, `evaluate_integrated_options_orderflow`, `evaluate_real_net_of_cost`, and `src/campaign/integrated.py` as available; record OOS Sharpe/return/drawdown/trades/cost/turnover and toxicity engagement.
+5. Seal `research_state/OPTIONS_LEG_TRADABILITY_30_<UTC>.{json,md}` via `build_eval30_report(orderflow_bars=bars, net_of_cost=..., integrated=...)` + `write_eval30_artifact`, or an equivalent strict artifact with the same measured fields and explicit GO/NO-GO.
 
-**Path B — fallback (if >=3 real snapshots cannot be acquired in-session):**
-1. Derive a **causally valid, clearly documented** within-snapshot cross-sectional signal variation (e.g., term-structure/skew/forward-drift across expiries) that is not broadcast-static; implement and test.
-2. Run measured evaluation and seal `research_state/AMENDED_FUSION_EVAL_30_<UTC>.{json,md}` with per-variant metrics, IC & significance, toxicity engagement, thresholds, explicit GO/NO-GO.
-
-**If blocked by external limits:** ship the adapter + targeted tests + a measured NO-GO artifact documenting the exact blocker with evidence. Never idle.
+**Path B — fallback (if Path A measurement is externally blocked):**
+1. Document the exact blocker with evidence (error output, missing input), implement the smallest missing piece (adapter/runner), and ship **targeted tests** for `src/analytics/options_time_varying_signal.py` (causality/no-lookahead, oldest-first ordering, flat pre-first-snapshot, `RealDataUnavailable` invariant, parity of signal components vs hand-computed values on a fixture).
+2. Seal a measured NO-GO artifact `research_state/OPTIONS_LEG_TRADABILITY_30_<UTC>.{json,md}` (or `AMENDED_FUSION_EVAL_30_<UTC>` if measurement is only partial) recording what was measured, the blocker, and verification output. **Never idle.**
 
 ### 3) Required engineering discipline
-- **Reuse (do not rewrite):** `src/data/options_timeseries.py`, `src/campaign/integrated.py`, `src/analytics/{integrated_options_orderflow_evaluation,production_simulation_evaluation,real_tape_ingestion,real_data_falsification,real_net_of_cost_evaluation,capacity_aware_tca}.py`, `src/data/{public_export_acquisition,loader,schemas,options_exports}.py`, `src/features/*`, `src/backtest/engine.py`.
-- **Invariant:** real loaders raise `RealDataUnavailable` and never fall back to synthetic.
-- **Verification:** add/extend targeted tests; run `python3 -m py_compile` on touched modules + `python3 -m pytest -q ...` on targeted tests; record pass counts and exact commands.
+- **Reuse (do not rewrite):** `src/analytics/options_time_varying_signal.py` (EVAL-30 adapter, committed), `src/data/options_timeseries.py`, `src/campaign/integrated.py`, `src/analytics/{integrated_options_orderflow_evaluation,production_simulation_evaluation,real_tape_ingestion,real_data_falsification,real_net_of_cost_evaluation,capacity_aware_tca}.py`, `src/data/{public_export_acquisition,loader,schemas,options_exports}.py`, `src/features/*`, `src/backtest/engine.py`.
+- **Invariant:** real loaders raise `RealDataUnavailable` and never fall back to synthetic; do not modify `_causal_options_signal_series` in `integrated_options_orderflow_evaluation.py` (sealed EVAL-18/23/27/29 semantics) — use the additive adapter.
+- **Verification:** run `python3 -m py_compile` on touched modules + `python3 -m pytest -q tests/<targeted>`; record pass counts and exact commands in the artifact and handoff.
 - **Artifacts:** strict JSON/MD in `research_state/` with `report_id`, timestamps, provenance, measured checks, explicit GO/NO-GO. Never emit `{"valid": true}`. Never fabricate provenance or relabel synthetic as real.
 - **Seal in place:** update this handoff with measured numbers, artifact paths, verification results, and the next TASK ID/timestamp.
 
@@ -77,11 +77,12 @@
 - `next9_unblocked=false`; `research_state/NEXT9_APPROVAL_VALIDATION_*.json` out of scope.
 
 ### 5) Traps / invariants
-- Options signal is broadcast-static today → mean IC 0.0 (**the bug EVAL-30 fixes**). Do not re-run EVAL-29 expecting a different answer.
+- Options signal is broadcast-static in the sealed EVAL-29 path → mean IC 0.0; the fix is the additive adapter, not re-running EVAL-29.
 - Do not repeat constant-spot parity test (EVAL-27 parity NO-GO resolved by EVAL-28).
-- Orderflow-only net-of-cost is a measured NO-GO on prior real tapes.
-- Real data is gitignored — "blocked on data" is invalid without running acquisition and measuring.
+- Orderflow-only net-of-cost is a measured NO-GO on prior real tapes; do not cherry-pick a favorable window.
+- Real data is gitignored — "blocked on data" is invalid without running acquisition and measuring; this checkout already has 2 real snapshots + real tape.
 - Multi-snapshot consumers must use `discover_all_real_options_exports` (oldest-first).
+- The EVAL-30 adapter module exists but has **no artifact and no tests** — building tests alone or an adapter-only change is a failed session without the sealed measurement.
 
 ## CAMPAIGN QUEUE
 
@@ -96,10 +97,10 @@
 | EVAL-27 | Options time-series tradability / amended-fusion | **SEALED NO-GO** (`OPTIONS_TIMESERIES_INGESTION_27_20261114T064908Z`, `AMENDED_FUSION_EVAL_27_20261114T065033Z`) |
 | EVAL-28 | Per-expiry forward-calibrated parity | **SEALED GO** (`OPTIONS_LEG_PARITY_CALIBRATION_28_20261114T085233Z`, re-confirmed `..._20261114T093132Z`) |
 | EVAL-29 | Options-leg tradability / net-of-cost (calibrated forwards) | **SEALED NO-GO** (`OPTIONS_LEG_TRADABILITY_29_20261114T093151Z`) — root cause: broadcast-static signal |
-| **EVAL-30** | **Time-varying causal options signal + re-measure net-of-cost** | **ACTIVE — must seal new artifact with measured GO/NO-GO** |
+| **EVAL-30** | **Time-varying causal options signal: measure + seal** | **ACTIVE — adapter built & verified; measurement, tests, and sealed artifact pending** |
 
 ## FOCUS CAMPAIGN (non-optional heavy work)
-Every session must: (0) bootstrap deps and re-acquire real data, (1) execute EVAL-30 Path A or Path B to a measured conclusion, (2) produce >=1 new sealed artifact with measured numbers and explicit GO/NO-GO, (3) record pass counts/artifact paths/commands in this handoff, (4) update queue and next TASK ID/timestamp. Reading/restating without a new sealed artifact is a failed session.
+Every session must, in order, and may not skip any step: (0) verify bootstrap (imports; `pip3 install -r requirements.txt` only on failure) and real-data presence (2 snapshots + real tape confirmed 2026-11-14T10:30:05Z); (1) execute the EVAL-30 task block above to a **measured conclusion** — build bars from the real tape, measure the time-varying signal (`measure_time_varying_signal`), run the net-of-cost walk-forward, add targeted tests for `options_time_varying_signal`; (2) produce **>=1 new sealed artifact** `research_state/OPTIONS_LEG_TRADABILITY_30_<UTC>.{json,md}` with measured numbers and explicit GO/NO-GO; (3) record pass counts/artifact paths/commands in this handoff; (4) update the queue and next TASK ID/timestamp. Building the adapter is already done — a session that ends without a sealed measurement artifact (only code, tests, or restated intent) is a **failed session**. If measurement is externally blocked, Path B still requires a sealed measured NO-GO artifact documenting the blocker with evidence. Never idle, never ask follow-up questions.
 
 ## HANDOFF DISCIPLINE
 - This file is the single durable handoff; replace stale state in place with verified facts/timestamps/paths/commands.
