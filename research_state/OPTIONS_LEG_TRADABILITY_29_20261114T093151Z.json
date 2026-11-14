@@ -1,0 +1,87 @@
+{
+  "authenticity_verified": false,
+  "code_paths": [
+    "src/data/options_timeseries.py",
+    "src/analytics/integrated_options_orderflow_evaluation.py",
+    "src/analytics/real_net_of_cost_evaluation.py",
+    "src/campaign/integrated.py",
+    "src/data/public_export_acquisition.py"
+  ],
+  "data_provenance": "real_public_exchange_export",
+  "generated_at": "2026-11-14T09:31:49.684Z",
+  "live_trading_enabled": false,
+  "measured": {
+    "integrated_eval": {
+      "combined_wf": {
+        "num_trades": 51,
+        "oos_max_drawdown": 0.31747080465903726,
+        "oos_return": -0.31747080465903726,
+        "oos_sharpe": -100.33254499674707,
+        "total_cost_usd": 53.34820819514671,
+        "total_traded_notional": 507163.13322702236
+      },
+      "failed_checks": [
+        "options_signal_exists",
+        "combined_net_of_cost_superior"
+      ],
+      "n_checks": 7,
+      "n_passed": 5,
+      "options_only_wf": {
+        "num_trades": 114,
+        "oos_max_drawdown": 0.4356686057040438,
+        "oos_return": -0.4356686057040438,
+        "oos_sharpe": -483.87565740476566,
+        "total_cost_usd": 55.830908539715914,
+        "total_traded_notional": 531069.2231019775
+      },
+      "orderflow_only_wf": {
+        "num_trades": 97,
+        "oos_max_drawdown": 0.31903987333846484,
+        "oos_return": -0.08317830244934434,
+        "oos_sharpe": 0.7851262573484745,
+        "total_cost_usd": 58.26316989701364,
+        "total_traded_notional": 536437.6646105845
+      },
+      "report_id": "INTEGRATED_OPTIONS_ORDERFLOW_EVAL_18",
+      "verdict": "NO-GO"
+    },
+    "n_real_options_snapshots": 2,
+    "parity": {
+      "parity_consistent": true,
+      "reason": "per-expiry forward-calibrated put-call parity holds on 777/777 pairs (100.0%) across 2 snapshot(s); min R2=0.999903",
+      "report_id": "OPTIONS_LEG_PARITY_CALIBRATION_28_20261114T093149Z",
+      "verdict": "GO"
+    },
+    "real_options_exports": [
+      {
+        "path": "data/raw/options_okx_BTC_20261114T093032Z.json",
+        "sha256": "29338351a841a14ca33b5f0eb05d93f51075b58b64aa120d9ea7b890d977ccd1"
+      },
+      {
+        "path": "data/raw/options_okx_BTC_20261114T093120Z.json",
+        "sha256": "84fc4dd10942f969b2b4dd99c5794a1274348edfdbf692c8dd015efcf9d71c15"
+      }
+    ],
+    "root_cause": {
+      "code_path": "src/analytics/integrated_options_orderflow_evaluation.py",
+      "evidence": {
+        "options_mean_ic_observed": 0.0,
+        "options_signal_exists_pass": false
+      },
+      "function": "_causal_options_signal_series",
+      "measured_behavior": "Broadcasts a single static options snapshot value to every bar; a constant signal has zero time-variation so mean IC == 0.0 and options_signal_exists FAILs. The options leg cannot yield a time-varying edge until the signal is computed per-snapshot over time."
+    },
+    "snapshot_span_seconds": 47.789718,
+    "snapshot_timestamps": [
+      "2026-11-14T09:30:33.038452Z",
+      "2026-11-14T09:31:20.828170Z"
+    ]
+  },
+  "never_valid_true": true,
+  "report_id": "OPTIONS_LEG_TRADABILITY_29",
+  "symbol": "BTC",
+  "trading_mode": "paper",
+  "venue": "okx",
+  "verdict": "NO-GO",
+  "verdict_reason": "Options leg is parity-consistent (GO) but the broadcast-static signal yields mean IC 0.0 (options_signal_exists FAIL) and combined net-of-cost is not superior; no defensible options-leg edge on current real data."
+}
