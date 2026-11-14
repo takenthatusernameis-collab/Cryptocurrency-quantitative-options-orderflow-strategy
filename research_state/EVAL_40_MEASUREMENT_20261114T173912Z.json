@@ -1,0 +1,83 @@
+{
+  "report_id": "EVAL_40_MEASUREMENT",
+  "task_id": "INIT-2026-11-14T17:33:33Z-EVAL-40-EXECUTE-SEAL",
+  "sealed_at": "2026-11-14T17:39:12Z",
+  "sealing_intent": "REPLICATION (pre-registered EVAL-40 GO/NO-GO on a provably disjoint real window)",
+  "campaign_status": "TERMINATED (EVAL-36 TERMINATE_NO_GO remains in force)",
+  "verdict": "NO-GO",
+  "verdict_is_replication": true,
+  "preregistration": {
+    "path": "research_state/EVAL_40_PREREGISTRATION_20261114T172130Z.json",
+    "sha256": "eb326306fd772fc2025d41f3aa20c8a813247649fdaf1978a4195b139133b7e7",
+    "md": "research_state/EVAL_40_PREREGISTRATION_20261114T172130Z.md",
+    "md_sha256": "0bbca2cb4aebcbf7eeeef360815b67d5d571b5c1827fb9acf8a9999f815cb199"
+  },
+  "measurement_artifact": {
+    "json": "research_state/REAL_NET_OF_COST_EVAL_23_20261114T173647Z.json",
+    "json_sha256": "dd6c133ce2a8794a70aaf398125aa62fff1e6852b605c10b5c3d2eef97b9cd9e",
+    "md": "research_state/REAL_NET_OF_COST_EVAL_23_20261114T173647Z.md",
+    "md_sha256": "e46b2b68ffefea875e5bbf573d747a5cfa6bbeb636856ce55f97d8e7c5ecfea2"
+  },
+  "inputs": {
+    "orderflow": {
+      "path": "data/raw/orderflow_okx_BTC-USD-SWAP-40.json",
+      "sha256": "a105db1c323c9c64db75882c367f84a81f2ac87374ed62ad490d334af484bc4b",
+      "n_trades": 84800,
+      "n_bars": 1602,
+      "window": "2026-11-14T02:25:00.798Z -> 2026-11-14T09:05:22.330Z",
+      "trade_id_range": "485439506..485524305"
+    },
+    "options": {
+      "path": "data/raw/options_okx_BTC_20261114T171725Z.json",
+      "sha256": "159bc3b8f27a605f2ac3d2430a51485a16c0781aee04c7f3ec79e295934f2eca",
+      "n_quotes": 827,
+      "n_expiries": 14,
+      "n_strikes": 93
+    }
+  },
+  "command": "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\" && python3 -m src.analytics.real_net_of_cost_evaluation --data-dir data/raw --out research_state --symbol BTC --bar-duration-seconds 15 --orderflow-path data/raw/orderflow_okx_BTC-USD-SWAP-40.json",
+  "exit_code": 0,
+  "verdict_checks": {
+    "n_passed": 8,
+    "n_checks": 11,
+    "failed_checks": ["options_signal_exists", "combined_net_of_cost_superior", "options_signal_tradable"],
+    "options_leg_degenerate": true,
+    "options_signal_distinct_values": 1,
+    "options_signal_stdev": 0.0,
+    "options_abs_ic": 3.965946481690793e-18
+  },
+  "measured": {
+    "bars": {"bar_duration_seconds": 15.0, "start_timestamp": "2026-11-14T02:25:00.798000Z", "end_timestamp": "2026-11-14T09:05:22.330000Z", "n_bars": 1602, "n_trades_total": 84800},
+    "combined_alpha": {"ic_mean": -0.029022923406093474, "ic_std": 0.02782403957170701, "ic_tstat": -1.806681513443874, "ic_by_horizon": {"1": -0.011097924313979659, "5": -0.0076491975311678735, "20": -0.0683216483731329}},
+    "options_alpha": {"ic_mean": -3.965946481690793e-18, "ic_std": 2.8662744001480744e-18},
+    "orderflow_alpha": {"ic_mean": -0.010086650733322447, "ic_std": 0.023949086860082902, "ic_tstat": -0.7294888381500436},
+    "permutation": {"observed_difference": -0.09316138836977633, "p_value": 0.000999000999000999, "n_permutations": 1000, "statistic_a": -0.07901390644753477, "statistic_b": 0.014147481922241563, "interpretation": "combined significantly worse than best single pillar"},
+    "combined_wf": {"num_trades": 232, "num_windows": 38, "oos_sharpe": 1.858414370420504, "oos_return": 0.29012538212928235, "oos_max_drawdown": 0.1347955401102369, "total_cost_usd": 415.64042086722026},
+    "options_only_wf": {"num_trades": 688, "num_windows": 38, "oos_sharpe": 4.246051171277812, "total_cost_usd": 703.6385997182405},
+    "orderflow_only_wf": {"num_trades": 614, "num_windows": 38, "oos_sharpe": -5.3492715048034905, "oos_return": -0.9064727808924511, "total_cost_usd": 646.3368175925923},
+    "flat_wf": {"num_trades": 0, "num_windows": 38, "oos_sharpe": 0.0},
+    "fusion_adjudication": {"options_leg_degenerate": true, "options_nonzero_bars": 1602, "orderflow_nonzero_bars": 1421, "combined_nonzero_bars": 126, "combined_trades": 232, "interpretation": "Both pillars produced time variation; the fusion rule is not the binding constraint."}
+  },
+  "go_no_go_criteria_result": {
+    "combined_net_of_cost_superior": false,
+    "options_signal_tradable": false,
+    "options_leg_degenerate": true,
+    "kill_switch_breach": false,
+    "permutation_not_worse_than_best_single_pillar": false,
+    "outcome": "REPLICATION (NO-GO) — no GO; campaign termination unchanged"
+  },
+  "constraints": {
+    "paper_only": true,
+    "env_absent": true,
+    "live_trading_enabled": false,
+    "synthetic_fallback": false,
+    "sealed_artifacts_modified": false,
+    "network_used": false
+  },
+  "provenance": {
+    "data_provenance": "real_public_exchange_export",
+    "authenticity_verified": false,
+    "never_valid_true": true,
+    "note": "public OKX read-only export; inverse BTC-USD-SWAP tape, spot options chain; no signed venue attestation"
+  }
+}
