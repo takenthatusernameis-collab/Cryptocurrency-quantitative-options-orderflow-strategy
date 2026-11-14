@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T03:00:10Z (UTC).** Handoff refreshed/verified at HEAD working tree 2026-11-14T03:00:10Z. Prior sealed artifacts: `src/data/options_exports.py`, `tests/test_options_exports.py`, `src/data/exchange_exports.py`, `tests/test_exchange_exports.py`, `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `src/analytics/real_data_falsification.py`, `tests/test_real_data_falsification.py`, `data/examples/options_exports/*`, `data/examples/exchange_exports/*`, `data/examples/normalized/*`, `research_state/OPTIONS_EXPORT_ADAPTERS_20261114T004500Z.{json,md}`, `research_state/EXCHANGE_EXPORT_ADAPTERS_20261113T235247Z.{json,md}`, `research_state/REAL_TAPE_INGESTION_20261113T233551Z.{json,md}`, `research_state/REAL_DATA_FALSIFICATION_20261114T004500Z.{json,md}`.
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T04:43:31Z (UTC).** Handoff refreshed/verified at HEAD working tree 2026-11-14T04:43:31Z (clean tree; no EVAL-23/24 artifacts landed since 2026-11-14T03:00:10Z). Prior sealed artifacts: `src/data/options_exports.py`, `tests/test_options_exports.py`, `src/data/exchange_exports.py`, `tests/test_exchange_exports.py`, `src/analytics/real_tape_ingestion.py`, `tests/test_real_tape_ingestion.py`, `src/analytics/real_data_falsification.py`, `tests/test_real_data_falsification.py`, `data/examples/options_exports/*`, `data/examples/exchange_exports/*`, `data/examples/normalized/*`, `research_state/OPTIONS_EXPORT_ADAPTERS_20261114T004500Z.{json,md}`, `research_state/EXCHANGE_EXPORT_ADAPTERS_20261113T235247Z.{json,md}`, `research_state/REAL_TAPE_INGESTION_20261113T233551Z.{json,md}`, `research_state/REAL_DATA_FALSIFICATION_20261114T004500Z.{json,md}`.
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
 **Repo priority:** `Cryptocurrency-quantitative-options-orderflow-strategy` — cryptocurrency **quantitative OPTIONS + ORDERFLOW strategy** (real options pricing/greeks/vol-surface, orderflow alpha & toxicity, gamma/delta hedging, execution/routing, net-of-cost evaluation).
@@ -15,9 +15,9 @@
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-14T03:00:10Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-14T04:43:31Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-14T03:00:10Z-EVAL-23-24-REAL-NET-OF-COST-AND-OPTIONS-LEG`
+**TASK ID:** `INIT-2026-11-14T04:43:31Z-EVAL-23-24-REAL-NET-OF-COST-AND-OPTIONS-LEG`
 **STATUS:** **ACTIVE — real data unblocked; EVAL-23/EVAL-24 are the only remaining gates. Start here; zero acquisition discovery needed.**
 > **Hard floor:** a session ending without a sealed `REAL_NET_OF_COST_EVAL_23_<UTC>.{json,md}` (or `OPTIONS_LEG_VALIDITY_24_<UTC>.{json,md}`) containing measured numbers, artifact paths, and a GO/NO-GO verdict is **FAILED**. Handoff-only work is FAILED. A trustworthy NO-GO is success; a fabricated GO is failure.
 
@@ -97,6 +97,7 @@ Measured 2026-11-14T02:58:57Z via a temporary script that loaded the real tape/c
   - **Options leg degenerate on a single snapshot.** EVAL-18's options signal is constant across bars when the chain is a single cross-section; this is expected but must be explicitly flagged/adjudicated.
   - **Combined fusion requires both pillars.** With a degenerate options leg, the combined strategy is flat; decide whether the fusion rule should allow orderflow-only when options is explicitly degenerate (new sealed evaluation), or record a genuine NO-GO for the current strategy.
   - **Orderflow-only Sharpe is negative after costs** on the real tape (`-8.79`). That is a measured NO-GO signal, not a harness error; do not hide it.
+- **Clean tree at 2026-11-14T04:43:31Z.** No EVAL-23/24 sealed artifacts landed since 03:00:10Z; the sealing bottleneck persists unchanged — the next session must emit the sealed JSON/MD, not re-discover data.
   - **Data provenance:** real public OKX exports have `authenticity_verified=false` (no signed venue attestation); the tape is inverse BTC-USD-SWAP, not spot. Document this in EVAL-23/24.
 
 ---
