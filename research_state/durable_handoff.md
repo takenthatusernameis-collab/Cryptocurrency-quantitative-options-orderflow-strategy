@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST
 
-**Initial task message (timestamped, for the next agentic work session): 2026-11-14T05:39:06Z (UTC).** Handoff refreshed/verified at HEAD working tree 2026-11-14T05:39:06Z. EVAL-23/EVAL-24 are now **SEALED with measured real-data NO-GO artifacts** (trustworthy NO-GO = success). Prior sealed artifacts remain: `src/data/public_export_acquisition.py`, `tests/test_public_export_acquisition.py`, `src/campaign/integrated.py` (`load_real_orderflow`/`load_real_options_chain`), `tests/test_real_data_inputs.py`, `src/data/options_exports.py`, `src/data/exchange_exports.py`, `src/analytics/real_tape_ingestion.py`, `src/analytics/real_data_falsification.py`, `research_state/REAL_DATA_FALSIFICATION_20261114T025046Z.{json,md}`, `research_state/REAL_TAPE_INGESTION_20261114T025322Z.{json,md}`.
+**Initial task message (timestamped, for the next agentic work session): 2026-11-14T05:42:34Z (UTC).** Handoff refreshed/verified at HEAD working tree 2026-11-14T05:42:34Z. EVAL-23/EVAL-24 are now **SEALED with measured real-data NO-GO artifacts** (trustworthy NO-GO = success). Prior sealed artifacts remain: `src/data/public_export_acquisition.py`, `tests/test_public_export_acquisition.py`, `src/campaign/integrated.py` (`load_real_orderflow`/`load_real_options_chain`), `tests/test_real_data_inputs.py`, `src/data/options_exports.py`, `src/data/exchange_exports.py`, `src/analytics/real_tape_ingestion.py`, `src/analytics/real_data_falsification.py`, `research_state/REAL_DATA_FALSIFICATION_20261114T025046Z.{json,md}`, `research_state/REAL_TAPE_INGESTION_20261114T025322Z.{json,md}`.
 
 `research_state/durable_handoff.md` is the **only** actionable handoff. Root `HANDOFF_NEXT_AGENT.md`, `NEXT_SESSION_HANDOFF.md`, `NEXT_SESSION_TASK_HANDOFF_20261109T091500Z.md` are retired pointers (no task IDs) — do not action, do not create new handoff files.
 
@@ -32,9 +32,9 @@
 
 ---
 
-## INITIAL TASK MESSAGE — 2026-11-14T05:39:06Z (copy-paste for next agentic work session)
+## INITIAL TASK MESSAGE — 2026-11-14T05:42:34Z (copy-paste for next agentic work session)
 
-**TASK ID:** `INIT-2026-11-14T05:39:06Z-EVAL-27-OPTIONS-TIMESERIES-OR-AMENDED-FUSION`
+**TASK ID:** `INIT-2026-11-14T05:42:34Z-EVAL-27-OPTIONS-TIMESERIES-OR-AMENDED-FUSION`
 **STATUS:** **ACTIVE — EVAL-23/24 sealed NO-GO; next campaign must resolve the options-leg tradability and fusion/edge tension with new measured evidence.**
 > **Hard floor:** a session ending without at least one **new sealed artifact** (`research_state/<EVAL-ID>_<UTC>.{json,md}`) containing measured numbers, code paths, tests/verification output, and an explicit GO/NO-GO verdict is **FAILED**. Handoff-only work is FAILED. A trustworthy NO-GO is success; a fabricated GO is failure.
 
