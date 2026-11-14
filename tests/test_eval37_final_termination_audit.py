@@ -67,7 +67,8 @@ def test_audit_verifies_consolidated_evidence_table_11_rows():
     assert [r["eval"] for r in e36["consolidated_evidence_table"]] == EXPECTED_EVAL_CHAIN
     assert e36["never_valid_true"] is True
     assert e36["authenticity_verified"] is False
-    assert e36["paper_rollout_certified"] is False
+    assert e36["final_decision"]["paper_rollout_certified"] is False
+    assert e36["final_decision"]["campaign_status"] == "TERMINATED"
     assert e36["live_trading_enabled"] is False
 
 

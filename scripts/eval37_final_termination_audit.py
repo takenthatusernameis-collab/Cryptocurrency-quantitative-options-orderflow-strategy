@@ -59,12 +59,19 @@ EXPECTED_EVAL_CHAIN = [
 REQUIRED_EVAL36_FIELDS = [
     "verdict",
     "final_decision",
-    "campaign_status",
-    "paper_rollout_certified",
     "live_trading_enabled",
     "never_valid_true",
     "authenticity_verified",
     "consolidated_evidence_table",
+]
+
+# Termination-state fields live in the authoritative ``final_decision`` block.
+REQUIRED_EVAL36_FINAL_DECISION_FIELDS = [
+    "campaign_status",
+    "paper_rollout_certified",
+    "live_trading_enabled",
+    "decision",
+    "verdict",
 ]
 
 
@@ -145,6 +152,20 @@ def _approx(a: Any, b: float, tol: float) -> bool:
         return False
 
 
+def _eval36_field(d: Dict[str, Any], field: str) -> Any:
+    """Resolve an EVAL-36 field from the authoritative ``final_decision`` block.
+
+    EVAL-36 stores the termination state under ``final_decision``
+    (``campaign_status``, ``paper_rollout_certified``). The audit must read the
+    sealed schema as written, not invent a top-level mirror. A top-level value is
+    accepted only as a fallback for older drafts.
+    """
+    fd = d.get("final_decision")
+    if isinstance(fd, dict) and field in fd:
+        return fd[field]
+    return d[field]
+
+
 # --------------------------------------------------------------------------- #
 # Individual checks
 # --------------------------------------------------------------------------- #
@@ -165,7 +186,11 @@ def _check_eval36_required_fields() -> Check:
         d = _load_json(_resolve(EVAL36_STEM, ".json"))
         missing = [f for f in REQUIRED_EVAL36_FIELDS if f not in d]
         assert not missing, f"EVAL-36 missing fields: {missing}"
-        c.ok({"present": REQUIRED_EVAL36_FIELDS})
+        fd = d.get("final_decision")
+        assert isinstance(fd, dict), "EVAL-36 final_decision must be an object"
+        fd_missing = [f for f in REQUIRED_EVAL36_FINAL_DECISION_FIELDS if f not in fd]
+        assert not fd_missing, f"EVAL-36 final_decision missing fields: {fd_missing}"
+        c.ok({"present": REQUIRED_EVAL36_FIELDS, "final_decision_present": REQUIRED_EVAL36_FINAL_DECISION_FIELDS})
 
     return _run_check("eval36_required_fields", _fn)
 
@@ -177,12 +202,12 @@ def _check_eval36_verdict_and_decision() -> Check:
         fd = d["final_decision"]
         assert fd["decision"] == "TERMINATE_NO_GO", f"decision={fd['decision']!r}"
         assert fd["verdict"] == "NO-GO", f"final_decision.verdict={fd['verdict']!r}"
-        assert fd["campaign_status"] == "TERMINATED", f"campaign_status={fd['campaign_status']!r}"
-        assert d["campaign_status"] == "TERMINATED", f"top campaign_status={d['campaign_status']!r}"
-        assert fd["paper_rollout_certified"] is False, "paper_rollout_certified must be False"
-        assert d["paper_rollout_certified"] is False, "top paper_rollout_certified must be False"
-        assert fd["live_trading_enabled"] is False, "final_decision.live_trading_enabled must be False"
+        assert _eval36_field(d, "campaign_status") == "TERMINATED", (
+            f"campaign_status={_eval36_field(d, 'campaign_status')!r}"
+        )
+        assert _eval36_field(d, "paper_rollout_certified") is False, "paper_rollout_certified must be False"
         assert d["live_trading_enabled"] is False, "top live_trading_enabled must be False"
+        assert fd["live_trading_enabled"] is False, "final_decision.live_trading_enabled must be False"
         assert d["never_valid_true"] is True, "never_valid_true must be True"
         assert d["authenticity_verified"] is False, "authenticity_verified must be False"
         assert fd["orderflow_only_certified"] is False, "orderflow_only_certified must be False"
@@ -190,7 +215,8 @@ def _check_eval36_verdict_and_decision() -> Check:
         c.ok({
             "verdict": d["verdict"],
             "decision": fd["decision"],
-            "campaign_status": d["campaign_status"],
+            "campaign_status": _eval36_field(d, "campaign_status"),
+            "field_location": "final_decision",
         })
 
     return _run_check("eval36_verdict_and_decision", _fn)
@@ -331,12 +357,14 @@ def run_audit() -> Tuple[Dict[str, Any], List[Check], Dict[str, str]]:
         _check_env_absent_paper_only(),
     ]
 
-    # SHA-256 digests for every sealed input artifact.
+    # SHA-256 digests for every sealed input artifact (skip missing so a
+    # missing-input run reports a measured FAIL instead of crashing).
     digests: Dict[str, str] = {}
     for stem in (EVAL36_STEM, EVAL35_STEM, EVAL34_STEM):
         for suffix in (".json", ".md"):
-            p = _resolve(stem, suffix)
-            digests[str(p)] = _sha256(p)
+            p = OUT_DIR / f"{stem}{suffix}"
+            if p.exists():
+                digests[str(p)] = _sha256(p)
 
     all_passed = all(c.passed for c in checks)
     verdict = "PASS" if all_passed else "FAIL"
@@ -354,12 +382,12 @@ def run_audit() -> Tuple[Dict[str, Any], List[Check], Dict[str, str]]:
         "symbol": "BTC",
         "venue": "okx",
         "audited_artifacts": {
-            "eval36_memo": str(_resolve(EVAL36_STEM, ".json")),
-            "eval36_memo_md": str(_resolve(EVAL36_STEM, ".md")),
-            "eval35_validation": str(_resolve(EVAL35_STEM, ".json")),
-            "eval35_validation_md": str(_resolve(EVAL35_STEM, ".md")),
-            "eval34_falsification": str(_resolve(EVAL34_STEM, ".json")),
-            "eval34_falsification_md": str(_resolve(EVAL34_STEM, ".md")),
+            "eval36_memo": str(OUT_DIR / f"{EVAL36_STEM}.json"),
+            "eval36_memo_md": str(OUT_DIR / f"{EVAL36_STEM}.md"),
+            "eval35_validation": str(OUT_DIR / f"{EVAL35_STEM}.json"),
+            "eval35_validation_md": str(OUT_DIR / f"{EVAL35_STEM}.md"),
+            "eval34_falsification": str(OUT_DIR / f"{EVAL34_STEM}.json"),
+            "eval34_falsification_md": str(OUT_DIR / f"{EVAL34_STEM}.md"),
         },
         "sha256_digests": digests,
         "checks": [c.as_dict() for c in checks],
