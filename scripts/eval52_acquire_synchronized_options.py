@@ -230,7 +230,9 @@ def acquire_underlying(
             candles_by_instrument[row["instrument_name"]] = candle
         if delay > 0 and probe_i < len(instruments) - 1:
             time.sleep(delay)
-    bar_grid = list(range(start_ms, end_ms + 1, SURFACE_BAR_SECONDS * 1000))
+    step_ms = SURFACE_BAR_SECONDS * 1000
+    aligned_start = (start_ms // step_ms) * step_ms
+    bar_grid = list(range(aligned_start, end_ms + 1, step_ms))
     built = acq48.build_snapshots(
         candles_by_instrument, instruments, bar_grid, min_quotes, underlying
     )

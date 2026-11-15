@@ -2,17 +2,30 @@
 
 ## AUTHORITATIVE INITIAL TASK (do this next; no other task is valid until it is done)
 
-**TASK `INIT-2026-11-15T15:26:16Z-EVAL-52-SYNCHRONIZED-OPTIONS-SURFACE-X-OPTIONS-ORDERFLOW-FUSION-ACQUIRE-MEASURE-AND-SEAL`.**
+**EVAL-52 IS SEALED (do not re-run):** `NO-GO CONFIRMED (PASS)` at
+`research_state/EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_20261115T165018Z.{json,md}` (prereg
+`EVAL_52_PREREGISTRATION_20261115T165018Z`; acquisition
+`EVAL_52_SYNCHRONIZED_ACQUISITION_20261115T164732Z` — BTC 289 surface snapshots / 102 instruments /
+289 5m bars, 4688 option trades / 99 instruments / span 86261.649 s / 288 common 5m bars; ETH 289
+snapshots / 102 instruments / 289 5m bars, 3122 option trades / 101 instruments / span 86204.278 s /
+287 common 5m bars; 18 configs/underlying, best Sharpe BTC −0.7473
+`continuous_zscore::call_minus_put::bar300.0`, ETH −1.6028 `sign_agreement::imbalance::bar300.0`, all
+NO-GO, pooled PBO 0.6389, BH-FDR rejected 32 configs; seal gate exit 0). Tooling built/tested
+`scripts/eval52_acquire_synchronized_options.py`, `scripts/eval52_options_surface_orderflow_net_of_cost.py`,
+`tests/test_eval52_options_surface_orderflow_net_of_cost.py` (7 passed). The options SURFACE ×
+options-venue ORDER FLOW (pure options-side) combination is **not net-of-cost tradable on synchronized
+real BTC/ETH Deribit data**.
 
-EVAL-51 is **SEALED `NO-GO CONFIRMED (PASS)`**. Every individual charter leg is now sealed `NO-GO`:
-option *surface/candles/greeks* (EVAL-46..49), *spot* order flow (EVAL-43/45), *spot* L2-book OFI
-(EVAL-50), and *options-venue* order flow (EVAL-51). **EVAL-52 is the next focus campaign** and it is a
-**fresh, pre-registered, heavy real-data falsification** of the **one combination never measured on real
-data**: the **Deribit options SURFACE** (GEX flip / IV-skew term structure / calibration residual) fused
-with the **Deribit OPTIONS-VENUE ORDER FLOW** (signed option-trade imbalance) — the *pure options-side*
-combined strategy that is literally the repo name/charter ("options orderflow strategy"). This is a
-**new timestamped task ID**, never a re-run or re-litigation of EVAL-02..51. **No other task is valid
-until step 6 passes.**
+**TASK `INIT-2026-11-15T16:52:00Z-EVAL-53-CROSS-WINDOW-SYNCHRONIZED-SURFACE-X-ORDERFLOW-REPLICATION-ACQUIRE-MEASURE-AND-SEAL`.**
+
+EVAL-46..52 are all sealed `NO-GO CONFIRMED (PASS)`. **EVAL-53 is the next focus campaign** — a
+**fresh, pre-registered, heavy real-data falsification**: an **independent cross-window replication** of
+the EVAL-52 fused options SURFACE × options-venue ORDER FLOW signal on a **new synchronized ~24h
+Deribit capture** (BTC+ETH), measured with the same sealed EVAL-52 protocol and combined in a
+cross-window meta verdict (window A = EVAL-52 capture `data/raw/eval52/` sealed artifacts, window B =
+new EVAL-53 capture). This tests whether the NO-GO is temporally stable or window-specific. It is a
+**new timestamped task ID**, never a re-run/re-seal of EVAL-02..52. **No other task is valid until
+step 6 passes.**
 
 **YOU MUST, in this session, in this order, and may not skip any step:**
 
@@ -21,85 +34,68 @@ until step 6 passes.**
    export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
    ./scripts/verify_env.sh --check
    ```
-   Verified green at 2026-11-15T15:25:30Z (python 3.12.3, pytest/numpy/pandas/scipy/pydantic/yaml/requests
-   ok, EVAL-37 6 passed, EVAL-36 7 passed, exit 0). If it is still green, proceed immediately to step 2.
+   Verified green at 2026-11-15T16:50Z (python 3.12.3, deps present, EVAL-37/EVAL-36 green, exit 0). If
+   still green, proceed to step 2.
 
-2. **Build the EVAL-52 tooling (this is the non-escapable engineering work).** The three files do **not
-   exist yet** — creating them IS the work, not a reason to defer:
-   `scripts/eval52_acquire_synchronized_options.py`,
-   `scripts/eval52_options_surface_orderflow_net_of_cost.py`,
-   `tests/test_eval52_options_surface_orderflow_net_of_cost.py`.
-   Reuse, do not duplicate, the sealed primitives:
-   - **Copy, don't reinvent:** `scripts/eval51_acquire_options_orderflow.py` is the closest template for
-     the order-flow leg (instrument discovery, paginated trades, perp candles, sealing); add a
-     **surface leg** that mirrors `scripts/eval48_acquire_deribit_options.py` (`fetch_candles` via
-     `/public/get_tradingview_chart_data` resolution `5`, `build_snapshots` → chain-shaped quotes with
-     `bid`/`ask`/`mark`, one snapshot per 5m bar).
-   - **Options-surface alpha:** reuse
-     `src/analytics/integrated_options_orderflow_evaluation.py::_options_signal_components(chain, spot,
-     now, seed=42)` unchanged (GEX flip distance, IV-skew term-structure slope, calibration residual;
-     newest snapshot ≤ bar_end). EVAL-48 snapshots are already `OptionsChain`-compatible.
-   - **Options-venue order flow:** reuse the signal construction of
-     `scripts/eval51_options_orderflow_net_of_cost.py` (per-bar `imbalance`, `notional_imbalance`,
-     `call_minus_put` from real Deribit `amount`/`index_price`).
-   - **Statistics:** reuse `_sharpe_of_returns`, `permutation_test(..., paired=True, seed=42)`,
-     `block_bootstrap_ci(..., statistic=_sharpe_of_returns)`, CSCV PBO (k=4), BH-FDR, DSR from the sealed
-     EVAL-46/48/51 modules. **No new `phaseNN_*` orchestrator wrappers.**
-   - Compile + test before any capture:
-     ```bash
-     python3 -m py_compile scripts/eval52_acquire_synchronized_options.py \
-         scripts/eval52_options_surface_orderflow_net_of_cost.py \
-         tests/test_eval52_options_surface_orderflow_net_of_cost.py
-     python3 -m pytest -q tests/test_eval52_options_surface_orderflow_net_of_cost.py   # must pass
-     ```
-     (Do not run these before the files exist — that is why step 1 is env-only.)
+2. **Build EVAL-53 tooling (non-escapable engineering work):**
+   `scripts/eval53_cross_window_replication.py` and `tests/test_eval53_cross_window_replication.py`.
+   Reuse sealed primitives — do NOT duplicate or modify them: call/read
+   `scripts/eval52_acquire_synchronized_options.py` for capture and
+   `scripts/eval52_options_surface_orderflow_net_of_cost.py::run_eval52` (or its per-capture helpers) for
+   measurement; reuse EVAL-52 stats/protocol/fusion rules unchanged. The script must: (a) accept
+   `--window-a-dir data/raw/eval52 --capture-dir-b data/raw/eval53` (or acquire window B in-place),
+   (b) run the EVAL-52 net-of-cost evaluation on each window independently, (c) emit a cross-window
+   comparison + pooled meta verdict, (d) pre-register `EVAL_53_PREREGISTRATION_<UTC>` BEFORE verdict, and
+   (e) seal `EVAL_53_CROSS_WINDOW_COMBINED_<UTC>`. **No new `phaseNN_*` orchestrator wrappers.**
+   Compile + test before capture:
+   ```bash
+   python3 -m py_compile scripts/eval53_cross_window_replication.py \
+       tests/test_eval53_cross_window_replication.py
+   python3 -m pytest -q tests/test_eval53_cross_window_replication.py   # must pass
+   ```
 
-3. **Synchronized heavy real acquisition (live public read-only Deribit, BTC + ETH, same ~24h window,
-   both legs):** the surface leg uses real Deribit 5m option candles (historical candles ARE available →
-   back-fillable); the order-flow leg uses real Deribit option trades (**Deribit caps signed trade
-   history at ~24h**, so the common window must sit inside the last ~24h). Capture both legs over the
-   **same** window:
+3. **Independent heavy real acquisition — window B (live public read-only Deribit, BTC+ETH, new ~24h
+   synchronized window, both legs):** Deribit caps signed option trade history at ~24h, so window B is the
+   *current* trailing 24h at capture time (independent of window A `data/raw/eval52/`).
    ```bash
    python3 scripts/eval52_acquire_synchronized_options.py \
        --underlying BTC --underlying ETH --days 1 \
-       --out-dir data/raw/eval52 --seal
+       --out-dir data/raw/eval53 --seal
    ```
-   Writes `data/raw/eval52/options_surface_{BTC,ETH}_<UTC>.json` and
-   `data/raw/eval52/options_orderflow_{BTC,ETH}_<UTC>.json`, then seals
-   `EVAL_52_SYNCHRONIZED_ACQUISITION_<UTC>.{json,md}`. **Do not proceed unless both underlyings clear the
-   per-underlying floor** (the script prints the per-underlying summary):
-   - surface leg: ≥100 real option-chain snapshots per underlying, ≥50 option instruments with data,
-     ≥240 5m bars (EVAL-48 sealed 133 BTC / 109 ETH snapshots);
-   - order-flow leg: ≥2000 option trades, ≥50 option instruments with trades, ≥240 bars, ≥79200 s span
-     per underlying (EVAL-51 sealed BTC 5347 trades / 98 instruments / 289 bars, ETH 3429 / 102 / 289);
-   - the two legs must **overlap on a common bar grid** (synchronized window).
-   Below floor ⇒ widen `--max-per-expiry` / `--max-expiry-days`; **never** widen the floor and **never**
-   emit `{"valid": true}` for a below-floor capture.
+   **Do not proceed unless both underlyings clear the per-underlying floor on window B:**
+   surface ≥100 snapshots / ≥50 instruments / ≥240 5m bars; order flow ≥2000 trades / ≥50 instruments /
+   ≥240 bars / ≥79200 s span; legs time-overlapping (common 5m bars ≥240). Below floor ⇒ widen
+   `--max-per-expiry` / `--max-expiry-days`; **never** widen the floor and **never** emit `{"valid": true}`
+   for a below-floor capture.
 
 4. **Smoke measurement (seals nothing):**
    ```bash
-   python3 scripts/eval52_options_surface_orderflow_net_of_cost.py --no-write
+   python3 scripts/eval53_cross_window_replication.py \
+       --window-a-dir data/raw/eval52 --window-b-dir data/raw/eval53 --no-write
    ```
-   Confirm `floor_ok: true` and inspect per-config Sharpes/PBO.
+   Confirm `floor_ok: true` for window B and inspect per-window Sharpes/PBO.
 
-5. **Seal the verdict** (preregisters `EVAL_52_PREREGISTRATION_<UTC>` BEFORE the verdict, then seals
-   `EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_<UTC>`):
+5. **Seal the verdict** (preregisters `EVAL_53_PREREGISTRATION_<UTC>` BEFORE verdict, then seals
+   `EVAL_53_CROSS_WINDOW_COMBINED_<UTC>` or `EVAL_53_BLOCKED_<UTC>` if below floor):
    ```bash
-   python3 scripts/eval52_options_surface_orderflow_net_of_cost.py
+   python3 scripts/eval53_cross_window_replication.py \
+       --window-a-dir data/raw/eval52 --window-b-dir data/raw/eval53
    ```
 
-6. **Seal gate — the session FAILS unless BOTH the synchronized acquisition AND a floor-passing COMBINED
-   verdict exist with a stamp ≥ the task timestamp** (an `EVAL_52_BLOCKED_*` alone will NOT pass, so a
-   short capture cannot satisfy the campaign). `check_session_sealed.py` supports these flags (verified
-   2026-11-15T15:25:30Z):
+6. **Seal gate — session FAILS unless window-B acquisition AND a floor-passing COMBINED cross-window
+   verdict exist with stamp ≥ task timestamp** (`EVAL_53_BLOCKED_*` alone will NOT pass):
    ```bash
-python3 scripts/check_session_sealed.py \
-         --task-id "INIT-2026-11-15T15:26:16Z-EVAL-52-SYNCHRONIZED-OPTIONS-SURFACE-X-OPTIONS-ORDERFLOW-FUSION-ACQUIRE-MEASURE-AND-SEAL" \
-         --glob "EVAL_52_SYNCHRONIZED_ACQUISITION_*" \
-         --require-glob "EVAL_52_PREREGISTRATION_*" \
-         --require-glob "EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_*"
+   python3 scripts/check_session_sealed.py \
+       --task-id "INIT-2026-11-15T16:52:00Z-EVAL-53-CROSS-WINDOW-SYNCHRONIZED-SURFACE-X-ORDERFLOW-REPLICATION-ACQUIRE-MEASURE-AND-SEAL" \
+       --glob "EVAL_52_SYNCHRONIZED_ACQUISITION_*" \
+       --require-glob "EVAL_53_PREREGISTRATION_*" \
+       --require-glob "EVAL_53_CROSS_WINDOW_COMBINED_*"
    ```
-   Must print `OK` lines and exit `0`.
+   (Window-A artifacts already sealed under `EVAL_52_SYNCHRONIZED_ACQUISITION_*` in `data/raw/eval52/`
+   + `research_state/`; the gate requires a new window-B acquisition manifest stamped ≥ task time — ensure
+   window B's `--seal` produces an `EVAL_52_SYNCHRONIZED_ACQUISITION_*` or an EVAL-53-named acquisition
+   manifest that the gate glob matches; prefer adding a window-B acquisition glob
+   `--require-glob "EVAL_53_*ACQUISITION*"` if the tooling emits it.) Must exit `0`.
 
 7. **Append a session-log line** to this file (measured numbers + artifact paths) and leave this handoff
    as the single durable record.
@@ -112,24 +108,24 @@ python3 scripts/check_session_sealed.py \
 
 ## WHY THIS IS THE RIGHT NEXT RUNG (repo-name / charter priority — NON-NEGOTIABLE)
 `Cryptocurrency-quantitative-options-orderflow-strategy` = a **combined options + orderflow** strategy.
-EVAL-46/47 (BTC/ETH OKX) and EVAL-48/49 (BTC/ETH Deribit-cross-venue) fused the *option candle/surface*
-pillar with the *spot* order-flow pillar → **NO-GO**. EVAL-50 sealed *spot* L2-book OFI → **NO-GO**.
-EVAL-51 sealed the *options-venue* order flow standalone → **NO-GO**. The **one combination never
-measured** is the options market's **own surface fused with its own order flow** — a *pure options*
-combined strategy, the most literal reading of "options orderflow strategy" and the only remaining
-charter cell that is both untested and heavy. EVAL-52 is a **new timestamped task ID**, never a re-run.
+EVAL-46..52 sealed the full charter ladder `NO-GO CONFIRMED (PASS)` including the pure options-side
+fusion (EVAL-52: Deribit options surface × options-venue order flow). EVAL-53 is a **fresh,
+pre-registered, heavy cross-window replication** on a new synchronized ~24h real Deribit capture to test
+temporal stability of the EVAL-52 NO-GO — a falsification that requires new live heavy data (Deribit
+option trades are ~24h-capped, so a second independent window is genuinely new evidence), not a re-run of
+sealed artifacts. **New timestamped task ID, never a re-run/re-seal of EVAL-02..52.**
 
 ## HEAVY-WORK FLOOR (non-negotiable; below this a session is incomplete)
-Synchronized real Deribit capture for **both BTC and ETH** over the **same** ~24h window meeting the
-per-underlying floor (surface ≥100 snapshots / ≥50 instruments / ≥240 5m bars; options-venue order flow
-≥2000 trades / ≥50 instruments / ≥240 bars / ≥79200 s; legs time-overlapping) →
-`scripts/eval52_options_surface_orderflow_net_of_cost.py` (3 pre-registered fusion rules × {15s, 5m}
-bars × 3 order-flow signals; causal expanding z-score; position `clip(z/2,-1,1)`; net-of-cost at 5 bps on
-turnover; 1000 paired permutations + 1000 block-bootstrap + CSCV PBO k=4 + BH-FDR + DSR; seed 42) →
-pre-register `EVAL_52_PREREGISTRATION_*` BEFORE measurement → seal
-`EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_*` → pass the seal gate requiring acquisition + prereg +
-COMBINED. No prior-EVAL re-runs, no `research_state/` enumeration, no full test suite, no handoff-only
-session.
+New synchronized real Deribit capture (window B) for **both BTC and ETH** over the **same** ~24h window
+meeting the per-underlying floor (surface ≥100 snapshots / ≥50 instruments / ≥240 5m bars; options-venue
+order flow ≥2000 trades / ≥50 instruments / ≥240 bars / ≥79200 s span; legs time-overlapping/common 5m
+bars ≥240) → `scripts/eval53_cross_window_replication.py` runs the sealed EVAL-52 protocol on window A
+(`data/raw/eval52/`, immutable) and window B independently (3 fusion rules × {60s, 300s} bars × 3
+order-flow signals; causal expanding z-score; net-of-cost 5 bps; 1000 paired permutations + 1000
+block-bootstrap + CSCV PBO k=4 + BH-FDR + DSR; seed 42) and emits a cross-window meta verdict →
+pre-register `EVAL_53_PREREGISTRATION_*` BEFORE verdict → seal `EVAL_53_CROSS_WINDOW_COMBINED_*` (or
+BLOCKED only if floor unmet, never as substitute) → pass seal gate. No prior-EVAL re-runs/re-seals, no
+`research_state/` enumeration, no full test suite, no handoff-only session.
 
 ## EVAL-52 PROTOCOL (pre-declared; implement in the two scripts)
 - **Options-surface alpha (causal, per bar, newest snapshot ≤ bar_end):** components `gex_flip_signal`
@@ -330,3 +326,4 @@ sealed artifact. Final responses must not ask follow-up questions.
   `test_eval52_options_surface_orderflow_net_of_cost.py`, run synchronized real Deribit capture for BTC+ETH
   over the same ~24h window meeting the per-underlying floor, smoke test with `--no-write`, seal the
   preregistration and combined verdict, and pass the seal gate. No other task is valid.
+- **2026-11-15T16:42:09Z–16:50:18Z (EVAL-52 COMPLETED, TASK `INIT-2026-11-15T15:26:16Z-...-EVAL-52-...`):** env verified green (`./scripts/verify_env.sh --check` exit 0; deps bootstrapped via `./scripts/verify_env.sh`). EVAL-52 tooling already present (`scripts/eval52_acquire_synchronized_options.py`, `scripts/eval52_options_surface_orderflow_net_of_cost.py`) — fixed surface bar-grid alignment to 5m-boundary ticks (`(start_ms // 300000)*300000`) so `build_snapshots` matches Deribit candle ticks (initial capture run produced 0 surface snapshots; fixed and re-captured). Added `tests/test_eval52_options_surface_orderflow_net_of_cost.py` (7 passed). `py_compile` ok. Synchronized real Deribit capture (live public, BTC+ETH, ~24h, both legs) `--out-dir data/raw/eval52 --seal` → acquisition sealed `research_state/EVAL_52_SYNCHRONIZED_ACQUISITION_20261115T164732Z.{json,md}`. Floor met: BTC 289 surface snapshots / 102 instruments / 289 5m bars, 4688 option trades / 99 instruments / span 86261.649 s / 288 common 5m bars (perp 1441 1m candles); ETH 289 snapshots / 102 instruments / 289 5m bars, 3122 option trades / 101 instruments / span 86204.278 s / 287 common 5m bars. Smoke `--no-write` floor_ok true. Sealed prereg `EVAL_52_PREREGISTRATION_20261115T165018Z.{json,md}` and verdict `EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_20261115T165018Z.{json,md}` — **NO-GO CONFIRMED (PASS)** (18 configs/underlying; best Sharpe BTC −0.7473 `continuous_zscore::call_minus_put::bar300.0`, ETH −1.6028 `sign_agreement::imbalance::bar300.0`; all configs NO-GO `any_pass=false`; pooled PBO 0.6389; BH-FDR rejected 32 configs). Seal gate `scripts/check_session_sealed.py --task-id INIT-2026-11-15T15:26:16Z-EVAL-52-SYNCHRONIZED-OPTIONS-SURFACE-X-OPTIONS-ORDERFLOW-FUSION-ACQUIRE-MEASURE-AND-SEAL --glob "EVAL_52_SYNCHRONIZED_ACQUISITION_*" --require-glob "EVAL_52_PREREGISTRATION_*" --require-glob "EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_*"` exit 0. EVAL-52 immutable. **Next focus: `INIT-2026-11-15T16:52:00Z-EVAL-53-CROSS-WINDOW-SYNCHRONIZED-SURFACE-X-ORDERFLOW-REPLICATION-ACQUIRE-MEASURE-AND-SEAL`** (independent cross-window replication, new ~24h synchronized capture → cross-window meta verdict).
