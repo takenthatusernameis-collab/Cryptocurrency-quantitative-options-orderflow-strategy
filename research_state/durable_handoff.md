@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-**INITIAL TASK MESSAGE (inferred timestamped 2026-11-15T09:53:46Z UTC, authoritative for next session) — TASK ID `INIT-2026-11-15T09:53:46Z-EVAL-49-ETH-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`**
+**INITIAL TASK MESSAGE (inferred timestamped 2026-11-15T09:57:17Z UTC, authoritative for next session) — TASK ID `INIT-2026-11-15T08:20:09Z-EVAL-49-ETH-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`**
 **SCOPE (repo-charter priority: `Cryptocurrency-quantitative-options-orderflow-strategy` = combined options+orderflow):** EVAL-49 — ETH cross-venue replication of the combined (fused) options+orderflow net-of-cost falsification. Sealed NO-GO now spans **BTC/OKX** (EVAL-46), **ETH/OKX** (EVAL-47), and **BTC cross-venue** (EVAL-48, Deribit options + OKX BTC orderflow, `EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z`, seal gate exit 0). **EVAL-49 fills the one remaining cross-venue cell: Deribit ETH options + the existing real OKX ETH orderflow tapes** — does the combined thesis produce a net-of-cost GO when the options leg is Deribit ETH instead of OKX ETH? **THIS IS THE ONLY TASK. NO NO-OP. NO HANDOFF-ONLY SESSION. NO BTC RE-RUN. NO PARTIAL/UNSEALED PROGRESS CLAIM. EITHER SEAL `EVAL_49_*` (or a documented, measured `EVAL_49_BLOCKED_*`) AND PASS THE SEAL GATE, OR THE SESSION FAILS.**
 
 **BOTTLENECKS ELIMINATED / MEASURED STATE (2026-11-15T09:53:46Z re-verified this session; data + tooling + WRAPPER READY on disk):**
