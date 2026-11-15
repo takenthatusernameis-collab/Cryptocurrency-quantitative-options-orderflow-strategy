@@ -1,0 +1,69 @@
+{
+  "manifest_id": "EVAL_55_SYNCHRONIZED_ACQUISITION",
+  "task_id": "INIT-2026-11-15T18:03:00Z-EVAL-55-REAL-OPTIONS-GAMMA-HEDGED-NET-OF-COST-BTC-ETH",
+  "generated_at": "2026-11-15T18:03:00Z",
+  "schema": "deribit_options_surface_capture_v1",
+  "venue": "deribit",
+  "window_start": "2026-11-14T18:03:00Z",
+  "window_end": "2026-11-15T18:03:00Z",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "captures": {
+    "BTC": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval55/options_surface_BTC_20261115T180300Z.json",
+      "sha256": "c5bc77e75cf9c233f4df94581a9ebb542834e8ad1bfdc22a6ff16a043c723844",
+      "underlying": "BTC",
+      "surface": {
+        "n_snapshots": 289,
+        "n_instruments_with_data": 102,
+        "min_quotes_realized": 70,
+        "max_quotes_realized": 102,
+        "span_seconds": 86400.0,
+        "n_bars_5m": 288,
+        "non_degenerate": true
+      },
+      "orderflow": {
+        "underlying": "BTC",
+        "n_option_trades": 4324,
+        "n_instruments_with_trades": 98,
+        "n_distinct_strikes": 11,
+        "n_buy": 2408,
+        "n_sell": 1916,
+        "notional": 1357127622.271004,
+        "span_seconds": 85736.543,
+        "n_perp_candles": 1441,
+        "non_degenerate": true
+      }
+    },
+    "ETH": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval55/options_surface_ETH_20261115T180300Z.json",
+      "sha256": "bb80565f6dae34885bba8acb9a5bd0b3ab70440c2b167fe423dedcb07e8592db",
+      "underlying": "ETH",
+      "surface": {
+        "n_snapshots": 289,
+        "n_instruments_with_data": 103,
+        "min_quotes_realized": 96,
+        "max_quotes_realized": 103,
+        "span_seconds": 86400.0,
+        "n_bars_5m": 288,
+        "non_degenerate": true
+      },
+      "orderflow": {
+        "underlying": "ETH",
+        "n_option_trades": 2967,
+        "n_instruments_with_trades": 101,
+        "n_distinct_strikes": 15,
+        "n_buy": 1583,
+        "n_sell": 1384,
+        "notional": 114164604.33999988,
+        "span_seconds": 86227.149,
+        "n_perp_candles": 1441,
+        "non_degenerate": true
+      }
+    }
+  },
+  "synthetic": false,
+  "provenance": "real Deribit public options surface (5m candles) + options-venue order flow (signed trades) + perpetual 1m candles; synchronized window; no synthetic data"
+}

@@ -1,0 +1,1449 @@
+{
+  "report_id": "EVAL_55_COMBINED",
+  "generated_at": "2026-11-15T18:05:15Z",
+  "task": "EVAL-55-REAL-OPTIONS-GAMMA-HEDGED-NET-OF-COST-BTC-ETH",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "real Deribit options vol-surface/greeks gamma-hedged (long-gamma gamma-scalping) net-of-cost falsification",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval55",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_surface_snapshots_per_underlying": 100,
+    "min_bars_per_underlying": 240,
+    "min_instruments_per_underlying": 50,
+    "min_option_trades_per_underlying": 2000,
+    "min_span_seconds_per_underlying": 79200.0,
+    "min_common_bars_per_underlying": 240,
+    "min_underlyings": 2
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_surface_snapshots": 289,
+      "n_surface_instruments": 102,
+      "n_surface_bars_5m": 289,
+      "n_option_trades": 4324,
+      "n_of_instruments": 98,
+      "of_span_seconds": 85736.543,
+      "n_of_bars_5m": 285,
+      "n_common_bars_5m": 286,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_surface_snapshots": 289,
+      "n_surface_instruments": 103,
+      "n_surface_bars_5m": 289,
+      "n_option_trades": 2967,
+      "n_of_instruments": 101,
+      "of_span_seconds": 86227.149,
+      "n_of_bars_5m": 287,
+      "n_common_bars_5m": 288,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    }
+  },
+  "protocol": {
+    "eval": "EVAL-55",
+    "title": "Real Deribit options vol-surface / greeks gamma-hedged (long-gamma gamma-scalping) net-of-cost falsification",
+    "capture_dir": "data/raw/eval55",
+    "surface_to_greeks": "per real 5m snapshot & chosen expiry/strike: IV backed out of real mark (implied_volatility(mark*spot, spot, K, 0, T, type)); delta/gamma from black_scholes_greeks at that IV (intrinsic-delta fallback if IV fails)",
+    "structures": [
+      "long_atm_call",
+      "long_atm_put",
+      "long_atm_straddle"
+    ],
+    "expiry_choices": [
+      0,
+      1
+    ],
+    "rebalance_choices": [
+      1,
+      2
+    ],
+    "bar_seconds_grid": [
+      300.0
+    ],
+    "cost_model": "net-of-cost: hedge turnover HEDGE_FEE_BPS on |\u0394hedge|*S; long option pays half real bid/ask at entry (ask) and exit (bid)",
+    "hedge_fee_bps": 5.0,
+    "option_spread": "half real bid/ask paid at entry and exit (long options pay the ask)",
+    "pnl": "gross_k = +(dOptionUSD_k) + hedge_k*dS_k (long option, hedge=-position_delta); ret_k = (gross_k - cost_k)/S_k; decision at bar k -> outcome over [k,k+1] (causal)",
+    "gamma_attribution": "diagnostic: realized gamma capture = sum 0.5*Gamma_usd_k*(dS_k)^2 vs total premium paid; gamma_capture_over_premium reported per config (not a pass criterion)",
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, bootstrap 95% CI lower > 0, and pooled PBO < 0.5; else NO-GO.",
+    "floor": {
+      "min_surface_snapshots_per_underlying": 100,
+      "min_bars_per_underlying": 240,
+      "min_instruments_per_underlying": 50,
+      "min_option_trades_per_underlying": 2000,
+      "min_span_seconds_per_underlying": 79200.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2
+    },
+    "code_paths": [
+      "src/features/options_pricing.py",
+      "src/analytics/integrated_options_orderflow_evaluation.py",
+      "src/analytics/real_walkforward_certification.py",
+      "src/analytics/strategy_evaluation.py",
+      "scripts/eval48_acquire_deribit_options.py",
+      "scripts/eval51_acquire_options_orderflow.py",
+      "scripts/eval52_acquire_synchronized_options.py",
+      "scripts/eval55_acquire_options_surface.py",
+      "scripts/eval55_gamma_hedged_net_of_cost.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval55_acquire_options_surface.py scripts/eval55_gamma_hedged_net_of_cost.py tests/test_eval55_gamma_hedged_net_of_cost.py",
+      "python3 -m pytest -q tests/test_eval55_gamma_hedged_net_of_cost.py",
+      "python3 scripts/eval55_acquire_options_surface.py --underlying BTC --underlying ETH --days 1 --out-dir data/raw/eval55 --seal",
+      "python3 scripts/eval55_gamma_hedged_net_of_cost.py --prereg-only",
+      "python3 scripts/eval55_gamma_hedged_net_of_cost.py --no-write",
+      "python3 scripts/eval55_gamma_hedged_net_of_cost.py"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_call",
+      "expiry": "2026-11-15",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 1.4289218941050286,
+      "n_hedge_rebalances": 70,
+      "realized_gamma_capture_usd": 286.93551315817234,
+      "total_premium_usd": 394.884,
+      "gamma_capture_over_premium": 0.7266324114377193,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": 1.132956337549091,
+      "max_drawdown": 0.016439547268952904,
+      "kill_switch_breach": false,
+      "permutation_p": 0.5764235764235764,
+      "bootstrap_ci": [
+        1.132956337549091,
+        -2.0770207358731128,
+        5.112607723848212
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": 6.776923286651713,
+          "oos_max_drawdown": 0.0030812658670788685,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -1.2359991063994045,
+          "oos_max_drawdown": 0.016439547268953063,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": 2.62308493984147,
+          "oos_max_drawdown": 0.004877597246641982,
+          "n": 14
+        }
+      ],
+      "mean_return": 0.00023045688651642473,
+      "total_return": 0.01588967830093102,
+      "pass": false,
+      "config_key": "BTC::long_atm_call::2026-11-15::reb1"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_call",
+      "expiry": "2026-11-15",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 1.4289218941050286,
+      "n_hedge_rebalances": 35,
+      "realized_gamma_capture_usd": 286.93551315817234,
+      "total_premium_usd": 394.884,
+      "gamma_capture_over_premium": 0.7266324114377193,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": 1.1104315520900876,
+      "max_drawdown": 0.01656068320553643,
+      "kill_switch_breach": false,
+      "permutation_p": 0.5784215784215784,
+      "bootstrap_ci": [
+        1.1104315520900876,
+        -2.079326040603817,
+        5.060085152764322
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": 6.755641735169851,
+          "oos_max_drawdown": 0.003071879454158099,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -1.2611352928252528,
+          "oos_max_drawdown": 0.016560683205536653,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": 2.79374282210613,
+          "oos_max_drawdown": 0.004860600081045064,
+          "n": 14
+        }
+      ],
+      "mean_return": 0.00022808525631195644,
+      "total_return": 0.01571380691149238,
+      "pass": false,
+      "config_key": "BTC::long_atm_call::2026-11-15::reb2"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_call",
+      "expiry": "2026-11-16",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.7788263400634023,
+      "n_hedge_rebalances": 288,
+      "realized_gamma_capture_usd": 705.6632360166071,
+      "total_premium_usd": 592.3259999999999,
+      "gamma_capture_over_premium": 1.1913426660599185,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": 0.16514407175906645,
+      "max_drawdown": 0.03201734086168147,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8541458541458542,
+      "bootstrap_ci": [
+        0.16514407175906645,
+        -1.410172762859503,
+        1.93400765301983
+      ],
+      "dsr": 0.0023029585911409356,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -0.6822880352396249,
+          "oos_max_drawdown": 0.019738274788911436,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -1.4214461098980875,
+          "oos_max_drawdown": 0.019939379465969558,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": 0.8229197159699899,
+          "oos_max_drawdown": 0.009250917922718383,
+          "n": 57
+        }
+      ],
+      "mean_return": 2.5354022129240712e-05,
+      "total_return": 0.006467172452072623,
+      "pass": false,
+      "config_key": "BTC::long_atm_call::2026-11-16::reb1"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_call",
+      "expiry": "2026-11-16",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.7788263400634023,
+      "n_hedge_rebalances": 144,
+      "realized_gamma_capture_usd": 705.6632360166071,
+      "total_premium_usd": 592.3259999999999,
+      "gamma_capture_over_premium": 1.1913426660599185,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": 0.2244393685172313,
+      "max_drawdown": 0.03006388874753733,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8011988011988012,
+      "bootstrap_ci": [
+        0.2244393685172313,
+        -1.3488820898466183,
+        1.9619339656125365
+      ],
+      "dsr": 5.032466181487116e-05,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -0.5577428303036713,
+          "oos_max_drawdown": 0.018554344549303714,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -1.3985542445360124,
+          "oos_max_drawdown": 0.019431595266995158,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": 0.880733105967577,
+          "oos_max_drawdown": 0.009297169325242771,
+          "n": 57
+        }
+      ],
+      "mean_return": 3.4297962124909616e-05,
+      "total_return": 0.009071002289931851,
+      "pass": false,
+      "config_key": "BTC::long_atm_call::2026-11-16::reb2"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_put",
+      "expiry": "2026-11-15",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 0.711668311025862,
+      "n_hedge_rebalances": 70,
+      "realized_gamma_capture_usd": 381.5771020709639,
+      "total_premium_usd": 460.69800000000004,
+      "gamma_capture_over_premium": 0.8282586468162741,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": -0.5140392276793083,
+      "max_drawdown": 0.01950045889476442,
+      "kill_switch_breach": false,
+      "permutation_p": 0.7872127872127872,
+      "bootstrap_ci": [
+        -0.5140392276793083,
+        -4.6561472193022055,
+        3.469963751393935
+      ],
+      "dsr": 0.9999968277694282,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": -8.458663693099371,
+          "oos_max_drawdown": 0.01280812788015695,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -1.3639184231582446,
+          "oos_max_drawdown": 0.013965288110805649,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": -0.2691619007637937,
+          "oos_max_drawdown": 0.0047270137116418925,
+          "n": 14
+        }
+      ],
+      "mean_return": -7.874072118252554e-05,
+      "total_return": -0.005702556478784593,
+      "pass": false,
+      "config_key": "BTC::long_atm_put::2026-11-15::reb1"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_put",
+      "expiry": "2026-11-15",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 0.711668311025862,
+      "n_hedge_rebalances": 35,
+      "realized_gamma_capture_usd": 381.5771020709639,
+      "total_premium_usd": 460.69800000000004,
+      "gamma_capture_over_premium": 0.8282586468162741,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": -0.42389190972612534,
+      "max_drawdown": 0.018926241040941913,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8261738261738262,
+      "bootstrap_ci": [
+        -0.42389190972612534,
+        -4.517520710755246,
+        3.448002348644409
+      ],
+      "dsr": 0.9998996872212075,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": -7.764411671423006,
+          "oos_max_drawdown": 0.01216262954518077,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -1.5135323892387933,
+          "oos_max_drawdown": 0.013884165274194851,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": 0.25519218787990955,
+          "oos_max_drawdown": 0.004705005310772161,
+          "n": 14
+        }
+      ],
+      "mean_return": -6.47929152855971e-05,
+      "total_return": -0.004730380953276714,
+      "pass": false,
+      "config_key": "BTC::long_atm_put::2026-11-15::reb2"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_put",
+      "expiry": "2026-11-16",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.7256757109132347,
+      "n_hedge_rebalances": 288,
+      "realized_gamma_capture_usd": 723.8024834705849,
+      "total_premium_usd": 1184.6519999999998,
+      "gamma_capture_over_premium": 0.6109832115005799,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": -0.4029258593761251,
+      "max_drawdown": 0.029512388230218723,
+      "kill_switch_breach": false,
+      "permutation_p": 0.6663336663336663,
+      "bootstrap_ci": [
+        -0.4029258593761251,
+        -2.1549531783034297,
+        1.1666244946321929
+      ],
+      "dsr": 0.9999999999980893,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -0.42071671972123736,
+          "oos_max_drawdown": 0.02688736330044985,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": 1.3570807843664512,
+          "oos_max_drawdown": 0.011081442038981176,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -1.5672249844242985,
+          "oos_max_drawdown": 0.013685786292430094,
+          "n": 57
+        }
+      ],
+      "mean_return": -7.03105150497646e-05,
+      "total_return": -0.02112921588449279,
+      "pass": false,
+      "config_key": "BTC::long_atm_put::2026-11-16::reb1"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_put",
+      "expiry": "2026-11-16",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.7256757109132347,
+      "n_hedge_rebalances": 144,
+      "realized_gamma_capture_usd": 723.8024834705849,
+      "total_premium_usd": 1184.6519999999998,
+      "gamma_capture_over_premium": 0.6109832115005799,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": -0.34342779235634757,
+      "max_drawdown": 0.028725754613318177,
+      "kill_switch_breach": false,
+      "permutation_p": 0.7052947052947053,
+      "bootstrap_ci": [
+        -0.34342779235634757,
+        -2.1048129099884405,
+        1.2180625681911954
+      ],
+      "dsr": 0.9999999986162172,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -0.34703116577669807,
+          "oos_max_drawdown": 0.026342918014301997,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": 1.4210800449705754,
+          "oos_max_drawdown": 0.011076578576220603,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -1.4639742762481005,
+          "oos_max_drawdown": 0.0133411101224102,
+          "n": 57
+        }
+      ],
+      "mean_return": -6.026977469927882e-05,
+      "total_return": -0.01830652225682039,
+      "pass": false,
+      "config_key": "BTC::long_atm_put::2026-11-16::reb2"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_straddle",
+      "expiry": "2026-11-15",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 1.032653612012519,
+      "n_hedge_rebalances": 70,
+      "realized_gamma_capture_usd": 672.5212256764296,
+      "total_premium_usd": 855.5820000000001,
+      "gamma_capture_over_premium": 0.7860394745055758,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": 0.9977559029530083,
+      "max_drawdown": 0.01435215086171874,
+      "kill_switch_breach": false,
+      "permutation_p": 0.6243756243756243,
+      "bootstrap_ci": [
+        0.9977559029530083,
+        -1.876777000684545,
+        4.940364784874749
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": 3.1356824774428667,
+          "oos_max_drawdown": 0.005635894839828725,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -2.5680604357294468,
+          "oos_max_drawdown": 0.01435215086171866,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": 2.054036828473005,
+          "oos_max_drawdown": 0.0038081494617819385,
+          "n": 14
+        }
+      ],
+      "mean_return": 0.00015163434307720162,
+      "total_return": 0.010463935366590515,
+      "pass": false,
+      "config_key": "BTC::long_atm_straddle::2026-11-15::reb1"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_straddle",
+      "expiry": "2026-11-15",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 1.032653612012519,
+      "n_hedge_rebalances": 35,
+      "realized_gamma_capture_usd": 672.5212256764296,
+      "total_premium_usd": 855.5820000000001,
+      "gamma_capture_over_premium": 0.7860394745055758,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": 1.0241048666847916,
+      "max_drawdown": 0.01464899764011759,
+      "kill_switch_breach": false,
+      "permutation_p": 0.6023976023976024,
+      "bootstrap_ci": [
+        1.0241048666847916,
+        -1.814520267097211,
+        4.747357828504987
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": 3.2809305500506025,
+          "oos_max_drawdown": 0.005584724296690333,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -2.6980569479564522,
+          "oos_max_drawdown": 0.014648997640117815,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": 2.684478172050696,
+          "oos_max_drawdown": 0.0037966990096452127,
+          "n": 14
+        }
+      ],
+      "mean_return": 0.0001605780501874377,
+      "total_return": 0.011083447602785457,
+      "pass": false,
+      "config_key": "BTC::long_atm_straddle::2026-11-15::reb2"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_straddle",
+      "expiry": "2026-11-16",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.7521525741563073,
+      "n_hedge_rebalances": 288,
+      "realized_gamma_capture_usd": 1425.5297270558892,
+      "total_premium_usd": 1776.9779999999996,
+      "gamma_capture_over_premium": 0.8022213708081302,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": -0.273783754283055,
+      "max_drawdown": 0.03223324220234702,
+      "kill_switch_breach": false,
+      "permutation_p": 0.7662337662337663,
+      "bootstrap_ci": [
+        -0.273783754283055,
+        -1.745104668258228,
+        1.4524309080701878
+      ],
+      "dsr": 0.9999987401614415,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -1.0445002390261013,
+          "oos_max_drawdown": 0.022367506741958008,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -0.3490579091308918,
+          "oos_max_drawdown": 0.009383195985048724,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -0.9328007314685881,
+          "oos_max_drawdown": 0.007752343034094666,
+          "n": 57
+        }
+      ],
+      "mean_return": -4.106792600186213e-05,
+      "total_return": -0.012567719568504443,
+      "pass": false,
+      "config_key": "BTC::long_atm_straddle::2026-11-16::reb1"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_atm_straddle",
+      "expiry": "2026-11-16",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.7521525741563073,
+      "n_hedge_rebalances": 144,
+      "realized_gamma_capture_usd": 1425.5297270558892,
+      "total_premium_usd": 1776.9779999999996,
+      "gamma_capture_over_premium": 0.8022213708081302,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": -0.15563401584716507,
+      "max_drawdown": 0.02950447107703397,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8501498501498501,
+      "bootstrap_ci": [
+        -0.15563401584716507,
+        -1.6108771292288022,
+        1.5749493663433103
+      ],
+      "dsr": 0.9962270866850107,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -0.8416386447147974,
+          "oos_max_drawdown": 0.02229795778903172,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -0.26815410819561036,
+          "oos_max_drawdown": 0.009002193218751753,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -0.6533666259282247,
+          "oos_max_drawdown": 0.007107334247758909,
+          "n": 57
+        }
+      ],
+      "mean_return": -2.3626525890051247e-05,
+      "total_return": -0.007614570002737908,
+      "pass": false,
+      "config_key": "BTC::long_atm_straddle::2026-11-16::reb2"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_call",
+      "expiry": "2026-11-15",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 1.67947248690373,
+      "n_hedge_rebalances": 70,
+      "realized_gamma_capture_usd": 10.653569301984941,
+      "total_premium_usd": 14.6924,
+      "gamma_capture_over_premium": 0.7251074910828007,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": 0.811725265400435,
+      "max_drawdown": 0.02928216339100423,
+      "kill_switch_breach": false,
+      "permutation_p": 0.6553446553446554,
+      "bootstrap_ci": [
+        0.811725265400435,
+        -2.7121227398740975,
+        4.652657325323061
+      ],
+      "dsr": 6.339658131793158e-09,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": 7.393809334021323,
+          "oos_max_drawdown": 0.0007759612022027172,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -3.33279569494551,
+          "oos_max_drawdown": 0.0292821633910042,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": -0.9595046928779926,
+          "oos_max_drawdown": 0.0040066853353954756,
+          "n": 14
+        }
+      ],
+      "mean_return": 0.0002543307319902322,
+      "total_return": 0.01708115746422112,
+      "pass": false,
+      "config_key": "ETH::long_atm_call::2026-11-15::reb1"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_call",
+      "expiry": "2026-11-15",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 1.67947248690373,
+      "n_hedge_rebalances": 35,
+      "realized_gamma_capture_usd": 10.653569301984941,
+      "total_premium_usd": 14.6924,
+      "gamma_capture_over_premium": 0.7251074910828007,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": 0.7134248491687394,
+      "max_drawdown": 0.02935176771800155,
+      "kill_switch_breach": false,
+      "permutation_p": 0.7032967032967034,
+      "bootstrap_ci": [
+        0.7134248491687394,
+        -2.8579494490411372,
+        4.529541633369783
+      ],
+      "dsr": 9.285804591918634e-08,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": 7.36372179698477,
+          "oos_max_drawdown": 0.0007782151613812011,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -3.284315409266097,
+          "oos_max_drawdown": 0.02935176771800163,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": -0.9578085638238827,
+          "oos_max_drawdown": 0.004046439086290534,
+          "n": 14
+        }
+      ],
+      "mean_return": 0.00022509234314596017,
+      "total_return": 0.014990068112791466,
+      "pass": false,
+      "config_key": "ETH::long_atm_call::2026-11-15::reb2"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_call",
+      "expiry": "2026-11-16",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.9568546540943478,
+      "n_hedge_rebalances": 288,
+      "realized_gamma_capture_usd": 26.85667288770575,
+      "total_premium_usd": 23.875149999999998,
+      "gamma_capture_over_premium": 1.1248797552143441,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": -0.027311008523028046,
+      "max_drawdown": 0.034135297314143706,
+      "kill_switch_breach": false,
+      "permutation_p": 0.972027972027972,
+      "bootstrap_ci": [
+        -0.027311008523028046,
+        -1.5868816517300433,
+        1.6379544952251266
+      ],
+      "dsr": 0.6782605858329378,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -0.6001602469369908,
+          "oos_max_drawdown": 0.013947103649657566,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -1.371094052265532,
+          "oos_max_drawdown": 0.024254434108729902,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": 0.6569414988595077,
+          "oos_max_drawdown": 0.020889840794269143,
+          "n": 57
+        }
+      ],
+      "mean_return": -6.405822657512435e-06,
+      "total_return": -0.0038344792047740883,
+      "pass": false,
+      "config_key": "ETH::long_atm_call::2026-11-16::reb1"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_call",
+      "expiry": "2026-11-16",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.9568546540943478,
+      "n_hedge_rebalances": 144,
+      "realized_gamma_capture_usd": 26.85667288770575,
+      "total_premium_usd": 23.875149999999998,
+      "gamma_capture_over_premium": 1.1248797552143441,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": 0.003724928737742791,
+      "max_drawdown": 0.033430899109103476,
+      "kill_switch_breach": false,
+      "permutation_p": 0.998001998001998,
+      "bootstrap_ci": [
+        0.003724928737742791,
+        -1.5422357198764096,
+        1.6747569699409897
+      ],
+      "dsr": 0.474841563944293,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -0.49111619904154585,
+          "oos_max_drawdown": 0.013914204998444913,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -1.4050101641778199,
+          "oos_max_drawdown": 0.024398601953202065,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": 0.6529552598350525,
+          "oos_max_drawdown": 0.02122628895381523,
+          "n": 57
+        }
+      ],
+      "mean_return": 8.715442779586076e-07,
+      "total_return": -0.0017345409001997547,
+      "pass": false,
+      "config_key": "ETH::long_atm_call::2026-11-16::reb2"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_put",
+      "expiry": "2026-11-15",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 0.8405364690700261,
+      "n_hedge_rebalances": 63,
+      "realized_gamma_capture_usd": 12.439080865461628,
+      "total_premium_usd": 15.610675,
+      "gamma_capture_over_premium": 0.7968317107019157,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": -0.08556616020073168,
+      "max_drawdown": 0.0316498284062736,
+      "kill_switch_breach": false,
+      "permutation_p": 0.968031968031968,
+      "bootstrap_ci": [
+        -0.08556616020073168,
+        -4.185781134886004,
+        3.0917646538640438
+      ],
+      "dsr": 0.7617698347949148,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": -6.198605603421153,
+          "oos_max_drawdown": 0.024218984729901694,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": 2.319086558843396,
+          "oos_max_drawdown": 0.01913606168854329,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": -2.2327221564653943,
+          "oos_max_drawdown": 0.009401110147860747,
+          "n": 14
+        }
+      ],
+      "mean_return": -2.5177723766715055e-05,
+      "total_return": -0.0025192539371298173,
+      "pass": false,
+      "config_key": "ETH::long_atm_put::2026-11-15::reb1"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_put",
+      "expiry": "2026-11-15",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 0.8405364690700261,
+      "n_hedge_rebalances": 32,
+      "realized_gamma_capture_usd": 12.439080865461628,
+      "total_premium_usd": 15.610675,
+      "gamma_capture_over_premium": 0.7968317107019157,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": 0.0022254478780066598,
+      "max_drawdown": 0.028563628204609528,
+      "kill_switch_breach": false,
+      "permutation_p": 0.998001998001998,
+      "bootstrap_ci": [
+        0.0022254478780066598,
+        -4.0864476020910745,
+        3.230988299423017
+      ],
+      "dsr": 0.49262558056709993,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": -6.199534260218056,
+          "oos_max_drawdown": 0.023582973555996256,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": 2.312367160534085,
+          "oos_max_drawdown": 0.01891836637951871,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": -1.7854541489881897,
+          "oos_max_drawdown": 0.009591014747202347,
+          "n": 14
+        }
+      ],
+      "mean_return": 6.436954916377966e-07,
+      "total_return": -0.0006888893645237149,
+      "pass": false,
+      "config_key": "ETH::long_atm_put::2026-11-15::reb2"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_put",
+      "expiry": "2026-11-16",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.9335066880136894,
+      "n_hedge_rebalances": 283,
+      "realized_gamma_capture_usd": 26.315902427999063,
+      "total_premium_usd": 28.466525,
+      "gamma_capture_over_premium": 0.9244508217282953,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": -0.1062863149153974,
+      "max_drawdown": 0.03145306971017321,
+      "kill_switch_breach": false,
+      "permutation_p": 0.9210789210789211,
+      "bootstrap_ci": [
+        -0.1062863149153974,
+        -1.8677686885135434,
+        1.552102545129379
+      ],
+      "dsr": 0.9647586871408583,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": 0.8382131966310008,
+          "oos_max_drawdown": 0.017005833056500972,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": 0.44552183026292663,
+          "oos_max_drawdown": 0.019753144831418892,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -1.8780273779183654,
+          "oos_max_drawdown": 0.01785700008680965,
+          "n": 57
+        }
+      ],
+      "mean_return": -2.2575302306913704e-05,
+      "total_return": -0.008104600416624752,
+      "pass": false,
+      "config_key": "ETH::long_atm_put::2026-11-16::reb1"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_put",
+      "expiry": "2026-11-16",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.9335066880136894,
+      "n_hedge_rebalances": 141,
+      "realized_gamma_capture_usd": 26.315902427999063,
+      "total_premium_usd": 28.466525,
+      "gamma_capture_over_premium": 0.9244508217282953,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": -0.06342392144990178,
+      "max_drawdown": 0.030806126663317075,
+      "kill_switch_breach": false,
+      "permutation_p": 0.9410589410589411,
+      "bootstrap_ci": [
+        -0.06342392144990178,
+        -1.8424489915564903,
+        1.6078803127431138
+      ],
+      "dsr": 0.8590850949124769,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": 0.9821072818182947,
+          "oos_max_drawdown": 0.017014633502447855,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": 0.44802214800913437,
+          "oos_max_drawdown": 0.019913487489966224,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -1.871291451624066,
+          "oos_max_drawdown": 0.018001750766163237,
+          "n": 57
+        }
+      ],
+      "mean_return": -1.3574269714759435e-05,
+      "total_return": -0.005554741192627222,
+      "pass": false,
+      "config_key": "ETH::long_atm_put::2026-11-16::reb2"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_straddle",
+      "expiry": "2026-11-15",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 1.4950472636581196,
+      "n_hedge_rebalances": 70,
+      "realized_gamma_capture_usd": 23.092650167446568,
+      "total_premium_usd": 30.303075,
+      "gamma_capture_over_premium": 0.7620563314926477,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": 0.7956888239260658,
+      "max_drawdown": 0.02468706218420592,
+      "kill_switch_breach": false,
+      "permutation_p": 0.7252747252747253,
+      "bootstrap_ci": [
+        0.7956888239260658,
+        -2.2173360085857006,
+        4.452715445022089
+      ],
+      "dsr": 7.879524412945926e-07,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": 8.07654801186443,
+          "oos_max_drawdown": 0.0003605934954097334,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -0.38174999002561055,
+          "oos_max_drawdown": 0.02443735276166681,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": -3.124807286243455,
+          "oos_max_drawdown": 0.00819379988294218,
+          "n": 14
+        }
+      ],
+      "mean_return": 0.000235880332957554,
+      "total_return": 0.015857675632595214,
+      "pass": false,
+      "config_key": "ETH::long_atm_straddle::2026-11-15::reb1"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_straddle",
+      "expiry": "2026-11-15",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 71,
+      "median_iv": 1.4950472636581196,
+      "n_hedge_rebalances": 35,
+      "realized_gamma_capture_usd": 23.092650167446568,
+      "total_premium_usd": 30.303075,
+      "gamma_capture_over_premium": 0.7620563314926477,
+      "n_returns": 70,
+      "nonzero_returns": 70,
+      "sharpe": 0.8409822037485978,
+      "max_drawdown": 0.021919793015104248,
+      "kill_switch_breach": false,
+      "permutation_p": 0.7062937062937062,
+      "bootstrap_ci": [
+        0.8409822037485978,
+        -2.0670441335475225,
+        4.377749636103034
+      ],
+      "dsr": 2.016216302802576e-07,
+      "walkforward": [
+        {
+          "test_start": 23,
+          "test_end": 37,
+          "oos_sharpe": 7.924330985052987,
+          "oos_max_drawdown": 0.0004930293636771221,
+          "n": 14
+        },
+        {
+          "test_start": 37,
+          "test_end": 51,
+          "oos_sharpe": -0.4621175647226331,
+          "oos_max_drawdown": 0.021652484095035618,
+          "n": 14
+        },
+        {
+          "test_start": 51,
+          "test_end": 65,
+          "oos_sharpe": -2.5312901853679404,
+          "oos_max_drawdown": 0.008511390404532288,
+          "n": 14
+        }
+      ],
+      "mean_return": 0.0002324633633716349,
+      "total_return": 0.015718623947787114,
+      "pass": false,
+      "config_key": "ETH::long_atm_straddle::2026-11-15::reb2"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_straddle",
+      "expiry": "2026-11-16",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.9666810447848186,
+      "n_hedge_rebalances": 288,
+      "realized_gamma_capture_usd": 53.17257531570481,
+      "total_premium_usd": 52.341674999999995,
+      "gamma_capture_over_premium": 1.0158745457745633,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": -0.14128755611313246,
+      "max_drawdown": 0.04650942219272184,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8671328671328671,
+      "bootstrap_ci": [
+        -0.14128755611313246,
+        -1.8985578692090812,
+        1.5599171727398313
+      ],
+      "dsr": 0.9921082671514604,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": 0.1869505641207898,
+          "oos_max_drawdown": 0.019286497100914107,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -1.4608720157594428,
+          "oos_max_drawdown": 0.01355309346863817,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -0.4597987502430703,
+          "oos_max_drawdown": 0.021148786628155735,
+          "n": 57
+        }
+      ],
+      "mean_return": -2.7190780848032825e-05,
+      "total_return": -0.00913296278204323,
+      "pass": false,
+      "config_key": "ETH::long_atm_straddle::2026-11-16::reb1"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_atm_straddle",
+      "expiry": "2026-11-16",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 289,
+      "median_iv": 0.9666810447848186,
+      "n_hedge_rebalances": 144,
+      "realized_gamma_capture_usd": 53.17257531570481,
+      "total_premium_usd": 52.341674999999995,
+      "gamma_capture_over_premium": 1.0158745457745633,
+      "n_returns": 288,
+      "nonzero_returns": 288,
+      "sharpe": -0.056454010490513296,
+      "max_drawdown": 0.04591522124733618,
+      "kill_switch_breach": false,
+      "permutation_p": 0.938061938061938,
+      "bootstrap_ci": [
+        -0.056454010490513296,
+        -1.8401042860493448,
+        1.6787153999554807
+      ],
+      "dsr": 0.8308973301921432,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": 0.42606933334490543,
+          "oos_max_drawdown": 0.01933499371323072,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -1.4816913972621966,
+          "oos_max_drawdown": 0.01300856304794773,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -0.4723860442205329,
+          "oos_max_drawdown": 0.021488586791491605,
+          "n": 57
+        }
+      ],
+      "mean_return": -1.0967776210651325e-05,
+      "total_return": -0.004517782701954576,
+      "pass": false,
+      "config_key": "ETH::long_atm_straddle::2026-11-16::reb2"
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 12,
+      "best_sharpe": 1.132956337549091,
+      "best_config": "BTC::long_atm_call::2026-11-15::reb1",
+      "best_median_iv": 1.4289218941050286,
+      "best_gamma_capture_over_premium": 0.7266324114377193,
+      "any_pass": false
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 12,
+      "best_sharpe": 0.8409822037485978,
+      "best_config": "ETH::long_atm_straddle::2026-11-15::reb2",
+      "best_median_iv": 1.4950472636581196,
+      "best_gamma_capture_over_premium": 0.7620563314926477,
+      "any_pass": false
+    }
+  ],
+  "pooled": {
+    "overall_pbo": 0.3333333333333333,
+    "bh_fdr": {
+      "rejected": [],
+      "thresholds": {
+        "BTC::long_atm_call::2026-11-15::reb1": 0.004166666666666667,
+        "BTC::long_atm_call::2026-11-15::reb2": 0.008333333333333333,
+        "BTC::long_atm_straddle::2026-11-15::reb2": 0.012500000000000002,
+        "BTC::long_atm_straddle::2026-11-15::reb1": 0.016666666666666666,
+        "ETH::long_atm_call::2026-11-15::reb1": 0.020833333333333332,
+        "BTC::long_atm_put::2026-11-16::reb1": 0.025000000000000005,
+        "ETH::long_atm_call::2026-11-15::reb2": 0.02916666666666667,
+        "BTC::long_atm_put::2026-11-16::reb2": 0.03333333333333333,
+        "ETH::long_atm_straddle::2026-11-15::reb2": 0.0375,
+        "ETH::long_atm_straddle::2026-11-15::reb1": 0.041666666666666664,
+        "BTC::long_atm_straddle::2026-11-16::reb1": 0.04583333333333334,
+        "BTC::long_atm_put::2026-11-15::reb1": 0.05000000000000001,
+        "BTC::long_atm_call::2026-11-16::reb2": 0.05416666666666667,
+        "BTC::long_atm_put::2026-11-15::reb2": 0.05833333333333334,
+        "BTC::long_atm_straddle::2026-11-16::reb2": 0.0625,
+        "BTC::long_atm_call::2026-11-16::reb1": 0.06666666666666667,
+        "ETH::long_atm_straddle::2026-11-16::reb1": 0.07083333333333335,
+        "ETH::long_atm_put::2026-11-16::reb1": 0.075,
+        "ETH::long_atm_straddle::2026-11-16::reb2": 0.07916666666666668,
+        "ETH::long_atm_put::2026-11-16::reb2": 0.08333333333333333,
+        "ETH::long_atm_put::2026-11-15::reb1": 0.08750000000000001,
+        "ETH::long_atm_call::2026-11-16::reb1": 0.09166666666666667,
+        "ETH::long_atm_call::2026-11-16::reb2": 0.09583333333333334,
+        "ETH::long_atm_put::2026-11-15::reb2": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 24,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": false,
+    "campaign_state": "EVAL_55_OPTIONS_GAMMA_HEDGED"
+  },
+  "errors": []
+}
