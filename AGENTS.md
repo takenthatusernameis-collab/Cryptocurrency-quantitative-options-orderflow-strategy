@@ -35,17 +35,24 @@ EVAL-44 (BTC-scoped campaign closure certification) is sealed at
 EVAL-45 (ETH orderflow + options cross-asset falsification) is sealed: ETH orderflow
 `NO-GO CONFIRMED (PASS)` (`EVAL_45_ETH_ORDERFLOW_META_20261115T012707Z`, 5 disjoint real ETH
 tapes / 172,100 trades) and ETH options `BLOCKED` (no real ETH option series,
-`EVAL_45_OPTIONS_ETH_BLOCKED_20261115T012906Z`). **Next required task is EVAL-46 ETH options
-net-of-cost** (see `research_state/durable_handoff.md`,
-task `INIT-2026-11-15T01:30:08Z-EVAL-46-OPTIONS-ETH-NET-OF-COST-FALSIFY-AND-SEAL`): backfill a
-dense real ETH-USD option snapshot series (reuse `src/data/options_candle_backfill.py` with
-`underlying="ETH"`; 836–1422 live ETH option instruments; `history-candles` verified working)
-aligned to a matching real ETH orderflow window (tapes `orderflow_okx_ETH_w01..w05_*.json` on
-disk, `2026-11-14 15:01→23:48`), pre-register, run the sealed EVAL-42 audit on ETH via a thin
-`scripts/eval46_options_eth_audit.py` (eval42 hard-codes `symbol="BTC"` — do not edit the sealed
-script), seal `EVAL_46_*`, and pass
-`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T01:30:08Z-EVAL-46-OPTIONS-ETH-NET-OF-COST-FALSIFY-AND-SEAL" --glob "EVAL_46_*"`.
-This is mandatory heavy work: a NO-OP, handoff-only, or BTC-re-run session is a failed session.
+`EVAL_45_OPTIONS_ETH_BLOCKED_20261115T012906Z`). **Next required task is EVAL-46 — the
+INTEGRATED (fused) options+orderflow net-of-cost falsification on the FULL dense real BTC dataset**
+(see `research_state/durable_handoff.md`,
+task `INIT-2026-11-15T02:22:38Z-EVAL-46-INTEGRATED-OPTIONS-ORDERFLOW-NET-OF-COST-FALSIFY-AND-SEAL`):
+this is the repo's **core thesis** (a combined options+orderflow strategy), the single largest
+untested gap (EVAL-18 static/degenerate; EVAL-31 3-snapshot weak stats), and it needs **zero new
+data** — all inputs are on disk (101 BTC option snapshots `data/raw/options_candles/` +
+overlapping BTC orderflow tapes `data/raw/eval41/orderflow_okx_BTC-USD-SWAP.json` and
+`data/raw/orderflow_okx_BTC-USD-SWAP.json`). Build a thin
+`scripts/eval46_integrated_options_orderflow_audit.py` (do NOT edit sealed eval41/42/43) that
+fuses the dense options signal (`load_snapshot_signals` + `align_options_signal_to_bars`) with the
+orderflow signal (`_causal_signal_series` + `_toxicities_per_bar`) under ≥3 pre-registered fusion
+rules, runs the full-tape net-of-cost walk-forward (combined vs options-only vs orderflow-only vs
+flat), computes 1000-perm / 1000-bootstrap / CSCV PBO k=4 / BH-FDR / DSR, pre-registers
+`EVAL_46_PREREGISTRATION_*`, seals `EVAL_46_*`, and passes
+`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T02:22:38Z-EVAL-46-INTEGRATED-OPTIONS-ORDERFLOW-NET-OF-COST-FALSIFY-AND-SEAL" --glob "EVAL_46_*"`.
+This is mandatory heavy work: a NO-OP, handoff-only, pillar-re-run, or data-acquisition session is a
+failed session. **EVAL-47 (ETH options net-of-cost) is the queued follow-on rung.**
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
@@ -67,7 +74,12 @@ is **not net-of-cost tradable** on the available real BTC/OKX data. EVAL-37 post
 sealed **PASS 9/9**. EVAL-41/42 sealed the BTC options pillar closed; EVAL-43 sealed the BTC orderflow
 pillar closed across the full roster (`NO-GO CONFIRMED (PASS)`,
 `research_state/EVAL_43_ORDERFLOW_FULL_ROSTER_META_20261114T224516Z.{json,md}`). EVAL-44 sealed
-BTC-scoped `CAMPAIGN_CLOSED`. **EVAL-45 (this session)** measured ETH: orderflow `NO-GO CONFIRMED (PASS)`
+BTC-scoped `CAMPAIGN_CLOSED`. EVAL-45 measured ETH: orderflow `NO-GO CONFIRMED (PASS)`
 (5 disjoint real ETH tapes / 172,100 trades; 3/5 positive Sharpe but 2 kill-switch breaches →
-replicates BTC), options `BLOCKED` (no real ETH option series). **The ETH options pillar remains OPEN:
-EVAL-46 is the active mandatory rung** — see `research_state/durable_handoff.md`.
+replicates BTC), options `BLOCKED` (no real ETH option series). **The combined (fused) options+orderflow
+strategy — the repo's core thesis — has NOT been rigorously tested on dense real data (EVAL-18 was
+static/degenerate; EVAL-31 used 3 snapshots with permutation p=0.768 / PBO=0.75). EVAL-46 is the active
+mandatory rung**: integrate the 101 dense BTC option snapshots with the real BTC orderflow signal under
+≥3 pre-registered fusion rules, run the full-tape net-of-cost walk-forward with the full stat battery,
+and seal `EVAL_46_*`. All inputs are already on disk (no network). ETH options is the queued EVAL-47
+follow-on rung — see `research_state/durable_handoff.md`.
