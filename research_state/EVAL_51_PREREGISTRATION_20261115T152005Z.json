@@ -1,0 +1,57 @@
+{
+  "prereg_id": "EVAL_51_PREREGISTRATION",
+  "generated_at": "2026-11-15T15:20:05Z",
+  "task": "EVAL-51-OPTIONS-ORDERFLOW-NET-OF-COST",
+  "hypothesis": "Signed options order flow on real Deribit option trades carries net-of-cost tradable alpha for the underlying BTC/ETH perpetual.",
+  "protocol": {
+    "eval": "EVAL-51",
+    "title": "Real Deribit options order flow net-of-cost falsification",
+    "capture_dir": "data/raw/eval51",
+    "signals": [
+      "imbalance",
+      "notional_imbalance",
+      "call_minus_put"
+    ],
+    "bar_seconds_grid": [
+      5.0,
+      15.0
+    ],
+    "zwindow": 20,
+    "z_clamp": 2.0,
+    "cost_bps": 5.0,
+    "cost_model": "net-of-cost: pre-registered conservative Deribit perp taker + impact bps on turnover",
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, and bootstrap 95% CI lower > 0; else NO-GO.",
+    "floor": {
+      "min_option_trades_per_underlying": 2000,
+      "min_bars_per_underlying": 240,
+      "min_instruments_per_underlying": 50,
+      "min_span_seconds_per_underlying": 79200.0,
+      "min_underlyings": 2
+    }
+  },
+  "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, and bootstrap 95% CI lower > 0; else NO-GO.",
+  "floor": {
+    "min_option_trades_per_underlying": 2000,
+    "min_bars_per_underlying": 240,
+    "min_instruments_per_underlying": 50,
+    "min_span_seconds_per_underlying": 79200.0,
+    "min_underlyings": 2
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval51"
+}

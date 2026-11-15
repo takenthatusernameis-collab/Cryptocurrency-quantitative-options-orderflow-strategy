@@ -1,0 +1,46 @@
+{
+  "manifest_id": "EVAL_51_OPTIONS_ORDERFLOW_ACQUISITION",
+  "task_id": "INIT-2026-11-15T15:18:43Z-EVAL-51-OPTIONS-ORDERFLOW-NET-OF-COST",
+  "generated_at": "2026-11-15T15:18:43Z",
+  "schema": "deribit_options_orderflow_capture_v1",
+  "venue": "deribit",
+  "window_start": "2026-11-14T15:18:43Z",
+  "window_end": "2026-11-15T15:18:43Z",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "total_option_trades": 8776,
+  "captures": {
+    "BTC": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval51/options_orderflow_BTC_20261115T151843Z.json",
+      "sha256": "2bc2dc944c73d5fa0f57bda472dc6d058e54f4317a1c68118822ce58d7605963",
+      "underlying": "BTC",
+      "n_option_trades": 5347,
+      "n_instruments_with_trades": 98,
+      "n_distinct_strikes": 11,
+      "n_buy": 2950,
+      "n_sell": 2397,
+      "notional": 1563727219.9710047,
+      "span_seconds": 86010.458,
+      "n_perp_candles": 289,
+      "non_degenerate": true
+    },
+    "ETH": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval51/options_orderflow_ETH_20261115T151843Z.json",
+      "sha256": "b432cb390f49033c8863127cee4ea875f90a3611be642a867c41dd3eee97f185",
+      "underlying": "ETH",
+      "n_option_trades": 3429,
+      "n_instruments_with_trades": 102,
+      "n_distinct_strikes": 15,
+      "n_buy": 1816,
+      "n_sell": 1613,
+      "notional": 130985131.61999968,
+      "span_seconds": 86380.971,
+      "n_perp_candles": 289,
+      "non_degenerate": true
+    }
+  },
+  "synthetic": false,
+  "provenance": "real Deribit public options trades + perpetual candles; no synthetic data"
+}
