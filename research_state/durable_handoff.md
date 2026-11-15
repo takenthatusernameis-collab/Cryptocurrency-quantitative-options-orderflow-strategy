@@ -24,7 +24,7 @@ strategy; net-of-cost evaluation). The options greeks ladder is delta (EVAL-54, 
 far-expiry ATM straddle at a common strike), delta-hedged, P&L net of execution costs** on real Deribit
 BTC+ETH — the one options combination not yet measured.
 
-**TASK `INIT-2026-11-15T18:06:00Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`.**
+**TASK `INIT-2026-11-15T18:08:08Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`.**
 
 EVAL-56 is a fresh, pre-registered, heavy real-data falsification: real Deribit options vol-surface /
 greeks → **term-structure calendar-spread** P&L net of bid-ask spread and execution fees on **BTC and
@@ -95,8 +95,8 @@ step 8 exits 0.**
 7. **Seal gate — session FAILS unless a window acquisition AND a floor-passing combined verdict exist
    with stamp ≥ task timestamp:**
    ```bash
-   python3 scripts/check_session_sealed.py \
-       --task-id "INIT-2026-11-15T18:06:00Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL" \
+    python3 scripts/check_session_sealed.py \
+        --task-id "INIT-2026-11-15T18:08:08Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL" \
        --glob "EVAL_56_SYNCHRONIZED_ACQUISITION_*" \
        --require-glob "EVAL_56_PREREGISTRATION_*" \
        --require-glob "EVAL_56_COMBINED_*"
@@ -110,7 +110,7 @@ step 8 exits 0.**
 
 **Definition of done:** step 7 exits `0` with `EVAL_56_SYNCHRONIZED_ACQUISITION_<UTC>`,
 `EVAL_56_PREREGISTRATION_<UTC>` (pre-verdict), and a floor-passing `EVAL_56_COMBINED_<UTC>` (verdict
-`GO CONFIRMED` or `NO-GO CONFIRMED (PASS)`) all stamped ≥ `2026-11-15T18:06:00Z`. A handoff-only
+`GO CONFIRMED` or `NO-GO CONFIRMED (PASS)`) all stamped ≥ `2026-11-15T18:08:08Z`. A handoff-only
 session, re-run/re-seal of EVAL-02..55, full-test-suite discovery loop, `research_state/` enumeration,
 or `EVAL_56_BLOCKED_*` in place of a floor-passing combined verdict are **all failures**.
 
@@ -138,7 +138,7 @@ look-ahead, floor-aligned grid) → pre-register `EVAL_56_PREREGISTRATION_*` BEF
 substitute) → pass seal gate. No prior-EVAL re-runs/re-seals, no `research_state/` enumeration, no
 full test suite, no handoff-only session.
 
-## BOTTLENECKS — CLEARED / REMAINING (verified 2026-11-15T18:06:00Z)
+## BOTTLENECKS — CLEARED / REMAINING (verified 2026-11-15T18:08:08Z)
 1. **CLEARED (this session):** EVAL-55 heavy real work complete — tooling built (`scripts/eval55_acquire_options_surface.py`,
    `scripts/eval55_gamma_hedged_net_of_cost.py`, `tests/test_eval55_gamma_hedged_net_of_cost.py`, 10 tests pass),
    acquisition `EVAL_55_SYNCHRONIZED_ACQUISITION_20261115T180300Z`, prereg `EVAL_55_PREREGISTRATION_20261115T180500Z`,
@@ -150,7 +150,8 @@ full test suite, no handoff-only session.
 4. **CLEARED:** env ready — `.venv-deps/` present; `./scripts/verify_env.sh --check` exit 0; `.env` absent;
    `LIVE_TRADING_ENABLED` unset/false.
 5. **CLEARED:** `scripts/check_session_sealed.py` supports `--glob` + repeatable `--require-glob` (AND); the EVAL-56
-   gate is executable as written in step 7.
+   gate is executable as written in step 7 (verified 2026-11-15T18:08:08Z: `--glob`, `--require-glob` append
+   flags present).
 6. **CLEARED:** EVAL-55 acquisition/measurement code is a proven, working template for EVAL-56 — reuse it via
    copy-and-retarget (do not edit it). The gamma-scalp measurement already walks the real 5m surface snapshots
    causally and backs IV/greeks out of real marks; EVAL-56 only changes the book to a two-expiry calendar spread.
@@ -311,3 +312,16 @@ sealed artifact. Final responses must not ask follow-up questions.
   viable two-expiry common-strike term-structure leg, pre-register (prereg-only) BEFORE measuring, measure
   the calendar-spread net-of-cost P&L, seal acquisition+prereg+combined verdict, and pass the gate; no other
   task valid.
+- **2026-11-15T18:08:08Z (this session — handoff verified, timestamp refreshed, no new seal):**
+  independently verified (a) `./scripts/verify_env.sh --check` exit 0 (env green, `.env` absent, sealed
+  EVAL-37/36 tests pass), (b) `scripts/check_session_sealed.py` supports `--glob` + repeatable
+  `--require-glob` (AND) so the step-7 EVAL-56 gate is executable verbatim, (c) EVAL-55 fully sealed
+  (`EVAL_55_SYNCHRONIZED_ACQUISITION_20261115T180300Z`, `EVAL_55_PREREGISTRATION_20261115T180500Z`/
+  `180515Z`, `EVAL_55_COMBINED_20261115T180515Z` — NO-GO CONFIRMED (PASS)), (d) EVAL-55 tooling + capture
+  `data/raw/eval55/` present and reusable as the copy-and-retarget template, (e) EVAL-56 tooling absent
+  (`scripts/eval56_*`, `tests/test_eval56_*`) — the only remaining bottleneck. The authoritative EVAL-56
+  task is unchanged in scope/floor/gate; refreshed to **`INIT-2026-11-15T18:08:08Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`**
+  (stamp ≥ `2026-11-15T18:08:08Z`). Next session must build EVAL-56 tooling, then run the heavy real
+  synchronized Deribit BTC+ETH acquisition meeting the per-underlying floor + viable two-expiry
+  common-strike term-structure leg, prereg BEFORE measuring, measure the calendar-spread net-of-cost P&L,
+  seal acquisition+prereg+combined verdict, and pass the step-7 gate; no other task valid.
