@@ -1,9 +1,9 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-**INITIAL TASK MESSAGE (inferred timestamped 2026-11-15T10:56:11Z UTC, authoritative for next session) — TASK ID `INIT-2026-11-15T10:56:11Z-EVAL-50-L2-OFI-NET-OF-COST-DE-RISK-ACQUIRE-AND-SEAL`**
+**INITIAL TASK MESSAGE (inferred timestamped 2026-11-15T11:03:55Z UTC, authoritative for next session) — TASK ID `INIT-2026-11-15T11:03:55Z-EVAL-50-L2-OFI-NET-OF-COST-DE-RISK-ACQUIRE-AND-SEAL`**
 **SCOPE (repo-charter priority: `Cryptocurrency-quantitative-options-orderflow-strategy` = combined options+orderflow):** EVAL-50 — Real L2 order-book OFI campaign. All four combined options+orderflow venue/asset cells are now sealed **NO-GO CONFIRMED (PASS)**: **EVAL-46 BTC/OKX** (`EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z`), **EVAL-47 ETH/OKX** (`EVAL_47_ETH_COMBINED_20261115T071330Z`), **EVAL-48 BTC Deribit-cross-venue** (`EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z`), **EVAL-49 ETH Deribit-cross-venue** (`EVAL_49_ETH_CROSS_VENUE_COMBINED_20261115T101149Z`, seal gate exit 0, 109 Deribit ETH snapshots × 5 ETH tapes × 3 rules, all NO-GO; pooled PBO ~0.6x; BH-FDR rejected nothing). The fused options+orderflow thesis is **not net-of-cost tradable on real BTC or real ETH, OKX or Deribit options venues**. **EVAL-50 is the queued follow-on rung and is now ACTIVE/MANDATORY:** acquire real L2 order-book depth (new network acquisition — the de-risk blocker), test book-imbalance (OFI) alpha net-of-cost under a pre-registered bar, full-tape walk-forward, full stat battery, seal `EVAL_50_*`. **THIS IS THE ONLY TASK. NO NO-OP. NO HANDOFF-ONLY SESSION. NO PRIOR-EVAL RE-RUN. NO PARTIAL/UNSEALED PROGRESS CLAIM. EITHER SEAL `EVAL_50_*` (or a documented, measured `EVAL_50_BLOCKED_*`) AND PASS THE SEAL GATE, OR THE SESSION FAILS.**
 
-**BOTTLENECKS ELIMINATED / MEASURED STATE (2026-11-15T10:56:11Z re-verified this session; all prior evals sealed; env + tooling READY on disk):**
+**BOTTLENECKS ELIMINATED / MEASURED STATE (2026-11-15T11:03:55Z re-verified this session; all prior evals sealed; env + tooling READY on disk):**
 - **EVAL-46 SEALED (DONE 2026-11-15T041621Z):** BTC/OKX combined **NO-GO CONFIRMED (PASS)** at `research_state/EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z.{json,md}` (prereg `EVAL_46_PREREGISTRATION_20261115T041621Z`). 101 BTC snapshots × 2 real OKX BTC tapes × 3 rules, all NO-GO; pooled PBO 0.833; BH-FDR rejected nothing. Never re-run. `scripts/eval46_integrated_options_orderflow_audit.py` is the reusable template. Do not edit sealed eval41/42/43/46/47/48/49 or any `src/` module.
 - **EVAL-47 SEALED (DONE 2026-11-15T07:13:30Z):** ETH/OKX combined **NO-GO CONFIRMED (PASS)** at `research_state/EVAL_47_ETH_COMBINED_20261115T071330Z.{json,md}` (prereg `EVAL_47_PREREGISTRATION_20261115T071330Z`; gate exit 0). Never re-run.
 - **EVAL-48 SEALED (DONE 2026-11-15T08:19:51Z):** BTC cross-venue (Deribit options + OKX BTC orderflow) **NO-GO CONFIRMED (PASS)** at `research_state/EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z.{json,md}` (prereg `EVAL_48_PREREGISTRATION_20261115T081951Z`; acquisition `EVAL_48_DERIBIT_ACQUISITION_20261115T081709Z`; gate exit 0). 133 Deribit BTC snapshots × 2 OKX BTC tapes × 3 rules, all NO-GO; pooled PBO 0.667; BH-FDR rejected 5 configs. Never re-run.
@@ -16,7 +16,7 @@
 1. **Env/readiness:** `.env` absent; `LIVE_TRADING_ENABLED` unset/false. If `.venv-deps/` absent, `./scripts/verify_env.sh` then `--check` must PASS. Then `export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"`.
 2. **DE-RISK L2 DEPTH ACQUISITION (the EVAL-50 blocker — heavy, real network):** EVAL-50 requires real L2 order-book depth data that does not yet exist on disk. De-risk by acquiring a small real L2 depth sample from a public venue (read-only, polite rate limiting) into a temp dir, confirming the loader returns a non-degenerate book-imbalance/OFI signal, and documenting the exact acquisition command, venue, depth levels, and window. No `research_state/` verdict yet — this is acquisition de-risk only. Confirm a usable depth stream before arming the full campaign.
 3. **BUILD + RUN EVAL-50 (the mandatory deliverable):** build `scripts/eval50_l2_ofi_net_of_cost.py` (a thin consumer of `src/` analytics/backtest modules — no `phaseNN_*` wrapper) that: loads real L2 depth tapes, computes book-imbalance/OFI alpha, runs full-tape net-of-cost walk-forward (OFI alpha + flat control), full stat battery (1000-perm paired / 1000-resample block bootstrap block=2 / CSCV PBO k=4 / BH-FDR alpha 0.1 / DSR, seed 42), pre-registers `EVAL_50_PREREGISTRATION_<UTC>.{json,md}` BEFORE measurement, and seals `EVAL_50_L2_OFI_COMBINED_<UTC>.{json,md}` (or `EVAL_50_BLOCKED_<UTC>` on error).
-4. **Seal gate:** `python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T10:56:11Z-EVAL-50-L2-OFI-NET-OF-COST-DE-RISK-ACQUIRE-AND-SEAL" --glob "EVAL_50_*"` must PASS (exit 0; artifact stamp ≥ 20261115T105611Z).
+4. **Seal gate:** `python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T11:03:55Z-EVAL-50-L2-OFI-NET-OF-COST-DE-RISK-ACQUIRE-AND-SEAL" --glob "EVAL_50_*"` must PASS (exit 0; artifact stamp ≥ 20261115T110355Z).
 
 **A SESSION THAT DOES NOT COMPLETE ALL STEPS AND SEAL THE REQUIRED `EVAL_50_*` ARTIFACTS IS A FAILED SESSION — NO EXCEPTIONS, NO ESCAPE HATCH.**
 
@@ -42,7 +42,7 @@
 - **EVAL-50 (ACTIVE, mandatory):** Real L2 order-book OFI campaign — acquire depth (new data; de-risk acquisition first), test book-imbalance alpha net-of-cost, full stats, seal `EVAL_50_*`. **Run the depth de-risk then build/run EVAL-50, then pass the seal gate.**
 - Campaign re-closes only when every rung seals; until then there is always a next heavy rung.
 
-**BOTTLENECKS (verified 2026-11-15T10:56:11Z — EVAL-46/47/48/49 ALL SEALED; ALL PRIOR EXECUTION BOTTLENECKS CLEARED; EVAL-50 EXECUTION REMAINS):**
+**BOTTLENECKS (verified 2026-11-15T11:03:55Z — EVAL-46/47/48/49 ALL SEALED; ALL PRIOR EXECUTION BOTTLENECKS CLEARED; EVAL-50 EXECUTION REMAINS):**
 1. **CLEARED — EVAL-46 sealed NO-GO CONFIRMED (PASS):** BTC/OKX combined not net-of-cost tradable.
 2. **CLEARED — EVAL-47 sealed NO-GO CONFIRMED (PASS):** ETH/OKX combined not net-of-cost tradable.
 3. **CLEARED — EVAL-48 sealed NO-GO CONFIRMED (PASS):** BTC Deribit-cross-venue combined not net-of-cost tradable.
@@ -127,7 +127,7 @@ Pre-declared bar: GO only if Sharpe > 0 on ≥3/5 tapes AND no kill-switch breac
 ## PER-SESSION CONTRACT
 A session is complete only when a sealed `EVAL_50_*` artifact (or a documented `EVAL_50_BLOCKED_*`) exists and the seal gate passes for task `INIT-2026-11-15T10:56:11Z-EVAL-50-L2-OFI-NET-OF-COST-DE-RISK-ACQUIRE-AND-SEAL`. NO-GO keeps the BTC/ETH combined closures (EVAL-46/EVAL-47/EVAL-48/EVAL-49) in force; a GO requires sealed verifying evidence plus a pre-registered out-of-sample replication campaign. No NO-OP sessions, no pillar re-runs, no handoff-only progress claims.
 
-## CURRENT MEASURED STATE (ground truth, re-verified 2026-11-15T10:56:11Z)
+## CURRENT MEASURED STATE (ground truth, re-verified 2026-11-15T11:03:55Z)
 - **EVAL-02..49 sealed** (immutable). **EVAL-36:** `TERMINATE_NO_GO`. **EVAL-37:** `PASS 9/9`. **EVAL-44 (BTC-scoped):** `CAMPAIGN_CLOSED`.
 - **EVAL-45:** ETH orderflow **NO-GO CONFIRMED (PASS)** (`EVAL_45_ETH_ORDERFLOW_META_20261115T012707Z`), ETH options **BLOCKED** (`EVAL_45_OPTIONS_ETH_BLOCKED_20261115T012906Z`), acquisition `EVAL_45_ETH_TAPE_ACQUISITION_20261115T012656Z`.
 - **EVAL-46:** BTC/OKX combined **NO-GO CONFIRMED (PASS)** (`EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z`) — not net-of-cost tradable on dense real BTC.
