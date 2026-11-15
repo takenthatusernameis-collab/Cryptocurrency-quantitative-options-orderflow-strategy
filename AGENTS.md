@@ -38,7 +38,7 @@ tapes / 172,100 trades) and ETH options `BLOCKED` (no real ETH option series,
 `EVAL_45_OPTIONS_ETH_BLOCKED_20261115T012906Z`). **Next required task is EVAL-46 — the
 INTEGRATED (fused) options+orderflow net-of-cost falsification on the FULL dense real BTC dataset**
 (see `research_state/durable_handoff.md`,
-task `INIT-2026-11-15T02:22:38Z-EVAL-46-INTEGRATED-OPTIONS-ORDERFLOW-NET-OF-COST-FALSIFY-AND-SEAL`):
+task `INIT-2026-11-15T02:30:24Z-EVAL-46-INTEGRATED-OPTIONS-ORDERFLOW-NET-OF-COST-FALSIFY-AND-SEAL`):
 this is the repo's **core thesis** (a combined options+orderflow strategy), the single largest
 untested gap (EVAL-18 static/degenerate; EVAL-31 3-snapshot weak stats), and it needs **zero new
 data** — all inputs are on disk (101 BTC option snapshots `data/raw/options_candles/` +
@@ -50,8 +50,12 @@ orderflow signal (`_causal_signal_series` + `_toxicities_per_bar`) under ≥3 pr
 rules, runs the full-tape net-of-cost walk-forward (combined vs options-only vs orderflow-only vs
 flat), computes 1000-perm / 1000-bootstrap / CSCV PBO k=4 / BH-FDR / DSR, pre-registers
 `EVAL_46_PREREGISTRATION_*`, seals `EVAL_46_*`, and passes
-`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T02:22:38Z-EVAL-46-INTEGRATED-OPTIONS-ORDERFLOW-NET-OF-COST-FALSIFY-AND-SEAL" --glob "EVAL_46_*"`.
-This is mandatory heavy work: a NO-OP, handoff-only, pillar-re-run, or data-acquisition session is a
+`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T02:30:24Z-EVAL-46-INTEGRATED-OPTIONS-ORDERFLOW-NET-OF-COST-FALSIFY-AND-SEAL" --glob "EVAL_46_*"`.
+Pipeline is de-risked (smoke-tested 2026-11-15T02:30:24Z): 101 snapshots/26 levels align to both
+tapes, `_causal_signal_series` ~110 s/tape, `_run_walkforward` 0.04 s; `load_real_orderflow` +
+`IntegratedConfig` live in `src/campaign/integrated.py` (call `orderflow_path=` keyword); fusion
+rule (a) `_fuse_positions` exists, rules (b) regime filter and (c) continuous z-score go in the
+wrapper. This is mandatory heavy work: a NO-OP, handoff-only, pillar-re-run, or data-acquisition session is a
 failed session. **EVAL-47 (ETH options net-of-cost) is the queued follow-on rung.**
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
