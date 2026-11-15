@@ -43,7 +43,7 @@ fusion rules, all NO-GO; pooled PBO 0.833; BH-FDR rejected nothing). The fused o
 strategy is **not net-of-cost tradable on dense real BTC**. **Next required task is EVAL-47 — the ETH
 COMBINED (fused) options+orderflow net-of-cost cross-asset replication** (see
 `research_state/durable_handoff.md`, task
-`INIT-2026-11-15T04:18:47Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL`):
+`INIT-2026-11-15T06:12:24Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL`):
 this is the natural cross-asset replication of EVAL-46 (does the combined thesis work on ETH?),
 and it needs **new data** — the 5 ETH orderflow tapes are git-ignored and were wiped on a reset
 (re-acquire with cursor chaining from the trade-id ranges in
@@ -56,7 +56,9 @@ via a bit-identical bisect fast signal; accepts `symbol`, `OPTIONS_DIR`, 3 fusio
 full stat battery, seal) — parametrize `symbol="ETH"` + an ETH options dir or thin-wrap it (do NOT edit
 sealed eval41/42/43/46 or any `src/` module). Pre-register `EVAL_47_PREREGISTRATION_*`, seal
 `EVAL_47_*`, and pass
-`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T04:18:47Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_47_*"`.
+`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T06:12:24Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_47_*"`.
+ETH data is on disk and git-tracked in `data/raw/eval45/` (5 orderflow tapes, 207,600 trades; 201
+option snapshots) — use it (no re-acquisition/backfill required unless alignment proves insufficient).
 This is mandatory heavy work: a NO-OP, handoff-only, BTC re-run, or partial/unsealed session is a
 failed session. **EVAL-48 (cross-venue) and EVAL-49 (L2 OFI) are the queued follow-on rungs.**
 
