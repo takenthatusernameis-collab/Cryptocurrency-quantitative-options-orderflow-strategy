@@ -2,6 +2,10 @@
 
 ## AUTHORITATIVE INITIAL TASK (do this next; no other task is valid until it is done)
 
+================================================================================
+>>> NEXT SESSION STARTS HERE — EXECUTE THIS TASK IN ORDER, NO EXCEPTIONS <<<
+================================================================================
+
 **EVAL-53 IS SEALED AND COMPLETE (do not re-run):** `NO-GO CONFIRMED (PASS)` at
 `research_state/EVAL_53_CROSS_WINDOW_COMBINED_20261115T171712Z.{json,md}` (prereg
 `EVAL_53_PREREGISTRATION_20261115T171210Z`; window-B acquisition
