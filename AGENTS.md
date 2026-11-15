@@ -43,7 +43,7 @@ this is the repo's **core thesis** (a combined options+orderflow strategy), the 
 untested gap (EVAL-18 static/degenerate; EVAL-31 3-snapshot weak stats), and it needs **zero new
 data** — all inputs are on disk (101 BTC option snapshots `data/raw/options_candles/` +
 overlapping BTC orderflow tapes `data/raw/eval41/orderflow_okx_BTC-USD-SWAP.json` and
-`data/raw/orderflow_okx_BTC-USD-SWAP.json`). Build a thin
+`data/raw/eval41/orderflow_okx_BTC-USD-SWAP_midday_20261114T090522Z.json`). Build a thin
 `scripts/eval46_integrated_options_orderflow_audit.py` (do NOT edit sealed eval41/42/43) that
 fuses the dense options signal (`load_snapshot_signals` + `align_options_signal_to_bars`) with the
 orderflow signal (`_causal_signal_series` + `_toxicities_per_bar`) under ≥3 pre-registered fusion
