@@ -1,0 +1,84 @@
+{
+  "prereg_id": "EVAL_56_PREREGISTRATION",
+  "generated_at": "2026-11-15T19:00:16Z",
+  "task": "EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH",
+  "hypothesis": "A real Deribit options vol-surface/greeks term-structure calendar spread (long near-expiry ATM straddle / short far-expiry ATM straddle at a common strike, delta-hedged in the perpetual) is net-of-cost tradable for the underlying BTC/ETH perpetual on real, synchronized Deribit data.",
+  "protocol": {
+    "eval": "EVAL-56",
+    "title": "Real Deribit options vol-surface / greeks term-structure calendar-spread net-of-cost falsification",
+    "capture_dir": "data/raw/eval56",
+    "surface_to_greeks": "per real 5m snapshot & near/far expiry pair at a common strike nearest spot: IV backed out of each real mark (implied_volatility(mark*spot, spot, K, 0, T, type)); delta/gamma from black_scholes_greeks at that IV",
+    "structures": [
+      "long_near_short_far_straddle"
+    ],
+    "expiry_pairs": [
+      [
+        0,
+        1
+      ]
+    ],
+    "rebalance_choices": [
+      1,
+      2
+    ],
+    "bar_seconds_grid": [
+      300.0
+    ],
+    "cost_model": "net-of-cost: hedge turnover HEDGE_FEE_BPS on |\u0394hedge|*S; each of the 4 calendar legs pays half its real bid/ask at entry and half at exit",
+    "hedge_fee_bps": 5.0,
+    "option_spread": "each of the 4 calendar legs pays half its real bid/ask at entry and half at exit (long and short legs both charged the round-trip spread)",
+    "pnl": "dOption_k = (near_price_{k+1} - near_price_k) - (far_price_{k+1} - far_price_k); gross_k = dOption_k + hedge_k*dS_k (hedge = -net_position_delta); ret_k = (gross_k - cost_k)/S_k; decision at bar k -> outcome over [k,k+1] (causal)",
+    "common_strike_rule": "nearest-to-spot strike quoted call+put in BOTH near & far expiry; fallback nearest common strike across the two; else config invalid",
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, bootstrap 95% CI lower > 0, and pooled PBO < 0.5; else NO-GO.",
+    "floor": {
+      "min_surface_snapshots_per_underlying": 100,
+      "min_bars_per_underlying": 240,
+      "min_instruments_per_underlying": 50,
+      "min_option_trades_per_underlying": 2000,
+      "min_span_seconds_per_underlying": 79200.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2,
+      "term_structure_min_expiries": 2,
+      "term_structure_min_snapshots_per_expiry": 100
+    },
+    "code_paths": [
+      "src/features/options_pricing.py",
+      "src/analytics/integrated_options_orderflow_evaluation.py",
+      "src/analytics/real_walkforward_certification.py",
+      "src/analytics/strategy_evaluation.py",
+      "scripts/eval48_acquire_deribit_options.py",
+      "scripts/eval51_acquire_options_orderflow.py",
+      "scripts/eval52_acquire_synchronized_options.py",
+      "scripts/eval55_acquire_options_surface.py",
+      "scripts/eval55_gamma_hedged_net_of_cost.py",
+      "scripts/eval56_acquire_options_surface.py",
+      "scripts/eval56_term_structure_calendar_net_of_cost.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval56_acquire_options_surface.py scripts/eval56_term_structure_calendar_net_of_cost.py tests/test_eval56_term_structure_calendar_net_of_cost.py",
+      "python3 -m pytest -q tests/test_eval56_term_structure_calendar_net_of_cost.py",
+      "python3 scripts/eval56_acquire_options_surface.py --underlying BTC --underlying ETH --days 1 --out-dir data/raw/eval56 --seal",
+      "python3 scripts/eval56_term_structure_calendar_net_of_cost.py --prereg-only",
+      "python3 scripts/eval56_term_structure_calendar_net_of_cost.py --no-write",
+      "python3 scripts/eval56_term_structure_calendar_net_of_cost.py"
+    ]
+  },
+  "capture_dir": "data/raw/eval56"
+}

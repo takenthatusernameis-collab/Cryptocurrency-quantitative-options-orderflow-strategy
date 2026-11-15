@@ -1,0 +1,441 @@
+{
+  "report_id": "EVAL_56_COMBINED",
+  "generated_at": "2026-11-15T19:01:26Z",
+  "task": "EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "real Deribit options vol-surface/greeks term-structure calendar-spread net-of-cost falsification",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval56",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_surface_snapshots_per_underlying": 100,
+    "min_bars_per_underlying": 240,
+    "min_instruments_per_underlying": 50,
+    "min_option_trades_per_underlying": 2000,
+    "min_span_seconds_per_underlying": 79200.0,
+    "min_common_bars_per_underlying": 240,
+    "min_underlyings": 2,
+    "term_structure_min_expiries": 2,
+    "term_structure_min_snapshots_per_expiry": 100
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_surface_snapshots": 289,
+      "n_surface_instruments": 102,
+      "n_surface_bars_5m": 289,
+      "n_option_trades": 4271,
+      "n_of_instruments": 98,
+      "of_span_seconds": 86175.83,
+      "n_of_bars_5m": 287,
+      "n_common_bars_5m": 287,
+      "n_viable_expiries": 8,
+      "viable_expiries": [
+        "2026-11-15",
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-20",
+        "2026-11-27",
+        "2026-12-04",
+        "2026-12-25"
+      ],
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "common_overlap_ok": true,
+        "term_structure_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_surface_snapshots": 289,
+      "n_surface_instruments": 103,
+      "n_surface_bars_5m": 289,
+      "n_option_trades": 2928,
+      "n_of_instruments": 101,
+      "of_span_seconds": 86293.212,
+      "n_of_bars_5m": 287,
+      "n_common_bars_5m": 288,
+      "n_viable_expiries": 8,
+      "viable_expiries": [
+        "2026-11-15",
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-20",
+        "2026-11-27",
+        "2026-12-04",
+        "2026-12-25"
+      ],
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "common_overlap_ok": true,
+        "term_structure_ok": true
+      },
+      "ok": true
+    }
+  },
+  "protocol": {
+    "eval": "EVAL-56",
+    "title": "Real Deribit options vol-surface / greeks term-structure calendar-spread net-of-cost falsification",
+    "capture_dir": "data/raw/eval56",
+    "surface_to_greeks": "per real 5m snapshot & near/far expiry pair at a common strike nearest spot: IV backed out of each real mark (implied_volatility(mark*spot, spot, K, 0, T, type)); delta/gamma from black_scholes_greeks at that IV",
+    "structures": [
+      "long_near_short_far_straddle"
+    ],
+    "expiry_pairs": [
+      [
+        0,
+        1
+      ]
+    ],
+    "rebalance_choices": [
+      1,
+      2
+    ],
+    "bar_seconds_grid": [
+      300.0
+    ],
+    "cost_model": "net-of-cost: hedge turnover HEDGE_FEE_BPS on |\u0394hedge|*S; each of the 4 calendar legs pays half its real bid/ask at entry and half at exit",
+    "hedge_fee_bps": 5.0,
+    "option_spread": "each of the 4 calendar legs pays half its real bid/ask at entry and half at exit (long and short legs both charged the round-trip spread)",
+    "pnl": "dOption_k = (near_price_{k+1} - near_price_k) - (far_price_{k+1} - far_price_k); gross_k = dOption_k + hedge_k*dS_k (hedge = -net_position_delta); ret_k = (gross_k - cost_k)/S_k; decision at bar k -> outcome over [k,k+1] (causal)",
+    "common_strike_rule": "nearest-to-spot strike quoted call+put in BOTH near & far expiry; fallback nearest common strike across the two; else config invalid",
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, bootstrap 95% CI lower > 0, and pooled PBO < 0.5; else NO-GO.",
+    "floor": {
+      "min_surface_snapshots_per_underlying": 100,
+      "min_bars_per_underlying": 240,
+      "min_instruments_per_underlying": 50,
+      "min_option_trades_per_underlying": 2000,
+      "min_span_seconds_per_underlying": 79200.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2,
+      "term_structure_min_expiries": 2,
+      "term_structure_min_snapshots_per_expiry": 100
+    },
+    "code_paths": [
+      "src/features/options_pricing.py",
+      "src/analytics/integrated_options_orderflow_evaluation.py",
+      "src/analytics/real_walkforward_certification.py",
+      "src/analytics/strategy_evaluation.py",
+      "scripts/eval48_acquire_deribit_options.py",
+      "scripts/eval51_acquire_options_orderflow.py",
+      "scripts/eval52_acquire_synchronized_options.py",
+      "scripts/eval55_acquire_options_surface.py",
+      "scripts/eval55_gamma_hedged_net_of_cost.py",
+      "scripts/eval56_acquire_options_surface.py",
+      "scripts/eval56_term_structure_calendar_net_of_cost.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval56_acquire_options_surface.py scripts/eval56_term_structure_calendar_net_of_cost.py tests/test_eval56_term_structure_calendar_net_of_cost.py",
+      "python3 -m pytest -q tests/test_eval56_term_structure_calendar_net_of_cost.py",
+      "python3 scripts/eval56_acquire_options_surface.py --underlying BTC --underlying ETH --days 1 --out-dir data/raw/eval56 --seal",
+      "python3 scripts/eval56_term_structure_calendar_net_of_cost.py --prereg-only",
+      "python3 scripts/eval56_term_structure_calendar_net_of_cost.py --no-write",
+      "python3 scripts/eval56_term_structure_calendar_net_of_cost.py"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "structure": "long_near_short_far_straddle",
+      "near": "2026-11-15",
+      "far": "2026-11-16",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 60,
+      "median_iv": 0.7975778637150988,
+      "n_hedge_rebalances": 59,
+      "strike": 65500.0,
+      "realized_gamma_capture_usd": 165.51568536961238,
+      "total_premium_usd": -466.0156000000002,
+      "gamma_capture_over_premium": 0.0,
+      "entry_spread_usd": 25.53240400000014,
+      "exit_spread_usd": 36.54925499999996,
+      "valid": true,
+      "n_returns": 59,
+      "nonzero_returns": 59,
+      "sharpe": -0.18039784192318936,
+      "max_drawdown": 0.031006683242025157,
+      "kill_switch_breach": false,
+      "permutation_p": 0.938061938061938,
+      "bootstrap_ci": [
+        -0.18039784192318936,
+        -4.698092183325674,
+        3.7437841741617435
+      ],
+      "dsr": 0.916717488378837,
+      "walkforward": [
+        {
+          "test_start": 19,
+          "test_end": 30,
+          "oos_sharpe": -8.213239000906427,
+          "oos_max_drawdown": 0.02695924543080863,
+          "n": 11
+        },
+        {
+          "test_start": 30,
+          "test_end": 41,
+          "oos_sharpe": 6.849980421812399,
+          "oos_max_drawdown": 0.005012832159719569,
+          "n": 11
+        },
+        {
+          "test_start": 41,
+          "test_end": 52,
+          "oos_sharpe": -4.314607027878886,
+          "oos_max_drawdown": 0.019271150189931197,
+          "n": 11
+        }
+      ],
+      "mean_return": -5.2657145827815875e-05,
+      "total_return": -0.0037308837679808082,
+      "pass": false,
+      "config_key": "BTC::long_near_short_far_straddle::2026-11-15->2026-11-16::reb1"
+    },
+    {
+      "underlying": "BTC",
+      "structure": "long_near_short_far_straddle",
+      "near": "2026-11-15",
+      "far": "2026-11-16",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 60,
+      "median_iv": 0.7975778637150988,
+      "n_hedge_rebalances": 30,
+      "strike": 65500.0,
+      "realized_gamma_capture_usd": 165.51568536961238,
+      "total_premium_usd": -466.0156000000002,
+      "gamma_capture_over_premium": 0.0,
+      "entry_spread_usd": 25.53240400000014,
+      "exit_spread_usd": 36.54925499999996,
+      "valid": true,
+      "n_returns": 59,
+      "nonzero_returns": 59,
+      "sharpe": -0.12027318382697472,
+      "max_drawdown": 0.030177983676790032,
+      "kill_switch_breach": false,
+      "permutation_p": 0.954045954045954,
+      "bootstrap_ci": [
+        -0.12027318382697472,
+        -4.636889011144716,
+        3.739936790336763
+      ],
+      "dsr": 0.8210586565334328,
+      "walkforward": [
+        {
+          "test_start": 19,
+          "test_end": 30,
+          "oos_sharpe": -7.859152487074597,
+          "oos_max_drawdown": 0.02617635512538863,
+          "n": 11
+        },
+        {
+          "test_start": 30,
+          "test_end": 41,
+          "oos_sharpe": 7.165876414745874,
+          "oos_max_drawdown": 0.005091966331077787,
+          "n": 11
+        },
+        {
+          "test_start": 41,
+          "test_end": 52,
+          "oos_sharpe": -4.503798911522123,
+          "oos_max_drawdown": 0.019643555381266775,
+          "n": 11
+        }
+      ],
+      "mean_return": -3.512348791084027e-05,
+      "total_return": -0.0027002565728047045,
+      "pass": false,
+      "config_key": "BTC::long_near_short_far_straddle::2026-11-15->2026-11-16::reb2"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_near_short_far_straddle",
+      "near": "2026-11-15",
+      "far": "2026-11-16",
+      "rebalance": 1,
+      "bar_seconds": 300.0,
+      "n_states": 60,
+      "median_iv": 1.2935249978585466,
+      "n_hedge_rebalances": 59,
+      "strike": 1840.0,
+      "realized_gamma_capture_usd": 3.653064708203494,
+      "total_premium_usd": -28.41925,
+      "gamma_capture_over_premium": 0.0,
+      "entry_spread_usd": 0.8342425000000027,
+      "exit_spread_usd": 1.2339244000000043,
+      "valid": true,
+      "n_returns": 59,
+      "nonzero_returns": 59,
+      "sharpe": -0.12380965193890606,
+      "max_drawdown": 0.029632463115951056,
+      "kill_switch_breach": false,
+      "permutation_p": 0.9560439560439561,
+      "bootstrap_ci": [
+        -0.12380965193890606,
+        -3.071108090640399,
+        4.364952962054007
+      ],
+      "dsr": 0.8294871694820372,
+      "walkforward": [
+        {
+          "test_start": 19,
+          "test_end": 30,
+          "oos_sharpe": 0.6117968606802684,
+          "oos_max_drawdown": 0.029632463115951253,
+          "n": 11
+        },
+        {
+          "test_start": 30,
+          "test_end": 41,
+          "oos_sharpe": 0.6615669650799997,
+          "oos_max_drawdown": 0.005751265579741084,
+          "n": 11
+        },
+        {
+          "test_start": 41,
+          "test_end": 52,
+          "oos_sharpe": -3.1814566315606263,
+          "oos_max_drawdown": 0.01696055525694661,
+          "n": 11
+        }
+      ],
+      "mean_return": -4.228842776986382e-05,
+      "total_return": -0.003362878756498655,
+      "pass": false,
+      "config_key": "ETH::long_near_short_far_straddle::2026-11-15->2026-11-16::reb1"
+    },
+    {
+      "underlying": "ETH",
+      "structure": "long_near_short_far_straddle",
+      "near": "2026-11-15",
+      "far": "2026-11-16",
+      "rebalance": 2,
+      "bar_seconds": 300.0,
+      "n_states": 60,
+      "median_iv": 1.2935249978585466,
+      "n_hedge_rebalances": 30,
+      "strike": 1840.0,
+      "realized_gamma_capture_usd": 3.653064708203494,
+      "total_premium_usd": -28.41925,
+      "gamma_capture_over_premium": 0.0,
+      "entry_spread_usd": 0.8342425000000027,
+      "exit_spread_usd": 1.2339244000000043,
+      "valid": true,
+      "n_returns": 59,
+      "nonzero_returns": 59,
+      "sharpe": -0.12082519102140421,
+      "max_drawdown": 0.029562452277519646,
+      "kill_switch_breach": false,
+      "permutation_p": 0.954045954045954,
+      "bootstrap_ci": [
+        -0.12082519102140421,
+        -3.055779476897833,
+        4.3767417189902975
+      ],
+      "dsr": 0.8235278254413958,
+      "walkforward": [
+        {
+          "test_start": 19,
+          "test_end": 30,
+          "oos_sharpe": 0.6169743739408503,
+          "oos_max_drawdown": 0.02956245227751959,
+          "n": 11
+        },
+        {
+          "test_start": 30,
+          "test_end": 41,
+          "oos_sharpe": 0.7664207759761407,
+          "oos_max_drawdown": 0.005194497713801355,
+          "n": 11
+        },
+        {
+          "test_start": 41,
+          "test_end": 52,
+          "oos_sharpe": -3.318787771114234,
+          "oos_max_drawdown": 0.017192004370400894,
+          "n": 11
+        }
+      ],
+      "mean_return": -4.1127865630616904e-05,
+      "total_return": -0.0032888669962324313,
+      "pass": false,
+      "config_key": "ETH::long_near_short_far_straddle::2026-11-15->2026-11-16::reb2"
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 2,
+      "best_sharpe": -0.12027318382697472,
+      "best_config": "BTC::long_near_short_far_straddle::2026-11-15->2026-11-16::reb2",
+      "best_median_iv": 0.7975778637150988,
+      "best_strike": 65500.0,
+      "best_gamma_capture_over_premium": 0.0,
+      "any_pass": false
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 2,
+      "best_sharpe": -0.12082519102140421,
+      "best_config": "ETH::long_near_short_far_straddle::2026-11-15->2026-11-16::reb2",
+      "best_median_iv": 1.2935249978585466,
+      "best_strike": 1840.0,
+      "best_gamma_capture_over_premium": 0.0,
+      "any_pass": false
+    }
+  ],
+  "pooled": {
+    "overall_pbo": 0.5,
+    "bh_fdr": {
+      "rejected": [],
+      "thresholds": {
+        "BTC::long_near_short_far_straddle::2026-11-15->2026-11-16::reb1": 0.025,
+        "BTC::long_near_short_far_straddle::2026-11-15->2026-11-16::reb2": 0.05,
+        "ETH::long_near_short_far_straddle::2026-11-15->2026-11-16::reb2": 0.07500000000000001,
+        "ETH::long_near_short_far_straddle::2026-11-15->2026-11-16::reb1": 0.1
+      },
+      "alpha": 0.1,
+      "m_tests": 4,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": false,
+    "campaign_state": "EVAL_56_OPTIONS_TERM_STRUCTURE_CALENDAR"
+  },
+  "errors": []
+}
