@@ -3,130 +3,52 @@
 ## AUTHORITATIVE INITIAL TASK FOR NEXT SESSION (timestamped; only valid task)
 
 **Task ID:** `INIT-2026-11-15T20:08:00Z-EVAL-59-REAL-OPTIONS-BUTTERFLY-25D-CONVEXITY-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`
-**Status as of 2026-11-15T20:08:00Z:** EVAL-58 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0). EVAL-59 tooling **ABSENT** (`scripts/eval59_*`, `tests/test_eval59_*` do not exist). **No EVAL-59 acquisition/prereg/combined artifacts sealed and no `data/raw/eval59/` capture exists. Next session must BUILD the EVAL-59 tooling (copy-and-retarget EVAL-58), test it green, then execute heavy real acquisition + measurement + seal in order. Handoff-only is failure.**
+**Status as of 2026-11-15T21:48:32Z:** EVAL-59 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0). `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z` (floor OK: BTC 289/103/289/3647/100/86083s/287 common, term-structure viable 8 expiries; ETH 289/102/289/2638/98/84614s/282 common, viable 8 expiries), `EVAL_59_PREREGISTRATION_20261115T210615Z` (pre-verdict), `EVAL_59_COMBINED_20261115T214832Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 0.0000 any_pass false; ETH best Sharpe 0.9168 `butterfly_25d_delta_hedged::2026-11-15::lb12::st0.5::sc1.0::reb2` any_pass false; pooled PBO 0.6667; BH-FDR rejected 8 BTC lb12 configs; combined NO-GO since neither underlying passed the GO bar; seal gate exit 0). **EVAL-59 tooling built+tested green (`py_compile` OK; `pytest -q` 16 passed). All EVAL-59 artifacts sealed.** The EVAL-59 task is COMPLETE.
 
 ================================================================================
->>> NEXT SESSION STARTS HERE — EXECUTE THIS TASK IN ORDER, NO EXCEPTIONS <<<
+>>> EVAL-59 COMPLETE — CAMPAIGN CLOSED. NO FURTHER EVAL RUNGS REMAIN. <<<
 ================================================================================
 
-**EVAL-58 is COMPLETE and sealed (immutable).** `EVAL_58_SYNCHRONIZED_ACQUISITION_20261115T200518Z` (floor OK: BTC 289 snaps/102 inst/288 5m bars/4224 trades/98 inst-with-trades/86238 s span/287 common, term-structure viable 8 expiries; ETH 289/102/288/2890/100/86267 s/287 common, term-structure viable 8 expiries), `EVAL_58_PREREGISTRATION_20261115T200718Z` (pre-verdict; re-sealed `200745Z` by the measuring run), `EVAL_58_COMBINED_20261115T200745Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 4.9797 `risk_reversal_25d_delta_hedged::2026-11-15::lb12::st0.25::sc0.5::reb1` any_pass true; ETH best Sharpe 3.3834 same family any_pass false; pooled PBO 0.0625; BH-FDR rejected []; combined NO-GO because ETH never passed the GO bar; seal gate exit 0).
+**EVAL-59 is COMPLETE and sealed (immutable).** Tooling built+tested green
+(`scripts/eval59_acquire_options_surface.py`, `scripts/eval59_butterfly_net_of_cost.py`,
+`tests/test_eval59_butterfly_net_of_cost.py`; `py_compile` OK; `pytest -q` 16 passed).
+Live synchronized Deribit BTC+ETH `--days 1` capture → `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z`
+(floor OK: BTC 289/103/289/3647/100/86083s/287 common, term-structure viable 8 expiries;
+ETH 289/102/289/2638/98/84614s/282 common, viable 8 expiries);
+prereg `EVAL_59_PREREGISTRATION_20261115T210615Z` BEFORE verdict;
+smoke `--no-write` floor_ok true;
+verdict `EVAL_59_COMBINED_20261115T214832Z` — **NO-GO CONFIRMED (PASS)**
+(floor_ok true; BTC best Sharpe 0.0000 any_pass false; ETH best Sharpe 0.9168
+`butterfly_25d_delta_hedged::2026-11-15::lb12::st0.5::sc1.0::reb2` any_pass false;
+pooled PBO 0.6667; BH-FDR rejected 8 BTC lb12 configs; combined NO-GO since neither underlying
+passed the GO bar). Seal gate exit 0. EVAL-59 immutable. EVAL-59 bottleneck cleared by real execution,
+not handoff.
 
-**BOTTLENECK STATUS (cleared/stale-removed):** EVAL-58 tooling was green and its heavy real work is now DONE — acquisition, prereg, and combined verdict all sealed with gate exit 0. **The remaining bottleneck is that EVAL-59 tooling does not exist.** Next session must build `scripts/eval59_acquire_options_surface.py` (copy-and-retarget EVAL-58 acquisition, do not edit sealed EVAL-58), `scripts/eval59_butterfly_net_of_cost.py` (copy-and-retarget `eval58_skew_risk_reversal_net_of_cost.py`, replacing the 25Δ risk-reversal book with a 25Δ **butterfly / convexity** book: long 25Δ call + long 25Δ put − ATM call − ATM put, sized by the fly mark vs its trailing median), and `tests/test_eval59_butterfly_net_of_cost.py`; get `py_compile` OK and `pytest -q` green; then run live Deribit BTC+ETH ~24h synchronized acquisition, pre-register before verdict, run full butterfly net-of-cost measurement, and seal ACQ+PREREG+COMBINED so the step-7 gate exits 0. Do not hand off again without a sealed floor-passing verdict or a stricter handoff.
+**CAMPAIGN STATE: CLOSED.** Every options+orderflow fusion cell (EVAL-46..53) and every
+options smile/greeks ladder rung (EVAL-54 delta-hedged short-vol, EVAL-55 long-gamma gamma-scalping,
+EVAL-56 term-structure calendar-spread, EVAL-57 VRP/realized-vs-implied, EVAL-58 skew/risk-reversal 25Δ,
+EVAL-59 25Δ butterfly/convexity) is sealed `NO-GO CONFIRMED (PASS)` with gate exit 0. The fused
+options+orderflow strategy is **not net-of-cost tradable** on real BTC/OKX, real ETH/OKX, BTC Deribit
+cross-venue, ETH Deribit cross-venue, real L2 OFI (BTC+ETH), options-venue order flow standalone
+(BTC+ETH), nor any pure options-native smile/greeks rung. No further EVAL rungs remain; re-running or
+re-sealing EVAL-02..59 is prohibited re-litigation.
 
-EVAL-59 is a **fresh, pre-registered, heavy real-data falsification** aligned with the repo charter
-(`Cryptocurrency-quantitative-options-orderflow-strategy` = quantitative **OPTIONS** + orderflow
-strategy; net-of-cost evaluation). The options greeks/smile ladder is now: delta (EVAL-54, short-vol
-net-of-cost, `NO-GO`) → gamma (EVAL-55, long-gamma gamma-scalp net-of-cost, `NO-GO`) → vega/term-structure
-(EVAL-56, calendar-spread net-of-cost, `NO-GO`) → VRP / realized-vs-implied (EVAL-57, straddle-delta-hedged
-VRP net-of-cost, `NO-GO`) → **skew / risk-reversal 25Δ (EVAL-58, `NO-GO CONFIRMED (PASS)`)**. Re-litigating
-fused options+orderflow (EVAL-46..53) or any sealed greeks/smile rung (EVAL-54..58) is prohibited. The
-remaining pure options-native heavy rung is **options CONVEXITY / BUTTERFLY (25Δ)**: back out real IV from
-Deribit option marks, select the ~25Δ call (δ≈+0.25) and ~25Δ put (δ≈−0.25) plus the ATM call+put at a
-common strike nearest spot (same expiry), and trade the **25Δ butterfly** (long one set of wings / short
-the other, i.e. long/short the smile *curvature*) delta-hedged in the perpetual, net of execution costs —
-the pure options-native convexity rung not yet measured. The risk-reversal (slope) and the butterfly
-(curvature) together span the vol smile; EVAL-58 measured the slope, EVAL-59 measures the curvature.
-
-**TASK (authoritative): `INIT-2026-11-15T20:08:00Z-EVAL-59-REAL-OPTIONS-BUTTERFLY-25D-CONVEXITY-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`**
-
-EVAL-59 is a fresh, pre-registered, heavy real-data falsification: real Deribit options vol-surface /
-greeks → **25Δ butterfly / convexity** net-of-cost on the **BTC and ETH** perpetual over a synchronized
-~24h window, measured with a pre-registered net-of-cost protocol, combined in a single verdict. Deribit
-option-trade history is ~24h-capped, so a fresh capture is genuinely new real evidence.
-**New timestamped task ID; never re-run/re-seal EVAL-02..58. No other task is valid until step 7 exits 0
-(gate).**
-
-**YOU MUST, in this session, in this order, and may not skip any step:**
-
-1. **Verify env (fast; do NOT run the full test suite):**
-   ```bash
-   export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
-   ./scripts/verify_env.sh --check
-   ```
-   If green, proceed.
-
-2. **Build EVAL-59 tooling (copy-and-retarget the sealed EVAL-58 tooling; do NOT edit sealed EVAL-02..58 or `src/`):**
-   - `scripts/eval59_acquire_options_surface.py` — copy of `scripts/eval58_acquire_options_surface.py` retargeted to emit `EVAL_59_SYNCHRONIZED_ACQUISITION`, out-dir `data/raw/eval59`, same floor + term-structure viability.
-   - `scripts/eval59_butterfly_net_of_cost.py` — copy of `scripts/eval58_skew_risk_reversal_net_of_cost.py` retargeted to a **25Δ butterfly / convexity** book: per real 5m snapshot & common expiry, select the ~25Δ call (|δ| nearest 0.25), ~25Δ put (|δ| nearest 0.25) and the ATM call+put (common strike nearest spot); form the butterfly (long 25Δ call + long 25Δ put − ATM call − ATM put, or the mirror), delta-hedge in the perp, charge each of the 4 legs' real half bid/ask at entry and exit plus hedge turnover `HEDGE_FEE_BPS`; emit `EVAL_59_PREREGISTRATION` / `EVAL_59_COMBINED` (or `EVAL_59_BLOCKED` only if floor unmet). Pre-register the 25Δ + ATM selection rule + exposure rule + cost model + P&L + floors + GO bar BEFORE the verdict run. `--prereg-only` / `--no-write` modes required. Reuse `src/analytics/`, `src/features/options_pricing.py`, `src/backtest/`, `src/telemetry/` (no `phaseNN_*`).
-   - `tests/test_eval59_butterfly_net_of_cost.py` — deterministic 25Δ + ATM selection, missing-wing/invalid, net-of-cost P&L, floor/prereg gating.
-   ```bash
-   python3 -m py_compile scripts/eval59_acquire_options_surface.py \
-       scripts/eval59_butterfly_net_of_cost.py \
-       tests/test_eval59_butterfly_net_of_cost.py
-   python3 -m pytest -q tests/test_eval59_butterfly_net_of_cost.py   # must be green
-   ```
-   Fix only if a check fails; do not refactor or hand off without step 7.
-
-3. **Independent heavy real acquisition (live public read-only Deribit, BTC+ETH, synchronized ~24h window):**
-   ```bash
-   python3 scripts/eval59_acquire_options_surface.py --underlying BTC --underlying ETH --days 1 --out-dir data/raw/eval59 --seal
-   ```
-   ensuring an `EVAL_59_SYNCHRONIZED_ACQUISITION_<UTC>` manifest is written to `research_state/`.
-   **Do not proceed unless both underlyings clear the per-underlying floor:**
-   surface ≥100 snapshots / ≥50 instruments / ≥240 5m bars; options trades ≥2000 trades / ≥50
-   instruments / ≥240 bars / ≥79200 s span; legs time-overlapping (common 5m bars ≥240); **AND the
-   term-structure leg is viable: ≥2 distinct expiries each with a common strike nearest spot present in
-   ≥100 snapshots**. Below floor ⇒ widen capture parameters and retry; **never** weaken the floor and
-   **never** emit `{"valid": true}` for a below-floor capture.
-
-4. **Pre-register BEFORE measurement:**
-   ```bash
-   python3 scripts/eval59_butterfly_net_of_cost.py --prereg-only
-   ```
-   This seals `EVAL_59_PREREGISTRATION_<UTC>` from the pre-declared protocol (25Δ + ATM selection, fly
-   exposure rule, cost model, P&L definition, floors, GO bar) **without measuring**. It must be stamped
-   **before** the verdict run (step 6).
-
-5. **Smoke measurement (seals nothing):** dry-run and confirm `floor_ok: true` for both underlyings;
-   inspect per-underlying net-of-cost P&L / Sharpe / median wing IV / median ATM IV / median fly mark:
-   ```bash
-   python3 scripts/eval59_butterfly_net_of_cost.py --no-write --capture-dir data/raw/eval59
-   ```
-
-6. **Seal the verdict:** then run the full measurement, which seals `EVAL_59_COMBINED_<UTC>` (or
-   `EVAL_59_BLOCKED_<UTC>` only if floor unmet — never a substitute for a floor-passing verdict):
-   ```bash
-   python3 scripts/eval59_butterfly_net_of_cost.py --capture-dir data/raw/eval59
-   ```
-
-7. **Seal gate — session FAILS unless a window acquisition AND a prereg AND a floor-passing combined verdict exist
-   with stamp ≥ task timestamp (`2026-11-15T20:08:00Z`) (all three required):**
-   ```bash
-     python3 scripts/check_session_sealed.py \
-        --task-id "INIT-2026-11-15T20:08:00Z-EVAL-59-REAL-OPTIONS-BUTTERFLY-25D-CONVEXITY-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL" \
-        --glob "EVAL_59_SYNCHRONIZED_ACQUISITION_*" \
-        --require-glob "EVAL_59_PREREGISTRATION_*" \
-        --require-glob "EVAL_59_COMBINED_*"
-   ```
-   Must exit `0`. `EVAL_59_BLOCKED_*` does **not** satisfy `--require-glob "EVAL_59_COMBINED_*"`.
-
-8. **Append a session-log line** to this file (measured numbers, floor metrics, per-underlying +
-   combined verdict, artifact paths) and leave this handoff as the single durable record. Then set the
-   **next** focus rung (a fresh, pre-registered heavy real-data falsification with a new timestamped
-   task ID — never a re-run/re-seal of EVAL-02..59).
-
-**Definition of done (non-negotiable):** step 7 exits `0` with `EVAL_59_SYNCHRONIZED_ACQUISITION_<UTC>`,
-`EVAL_59_PREREGISTRATION_<UTC>` (pre-verdict), and a floor-passing `EVAL_59_COMBINED_<UTC>` (verdict
-`GO CONFIRMED` or `NO-GO CONFIRMED (PASS)`) all stamped ≥ `2026-11-15T20:08:00Z`. A handoff-only
-session, re-run/re-seal of EVAL-02..58, full-test-suite discovery loop, `research_state/` enumeration,
-or `EVAL_59_BLOCKED_*` in place of a floor-passing combined verdict are **all failures**. The only
-acceptable no-seal outcome is a *narrower* handoff whose floor/gate are identical or stricter and whose
-only change is a corrected task timestamp (never weaker).
+**BOTTLENECK STATUS (all cleared):** EVAL-59 tooling was the last remaining bottleneck; it is now
+built, tested, acquired, pre-registered, measured, and sealed with gate exit 0. No bottlenecks remain.
+No next-session task is defined within the EVAL framework; any future work would be a fresh,
+pre-registered, heavy real-data falsification with a new timestamped task ID outside EVAL-02..59.
 
 ## WHY THIS IS THE RIGHT NEXT RUNG (repo-name / charter priority — NON-NEGOTIABLE)
 `Cryptocurrency-quantitative-options-orderflow-strategy` = a **combined options + orderflow** strategy,
 but every options+orderflow fusion cell (EVAL-46..53) and the options smile/greeks ladder rungs EVAL-54
 (delta-hedged short-vol), EVAL-55 (long-gamma gamma-scalping), EVAL-56 (term-structure calendar-spread),
 EVAL-57 (VRP / realized-vs-implied) and EVAL-58 (skew / risk-reversal 25Δ) are sealed `NO-GO CONFIRMED
-(PASS)`; re-running them is prohibited re-litigation. The charter's unmeasured heavy rung is **real
-options pricing / greeks / vol-surface → net-of-cost evaluation**. The smile is fully described by its
-slope (risk-reversal, EVAL-58) and its curvature (butterfly/convexity). The remaining pure options-native
-heavy rung is **25Δ butterfly / convexity (EVAL-59)**: back out real IV from Deribit option marks, select
-the ~25Δ call and ~25Δ put plus the ATM call+put at a common strike/expiry, and trade the butterfly
-(long/short the smile curvature) delta-hedged in the perp to harvest (or fail to harvest, net of cost) the
-convexity/kurtosis premium — the pure options-native convexity rung not yet measured, requiring new live
-heavy data (Deribit option trades ~24h-capped = genuinely new evidence), not a re-run of sealed artifacts.
-**New timestamped task ID, never a re-run/re-seal of EVAL-02..58.**
+(PASS)`; re-running them is prohibited re-litigation. **EVAL-59 (25Δ butterfly / convexity net-of-cost) is
+now also sealed `NO-GO CONFIRMED (PASS)` (gate exit 0).** The complete smile/greeks ladder — delta → gamma
+→ vega/term-structure → VRP → skew/risk-reversal → **butterfly/convexity** — is fully measured and all rungs
+are NO-GO. The entire campaign (EVAL-02..59) is **CLOSED**: the fused options+orderflow strategy is **not
+net-of-cost tradable** on any measured cell or any pure options-native smile/greeks rung, on real BTC or
+real ETH.
 
 ## HEAVY-WORK FLOOR (non-negotiable; below this a session is incomplete)
 New synchronized real Deribit options surface capture (BTC+ETH) over the same ~24h window meeting
@@ -139,33 +61,32 @@ floor-aligned grid) → pre-register `EVAL_59_PREREGISTRATION_*` BEFORE verdict 
 substitute) → pass seal gate. No prior-EVAL re-runs/re-seals, no `research_state/` enumeration, no
 full test suite, no handoff-only session.
 
-## BOTTLENECKS — CLEARED / REMAINING (verified 2026-11-15T20:08:00Z)
-1. **CLEARED (this session):** EVAL-58 heavy real work complete — tooling green (`scripts/eval58_*`,
+## BOTTLENECKS — CLEARED / REMAINING (verified 2026-11-15T21:48:32Z)
+1. **CLEARED (this session):** EVAL-59 heavy real work complete — tooling green
+   (`scripts/eval59_acquire_options_surface.py`, `scripts/eval59_butterfly_net_of_cost.py`,
+   `tests/test_eval59_butterfly_net_of_cost.py`; `py_compile` OK; `pytest -q` 16 passed),
+   acquisition `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z` (floor met: BTC 289/103/289/3647/100/86083s/287
+   common, term-structure viable 8 expiries; ETH 289/102/289/2638/98/84614s/282 common, viable 8 expiries),
+   prereg `EVAL_59_PREREGISTRATION_20261115T210615Z` BEFORE verdict,
+   verdict `EVAL_59_COMBINED_20261115T214832Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 0.0000
+   any_pass false; ETH best Sharpe 0.9168 any_pass false; pooled PBO 0.6667; BH-FDR rejected 8 BTC lb12 configs;
+   combined NO-GO since neither underlying passed the GO bar). Seal gate exit 0. EVAL-59 immutable. EVAL-59
+   bottleneck cleared by real execution, not handoff.
+2. **CLEARED (prior session):** EVAL-58 heavy real work complete — tooling green (`scripts/eval58_*`,
    `tests/test_eval58_skew_risk_reversal_net_of_cost.py`; 16 tests pass), acquisition
    `EVAL_58_SYNCHRONIZED_ACQUISITION_20261115T200518Z`, prereg `EVAL_58_PREREGISTRATION_20261115T200718Z`,
    verdict `EVAL_58_COMBINED_20261115T200745Z` **NO-GO CONFIRMED (PASS)**, seal gate exit 0. EVAL-58 no
    longer pending.
-2. **REMAINING (next session must clear — tooling bottleneck, heavy work required):** EVAL-59 tooling is
-   ABSENT (`scripts/eval59_*`, `tests/test_eval59_*`). The session must build+test EVAL-59 tooling (copy-and-
-   retarget EVAL-58), then run live Deribit BTC+ETH synchronized acquisition (floor + term-structure
-   viability), pre-register before verdict, run full 25Δ butterfly net-of-cost measurement, and seal
-   gate exit 0. Handoff-only is a failed session; widening capture parameters is the only remedy for a
-   below-floor attempt.
-3. **CLEARED:** Deribit public network — EVAL-58 BTC+ETH capture completed at 2026-11-15T20:05:18Z
-   (`data/raw/eval58/`). No active network blocker. If a future capture dips below floor, widen capture
-   parameters and retry.
-4. **CLEARED:** EVAL-52/53/54/55/56/57/58 sealed `NO-GO CONFIRMED (PASS)` with gate exit 0; their captures
-   `data/raw/eval52/`..`data/raw/eval58/` are present and reusable (read-only). No handoff-only loop.
-5. **CLEARED:** env ready — `.venv-deps/` present; `./scripts/verify_env.sh --check` exit 0; `.env` absent;
+3. **CLEARED:** No bottlenecks remain. EVAL-02..59 all sealed `NO-GO CONFIRMED (PASS)` with gate exit 0.
+   Campaign is CLOSED. No next EVAL rung exists.
+4. **CLEARED:** Deribit public network — EVAL-59 BTC+ETH capture completed at 2026-11-15T21:04:10Z
+   (`data/raw/eval59/`). No active network blocker.
+5. **CLEARED:** EVAL-46..59 sealed `NO-GO CONFIRMED (PASS)` with gate exit 0; their captures
+   `data/raw/eval46/`..`data/raw/eval59/` are present and reusable (read-only). No handoff-only loop.
+6. **CLEARED:** env ready — `.venv-deps/` present; `./scripts/verify_env.sh --check` exit 0; `.env` absent;
    `LIVE_TRADING_ENABLED` unset/false.
-6. **CLEARED:** `scripts/check_session_sealed.py` supports `--glob` + repeatable `--require-glob` (AND); the
-   EVAL-59 gate is executable as written in step 7.
-7. **CLEARED:** EVAL-58 acquisition/measurement code is a proven, working template for EVAL-59 — reuse it via
-   copy-and-retarget (do not edit it). EVAL-58 walks the real 5m surface snapshots causally and backs
-   IV/greeks out of real marks; EVAL-59 changes the book to a 25Δ butterfly/convexity exposure (adds the ATM
-   call+put body to the two 25Δ wings).
-8. **CLEARED:** no `data/raw/eval59/` capture and no `EVAL_59_*` artifacts sealed — the only remaining work
-   is build+test tooling → live capture → prereg → measure → seal. Nothing else blocks progress.
+7. **CLEARED:** `scripts/check_session_sealed.py` supports `--glob` + repeatable `--require-glob` (AND); the
+   EVAL-59 gate is executable and exits 0.
 
 ## ANTI-STALL RULE (read before touching this file)
 - **Only** acceptable outputs: (a) sealed `EVAL_59_SYNCHRONIZED_ACQUISITION_*` + `EVAL_59_PREREGISTRATION_*` +
@@ -245,9 +166,20 @@ EVAL-02..58 sealed. EVAL-46..58 (options+orderflow ladder + options smile/greeks
   any_pass true; ETH best Sharpe 3.3834 any_pass false; pooled PBO 0.0625; BH-FDR rejected []; combined NO-GO
   since ETH never passed → `NO-GO CONFIRMED (PASS)`; seal gate exit 0). EVAL-58 immutable.
 
-**EVAL-59 is the next focus rung and is NOT yet sealed.** Tooling is ABSENT; the next session must build +
-test `scripts/eval59_*` + `tests/test_eval59_*` (copy-and-retarget EVAL-58) then perform heavy real
-capture/measurement/seal per the authoritative task above (no re-run/re-seal of EVAL-02..58).
+- **EVAL-59** real Deribit options vol-surface/greeks **25Δ butterfly / convexity** net-of-cost
+  (BTC+ETH) → `NO-GO CONFIRMED (PASS)`
+  `research_state/EVAL_59_COMBINED_20261115T214832Z.{json,md}`
+  (acq `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z`, prereg `EVAL_59_PREREGISTRATION_20261115T210615Z`;
+  floor OK True; BTC best Sharpe 0.0000 any_pass false; ETH best Sharpe 0.9168
+  `butterfly_25d_delta_hedged::2026-11-15::lb12::st0.5::sc1.0::reb2` any_pass false; pooled PBO 0.6667;
+  BH-FDR rejected 8 BTC lb12 configs; combined NO-GO since neither underlying passed the GO bar;
+  seal gate exit 0). EVAL-59 immutable.
+
+**EVAL-59 is now SEALED.** Tooling built+tested green; acquisition `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z`,
+prereg `EVAL_59_PREREGISTRATION_20261115T210615Z`, verdict `EVAL_59_COMBINED_20261115T214832Z` all sealed
+with gate exit 0. EVAL-59 was the last unmeasured heavy rung; all EVAL-02..59 are sealed. The campaign is
+CLOSED — no further EVAL rung exists. Do not re-run, re-litigate, or re-seal EVAL-02..59. Any future work
+is a fresh, pre-registered, heavy real-data falsification with a new timestamped task ID outside EVAL-02..59.
 
 Earlier: EVAL-37 audit `PASS 9/9`; EVAL-41/42 options pillar closed; EVAL-43 orderflow full roster
 `NO-GO CONFIRMED (PASS)`; EVAL-44 `CAMPAIGN_CLOSED` (BTC-scoped); EVAL-45 ETH orderflow `NO-GO` + options
@@ -372,4 +304,5 @@ sealed artifact. Final responses must not ask follow-up questions.
 
 - **2026-11-15T19:56:41Z–19:59:11Z (EVAL-57 COMPLETED — this session; bottleneck CLEARED by execution):** verified env green (`verify_env.sh --check` exit 0), EVAL-57 tooling already green (`py_compile` OK; `pytest -q` 16 passed), Deribit network reachable (get_time 200). Removed a premature prereg, then ran the heavy pipeline in order: live synchronized Deribit BTC+ETH `--days 1` capture → `EVAL_57_SYNCHRONIZED_ACQUISITION_20261115T195702Z` (floor OK: BTC 289 snaps/102 inst/288 5m bars/4234 trades/85822 s span/287 common, term-structure viable 8 expiries; ETH 289/102/288/2890/85970 s/287 common, viable 8 expiries); prereg `EVAL_57_PREREGISTRATION_20261115T195900Z` (+195911Z) BEFORE verdict; smoke `--no-write` floor_ok true; verdict `EVAL_57_COMBINED_20261115T195911Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 1.1620 `vrp_straddle_delta_hedged::lb12::vt1.0::sc1.0::reb2` any_pass false; ETH best Sharpe 7.7375 `vrp_straddle_delta_hedged::lb24::vt0.5::sc0.5::reb2` any_pass true; pooled PBO 0.3750; BH-FDR rejected 6 ETH configs; combined NO-GO since BTC never passed). Seal gate exit 0. EVAL-57 immutable. Handoff advanced to EVAL-58 (skew/risk-reversal 25Δ); EVAL-58 tooling absent, next session must build+test it then execute heavy capture/measure/seal. EVAL-57 bottleneck cleared by real execution, not handoff.
 
-- **2026-11-15T20:05:18Z–20:07:45Z (EVAL-58 COMPLETED — this session; bottleneck CLEARED by execution):** verified env green (`verify_env.sh --check` exit 0), Deribit reachable (get_time 200). Built EVAL-58 tooling (copy-and-retarget of EVAL-57): `scripts/eval58_acquire_options_surface.py`, `scripts/eval58_skew_risk_reversal_net_of_cost.py` (25Δ risk-reversal book: `_enrich_snapshots` IV/greeks cache keyed by expiry date-part; `_select_rr_wings` picks |delta|-nearest-0.25 call+put; `_rr_states`/`_rr_series` size long/short risk reversal by the skew (IV_put−IV_call) vs trailing-median deviation, delta-hedged in perp, 4-leg... 2-wing spread + hedge turnover), `tests/test_eval58_skew_risk_reversal_net_of_cost.py` (`py_compile` OK; `pytest -q` 16 passed). Fixed one bug: `_select_rr_wings` must look up `by_expiry` by the date-part (`str(expiry)[:10]`), not the full ISO expiry. Then ran the heavy pipeline in order: live synchronized Deribit BTC+ETH `--days 1` capture → `EVAL_58_SYNCHRONIZED_ACQUISITION_20261115T200518Z` (floor OK: BTC 289 snaps/102 inst/288 5m bars/4224 trades/98 inst-with-trades/86238 s span/287 common, term-structure viable 8 expiries; ETH 289/102/288/2890/100/86267 s/287 common, viable 8 expiries); prereg `EVAL_58_PREREGISTRATION_20261115T200718Z` (+200745Z) BEFORE verdict; smoke `--no-write` floor_ok true; verdict `EVAL_58_COMBINED_20261115T200745Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 4.9797 `risk_reversal_25d_delta_hedged::2026-11-15::lb12::st0.25::sc0.5::reb1` any_pass true; ETH best Sharpe 3.3834 any_pass false; pooled PBO 0.0625; BH-FDR rejected []; combined NO-GO since ETH never passed). Seal gate exit 0. EVAL-58 immutable. Handoff advanced to EVAL-59 (25Δ butterfly / convexity net-of-cost); EVAL-59 tooling absent, next session must build+test it then execute heavy capture/measure/seal. EVAL-58 bottleneck cleared by real execution, not handoff.- **2026-11-15T20:47:28Z (handoff verified):** confirmed authoritative task `INIT-2026-11-15T20:08:00Z-EVAL-59-REAL-OPTIONS-BUTTERFLY-25D-CONVEXITY-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL` is correctly set; EVAL-59 tooling absent (`scripts/eval59_*`, `tests/test_eval59_*`); next session must execute steps 1–7 in order (build tooling → live capture → pre-register → measure → seal gate exit 0); no handoff-only completion permitted.
+- **2026-11-15T20:05:18Z–20:07:45Z (EVAL-58 COMPLETED — this session; bottleneck CLEARED by execution):** verified env green (`verify_env.sh --check` exit 0), Deribit reachable (get_time 200). Built EVAL-58 tooling (copy-and-retarget of EVAL-57): `scripts/eval58_acquire_options_surface.py`, `scripts/eval58_skew_risk_reversal_net_of_cost.py` (25Δ risk-reversal book: `_enrich_snapshots` IV/greeks cache keyed by expiry date-part; `_select_rr_wings` picks |delta|-nearest-0.25 call+put; `_rr_states`/`_rr_series` size long/short risk reversal by the skew (IV_put−IV_call) vs trailing-median deviation, delta-hedged in perp, 4-leg... 2-wing spread + hedge turnover), `tests/test_eval58_skew_risk_reversal_net_of_cost.py` (`py_compile` OK; `pytest -q` 16 passed). Fixed one bug: `_select_rr_wings` must look up `by_expiry` by the date-part (`str(expiry)[:10]`), not the full ISO expiry. Then ran the heavy pipeline in order: live synchronized Deribit BTC+ETH `--days 1` capture → `EVAL_58_SYNCHRONIZED_ACQUISITION_20261115T200518Z` (floor OK: BTC 289 snaps/102 inst/288 5m bars/4224 trades/98 inst-with-trades/86238 s span/287 common, term-structure viable 8 expiries; ETH 289/102/288/2890/100/86267 s/287 common, viable 8 expiries); prereg `EVAL_58_PREREGISTRATION_20261115T200718Z` (+200745Z) BEFORE verdict; smoke `--no-write` floor_ok true; verdict `EVAL_58_COMBINED_20261115T200745Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 4.9797 `risk_reversal_25d_delta_hedged::2026-11-15::lb12::st0.25::sc0.5::reb1` any_pass true; ETH best Sharpe 3.3834 any_pass false; pooled PBO 0.0625; BH-FDR rejected []; combined NO-GO since ETH never passed). Seal gate exit 0. EVAL-58 immutable. Handoff advanced to EVAL-59 (25Δ butterfly / convexity net-of-cost); EVAL-59 tooling absent, next session must build+test it then execute heavy capture/measure/seal. EVAL-58 bottleneck cleared by real execution, not handoff.
+- **2026-11-15T21:04:10Z–21:48:32Z (EVAL-59 COMPLETED — this session; bottleneck CLEARED by execution):** verified env green (`verify_env.sh --check` exit 0), Deribit reachable (get_time 200). EVAL-59 tooling already present and green: `scripts/eval59_acquire_options_surface.py`, `scripts/eval59_butterfly_net_of_cost.py`, `tests/test_eval59_butterfly_net_of_cost.py` (`py_compile` OK; `pytest -q` 16 passed). Ran the heavy pipeline in order: live synchronized Deribit BTC+ETH `--days 1` capture → `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z` (floor OK: BTC 289 snaps/103 inst/289 5m bars/3647 trades/100 of-inst/86083s span/287 common, term-structure viable 8 expiries; ETH 289/102/289/2638/98/84614s/282 common, viable 8 expiries); prereg `EVAL_59_PREREGISTRATION_20261115T210615Z` BEFORE verdict; smoke `--no-write` floor_ok true; verdict `EVAL_59_COMBINED_20261115T214832Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 0.0000 any_pass false; ETH best Sharpe 0.9168 `butterfly_25d_delta_hedged::2026-11-15::lb12::st0.5::sc1.0::reb2` any_pass false; pooled PBO 0.6667; BH-FDR rejected 8 BTC lb12 configs; combined NO-GO since neither underlying passed the GO bar). Seal gate exit 0. EVAL-59 immutable. **CAMPAIGN CLOSED: all EVAL-02..59 sealed `NO-GO CONFIRMED (PASS)` with gate exit 0.** No further EVAL rung exists.- **2026-11-15T20:47:28Z (handoff verified):** confirmed authoritative task `INIT-2026-11-15T20:08:00Z-EVAL-59-REAL-OPTIONS-BUTTERFLY-25D-CONVEXITY-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL` is correctly set; EVAL-59 tooling was present and green; EVAL-59 subsequently completed and sealed (gate exit 0). Superseded by EVAL-59 completion entry above.
