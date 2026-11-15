@@ -1,0 +1,125 @@
+{
+  "manifest_id": "EVAL_58_SYNCHRONIZED_ACQUISITION",
+  "task_id": "INIT-2026-11-15T20:05:18Z-EVAL-58-REAL-OPTIONS-SKEW-RISK-REVERSAL-NET-OF-COST-BTC-ETH",
+  "generated_at": "2026-11-15T20:05:18Z",
+  "schema": "deribit_options_surface_capture_v1",
+  "venue": "deribit",
+  "window_start": "2026-11-14T20:05:18Z",
+  "window_end": "2026-11-15T20:05:18Z",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "captures": {
+    "BTC": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval58/options_surface_BTC_20261115T200518Z.json",
+      "sha256": "1983e6eeadae66a430b81608f73159406139313700c81e5de03ee172d4218117",
+      "underlying": "BTC",
+      "surface": {
+        "n_snapshots": 289,
+        "n_instruments_with_data": 102,
+        "min_quotes_realized": 73,
+        "max_quotes_realized": 102,
+        "span_seconds": 86400.0,
+        "n_bars_5m": 288,
+        "non_degenerate": true
+      },
+      "orderflow": {
+        "underlying": "BTC",
+        "n_option_trades": 4224,
+        "n_instruments_with_trades": 98,
+        "n_distinct_strikes": 11,
+        "n_buy": 2321,
+        "n_sell": 1903,
+        "notional": 1328470151.019003,
+        "span_seconds": 86238.708,
+        "n_perp_candles": 1441,
+        "non_degenerate": true
+      }
+    },
+    "ETH": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval58/options_surface_ETH_20261115T200518Z.json",
+      "sha256": "95349081767c3065e3e4c060a2cc5d3518bc22940a4a3c5bb1401aa9a57be05b",
+      "underlying": "ETH",
+      "surface": {
+        "n_snapshots": 289,
+        "n_instruments_with_data": 102,
+        "min_quotes_realized": 96,
+        "max_quotes_realized": 102,
+        "span_seconds": 86400.0,
+        "n_bars_5m": 288,
+        "non_degenerate": true
+      },
+      "orderflow": {
+        "underlying": "ETH",
+        "n_option_trades": 2890,
+        "n_instruments_with_trades": 100,
+        "n_distinct_strikes": 14,
+        "n_buy": 1536,
+        "n_sell": 1354,
+        "notional": 110206831.94999991,
+        "span_seconds": 86267.22,
+        "n_perp_candles": 1441,
+        "non_degenerate": true
+      }
+    }
+  },
+  "synthetic": false,
+  "term_structure_viability": {
+    "BTC": {
+      "viable": true,
+      "n_viable_expiries": 8,
+      "viable_expiries": [
+        "2026-11-15",
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-20",
+        "2026-11-27",
+        "2026-12-04",
+        "2026-12-25"
+      ],
+      "expiry_snapshot_counts": {
+        "2026-11-15": 289,
+        "2026-11-16": 289,
+        "2026-11-17": 289,
+        "2026-11-18": 289,
+        "2026-11-19": 46,
+        "2026-11-20": 289,
+        "2026-11-27": 289,
+        "2026-12-04": 289,
+        "2026-12-25": 289
+      },
+      "min_snapshots_per_expiry": 100,
+      "min_expiries": 2
+    },
+    "ETH": {
+      "viable": true,
+      "n_viable_expiries": 8,
+      "viable_expiries": [
+        "2026-11-15",
+        "2026-11-16",
+        "2026-11-17",
+        "2026-11-18",
+        "2026-11-20",
+        "2026-11-27",
+        "2026-12-04",
+        "2026-12-25"
+      ],
+      "expiry_snapshot_counts": {
+        "2026-11-15": 289,
+        "2026-11-16": 289,
+        "2026-11-17": 289,
+        "2026-11-18": 289,
+        "2026-11-19": 72,
+        "2026-11-20": 289,
+        "2026-11-27": 289,
+        "2026-12-04": 289,
+        "2026-12-25": 289
+      },
+      "min_snapshots_per_expiry": 100,
+      "min_expiries": 2
+    }
+  },
+  "provenance": "real Deribit public options surface (5m candles) + options-venue order flow (signed trades) + perpetual 1m candles; synchronized window; no synthetic data"
+}

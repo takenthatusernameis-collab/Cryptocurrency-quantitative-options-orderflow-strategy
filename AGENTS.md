@@ -53,18 +53,20 @@ rejected 5 configs; the single-tape midday sign_agreement +5.71 does not replica
 gate exit 0). **The chronic "no Deribit data / no acquisition tooling" bottleneck is GONE:**
 `scripts/eval48_acquire_deribit_options.py` reconstructs real Deribit option snapshots (reusable for ETH
 via `--underlying ETH`) and `scripts/eval48_cross_venue_replication.py` is the tested copy-and-retarget
-wrapper. **EVAL-49 (ETH cross-venue), EVAL-50 (real L2 OFI) and EVAL-51 (real Deribit options-venue
-order flow, BTC+ETH) are now SEALED — see "Current measured state" below. The campaign ladder
-(EVAL-46..51) is COMPLETE, and the next focus campaign is now DEFINED as EVAL-52 (synchronized real
-Deribit options SURFACE × options-venue ORDER FLOW fusion → net-of-cost tradability of the underlying
-BTC/ETH perpetual, the one pure options-side combination not yet measured). EVAL-51 tooling
-(`scripts/eval51_acquire_options_orderflow.py`, `scripts/eval51_options_orderflow_net_of_cost.py`,
-`tests/test_eval51_options_orderflow_net_of_cost.py`) is sealed/immutable; EVAL-52 tooling does not yet
-exist and must be built (`scripts/eval52_acquire_synchronized_options.py`,
-`scripts/eval52_options_surface_orderflow_net_of_cost.py`, `tests/test_eval52_*`).** Do not re-run,
-re-litigate, or re-seal EVAL-02..51. Any future work is a fresh, pre-registered, heavy real-data
-falsification with a new timestamped task ID; see `research_state/durable_handoff.md` for the
-authoritative EVAL-52 task.
+wrapper. **EVAL-49 (ETH cross-venue), EVAL-50 (real L2 OFI), EVAL-51 (real Deribit options-venue order flow),
+EVAL-52/53 (synchronized options SURFACE × options-venue ORDER FLOW), EVAL-54 (delta-hedged short-vol),
+EVAL-55 (long-gamma gamma-scalping), EVAL-56 (term-structure calendar-spread), EVAL-57 (VRP /
+realized-vs-implied) and EVAL-58 (skew / risk-reversal 25Δ) are ALL SEALED `NO-GO CONFIRMED (PASS)` — see
+"Current measured state" below. The options greeks/smile ladder (EVAL-54..58) is COMPLETE, and the next
+focus campaign is now DEFINED as EVAL-59 (synchronized real Deribit options SURFACE → 25Δ BUTTERFLY /
+CONVEXITY net-of-cost on the underlying BTC/ETH perpetual, the one pure options-native smile rung not yet
+measured: EVAL-58 measured the smile SLOPE / risk-reversal, EVAL-59 measures the smile CURVATURE /
+butterfly). EVAL-58 tooling (`scripts/eval58_acquire_options_surface.py`,
+`scripts/eval58_skew_risk_reversal_net_of_cost.py`, `tests/test_eval58_*`) is sealed/immutable; EVAL-59
+tooling does not yet exist and must be built (`scripts/eval59_acquire_options_surface.py`,
+`scripts/eval59_butterfly_net_of_cost.py`, `tests/test_eval59_*`).** Do not re-run, re-litigate, or
+re-seal EVAL-02..58. Any future work is a fresh, pre-registered, heavy real-data falsification with a new
+timestamped task ID; see `research_state/durable_handoff.md` for the authoritative EVAL-59 task.
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
@@ -115,8 +117,9 @@ BH-FDR rejected 4 configs; seal gate exit 0). **EVAL-51 sealed the real Deribit 
 86381 s; 6 configs/underlying; best Sharpe BTC −1.864, ETH −1.897; pooled PBO 0.5000; seal gate exit 0).
 The combined options+orderflow thesis is **NOT net-of-cost tradable on BTC/OKX, ETH/OKX, BTC
 Deribit-cross-venue, ETH Deribit-cross-venue, nor on real L2 order-book OFI (BTC+ETH)**, and the
-options-venue order flow standalone is **NOT net-of-cost tradable on BTC or ETH**. **The ladder EVAL-46..51
-is COMPLETE; the next focus campaign is EVAL-52 (synchronized real Deribit options SURFACE × options-venue
-ORDER FLOW fusion, BTC+ETH), the one pure options-side combination not yet measured.** Do not re-run,
-re-litigate, or re-seal EVAL-02..51. Any future work is a fresh, pre-registered, heavy real-data
+options-venue order flow standalone is **NOT net-of-cost tradable on BTC or ETH**. **The ladder EVAL-46..58
+is COMPLETE; the next focus campaign is EVAL-59 (25Δ butterfly / convexity net-of-cost on the real Deribit
+options SURFACE, BTC+ETH), the one pure options-native smile rung not yet measured (EVAL-58 measured the
+smile SLOPE / risk-reversal; EVAL-59 measures the smile CURVATURE / butterfly).** Do not re-run,
+re-litigate, or re-seal EVAL-02..58. Any future work is a fresh, pre-registered, heavy real-data
 falsification with a new timestamped task ID. See `research_state/durable_handoff.md`.
