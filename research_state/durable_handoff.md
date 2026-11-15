@@ -2,41 +2,39 @@
 
 ## AUTHORITATIVE INITIAL TASK FOR NEXT SESSION (timestamped; only valid task)
 
-**Task ID:** `INIT-2026-11-15T19:55:04Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-ACQUIRE-MEASURE-AND-SEAL`
-**Status as of 2026-11-15T19:55:04Z:** EVAL-56 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0). EVAL-57 tooling **READY** (`scripts/eval57_acquire_options_surface.py`, `scripts/eval57_vrp_net_of_cost.py`, `tests/test_eval57_vrp_net_of_cost.py` present, `py_compile` clean, `pytest -q` 16 passed). **No EVAL-57 acquisition/prereg/combined artifacts sealed and no `data/raw/eval57/` capture exists. Next session must execute this task in order (heavy real-data acquisition+measurement+seal required; handoff-only is failure).**
+**Task ID:** `INIT-2026-11-15T20:00:00Z-EVAL-58-REAL-OPTIONS-SKEW-RISK-REVERSAL-NET-OF-COST-BTC-ETH-ACQUIRE-MEASURE-AND-SEAL`
+**Status as of 2026-11-15T20:00:00Z:** EVAL-57 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0). EVAL-58 tooling **ABSENT** (`scripts/eval58_*`, `tests/test_eval58_*` do not exist). **No EVAL-58 acquisition/prereg/combined artifacts sealed and no `data/raw/eval58/` capture exists. Next session must BUILD the EVAL-58 tooling (copy-and-retarget EVAL-57), test it green, then execute heavy real acquisition + measurement + seal in order. Handoff-only is failure.**
 
 ================================================================================
 >>> NEXT SESSION STARTS HERE — EXECUTE THIS TASK IN ORDER, NO EXCEPTIONS <<<
 ================================================================================
 
-**EVAL-55 is COMPLETE and sealed (immutable).** `EVAL_55_SYNCHRONIZED_ACQUISITION_20261115T180300Z` (floor OK: BTC 289/102/289/4324/86010s/286 common; ETH 289/103/289/2967/86227s/288), `EVAL_55_PREREGISTRATION_20261115T180500Z` (pre-verdict), `EVAL_55_COMBINED_20261115T180515Z` — **NO-GO CONFIRMED (PASS)** (BTC best Sharpe 1.1330 any_pass false; ETH best Sharpe 0.8410 any_pass false; pooled PBO 0.3333; BH-FDR []; gate exit 0).
+**EVAL-57 is COMPLETE and sealed (immutable).** `EVAL_57_SYNCHRONIZED_ACQUISITION_20261115T195702Z` (floor OK: BTC 289 snaps/102 inst/288 5m bars/4234 trades/85822 s span/287 common, term-structure viable 8 expiries; ETH 289/102/288/2890/85970 s/287 common, term-structure viable 8 expiries), `EVAL_57_PREREGISTRATION_20261115T195900Z` (pre-verdict; re-sealed `195911Z` by the measuring run), `EVAL_57_COMBINED_20261115T195911Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 1.1620 `vrp_straddle_delta_hedged::lb12::vt1.0::sc1.0::reb2` any_pass false; ETH best Sharpe 7.7375 `vrp_straddle_delta_hedged::lb24::vt0.5::sc0.5::reb2` any_pass true; pooled PBO 0.3750; BH-FDR rejected 6 ETH configs but BTC never passed → combined NO-GO; seal gate exit 0).
 
-**EVAL-56 is COMPLETE and sealed (immutable).** `EVAL_56_SYNCHRONIZED_ACQUISITION_20261115T185751Z` (floor OK: BTC 289/102/288/4271/86175s/287 common, term-structure viable 8 expiries; ETH 289/103/288/2928/86293s/288 common, term-structure viable 8 expiries), `EVAL_56_PREREGISTRATION_20261115T190016Z` (pre-verdict; re-sealed `190126Z` by the measuring run), `EVAL_56_COMBINED_20261115T190126Z` — **NO-GO CONFIRMED (PASS)** (floor_ok True; BTC best Sharpe −0.1203 any_pass false; ETH best Sharpe −0.1208 any_pass false; pooled PBO 0.5000; BH-FDR rejected []; seal gate exit 0).
+**BOTTLENECK STATUS (cleared/stale-removed):** EVAL-57 tooling was green and its heavy real work is now DONE — acquisition, prereg, and combined verdict all sealed with gate exit 0. **The remaining bottleneck is that EVAL-58 tooling does not exist.** Next session must build `scripts/eval58_acquire_options_surface.py` (copy-and-retarget EVAL-57 acquisition, do not edit sealed EVAL-57), `scripts/eval58_skew_risk_reversal_net_of_cost.py` (copy-and-retarget `eval57_vrp_net_of_cost.py`, replacing the VRP/straddle book with a 25Δ risk-reversal / skew book), and `tests/test_eval58_skew_risk_reversal_net_of_cost.py`; get `py_compile` OK and `pytest -q` green; then run live Deribit BTC+ETH ~24h synchronized acquisition, pre-register before verdict, run full skew/risk-reversal net-of-cost measurement, and seal ACQ+PREREG+COMBINED so the step-7 gate exits 0. Do not hand off again without a sealed floor-passing verdict or a stricter handoff.
 
-**BOTTLENECK STATUS (cleared/stale-removed):** EVAL-57 tooling is built and green (`py_compile` OK; `pytest -q tests/test_eval57_vrp_net_of_cost.py` 16 passed). **Remaining bottleneck is execution, not code:** run live Deribit BTC+ETH ~24h synchronized acquisition, pre-register before verdict, run full net-of-cost VRP measurement, and seal ACQ+PREREG+COMBINED so the step-7 gate exits 0. Do not hand off again without a sealed floor-passing verdict or a stricter handoff.
-
-EVAL-56 is a **fresh, pre-registered, heavy real-data falsification** aligned with the repo charter
+EVAL-58 is a **fresh, pre-registered, heavy real-data falsification** aligned with the repo charter
 (`Cryptocurrency-quantitative-options-orderflow-strategy` = quantitative **OPTIONS** + orderflow
-strategy; net-of-cost evaluation). The options greeks ladder is delta (EVAL-54, short-vol net-of-cost,
-`NO-GO`) → gamma (EVAL-55, long-gamma gamma-scalp net-of-cost, `NO-GO`); the unmeasured third leg is
-**VEGA / volatility TERM-STRUCTURE**. Re-litigating fused options+orderflow (EVAL-46..53), delta-hedging
-(EVAL-54) or gamma-scalping (EVAL-55) is prohibited. The remaining pure options-native heavy rung is
-**real options vol-surface → term-structure calendar-spread (long near-expiry ATM straddle / short
-far-expiry ATM straddle at a common strike), delta-hedged, P&L net of execution costs** on real Deribit
-BTC+ETH — the one options combination not yet measured.
+strategy; net-of-cost evaluation). The options greeks ladder is now COMPLETE: delta (EVAL-54, short-vol
+net-of-cost, `NO-GO`) → gamma (EVAL-55, long-gamma gamma-scalp net-of-cost, `NO-GO`) → vega/term-structure
+(EVAL-56, calendar-spread net-of-cost, `NO-GO`) → VRP / realized-vs-implied (EVAL-57, straddle-delta-hedged
+VRP net-of-cost, `NO-GO`). Re-litigating fused options+orderflow (EVAL-46..53) or any sealed greeks rung
+(EVAL-54..57) is prohibited. The remaining pure options-native heavy rung is **options SKEW / RISK-REVERSAL
+(25Δ call-put skew)**: back out real IV from Deribit option marks, select the ~25Δ call and ~25Δ put at a
+common expiry, and trade the risk-reversal (long one wing / short the other) delta-hedged in the perpetual,
+net of execution costs — the one options combination not yet measured.
 
-**TASK (authoritative): `INIT-2026-11-15T19:55:04Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-ACQUIRE-MEASURE-AND-SEAL`**
+**TASK (authoritative): `INIT-2026-11-15T20:00:00Z-EVAL-58-REAL-OPTIONS-SKEW-RISK-REVERSAL-NET-OF-COST-BTC-ETH-ACQUIRE-MEASURE-AND-SEAL`**
 
-EVAL-57 is a fresh, pre-registered, heavy real-data falsification: real Deribit options vol-surface /
-greeks → **volatility risk premium (VRP) / realized-vs-implied vol net-of-cost** on the **BTC and ETH**
-perpetual over a synchronized ~24h window, measured with a pre-registered net-of-cost protocol, combined
-in a single verdict. The options greeks ladder is now complete: delta (EVAL-54, short-vol net-of-cost,
-`NO-GO`) → gamma (EVAL-55, long-gamma gamma-scalp net-of-cost, `NO-GO`) → vega/term-structure
-(EVAL-56, calendar-spread net-of-cost, `NO-GO`). The remaining pure options-native heavy rung is **VRP /
-realized-vs-implied vol**: back out real IV from Deribit option marks, compare to realized vol of the
-perpetual, and trade the perpetual delta-hedged to harvest (or fail to harvest, net of cost) the vol risk
-premium. Deribit option-trade history is ~24h-capped, so the capture is genuinely new real evidence.
-**New timestamped task ID; never re-run/re-seal EVAL-02..56. No other task is valid until step 7 exits 0
+EVAL-58 is a fresh, pre-registered, heavy real-data falsification: real Deribit options vol-surface /
+greeks → **skew / risk-reversal (25Δ)** net-of-cost on the **BTC and ETH** perpetual over a synchronized
+~24h window, measured with a pre-registered net-of-cost protocol, combined in a single verdict. The options
+greeks ladder is complete: delta (EVAL-54) → gamma (EVAL-55) → vega/term-structure (EVAL-56) → VRP (EVAL-57).
+The remaining pure options-native heavy rung is **skew / risk-reversal**: back out real IV from Deribit
+option marks, select the ~25Δ call and ~25Δ put at a common expiry, and trade the risk-reversal
+(long one wing / short the other), delta-hedged in the perp, P&L net of execution costs. Deribit
+option-trade history is ~24h-capped, so the capture is genuinely new real evidence.
+**New timestamped task ID; never re-run/re-seal EVAL-02..57. No other task is valid until step 7 exits 0
 (gate).**
 
 **YOU MUST, in this session, in this order, and may not skip any step:**
@@ -48,24 +46,23 @@ premium. Deribit option-trade history is ~24h-capped, so the capture is genuinel
    ```
    If green, proceed.
 
-2. **Confirm EVAL-57 tooling is green (already built; do not rebuild unless broken, do not edit sealed EVAL-02..56 or `src/`):**
-   - `scripts/eval57_acquire_options_surface.py` — Deribit surface + options-venue trades + perp 1m capture; `EVAL_57_SYNCHRONIZED_ACQUISITION`, out-dir `data/raw/eval57`, records term-structure viability.
-   - `scripts/eval57_vrp_net_of_cost.py` — VRP / realized-vs-implied vol net-of-cost P&L; IV from real marks via `implied_volatility`, greeks via `black_scholes_greeks`; common-strike near/far expiry (invalid if none), pre-registered exposure rule, hedge turnover `HEDGE_FEE_BPS`, `--prereg-only`/`--no-write` modes. Reuses `src/analytics/`, `src/features/options_pricing.py`, `src/backtest/`, `src/telemetry/` (no `phaseNN_*`).
-   - `tests/test_eval57_vrp_net_of_cost.py` — deterministic VRP/exposure, common-strike fallback/invalid, net-of-cost P&L, floor/prereg gating.
+2. **Build EVAL-58 tooling (copy-and-retarget the sealed EVAL-57 tooling; do NOT edit sealed EVAL-02..57 or `src/`):**
+   - `scripts/eval58_acquire_options_surface.py` — copy of `scripts/eval57_acquire_options_surface.py` retargeted to emit `EVAL_58_SYNCHRONIZED_ACQUISITION`, out-dir `data/raw/eval58`, same floor + term-structure viability.
+   - `scripts/eval58_skew_risk_reversal_net_of_cost.py` — copy of `scripts/eval57_vrp_net_of_cost.py` retargeted to a **skew / risk-reversal (25Δ)** book: per real 5m snapshot & common expiry, select the ~25Δ call and ~25Δ put (IV-backed from real marks via `implied_volatility`; greeks via `black_scholes_greeks`), form the risk-reversal (long one wing / short the other), delta-hedge in the perp, charge each leg's real half bid/ask at entry and exit plus hedge turnover `HEDGE_FEE_BPS`, emit `EVAL_58_PREREGISTRATION` / `EVAL_58_COMBINED` (or `EVAL_58_BLOCKED` only if floor unmet). Pre-register the 25Δ selection rule + exposure rule + cost model + P&L + floors + GO bar BEFORE the verdict run. `--prereg-only` / `--no-write` modes required. Reuse `src/analytics/`, `src/features/options_pricing.py`, `src/backtest/`, `src/telemetry/` (no `phaseNN_*`).
+   - `tests/test_eval58_skew_risk_reversal_net_of_cost.py` — deterministic 25Δ selection, common-strike fallback/invalid, net-of-cost P&L, floor/prereg gating.
    ```bash
-   python3 -m py_compile scripts/eval57_acquire_options_surface.py \
-       scripts/eval57_vrp_net_of_cost.py \
-       tests/test_eval57_vrp_net_of_cost.py
-   python3 -m pytest -q tests/test_eval57_vrp_net_of_cost.py   # must be green
+   python3 -m py_compile scripts/eval58_acquire_options_surface.py \
+       scripts/eval58_skew_risk_reversal_net_of_cost.py \
+       tests/test_eval58_skew_risk_reversal_net_of_cost.py
+   python3 -m pytest -q tests/test_eval58_skew_risk_reversal_net_of_cost.py   # must be green
    ```
-   If green, proceed immediately to step 3 (heavy acquisition). Fix only if a check fails; do not refactor or hand off without step 7.
+   Fix only if a check fails; do not refactor or hand off without step 7.
 
-3. **Independent heavy real acquisition (live public read-only Deribit, BTC+ETH, synchronized ~24h
-   window, all three legs):**
+3. **Independent heavy real acquisition (live public read-only Deribit, BTC+ETH, synchronized ~24h window):**
    ```bash
-   python3 scripts/eval57_acquire_options_surface.py --underlying BTC --underlying ETH --days 1 --out-dir data/raw/eval57 --seal
+   python3 scripts/eval58_acquire_options_surface.py --underlying BTC --underlying ETH --days 1 --out-dir data/raw/eval58 --seal
    ```
-   ensuring an `EVAL_57_SYNCHRONIZED_ACQUISITION_<UTC>` manifest is written to `research_state/`.
+   ensuring an `EVAL_58_SYNCHRONIZED_ACQUISITION_<UTC>` manifest is written to `research_state/`.
    **Do not proceed unless both underlyings clear the per-underlying floor:**
    surface ≥100 snapshots / ≥50 instruments / ≥240 5m bars; options trades ≥2000 trades / ≥50
    instruments / ≥240 bars / ≥79200 s span; legs time-overlapping (common 5m bars ≥240); **AND the
@@ -75,117 +72,118 @@ premium. Deribit option-trade history is ~24h-capped, so the capture is genuinel
 
 4. **Pre-register BEFORE measurement:**
    ```bash
-   python3 scripts/eval57_vrp_net_of_cost.py --prereg-only
+   python3 scripts/eval58_skew_risk_reversal_net_of_cost.py --prereg-only
    ```
-   This seals `EVAL_57_PREREGISTRATION_<UTC>` from the pre-declared protocol (structures, near/far expiry
-   pair grid, common-strike rule, VRP exposure rule, cost model, P&L definition, floors, GO bar)
-   **without measuring**. It must be stamped **before** the verdict run (step 6).
+   This seals `EVAL_58_PREREGISTRATION_<UTC>` from the pre-declared protocol (25Δ wing selection, common
+   strike rule, risk-reversal exposure rule, cost model, P&L definition, floors, GO bar) **without measuring**.
+   It must be stamped **before** the verdict run (step 6).
 
 5. **Smoke measurement (seals nothing):** dry-run and confirm `floor_ok: true` for both underlyings;
-   inspect per-underlying net-of-cost P&L / Sharpe / median IV / realized-vs-implied vol spread:
+   inspect per-underlying net-of-cost P&L / Sharpe / median IV / skew spread:
    ```bash
-   python3 scripts/eval57_vrp_net_of_cost.py --no-write --capture-dir data/raw/eval57
+   python3 scripts/eval58_skew_risk_reversal_net_of_cost.py --no-write --capture-dir data/raw/eval58
    ```
 
-6. **Seal the verdict:** then run the full measurement, which seals `EVAL_57_COMBINED_<UTC>` (or
-   `EVAL_57_BLOCKED_<UTC>` only if floor unmet — never a substitute for a floor-passing verdict):
+6. **Seal the verdict:** then run the full measurement, which seals `EVAL_58_COMBINED_<UTC>` (or
+   `EVAL_58_BLOCKED_<UTC>` only if floor unmet — never a substitute for a floor-passing verdict):
    ```bash
-   python3 scripts/eval57_vrp_net_of_cost.py --capture-dir data/raw/eval57
+   python3 scripts/eval58_skew_risk_reversal_net_of_cost.py --capture-dir data/raw/eval58
    ```
 
 7. **Seal gate — session FAILS unless a window acquisition AND a prereg AND a floor-passing combined verdict exist
-   with stamp ≥ task timestamp (`2026-11-15T19:55:04Z`) (all three required):**
+   with stamp ≥ task timestamp (`2026-11-15T20:00:00Z`) (all three required):**
    ```bash
      python3 scripts/check_session_sealed.py \
-        --task-id "INIT-2026-11-15T19:55:04Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-ACQUIRE-MEASURE-AND-SEAL" \
-       --glob "EVAL_57_SYNCHRONIZED_ACQUISITION_*" \
-       --require-glob "EVAL_57_PREREGISTRATION_*" \
-       --require-glob "EVAL_57_COMBINED_*"
+        --task-id "INIT-2026-11-15T20:00:00Z-EVAL-58-REAL-OPTIONS-SKEW-RISK-REVERSAL-NET-OF-COST-BTC-ETH-ACQUIRE-MEASURE-AND-SEAL" \
+        --glob "EVAL_58_SYNCHRONIZED_ACQUISITION_*" \
+        --require-glob "EVAL_58_PREREGISTRATION_*" \
+        --require-glob "EVAL_58_COMBINED_*"
    ```
-   Must exit `0`. `EVAL_57_BLOCKED_*` does **not** satisfy `--require-glob "EVAL_57_COMBINED_*"`.
+   Must exit `0`. `EVAL_58_BLOCKED_*` does **not** satisfy `--require-glob "EVAL_58_COMBINED_*"`.
 
 8. **Append a session-log line** to this file (measured numbers, floor metrics, per-underlying +
    combined verdict, artifact paths) and leave this handoff as the single durable record. Then set the
    **next** focus rung (a fresh, pre-registered heavy real-data falsification with a new timestamped
-   task ID — never a re-run/re-seal of EVAL-02..57).
+   task ID — never a re-run/re-seal of EVAL-02..58).
 
-**Definition of done (non-negotiable):** step 7 exits `0` with `EVAL_57_SYNCHRONIZED_ACQUISITION_<UTC>`,
-`EVAL_57_PREREGISTRATION_<UTC>` (pre-verdict), and a floor-passing `EVAL_57_COMBINED_<UTC>` (verdict
-`GO CONFIRMED` or `NO-GO CONFIRMED (PASS)`) all stamped ≥ `2026-11-15T19:55:04Z`. A handoff-only
-session, re-run/re-seal of EVAL-02..56, full-test-suite discovery loop, `research_state/` enumeration,
-or `EVAL_57_BLOCKED_*` in place of a floor-passing combined verdict are **all failures**. The only
+**Definition of done (non-negotiable):** step 7 exits `0` with `EVAL_58_SYNCHRONIZED_ACQUISITION_<UTC>`,
+`EVAL_58_PREREGISTRATION_<UTC>` (pre-verdict), and a floor-passing `EVAL_58_COMBINED_<UTC>` (verdict
+`GO CONFIRMED` or `NO-GO CONFIRMED (PASS)`) all stamped ≥ `2026-11-15T20:00:00Z`. A handoff-only
+session, re-run/re-seal of EVAL-02..57, full-test-suite discovery loop, `research_state/` enumeration,
+or `EVAL_58_BLOCKED_*` in place of a floor-passing combined verdict are **all failures**. The only
 acceptable no-seal outcome is a *narrower* handoff whose floor/gate are identical or stricter and whose
 only change is a corrected task timestamp (never weaker).
 
 ## WHY THIS IS THE RIGHT NEXT RUNG (repo-name / charter priority — NON-NEGOTIABLE)
 `Cryptocurrency-quantitative-options-orderflow-strategy` = a **combined options + orderflow** strategy,
 but every options+orderflow fusion cell (EVAL-46..53) and the options greeks ladder rungs EVAL-54
-(delta-hedged short-vol net-of-cost), EVAL-55 (long-gamma gamma-scalping net-of-cost) and EVAL-56
-(term-structure calendar-spread net-of-cost) are sealed `NO-GO CONFIRMED (PASS)`; re-running them is
-prohibited re-litigation. The charter's unmeasured heavy rung is **real options pricing / greeks /
-vol-surface → net-of-cost evaluation**. The options greeks ladder is now complete: delta (EVAL-54) →
-gamma (EVAL-55) → vega/term-structure (EVAL-56). The remaining pure options-native heavy rung is
-**volatility risk premium / realized-vs-implied vol (EVAL-57)**: back out real IV from Deribit option
-marks, compare to realized vol of the perpetual, and trade the perpetual delta-hedged to harvest (or fail
-to harvest, net of cost) the vol risk premium — the pure options-native rung not yet measured, requiring
-new live heavy data (Deribit option trades ~24h-capped = genuinely new evidence), not a re-run of sealed
-artifacts. **New timestamped task ID, never a re-run/re-seal of EVAL-02..56.**
+(delta-hedged short-vol), EVAL-55 (long-gamma gamma-scalping), EVAL-56 (term-structure calendar-spread) and
+EVAL-57 (VRP / realized-vs-implied) are sealed `NO-GO CONFIRMED (PASS)`; re-running them is prohibited
+re-litigation. The charter's unmeasured heavy rung is **real options pricing / greeks / vol-surface →
+net-of-cost evaluation**. The options greeks ladder is now complete: delta (EVAL-54) → gamma (EVAL-55) →
+vega/term-structure (EVAL-56) → VRP (EVAL-57). The remaining pure options-native heavy rung is
+**skew / risk-reversal (25Δ) (EVAL-58)**: back out real IV from Deribit option marks, select the ~25Δ call
+and ~25Δ put at a common expiry, and trade the risk-reversal (long one wing / short the other) delta-hedged
+in the perp to harvest (or fail to harvest, net of cost) the skew/risk-reversal premium — the pure
+options-native rung not yet measured, requiring new live heavy data (Deribit option trades ~24h-capped =
+genuinely new evidence), not a re-run of sealed artifacts. **New timestamped task ID, never a re-run/re-seal
+of EVAL-02..57.**
 
 ## HEAVY-WORK FLOOR (non-negotiable; below this a session is incomplete)
 New synchronized real Deribit options surface capture (BTC+ETH) over the same ~24h window meeting
 per-underlying floor (surface ≥100 snapshots / ≥50 instruments / ≥240 5m bars; options-venue trades
 ≥2000 trades / ≥50 instruments / ≥240 bars / ≥79200 s span; legs time-overlapping/common 5m bars ≥240)
 **plus the term-structure leg viable: ≥2 distinct expiries each with a common strike nearest spot present
-in ≥100 snapshots** → real vol-surface/greeks VRP / realized-vs-implied vol net-of-cost P&L (causal, no
-look-ahead, floor-aligned grid) → pre-register `EVAL_57_PREREGISTRATION_*` BEFORE verdict → seal
-`EVAL_57_SYNCHRONIZED_ACQUISITION_*` and `EVAL_57_COMBINED_*` (or BLOCKED only if floor unmet, never as
+in ≥100 snapshots** → real vol-surface/greeks 25Δ risk-reversal net-of-cost P&L (causal, no look-ahead,
+floor-aligned grid) → pre-register `EVAL_58_PREREGISTRATION_*` BEFORE verdict → seal
+`EVAL_58_SYNCHRONIZED_ACQUISITION_*` and `EVAL_58_COMBINED_*` (or BLOCKED only if floor unmet, never as
 substitute) → pass seal gate. No prior-EVAL re-runs/re-seals, no `research_state/` enumeration, no
 full test suite, no handoff-only session.
 
-## BOTTLENECKS — CLEARED / REMAINING (verified 2026-11-15T19:55:04Z)
-1. **CLEARED (this session):** EVAL-56 heavy real work complete — tooling built
-   (`scripts/eval56_acquire_options_surface.py`, `scripts/eval56_term_structure_calendar_net_of_cost.py`,
-   `tests/test_eval56_term_structure_calendar_net_of_cost.py`; 15 tests pass), acquisition
-   `EVAL_56_SYNCHRONIZED_ACQUISITION_20261115T185751Z`, prereg `EVAL_56_PREREGISTRATION_20261115T190016Z`,
-   verdict `EVAL_56_COMBINED_20261115T190126Z` **NO-GO CONFIRMED (PASS)**, seal gate exit 0. EVAL-56 no
+## BOTTLENECKS — CLEARED / REMAINING (verified 2026-11-15T20:00:00Z)
+1. **CLEARED (this session):** EVAL-57 heavy real work complete — tooling green (`scripts/eval57_*`,
+   `tests/test_eval57_vrp_net_of_cost.py`; 16 tests pass), acquisition
+   `EVAL_57_SYNCHRONIZED_ACQUISITION_20261115T195702Z`, prereg `EVAL_57_PREREGISTRATION_20261115T195900Z`,
+   verdict `EVAL_57_COMBINED_20261115T195911Z` **NO-GO CONFIRMED (PASS)**, seal gate exit 0. EVAL-57 no
    longer pending.
-2. **CLEARED:** Deribit public network — EVAL-56 BTC+ETH capture completed at 2026-11-15T18:57:51Z
-   (`data/raw/eval56/`). No active network blocker. If a future capture dips below floor, widen capture
+2. **REMAINING (next session must clear — tooling bottleneck, heavy work required):** EVAL-58 tooling is
+   ABSENT (`scripts/eval58_*`, `tests/test_eval58_*`). The session must build+test EVAL-58 tooling (copy-and-
+   retarget EVAL-57), then run live Deribit BTC+ETH synchronized acquisition (floor + term-structure
+   viability), pre-register before verdict, run full 25Δ risk-reversal net-of-cost measurement, and seal
+   gate exit 0. Handoff-only is a failed session; widening capture parameters is the only remedy for a
+   below-floor attempt.
+3. **CLEARED:** Deribit public network — EVAL-57 BTC+ETH capture completed at 2026-11-15T19:57:02Z
+   (`data/raw/eval57/`). No active network blocker. If a future capture dips below floor, widen capture
    parameters and retry.
-3. **CLEARED:** EVAL-52/53/54/55/56 sealed `NO-GO CONFIRMED (PASS)` with gate exit 0; their captures
-   `data/raw/eval52/`, `data/raw/eval53/`, `data/raw/eval54/`, `data/raw/eval55/`, `data/raw/eval56/`
-   are present and reusable (read-only). No handoff-only loop.
-4. **CLEARED:** env ready — `.venv-deps/` present; `./scripts/verify_env.sh --check` exit 0; `.env` absent;
+4. **CLEARED:** EVAL-52/53/54/55/56/57 sealed `NO-GO CONFIRMED (PASS)` with gate exit 0; their captures
+   `data/raw/eval52/`..`data/raw/eval57/` are present and reusable (read-only). No handoff-only loop.
+5. **CLEARED:** env ready — `.venv-deps/` present; `./scripts/verify_env.sh --check` exit 0; `.env` absent;
    `LIVE_TRADING_ENABLED` unset/false.
-5. **CLEARED:** `scripts/check_session_sealed.py` supports `--glob` + repeatable `--require-glob` (AND); the
-   EVAL-57 gate is executable as written in step 7.
-6. **CLEARED:** EVAL-56 acquisition/measurement code is a proven, working template for EVAL-57 — reuse it via
-   copy-and-retarget (do not edit it). EVAL-56 walks the real 5m surface snapshots causally and backs
-   IV/greeks out of real marks; EVAL-57 changes the book to a VRP / realized-vs-implied vol exposure.
-7. **CLEARED (this session, 2026-11-15T19:55:04Z):** EVAL-57 tooling exists and is green —
-   `scripts/eval57_acquire_options_surface.py`, `scripts/eval57_vrp_net_of_cost.py`,
-   `tests/test_eval57_vrp_net_of_cost.py` (`py_compile` OK; `pytest -q` 16 passed). Tooling is not a blocker.
-8. **REMAINING (next session must clear — execution bottleneck, heavy work required):** no `data/raw/eval57/`
-   capture and no `EVAL_57_SYNCHRONIZED_ACQUISITION_*` / `EVAL_57_PREREGISTRATION_*` / `EVAL_57_COMBINED_*`
-   artifacts sealed. The session must run live Deribit BTC+ETH synchronized acquisition (floor + term-structure
-   viability), pre-register before verdict, run full VRP net-of-cost measurement, and seal gate exit 0.
-   Handoff-only is a failed session; widening capture parameters is the only remedy for a below-floor attempt.
+6. **CLEARED:** `scripts/check_session_sealed.py` supports `--glob` + repeatable `--require-glob` (AND); the
+   EVAL-58 gate is executable as written in step 7.
+7. **CLEARED:** EVAL-57 acquisition/measurement code is a proven, working template for EVAL-58 — reuse it via
+   copy-and-retarget (do not edit it). EVAL-57 walks the real 5m surface snapshots causally and backs IV/greeks
+   out of real marks; EVAL-58 changes the book to a 25Δ skew / risk-reversal exposure.
+8. **CLEARED:** no `data/raw/eval58/` capture and no `EVAL_58_*` artifacts sealed — the only remaining work
+   is build+test tooling → live capture → prereg → measure → seal. Nothing else blocks progress.
 
 ## ANTI-STALL RULE (read before touching this file)
-- **Only** acceptable outputs: (a) sealed `EVAL_57_SYNCHRONIZED_ACQUISITION_*` + `EVAL_57_PREREGISTRATION_*` +
-  `EVAL_57_COMBINED_*` with gate exit 0, or (b) a *narrower* timestamped handoff whose floor is
+- **Only** acceptable outputs: (a) sealed `EVAL_58_SYNCHRONIZED_ACQUISITION_*` + `EVAL_58_PREREGISTRATION_*` +
+  `EVAL_58_COMBINED_*` with gate exit 0, or (b) a *narrower* timestamped handoff whose floor is
   **identical or stricter** and whose only change is the corrected task timestamp.
 - **Do NOT** re-issue at a new timestamp without either sealing or making stricter. A session whose only
   diff to this file is the timestamp is a failed session.
 - **Do NOT** weaken the floor, drop an underlying, drop a bar size, or convert the gate to accept
-  `EVAL_57_BLOCKED_*` as a verdict.
-- **Do NOT** create `EVAL_57_BLOCKED_*` and stop: below-floor means *widen the capture*, not *stop*.
+  `EVAL_58_BLOCKED_*` as a verdict.
+- **Do NOT** create `EVAL_58_BLOCKED_*` and stop: below-floor means *widen the capture*, not *stop*.
 - If external outage blocks capture, re-run with wider capture parameters first; only then record a
   blocked artifact **plus** the exact failing floor metric and the command to resume.
+- **Build the tooling first** — EVAL-58 tooling is absent; do not attempt a capture before
+  `scripts/eval58_*` + `tests/test_eval58_*` exist and `pytest -q` is green.
 
 ## PROHIBITED (hard constraints)
-- Do **not** re-run, re-litigate, or re-seal EVAL-02..56; do not edit sealed artifacts, sealed EVAL-52/
-  EVAL-53/EVAL-54/EVAL-55/EVAL-56 scripts/tests, or `src/`.
+- Do **not** re-run, re-litigate, or re-seal EVAL-02..57; do not edit sealed artifacts, sealed EVAL-52/
+  EVAL-53/EVAL-54/EVAL-55/EVAL-56/EVAL-57 scripts/tests, or `src/`.
 - Do **not** fall back to synthetic data; real loaders raise `RealDataUnavailable`; never relabel
   synthetic as real; never emit `{"valid": true}`.
 - Paper-only: `.env` absent; `LIVE_TRADING_ENABLED=false`; no live enablement, venue/config/credential
@@ -233,15 +231,25 @@ EVAL-02..56 sealed. EVAL-46..56 (options+orderflow ladder + options-surface gree
   (acq `EVAL_56_SYNCHRONIZED_ACQUISITION_20261115T185751Z`, prereg `EVAL_56_PREREGISTRATION_20261115T190016Z`;
   floor OK True; BTC best Sharpe −0.1203 any_pass false; ETH best Sharpe −0.1208 any_pass false; pooled PBO 0.5000;
   BH-FDR rejected []; seal gate exit 0). EVAL-56 immutable.
+- **EVAL-57** real Deribit options vol-surface/greeks **volatility risk premium (VRP) / realized-vs-implied**
+  net-of-cost (BTC+ETH) → `NO-GO CONFIRMED (PASS)`
+  `research_state/EVAL_57_COMBINED_20261115T195911Z.{json,md}`
+  (acq `EVAL_57_SYNCHRONIZED_ACQUISITION_20261115T195702Z`, prereg `EVAL_57_PREREGISTRATION_20261115T195900Z`
+  (+195911Z); floor OK True; BTC best Sharpe 1.1620 `vrp_straddle_delta_hedged::lb12::vt1.0::sc1.0::reb2`
+  any_pass false; ETH best Sharpe 7.7375 `vrp_straddle_delta_hedged::lb24::vt0.5::sc0.5::reb2` any_pass true;
+  pooled PBO 0.3750; BH-FDR rejected 6 ETH configs but BTC never passed → combined NO-GO; seal gate exit 0).
+  EVAL-57 immutable.
 
-**EVAL-57 is the next focus rung and is NOT yet sealed.** Tooling is built and green; the remaining work is
-heavy real capture/measurement/seal per the authoritative task above (no re-run/re-seal of EVAL-02..56).
+**EVAL-58 is the next focus rung and is NOT yet sealed.** Tooling is ABSENT; the next session must build +
+test `scripts/eval58_*` + `tests/test_eval58_*` (copy-and-retarget EVAL-57) then perform heavy real
+capture/measurement/seal per the authoritative task above (no re-run/re-seal of EVAL-02..57).
 
 Earlier: EVAL-37 audit `PASS 9/9`; EVAL-41/42 options pillar closed; EVAL-43 orderflow full roster
 `NO-GO CONFIRMED (PASS)`; EVAL-44 `CAMPAIGN_CLOSED` (BTC-scoped); EVAL-45 ETH orderflow `NO-GO` + options
 `BLOCKED`. The combined options+orderflow thesis is not net-of-cost tradable on all measured cells; the
-pure options-native delta-hedged (EVAL-54), long-gamma (EVAL-55) and term-structure calendar-spread (EVAL-56)
-rungs are also NO-GO. EVAL-57 (VRP / realized-vs-implied vol net-of-cost) is the next unmeasured heavy rung.
+pure options-native delta-hedged (EVAL-54), long-gamma (EVAL-55), term-structure calendar-spread (EVAL-56)
+and VRP / realized-vs-implied (EVAL-57) rungs are all NO-GO. EVAL-58 (skew / risk-reversal 25Δ net-of-cost)
+is the next unmeasured heavy rung.
 
 ## LOADER / ACQUISITION GOTCHAS
 - Run with `PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"` (imports `src/` → needs numpy).
@@ -250,20 +258,21 @@ rungs are also NO-GO. EVAL-57 (VRP / realized-vs-implied vol net-of-cost) is the
   `surface.snapshots[]` (each has `bar_ms`, causal `spot` = perp close at bar end, and `quotes[]` with
   `strike`/`expiry`/`option_type`/`bid`/`ask`/`mark`), `option_trades[]` (floor parity), and
   `perp_candles[]` (1m). No synthetic data; `source.provenance` records real Deribit public provenance.
-  **EVAL-57 acquisition is a copy-and-retarget of EVAL-56** (same real surface + order flow + perp capture)
-  writing `EVAL_57_SYNCHRONIZED_ACQUISITION_*`; do not edit the sealed EVAL-56 acquisition.
-- **EVAL-54/55 MEASUREMENT GRID ALIGNMENT:** the hedge walks the real 5m surface snapshots in ascending
+  **EVAL-58 acquisition is a copy-and-retarget of EVAL-57** (same real surface + order flow + perp capture)
+  writing `EVAL_58_SYNCHRONIZED_ACQUISITION_*`; do not edit the sealed EVAL-57 acquisition.
+- **EVAL-54/55/56/57 MEASUREMENT GRID ALIGNMENT:** the hedge walks the real 5m surface snapshots in ascending
   time; each snapshot is an end-of-bar state at `bar_ms + 300s` (its `spot` is the causal perp close). IV is
   backed out of the *real* mark (`implied_volatility(mark*spot, spot, K, 0, T, type)`) and greeks come from
   `black_scholes_greeks` at that IV (intrinsic-delta fallback if the IV solve fails). P&L is causal:
   decision at bar `k` → outcome over `[k, k+1]`.
-- **EVAL-57 VRP-SPECIFIC GOTCHA (new):** a VRP position needs a **common strike** across the near and far
-  expiry to back out IV for both legs. Pick the nearest-to-spot strike quoted (call AND put) in BOTH expiries;
-  if none, fall back to the nearest common strike across the two; if still none, that config is invalid
-  (do not fabricate). The exposure is set by the IV-realized-vol spread (pre-registered rule, no fitting),
-  delta-hedged in the perp. Charge each leg's real half bid/ask at entry and exit (both legs), hedge turnover
-  `HEDGE_FEE_BPS`.
-- **EVAL-54/55/56 COST MODEL:** hedge turnover `HEDGE_FEE_BPS=5` on `|Δhedge|*S`; long legs pay the real half
+- **EVAL-58 SKEW/RISK-REVERSAL-SPECIFIC GOTCHA (new):** a risk-reversal needs the **~25Δ call and ~25Δ put**
+  at a common expiry. Back IV out of each real mark, compute each option's delta via `black_scholes_greeks`,
+  select the call whose |delta| is nearest 0.25 and the put whose delta is nearest −0.25 (both quoted, call AND
+  put) at that expiry; if either wing is missing, fall back to the nearest-delta quoted wing on that side; if
+  still none, that config is invalid (do not fabricate). The exposure is set by the pre-registered risk-reversal
+  rule (no fitting), delta-hedged in the perp. Charge each leg's real half bid/ask at entry and exit (both
+  legs), hedge turnover `HEDGE_FEE_BPS`; full spread charged when the risk-reversal side flips.
+- **EVAL-54/55/56/57 COST MODEL:** hedge turnover `HEDGE_FEE_BPS=5` on `|Δhedge|*S`; long legs pay the real half
   bid/ask at entry (ask) and exit (bid); return = net-of-cost P&L / S per 1-unit underlying notional.
 - Deribit options **candles** (surface): `GET /public/get_tradingview_chart_data` per option instrument,
   resolution `5` (historical candles available). Deribit options **trades**:
@@ -350,3 +359,5 @@ sealed artifact. Final responses must not ask follow-up questions.
 - **2026-11-15T19:47:00Z (this session — task timestamp refreshed):** advanced authoritative task ID (superseded by 19:55:04Z below); tooling/artifacts still absent at 19:47Z.
 
 - **2026-11-15T19:55:04Z (this session — bottleneck cleared, task refreshed to force heavy execution):** verified env green (`./scripts/verify_env.sh --check` exit 0), EVAL-56 sealed (ACQ `20261115T185751Z`, PREREG `20261115T190016Z`, COMBINED `20261115T190126Z`, NO-GO CONFIRMED PASS, gate exit 0). Cleared stale "tooling absent" bottleneck: `scripts/eval57_acquire_options_surface.py`, `scripts/eval57_vrp_net_of_cost.py`, `tests/test_eval57_vrp_net_of_cost.py` exist (`py_compile` OK; `pytest -q tests/test_eval57_vrp_net_of_cost.py` 16 passed). No `data/raw/eval57/` and no `EVAL_57_*` acquisition/prereg/combined artifacts sealed. Advanced authoritative task ID to **`INIT-2026-11-15T19:55:04Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-ACQUIRE-MEASURE-AND-SEAL`** (stamp floor ≥ 2026-11-15T19:55:04Z). Next session must perform unavoidable heavy work: live Deribit BTC+ETH synchronized ~24h capture meeting floor + term-structure viability → pre-register before verdict → full VRP net-of-cost measurement → seal ACQ+PREREG+COMBINED → step-7 gate exit 0. Handoff-only is not completion.
+
+- **2026-11-15T19:56:41Z–19:59:11Z (EVAL-57 COMPLETED — this session; bottleneck CLEARED by execution):** verified env green (`verify_env.sh --check` exit 0), EVAL-57 tooling already green (`py_compile` OK; `pytest -q` 16 passed), Deribit network reachable (get_time 200). Removed a premature prereg, then ran the heavy pipeline in order: live synchronized Deribit BTC+ETH `--days 1` capture → `EVAL_57_SYNCHRONIZED_ACQUISITION_20261115T195702Z` (floor OK: BTC 289 snaps/102 inst/288 5m bars/4234 trades/85822 s span/287 common, term-structure viable 8 expiries; ETH 289/102/288/2890/85970 s/287 common, viable 8 expiries); prereg `EVAL_57_PREREGISTRATION_20261115T195900Z` (+195911Z) BEFORE verdict; smoke `--no-write` floor_ok true; verdict `EVAL_57_COMBINED_20261115T195911Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 1.1620 `vrp_straddle_delta_hedged::lb12::vt1.0::sc1.0::reb2` any_pass false; ETH best Sharpe 7.7375 `vrp_straddle_delta_hedged::lb24::vt0.5::sc0.5::reb2` any_pass true; pooled PBO 0.3750; BH-FDR rejected 6 ETH configs; combined NO-GO since BTC never passed). Seal gate exit 0. EVAL-57 immutable. Handoff advanced to EVAL-58 (skew/risk-reversal 25Δ); EVAL-58 tooling absent, next session must build+test it then execute heavy capture/measure/seal. EVAL-57 bottleneck cleared by real execution, not handoff.
