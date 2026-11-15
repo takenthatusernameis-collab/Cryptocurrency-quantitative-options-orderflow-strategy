@@ -35,28 +35,30 @@ EVAL-44 (BTC-scoped campaign closure certification) is sealed at
 EVAL-45 (ETH orderflow + options cross-asset falsification) is sealed: ETH orderflow
 `NO-GO CONFIRMED (PASS)` (`EVAL_45_ETH_ORDERFLOW_META_20261115T012707Z`, 5 disjoint real ETH
 tapes / 172,100 trades) and ETH options `BLOCKED` (no real ETH option series,
-`EVAL_45_OPTIONS_ETH_BLOCKED_20261115T012906Z`). **Next required task is EVAL-46 — the
-INTEGRATED (fused) options+orderflow net-of-cost falsification on the FULL dense real BTC dataset**
-(see `research_state/durable_handoff.md`,
-task `INIT-2026-11-15T03:21:04Z-EVAL-46-INTEGRATED-OPTIONS-ORDERFLOW-NET-OF-COST-FALSIFY-AND-SEAL`):
-this is the repo's **core thesis** (a combined options+orderflow strategy), the single largest
-untested gap (EVAL-18 static/degenerate; EVAL-31 3-snapshot weak stats), and it needs **zero new
-data** — all inputs are on disk (101 BTC option snapshots `data/raw/options_candles/` +
-overlapping BTC orderflow tapes `data/raw/eval41/orderflow_okx_BTC-USD-SWAP.json` and
-`data/raw/eval41/orderflow_okx_BTC-USD-SWAP_midday_20261114T090522Z.json`). Build a thin
-`scripts/eval46_integrated_options_orderflow_audit.py` (do NOT edit sealed eval41/42/43) that
-fuses the dense options signal (`load_snapshot_signals` + `align_options_signal_to_bars`) with the
-orderflow signal (`_causal_signal_series` + `_toxicities_per_bar`) under ≥3 pre-registered fusion
-rules, runs the full-tape net-of-cost walk-forward (combined vs options-only vs orderflow-only vs
-flat), computes 1000-perm / 1000-bootstrap / CSCV PBO k=4 / BH-FDR / DSR, pre-registers
-`EVAL_46_PREREGISTRATION_*`, seals `EVAL_46_*`, and passes
-`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T03:21:04Z-EVAL-46-INTEGRATED-OPTIONS-ORDERFLOW-NET-OF-COST-FALSIFY-AND-SEAL" --glob "EVAL_46_*"`.
-Pipeline is de-risked (smoke-tested 2026-11-15T02:30:24Z): 101 snapshots/26 levels align to both
-tapes, `_causal_signal_series` ~110 s/tape, `_run_walkforward` 0.04 s; `load_real_orderflow` +
-`IntegratedConfig` live in `src/campaign/integrated.py` (call `orderflow_path=` keyword); fusion
-rule (a) `_fuse_positions` exists, rules (b) regime filter and (c) continuous z-score go in the
-wrapper. This is mandatory heavy work: a NO-OP, handoff-only, pillar-re-run, or data-acquisition session is a
-failed session. **EVAL-47 (ETH options net-of-cost) is the queued follow-on rung.**
+`EVAL_45_OPTIONS_ETH_BLOCKED_20261115T012906Z`). EVAL-46 (the integrated/fused options+orderflow
+net-of-cost falsification on the FULL dense real BTC dataset — the repo's **core thesis**) is sealed:
+**`NO-GO CONFIRMED (PASS)`** at `research_state/EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z.{json,md}`
+(prereg `EVAL_46_PREREGISTRATION_20261115T041621Z`; 101 BTC snapshots × 2 real tapes × 3 pre-registered
+fusion rules, all NO-GO; pooled PBO 0.833; BH-FDR rejected nothing). The fused options+orderflow
+strategy is **not net-of-cost tradable on dense real BTC**. **Next required task is EVAL-47 — the ETH
+COMBINED (fused) options+orderflow net-of-cost cross-asset replication** (see
+`research_state/durable_handoff.md`, task
+`INIT-2026-11-15T04:18:47Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL`):
+this is the natural cross-asset replication of EVAL-46 (does the combined thesis work on ETH?),
+and it needs **new data** — the 5 ETH orderflow tapes are git-ignored and were wiped on a reset
+(re-acquire with cursor chaining from the trade-id ranges in
+`EVAL_45_ETH_TAPE_ACQUISITION_20261115T012656Z.json`, persist to git-tracked `data/raw/eval45/`),
+and ETH options must be backfilled (`options_candle_backfill.py` `underlying="ETH"`;
+`fetch_live_option_instruments("ETH", session=..., min_moneyness=0.7, max_moneyness=1.3)` → 858 live
+instruments; `fetch_option_candles(..., after=..., before=..., max_pages=...)` verified).
+Reuse the working `scripts/eval46_integrated_options_orderflow_audit.py` (12/12 tests, full run 3.4 s
+via a bit-identical bisect fast signal; accepts `symbol`, `OPTIONS_DIR`, 3 fusion rules, walk-forward,
+full stat battery, seal) — parametrize `symbol="ETH"` + an ETH options dir or thin-wrap it (do NOT edit
+sealed eval41/42/43/46 or any `src/` module). Pre-register `EVAL_47_PREREGISTRATION_*`, seal
+`EVAL_47_*`, and pass
+`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T04:18:47Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_47_*"`.
+This is mandatory heavy work: a NO-OP, handoff-only, BTC re-run, or partial/unsealed session is a
+failed session. **EVAL-48 (cross-venue) and EVAL-49 (L2 OFI) are the queued follow-on rungs.**
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
@@ -80,10 +82,12 @@ pillar closed across the full roster (`NO-GO CONFIRMED (PASS)`,
 `research_state/EVAL_43_ORDERFLOW_FULL_ROSTER_META_20261114T224516Z.{json,md}`). EVAL-44 sealed
 BTC-scoped `CAMPAIGN_CLOSED`. EVAL-45 measured ETH: orderflow `NO-GO CONFIRMED (PASS)`
 (5 disjoint real ETH tapes / 172,100 trades; 3/5 positive Sharpe but 2 kill-switch breaches →
-replicates BTC), options `BLOCKED` (no real ETH option series). **The combined (fused) options+orderflow
-strategy — the repo's core thesis — has NOT been rigorously tested on dense real data (EVAL-18 was
-static/degenerate; EVAL-31 used 3 snapshots with permutation p=0.768 / PBO=0.75). EVAL-46 is the active
-mandatory rung**: integrate the 101 dense BTC option snapshots with the real BTC orderflow signal under
-≥3 pre-registered fusion rules, run the full-tape net-of-cost walk-forward with the full stat battery,
-and seal `EVAL_46_*`. All inputs are already on disk (no network). ETH options is the queued EVAL-47
-follow-on rung — see `research_state/durable_handoff.md`.
+replicates BTC), options `BLOCKED` (no real ETH option series). **EVAL-46 sealed the combined (fused)
+options+orderflow thesis on the full dense real BTC data: `NO-GO CONFIRMED (PASS)`**
+(`research_state/EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z.{json,md}`; 101 BTC snapshots ×
+2 real tapes × 3 pre-registered fusion rules, all NO-GO; pooled PBO 0.833; BH-FDR rejected nothing) —
+the fused options+orderflow strategy is **not net-of-cost tradable on dense real BTC**. The **ETH
+combined** thesis (does the combined strategy work on ETH?) is the only untested extension — **EVAL-47
+is the active mandatory rung**: re-acquire the ETH orderflow tapes (git-ignored, wiped) + backfill dense
+ETH options + fuse under 3 rules + full-tape net-of-cost walk-forward + full stats + seal `EVAL_47_*`.
+See `research_state/durable_handoff.md`.

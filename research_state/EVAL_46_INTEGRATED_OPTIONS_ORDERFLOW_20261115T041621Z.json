@@ -1,0 +1,785 @@
+{
+  "artifact_paths": {
+    "json": "research_state/EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z.json",
+    "md": "research_state/EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z.md"
+  },
+  "bh_fdr": {
+    "alpha": 0.1,
+    "m_tests": 6,
+    "method": "Benjamini-Hochberg",
+    "rejected": [],
+    "thresholds": {
+      "41d_fresh::continuous_zscore": 0.03333333333333333,
+      "41d_fresh::regime_filter": 0.06666666666666667,
+      "41d_fresh::sign_agreement": 0.08333333333333333,
+      "midday::continuous_zscore": 0.016666666666666666,
+      "midday::regime_filter": 0.05000000000000001,
+      "midday::sign_agreement": 0.10000000000000002
+    }
+  },
+  "campaign_state": "TERMINATED (EVAL-36 TERMINATE_NO_GO); EVAL-37 PASS 9/9",
+  "code_paths": [
+    "src/analytics/integrated_options_orderflow_evaluation.py",
+    "src/analytics/options_time_varying_signal.py",
+    "src/analytics/capacity_aware_tca.py",
+    "src/analytics/real_walkforward_certification.py",
+    "src/analytics/strategy_evaluation.py",
+    "src/campaign/integrated.py",
+    "src/telemetry/serialization.py",
+    "scripts/eval46_integrated_options_orderflow_audit.py",
+    "tests/test_eval46_integrated_options_orderflow_audit.py"
+  ],
+  "commands": [
+    "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+    "python3 -m py_compile scripts/eval46_integrated_options_orderflow_audit.py tests/test_eval46_integrated_options_orderflow_audit.py",
+    "python3 -m pytest -q tests/test_eval46_integrated_options_orderflow_audit.py",
+    "python3 scripts/eval46_integrated_options_orderflow_audit.py --no-write",
+    "python3 scripts/eval46_integrated_options_orderflow_audit.py"
+  ],
+  "generated_at": "2026-11-15T04:16:21.171410Z",
+  "options_dataset": {
+    "first_snapshot_utc": "2026-11-14T11:35:00Z",
+    "last_snapshot_utc": "2026-11-14T19:55:00Z",
+    "manifest_sha256": "49f58f4fa76bad6b66e01749b499c0ddf113e021572d4af337d9749784d6e986",
+    "n_distinct_levels": 26,
+    "n_snapshots": 101,
+    "options_dir": "data/raw/options_candles"
+  },
+  "pooled": {
+    "go_rule": null,
+    "n_tapes": 2,
+    "passed": false,
+    "rule_audit": {
+      "continuous_zscore": {
+        "all_tapes_pass": false,
+        "per_tape": [
+          {
+            "ci_lower": -18.284212970930714,
+            "kill_switch_breach": true,
+            "oos_sharpe": -10.943657590561978,
+            "pass": false,
+            "permutation_p": 0.5704295704295704,
+            "tape": "41d_fresh"
+          },
+          {
+            "ci_lower": -8.680090767052755,
+            "kill_switch_breach": true,
+            "oos_sharpe": -1.8061442698801997,
+            "pass": false,
+            "permutation_p": 0.5434565434565435,
+            "tape": "midday"
+          }
+        ]
+      },
+      "regime_filter": {
+        "all_tapes_pass": false,
+        "per_tape": [
+          {
+            "ci_lower": -11.927827733495683,
+            "kill_switch_breach": true,
+            "oos_sharpe": -5.317147815386525,
+            "pass": false,
+            "permutation_p": 0.7422577422577422,
+            "tape": "41d_fresh"
+          },
+          {
+            "ci_lower": -5.694638931691909,
+            "kill_switch_breach": true,
+            "oos_sharpe": 1.7334141787939117,
+            "pass": false,
+            "permutation_p": 0.6543456543456544,
+            "tape": "midday"
+          }
+        ]
+      },
+      "sign_agreement": {
+        "all_tapes_pass": false,
+        "per_tape": [
+          {
+            "ci_lower": -14.143446000295812,
+            "kill_switch_breach": true,
+            "oos_sharpe": -10.121189541985471,
+            "pass": false,
+            "permutation_p": 0.9090909090909091,
+            "tape": "41d_fresh"
+          },
+          {
+            "ci_lower": -5.217106589612129,
+            "kill_switch_breach": false,
+            "oos_sharpe": -2.833738786986449,
+            "pass": false,
+            "permutation_p": 0.975024975024975,
+            "tape": "midday"
+          }
+        ]
+      }
+    },
+    "verdict": "NO-GO CONFIRMED (PASS)",
+    "verdict_reason": "no fusion rule passed the pre-declared GO bar on both real BTC tapes (need combined Sharpe > 0, no kill-switch breach, permutation p < 0.05 and bootstrap CI lower > 0 on both) -> the combined options+orderflow thesis is NOT net-of-cost tradable on the available real BTC data."
+  },
+  "pooled_pbo": {
+    "config_details": {
+      "41d_fresh::combined_continuous_zscore": {
+        "mean_is_sharpe": -11.11854996409149,
+        "mean_oos_sharpe": -12.138691872638532,
+        "pbo": 0.625,
+        "valid_combinations": 4
+      },
+      "41d_fresh::combined_regime_filter": {
+        "mean_is_sharpe": -5.470092977758366,
+        "mean_oos_sharpe": -6.5674971436624405,
+        "pbo": 0.546875,
+        "valid_combinations": 4
+      },
+      "41d_fresh::combined_sign_agreement": {
+        "mean_is_sharpe": -10.134088387936686,
+        "mean_oos_sharpe": -9.974763420534295,
+        "pbo": 0.5,
+        "valid_combinations": 4
+      },
+      "midday::combined_continuous_zscore": {
+        "mean_is_sharpe": -1.965544515794591,
+        "mean_oos_sharpe": -3.2744664764967224,
+        "pbo": 0.546875,
+        "valid_combinations": 4
+      },
+      "midday::combined_regime_filter": {
+        "mean_is_sharpe": 1.566999730691137,
+        "mean_oos_sharpe": 0.18957039054663494,
+        "pbo": 0.5625,
+        "valid_combinations": 4
+      },
+      "midday::combined_sign_agreement": {
+        "mean_is_sharpe": -3.1036033985052187,
+        "mean_oos_sharpe": -2.66536233639497,
+        "pbo": 0.65625,
+        "valid_combinations": 4
+      }
+    },
+    "k_folds": 4,
+    "n_combinations_used": 16,
+    "overall_pbo": 0.8333333333333334,
+    "pbo_per_config": {
+      "41d_fresh::combined_continuous_zscore": 0.625,
+      "41d_fresh::combined_regime_filter": 0.546875,
+      "41d_fresh::combined_sign_agreement": 0.5,
+      "midday::combined_continuous_zscore": 0.546875,
+      "midday::combined_regime_filter": 0.5625,
+      "midday::combined_sign_agreement": 0.65625
+    }
+  },
+  "preregistration_artifact": "research_state/EVAL_46_PREREGISTRATION_20261115T041621Z.json",
+  "protocol": {
+    "bar_duration_seconds": 15.0,
+    "bootstrap_block": 2,
+    "bootstrap_resamples": 1000,
+    "cost_model_bps_nav_per_window": 2.0,
+    "embargo": 5,
+    "fdr_alpha": 0.1,
+    "fusion_rules": [
+      "sign_agreement",
+      "regime_filter",
+      "continuous_zscore"
+    ],
+    "go_bar": "GO only if, across both real BTC tapes, at least one fusion rule shows combined net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05 and bootstrap 95% CI lower > 0; otherwise NO-GO CONFIRMED (PASS).",
+    "guardrail_bps": 0.5,
+    "kill_switch_max_drawdown": 0.2,
+    "max_position_pct": 0.2,
+    "pbo_k_folds": 4,
+    "pbo_n_combinations": 16,
+    "permutation_perms": 1000,
+    "purge": 10,
+    "seed": 42,
+    "signal_lookback_seconds": 60.0,
+    "signal_threshold": 0.1,
+    "step_size": 40,
+    "test_window": 40,
+    "toxicity_threshold": 0.7,
+    "toxicity_window_trades": 5,
+    "train_window": 120,
+    "z_min_periods": 5,
+    "z_threshold": 0.5
+  },
+  "report_id": "EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW",
+  "tape_errors": [],
+  "tape_results": [
+    {
+      "control_results": {
+        "flat": {
+          "num_trades": 0,
+          "num_windows": 36,
+          "oos_ann_vol": 0.0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "total_cost_usd": 0.0
+        },
+        "options_only": {
+          "num_trades": 776,
+          "num_windows": 36,
+          "oos_ann_vol": 1.3399847284463795,
+          "oos_max_drawdown": 0.9837530548466101,
+          "oos_return": -0.9837530548466101,
+          "oos_sharpe": -19.640991470076596,
+          "total_cost_usd": 663.6185508369003
+        },
+        "orderflow_only": {
+          "num_trades": 677,
+          "num_windows": 36,
+          "oos_ann_vol": 1.9568534598030982,
+          "oos_max_drawdown": 0.8769990300416449,
+          "oos_return": -0.8769910094295214,
+          "oos_sharpe": -6.303106086679453,
+          "total_cost_usd": 652.6573628455835
+        }
+      },
+      "first_trade_utc": "2026-11-14T13:22:33.993000Z",
+      "last_trade_utc": "2026-11-14T19:50:29.020000Z",
+      "n_bars": 1552,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 101,
+      "n_trades": 120000,
+      "name": "41d_fresh",
+      "pbo": {
+        "config_details": {
+          "combined_continuous_zscore": {
+            "mean_is_sharpe": -11.10826464140528,
+            "mean_oos_sharpe": -12.037839806498756,
+            "pbo": 0.625,
+            "valid_combinations": 4
+          },
+          "combined_regime_filter": {
+            "mean_is_sharpe": -5.548075705122817,
+            "mean_oos_sharpe": -6.937718444641413,
+            "pbo": 0.59375,
+            "valid_combinations": 4
+          },
+          "combined_sign_agreement": {
+            "mean_is_sharpe": -10.132324973111942,
+            "mean_oos_sharpe": -10.175682658746636,
+            "pbo": 0.515625,
+            "valid_combinations": 4
+          },
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "options_only": {
+            "mean_is_sharpe": -20.37843295248505,
+            "mean_oos_sharpe": -25.531425221490476,
+            "pbo": 0.640625,
+            "valid_combinations": 4
+          },
+          "orderflow_only": {
+            "mean_is_sharpe": -6.531967491703327,
+            "mean_oos_sharpe": -7.952314850973325,
+            "pbo": 0.578125,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.8333333333333334,
+        "pbo_per_config": {
+          "combined_continuous_zscore": 0.625,
+          "combined_regime_filter": 0.59375,
+          "combined_sign_agreement": 0.515625,
+          "flat": 0.0,
+          "options_only": 0.640625,
+          "orderflow_only": 0.578125
+        }
+      },
+      "rule_results": [
+        {
+          "best_control": "orderflow_only",
+          "best_control_sharpe": -6.303106086679453,
+          "bootstrap_ci": [
+            -10.121189541985476,
+            -14.143446000295812,
+            -6.682473386415623
+          ],
+          "combined": {
+            "num_trades": 293,
+            "num_windows": 36,
+            "oos_ann_vol": 1.1561768086283288,
+            "oos_max_drawdown": 0.8384408800660743,
+            "oos_return": -0.838419100669256,
+            "oos_sharpe": -10.121189541985471,
+            "total_cost_usd": 397.7511633745511
+          },
+          "combined_window_returns": [
+            -0.040609260733918635,
+            -7.191168233577628e-05,
+            -0.0001443165293605125,
+            -0.1503289279856316,
+            -7.723258006910327e-05,
+            0.00022618622324589523,
+            -0.1793484425816161,
+            1.454507801681757e-05,
+            -0.00013994608442299068,
+            -0.0006501510797231458,
+            -0.15866751271519636,
+            2.4437340469739867e-06,
+            0.000155679518597899,
+            -0.00023155180209796526,
+            -0.15919784993761452,
+            -0.18568733991595088,
+            -6.906940390152159e-05,
+            0.00020690543555771,
+            0.0,
+            0.0,
+            1.7542801402451005e-05,
+            -0.16728526177833716,
+            -0.15076232708057563,
+            -0.0001647181035736867,
+            0.0,
+            0.0,
+            -0.00033610137848503655,
+            0.0001280523618220468,
+            -0.159092939133397,
+            -0.15880878894936817,
+            6.288826582400361e-05,
+            0.00011028720588816213,
+            -4.80158450298768e-05,
+            0.0,
+            -0.16103547637492985,
+            0.00013480759753612803
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 121,
+          "permutation_p": 0.9090909090909091,
+          "rule": "sign_agreement"
+        },
+        {
+          "best_control": "orderflow_only",
+          "best_control_sharpe": -6.303106086679453,
+          "bootstrap_ci": [
+            -5.317147815386526,
+            -11.927827733495683,
+            -1.0130463511097043
+          ],
+          "combined": {
+            "num_trades": 677,
+            "num_windows": 36,
+            "oos_ann_vol": 2.036057658295449,
+            "oos_max_drawdown": 0.8610832184145518,
+            "oos_return": -0.8488223847762675,
+            "oos_sharpe": -5.317147815386525,
+            "total_cost_usd": 657.0403442781501
+          },
+          "combined_window_returns": [
+            -0.0858800155659407,
+            0.1904228518181821,
+            -0.18264218252765116,
+            -0.16238420168244513,
+            -0.039466178113995116,
+            0.00014846781399595785,
+            -0.1793484384443832,
+            4.477390973028377e-05,
+            -0.21326018533922209,
+            0.3865253096538063,
+            -0.23389847976981518,
+            -0.0001976724798916257,
+            0.000155679518597899,
+            0.005330810753051192,
+            -0.15860111331795604,
+            -0.18568733991595088,
+            -0.1400832161895078,
+            -0.024563405226398025,
+            0.000259444900774979,
+            0.19906700685905585,
+            -0.19001113991399368,
+            -0.16727552619164854,
+            -0.15076232708057563,
+            -0.00011186625533708138,
+            -0.00011053243508271407,
+            9.496343711900408e-05,
+            -0.00046518565761085483,
+            0.05264803304803936,
+            6.334675405989401e-05,
+            0.0031726573209253546,
+            6.288826582400361e-05,
+            -0.25022408787008404,
+            -0.004355838471344905,
+            0.00013886054201662774,
+            -0.015445588404580194,
+            6.520771442854311e-05
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 258,
+          "permutation_p": 0.7422577422577422,
+          "rule": "regime_filter"
+        },
+        {
+          "best_control": "orderflow_only",
+          "best_control_sharpe": -6.303106086679453,
+          "bootstrap_ci": [
+            -10.943657590561978,
+            -18.284212970930714,
+            -5.722870468527108
+          ],
+          "combined": {
+            "num_trades": 541,
+            "num_windows": 36,
+            "oos_ann_vol": 1.3858959351869484,
+            "oos_max_drawdown": 0.9083613438010151,
+            "oos_return": -0.9083493637997097,
+            "oos_sharpe": -10.943657590561978,
+            "total_cost_usd": 599.778901272916
+          },
+          "combined_window_returns": [
+            -0.04063100396817099,
+            6.716360375023213e-05,
+            -0.0036453372730517004,
+            -0.15408845256669418,
+            -0.15957463783730433,
+            0.00030390463249612364,
+            -0.17934846825504194,
+            -0.13917868363024566,
+            -0.00011991667524955119,
+            0.19166968388436784,
+            -0.16717240013744333,
+            -0.1978113890169699,
+            0.000155679518597899,
+            -0.00848873956496216,
+            -0.14068039683950498,
+            -0.18568733991595088,
+            0.0074340050160174725,
+            -0.15922524489674308,
+            -7.592615271758404e-05,
+            0.00021671391378069529,
+            -0.003325867055534909,
+            -0.16727553584580934,
+            -0.15076232708057563,
+            -0.00011186625533708138,
+            -4.951780997304013e-05,
+            0.0,
+            -0.12187420905418185,
+            -0.1423703462546339,
+            -0.07286277900941437,
+            0.00012772749898969777,
+            6.288826582400361e-05,
+            0.00011028720588816213,
+            -0.0062956230745617354,
+            -9.719648533529835e-05,
+            -0.16620708987456514,
+            0.00013073087059805403
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 216,
+          "permutation_p": 0.5704295704295704,
+          "rule": "continuous_zscore"
+        }
+      ],
+      "sha256": "ebebd473845ba4bff67149e592e029e7cbc323d2b2b67ac6f8a6457f4ad10153",
+      "tape_path": "data/raw/eval41/orderflow_okx_BTC-USD-SWAP.json"
+    },
+    {
+      "control_results": {
+        "flat": {
+          "num_trades": 0,
+          "num_windows": 36,
+          "oos_ann_vol": 0.0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "total_cost_usd": 0.0
+        },
+        "options_only": {
+          "num_trades": 253,
+          "num_windows": 36,
+          "oos_ann_vol": 1.0803258582387294,
+          "oos_max_drawdown": 0.5722567650617056,
+          "oos_return": -0.4305442860875447,
+          "oos_sharpe": -3.0719261188360845,
+          "total_cost_usd": 244.30368884629652
+        },
+        "orderflow_only": {
+          "num_trades": 656,
+          "num_windows": 36,
+          "oos_ann_vol": 2.3352033967086503,
+          "oos_max_drawdown": 0.7063521238232162,
+          "oos_return": -0.2885981934392423,
+          "oos_sharpe": 0.04373411538979708,
+          "total_cost_usd": 667.5499519315482
+        }
+      },
+      "first_trade_utc": "2026-11-14T09:05:25.435000Z",
+      "last_trade_utc": "2026-11-14T15:33:56.432000Z",
+      "n_bars": 1555,
+      "n_flat_bars": 598,
+      "n_snapshots_used": 101,
+      "n_trades": 77698,
+      "name": "midday",
+      "pbo": {
+        "config_details": {
+          "combined_continuous_zscore": {
+            "mean_is_sharpe": -1.965544515794591,
+            "mean_oos_sharpe": -3.2744664764967224,
+            "pbo": 0.546875,
+            "valid_combinations": 4
+          },
+          "combined_regime_filter": {
+            "mean_is_sharpe": 1.566999730691137,
+            "mean_oos_sharpe": 0.18957039054663494,
+            "pbo": 0.5625,
+            "valid_combinations": 4
+          },
+          "combined_sign_agreement": {
+            "mean_is_sharpe": -3.1036033985052187,
+            "mean_oos_sharpe": -2.66536233639497,
+            "pbo": 0.65625,
+            "valid_combinations": 4
+          },
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "options_only": {
+            "mean_is_sharpe": -3.1228519903573577,
+            "mean_oos_sharpe": -3.791865797515455,
+            "pbo": 0.515625,
+            "valid_combinations": 4
+          },
+          "orderflow_only": {
+            "mean_is_sharpe": -0.07732989696313344,
+            "mean_oos_sharpe": -1.6721238278427,
+            "pbo": 0.515625,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.8333333333333334,
+        "pbo_per_config": {
+          "combined_continuous_zscore": 0.546875,
+          "combined_regime_filter": 0.5625,
+          "combined_sign_agreement": 0.65625,
+          "flat": 0.0,
+          "options_only": 0.515625,
+          "orderflow_only": 0.515625
+        }
+      },
+      "rule_results": [
+        {
+          "best_control": "orderflow_only",
+          "best_control_sharpe": 0.04373411538979708,
+          "bootstrap_ci": [
+            -2.8337387869864537,
+            -5.217106589612129,
+            3.3579798038472344
+          ],
+          "combined": {
+            "num_trades": 80,
+            "num_windows": 36,
+            "oos_ann_vol": 0.044141592367214946,
+            "oos_max_drawdown": 0.018200845434331567,
+            "oos_return": -0.017853345110790397,
+            "oos_sharpe": -2.833738786986449,
+            "total_cost_usd": 139.22785004208248
+          },
+          "combined_window_returns": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -7.686032986370264e-05,
+            -9.585151985113043e-05,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            3.551435168104945e-05,
+            -0.016916983231742632,
+            -0.00096900737229269,
+            6.738527393797994e-05,
+            -8.262776885167114e-05,
+            -0.00018486041631171247,
+            5.577861021694844e-05,
+            0.00015408603880554436,
+            1.1489205889520235e-05,
+            0.00010634722611663165,
+            2.6198159362684238e-05,
+            0.0
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": false,
+          "n_nonzero_positions": 36,
+          "permutation_p": 0.975024975024975,
+          "rule": "sign_agreement"
+        },
+        {
+          "best_control": "orderflow_only",
+          "best_control_sharpe": 0.04373411538979708,
+          "bootstrap_ci": [
+            1.733414178793911,
+            -5.694638931691909,
+            6.158551696457368
+          ],
+          "combined": {
+            "num_trades": 233,
+            "num_windows": 36,
+            "oos_ann_vol": 1.4295771284048306,
+            "oos_max_drawdown": 0.25871893125952833,
+            "oos_return": 0.2525386489109385,
+            "oos_sharpe": 1.7334141787939117,
+            "total_cost_usd": 253.17256470003798
+          },
+          "combined_window_returns": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            7.686032986370264e-05,
+            -0.0071596141562846605,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            -1.3420723078452283e-05,
+            -0.15466399106001846,
+            0.000895456880772399,
+            -0.11754774781679007,
+            0.00013771485437711817,
+            0.23851890525712602,
+            0.3943380143418306,
+            0.00015408603880554436,
+            -0.06912637156146724,
+            0.17672335516046864,
+            -0.013079001052495733,
+            -0.09524720877076412
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 83,
+          "permutation_p": 0.6543456543456544,
+          "rule": "regime_filter"
+        },
+        {
+          "best_control": "orderflow_only",
+          "best_control_sharpe": 0.04373411538979708,
+          "bootstrap_ci": [
+            -1.8061442698802013,
+            -8.680090767052755,
+            2.4972482968073786
+          ],
+          "combined": {
+            "num_trades": 555,
+            "num_windows": 36,
+            "oos_ann_vol": 2.0972078599765216,
+            "oos_max_drawdown": 0.7006271118097943,
+            "oos_return": -0.5706532818348552,
+            "oos_sharpe": -1.8061442698801997,
+            "total_cost_usd": 619.9968851308967
+          },
+          "combined_window_returns": [
+            0.43404399698900176,
+            7.645919510861859e-05,
+            -0.1807491852891969,
+            -1.2156471701455302e-05,
+            -4.4418901259923585e-05,
+            -3.140462006675079e-05,
+            -0.007701690385783295,
+            -4.738095238135429e-06,
+            1.4503421224217163e-05,
+            -0.011962350411969382,
+            -0.15082030477475186,
+            0.19868549191452417,
+            0.18300685185017457,
+            -0.14586977222904737,
+            -0.019021103800521813,
+            5.544352754586726e-05,
+            -0.020375586930470455,
+            -0.15953276988930754,
+            0.1763832660778858,
+            -0.1592484232442602,
+            -0.1893611937799133,
+            -0.1653289468199514,
+            0.19906249114628138,
+            -0.03961184567734439,
+            5.761022357008187e-05,
+            -0.016293955332551558,
+            -0.024965955129376962,
+            0.1733112842154535,
+            -0.00017054634040105157,
+            -0.00040852009789770817,
+            -0.1264104940491845,
+            0.00015408603880554436,
+            -0.1481207935936436,
+            -0.09590805748315688,
+            -0.16262365966791084,
+            -0.08139646287671305
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 220,
+          "permutation_p": 0.5434565434565435,
+          "rule": "continuous_zscore"
+        }
+      ],
+      "sha256": "045660c21d4b9873c779c10f864d78fd370edea1c9a316f5f3024090f82688a2",
+      "tape_path": "data/raw/eval41/orderflow_okx_BTC-USD-SWAP_midday_20261114T090522Z.json"
+    }
+  ],
+  "tapes": {
+    "41d_fresh": {
+      "first_trade_utc": "2026-11-14T13:22:33.993000Z",
+      "last_trade_utc": "2026-11-14T19:50:29.020000Z",
+      "n_bars": 1552,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 101,
+      "n_trades": 120000,
+      "path": "data/raw/eval41/orderflow_okx_BTC-USD-SWAP.json",
+      "sha256": "ebebd473845ba4bff67149e592e029e7cbc323d2b2b67ac6f8a6457f4ad10153"
+    },
+    "midday": {
+      "first_trade_utc": "2026-11-14T09:05:25.435000Z",
+      "last_trade_utc": "2026-11-14T15:33:56.432000Z",
+      "n_bars": 1555,
+      "n_flat_bars": 598,
+      "n_snapshots_used": 101,
+      "n_trades": 77698,
+      "path": "data/raw/eval41/orderflow_okx_BTC-USD-SWAP_midday_20261114T090522Z.json",
+      "sha256": "045660c21d4b9873c779c10f864d78fd370edea1c9a316f5f3024090f82688a2"
+    }
+  },
+  "task_id": "INIT-2026-11-15T04:16:21.171410Z-EVAL-46-INTEGRATED-OPTIONS-ORDERFLOW-NET-OF-COST-FALSIFY-AND-SEAL",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_reason": "no fusion rule passed the pre-declared GO bar on both real BTC tapes (need combined Sharpe > 0, no kill-switch breach, permutation p < 0.05 and bootstrap CI lower > 0 on both) -> the combined options+orderflow thesis is NOT net-of-cost tradable on the available real BTC data.",
+  "verdict_scope": "FULL_DENSE_BTC"
+}
