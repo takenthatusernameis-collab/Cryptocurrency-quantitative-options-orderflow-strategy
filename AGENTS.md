@@ -44,13 +44,23 @@ strategy is **not net-of-cost tradable on dense real BTC**. EVAL-47 (ETH combine
 replication) is sealed: **`NO-GO CONFIRMED (PASS)`** at
 `research_state/EVAL_47_ETH_COMBINED_20261115T071330Z.{json,md}` (5 ETH tapes × 3 fusion rules, all
 NO-GO; seal gate exit 0). The fused options+orderflow strategy is **not net-of-cost tradable on real
-BTC or real ETH**. **Next required task is EVAL-48 — cross-venue combined options+orderflow net-of-cost
+BTC or real ETH**. EVAL-48 (BTC cross-venue replication: **Deribit BTC options + OKX BTC orderflow**) is
+sealed: **`NO-GO CONFIRMED (PASS)`** at
+`research_state/EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z.{json,md}` (prereg
+`EVAL_48_PREREGISTRATION_20261115T081951Z`; acquisition `EVAL_48_DERIBIT_ACQUISITION_20261115T081709Z`;
+133 real Deribit BTC snapshots × 2 OKX BTC tapes × 3 fusion rules, all NO-GO; pooled PBO 0.667; BH-FDR
+rejected 5 configs; the single-tape midday sign_agreement +5.71 does not replicate on 41d_fresh; seal
+gate exit 0). **The chronic "no Deribit data / no acquisition tooling" bottleneck is GONE:**
+`scripts/eval48_acquire_deribit_options.py` reconstructs real Deribit option snapshots (reusable for ETH
+via `--underlying ETH`) and `scripts/eval48_cross_venue_replication.py` is the tested copy-and-retarget
+wrapper. **Next required task is EVAL-49 — ETH cross-venue combined options+orderflow net-of-cost
 replication** (see `research_state/durable_handoff.md`, task
-`INIT-2026-11-15T07:23:17Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`): test venue-specificity —
-does the combined thesis produce a net-of-cost GO on another venue pair (Deribit options +
-Bybit/OKX orderflow)? **This is mandatory heavy work: a NO-OP, handoff-only, BTC/ETH re-run, or
-partial/unsealed session is a failed session.** Seal `EVAL_48_*` then pass
-`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T07:23:17Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_48_*"`. **EVAL-49 (L2 OFI) is the queued follow-on rung.**
+`INIT-2026-11-15T08:20:09Z-EVAL-49-ETH-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`): acquire Deribit ETH
+options (`scripts/eval48_acquire_deribit_options.py --underlying ETH --out-dir data/raw/eval49 --seal`)
+and fuse with the existing real OKX ETH orderflow tapes under the 3 pre-registered rules. **This is
+mandatory heavy work: a NO-OP, handoff-only, BTC re-run, or partial/unsealed session is a failed
+session.** Seal `EVAL_49_*` then pass
+`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T08:20:09Z-EVAL-49-ETH-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_49_*"`. **EVAL-50 (L2 OFI) is the queued follow-on rung.**
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
@@ -60,7 +70,7 @@ specific to the work item.
   venue/config/credential mutation, or order placement.
 - **Never fall back to synthetic data.** Real loaders raise `RealDataUnavailable`. Never relabel
   synthetic as real. Never emit `{"valid": true}`.
-- **Sealed artifacts are immutable.** EVAL-02..45 are sealed; append new timestamped artifacts only.
+- **Sealed artifacts are immutable.** EVAL-02..48 are sealed; append new timestamped artifacts only.
   Do not modify sealed artifacts to make a check pass.
 - Network is public read-only market data only, with polite rate limiting, if truly required.
 - Reuse existing modules under `src/analytics/`, `src/data/`, `src/backtest/`, `src/telemetry/`
@@ -81,8 +91,12 @@ options+orderflow thesis on the full dense real BTC data: `NO-GO CONFIRMED (PASS
 the fused options+orderflow strategy is **not net-of-cost tradable on dense real BTC**. **EVAL-47 sealed
 the ETH combined thesis: `NO-GO CONFIRMED (PASS)`** at
 `research_state/EVAL_47_ETH_COMBINED_20261115T071330Z.{json,md}` (5 ETH tapes × 3 fusion rules, all NO-GO;
-seal gate exit 0) — the fused options+orderflow strategy is **not net-of-cost tradable on real ETH**. The
-combined thesis is NOT net-of-cost tradable on real BTC or real ETH (both OKX single-venue). Venue-
-specificity is the only untested extension — **EVAL-48 is the active mandatory rung**: acquire Deribit
-options + Bybit/OKX orderflow tapes, fuse under 3 pre-registered rules, full-tape net-of-cost walk-forward,
-full stats, seal `EVAL_48_*`. See `research_state/durable_handoff.md`.
+seal gate exit 0) — the fused options+orderflow strategy is **not net-of-cost tradable on real ETH**.
+**EVAL-48 sealed the BTC cross-venue cell (Deribit options + OKX BTC orderflow): `NO-GO CONFIRMED (PASS)`**
+at `research_state/EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z.{json,md}` (133 real Deribit BTC snapshots ×
+2 OKX BTC tapes × 3 fusion rules, all NO-GO; pooled PBO 0.667; the midday sign_agreement +5.71 does not
+replicate on 41d_fresh; seal gate exit 0). The combined thesis is NOT net-of-cost tradable on BTC/OKX, ETH/OKX,
+or BTC Deribit-cross-venue. **EVAL-49 (ETH Deribit cross-venue) is the active mandatory rung**: acquire Deribit
+ETH options (`scripts/eval48_acquire_deribit_options.py --underlying ETH --out-dir data/raw/eval49 --seal`) +
+fuse with the existing OKX ETH tapes under 3 pre-registered rules, full-tape net-of-cost walk-forward, full
+stats, seal `EVAL_49_*`. See `research_state/durable_handoff.md`.
