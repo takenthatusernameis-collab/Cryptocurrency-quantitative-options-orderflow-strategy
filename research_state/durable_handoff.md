@@ -2,8 +2,8 @@
 
 ## AUTHORITATIVE INITIAL TASK FOR NEXT SESSION (timestamped; only valid task)
 
-**Task ID:** `INIT-2026-11-15T19:05:00Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`
-**Status as of 2026-11-15T19:05Z:** EVAL-56 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0); EVAL-57 **NOT STARTED** — `scripts/eval57_*` and `tests/test_eval57_*` absent, no EVAL-57 artifacts sealed. **Next session must execute this task in order (heavy real-data work required; handoff-only is failure).**
+**Task ID:** `INIT-2026-11-15T19:08:46Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`
+**Status as of 2026-11-15T19:08:46Z:** EVAL-56 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0); EVAL-57 **NOT STARTED** — `scripts/eval57_*` and `tests/test_eval57_*` absent, no EVAL-57 artifacts sealed. **Next session must execute this task in order (heavy real-data work required; handoff-only is failure).**
 
 ================================================================================
 >>> NEXT SESSION STARTS HERE — EXECUTE THIS TASK IN ORDER, NO EXCEPTIONS <<<
@@ -25,7 +25,7 @@ strategy; net-of-cost evaluation). The options greeks ladder is delta (EVAL-54, 
 far-expiry ATM straddle at a common strike), delta-hedged, P&L net of execution costs** on real Deribit
 BTC+ETH — the one options combination not yet measured.
 
-**TASK (authoritative): `INIT-2026-11-15T19:05:00Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`**
+**TASK (authoritative): `INIT-2026-11-15T19:08:46Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`**
 
 EVAL-57 is a fresh, pre-registered, heavy real-data falsification: real Deribit options vol-surface /
 greeks → **volatility risk premium (VRP) / realized-vs-implied vol net-of-cost** on the **BTC and ETH**
@@ -96,8 +96,8 @@ premium. Deribit option-trade history is ~24h-capped, so the capture is genuinel
 7. **Seal gate — session FAILS unless a window acquisition AND a prereg AND a floor-passing combined verdict exist
    with stamp ≥ task timestamp (all three required):**
    ```bash
-    python3 scripts/check_session_sealed.py \
-        --task-id "INIT-2026-11-15T19:05:00Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL" \
+     python3 scripts/check_session_sealed.py \
+        --task-id "INIT-2026-11-15T19:08:46Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL" \
        --glob "EVAL_57_SYNCHRONIZED_ACQUISITION_*" \
        --require-glob "EVAL_57_PREREGISTRATION_*" \
        --require-glob "EVAL_57_COMBINED_*"
@@ -111,7 +111,7 @@ premium. Deribit option-trade history is ~24h-capped, so the capture is genuinel
 
 **Definition of done (non-negotiable):** step 7 exits `0` with `EVAL_57_SYNCHRONIZED_ACQUISITION_<UTC>`,
 `EVAL_57_PREREGISTRATION_<UTC>` (pre-verdict), and a floor-passing `EVAL_57_COMBINED_<UTC>` (verdict
-`GO CONFIRMED` or `NO-GO CONFIRMED (PASS)`) all stamped ≥ `2026-11-15T19:05:00Z`. A handoff-only
+`GO CONFIRMED` or `NO-GO CONFIRMED (PASS)`) all stamped ≥ `2026-11-15T19:08:46Z`. A handoff-only
 session, re-run/re-seal of EVAL-02..56, full-test-suite discovery loop, `research_state/` enumeration,
 or `EVAL_57_BLOCKED_*` in place of a floor-passing combined verdict are **all failures**. The only
 acceptable no-seal outcome is a *narrower* handoff whose floor/gate are identical or stricter and whose
@@ -162,9 +162,12 @@ full test suite, no handoff-only session.
 6. **CLEARED:** EVAL-56 acquisition/measurement code is a proven, working template for EVAL-57 — reuse it via
    copy-and-retarget (do not edit it). EVAL-56 walks the real 5m surface snapshots causally and backs
    IV/greeks out of real marks; EVAL-57 changes the book to a VRP / realized-vs-implied vol exposure.
-7. **REMAINING (next session must clear):** EVAL-57 tooling does not exist —
+7. **REMAINING (next session must clear — sole bottleneck):** EVAL-57 tooling does not exist —
    `scripts/eval57_acquire_options_surface.py`, `scripts/eval57_vrp_net_of_cost.py`,
-   `tests/test_eval57_vrp_net_of_cost.py` are absent. Build + test them before the heavy acquisition.
+   `tests/test_eval57_vrp_net_of_cost.py` are absent. Build + `py_compile` + `pytest -q` them (must be
+   green) **before** the heavy acquisition. Nothing downstream (acquisition, pre-register, verdict,
+   seal gate) can proceed until this tooling exists and passes. This is the only thing standing between
+   the session and significant progress; clearing it is mandatory, not optional.
 
 ## ANTI-STALL RULE (read before touching this file)
 - **Only** acceptable outputs: (a) sealed `EVAL_57_SYNCHRONIZED_ACQUISITION_*` + `EVAL_57_PREREGISTRATION_*` +
@@ -341,3 +344,4 @@ sealed artifact. Final responses must not ask follow-up questions.
   `scripts/eval57_vrp_net_of_cost.py`, `tests/test_eval57_vrp_net_of_cost.py`) and all three EVAL-57
   artifacts remain absent. The only valid next-session output is sealed ACQ+PREREG+COMBINED with gate
   exit 0, or a stricter/narrower timestamped handoff. No handoff-only completion.
+- **2026-11-15T19:08:46Z (this session — task refreshed, bottleneck reinforced):** authoritative task ID advanced to **`INIT-2026-11-15T19:08:46Z-EVAL-57-REAL-OPTIONS-VOL-RISK-PREMIUM-REALIZED-VS-IMPLIED-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`**; stamp floor for step-7 gate and definition of done updated to ≥ `2026-11-15T19:08:46Z`. EVAL-57 tooling and all three EVAL-57 artifacts remain absent. Sole bottleneck: build + test `scripts/eval57_*` + `tests/test_eval57_*` before heavy acquisition. Heavy real work is unavoidable: copy-and-retarget EVAL-56 templates → `py_compile` + `pytest -q` green → live Deribit BTC+ETH ~24h capture meeting floor + term-structure viability → pre-register before verdict → full measurement → seal ACQ+PREREG+COMBINED → gate exit 0. Handoff-only is not completion.
