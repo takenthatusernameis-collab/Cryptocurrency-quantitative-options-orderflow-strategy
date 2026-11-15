@@ -7,7 +7,7 @@ is a quantitative **options** + orderflow strategy evaluated **net of cost**. Ev
 options+orderflow *fusion* cell (EVAL-46..53) and the options greeks/smile ladder rungs
 EVAL-54 (delta-hedged short-vol), EVAL-55 (long-gamma gamma-scalping), EVAL-56
 (term-structure calendar-spread), EVAL-57 (volatility risk premium / realized-vs-implied)
-and EVAL-58 (butterfly / convexity 25Δ, slope) are sealed ``NO-GO CONFIRMED (PASS)``;
+and EVAL-58 (skew / risk-reversal 25Δ, slope) are sealed ``NO-GO CONFIRMED (PASS)``;
 re-litigating fused options+orderflow or EVAL-54..58 is prohibited. The unmeasured heavy
 rung per the charter is **real options pricing / greeks / vol-surface -> net-of-cost
 evaluation**. EVAL-59 is the *25Δ butterfly / convexity (curvature)* pure options-native
@@ -70,13 +70,13 @@ Heavy-work floor (per underlying): surface >=100 snapshots / >=50 instruments /
 >=240 5m bars; options order flow >=2000 trades / >=50 instruments / >=240 bars /
 >=79200 s span; legs overlap on >=240 common 5m bars -- **plus** the term-structure
 leg viable (>=2 distinct expiries each with a common strike nearest spot present in
->=100 snapshots). Below floor seals a measured ``EVAL_58_BLOCKED_<UTC>`` (never a
-NO-GO). Refuses to seal a verdict unless every underlying independently clears the
-floor and the roster has >=2 underlyings.
+>=100 snapshots). Below floor seals a measured ``EVAL_59_BLOCKED_<UTC>`` (never a
+    NO-GO). Refuses to seal a verdict unless every underlying independently clears the
+    floor and the roster has >=2 underlyings.
 
-Seal ``EVAL_58_PREREGISTRATION_<UTC>.{json,md}`` (before measurement) then
-``EVAL_58_COMBINED_<UTC>.{json,md}`` (or ``EVAL_58_BLOCKED_<UTC>``).
-"""
+    Seal ``EVAL_59_PREREGISTRATION_<UTC>.{json,md}`` (before measurement) then
+    ``EVAL_59_COMBINED_<UTC>.{json,md}`` (or ``EVAL_59_BLOCKED_<UTC>``).
+    """
 
 from __future__ import annotations
 
@@ -114,9 +114,9 @@ from src.features.options_pricing import (  # noqa: E402
 )
 
 OUT_DIR = ROOT / "research_state"
-REPORT_ID = "EVAL_58_COMBINED"
-PREREG_ID = "EVAL_58_PREREGISTRATION"
-BLOCKED_ID = "EVAL_58_BLOCKED"
+REPORT_ID = "EVAL_59_COMBINED"
+PREREG_ID = "EVAL_59_PREREGISTRATION"
+BLOCKED_ID = "EVAL_59_BLOCKED"
 
 BAR_SECONDS = 300.0
 HEDGE_FEE_BPS = 5.0          # taker fee + impact on delta-hedge turnover
@@ -578,6 +578,7 @@ def _rr_series(
     median_call_iv = _finite(_median([s["call_iv"] for s in states if math.isfinite(s["call_iv"])]), 0.0)
     median_put_iv = _finite(_median([s["put_iv"] for s in states if math.isfinite(s["put_iv"])]), 0.0)
     median_skew = _finite(_median([s["skew"] for s in states if math.isfinite(s["skew"])]), 0.0)
+    median_fly = _finite(_median([s["fly_dev"] for s in states if math.isfinite(s["fly_dev"])]), 0.0)
 
     s0 = float(states[0]["spot"])
     net_rr_premium_usd = (float(states[0]["call_mark"]) - float(states[0]["put_mark"])) \
@@ -593,6 +594,7 @@ def _rr_series(
         "median_call_iv": median_call_iv,
         "median_put_iv": median_put_iv,
         "median_skew": median_skew,
+        "median_fly": median_fly,
         "mean_fly_dev": _mean(devs),
         "entry_spread_usd": 0.5 * float(states[0]["spread_usd"]) * float(states[0]["exposure"]),
         "exit_spread_usd": 0.5 * float(states[-1]["spread_usd"]) * float(states[-1]["exposure"]),
@@ -655,6 +657,7 @@ def evaluate_config(
         "median_call_iv": series.get("median_call_iv", 0.0),
         "median_put_iv": series.get("median_put_iv", 0.0),
         "median_skew": series.get("median_skew", 0.0),
+        "median_fly": series.get("median_fly", 0.0),
         "mean_fly_dev": series.get("mean_fly_dev", 0.0),
         "n_hedge_rebalances": series.get("n_hedge_rebalances", 0),
         "n_side_flips": series.get("n_side_flips", 0),
@@ -1057,7 +1060,7 @@ def run_eval59(
     pooled_pbo = _finite(pbo.get("overall_pbo"), 0.0)
     go = bool(floor_ok and all_pass and pooled_pbo < 0.5)
     verdict = "GO CONFIRMED" if go else "NO-GO CONFIRMED (PASS)"
-    campaign_state = "EVAL_58_OPTIONS_SKEW_RISK_REVERSAL" if floor_ok else "EVAL_58_BLOCKED_FLOOR"
+    campaign_state = "EVAL_59_OPTIONS_BUTTERFLY_25D" if floor_ok else "EVAL_59_BLOCKED_FLOOR"
 
     report: Dict[str, Any] = {
         "report_id": REPORT_ID,

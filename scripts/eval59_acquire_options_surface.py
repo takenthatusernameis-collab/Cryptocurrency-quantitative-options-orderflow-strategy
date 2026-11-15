@@ -12,13 +12,14 @@ EVAL-54 (delta-hedged short-vol), EVAL-55 (long-gamma gamma-scalping), EVAL-56
 realized-vs-implied vol) are sealed ``NO-GO CONFIRMED (PASS)``; re-litigating fused
 options+orderflow or EVAL-54/55/56/57 is prohibited. The unmeasured heavy rung per
 the charter is **real options pricing / greeks / vol-surface -> net-of-cost
-evaluation**. EVAL-59 is the *skew / risk-reversal (25Δ)* pure options-native
-campaign: it backs real IV out of Deribit option marks, selects the ~25Δ call and ~25Δ put
-plus the ATM call+put at a common strike nearest spot (same expiry), and trades the
-25Δ butterfly (long 25Δ call + long 25Δ put − ATM call − ATM put, or the mirror)
-delta-hedged in the perpetual — the pure options-native convexity/curvature rung not
-yet measured (EVAL-58 measured the smile slope / risk-reversal), requiring fresh real
-data (Deribit option trades are ~24h-capped).
+evaluation**. EVAL-59 is the *25Δ butterfly / convexity (curvature)* pure
+options-native campaign: it backs real IV out of Deribit option marks, selects
+the ~25Δ call and ~25Δ put plus the ATM call+put at a common strike nearest spot
+(same expiry), and trades the 25Δ butterfly (long 25Δ call + long 25Δ put −
+ATM call − ATM put, or the mirror) delta-hedged in the perpetual — the pure
+options-native convexity/curvature rung not yet measured (EVAL-58 measured the
+smile slope / risk-reversal), requiring fresh real data (Deribit option trades
+are ~24h-capped).
 
 Design (why a *single* combined capture file per underlying):
 
@@ -372,7 +373,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--seal", action="store_true",
                     help="write an acquisition manifest into research_state/")
     ap.add_argument("--task-label",
-                    default="EVAL-59-REAL-OPTIONS-SKEW-RISK-REVERSAL-NET-OF-COST-BTC-ETH")
+                    default="EVAL-59-REAL-OPTIONS-BUTTERFLY-25D-CONVEXITY-NET-OF-COST-BTC-ETH")
     args = ap.parse_args(argv)
 
     underlyings = [u.upper() for u in (args.underlying or ["BTC", "ETH"])]
