@@ -54,9 +54,14 @@ gate exit 0). **The chronic "no Deribit data / no acquisition tooling" bottlenec
 `scripts/eval48_acquire_deribit_options.py` reconstructs real Deribit option snapshots (reusable for ETH
 via `--underlying ETH`) and `scripts/eval48_cross_venue_replication.py` is the tested copy-and-retarget
 wrapper. **EVAL-49 (ETH cross-venue) and EVAL-50 (real L2 OFI) are now SEALED — see "Current measured
-state" above. The campaign ladder (EVAL-46..50) is COMPLETE; there is no next rung and no EVAL-51.**
-Do not re-run, re-litigate, or re-seal EVAL-02..50. Any future work is a fresh, pre-registered, heavy
-real-data falsification with a new timestamped task ID.
+state" above. The campaign ladder (EVAL-46..50) is COMPLETE, and the next focus campaign is now
+DEFINED as EVAL-51 (signed real Deribit options order flow → net-of-cost tradability of the
+underlying BTC/ETH perpetual), the one charter modality not yet measured. EVAL-51 tooling
+(`scripts/eval51_acquire_options_orderflow.py`, `scripts/eval51_options_orderflow_net_of_cost.py`,
+`tests/test_eval51_options_orderflow_net_of_cost.py`) is built, tested (14 pass) and smoke-verified on
+real Deribit data.** Do not re-run, re-litigate, or re-seal EVAL-02..50. Any future work is a fresh,
+pre-registered, heavy real-data falsification with a new timestamped task ID; see
+`research_state/durable_handoff.md` for the authoritative EVAL-51 task.
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
@@ -101,6 +106,8 @@ campaign: `NO-GO CONFIRMED (PASS)`** at
 floor met: BTC 443 snaps/999.6s, ETH 444 snaps/999.6s; 4 configs/instrument, all NO-GO; pooled PBO 0.5000;
 BH-FDR rejected 4 configs; seal gate exit 0). The combined options+orderflow thesis is **NOT net-of-cost
 tradable on BTC/OKX, ETH/OKX, BTC Deribit-cross-venue, ETH Deribit-cross-venue, nor on real L2 order-book
-OFI (BTC+ETH)**. **The campaign ladder is COMPLETE — no EVAL-51 exists.** Do not re-run, re-litigate, or
+OFI (BTC+ETH)**. **The ladder EVAL-46..50 is COMPLETE; the next focus campaign is EVAL-51 (signed real
+Deribit options order flow → net-of-cost tradability of the underlying BTC/ETH perpetual), the one
+charter modality not yet measured.** Do not re-run, re-litigate, or
 re-seal EVAL-02..50. Any future work is a fresh, pre-registered, heavy real-data falsification with a new
 timestamped task ID. See `research_state/durable_handoff.md`.
