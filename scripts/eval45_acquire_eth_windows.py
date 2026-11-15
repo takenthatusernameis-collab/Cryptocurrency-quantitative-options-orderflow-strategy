@@ -185,8 +185,12 @@ def assert_disjoint(previous: Mapping[str, Any], current: Mapping[str, Any]) -> 
     cursor = str(current.get("after_cursor") or "")
     if cursor and cursor != str(previous["first_trade_id"]):
         raise AcquisitionError("cursor is not the previous window's oldest trade id")
-    if int(current["newest_timestamp_ms"]) >= int(previous["newest_timestamp_ms"]):
-        raise AcquisitionError("current window is not strictly older than the previous")
+    # Preloaded windows may lack newest_timestamp_ms; compare only when present.
+    prev_newest = previous.get("newest_timestamp_ms")
+    cur_newest = current.get("newest_timestamp_ms")
+    if prev_newest is not None and cur_newest is not None:
+        if int(cur_newest) >= int(prev_newest):
+            raise AcquisitionError("current window is not strictly older than the previous")
     return {
         "disjoint": True,
         "overlap_trade_ids": 0,
@@ -233,17 +237,80 @@ def acquire_windows(
     prefix: str = "orderflow_okx",
     session: Any = None,
     max_attempts: int = 4,
+    resume_from_tape: Path | str | None = None,
+    start_cursor: str | None = None,
+    preloaded_windows: Sequence[Mapping[str, Any]] | None = None,
 ) -> Dict[str, Any]:
-    """Acquire ``windows`` disjoint real tapes, each meeting the declared floors."""
+    """Acquire ``windows`` disjoint real tapes, each meeting the declared floors.
+
+    When ``resume_from_tape`` (or ``start_cursor``) is given, the starting cursor
+    is taken from an existing on-disk tape's oldest trade id instead of the
+    newest tape, and ``preloaded_windows`` (existing manifests) are merged into
+    the sealed report so the ≥5-window floor is measured across on-disk + new
+    tapes. This removes the partial-acquisition blocker without re-fetching data
+    already on disk.
+    """
     if int(windows) < 1:
         raise AcquisitionError("windows must be >= 1")
     session = session or requests.Session()
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
 
+    preloaded: List[Dict[str, Any]] = [dict(w) for w in (preloaded_windows or [])]
+
+    cursor: Optional[str] = start_cursor
+    if resume_from_tape is not None:
+        resume_path = Path(resume_from_tape)
+        loaded = load_real_orderflow(symbol, orderflow_path=resume_path)
+        loaded_trades = list(loaded.trades or [])
+        if not loaded_trades:
+            raise AcquisitionError(f"resume tape has no trades: {resume_path}")
+        # Use the raw first trade id from the loader (oldest = first).
+        cursor = str(loaded_trades[0].trade_id)
+        if start_cursor is not None and str(start_cursor) != cursor:
+            raise AcquisitionError(
+                f"start_cursor {start_cursor!r} != resume tape oldest id {cursor!r}"
+            )
+        # Measure bar count from the tape so the floor check stays honest.
+        stamps_ms = []
+        for t in loaded_trades:
+            ts_ms = getattr(t, "timestamp_ms", None)
+            if ts_ms is not None:
+                stamps_ms.append(int(ts_ms))
+            else:
+                ts = getattr(t, "timestamp", None)
+                if ts is not None:
+                    stamps_ms.append(int(_parse_ts(ts).timestamp() * 1000))
+        if stamps_ms:
+            span_s = (max(stamps_ms) - min(stamps_ms)) / 1000.0
+            resume_bars = max(1, int(math.ceil(span_s / max(float(bar_duration_seconds), 1.0))))
+        else:
+            resume_bars = 0
+        # Record the preloaded tape as a window record (index 0 placeholder).
+        first_ts = getattr(loaded_trades[0], "timestamp", None)
+        last_ts = getattr(loaded_trades[-1], "timestamp", None)
+        preloaded.append({
+            "window": 0,
+            "path": str(resume_path),
+            "sha256": _sha256(resume_path),
+            "inst_id": inst_id,
+            "symbol": str(symbol),
+            "after_cursor": None,
+            "n_trades": len(loaded_trades),
+            "n_bars": int(resume_bars),
+            "first_trade_id": str(loaded_trades[0].trade_id),
+            "last_trade_id": str(loaded_trades[-1].trade_id),
+            "first_trade_utc": first_ts,
+            "last_trade_utc": last_ts,
+            "preloaded": True,
+            "disjointness": {"disjoint": True, "overlap_trade_ids": 0,
+                             "after_cursor": None, "strictly_older": True},
+        })
+
+    previous: Optional[Dict[str, Any]] = preloaded[-1] if preloaded else None
+
     window_records: List[Dict[str, Any]] = []
-    cursor: Optional[str] = None
-    previous: Optional[Dict[str, Any]] = None
+    cursor: Optional[str] = cursor
 
     for index in range(1, int(windows) + 1):
         attempts: List[Dict[str, Any]] = []
@@ -328,12 +395,13 @@ def acquire_windows(
         cursor = accepted["first_trade_id"]
         previous = accepted
 
-    total_trades = sum(int(r["n_trades"]) for r in window_records)
+    all_windows = preloaded + window_records
+    total_trades = sum(int(r["n_trades"]) for r in all_windows)
     report = build_report(
         generated_at=utc_now_iso(),
         inst_id=inst_id,
         symbol=symbol,
-        windows=window_records,
+        windows=all_windows,
         total_trades=total_trades,
         bar_duration_seconds=bar_duration_seconds,
         min_bars=min_bars,
@@ -463,6 +531,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     ap.add_argument("--request-delay-seconds", type=float, default=DEFAULT_REQUEST_DELAY_SECONDS)
     ap.add_argument("--out-dir", default=str(DATA_RAW_DIR))
     ap.add_argument("--prefix", default="orderflow_okx")
+    ap.add_argument("--resume-from-tape", default=None, metavar="PATH",
+                    help="chain new windows backward from an existing on-disk tape's "
+                         "oldest trade id (merges it into the sealed manifest)")
+    ap.add_argument("--start-cursor", default=None, metavar="ID",
+                    help="explicit oldest-trade-id cursor to chain from (alternative "
+                         "to --resume-from-tape; must match the resume tape if both given)")
     ap.add_argument("--seal", action="store_true", help="write the acquisition manifest")
     ap.add_argument("--no-seal", dest="seal", action="store_false")
     ap.set_defaults(seal=False)
@@ -481,6 +555,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             request_delay_seconds=args.request_delay_seconds,
             out_dir=Path(args.out_dir),
             prefix=args.prefix,
+            resume_from_tape=Path(args.resume_from_tape) if args.resume_from_tape else None,
+            start_cursor=args.start_cursor,
         )
     except Exception as exc:  # noqa: BLE001 - fail loudly, never seal a false success
         traceback.print_exc()

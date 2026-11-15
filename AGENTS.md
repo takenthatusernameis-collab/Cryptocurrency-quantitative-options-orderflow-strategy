@@ -32,12 +32,21 @@ python3 scripts/eval37_final_termination_audit.py        # seals a new PASS/FAIL
 
 EVAL-44 (BTC-scoped campaign closure certification) is sealed at
 `research_state/EVAL_44_CAMPAIGN_CLOSURE_20261114T232641Z.{json,md}` (`CAMPAIGN_CLOSED`).
-**Next required task is EVAL-45 cross-asset ETH falsification** (see `research_state/durable_handoff.md`,
-task `INIT-2026-11-14T23:41:41Z-EVAL-45-CROSS-ASSET-ETH-FALSIFY-AND-SEAL`): acquire real read-only ETH
-data, pre-register, run the ETH orderflow + options legs net-of-cost with full statistics, seal
-`EVAL_45_*`, and pass
-`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-14T23:41:41Z-EVAL-45-CROSS-ASSET-ETH-FALSIFY-AND-SEAL" --glob "EVAL_45_*"`.
-This is mandatory heavy work: a NO-OP, handoff-only, or BTC-re-run session is a failed session.
+ **Next required task is EVAL-45 cross-asset ETH falsification** (see `research_state/durable_handoff.md`,
+ task `INIT-2026-11-14T23:41:41Z-EVAL-45-CROSS-ASSET-ETH-FALSIFY-AND-SEAL`): 2/5 real ETH tapes are on
+ disk (`data/raw/orderflow_okx_ETH_w01_507908231.json`, `data/raw/orderflow_okx_ETH_w02_507848531.json`,
+ disjoint/adjacent, loader-compatible). **Complete the 3 remaining disjoint windows by chaining backward
+ from w02 oldest id `507848531` (resume now supported — do not re-fetch on-disk tapes):**
+ ```bash
+ export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
+ python3 scripts/eval45_acquire_eth_windows.py --windows 3 \
+   --resume-from-tape data/raw/orderflow_okx_ETH_w02_507848531.json \
+   --min-bars 420 --min-trades 10000 --seal
+ ```
+ then pre-register, run the ETH orderflow + options legs net-of-cost with full statistics, seal
+ `EVAL_45_*`, and pass
+ `python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-14T23:41:41Z-EVAL-45-CROSS-ASSET-ETH-FALSIFY-AND-SEAL" --glob "EVAL_45_*"`.
+ This is mandatory heavy work: a NO-OP, handoff-only, or BTC-re-run session is a failed session.
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.

@@ -158,3 +158,120 @@ def test_build_report_is_acquisition_only_and_finite() -> None:
     assert report["all_windows_disjoint"] is True
     assert "trade_ids" not in report["windows"][0]
     assert mod._all_finite(report)
+
+
+# ---------------------------------------------------------------------------
+# Resume-from-tape: the partial-acquisition bottleneck removal.
+# ---------------------------------------------------------------------------
+
+
+class _FakeResponse:
+    def __init__(self, payload):
+        self._payload = payload
+
+    def json(self):
+        return self._payload
+
+    def raise_for_status(self):
+        return None
+
+
+class _FakeSession:
+    """Returns newest-first OKX trade rows; pages backward via ``after``."""
+
+    def __init__(self, rows):
+        self._rows = rows  # newest-first
+
+    def get(self, url, params=None, timeout=None):
+        after = (params or {}).get("after")
+        rows = self._rows
+        if after is not None:
+            # Return rows strictly older than ``after`` (backward paging).
+            rows = [r for r in rows if int(r["tradeId"]) < int(after)]
+        limit = int((params or {}).get("limit", "100"))
+        page = rows[:limit]  # newest-first within the remaining set
+        return _FakeResponse({"code": "0", "data": page})
+
+
+def _okx_row(trade_id, ms, price=3000.0):
+    return {
+        "tradeId": str(trade_id),
+        "instId": "ETH-USD-SWAP",
+        "px": str(price),
+        "sz": "1",
+        "side": "buy",
+        "ts": str(ms),
+    }
+
+
+def _tape_row(trade_id, ms, price=3000.0):
+    """A row shaped for write_orderflow_tape (trade_id/price/size/side/timestamp)."""
+    from datetime import datetime, timezone
+
+    return {
+        "trade_id": str(trade_id),
+        "price": float(price),
+        "size": 1.0,
+        "side": "buy",
+        "timestamp": datetime.fromtimestamp(ms / 1000.0, tz=timezone.utc).strftime(
+            "%Y-%m-%dT%H:%M:%S.%fZ"
+        ),
+    }
+
+
+def _write_pre_tape(path: Path, first_id: int, n: int, step_ms: int = 15_000,
+                    start_ms: int = 1_700_000_000_000) -> None:
+    rows = [_tape_row(first_id + i, start_ms + i * step_ms) for i in range(n)]
+    mod.write_orderflow_tape(
+        {"instrument": "ETH-USD-SWAP", "trades": rows},
+        path,
+    )
+
+
+def test_resume_from_tape_chains_backward_and_merges(tmp_path) -> None:
+    # Existing on-disk tape: oldest id = 50000, 20k trades spanning ~300 bars.
+    pre_path = tmp_path / "orderflow_okx_ETH_pre.json"
+    _write_pre_tape(pre_path, first_id=50_000, n=20_000)
+
+    # New window chained backward: ids 10000..49999 (all < 50000), 40k trades.
+    new_rows = [_okx_row(10_000 + i, 1_699_000_000_000 + i * 15_000)
+                for i in range(40_000)]
+
+    report = mod.acquire_windows(
+        symbol="ETH",
+        windows=1,
+        min_bars=200,
+        min_trades=10_000,
+        bar_duration_seconds=15.0,
+        page_limit=20_000,
+        max_pages=3,
+        request_delay_seconds=0.0,
+        out_dir=tmp_path,
+        session=_FakeSession(new_rows),
+        resume_from_tape=pre_path,
+    )
+
+    # Preloaded + 1 new window = 2 windows merged.
+    assert report["n_windows"] == 2
+    assert report["all_windows_disjoint"] is True
+    assert report["all_floors_met"] is True
+    preloaded = [w for w in report["windows"] if w.get("preloaded")]
+    new = [w for w in report["windows"] if not w.get("preloaded")]
+    assert len(preloaded) == 1 and len(new) == 1
+    # New window is strictly older: its last id < preloaded oldest id (50000).
+    assert int(new[0]["last_trade_id"]) < int(preloaded[0]["first_trade_id"])
+    # The new window's after_cursor is the preloaded tape's oldest id.
+    assert new[0]["after_cursor"] == preloaded[0]["first_trade_id"]
+
+
+def test_resume_from_tape_rejects_start_cursor_mismatch(tmp_path) -> None:
+    pre_path = tmp_path / "orderflow_okx_pre.json"
+    _write_pre_tape(pre_path, first_id=50_000, n=20_000)
+    with pytest.raises(mod.AcquisitionError, match="start_cursor"):
+        mod.acquire_windows(
+            symbol="ETH", windows=1, min_bars=200, min_trades=10_000,
+            bar_duration_seconds=15.0, page_limit=20_000, max_pages=3,
+            request_delay_seconds=0.0, out_dir=tmp_path,
+            session=_FakeSession([]), resume_from_tape=pre_path,
+            start_cursor="999999",
+        )
