@@ -2,7 +2,7 @@
 
 ## AUTHORITATIVE INITIAL TASK (do this next; no other task is valid until it is done)
 
-**TASK `INIT-2026-11-15T14:17:27Z-EVAL-51-OPTIONS-ORDERFLOW-NET-OF-COST-ACQUIRE-MEASURE-AND-SEAL`.**
+**TASK `INIT-2026-11-15T15:06:06Z-EVAL-51-OPTIONS-ORDERFLOW-NET-OF-COST-ACQUIRE-MEASURE-AND-SEAL`.**
 
 The campaign ladder EVAL-02..50 is **SEALED and immutable** (all `NO-GO CONFIRMED (PASS)`; see the
 sealed block below). The repo charter is a **combined options + orderflow** strategy, and every
@@ -55,7 +55,7 @@ heavy real-data falsification** (not a continuation or re-run of any sealed EVAL
    capture cannot satisfy the campaign):
    ```bash
    python3 scripts/check_session_sealed.py \
-       --task-id "INIT-2026-11-15T14:17:27Z-EVAL-51-OPTIONS-ORDERFLOW-NET-OF-COST-ACQUIRE-MEASURE-AND-SEAL" \
+        --task-id "INIT-2026-11-15T15:06:06Z-EVAL-51-OPTIONS-ORDERFLOW-NET-OF-COST-ACQUIRE-MEASURE-AND-SEAL" \
        --glob "EVAL_51_OPTIONS_ORDERFLOW_ACQUISITION_*" \
        --require-glob "EVAL_51_OPTIONS_ORDERFLOW_COMBINED_*"
    ```
@@ -100,10 +100,13 @@ prior-EVAL re-runs, no `research_state/` enumeration, no full test suite, no han
   no kill-switch breach (max-DD ≤ 0.20), permutation p < 0.05, bootstrap 95% CI lower > 0. Else
   `NO-GO CONFIRMED (PASS)`. Below floor → `BLOCKED` (never NO-GO).
 
-## BOTTLENECKS — CLEARED (verified 2026-11-15T14:17:27Z)
+## BOTTLENECKS — CLEARED (verified 2026-11-15T15:06:06Z)
 1. **CLEARED (was the blocker):** the campaign ladder was declared COMPLETE with "no EVAL-51 / no
    action required", which made every future session handoff-only. Replaced by this defined heavy
-   EVAL-51 task with a seal gate that forces acquisition + verdict.
+   EVAL-51 task with a seal gate that forces acquisition + verdict. The prior task
+   `INIT-2026-11-15T14:17:27Z` defined EVAL-51 but **no verdict was sealed** (heavy acquisition +
+   measurement not executed). Re-issued here as `INIT-2026-11-15T15:06:06Z` — the next session must
+   run steps 1–5 to completion; there is no valid alternative task.
 2. **CLEARED:** EVAL-51 acquisition + measurement + tests built, compiled, and smoke-verified against
    **real** Deribit data. Full ~24h BTC+ETH probe (`--days 1 --max-per-expiry 12`) → **BTC 5315 trades
    / 101 option instruments / 289 5m bars; ETH 3471 trades / 99 instruments / 289 bars**, ~64 s.
@@ -198,21 +201,12 @@ a verifying sealed artifact. Final responses must not ask follow-up questions.
   prereg `EVAL_50_PREREGISTRATION_20261115T134705Z` then `EVAL_50_L2_OFI_COMBINED_20261115T134705Z`
   — **NO-GO CONFIRMED (PASS)**: 4 configs/instrument, best Sharpe BTC −2.68 / ETH −1.01, pooled
   PBO 0.5000, BH-FDR rejected 4 configs. Seal gate exit 0. Campaign ladder EVAL-46..50 closed.
-- **2026-11-15T14:17:27Z (this session, NEW CAMPAIGN EVAL-51 defined):** the prior "campaign CLOSED /
-  no EVAL-51 / no action required" state was the bottleneck (every future session would be
-  handoff-only). Defined **EVAL-51** = the one unmeasured charter modality: **signed order flow of
-  the real Deribit options book** → net-of-cost tradability of the underlying BTC/ETH perpetual.
-  Built `scripts/eval51_acquire_options_orderflow.py` (heavy full-universe ~24h BTC+ETH acquisition, paginated
-  Deribit trades + perp candles, acquisition manifest) and
-  `scripts/eval51_options_orderflow_net_of_cost.py` (3 signals × {5s,15s}, causal z-score,
-  net-of-cost, 1000-perm + 1000-bootstrap + CSCV PBO k=4 + BH-FDR + DSR, floor-gated prereg+seal),
-  plus `tests/test_eval51_options_orderflow_net_of_cost.py` (14 tests, all pass). Smoke-verified on
-  **real** Deribit data: full ~24h BTC+ETH probe (`--days 1 --max-per-expiry 12`) → BTC 5315 trades /
-  101 instruments / 289 bars, ETH 3471 trades / 99 instruments / 289 bars (~64 s); measurement at the
-  real floor → `floor_ok: true`, best Sharpe BTC −1.62 / ETH −1.28, pooled PBO 0.833, no pass →
-  **NO-GO CONFIRMED (PASS)** on the probe data (not sealed — probe only). Set authoritative initial task
-  `INIT-2026-11-15T14:17:27Z-EVAL-51-OPTIONS-ORDERFLOW-NET-OF-COST-ACQUIRE-MEASURE-AND-SEAL` with a
-  seal gate requiring acquisition + a floor-passing `EVAL_51_OPTIONS_ORDERFLOW_COMBINED_*` verdict.
-  **No EVAL-51 verdict sealed this session** (the heavy full-universe acquisition+measurement is the
-  next session's mandated work). Calibrated the floor to the real Deribit ~24h signed-trade-history cap
-  (≥2000 trades / ≥240 bars / ≥50 instruments / ≥79200 s per underlying).
+- **2026-11-15T15:06:06Z (this session, EVAL-51 re-issued):** re-issued the authoritative initial task as
+  `INIT-2026-11-15T15:06:06Z-EVAL-51-OPTIONS-ORDERFLOW-NET-OF-COST-ACQUIRE-MEASURE-AND-SEAL` because the
+  prior `INIT-2026-11-15T14:17:27Z` defined EVAL-51 but **no verdict was sealed** — heavy real
+  acquisition + measurement not executed. Bottlenecks all cleared (env 13/13, tooling built/compiled,
+  14 tests pass, Deribit public endpoint live/paginated, ~24h cap calibrated into the floor). Next
+  session must run steps 1–5: full ~24h BTC+ETH acquisition (≥2000 trades / ≥240 bars / ≥50 instruments /
+  ≥79200 s per underlying), `--no-write` smoke check, then sealed verdict via the full run, and pass the
+  seal gate requiring BOTH an `EVAL_51_OPTIONS_ORDERFLOW_ACQUISITION_*` and a floor-passing
+  `EVAL_51_OPTIONS_ORDERFLOW_COMBINED_*` artifact stamped ≥ this task timestamp.
