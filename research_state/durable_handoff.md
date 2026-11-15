@@ -2,8 +2,8 @@
 
 ## AUTHORITATIVE INITIAL TASK FOR NEXT SESSION (timestamped; only valid task)
 
-**Task ID:** `INIT-2026-11-15T18:08:08Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`
-**Status as of 2026-11-15T18:47Z:** EVAL-55 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0); EVAL-56 **NOT STARTED** — `scripts/eval56_*` and `tests/test_eval56_*` absent, no EVAL-56 artifacts sealed. **Next session must execute this task in order (heavy real-data work required; handoff-only is failure).**
+**Task ID:** `INIT-2026-11-15T18:49:46Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`
+**Status as of 2026-11-15T18:49Z:** EVAL-55 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0); EVAL-56 **NOT STARTED** — `scripts/eval56_*` and `tests/test_eval56_*` absent, no EVAL-56 artifacts sealed. **Next session must execute this task in order (heavy real-data work required; handoff-only is failure).**
 
 ================================================================================
 >>> NEXT SESSION STARTS HERE — EXECUTE THIS TASK IN ORDER, NO EXCEPTIONS <<<
@@ -90,7 +90,7 @@ step 7 exits 0 (gate).**
    with stamp ≥ task timestamp (all three required):**
    ```bash
     python3 scripts/check_session_sealed.py \
-        --task-id "INIT-2026-11-15T18:08:08Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL" \
+        --task-id "INIT-2026-11-15T18:49:46Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL" \
        --glob "EVAL_56_SYNCHRONIZED_ACQUISITION_*" \
        --require-glob "EVAL_56_PREREGISTRATION_*" \
        --require-glob "EVAL_56_COMBINED_*"
@@ -104,7 +104,7 @@ step 7 exits 0 (gate).**
 
 **Definition of done (non-negotiable):** step 7 exits `0` with `EVAL_56_SYNCHRONIZED_ACQUISITION_<UTC>`,
 `EVAL_56_PREREGISTRATION_<UTC>` (pre-verdict), and a floor-passing `EVAL_56_COMBINED_<UTC>` (verdict
-`GO CONFIRMED` or `NO-GO CONFIRMED (PASS)`) all stamped ≥ `2026-11-15T18:08:08Z`. A handoff-only
+`GO CONFIRMED` or `NO-GO CONFIRMED (PASS)`) all stamped ≥ `2026-11-15T18:49:46Z`. A handoff-only
 session, re-run/re-seal of EVAL-02..55, full-test-suite discovery loop, `research_state/` enumeration,
 or `EVAL_56_BLOCKED_*` in place of a floor-passing combined verdict are **all failures**. The only
 acceptable no-seal outcome is a *narrower* handoff whose floor/gate are identical or stricter and whose
@@ -304,4 +304,6 @@ sealed artifact. Final responses must not ask follow-up questions.
   EVAL-55 sealed (gate exit 0), env green, no `scripts/eval56_*`/`tests/test_eval56_*` present. Set EVAL-56
   focus; authoritative task ID subsequently aligned to **`INIT-2026-11-15T18:08:08Z-...`** (see 18:08:08Z/18:45:11Z/18:47Z entries and header). Gate: `--glob "EVAL_56_SYNCHRONIZED_ACQUISITION_*" --require-glob "EVAL_56_PREREGISTRATION_*" --require-glob "EVAL_56_COMBINED_*"`, stamp ≥ task.
 - **2026-11-15T18:47Z (this session — durable handoff clarified/refreshed):** re-verified env green
-  (`./scripts/verify_env.sh --check` exit 0), EVAL-55 sealed (`ACQ 180300Z` + `PREREG 180500Z` + `COMBINED 180515Z`, NO-GO CONFIRMED PASS, gate exit 0), seal gate CLI supports `--require-glob` (AND), EVAL-55 templates+`data/raw/eval55/` reusable. **EVAL-56 tooling remains absent (`scripts/eval56_*`, `tests/test_eval56_*`) — no acquisition/measurement/seal performed.** Authoritative next task unchanged: **`INIT-2026-11-15T18:08:08Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`** (gate: `--glob EVAL_56_SYNCHRONIZED_ACQUISITION_* --require-glob EVAL_56_PREREGISTRATION_* --require-glob EVAL_56_COMBINED_*`, stamp ≥ 2026-11-15T18:08:08Z). Next session must do the heavy real work: build/test eval56 tooling → Deribit BTC+ETH ~24h capture (floor + viable 2-expiry common-strike term-structure) → prereg before verdict → calendar-spread net-of-cost measure → seal ACQ+PREREG+COMBINED → gate exit 0. Handoff-only is not completion.
+  (`./scripts/verify_env.sh --check` exit 0), EVAL-55 sealed (`ACQ 180300Z` + `PREREG 180500Z` + `COMBINED 180515Z`, NO-GO CONFIRMED PASS, gate exit 0), seal gate CLI supports `--require-glob` (AND), EVAL-55 templates+`data/raw/eval55/` reusable. **EVAL-56 tooling remains absent (`scripts/eval56_*`, `tests/test_eval56_*`) — no acquisition/measurement/seal performed.** Authoritative next task unchanged: **`INIT-2026-11-15T18:08:08Z-EVAL-56-...`** (gate: `--glob EVAL_56_SYNCHRONIZED_ACQUISITION_* --require-glob EVAL_56_PREREGISTRATION_* --require-glob EVAL_56_COMBINED_*`, stamp ≥ 2026-11-15T18:08:08Z). Next session must do the heavy real work: build/test eval56 tooling → Deribit BTC+ETH ~24h capture (floor + viable 2-expiry common-strike term-structure) → prereg before verdict → calendar-spread net-of-cost measure → seal ACQ+PREREG+COMBINED → gate exit 0. Handoff-only is not completion.
+- **2026-11-15T18:49Z (this session — task ID refreshed):** authoritative task ID advanced to
+  **`INIT-2026-11-15T18:49:46Z-EVAL-56-REAL-OPTIONS-TERM-STRUCTURE-CALENDAR-SPREAD-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`**; step-7 gate and definition-of-done stamp floor updated to `2026-11-15T18:49:46Z`. EVAL-56 tooling (`scripts/eval56_acquire_options_surface.py`, `scripts/eval56_term_structure_calendar_net_of_cost.py`, `tests/test_eval56_term_structure_calendar_net_of_cost.py`) and all three EVAL-56 artifacts remain absent. The only valid next-session output is sealed ACQ+PREREG+COMBINED with gate exit 0, or a stricter/narrower timestamped handoff. No handoff-only completion.
