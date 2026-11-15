@@ -1,0 +1,68 @@
+{
+  "manifest_id": "EVAL_50_L2_DEPTH_ACQUISITION",
+  "eval": "EVAL-50",
+  "generated_at": "2026-11-15T13:26:03Z",
+  "schema": "okx_l2_books_snapshot_capture_v1",
+  "venue": "okx",
+  "endpoint": "https://www.okx.com/api/v5/market/books",
+  "cadence_seconds": 2.0,
+  "levels_per_side": 25,
+  "instruments": [
+    "BTC-USD-SWAP",
+    "ETH-USD-SWAP"
+  ],
+  "total_snapshots": 798,
+  "captures": {
+    "BTC-USD-SWAP": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval50/l2_depth_BTC-USD-SWAP_20261115T132603Z.json",
+      "sha256": "c42186bb8a63a01c50f438c0001487bd132286c4a48b4514a581b409d7a1dcff",
+      "summary": {
+        "count": 398,
+        "start_ts_ms": 1794748263453,
+        "end_ts_ms": 1794749162953,
+        "span_seconds": 899.5,
+        "seq_first": 101701134011,
+        "seq_last": 101701942044,
+        "seq_nondecreasing_fraction": 1.0,
+        "mid_min": 65456.649999999994,
+        "mid_max": 65738.85,
+        "mid_std": 69.52730669975864,
+        "mid_relative_std": 0.0010605627717567637,
+        "spread_bps_median": 0.01525987180159493,
+        "spread_bps_min": 0.015211705101514377,
+        "spread_bps_max": 0.015277286570355314,
+        "bids_levels": 25,
+        "asks_levels": 25,
+        "degenerate": false,
+        "non_degenerate_ofi_ready": true
+      }
+    },
+    "ETH-USD-SWAP": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval50/l2_depth_ETH-USD-SWAP_20261115T132603Z.json",
+      "sha256": "e5969fb86d6c771c7c280e35321adc076b68bbe3502039745a2c6950e79ddc4c",
+      "summary": {
+        "count": 400,
+        "start_ts_ms": 1794748263450,
+        "end_ts_ms": 1794749163000,
+        "span_seconds": 899.55,
+        "seq_first": 73060032039,
+        "seq_last": 73061169288,
+        "seq_nondecreasing_fraction": 1.0,
+        "mid_min": 1831.0349999999999,
+        "mid_max": 1838.645,
+        "mid_std": 1.5837819197651408,
+        "mid_relative_std": 0.0008635950048518562,
+        "spread_bps_median": 0.05453975266217207,
+        "spread_bps_min": 0.05438787802969527,
+        "spread_bps_max": 0.054613920542157336,
+        "bids_levels": 25,
+        "asks_levels": 25,
+        "degenerate": false,
+        "non_degenerate_ofi_ready": true
+      }
+    }
+  },
+  "all_non_degenerate": true,
+  "synthetic": false,
+  "note": "Real OKX L2 book snapshots captured live by polling the public books endpoint; no historical REST endpoint exists. Levels are a faithful projection of the measured [price,size] fields."
+}

@@ -53,14 +53,10 @@ rejected 5 configs; the single-tape midday sign_agreement +5.71 does not replica
 gate exit 0). **The chronic "no Deribit data / no acquisition tooling" bottleneck is GONE:**
 `scripts/eval48_acquire_deribit_options.py` reconstructs real Deribit option snapshots (reusable for ETH
 via `--underlying ETH`) and `scripts/eval48_cross_venue_replication.py` is the tested copy-and-retarget
-wrapper. **Next required task is EVAL-49 — ETH cross-venue combined options+orderflow net-of-cost
-replication** (see `research_state/durable_handoff.md`, task
-`INIT-2026-11-15T08:20:09Z-EVAL-49-ETH-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`): acquire Deribit ETH
-options (`scripts/eval48_acquire_deribit_options.py --underlying ETH --out-dir data/raw/eval49 --seal`)
-and fuse with the existing real OKX ETH orderflow tapes under the 3 pre-registered rules. **This is
-mandatory heavy work: a NO-OP, handoff-only, BTC re-run, or partial/unsealed session is a failed
-session.** Seal `EVAL_49_*` then pass
-`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T08:20:09Z-EVAL-49-ETH-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_49_*"`. **EVAL-50 (L2 OFI) is the queued follow-on rung.**
+wrapper. **EVAL-49 (ETH cross-venue) and EVAL-50 (real L2 OFI) are now SEALED — see "Current measured
+state" above. The campaign ladder (EVAL-46..50) is COMPLETE; there is no next rung and no EVAL-51.**
+Do not re-run, re-litigate, or re-seal EVAL-02..50. Any future work is a fresh, pre-registered, heavy
+real-data falsification with a new timestamped task ID.
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
@@ -77,7 +73,7 @@ specific to the work item.
   rather than writing new orchestrator wrappers (`phaseNN_*` wrappers are prohibited).
 
 ## Current measured state
-Campaign is **TERMINATED on BTC/OKX** (sealed EVAL-36 `TERMINATE_NO_GO`). The options+orderflow strategy
+Campaign is **CLOSED (EVAL-46..50 all sealed NO-GO CONFIRMED (PASS))**. The options+orderflow strategy
 is **not net-of-cost tradable** on the available real BTC/OKX data. EVAL-37 post-termination audit
 sealed **PASS 9/9**. EVAL-41/42 sealed the BTC options pillar closed; EVAL-43 sealed the BTC orderflow
 pillar closed across the full roster (`NO-GO CONFIRMED (PASS)`,
@@ -95,8 +91,16 @@ seal gate exit 0) — the fused options+orderflow strategy is **not net-of-cost 
 **EVAL-48 sealed the BTC cross-venue cell (Deribit options + OKX BTC orderflow): `NO-GO CONFIRMED (PASS)`**
 at `research_state/EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z.{json,md}` (133 real Deribit BTC snapshots ×
 2 OKX BTC tapes × 3 fusion rules, all NO-GO; pooled PBO 0.667; the midday sign_agreement +5.71 does not
-replicate on 41d_fresh; seal gate exit 0). The combined thesis is NOT net-of-cost tradable on BTC/OKX, ETH/OKX,
-or BTC Deribit-cross-venue. **EVAL-49 (ETH Deribit cross-venue) is the active mandatory rung**: acquire Deribit
-ETH options (`scripts/eval48_acquire_deribit_options.py --underlying ETH --out-dir data/raw/eval49 --seal`) +
-fuse with the existing OKX ETH tapes under 3 pre-registered rules, full-tape net-of-cost walk-forward, full
-stats, seal `EVAL_49_*`. See `research_state/durable_handoff.md`.
+replicate on 41d_fresh; seal gate exit 0). **EVAL-49 sealed the ETH cross-venue cell (Deribit ETH options +
+OKX ETH orderflow): `NO-GO CONFIRMED (PASS)`** at
+`research_state/EVAL_49_ETH_CROSS_VENUE_COMBINED_20261115T101149Z.{json,md}` (109 Deribit ETH snapshots ×
+5 ETH tapes × 3 fusion rules, all NO-GO; seal gate exit 0). **EVAL-50 sealed the real L2 order-book OFI
+campaign: `NO-GO CONFIRMED (PASS)`** at
+`research_state/EVAL_50_L2_OFI_COMBINED_20261115T134705Z.{json,md}` (acquisition
+`EVAL_50_L2_DEPTH_ACQUISITION_20261115T134456Z`; prereg `EVAL_50_PREREGISTRATION_20261115T134705Z`;
+floor met: BTC 443 snaps/999.6s, ETH 444 snaps/999.6s; 4 configs/instrument, all NO-GO; pooled PBO 0.5000;
+BH-FDR rejected 4 configs; seal gate exit 0). The combined options+orderflow thesis is **NOT net-of-cost
+tradable on BTC/OKX, ETH/OKX, BTC Deribit-cross-venue, ETH Deribit-cross-venue, nor on real L2 order-book
+OFI (BTC+ETH)**. **The campaign ladder is COMPLETE — no EVAL-51 exists.** Do not re-run, re-litigate, or
+re-seal EVAL-02..50. Any future work is a fresh, pre-registered, heavy real-data falsification with a new
+timestamped task ID. See `research_state/durable_handoff.md`.

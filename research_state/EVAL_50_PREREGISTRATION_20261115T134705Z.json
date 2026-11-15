@@ -1,0 +1,53 @@
+{
+  "prereg_id": "EVAL_50_PREREGISTRATION",
+  "generated_at": "2026-11-15T13:47:05Z",
+  "task": "EVAL-50-L2-OFI-NET-OF-COST",
+  "hypothesis": "Real L2 order-book OFI carries net-of-cost tradable alpha on OKX BTC/ETH perpetual swaps.",
+  "protocol": {
+    "eval": "EVAL-50",
+    "title": "Real L2 order-book OFI net-of-cost falsification",
+    "capture_dir": "data/raw/eval50",
+    "ofi": "Cont/Kukanov/Stoikov (2014) multi-level order-flow imbalance, price-matched",
+    "bar_seconds_grid": [
+      5.0,
+      10.0
+    ],
+    "z_clamp_grid": [
+      1.0,
+      2.0
+    ],
+    "ofi_zwindow": 20,
+    "z_threshold": 0.5,
+    "impact_bps": 0.5,
+    "cost_model": "net-of-cost: measured bar median quoted spread + fixed impact bps on turnover",
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, and bootstrap 95% CI lower > 0; else NO-GO.",
+    "floor": {
+      "min_snapshots_per_instrument": 400,
+      "min_span_seconds_per_instrument": 900.0,
+      "min_instruments": 2
+    }
+  },
+  "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, and bootstrap 95% CI lower > 0; else NO-GO.",
+  "floor": {
+    "min_snapshots_per_instrument": 400,
+    "min_span_seconds_per_instrument": 900.0,
+    "min_instruments": 2
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval50"
+}

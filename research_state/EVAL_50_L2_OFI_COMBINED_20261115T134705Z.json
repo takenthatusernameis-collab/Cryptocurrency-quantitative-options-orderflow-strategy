@@ -1,0 +1,502 @@
+{
+  "report_id": "EVAL_50_L2_OFI_COMBINED",
+  "generated_at": "2026-11-15T13:47:05Z",
+  "task": "EVAL-50-L2-OFI-NET-OF-COST",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "real L2 OFI alpha net-of-cost falsification",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval50",
+  "instruments": [
+    "BTC-USD-SWAP",
+    "ETH-USD-SWAP"
+  ],
+  "total_snapshots": 887,
+  "max_span_seconds": 999.6,
+  "floor": {
+    "min_snapshots_per_instrument": 400,
+    "min_span_seconds_per_instrument": 900.0,
+    "min_instruments": 2
+  },
+  "per_instrument_floor": {
+    "BTC-USD-SWAP": {
+      "snapshots": 443,
+      "span_seconds": 999.6,
+      "snapshots_ok": true,
+      "span_ok": true
+    },
+    "ETH-USD-SWAP": {
+      "snapshots": 444,
+      "span_seconds": 998.05,
+      "snapshots_ok": true,
+      "span_ok": true
+    }
+  },
+  "protocol": {
+    "eval": "EVAL-50",
+    "title": "Real L2 order-book OFI net-of-cost falsification",
+    "capture_dir": "data/raw/eval50",
+    "ofi": "Cont/Kukanov/Stoikov (2014) multi-level order-flow imbalance, price-matched",
+    "bar_seconds_grid": [
+      5.0,
+      10.0
+    ],
+    "z_clamp_grid": [
+      1.0,
+      2.0
+    ],
+    "ofi_zwindow": 20,
+    "z_threshold": 0.5,
+    "impact_bps": 0.5,
+    "cost_model": "net-of-cost: measured bar median quoted spread + fixed impact bps on turnover",
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, and bootstrap 95% CI lower > 0; else NO-GO.",
+    "floor": {
+      "min_snapshots_per_instrument": 400,
+      "min_span_seconds_per_instrument": 900.0,
+      "min_instruments": 2
+    }
+  },
+  "per_config": [
+    {
+      "instrument": "BTC-USD-SWAP",
+      "bar_seconds": 5.0,
+      "z_clamp": 1.0,
+      "n_bars": 201,
+      "n_returns": 200,
+      "nonzero_positions": 197,
+      "ofi_std": 2624.900055281595,
+      "signal_z_std": 0.9681620120220406,
+      "sharpe": -4.239001234651596,
+      "max_drawdown": 0.007039043180969132,
+      "kill_switch_breach": false,
+      "permutation_p": 0.001998001998001998,
+      "bootstrap_ci": [
+        -4.239001234651596,
+        -6.537803405951712,
+        -2.279984147711768
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "train_end": 66,
+          "test_start": 66,
+          "test_end": 106,
+          "oos_sharpe": -0.35690509647292473,
+          "oos_max_drawdown": 0.00036015113962438493,
+          "n": 40
+        },
+        {
+          "train_end": 106,
+          "test_start": 106,
+          "test_end": 146,
+          "oos_sharpe": -3.930420920984638,
+          "oos_max_drawdown": 0.0018613181146729385,
+          "n": 40
+        },
+        {
+          "train_end": 146,
+          "test_start": 146,
+          "test_end": 186,
+          "oos_sharpe": -5.316255192033072,
+          "oos_max_drawdown": 0.0015185764449778816,
+          "n": 40
+        }
+      ],
+      "mean_return": -3.432879495966572e-05,
+      "pass": false
+    },
+    {
+      "instrument": "BTC-USD-SWAP",
+      "bar_seconds": 5.0,
+      "z_clamp": 2.0,
+      "n_bars": 201,
+      "n_returns": 200,
+      "nonzero_positions": 197,
+      "ofi_std": 2624.900055281595,
+      "signal_z_std": 0.9681620120220406,
+      "sharpe": -4.522631060740405,
+      "max_drawdown": 0.004665333953145743,
+      "kill_switch_breach": false,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        -4.522631060740405,
+        -6.627124541271698,
+        -2.518252554892451
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "train_end": 66,
+          "test_start": 66,
+          "test_end": 106,
+          "oos_sharpe": -0.26960450513021794,
+          "oos_max_drawdown": 0.0002545155894378286,
+          "n": 40
+        },
+        {
+          "train_end": 106,
+          "test_start": 106,
+          "test_end": 146,
+          "oos_sharpe": -4.639431141755429,
+          "oos_max_drawdown": 0.0013725621159994539,
+          "n": 40
+        },
+        {
+          "train_end": 146,
+          "test_start": 146,
+          "test_end": 186,
+          "oos_sharpe": -5.7745040840255175,
+          "oos_max_drawdown": 0.0009712780851008906,
+          "n": 40
+        }
+      ],
+      "mean_return": -2.2874771822163773e-05,
+      "pass": false
+    },
+    {
+      "instrument": "BTC-USD-SWAP",
+      "bar_seconds": 10.0,
+      "z_clamp": 1.0,
+      "n_bars": 101,
+      "n_returns": 100,
+      "nonzero_positions": 97,
+      "ofi_std": 2595.997202346475,
+      "signal_z_std": 0.8958081202916323,
+      "sharpe": -2.7921934553995413,
+      "max_drawdown": 0.0036445883251107545,
+      "kill_switch_breach": false,
+      "permutation_p": 0.07992007992007992,
+      "bootstrap_ci": [
+        -2.7921934553995413,
+        -6.112090770790065,
+        0.5647920484268572
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "train_end": 33,
+          "test_start": 33,
+          "test_end": 53,
+          "oos_sharpe": -4.678242965812475,
+          "oos_max_drawdown": 0.0013895630995833796,
+          "n": 20
+        },
+        {
+          "train_end": 53,
+          "test_start": 53,
+          "test_end": 73,
+          "oos_sharpe": -1.0455941435519656,
+          "oos_max_drawdown": 0.0017200021826768981,
+          "n": 20
+        },
+        {
+          "train_end": 73,
+          "test_start": 73,
+          "test_end": 93,
+          "oos_sharpe": -5.85606906762936,
+          "oos_max_drawdown": 0.001130014649870243,
+          "n": 20
+        }
+      ],
+      "mean_return": -3.6200020913236284e-05,
+      "pass": false
+    },
+    {
+      "instrument": "BTC-USD-SWAP",
+      "bar_seconds": 10.0,
+      "z_clamp": 2.0,
+      "n_bars": 101,
+      "n_returns": 100,
+      "nonzero_positions": 97,
+      "ofi_std": 2595.997202346475,
+      "signal_z_std": 0.8958081202916323,
+      "sharpe": -2.6830563791954885,
+      "max_drawdown": 0.0022396942800797857,
+      "kill_switch_breach": false,
+      "permutation_p": 0.0989010989010989,
+      "bootstrap_ci": [
+        -2.6830563791954885,
+        -5.643329719009747,
+        0.33408147504524255
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "train_end": 33,
+          "test_start": 33,
+          "test_end": 53,
+          "oos_sharpe": -4.256308023473239,
+          "oos_max_drawdown": 0.0007284446142342868,
+          "n": 20
+        },
+        {
+          "train_end": 53,
+          "test_start": 53,
+          "test_end": 73,
+          "oos_sharpe": -1.9662832783057604,
+          "oos_max_drawdown": 0.0011880212406964177,
+          "n": 20
+        },
+        {
+          "train_end": 73,
+          "test_start": 73,
+          "test_end": 93,
+          "oos_sharpe": -4.5503022854518225,
+          "oos_max_drawdown": 0.0007767017160266724,
+          "n": 20
+        }
+      ],
+      "mean_return": -2.1767701117719607e-05,
+      "pass": false
+    },
+    {
+      "instrument": "ETH-USD-SWAP",
+      "bar_seconds": 5.0,
+      "z_clamp": 1.0,
+      "n_bars": 200,
+      "n_returns": 199,
+      "nonzero_positions": 196,
+      "ofi_std": 8013.6383076587,
+      "signal_z_std": 0.9592885537936453,
+      "sharpe": -4.787399286520799,
+      "max_drawdown": 0.01064996636494199,
+      "kill_switch_breach": false,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        -4.787399286520799,
+        -7.228450493571459,
+        -2.5071949592897482
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "train_end": 66,
+          "test_start": 66,
+          "test_end": 105,
+          "oos_sharpe": -6.20004899656157,
+          "oos_max_drawdown": 0.0026972428535413373,
+          "n": 39
+        },
+        {
+          "train_end": 105,
+          "test_start": 105,
+          "test_end": 144,
+          "oos_sharpe": -5.907148483634428,
+          "oos_max_drawdown": 0.0025488973095795357,
+          "n": 39
+        },
+        {
+          "train_end": 144,
+          "test_start": 144,
+          "test_end": 183,
+          "oos_sharpe": -8.796406662303308,
+          "oos_max_drawdown": 0.0028969693529298235,
+          "n": 39
+        }
+      ],
+      "mean_return": -5.220580321338203e-05,
+      "pass": false
+    },
+    {
+      "instrument": "ETH-USD-SWAP",
+      "bar_seconds": 5.0,
+      "z_clamp": 2.0,
+      "n_bars": 200,
+      "n_returns": 199,
+      "nonzero_positions": 196,
+      "ofi_std": 8013.6383076587,
+      "signal_z_std": 0.9592885537936453,
+      "sharpe": -4.237648340114605,
+      "max_drawdown": 0.006804847828939776,
+      "kill_switch_breach": false,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        -4.237648340114605,
+        -6.943398498451071,
+        -1.710450738058463
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "train_end": 66,
+          "test_start": 66,
+          "test_end": 105,
+          "oos_sharpe": -6.782245077506511,
+          "oos_max_drawdown": 0.0020183911129516563,
+          "n": 39
+        },
+        {
+          "train_end": 105,
+          "test_start": 105,
+          "test_end": 144,
+          "oos_sharpe": -6.619761944317058,
+          "oos_max_drawdown": 0.0020759986898696106,
+          "n": 39
+        },
+        {
+          "train_end": 144,
+          "test_start": 144,
+          "test_end": 183,
+          "oos_sharpe": -8.619801674750036,
+          "oos_max_drawdown": 0.001730362857778056,
+          "n": 39
+        }
+      ],
+      "mean_return": -3.265741849895671e-05,
+      "pass": false
+    },
+    {
+      "instrument": "ETH-USD-SWAP",
+      "bar_seconds": 10.0,
+      "z_clamp": 1.0,
+      "n_bars": 101,
+      "n_returns": 100,
+      "nonzero_positions": 97,
+      "ofi_std": 9847.369094191978,
+      "signal_z_std": 0.9265468255507173,
+      "sharpe": -1.0061023673379732,
+      "max_drawdown": 0.0044044585050104085,
+      "kill_switch_breach": false,
+      "permutation_p": 0.5234765234765235,
+      "bootstrap_ci": [
+        -1.0061023673379732,
+        -4.517709133586283,
+        2.1116060857914745
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "train_end": 33,
+          "test_start": 33,
+          "test_end": 53,
+          "oos_sharpe": -3.974858782983995,
+          "oos_max_drawdown": 0.0019162289705273066,
+          "n": 20
+        },
+        {
+          "train_end": 53,
+          "test_start": 53,
+          "test_end": 73,
+          "oos_sharpe": -5.326169193784903,
+          "oos_max_drawdown": 0.0019212773441833102,
+          "n": 20
+        },
+        {
+          "train_end": 73,
+          "test_start": 73,
+          "test_end": 93,
+          "oos_sharpe": -0.4689357289820207,
+          "oos_max_drawdown": 0.000612679735344439,
+          "n": 20
+        }
+      ],
+      "mean_return": -1.7981902171227914e-05,
+      "pass": false
+    },
+    {
+      "instrument": "ETH-USD-SWAP",
+      "bar_seconds": 10.0,
+      "z_clamp": 2.0,
+      "n_bars": 101,
+      "n_returns": 100,
+      "nonzero_positions": 97,
+      "ofi_std": 9847.369094191978,
+      "signal_z_std": 0.9265468255507173,
+      "sharpe": -1.0905578404583935,
+      "max_drawdown": 0.0029393546051931837,
+      "kill_switch_breach": false,
+      "permutation_p": 0.5124875124875125,
+      "bootstrap_ci": [
+        -1.0905578404583935,
+        -4.48217402084845,
+        2.1690548235440357
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "train_end": 33,
+          "test_start": 33,
+          "test_end": 53,
+          "oos_sharpe": -2.3018909110067867,
+          "oos_max_drawdown": 0.0009977559029186978,
+          "n": 20
+        },
+        {
+          "train_end": 53,
+          "test_start": 53,
+          "test_end": 73,
+          "oos_sharpe": -6.1973391272965115,
+          "oos_max_drawdown": 0.0016881615100287934,
+          "n": 20
+        },
+        {
+          "train_end": 73,
+          "test_start": 73,
+          "test_end": 93,
+          "oos_sharpe": 0.16758117890440455,
+          "oos_max_drawdown": 0.0003241835539188307,
+          "n": 20
+        }
+      ],
+      "mean_return": -1.2537586491776137e-05,
+      "pass": false
+    }
+  ],
+  "per_instrument": [
+    {
+      "instrument": "BTC-USD-SWAP",
+      "n_configs": 4,
+      "best_sharpe": -2.6830563791954885,
+      "best_config": "bar10.0::z2.0",
+      "any_pass": false
+    },
+    {
+      "instrument": "ETH-USD-SWAP",
+      "n_configs": 4,
+      "best_sharpe": -1.0061023673379732,
+      "best_config": "bar10.0::z1.0",
+      "any_pass": false
+    }
+  ],
+  "pooled": {
+    "overall_pbo": 0.5,
+    "bh_fdr": {
+      "rejected": [
+        "BTC-USD-SWAP::bar5.0::z2.0",
+        "ETH-USD-SWAP::bar5.0::z1.0",
+        "ETH-USD-SWAP::bar5.0::z2.0",
+        "BTC-USD-SWAP::bar5.0::z1.0"
+      ],
+      "thresholds": {
+        "BTC-USD-SWAP::bar5.0::z2.0": 0.0125,
+        "ETH-USD-SWAP::bar5.0::z1.0": 0.025,
+        "ETH-USD-SWAP::bar5.0::z2.0": 0.037500000000000006,
+        "BTC-USD-SWAP::bar5.0::z1.0": 0.05,
+        "BTC-USD-SWAP::bar10.0::z1.0": 0.0625,
+        "BTC-USD-SWAP::bar10.0::z2.0": 0.07500000000000001,
+        "ETH-USD-SWAP::bar10.0::z2.0": 0.08750000000000001,
+        "ETH-USD-SWAP::bar10.0::z1.0": 0.1
+      },
+      "alpha": 0.1,
+      "m_tests": 8,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_instruments_pass": false
+  },
+  "errors": []
+}
