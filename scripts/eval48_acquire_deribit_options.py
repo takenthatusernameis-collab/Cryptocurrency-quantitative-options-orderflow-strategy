@@ -260,7 +260,13 @@ def build_snapshots(
     return snapshots
 
 
-def write_snapshot(out_dir: Path, underlying: str, bar_ms: int, quotes: List[Dict[str, Any]]) -> Path:
+def write_snapshot(
+    out_dir: Path,
+    underlying: str,
+    bar_ms: int,
+    quotes: List[Dict[str, Any]],
+    spot: Optional[float] = None,
+) -> Path:
     ts = datetime.fromtimestamp(bar_ms / 1000.0, tz=timezone.utc)
     stamp = ts.strftime("%Y%m%dT%H%M%SZ")
     path = out_dir / f"options_deribit_{underlying}_{stamp}.json"
@@ -282,6 +288,9 @@ def write_snapshot(out_dir: Path, underlying: str, bar_ms: int, quotes: List[Dic
             "note": "mark = measured 5m chart close; bid/ask reconstructed around the mark (constant fallback spread); not venue quotes",
         },
     }
+    if spot is not None and math.isfinite(float(spot)) and float(spot) > 0.0:
+        payload["spot"] = float(spot)
+        payload["source"]["spot_source"] = f"deribit_{underlying}-PERPETUAL_5m_close"
     with path.open("w") as fh:
         json.dump(payload, fh, sort_keys=True)
     return path
@@ -302,9 +311,10 @@ def seal_manifest(
     manifest: Dict[str, Any],
     generated_at: str,
     task_label: str,
+    manifest_id: str = MANIFEST_ID,
 ) -> Dict[str, str]:
     stamp = _stamp_for_filename(generated_at)
-    json_path = ROOT / "research_state" / f"{MANIFEST_ID}_{stamp}.json"
+    json_path = ROOT / "research_state" / f"{manifest_id}_{stamp}.json"
     md_path = json_path.with_suffix(".md")
     json_path.parent.mkdir(parents=True, exist_ok=True)
     manifest = dict(manifest)
@@ -313,7 +323,7 @@ def seal_manifest(
         json.dump(manifest, fh, indent=2, sort_keys=True)
 
     lines = [
-        f"# {MANIFEST_ID} — Deribit BTC option-chain reconstruction",
+        f"# {manifest_id} — Deribit {manifest.get('underlying', 'BTC')} option-chain reconstruction",
         "",
         f"- **Generated:** {generated_at}",
         f"- **Task:** {manifest['task_id']}",
@@ -343,6 +353,7 @@ def acquire(
     ref_spot: Optional[float] = None,
     seal: bool = False,
     task_label: str = "EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL",
+    manifest_id: str = MANIFEST_ID,
 ) -> Dict[str, Any]:
     window_start = _floor_bar(_parse_iso(start))
     window_end = _parse_iso(end)
@@ -377,10 +388,21 @@ def acquire(
         candles_by_instrument, instruments, bar_grid, min_quotes, underlying
     )
 
+    # Measured causal spot proxy per 5m bar (underlying perpetual close). The
+    # sealed signal loader defaults to a BTC REFERENCE_SPOT unless a spot is
+    # supplied, which makes the per-snapshot signal degenerate for non-BTC
+    # underlyings; storing the real per-bar spot lets the wrapper pass it through.
+    spot_by_bar: Dict[int, float] = (
+        fetch_candles(client, f"{underlying}-PERPETUAL", start_ms, end_ms) or {}
+    )
+
     written: List[str] = []
     quotes_realized: List[int] = []
+    last_spot: Optional[float] = None
     for bar_ms, quotes in snapshots:
-        path = write_snapshot(out_path, underlying, bar_ms, quotes)
+        if bar_ms in spot_by_bar:
+            last_spot = spot_by_bar[bar_ms]
+        path = write_snapshot(out_path, underlying, bar_ms, quotes, spot=last_spot)
         written.append(str(path))
         quotes_realized.append(len(quotes))
 
@@ -392,7 +414,7 @@ def acquire(
             per_expiry[day] = per_expiry.get(day, 0) + 1
 
     manifest = {
-        "report_id": MANIFEST_ID,
+        "report_id": manifest_id,
         "underlying": underlying,
         "window_start": window_start.isoformat().replace("+00:00", "Z"),
         "window_end": window_end.isoformat().replace("+00:00", "Z"),
@@ -408,13 +430,18 @@ def acquire(
         "schema": SCHEMA,
         "provenance": "real Deribit public get_tradingview_chart_data 5m closes; no synthetic data",
     }
+    if spot_by_bar:
+        spots = list(spot_by_bar.values())
+        manifest["spot_source"] = f"deribit_{underlying}-PERPETUAL_5m_close"
+        manifest["spot_min"] = float(min(spots))
+        manifest["spot_max"] = float(max(spots))
 
     generated_at = _utc_now_iso()
     artifact_paths: Dict[str, str] = {}
     if seal and written:
         manifest["generated_at"] = generated_at
         manifest["sha256"] = {Path(p).name: _sha256(Path(p)) for p in written}
-        artifact_paths = seal_manifest(out_path, manifest, generated_at, task_label)
+        artifact_paths = seal_manifest(out_path, manifest, generated_at, task_label, manifest_id=manifest_id)
         manifest["artifact_paths"] = artifact_paths
 
     return manifest
@@ -434,6 +461,8 @@ def main(argv: Optional[list] = None) -> int:
     ap.add_argument("--ref-spot", type=float, default=None,
                     help="anchor spot for nearest-strike selection (default: median strike, correct for any underlying)")
     ap.add_argument("--seal", action="store_true", help="write an acquisition manifest to research_state/")
+    ap.add_argument("--manifest-id", default=MANIFEST_ID,
+                    help="report_id/filename stem for the sealed manifest (default: EVAL_48_DERIBIT_ACQUISITION)")
     args = ap.parse_args(argv)
 
     expiry_list = [e.strip() for e in args.expiries.split(",") if e.strip()] or None
@@ -448,6 +477,7 @@ def main(argv: Optional[list] = None) -> int:
         expiries=expiry_list,
         ref_spot=args.ref_spot,
         seal=args.seal,
+        manifest_id=args.manifest_id,
     )
     print(json.dumps({k: manifest[k] for k in (
         "n_snapshots", "n_instruments_probed", "n_instruments_with_data",

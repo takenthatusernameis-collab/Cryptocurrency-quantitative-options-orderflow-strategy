@@ -42,6 +42,16 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--task-id", required=True)
     ap.add_argument("--glob", required=True)
+    ap.add_argument("--require-glob", action="append", default=[],
+                    help="additional glob (repeatable); at least one file matching EACH must "
+                         "exist with a stamp >= the task timestamp (AND semantics). Use this to "
+                         "force a verdict artifact so an acquisition-only artifact cannot satisfy "
+                         "the gate.")
+    ap.add_argument("--require-any-glob", action="append", default=[],
+                    help="group of alternative globs (repeatable); at least one file matching "
+                         "AT LEAST ONE glob in the group must exist with a stamp >= the task "
+                         "timestamp (OR semantics). Use for alternative verdict kinds, e.g. "
+                         "EVAL_49_ETH_CROSS_VENUE_COMBINED_* OR EVAL_49_BLOCKED_*.")
     args = ap.parse_args(argv)
 
     iso = _ISO_RE.search(args.task_id)
@@ -54,15 +64,19 @@ def main(argv: list[str] | None = None) -> int:
         print(f"FAIL: {OUT_DIR} does not exist", file=sys.stderr)
         return 2
 
-    matched: list[tuple[str, str]] = []
-    for path in sorted(OUT_DIR.glob(args.glob)):
-        if not path.is_file():
-            continue
-        stamps = _STAMP_RE.findall(path.name)
-        if not stamps:
-            continue
-        if max(stamps) >= floor:
-            matched.append((path.name, max(stamps)))
+    def _match(pattern: str) -> list[tuple[str, str]]:
+        out: list[tuple[str, str]] = []
+        for path in sorted(OUT_DIR.glob(pattern)):
+            if not path.is_file():
+                continue
+            stamps = _STAMP_RE.findall(path.name)
+            if not stamps:
+                continue
+            if max(stamps) >= floor:
+                out.append((path.name, max(stamps)))
+        return out
+
+    matched = _match(args.glob)
 
     if not matched:
         print(
@@ -73,6 +87,36 @@ def main(argv: list[str] | None = None) -> int:
 
     for name, stamp in matched:
         print(f"OK: {name} (stamp {stamp} >= {floor})")
+
+    # Enforce any additional required globs (e.g. a verdict, not just acquisition).
+    for req in args.require_glob:
+        req_matches = _match(req)
+        if not req_matches:
+            print(
+                f"FAIL: no artifact matching required {req!r} with stamp >= {floor} in {OUT_DIR} "
+                f"(an acquisition/handoff-only artifact is not enough)",
+                file=sys.stderr,
+            )
+            return 1
+        for name, stamp in req_matches:
+            print(f"OK (required): {name} (stamp {stamp} >= {floor})")
+
+    # Enforce an OR group of required globs (e.g. COMBINED verdict OR BLOCKED).
+    if args.require_any_glob:
+        group_hits: list[tuple[str, str]] = []
+        for pat in args.require_any_glob:
+            group_hits.extend(_match(pat))
+        if not group_hits:
+            print(
+                "FAIL: no artifact matching any of required "
+                f"{args.require_any_glob!r} with stamp >= {floor} in {OUT_DIR} "
+                "(an acquisition/handoff-only artifact is not enough)",
+                file=sys.stderr,
+            )
+            return 1
+        for name, stamp in group_hits:
+            print(f"OK (required-any): {name} (stamp {stamp} >= {floor})")
+
     return 0
 
 

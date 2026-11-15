@@ -19,6 +19,10 @@ data/raw/options_okx_*.json
 # scripts/eval48_acquire_deribit_options.py and are durable inputs; keep them tracked.
 !data/raw/eval48/
 !data/raw/eval48/options_deribit_*.json
+# EVAL-49 real Deribit ETH option snapshots (same acquisition script, --underlying ETH)
+# are durable inputs; keep them tracked so a reset does not wipe them.
+!data/raw/eval49/
+!data/raw/eval49/options_deribit_*.json
 
 research_state/INTEGRATED_CAMPAIGN_*.json
 research_state/INTEGRATED_STEP_*.json
