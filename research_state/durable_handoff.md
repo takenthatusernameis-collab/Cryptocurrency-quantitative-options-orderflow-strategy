@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-**INITIAL TASK MESSAGE (inferred timestamped 2026-11-15T07:17:14Z UTC, authoritative for next session) — TASK ID `INIT-2026-11-15T07:17:14Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`**
+**INITIAL TASK MESSAGE (inferred timestamped 2026-11-15T07:23:17Z UTC, authoritative for next session) — TASK ID `INIT-2026-11-15T07:23:17Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`**
 **SCOPE (repo-charter priority: `Cryptocurrency-quantitative-options-orderflow-strategy` = combined options+orderflow):** EVAL-48 — cross-venue replication of the sealed EVAL-46/EVAL-47 combined (fused) options+orderflow net-of-cost falsification. EVAL-46 sealed BTC combined **NO-GO CONFIRMED (PASS)** (`EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z`); EVAL-47 sealed ETH combined **NO-GO CONFIRMED (PASS)** (`EVAL_47_ETH_COMBINED_20261115T071330Z`, 5 tapes × 3 rules, all NO-GO; seal gate exit 0). Both real-data single-venue (OKX) combined falsifications are NO-GO. **EVAL-48 tests venue-specificity: does the combined thesis produce a net-of-cost GO on any other venue pair (Deribit options + Bybit/OKX orderflow)? This is the next mandatory heavy rung of the campaign ladder.** **THIS IS THE ONLY TASK. NO NO-OP. NO HANDOFF-ONLY SESSION. NO BTC/ETH RE-RUN. NO PARTIAL/UNSEALED PROGRESS CLAIM. EITHER SEAL `EVAL_48_*` (or a documented, measured `EVAL_48_BLOCKED_*`) AND PASS THE SEAL GATE, OR THE SESSION FAILS.**
 
 **BOTTLENECKS ELIMINATED / MEASURED STATE (2026-11-15T07:21:42Z re-verified this session; 2026-11-15T07:17:14Z baseline; data + tooling + WRAPPER READY on disk):**
@@ -13,7 +13,7 @@
 **NEXT AGENT — EXECUTE IMMEDIATELY (DO NOT EXPLORE, DO NOT RE-LITIGATE, DO NOT RUN FULL TEST SUITE):**
 1. **Env/readiness:** `.env` absent; `LIVE_TRADING_ENABLED` unset/false. If `.venv-deps/` absent, `./scripts/verify_env.sh` then `--check` must PASS. Then `export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"`.
 2. **FULL RUN + SEAL (the mandatory deliverable):** build/run `scripts/eval48_cross_venue_replication.py` (thin wrapper importing the sealed eval46 module, overriding venue/symbol/constants for Deribit options + Bybit/OKX orderflow; monkeypatching labels to `verdict_scope="FULL_DENSE_CROSS_VENUE"`). Acquire Deribit ETH/BTC option chains + Bybit/OKX orderflow tapes (read-only public market data), fuse under the 3 pre-registered rules (sign_agreement / regime_filter / continuous_zscore), full-tape net-of-cost walk-forward (combined + options-only + orderflow-only + flat), the full stat battery (1000-perm paired / 1000-resample block bootstrap block=2 / CSCV PBO k=4 / BH-FDR alpha 0.1 / DSR, seed 42), pre-register `EVAL_48_PREREGISTRATION_<UTC>.{json,md}` BEFORE measurement, and seal `EVAL_48_ETH_COMBINED_<UTC>.{json,md}` (or `EVAL_48_BLOCKED_<UTC>` on error).
-3. **Seal gate:** `python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T07:17:14Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_48_*"` must PASS (exit 0; artifact filename stamp ≥ 20261115T071714Z).
+3. **Seal gate:** `python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T07:23:17Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_48_*"` must PASS (exit 0; artifact filename stamp ≥ 20261115T072317Z).
 
 **A SESSION THAT DOES NOT COMPLETE ALL STEPS AND SEAL THE REQUIRED `EVAL_48_*` ARTIFACTS IS A FAILED SESSION — NO EXCEPTIONS, NO ESCAPE HATCH.**
 
@@ -107,7 +107,7 @@ Pre-declared bar: GO only if Sharpe > 0 on ≥3/5 tapes AND no kill-switch breac
 - `research_state/AMENDED_FUSION_EVAL_31_20261114T114328Z.{json,md}` (EVAL-31): time-varying options regime filter on **3** snapshots; combined Sharpe 0.30 vs orderflow-only −1.54, but permutation p=0.768, DSR 0.033, PBO 0.75, BH-FDR rejected nothing — **statistically indefensible**. EVAL-46 superseded both with the full 101-snapshot dense series, ≥3 fusion rules, and the full stat battery (sealed NO-GO CONFIRMED).
 
 ## PER-SESSION CONTRACT
-A session is complete only when a sealed `EVAL_48_*` artifact (or a documented `EVAL_48_BLOCKED_*`) exists and the seal gate passes for task `INIT-2026-11-15T07:17:14Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`. NO-GO keeps the BTC/ETH combined closures (EVAL-46/EVAL-47) in force; a GO requires sealed verifying evidence plus a pre-registered out-of-sample replication campaign. No NO-OP sessions, no pillar re-runs, no handoff-only progress claims.
+A session is complete only when a sealed `EVAL_48_*` artifact (or a documented `EVAL_48_BLOCKED_*`) exists and the seal gate passes for task `INIT-2026-11-15T07:23:17Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`. NO-GO keeps the BTC/ETH combined closures (EVAL-46/EVAL-47) in force; a GO requires sealed verifying evidence plus a pre-registered out-of-sample replication campaign. No NO-OP sessions, no pillar re-runs, no handoff-only progress claims.
 
 ## CURRENT MEASURED STATE (ground truth, re-verified 2026-11-15T07:21:42Z)
 - **EVAL-02..47 sealed** (immutable). **EVAL-36:** `TERMINATE_NO_GO`. **EVAL-37:** `PASS 9/9`. **EVAL-44 (BTC-scoped):** `CAMPAIGN_CLOSED`.

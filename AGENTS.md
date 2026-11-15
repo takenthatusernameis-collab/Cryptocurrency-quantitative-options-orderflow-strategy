@@ -46,11 +46,11 @@ replication) is sealed: **`NO-GO CONFIRMED (PASS)`** at
 NO-GO; seal gate exit 0). The fused options+orderflow strategy is **not net-of-cost tradable on real
 BTC or real ETH**. **Next required task is EVAL-48 — cross-venue combined options+orderflow net-of-cost
 replication** (see `research_state/durable_handoff.md`, task
-`INIT-2026-11-15T07:17:14Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`): test venue-specificity —
+`INIT-2026-11-15T07:23:17Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`): test venue-specificity —
 does the combined thesis produce a net-of-cost GO on another venue pair (Deribit options +
 Bybit/OKX orderflow)? **This is mandatory heavy work: a NO-OP, handoff-only, BTC/ETH re-run, or
 partial/unsealed session is a failed session.** Seal `EVAL_48_*` then pass
-`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T07:17:14Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_48_*"`. **EVAL-49 (L2 OFI) is the queued follow-on rung.**
+`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T07:23:17Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_48_*"`. **EVAL-49 (L2 OFI) is the queued follow-on rung.**
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
