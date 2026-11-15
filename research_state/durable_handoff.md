@@ -230,3 +230,11 @@ verifying sealed artifact. Final responses must not ask follow-up questions.
   live `--days 1` BTC+ETH three-way acquisition → `--no-write` smoke (floor_ok true) → real run seals
   PREREGISTRATION + COMBINED (or BLOCKED→widen) → gate exit 0. Handoff-only completion explicitly
   prohibited.
+- **2026-11-15T22:45:14Z (verification — next session ready):** re-confirmed
+  `scripts/eval60_acquire_three_way.py`, `scripts/eval60_three_way_net_of_cost.py`,
+  `tests/test_eval60_three_way_net_of_cost.py` present; `py_compile` OK; `pytest -q` **10 passed**;
+  `check_session_sealed.py` enforces required `--task-id` + `--require-glob` (COMBINED verdict, not
+  acquisition-only). **The `INIT-2026-11-15T22:44:10Z-POST-EVAL-THREE-WAY-OPTIONS-ORDERFLOW-FUSION-PREREG-ACQUIRE-MEASURE-SEAL`
+  task stands unchanged** (anti-stall: no timestamp re-issue without sealed artifacts). Next session:
+  run live `--days 1` BTC+ETH three-way acquisition → `--no-write` smoke (floor_ok true) → real run
+  seals PREREGISTRATION + COMBINED → gate exit 0.
