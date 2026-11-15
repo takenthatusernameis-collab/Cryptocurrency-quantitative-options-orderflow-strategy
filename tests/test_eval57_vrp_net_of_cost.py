@@ -58,7 +58,10 @@ def _craft_capture(n_bars=160, seed=0, inst="BTC", iv=0.55, realized_vol=0.35,
         # 1m perp candles covering this 5m bar (5 candles), last close at bar end.
         bar_closes = []
         for m in range(5):
-            drift = rng.uniform(-1, 1) * realized_vol / math.sqrt(_DAY / 60.0)
+            # Gaussian so the per-minute return std equals `realized_vol`
+            # annualised (uniform(-1,1) has std 1/sqrt(3) and would bias the
+            # VRP spread low — the side tests depend on the true spread).
+            drift = rng.gauss(0.0, 1.0) * realized_vol / math.sqrt(_DAY / 60.0)
             px = max(1.0, px * (1.0 + drift))
             ts = bar_ms + m * 60_000
             candles.append({"ts": ts, "open": px, "high": px, "low": px, "close": px})
