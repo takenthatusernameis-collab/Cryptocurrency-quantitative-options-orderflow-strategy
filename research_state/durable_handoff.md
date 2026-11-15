@@ -1,9 +1,9 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-**INITIAL TASK MESSAGE (inferred timestamped 2026-11-15T08:20:09Z UTC, authoritative for next session) — TASK ID `INIT-2026-11-15T08:20:09Z-EVAL-49-ETH-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`**
+**INITIAL TASK MESSAGE (inferred timestamped 2026-11-15T09:53:46Z UTC, authoritative for next session) — TASK ID `INIT-2026-11-15T09:53:46Z-EVAL-49-ETH-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`**
 **SCOPE (repo-charter priority: `Cryptocurrency-quantitative-options-orderflow-strategy` = combined options+orderflow):** EVAL-49 — ETH cross-venue replication of the combined (fused) options+orderflow net-of-cost falsification. Sealed NO-GO now spans **BTC/OKX** (EVAL-46), **ETH/OKX** (EVAL-47), and **BTC cross-venue** (EVAL-48, Deribit options + OKX BTC orderflow, `EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z`, seal gate exit 0). **EVAL-49 fills the one remaining cross-venue cell: Deribit ETH options + the existing real OKX ETH orderflow tapes** — does the combined thesis produce a net-of-cost GO when the options leg is Deribit ETH instead of OKX ETH? **THIS IS THE ONLY TASK. NO NO-OP. NO HANDOFF-ONLY SESSION. NO BTC RE-RUN. NO PARTIAL/UNSEALED PROGRESS CLAIM. EITHER SEAL `EVAL_49_*` (or a documented, measured `EVAL_49_BLOCKED_*`) AND PASS THE SEAL GATE, OR THE SESSION FAILS.**
 
-**BOTTLENECKS ELIMINATED / MEASURED STATE (2026-11-15T08:20:09Z re-verified this session; data + tooling + WRAPPER READY on disk):**
+**BOTTLENECKS ELIMINATED / MEASURED STATE (2026-11-15T09:53:46Z re-verified this session; data + tooling + WRAPPER READY on disk):**
 - **EVAL-48 SEALED (DONE 2026-11-15T08:19:51Z):** BTC cross-venue **NO-GO CONFIRMED (PASS)** at `research_state/EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z.{json,md}` (prereg `EVAL_48_PREREGISTRATION_20261115T081951Z`; acquisition `EVAL_48_DERIBIT_ACQUISITION_20261115T081709Z`). 133 real Deribit BTC option snapshots (3 expiries 15NOV/20NOV/27NOV, 61–70 quotes each, 46 distinct signal levels) × the same 2 real OKX BTC orderflow tapes × 3 pre-registered fusion rules → all NO-GO; pooled PBO 0.667; BH-FDR rejected 5 configs. Seal gate `check_session_sealed.py --task-id "INIT-2026-11-15T07:23:17Z-EVAL-48-..." --glob "EVAL_48_*"` → exit 0. Never re-run.
 - **EVAL-46 sealed** (BTC/OKX combined NO-GO) and **`scripts/eval46_integrated_options_orderflow_audit.py` is the reusable template.** Do not edit sealed eval41/42/43/46/47/48 or any `src/` module.
 - **EVAL-47 sealed** (ETH/OKX combined NO-GO CONFIRMED (PASS), `EVAL_47_ETH_COMBINED_20261115T071330Z`, seal gate exit 0).
@@ -19,7 +19,7 @@
 
 **A SESSION THAT DOES NOT COMPLETE ALL STEPS AND SEAL THE REQUIRED `EVAL_49_*` ARTIFACTS IS A FAILED SESSION — NO EXCEPTIONS, NO ESCAPE HATCH.**
 
-**DE-RISK NOTES (2026-11-15T08:20:09Z re-verified — EVAL-48 sealed; EVAL-49 execution pending; the chronic "no Deribit data / no tooling" blocker is GONE):**
+**DE-RISK NOTES (2026-11-15T09:53:46Z re-verified — EVAL-48 sealed; EVAL-49 execution pending; the chronic "no Deribit data / no tooling" blocker is GONE):**
 - **EVAL-46 SEALED (DONE 2026-11-15T041621Z):** BTC/OKX combined **NO-GO CONFIRMED (PASS)** (`EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z.{json,md}`). Never re-run.
 - **EVAL-47 SEALED (DONE 2026-11-15T071330Z):** ETH/OKX combined **NO-GO CONFIRMED (PASS)** (`EVAL_47_ETH_COMBINED_20261115T071330Z.{json,md}`). Never re-run.
 - **EVAL-48 SEALED (DONE 2026-11-15T081951Z):** BTC cross-venue (Deribit options + OKX BTC orderflow) **NO-GO CONFIRMED (PASS)** (`EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z.{json,md}`; prereg `EVAL_48_PREREGISTRATION_20261115T081951Z`; acquisition `EVAL_48_DERIBIT_ACQUISITION_20261115T081709Z`; gate exit 0). **Measured:** 133 Deribit BTC snapshots / 46 distinct levels × 2 OKX BTC tapes; per tape/rule (combined Sharpe / max-DD / perm p / CI / breach): 41d_fresh sign_agreement +2.60 / 0.259 / 0.4645 / [−2.10,7.39] / breach; regime_filter −8.90 / 0.924 / 0.001 / breach; continuous_zscore −11.83 / 0.920 / 0.001 / breach. midday sign_agreement **+5.71 / 0.108 / 0.04995 / [2.63,9.09] / NO breach** (passes per-tape bar) but **fails on 41d_fresh** (breach + p=0.46) → pooled NO-GO (needs both tapes). regime_filter −0.24 / 0.702 / breach; continuous_zscore −5.26 / 0.818 / breach. Pooled PBO 0.667; BH-FDR rejected 5 configs. The combined thesis is **not net-of-cost tradable on Deribit BTC options + OKX BTC orderflow either** — the single-tape midday positive does not replicate.
@@ -41,7 +41,7 @@
 - **EVAL-50 (queued):** Real L2 order-book OFI campaign (acquire depth, test book-imbalance alpha net-of-cost) — requires new depth data; de-risk acquisition before arming.
 - Campaign re-closes only when every rung seals; until then there is always a next heavy rung.
 
-**BOTTLENECKS (verified 2026-11-15T08:20:09Z — EVAL-48 SEALED; ALL PRIOR EXECUTION BOTTLENECKS CLEARED; EVAL-49 EXECUTION REMAINS):**
+**BOTTLENECKS (verified 2026-11-15T09:53:46Z — EVAL-48 SEALED; ALL PRIOR EXECUTION BOTTLENECKS CLEARED; EVAL-49 EXECUTION REMAINS):**
 1. **CLEARED — EVAL-48 sealed NO-GO CONFIRMED (PASS):** `EVAL_48_CROSS_VENUE_COMBINED_20261115T081951Z.{json,md}` + prereg + acquisition, seal gate `check_session_sealed.py --task-id "INIT-2026-11-15T07:23:17Z-EVAL-48-..." --glob "EVAL_48_*"` → exit 0. Combined options+orderflow thesis NOT net-of-cost tradable on Deribit BTC options + OKX BTC orderflow either.
 2. **CLEARED — Deribit acquisition tooling built + executed (the chronic blocker):** `scripts/eval48_acquire_deribit_options.py` reconstructs real Deribit option snapshots (verified BTC 133 snapshots; ETH probed live). Real data on disk in `data/raw/eval48/`. Reusable unchanged for ETH via `--underlying ETH`.
 3. **CLEARED — EVAL-48 wrapper built + tested + executed:** `scripts/eval48_cross_venue_replication.py` (15/15 tests; full NO-GO run). Copy-and-retarget template for EVAL-49.
@@ -122,7 +122,7 @@ Pre-declared bar: GO only if Sharpe > 0 on ≥3/5 tapes AND no kill-switch breac
 ## PER-SESSION CONTRACT
 A session is complete only when a sealed `EVAL_49_*` artifact (or a documented `EVAL_49_BLOCKED_*`) exists and the seal gate passes for task `INIT-2026-11-15T08:20:09Z-EVAL-49-ETH-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`. NO-GO keeps the BTC/ETH combined closures (EVAL-46/EVAL-47) and the BTC cross-venue closure (EVAL-48) in force; a GO requires sealed verifying evidence plus a pre-registered out-of-sample replication campaign. No NO-OP sessions, no pillar re-runs, no handoff-only progress claims.
 
-## CURRENT MEASURED STATE (ground truth, re-verified 2026-11-15T08:20:09Z)
+## CURRENT MEASURED STATE (ground truth, re-verified 2026-11-15T09:53:46Z)
 - **EVAL-02..48 sealed** (immutable). **EVAL-36:** `TERMINATE_NO_GO`. **EVAL-37:** `PASS 9/9`. **EVAL-44 (BTC-scoped):** `CAMPAIGN_CLOSED`.
 - **EVAL-45:** ETH orderflow **NO-GO CONFIRMED (PASS)** (`EVAL_45_ETH_ORDERFLOW_META_20261115T012707Z`), ETH options **BLOCKED** (`EVAL_45_OPTIONS_ETH_BLOCKED_20261115T012906Z`), acquisition `EVAL_45_ETH_TAPE_ACQUISITION_20261115T012656Z`.
 - **EVAL-46:** BTC/OKX combined **NO-GO CONFIRMED (PASS)** (`EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z`) — not net-of-cost tradable on dense real BTC.
