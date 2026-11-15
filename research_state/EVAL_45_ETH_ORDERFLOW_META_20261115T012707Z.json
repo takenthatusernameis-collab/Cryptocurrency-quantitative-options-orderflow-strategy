@@ -1,0 +1,650 @@
+{
+  "artifact_paths": {
+    "json": "research_state/EVAL_45_ETH_ORDERFLOW_META_20261115T012707Z.json",
+    "md": "research_state/EVAL_45_ETH_ORDERFLOW_META_20261115T012707Z.md"
+  },
+  "bh_fdr": {
+    "alpha": 0.1,
+    "m_tests": 5,
+    "method": "Benjamini-Hochberg",
+    "rejected": [],
+    "thresholds": {
+      "eth_w01": 0.1,
+      "eth_w02": 0.06000000000000001,
+      "eth_w03": 0.04,
+      "eth_w04": 0.08,
+      "eth_w05": 0.02
+    }
+  },
+  "btc_control": {
+    "available": true,
+    "n_kill_switch_breaches": 5,
+    "n_positive_sharpe": 1,
+    "n_tapes": 5,
+    "re_measured": false,
+    "source_artifact": "research_state/EVAL_43_ORDERFLOW_FULL_ROSTER_META_20261114T224516Z.json",
+    "symbol": "BTC",
+    "tapes": [
+      {
+        "kill_switch_breach": true,
+        "n_bars": 1553,
+        "oos_max_drawdown": 0.4414290516559866,
+        "oos_sharpe": 0.23868443453227617,
+        "tape": "41a"
+      },
+      {
+        "kill_switch_breach": true,
+        "n_bars": 1555,
+        "oos_max_drawdown": 0.9492357617642345,
+        "oos_sharpe": -8.785080309954699,
+        "tape": "41b"
+      },
+      {
+        "kill_switch_breach": true,
+        "n_bars": 1551,
+        "oos_max_drawdown": 0.46474902881591057,
+        "oos_sharpe": -0.8573425684628967,
+        "tape": "41c"
+      },
+      {
+        "kill_switch_breach": true,
+        "n_bars": 1552,
+        "oos_max_drawdown": 0.8769990300416449,
+        "oos_sharpe": -6.303106086679453,
+        "tape": "41d_fresh"
+      },
+      {
+        "kill_switch_breach": true,
+        "n_bars": 1555,
+        "oos_max_drawdown": 0.6896679484983017,
+        "oos_sharpe": -0.1381833092643456,
+        "tape": "midday"
+      }
+    ],
+    "verdict": "NO-GO CONFIRMED (PASS)"
+  },
+  "campaign_state": "TERMINATED (EVAL-36 TERMINATE_NO_GO); EVAL-37 PASS 9/9",
+  "code_paths": [
+    "src/analytics/integrated_options_orderflow_evaluation.py",
+    "src/analytics/capacity_aware_tca.py",
+    "src/alpha/orderflow_alpha.py",
+    "src/campaign/integrated.py",
+    "src/telemetry/serialization.py",
+    "scripts/eval43_orderflow_full_roster_meta.py",
+    "tests/test_eval43_orderflow_full_roster_meta.py"
+  ],
+  "commands": [
+    "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+    "python3 -m py_compile scripts/eval43_orderflow_full_roster_meta.py tests/test_eval43_orderflow_full_roster_meta.py",
+    "python3 -m pytest -q tests/test_eval43_orderflow_full_roster_meta.py",
+    "python3 scripts/eval43_orderflow_full_roster_meta.py"
+  ],
+  "cross_asset": {
+    "assets": {
+      "BTC": {
+        "n_kill_switch_breaches": 5,
+        "n_positive_sharpe": 1,
+        "n_tapes": 5,
+        "scope": "SEALED (EVAL-43, cited)",
+        "source_artifact": "research_state/EVAL_43_ORDERFLOW_FULL_ROSTER_META_20261114T224516Z.json",
+        "verdict": "NO-GO CONFIRMED (PASS)"
+      },
+      "ETH": {
+        "n_kill_switch_breaches": 2,
+        "n_positive_sharpe": 3,
+        "n_tapes": 5,
+        "scope": "ETH_FULL_ROSTER",
+        "source_artifact": "research_state/EVAL_45_ETH_ORDERFLOW_META_20261115T012707Z.json",
+        "verdict": "NO-GO CONFIRMED (PASS)"
+      }
+    },
+    "btc_control_available": true,
+    "btc_nogo": true,
+    "eth_nogo": true,
+    "eth_replicates_btc_nogo": true,
+    "note": "BTC numbers are cited from the sealed EVAL-43 artifact and are not re-measured; ETH numbers are measured in this artifact."
+  },
+  "generated_at": "2026-11-15T01:27:07.010146Z",
+  "input_resolution": {
+    "full_roster_met": true,
+    "go_min_tapes": 5,
+    "missing": [],
+    "present": {
+      "eth_w01": "data/raw/orderflow_okx_ETH_w01_507773331.json",
+      "eth_w02": "data/raw/orderflow_okx_ETH_w02_507812331.json",
+      "eth_w03": "data/raw/orderflow_okx_ETH_w03_507835631.json",
+      "eth_w04": "data/raw/orderflow_okx_ETH_w04_507848531.json",
+      "eth_w05": "data/raw/orderflow_okx_ETH_w05_507908231.json"
+    }
+  },
+  "pooled": {
+    "go_min_positive_tapes": 3,
+    "go_min_tapes": 5,
+    "kill_switch_max_drawdown": 0.2,
+    "kill_switch_tapes": [
+      "eth_w01",
+      "eth_w05"
+    ],
+    "n_kill_switch_breaches": 2,
+    "n_positive_sharpe": 3,
+    "n_tapes": 5,
+    "passed": false,
+    "positive_tapes": [
+      "eth_w02",
+      "eth_w03",
+      "eth_w04"
+    ],
+    "verdict": "NO-GO CONFIRMED (PASS)",
+    "verdict_reason": "orderflow-only net-of-cost Sharpe > 0 on only 3/5 tapes (bar: >= 3/5) and 2 kill-switch breach(es) -> Track A NO-GO corroborated across the full roster; the orderflow pillar is definitively closed."
+  },
+  "pooled_pbo": {
+    "config_details": {
+      "eth_w01": {
+        "mean_is_sharpe": -4.283453425758939,
+        "mean_oos_sharpe": -30.6184121506708,
+        "pbo": 0.75,
+        "valid_combinations": 4
+      },
+      "eth_w02": {
+        "mean_is_sharpe": 6.092543735312696,
+        "mean_oos_sharpe": 93.45071130182464,
+        "pbo": 0.46875,
+        "valid_combinations": 4
+      },
+      "eth_w03": {
+        "mean_is_sharpe": 5.73416715053638,
+        "mean_oos_sharpe": 2.1321422901555755,
+        "pbo": 0.484375,
+        "valid_combinations": 4
+      },
+      "eth_w04": {
+        "mean_is_sharpe": 3.155246981337762,
+        "mean_oos_sharpe": 20.152307663716073,
+        "pbo": 0.484375,
+        "valid_combinations": 4
+      },
+      "eth_w05": {
+        "mean_is_sharpe": -20.836040640936922,
+        "mean_oos_sharpe": -791.5202617552841,
+        "pbo": 0.4375,
+        "valid_combinations": 4
+      }
+    },
+    "k_folds": 4,
+    "n_combinations_used": 16,
+    "overall_pbo": 0.2,
+    "pbo_per_config": {
+      "eth_w01": 0.75,
+      "eth_w02": 0.46875,
+      "eth_w03": 0.484375,
+      "eth_w04": 0.484375,
+      "eth_w05": 0.4375
+    }
+  },
+  "protocol": {
+    "bar_duration_seconds": 15.0,
+    "bootstrap_block": 2,
+    "bootstrap_resamples": 1000,
+    "embargo": 5,
+    "fdr_alpha": 0.1,
+    "go_criteria": "orderflow-only net-of-cost Sharpe > 0 on >= 3/5 tapes AND no kill-switch breach (max-DD <= 0.2)",
+    "go_min_positive_tapes": 3,
+    "go_min_tapes": 5,
+    "max_position_pct": 0.2,
+    "pbo_k_folds": 4,
+    "permutation_perms": 1000,
+    "purge": 10,
+    "seed": 42,
+    "signal_lookback_seconds": 60.0,
+    "signal_threshold": 0.1,
+    "step_size": 40,
+    "test_window": 40,
+    "toxicity_threshold": 0.7,
+    "toxicity_window_trades": 5,
+    "train_window": 120
+  },
+  "report_id": "EVAL_45_ETH_ORDERFLOW_META",
+  "symbol": "ETH",
+  "tape_errors": [],
+  "tape_results": [
+    {
+      "bootstrap_ci": [
+        -2.9927436599802384,
+        -26.618209720640824,
+        12.016341348205884
+      ],
+      "first_trade_utc": "2026-11-14T15:01:50.483000Z",
+      "flat_oos_sharpe": 0.0,
+      "flat_window_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ic": {
+        "ic_abs_mean": 0.09970769387966633,
+        "ic_by_horizon": {
+          "1": -0.07138820070231697,
+          "20": -0.16287875562893794,
+          "5": -0.06485612530774408
+        },
+        "ic_mean": -0.09970769387966633,
+        "ic_tstat_by_horizon": {
+          "1": -1.463268583773361,
+          "20": -3.2975355821348677,
+          "5": -1.3224111007943293
+        },
+        "n_by_horizon": {
+          "1": 420,
+          "20": 401,
+          "5": 416
+        }
+      },
+      "kill_switch_breach": true,
+      "last_trade_utc": "2026-11-14T16:46:58.858000Z",
+      "n_bars": 421,
+      "n_trades": 39000,
+      "n_windows": 8,
+      "name": "eth_w01",
+      "num_trades": 109,
+      "oos_ann_vol": 2.7336065187505896,
+      "oos_max_drawdown": 0.4931833496365312,
+      "oos_return": -0.3179849403745522,
+      "oos_sharpe": -2.9927436599802353,
+      "pbo": {
+        "config_details": {
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "orderflow": {
+            "mean_is_sharpe": -4.283453425758939,
+            "mean_oos_sharpe": -30.6184121506708,
+            "pbo": 0.75,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.5,
+        "pbo_per_config": {
+          "flat": 0.0,
+          "orderflow": 0.75
+        }
+      },
+      "permutation_p": 0.6543456543456544,
+      "sha256": "aed739a69139c6a392b6bbbcde7e10728bd927b31408a4937ee9f8ec2c24784d",
+      "tape_path": "data/raw/orderflow_okx_ETH_w01_507773331.json",
+      "total_cost_usd": 149.11871572454268,
+      "total_traded_notional": 1347128.365333296,
+      "window_returns": [
+        -0.15975152674763246,
+        -0.26221268326532327,
+        -0.177051697038369,
+        -0.00656512230664739,
+        0.34639528247984885,
+        -0.0007805741595334257,
+        -0.0001644374464871362,
+        0.00041699410727160285
+      ]
+    },
+    {
+      "bootstrap_ci": [
+        6.059802987670725,
+        -2.7779063785323768,
+        17.244610521080634
+      ],
+      "first_trade_utc": "2026-11-14T16:46:58.858000Z",
+      "flat_oos_sharpe": 0.0,
+      "flat_window_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ic": {
+        "ic_abs_mean": 0.09122526945921733,
+        "ic_by_horizon": {
+          "1": 0.04645244161996938,
+          "20": -0.17063969575417207,
+          "5": -0.05658367100351056
+        },
+        "ic_mean": -0.060256975045904416,
+        "ic_tstat_by_horizon": {
+          "1": 0.9507487433090112,
+          "20": -3.459260518547362,
+          "5": -1.153154900034614
+        },
+        "n_by_horizon": {
+          "1": 420,
+          "20": 401,
+          "5": 416
+        }
+      },
+      "kill_switch_breach": false,
+      "last_trade_utc": "2026-11-14T18:32:07.710000Z",
+      "n_bars": 421,
+      "n_trades": 23300,
+      "n_windows": 8,
+      "name": "eth_w02",
+      "num_trades": 129,
+      "oos_ann_vol": 2.9643077097551043,
+      "oos_max_drawdown": 0.19991236812000712,
+      "oos_return": 0.5412643072206503,
+      "oos_sharpe": 6.059802987670728,
+      "pbo": {
+        "config_details": {
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "orderflow": {
+            "mean_is_sharpe": 6.083995671305197,
+            "mean_oos_sharpe": 36.26441655395095,
+            "pbo": 0.453125,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.0,
+        "pbo_per_config": {
+          "flat": 0.0,
+          "orderflow": 0.453125
+        }
+      },
+      "permutation_p": 0.3886113886113886,
+      "sha256": "39cf2dbceb7d7a0a66ac330d77a0f26d683c1c4061c0cc02162cbcebec97286e",
+      "tape_path": "data/raw/orderflow_okx_ETH_w02_507812331.json",
+      "total_cost_usd": 144.8447911406061,
+      "total_traded_notional": 1298593.788756551,
+      "window_returns": [
+        0.035722550348121,
+        -0.09702366771566362,
+        0.19518946037562956,
+        0.19853038755849878,
+        -0.00056322598104598,
+        -0.19946148402898428,
+        0.43774112537020293,
+        0.00012265457956978936
+      ]
+    },
+    {
+      "bootstrap_ci": [
+        6.02651538739222,
+        -6.060484521762426,
+        16.187021211667897
+      ],
+      "first_trade_utc": "2026-11-14T18:32:07.710000Z",
+      "flat_oos_sharpe": 0.0,
+      "flat_window_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ic": {
+        "ic_abs_mean": 0.0177944719286566,
+        "ic_by_horizon": {
+          "1": 0.01329922908383753,
+          "20": -0.01346470607088936,
+          "5": -0.026619480631242903
+        },
+        "ic_mean": -0.008928319206098245,
+        "ic_tstat_by_horizon": {
+          "1": 0.2722525076091737,
+          "20": -0.26931853602207806,
+          "5": -0.5424722794827728
+        },
+        "n_by_horizon": {
+          "1": 421,
+          "20": 402,
+          "5": 417
+        }
+      },
+      "kill_switch_breach": false,
+      "last_trade_utc": "2026-11-14T20:17:35.680000Z",
+      "n_bars": 422,
+      "n_trades": 12900,
+      "n_windows": 8,
+      "name": "eth_w03",
+      "num_trades": 173,
+      "oos_ann_vol": 2.5773668539881998,
+      "oos_max_drawdown": 0.1544802796014608,
+      "oos_return": 0.4826532104355746,
+      "oos_sharpe": 6.0265153873922195,
+      "pbo": {
+        "config_details": {
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "orderflow": {
+            "mean_is_sharpe": 5.576061404833229,
+            "mean_oos_sharpe": 2.2862431617618477,
+            "pbo": 0.484375,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.0,
+        "pbo_per_config": {
+          "flat": 0.0,
+          "orderflow": 0.484375
+        }
+      },
+      "permutation_p": 0.3646353646353646,
+      "sha256": "b42fa2d999c197aea92e49b0aa383555c0999eb000f46504a85ddaa9abf697e8",
+      "tape_path": "data/raw/orderflow_okx_ETH_w03_507835631.json",
+      "total_cost_usd": 144.30170879198135,
+      "total_traded_notional": 1300234.0175215479,
+      "window_returns": [
+        -4.571110989476438e-05,
+        -0.014923548333175713,
+        -0.14163172779184155,
+        0.4371997223024312,
+        0.16444262557384964,
+        -0.004637443658188422,
+        0.05279625475746172,
+        -0.00010363191478318186
+      ]
+    },
+    {
+      "bootstrap_ci": [
+        2.819815568444807,
+        -8.451869798850215,
+        13.844731519551713
+      ],
+      "first_trade_utc": "2026-11-14T20:17:35.680000Z",
+      "flat_oos_sharpe": 0.0,
+      "flat_window_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ic": {
+        "ic_abs_mean": 0.042284644993299585,
+        "ic_by_horizon": {
+          "1": 0.02679368623122198,
+          "20": 0.06360866831558167,
+          "5": 0.03645158043309511
+        },
+        "ic_mean": 0.042284644993299585,
+        "ic_tstat_by_horizon": {
+          "1": 0.5479949476862949,
+          "20": 1.2731604084719434,
+          "5": 0.7421731739297364
+        },
+        "n_by_horizon": {
+          "1": 420,
+          "20": 401,
+          "5": 416
+        }
+      },
+      "kill_switch_breach": false,
+      "last_trade_utc": "2026-11-14T22:02:41.927000Z",
+      "n_bars": 421,
+      "n_trades": 59700,
+      "n_windows": 8,
+      "name": "eth_w04",
+      "num_trades": 168,
+      "oos_ann_vol": 2.1787508668971736,
+      "oos_max_drawdown": 0.19778583579694545,
+      "oos_return": 0.12670370538409653,
+      "oos_sharpe": 2.819815568444807,
+      "pbo": {
+        "config_details": {
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "orderflow": {
+            "mean_is_sharpe": 2.9735962543450665,
+            "mean_oos_sharpe": 27.80637406764802,
+            "pbo": 0.59375,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.5,
+        "pbo_per_config": {
+          "flat": 0.0,
+          "orderflow": 0.59375
+        }
+      },
+      "permutation_p": 0.5964035964035964,
+      "sha256": "692de81c0f6062358996df9832142b662f24f98b17046076a9f8b3a029173ade",
+      "tape_path": "data/raw/orderflow_okx_ETH_w04_507848531.json",
+      "total_cost_usd": 148.72807910752164,
+      "total_traded_notional": 1333147.1071690053,
+      "window_returns": [
+        0.19903526555611578,
+        -0.008743235204991507,
+        0.18166113320184507,
+        -0.15426580322089997,
+        0.16741079037096482,
+        -0.014820996036983997,
+        -0.1752590026728212,
+        1.9169093731907197e-05
+      ]
+    },
+    {
+      "bootstrap_ci": [
+        -19.80350655786938,
+        -40.88570449640631,
+        -8.375180624970202
+      ],
+      "first_trade_utc": "2026-11-14T22:02:41.927000Z",
+      "flat_oos_sharpe": 0.0,
+      "flat_window_returns": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "ic": {
+        "ic_abs_mean": 0.09121220273089022,
+        "ic_by_horizon": {
+          "1": -0.036986516418454296,
+          "20": -0.05695997228458789,
+          "5": -0.17969011948962846
+        },
+        "ic_mean": -0.09121220273089022,
+        "ic_tstat_by_horizon": {
+          "1": -0.7576134950036836,
+          "20": -1.1410519859899733,
+          "5": -3.7211339491626836
+        },
+        "n_by_horizon": {
+          "1": 421,
+          "20": 402,
+          "5": 417
+        }
+      },
+      "kill_switch_breach": true,
+      "last_trade_utc": "2026-11-14T23:48:00.499000Z",
+      "n_bars": 422,
+      "n_trades": 37200,
+      "n_windows": 8,
+      "name": "eth_w05",
+      "num_trades": 157,
+      "oos_ann_vol": 1.40064920806771,
+      "oos_max_drawdown": 0.6213724142491649,
+      "oos_return": -0.6213724142491649,
+      "oos_sharpe": -19.803506557869376,
+      "pbo": {
+        "config_details": {
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "orderflow": {
+            "mean_is_sharpe": -20.99819809822047,
+            "mean_oos_sharpe": -968.6743070365037,
+            "pbo": 0.46875,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.0,
+        "pbo_per_config": {
+          "flat": 0.0,
+          "orderflow": 0.46875
+        }
+      },
+      "permutation_p": 0.03396603396603397,
+      "sha256": "29a90bdd4564da37d04f0aa72f5775942a5db47aa6539bfc103aa4eede72adb6",
+      "tape_path": "data/raw/orderflow_okx_ETH_w05_507908231.json",
+      "total_cost_usd": 148.01337868806286,
+      "total_traded_notional": 1337601.3013774531,
+      "window_returns": [
+        -0.20558301218209948,
+        -0.1652112793819142,
+        -0.02047813630433244,
+        0.02534550560478936,
+        -0.18818737849281286,
+        -0.00039685379145113983,
+        -0.16560489864805086,
+        -0.16044793973249166
+      ]
+    }
+  ],
+  "task_id": "INIT-2026-11-15T01:27:07.010146Z-EVAL-45-ETH-ORDERFLOW-META",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_reason": "orderflow-only net-of-cost Sharpe > 0 on only 3/5 tapes (bar: >= 3/5) and 2 kill-switch breach(es) -> Track A NO-GO corroborated across the full roster; the orderflow pillar is definitively closed.",
+  "verdict_scope": "ETH_FULL_ROSTER"
+}

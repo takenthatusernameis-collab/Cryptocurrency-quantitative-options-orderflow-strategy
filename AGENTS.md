@@ -32,21 +32,20 @@ python3 scripts/eval37_final_termination_audit.py        # seals a new PASS/FAIL
 
 EVAL-44 (BTC-scoped campaign closure certification) is sealed at
 `research_state/EVAL_44_CAMPAIGN_CLOSURE_20261114T232641Z.{json,md}` (`CAMPAIGN_CLOSED`).
- **Next required task is EVAL-45 cross-asset ETH falsification** (see `research_state/durable_handoff.md`,
- task `INIT-2026-11-14T23:41:41Z-EVAL-45-CROSS-ASSET-ETH-FALSIFY-AND-SEAL`): 2/5 real ETH tapes are on
- disk (`data/raw/orderflow_okx_ETH_w01_507908231.json`, `data/raw/orderflow_okx_ETH_w02_507848531.json`,
- disjoint/adjacent, loader-compatible). **Complete the 3 remaining disjoint windows by chaining backward
- from w02 oldest id `507848531` (resume now supported — do not re-fetch on-disk tapes):**
- ```bash
- export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
- python3 scripts/eval45_acquire_eth_windows.py --windows 3 \
-   --resume-from-tape data/raw/orderflow_okx_ETH_w02_507848531.json \
-   --min-bars 420 --min-trades 10000 --seal
- ```
- then pre-register, run the ETH orderflow + options legs net-of-cost with full statistics, seal
- `EVAL_45_*`, and pass
- `python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-14T23:41:41Z-EVAL-45-CROSS-ASSET-ETH-FALSIFY-AND-SEAL" --glob "EVAL_45_*"`.
- This is mandatory heavy work: a NO-OP, handoff-only, or BTC-re-run session is a failed session.
+EVAL-45 (ETH orderflow + options cross-asset falsification) is sealed: ETH orderflow
+`NO-GO CONFIRMED (PASS)` (`EVAL_45_ETH_ORDERFLOW_META_20261115T012707Z`, 5 disjoint real ETH
+tapes / 172,100 trades) and ETH options `BLOCKED` (no real ETH option series,
+`EVAL_45_OPTIONS_ETH_BLOCKED_20261115T012906Z`). **Next required task is EVAL-46 ETH options
+net-of-cost** (see `research_state/durable_handoff.md`,
+task `INIT-2026-11-15T01:30:08Z-EVAL-46-OPTIONS-ETH-NET-OF-COST-FALSIFY-AND-SEAL`): backfill a
+dense real ETH-USD option snapshot series (reuse `src/data/options_candle_backfill.py` with
+`underlying="ETH"`; 836–1422 live ETH option instruments; `history-candles` verified working)
+aligned to a matching real ETH orderflow window (tapes `orderflow_okx_ETH_w01..w05_*.json` on
+disk, `2026-11-14 15:01→23:48`), pre-register, run the sealed EVAL-42 audit on ETH via a thin
+`scripts/eval46_options_eth_audit.py` (eval42 hard-codes `symbol="BTC"` — do not edit the sealed
+script), seal `EVAL_46_*`, and pass
+`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T01:30:08Z-EVAL-46-OPTIONS-ETH-NET-OF-COST-FALSIFY-AND-SEAL" --glob "EVAL_46_*"`.
+This is mandatory heavy work: a NO-OP, handoff-only, or BTC-re-run session is a failed session.
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
@@ -56,7 +55,7 @@ specific to the work item.
   venue/config/credential mutation, or order placement.
 - **Never fall back to synthetic data.** Real loaders raise `RealDataUnavailable`. Never relabel
   synthetic as real. Never emit `{"valid": true}`.
-- **Sealed artifacts are immutable.** EVAL-02..44 are sealed; append new timestamped artifacts only.
+- **Sealed artifacts are immutable.** EVAL-02..45 are sealed; append new timestamped artifacts only.
   Do not modify sealed artifacts to make a check pass.
 - Network is public read-only market data only, with polite rate limiting, if truly required.
 - Reuse existing modules under `src/analytics/`, `src/data/`, `src/backtest/`, `src/telemetry/`
@@ -65,8 +64,10 @@ specific to the work item.
 ## Current measured state
 Campaign is **TERMINATED on BTC/OKX** (sealed EVAL-36 `TERMINATE_NO_GO`). The options+orderflow strategy
 is **not net-of-cost tradable** on the available real BTC/OKX data. EVAL-37 post-termination audit
-sealed **PASS 9/9**. EVAL-41/42 sealed the options pillar closed; EVAL-43 sealed the orderflow
+sealed **PASS 9/9**. EVAL-41/42 sealed the BTC options pillar closed; EVAL-43 sealed the BTC orderflow
 pillar closed across the full roster (`NO-GO CONFIRMED (PASS)`,
 `research_state/EVAL_43_ORDERFLOW_FULL_ROSTER_META_20261114T224516Z.{json,md}`). EVAL-44 sealed
-BTC-scoped `CAMPAIGN_CLOSED`. **The repo charter is multi-asset, so ETH is unmeasured: EVAL-45
-cross-asset ETH falsification is the active mandatory rung** — see `research_state/durable_handoff.md`.
+BTC-scoped `CAMPAIGN_CLOSED`. **EVAL-45 (this session)** measured ETH: orderflow `NO-GO CONFIRMED (PASS)`
+(5 disjoint real ETH tapes / 172,100 trades; 3/5 positive Sharpe but 2 kill-switch breaches →
+replicates BTC), options `BLOCKED` (no real ETH option series). **The ETH options pillar remains OPEN:
+EVAL-46 is the active mandatory rung** — see `research_state/durable_handoff.md`.

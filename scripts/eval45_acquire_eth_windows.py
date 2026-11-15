@@ -309,10 +309,25 @@ def acquire_windows(
 
     previous: Optional[Dict[str, Any]] = preloaded[-1] if preloaded else None
 
+    # Continue new-window numbering after the highest existing on-disk index so
+    # a resume run never collides with already-acquired tapes (the partial-
+    # acquisition bottleneck): a resume onto w04 must produce w06.., not w01...
+    resume_resolved = str(Path(resume_from_tape).resolve()) if resume_from_tape else None
+    existing_max = 0
+    for candidate in out.glob(f"{prefix}_{str(symbol).strip().upper()}_w*.json"):
+        if not candidate.is_file():
+            continue
+        if resume_resolved and str(candidate.resolve()) == resume_resolved:
+            continue
+        existing_idx = _window_index_from_name(candidate)
+        if existing_idx is not None:
+            existing_max = max(existing_max, existing_idx)
+    base_index = int(existing_max)
+
     window_records: List[Dict[str, Any]] = []
     cursor: Optional[str] = cursor
 
-    for index in range(1, int(windows) + 1):
+    for index in range(base_index + 1, base_index + int(windows) + 1):
         attempts: List[Dict[str, Any]] = []
         accepted: Optional[Dict[str, Any]] = None
         target_bars = int(min_bars)
@@ -410,6 +425,101 @@ def acquire_windows(
     return report
 
 
+def _window_index_from_name(path: Path) -> Optional[int]:
+    stem = Path(path).stem
+    for part in stem.split("_"):
+        if len(part) == 3 and part[0] == "w" and part[1:].isdigit():
+            return int(part[1:])
+    return None
+
+
+def adopt_existing_windows(
+    *,
+    inst_id: str = DEFAULT_INST_ID,
+    symbol: str = DEFAULT_SYMBOL,
+    bar_duration_seconds: float = DEFAULT_BAR_DURATION_SECONDS,
+    min_bars: int = DEFAULT_MIN_BARS,
+    min_trades: int = DEFAULT_MIN_TRADES,
+    out_dir: Path | str = DATA_RAW_DIR,
+    prefix: str = "orderflow_okx",
+) -> Dict[str, Any]:
+    """Seal a manifest from tapes already on disk (zero network).
+
+    Removes the partial-acquisition bottleneck: after a partial live run, the
+    full on-disk roster can be recorded without re-fetching. Every tape is
+    re-loaded through ``load_real_orderflow`` and its measured facts/sha256 are
+    recorded; disjointness is verified across the roster sorted by oldest id.
+    """
+    root = Path(out_dir)
+    if not root.is_dir():
+        raise AcquisitionError(f"data dir missing: {root}")
+    symbol_u = str(symbol).strip().upper()
+    pattern = f"{prefix}_{symbol_u}_w*.json"
+    records: List[Dict[str, Any]] = []
+    for path in sorted(root.glob(pattern)):
+        if "synthetic" in path.name.lower() or not path.is_file():
+            continue
+        idx = _window_index_from_name(path)
+        if idx is None:
+            continue
+        loaded = load_real_orderflow(symbol, orderflow_path=path)
+        trades = list(loaded.trades or [])
+        if not trades:
+            raise AcquisitionError(f"adopt tape has no trades: {path}")
+        rows = [
+            {
+                "trade_id": str(t.trade_id),
+                "timestamp_ms": int(t.timestamp.timestamp() * 1000),
+                "timestamp": t.timestamp,
+            }
+            for t in trades
+        ]
+        facts = validate_window(
+            trades=rows, min_trades=min_trades, min_bars=min_bars,
+            bar_duration_seconds=bar_duration_seconds,
+        )
+        records.append({
+            "window": int(idx),
+            "path": str(path),
+            "sha256": _sha256(path),
+            "inst_id": inst_id,
+            "symbol": symbol_u,
+            "after_cursor": None,
+            "loader_ok": True,
+            "adopted": True,
+            "n_trades": facts["n_trades"],
+            "n_bars": facts["n_bars"],
+            "span_seconds": facts["span_seconds"],
+            "first_trade_id": facts["first_trade_id"],
+            "last_trade_id": facts["last_trade_id"],
+            "first_trade_utc": facts["first_trade_utc"],
+            "last_trade_utc": facts["last_trade_utc"],
+        })
+    if not records:
+        raise AcquisitionError(f"no on-disk tapes match {pattern!r} in {root}")
+    records.sort(key=lambda r: int(r["first_trade_id"]))
+    for prev, cur in zip(records, records[1:]):
+        if int(prev["last_trade_id"]) >= int(cur["first_trade_id"]):
+            raise AcquisitionError(
+                f"adopted windows overlap: {prev['first_trade_id']}..{prev['last_trade_id']} "
+                f"vs {cur['first_trade_id']}..{cur['last_trade_id']}"
+            )
+    for r in records:
+        r["disjointness"] = {"disjoint": True, "overlap_trade_ids": 0,
+                             "after_cursor": None, "strictly_older": True}
+    total_trades = sum(int(r["n_trades"]) for r in records)
+    return build_report(
+        generated_at=utc_now_iso(),
+        inst_id=inst_id,
+        symbol=symbol_u,
+        windows=records,
+        total_trades=total_trades,
+        bar_duration_seconds=bar_duration_seconds,
+        min_bars=min_bars,
+        min_trades=min_trades,
+    )
+
+
 def build_report(
     *,
     generated_at: str,
@@ -493,14 +603,16 @@ def build_md(report: Mapping[str, Any]) -> str:
     ]
     for w in report["windows"]:
         lines.append(
-            f"| {w['window']} | {w['n_trades']} | {w['n_bars']} | {w['first_trade_utc']} | "
-            f"{w['last_trade_utc']} | {w['first_trade_id']} | {w['last_trade_id']} | "
-            f"{w['pages']} | {w['loader_ok']} | `{w['sha256'][:16]}…` |"
+            f"| {w.get('window')} | {w.get('n_trades')} | {w.get('n_bars')} | "
+            f"{w.get('first_trade_utc')} | {w.get('last_trade_utc')} | "
+            f"{w.get('first_trade_id')} | {w.get('last_trade_id')} | "
+            f"{w.get('pages', '-')} | {w.get('loader_ok', '-')} | "
+            f"`{str(w.get('sha256', ''))[:16]}…` |"
         )
     lines.append("")
     lines.append("## Paths")
     for w in report["windows"]:
-        lines.append(f"- `{w['path']}`")
+        lines.append(f"- `{w.get('path')}`")
     lines.append("")
     lines.append("## Code paths")
     for path in report["code_paths"]:
@@ -539,25 +651,39 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
                          "to --resume-from-tape; must match the resume tape if both given)")
     ap.add_argument("--seal", action="store_true", help="write the acquisition manifest")
     ap.add_argument("--no-seal", dest="seal", action="store_false")
+    ap.add_argument("--adopt-existing", action="store_true",
+                    help="seal a manifest from tapes already on disk (zero network); "
+                         "ignores --windows/--resume-from-tape")
     ap.set_defaults(seal=False)
     args = ap.parse_args(argv)
 
     try:
-        report = acquire_windows(
-            inst_id=args.inst_id,
-            symbol=args.symbol,
-            windows=args.windows,
-            min_bars=args.min_bars,
-            min_trades=args.min_trades,
-            bar_duration_seconds=args.bar_duration_seconds,
-            page_limit=args.page_limit,
-            max_pages=args.max_pages,
-            request_delay_seconds=args.request_delay_seconds,
-            out_dir=Path(args.out_dir),
-            prefix=args.prefix,
-            resume_from_tape=Path(args.resume_from_tape) if args.resume_from_tape else None,
-            start_cursor=args.start_cursor,
-        )
+        if args.adopt_existing:
+            report = adopt_existing_windows(
+                inst_id=args.inst_id,
+                symbol=args.symbol,
+                bar_duration_seconds=args.bar_duration_seconds,
+                min_bars=args.min_bars,
+                min_trades=args.min_trades,
+                out_dir=Path(args.out_dir),
+                prefix=args.prefix,
+            )
+        else:
+            report = acquire_windows(
+                inst_id=args.inst_id,
+                symbol=args.symbol,
+                windows=args.windows,
+                min_bars=args.min_bars,
+                min_trades=args.min_trades,
+                bar_duration_seconds=args.bar_duration_seconds,
+                page_limit=args.page_limit,
+                max_pages=args.max_pages,
+                request_delay_seconds=args.request_delay_seconds,
+                out_dir=Path(args.out_dir),
+                prefix=args.prefix,
+                resume_from_tape=Path(args.resume_from_tape) if args.resume_from_tape else None,
+                start_cursor=args.start_cursor,
+            )
     except Exception as exc:  # noqa: BLE001 - fail loudly, never seal a false success
         traceback.print_exc()
         print(json.dumps({"report_id": REPORT_ID, "status": "FAILED",

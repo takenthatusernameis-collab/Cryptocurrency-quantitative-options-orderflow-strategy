@@ -1,0 +1,65 @@
+{
+  "artifact_kind": "measurement_blocked",
+  "attempts": [
+    "Counted real ETH option snapshots on disk via scripts/eval45_options_eth_blocked.py (no BTC relabel, no synthesis).",
+    "Probed the public OKX ETH-USD option venue to confirm reachability is not the blocker (single cross-section is not a time-series).",
+    "No substitution attempted: BTC snapshots are never relabelled as ETH; a single cross-section is never reported as a net-of-cost result."
+  ],
+  "authenticity_verified": false,
+  "code_paths": [
+    "scripts/eval45_options_eth_blocked.py",
+    "scripts/eval42_options_timeseries_independent_audit.py",
+    "src/data/public_export_acquisition.py",
+    "tests/test_eval45_options_eth_blocked.py"
+  ],
+  "command": "python3 scripts/eval45_options_eth_blocked.py",
+  "disk_scan": {
+    "sample_paths": [],
+    "scan_error": null,
+    "snapshot_count": 0
+  },
+  "generated_at": "2026-11-15T01:29:06.892991Z",
+  "leg": "B_ETH_OPTIONS_NET_OF_COST",
+  "live_trading_enabled": false,
+  "never_valid_true": true,
+  "readiness": {
+    "blocked": true,
+    "btc_snapshot_reference": 101,
+    "dense_series_available": false,
+    "reason": "0 real ETH option snapshots on disk < required 30 dense snapshots (BTC reference: 101); a single cross-section cannot support a net-of-cost walk-forward",
+    "required_min": 30,
+    "snapshot_count": 0
+  },
+  "reason": "0 real ETH option snapshots on disk < required 30 dense snapshots (BTC reference: 101); a single cross-section cannot support a net-of-cost walk-forward",
+  "remediation": [
+    "EVAL-46: collect a dense real ETH-USD option snapshot time-series (public read-only polling over the required horizon, >= 30 snapshots) into data/raw/options_candles/.",
+    "Then run the sealed EVAL-42 independent options audit on the ETH series (IC, quintile long-short, sign-flip, continuous z-score; 1000-perm, 1000-bootstrap, CSCV PBO k=4, BH-FDR alpha 0.1, seed 42) and seal EVAL_46."
+  ],
+  "report_id": "EVAL_45_OPTIONS_ETH_BLOCKED",
+  "status": "BLOCKED",
+  "task_id": "INIT-2026-11-15T01:29:06.892991Z-EVAL-45-OPTIONS-ETH-BLOCKED",
+  "trading_mode": "paper",
+  "venue_probe": {
+    "expiries": [
+      "2026-11-16T00:00:00Z",
+      "2026-11-17T00:00:00Z",
+      "2026-11-18T00:00:00Z",
+      "2026-11-20T00:00:00Z",
+      "2026-11-27T00:00:00Z",
+      "2026-12-04T00:00:00Z",
+      "2026-12-11T00:00:00Z",
+      "2026-12-25T00:00:00Z",
+      "2027-01-29T00:00:00Z",
+      "2027-02-26T00:00:00Z",
+      "2027-03-26T00:00:00Z",
+      "2027-06-25T00:00:00Z",
+      "2027-09-24T00:00:00Z"
+    ],
+    "n_distinct_expiries": 13,
+    "n_quotes": 716,
+    "reachable": true,
+    "sample_timestamp": "2026-11-15T01:29:06.095000Z"
+  },
+  "venue_probed": true,
+  "verdict": "BLOCKED"
+}
