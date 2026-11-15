@@ -2,11 +2,10 @@
 
 ## AUTHORITATIVE INITIAL TASK FOR NEXT SESSION (timestamped; only valid task)
 
-**Task ID:** `INIT-2026-11-15T20:08:00Z-EVAL-59-REAL-OPTIONS-BUTTERFLY-25D-CONVEXITY-NET-OF-COST-BTC-ETH-BUILD-TOOLING-ACQUIRE-MEASURE-AND-SEAL`
-**Status as of 2026-11-15T21:48:32Z:** EVAL-59 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0). `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z` (floor OK: BTC 289/103/289/3647/100/86083s/287 common, term-structure viable 8 expiries; ETH 289/102/289/2638/98/84614s/282 common, viable 8 expiries), `EVAL_59_PREREGISTRATION_20261115T210615Z` (pre-verdict), `EVAL_59_COMBINED_20261115T214832Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 0.0000 any_pass false; ETH best Sharpe 0.9168 `butterfly_25d_delta_hedged::2026-11-15::lb12::st0.5::sc1.0::reb2` any_pass false; pooled PBO 0.6667; BH-FDR rejected 8 BTC lb12 configs; combined NO-GO since neither underlying passed the GO bar; seal gate exit 0). **EVAL-59 tooling built+tested green (`py_compile` OK; `pytest -q` 16 passed). All EVAL-59 artifacts sealed.** The EVAL-59 task is COMPLETE.
+**Status as of 2026-11-15T21:51:36Z:** CAMPAIGN **CLOSED — NO NEXT EVAL TASK EXISTS.** EVAL-59 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0). `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z` (floor OK: BTC 289/103/289/3647/100/86083s/287 common, term-structure viable 8 expiries; ETH 289/102/289/2638/98/84614s/282 common, viable 8 expiries), `EVAL_59_PREREGISTRATION_20261115T210615Z` (pre-verdict), `EVAL_59_COMBINED_20261115T214832Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 0.0000 any_pass false; ETH best Sharpe 0.9168 `butterfly_25d_delta_hedged::2026-11-15::lb12::st0.5::sc1.0::reb2` any_pass false; pooled PBO 0.6667; BH-FDR rejected 8 BTC lb12 configs; combined NO-GO since neither underlying passed the GO bar; seal gate exit 0). **EVAL-59 tooling built+tested green (`py_compile` OK; `pytest -q` 16 passed). All EVAL-59 artifacts sealed.** The EVAL-59 task is COMPLETE.
 
 ================================================================================
->>> EVAL-59 COMPLETE — CAMPAIGN CLOSED. NO FURTHER EVAL RUNGS REMAIN. <<<
+>>> CAMPAIGN CLOSED (EVAL-02..59 all SEALED NO-GO CONFIRMED (PASS), gate exit 0). NO FURTHER EVAL RUNGS REMAIN. <<<
 ================================================================================
 
 **EVAL-59 is COMPLETE and sealed (immutable).** Tooling built+tested green
@@ -61,7 +60,7 @@ floor-aligned grid) → pre-register `EVAL_59_PREREGISTRATION_*` BEFORE verdict 
 substitute) → pass seal gate. No prior-EVAL re-runs/re-seals, no `research_state/` enumeration, no
 full test suite, no handoff-only session.
 
-## BOTTLENECKS — CLEARED / REMAINING (verified 2026-11-15T21:48:32Z)
+## BOTTLENECKS — CLEARED / REMAINING (verified 2026-11-15T21:51:36Z)
 1. **CLEARED (this session):** EVAL-59 heavy real work complete — tooling green
    (`scripts/eval59_acquire_options_surface.py`, `scripts/eval59_butterfly_net_of_cost.py`,
    `tests/test_eval59_butterfly_net_of_cost.py`; `py_compile` OK; `pytest -q` 16 passed),
