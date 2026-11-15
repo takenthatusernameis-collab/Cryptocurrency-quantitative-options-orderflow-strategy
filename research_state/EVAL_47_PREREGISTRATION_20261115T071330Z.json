@@ -1,0 +1,126 @@
+{
+  "artifact_paths": {
+    "json": "research_state/EVAL_47_PREREGISTRATION_20261115T071330Z.json",
+    "md": "research_state/EVAL_47_PREREGISTRATION_20261115T071330Z.md"
+  },
+  "code_paths": [
+    "src/analytics/integrated_options_orderflow_evaluation.py",
+    "src/analytics/options_time_varying_signal.py",
+    "src/analytics/capacity_aware_tca.py",
+    "src/analytics/real_walkforward_certification.py",
+    "src/analytics/strategy_evaluation.py",
+    "src/campaign/integrated.py",
+    "src/telemetry/serialization.py",
+    "scripts/eval46_integrated_options_orderflow_audit.py",
+    "scripts/eval47_eth_combined_audit.py",
+    "tests/test_eval47_eth_combined_audit.py"
+  ],
+  "commands": [
+    "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+    "python3 -m py_compile scripts/eval47_eth_combined_audit.py tests/test_eval47_eth_combined_audit.py",
+    "python3 -m pytest -q tests/test_eval47_eth_combined_audit.py",
+    "python3 scripts/eval47_eth_combined_audit.py --no-write --max-trades 5000",
+    "python3 scripts/eval47_eth_combined_audit.py"
+  ],
+  "fusion_rules_detail": {
+    "continuous_zscore": "causal expanding z-score of each pillar, summed, thresholded at z_threshold, toxicity gate",
+    "regime_filter": "options sign as causal regime gate x orderflow direction (product of thresholded signs), toxicity gate",
+    "sign_agreement": "both pillars agree in sign (_fuse_positions), toxicity gate"
+  },
+  "generated_at": "2026-11-15T07:13:30.622924Z",
+  "hypothesis": "The fused options+orderflow strategy is net-of-cost tradable on dense real ETH data: at least one pre-declared fusion rule yields combined Sharpe > 0 with no kill-switch breach, permutation p < 0.05 and bootstrap CI lower > 0 on the ETH tapes.",
+  "options_dataset": {
+    "first_snapshot_utc": "2026-11-14T13:10:00Z",
+    "last_snapshot_utc": "2026-11-15T05:50:00Z",
+    "manifest_sha256": "821ead9a27473b08a52b5b05f8b489937431cc693ac3cee9699fb52458537c76",
+    "n_distinct_levels": 65,
+    "n_snapshots": 206,
+    "options_dir": "data/raw/eval45"
+  },
+  "protocol": {
+    "bar_duration_seconds": 15.0,
+    "bootstrap_block": 2,
+    "bootstrap_resamples": 1000,
+    "cost_model_bps_nav_per_window": 2.0,
+    "embargo": 5,
+    "fdr_alpha": 0.1,
+    "fusion_rules": [
+      "sign_agreement",
+      "regime_filter",
+      "continuous_zscore"
+    ],
+    "go_bar": "GO only if, across all 5 real ETH tapes, at least one fusion rule shows combined net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05 and bootstrap 95% CI lower > 0; otherwise NO-GO CONFIRMED (PASS).",
+    "guardrail_bps": 0.5,
+    "kill_switch_max_drawdown": 0.2,
+    "max_position_pct": 0.2,
+    "pbo_k_folds": 4,
+    "pbo_n_combinations": 16,
+    "permutation_perms": 1000,
+    "purge": 10,
+    "seed": 42,
+    "signal_lookback_seconds": 60.0,
+    "signal_threshold": 0.1,
+    "step_size": 40,
+    "test_window": 40,
+    "toxicity_threshold": 0.7,
+    "toxicity_window_trades": 5,
+    "train_window": 120,
+    "z_min_periods": 5,
+    "z_threshold": 0.5
+  },
+  "report_id": "EVAL_47_PREREGISTRATION",
+  "status": "PREREGISTERED",
+  "tapes": {
+    "eth_w01": {
+      "first_trade_utc": "2026-11-15T03:29:26.282000Z",
+      "last_trade_utc": "2026-11-15T05:14:36.626000Z",
+      "n_bars": 421,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 12300,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w01_508045199.json",
+      "sha256": "e9ef4da654f2df258d1de47e5b18ad42e4776daf17fa335d86e0fb7fd13b1c57"
+    },
+    "eth_w02": {
+      "first_trade_utc": "2026-11-15T01:44:18.055000Z",
+      "last_trade_utc": "2026-11-15T03:29:26.281000Z",
+      "n_bars": 421,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 54900,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w02_507990299.json",
+      "sha256": "2ec36212f811c7b20578438c8e0b560d1b53aba6b211aad925c35583f6d48008"
+    },
+    "eth_w03": {
+      "first_trade_utc": "2026-11-14T23:58:47.625000Z",
+      "last_trade_utc": "2026-11-15T01:44:14.992000Z",
+      "n_bars": 422,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 42200,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w03_507948099.json",
+      "sha256": "b6c68145b04a6cddcf57f7b972c76dd4b19507ccf5dd34093d1dfeced7b8fd0b"
+    },
+    "eth_w04": {
+      "first_trade_utc": "2026-11-14T22:13:46.111000Z",
+      "last_trade_utc": "2026-11-14T23:58:47.625000Z",
+      "n_bars": 421,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 27000,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w04_507921099.json",
+      "sha256": "9142bcf5c8921960066780cdcfc8005d6a56b2653166ef757567b901ff58b863"
+    },
+    "eth_w05": {
+      "first_trade_utc": "2026-11-14T20:26:52.178000Z",
+      "last_trade_utc": "2026-11-14T22:13:46.111000Z",
+      "n_bars": 428,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 71200,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w05_507849899.json",
+      "sha256": "cf249c1f4e7f3ca82a1af4ee9b8721e3dbb26aa0f270c898aab3ce27bb44c8b3"
+    }
+  },
+  "task_id": "INIT-2026-11-15T07:13:30.622924Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL"
+}

@@ -34,7 +34,7 @@ Usage::
     python3 scripts/eval47_eth_combined_audit.py --no-write --max-trades 5000   # smoke
     python3 scripts/eval47_eth_combined_audit.py                               # full seal
     python3 scripts/check_session_sealed.py \
-        --task-id "INIT-2026-11-15T06:19:17Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL" \
+        --task-id "INIT-2026-11-15T06:22:20Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL" \
         --glob "EVAL_47_*"
 """
 
@@ -111,6 +111,30 @@ _orig_build_report = e46._build_report
 _orig_build_prereg = e46.build_prereg
 
 
+_BTC2ETH = [
+    ("both real BTC tapes", "all 5 real ETH tapes"),
+    ("both real BTC tapes", "all real ETH tapes"),
+    ("the available real BTC data", "the available real ETH data"),
+    ("across both real BTC tapes", "across all real ETH tapes"),
+]
+
+
+def _relabel_eth(d: Dict[str, Any]) -> Dict[str, Any]:
+    """Reline BTC-specific prose in verdict_reason / go_bar / hypothesis to ETH (EVAL-47 scope).
+
+    Recurses into nested dicts (e.g. ``protocol``) so the pre-registered ``go_bar``
+    string is relabeled as well as the top-level report fields.
+    """
+    for key, val in d.items():
+        if isinstance(val, str):
+            for old, new in _BTC2ETH:
+                val = val.replace(old, new)
+            d[key] = val
+        elif isinstance(val, dict):
+            _relabel_eth(val)
+    return d
+
+
 def _patched_build_report(**kwargs: Any) -> Dict[str, Any]:
     rep = _orig_build_report(**kwargs)
     rep["verdict_scope"] = "FULL_DENSE_ETH"
@@ -118,6 +142,7 @@ def _patched_build_report(**kwargs: Any) -> Dict[str, Any]:
         "TERMINATED (EVAL-36 TERMINATE_NO_GO); EVAL-37 PASS 9/9; "
         "EVAL-46 BTC combined NO-GO CONFIRMED (PASS); EVAL-47 ETH combined in progress"
     )
+    _relabel_eth(rep)
     return rep
 
 
@@ -128,6 +153,7 @@ def _patched_build_prereg(**kwargs: Any) -> Dict[str, Any]:
         "data: at least one pre-declared fusion rule yields combined Sharpe > 0 with no "
         "kill-switch breach, permutation p < 0.05 and bootstrap CI lower > 0 on the ETH tapes."
     )
+    _relabel_eth(p)
     return p
 
 

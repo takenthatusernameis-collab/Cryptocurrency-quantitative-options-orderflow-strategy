@@ -80,6 +80,42 @@ def test_patched_build_prereg_eth_hypothesis():
     assert "BTC" not in p["hypothesis"]
 
 
+def test_patched_report_and_prereg_have_no_btc_prose():
+    """The relabelable verdict prose (verdict_reason / go_bar / hypothesis) is ETH-scoped.
+
+    Only these fields are relabeled; legitimate historical references such as
+    ``campaign_state`` citing the sealed EVAL-46 BTC combined NO-GO are intentionally
+    left intact.
+    """
+    rep = e46._build_report(
+        generated_at="2026-11-15T06:30:00.000Z",
+        tape_results=[],
+        options_meta={"n_snapshots": 0},
+        tape_meta={},
+        protocol={},
+        task_label=e47.TASK_LABEL,
+    )
+    p = e46.build_prereg(
+        generated_at="2026-11-15T06:30:00.000Z",
+        options_meta={"n_snapshots": 0},
+        tape_meta={},
+        protocol={},
+        task_id="INIT-2026-11-15T06:30:00.000Z-EVAL-47-TEST",
+    )
+
+    def check(obj):
+        for key in ("verdict_reason", "go_bar", "hypothesis"):
+            val = obj.get(key)
+            if isinstance(val, str):
+                assert "BTC" not in val, f"BTC prose in {key}: {val!r}"
+                assert "ETH" in val, f"ETH not present in {key}: {val!r}"
+
+    check(rep)
+    check(p.get("protocol", {}))
+    assert "all 5 real ETH tapes" in rep["verdict_reason"]
+    assert "the available real ETH data" in rep["verdict_reason"]
+
+
 # ---------------------------------------------------------------------------
 # Blocked report
 # ---------------------------------------------------------------------------

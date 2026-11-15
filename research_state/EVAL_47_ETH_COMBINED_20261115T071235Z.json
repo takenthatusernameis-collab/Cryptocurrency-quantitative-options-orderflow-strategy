@@ -1,0 +1,1368 @@
+{
+  "artifact_paths": {
+    "json": "research_state/EVAL_47_ETH_COMBINED_20261115T071235Z.json",
+    "md": "research_state/EVAL_47_ETH_COMBINED_20261115T071235Z.md"
+  },
+  "bh_fdr": {
+    "alpha": 0.1,
+    "m_tests": 15,
+    "method": "Benjamini-Hochberg",
+    "rejected": [],
+    "thresholds": {
+      "eth_w01::continuous_zscore": 0.006666666666666667,
+      "eth_w01::regime_filter": 0.07333333333333333,
+      "eth_w01::sign_agreement": 0.08000000000000002,
+      "eth_w02::continuous_zscore": 0.09333333333333334,
+      "eth_w02::regime_filter": 0.03333333333333333,
+      "eth_w02::sign_agreement": 0.04000000000000001,
+      "eth_w03::continuous_zscore": 0.02666666666666667,
+      "eth_w03::regime_filter": 0.04666666666666667,
+      "eth_w03::sign_agreement": 0.08666666666666667,
+      "eth_w04::continuous_zscore": 0.020000000000000004,
+      "eth_w04::regime_filter": 0.06666666666666667,
+      "eth_w04::sign_agreement": 0.05333333333333334,
+      "eth_w05::continuous_zscore": 0.013333333333333334,
+      "eth_w05::regime_filter": 0.060000000000000005,
+      "eth_w05::sign_agreement": 0.1
+    }
+  },
+  "campaign_state": "TERMINATED (EVAL-36 TERMINATE_NO_GO); EVAL-37 PASS 9/9; EVAL-46 BTC combined NO-GO CONFIRMED (PASS); EVAL-47 ETH combined in progress",
+  "code_paths": [
+    "src/analytics/integrated_options_orderflow_evaluation.py",
+    "src/analytics/options_time_varying_signal.py",
+    "src/analytics/capacity_aware_tca.py",
+    "src/analytics/real_walkforward_certification.py",
+    "src/analytics/strategy_evaluation.py",
+    "src/campaign/integrated.py",
+    "src/telemetry/serialization.py",
+    "scripts/eval46_integrated_options_orderflow_audit.py",
+    "scripts/eval47_eth_combined_audit.py",
+    "tests/test_eval47_eth_combined_audit.py"
+  ],
+  "commands": [
+    "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+    "python3 -m py_compile scripts/eval47_eth_combined_audit.py tests/test_eval47_eth_combined_audit.py",
+    "python3 -m pytest -q tests/test_eval47_eth_combined_audit.py",
+    "python3 scripts/eval47_eth_combined_audit.py --no-write --max-trades 5000",
+    "python3 scripts/eval47_eth_combined_audit.py"
+  ],
+  "generated_at": "2026-11-15T07:12:35.088278Z",
+  "options_dataset": {
+    "first_snapshot_utc": "2026-11-14T13:10:00Z",
+    "last_snapshot_utc": "2026-11-15T05:50:00Z",
+    "manifest_sha256": "821ead9a27473b08a52b5b05f8b489937431cc693ac3cee9699fb52458537c76",
+    "n_distinct_levels": 65,
+    "n_snapshots": 206,
+    "options_dir": "data/raw/eval45"
+  },
+  "pooled": {
+    "go_rule": null,
+    "n_tapes": 5,
+    "passed": false,
+    "rule_audit": {
+      "continuous_zscore": {
+        "all_tapes_pass": false,
+        "per_tape": [
+          {
+            "ci_lower": -507.7309003547182,
+            "kill_switch_breach": true,
+            "oos_sharpe": -101.32037845587158,
+            "pass": false,
+            "permutation_p": 0.015984015984015984,
+            "tape": "eth_w05"
+          },
+          {
+            "ci_lower": -85.78220368342808,
+            "kill_switch_breach": true,
+            "oos_sharpe": -23.033736512351826,
+            "pass": false,
+            "permutation_p": 0.02197802197802198,
+            "tape": "eth_w04"
+          },
+          {
+            "ci_lower": -193.09836282441663,
+            "kill_switch_breach": true,
+            "oos_sharpe": -9.068869648014807,
+            "pass": false,
+            "permutation_p": 0.03696303696303696,
+            "tape": "eth_w03"
+          },
+          {
+            "ci_lower": 2.857435712247716,
+            "kill_switch_breach": false,
+            "oos_sharpe": 10.740453822909513,
+            "pass": false,
+            "permutation_p": 0.8331668331668332,
+            "tape": "eth_w02"
+          },
+          {
+            "ci_lower": -365.427013966571,
+            "kill_switch_breach": true,
+            "oos_sharpe": -53.92359750038549,
+            "pass": false,
+            "permutation_p": 0.008991008991008992,
+            "tape": "eth_w01"
+          }
+        ]
+      },
+      "regime_filter": {
+        "all_tapes_pass": false,
+        "per_tape": [
+          {
+            "ci_lower": -16.026030149162903,
+            "kill_switch_breach": true,
+            "oos_sharpe": -4.295256956202817,
+            "pass": false,
+            "permutation_p": 0.3386613386613387,
+            "tape": "eth_w05"
+          },
+          {
+            "ci_lower": -22.680463236347848,
+            "kill_switch_breach": true,
+            "oos_sharpe": -1.3703767336242225,
+            "pass": false,
+            "permutation_p": 0.46053946053946054,
+            "tape": "eth_w04"
+          },
+          {
+            "ci_lower": -18.88660714003915,
+            "kill_switch_breach": true,
+            "oos_sharpe": -3.5036868464054796,
+            "pass": false,
+            "permutation_p": 0.2547452547452547,
+            "tape": "eth_w03"
+          },
+          {
+            "ci_lower": -19.129378071235802,
+            "kill_switch_breach": true,
+            "oos_sharpe": -7.916928569385854,
+            "pass": false,
+            "permutation_p": 0.06993006993006994,
+            "tape": "eth_w02"
+          },
+          {
+            "ci_lower": -12.781701180422774,
+            "kill_switch_breach": true,
+            "oos_sharpe": 3.194900942021851,
+            "pass": false,
+            "permutation_p": 0.6393606393606394,
+            "tape": "eth_w01"
+          }
+        ]
+      },
+      "sign_agreement": {
+        "all_tapes_pass": false,
+        "per_tape": [
+          {
+            "ci_lower": -11.969765390251773,
+            "kill_switch_breach": false,
+            "oos_sharpe": 5.5032045376274334,
+            "pass": false,
+            "permutation_p": 1.0,
+            "tape": "eth_w05"
+          },
+          {
+            "ci_lower": 5.8214278619545095,
+            "kill_switch_breach": false,
+            "oos_sharpe": 16.260947492934676,
+            "pass": false,
+            "permutation_p": 0.2677322677322677,
+            "tape": "eth_w04"
+          },
+          {
+            "ci_lower": -9.276396605842947,
+            "kill_switch_breach": false,
+            "oos_sharpe": 10.753913717891258,
+            "pass": false,
+            "permutation_p": 0.7622377622377622,
+            "tape": "eth_w03"
+          },
+          {
+            "ci_lower": -9.90120156165982,
+            "kill_switch_breach": false,
+            "oos_sharpe": -3.024417605551895,
+            "pass": false,
+            "permutation_p": 0.12887112887112886,
+            "tape": "eth_w02"
+          },
+          {
+            "ci_lower": -27.43310569256231,
+            "kill_switch_breach": false,
+            "oos_sharpe": -12.165442672799413,
+            "pass": false,
+            "permutation_p": 0.7322677322677322,
+            "tape": "eth_w01"
+          }
+        ]
+      }
+    },
+    "verdict": "NO-GO CONFIRMED (PASS)",
+    "verdict_reason": "no fusion rule passed the pre-declared GO bar on both real BTC tapes (need combined Sharpe > 0, no kill-switch breach, permutation p < 0.05 and bootstrap CI lower > 0 on both) -> the combined options+orderflow thesis is NOT net-of-cost tradable on the available real BTC data."
+  },
+  "pooled_pbo": {
+    "config_details": {
+      "eth_w01::combined_continuous_zscore": {
+        "mean_is_sharpe": -82.6591515135087,
+        "mean_oos_sharpe": -5328.988761009295,
+        "pbo": 0.75,
+        "valid_combinations": 4
+      },
+      "eth_w01::combined_regime_filter": {
+        "mean_is_sharpe": 3.354098435495829,
+        "mean_oos_sharpe": 20.09428764774859,
+        "pbo": 0.4375,
+        "valid_combinations": 4
+      },
+      "eth_w01::combined_sign_agreement": {
+        "mean_is_sharpe": -12.29319466197979,
+        "mean_oos_sharpe": -4182.505765296051,
+        "pbo": 0.71875,
+        "valid_combinations": 4
+      },
+      "eth_w02::combined_continuous_zscore": {
+        "mean_is_sharpe": 10.870226973564161,
+        "mean_oos_sharpe": 435.8240256072399,
+        "pbo": 0.421875,
+        "valid_combinations": 4
+      },
+      "eth_w02::combined_regime_filter": {
+        "mean_is_sharpe": -9.184810133332787,
+        "mean_oos_sharpe": -15.592104124251385,
+        "pbo": 0.90625,
+        "valid_combinations": 4
+      },
+      "eth_w02::combined_sign_agreement": {
+        "mean_is_sharpe": -1.254994933768856,
+        "mean_oos_sharpe": 6.733643363186928,
+        "pbo": 0.359375,
+        "valid_combinations": 4
+      },
+      "eth_w03::combined_continuous_zscore": {
+        "mean_is_sharpe": -11.428018877475264,
+        "mean_oos_sharpe": -79.33762624449943,
+        "pbo": 0.75,
+        "valid_combinations": 4
+      },
+      "eth_w03::combined_regime_filter": {
+        "mean_is_sharpe": -3.847089162151866,
+        "mean_oos_sharpe": -13.920328242907807,
+        "pbo": 0.546875,
+        "valid_combinations": 4
+      },
+      "eth_w03::combined_sign_agreement": {
+        "mean_is_sharpe": 11.09661301139213,
+        "mean_oos_sharpe": 464.6947432850914,
+        "pbo": 0.21875,
+        "valid_combinations": 4
+      },
+      "eth_w04::combined_continuous_zscore": {
+        "mean_is_sharpe": -24.80253713805937,
+        "mean_oos_sharpe": -101.59279513845271,
+        "pbo": 0.546875,
+        "valid_combinations": 4
+      },
+      "eth_w04::combined_regime_filter": {
+        "mean_is_sharpe": -1.8890523329240843,
+        "mean_oos_sharpe": -7.989365251610535,
+        "pbo": 0.671875,
+        "valid_combinations": 4
+      },
+      "eth_w04::combined_sign_agreement": {
+        "mean_is_sharpe": 17.41453396221995,
+        "mean_oos_sharpe": 2802958.4967046157,
+        "pbo": 0.640625,
+        "valid_combinations": 4
+      },
+      "eth_w05::combined_continuous_zscore": {
+        "mean_is_sharpe": -159.223856643293,
+        "mean_oos_sharpe": -939.6396711871857,
+        "pbo": 0.75,
+        "valid_combinations": 4
+      },
+      "eth_w05::combined_regime_filter": {
+        "mean_is_sharpe": -5.138240258710596,
+        "mean_oos_sharpe": -44.41770533670397,
+        "pbo": 0.640625,
+        "valid_combinations": 4
+      },
+      "eth_w05::combined_sign_agreement": {
+        "mean_is_sharpe": 5.137910439692911,
+        "mean_oos_sharpe": -1.7284651896507393,
+        "pbo": 0.46875,
+        "valid_combinations": 4
+      }
+    },
+    "k_folds": 4,
+    "n_combinations_used": 16,
+    "overall_pbo": 0.6666666666666666,
+    "pbo_per_config": {
+      "eth_w01::combined_continuous_zscore": 0.75,
+      "eth_w01::combined_regime_filter": 0.4375,
+      "eth_w01::combined_sign_agreement": 0.71875,
+      "eth_w02::combined_continuous_zscore": 0.421875,
+      "eth_w02::combined_regime_filter": 0.90625,
+      "eth_w02::combined_sign_agreement": 0.359375,
+      "eth_w03::combined_continuous_zscore": 0.75,
+      "eth_w03::combined_regime_filter": 0.546875,
+      "eth_w03::combined_sign_agreement": 0.21875,
+      "eth_w04::combined_continuous_zscore": 0.546875,
+      "eth_w04::combined_regime_filter": 0.671875,
+      "eth_w04::combined_sign_agreement": 0.640625,
+      "eth_w05::combined_continuous_zscore": 0.75,
+      "eth_w05::combined_regime_filter": 0.640625,
+      "eth_w05::combined_sign_agreement": 0.46875
+    }
+  },
+  "preregistration_artifact": "research_state/EVAL_47_PREREGISTRATION_20261115T071235Z.json",
+  "protocol": {
+    "bar_duration_seconds": 15.0,
+    "bootstrap_block": 2,
+    "bootstrap_resamples": 1000,
+    "cost_model_bps_nav_per_window": 2.0,
+    "embargo": 5,
+    "fdr_alpha": 0.1,
+    "fusion_rules": [
+      "sign_agreement",
+      "regime_filter",
+      "continuous_zscore"
+    ],
+    "go_bar": "GO only if, across both real BTC tapes, at least one fusion rule shows combined net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05 and bootstrap 95% CI lower > 0; otherwise NO-GO CONFIRMED (PASS).",
+    "guardrail_bps": 0.5,
+    "kill_switch_max_drawdown": 0.2,
+    "max_position_pct": 0.2,
+    "pbo_k_folds": 4,
+    "pbo_n_combinations": 16,
+    "permutation_perms": 1000,
+    "purge": 10,
+    "seed": 42,
+    "signal_lookback_seconds": 60.0,
+    "signal_threshold": 0.1,
+    "step_size": 40,
+    "test_window": 40,
+    "toxicity_threshold": 0.7,
+    "toxicity_window_trades": 5,
+    "train_window": 120,
+    "z_min_periods": 5,
+    "z_threshold": 0.5
+  },
+  "report_id": "EVAL_47_ETH_COMBINED",
+  "tape_errors": [],
+  "tape_results": [
+    {
+      "control_results": {
+        "flat": {
+          "num_trades": 0,
+          "num_windows": 8,
+          "oos_ann_vol": 0.0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "total_cost_usd": 0.0
+        },
+        "options_only": {
+          "num_trades": 199,
+          "num_windows": 8,
+          "oos_ann_vol": 3.6313861783282757,
+          "oos_max_drawdown": 0.16388023011969055,
+          "oos_return": 0.4962194479274447,
+          "oos_sharpe": 5.006407568708861,
+          "total_cost_usd": 170.2475670737499
+        },
+        "orderflow_only": {
+          "num_trades": 166,
+          "num_windows": 8,
+          "oos_ann_vol": 1.9847016885033386,
+          "oos_max_drawdown": 0.6290000708762336,
+          "oos_return": -0.6137056589291744,
+          "oos_sharpe": -13.070097631472137,
+          "total_cost_usd": 156.31702036454777
+        }
+      },
+      "first_trade_utc": "2026-11-14T20:26:52.178000Z",
+      "last_trade_utc": "2026-11-14T22:13:46.111000Z",
+      "n_bars": 428,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 71200,
+      "name": "eth_w05",
+      "pbo": {
+        "config_details": {
+          "combined_continuous_zscore": {
+            "mean_is_sharpe": -159.10520099898474,
+            "mean_oos_sharpe": -606.101908719054,
+            "pbo": 0.75,
+            "valid_combinations": 4
+          },
+          "combined_regime_filter": {
+            "mean_is_sharpe": -5.197666606401343,
+            "mean_oos_sharpe": -44.04807278626332,
+            "pbo": 0.671875,
+            "valid_combinations": 4
+          },
+          "combined_sign_agreement": {
+            "mean_is_sharpe": 5.149111762404006,
+            "mean_oos_sharpe": -2.1281188307351595,
+            "pbo": 0.484375,
+            "valid_combinations": 4
+          },
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "options_only": {
+            "mean_is_sharpe": 4.386265151960109,
+            "mean_oos_sharpe": -10.455006286793157,
+            "pbo": 0.515625,
+            "valid_combinations": 4
+          },
+          "orderflow_only": {
+            "mean_is_sharpe": -13.463594449004873,
+            "mean_oos_sharpe": -47.47988639660497,
+            "pbo": 0.515625,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.6666666666666666,
+        "pbo_per_config": {
+          "combined_continuous_zscore": 0.75,
+          "combined_regime_filter": 0.671875,
+          "combined_sign_agreement": 0.484375,
+          "flat": 0.0,
+          "options_only": 0.515625,
+          "orderflow_only": 0.515625
+        }
+      },
+      "rule_results": [
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 5.006407568708861,
+          "bootstrap_ci": [
+            5.503204537627433,
+            -11.969765390251773,
+            12.022187061058856
+          ],
+          "combined": {
+            "num_trades": 73,
+            "num_windows": 8,
+            "oos_ann_vol": 1.3887781064712,
+            "oos_max_drawdown": 0.10306172861827843,
+            "oos_return": 0.23558031980241023,
+            "oos_sharpe": 5.5032045376274334,
+            "total_cost_usd": 117.94961878657256
+          },
+          "combined_window_returns": [
+            -0.04001380413074803,
+            0.00045616421352460745,
+            -0.06610187661730627,
+            0.1986200613104309,
+            -0.001640159830756602,
+            -0.0007002092853059002,
+            -0.00018859077005225117,
+            0.15219476359560852
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": false,
+          "n_nonzero_positions": 52,
+          "permutation_p": 1.0,
+          "rule": "sign_agreement"
+        },
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 5.006407568708861,
+          "bootstrap_ci": [
+            -4.295256956202819,
+            -16.026030149162903,
+            3.9878269364881977
+          ],
+          "combined": {
+            "num_trades": 165,
+            "num_windows": 8,
+            "oos_ann_vol": 1.4847540353911617,
+            "oos_max_drawdown": 0.32700706959617437,
+            "oos_return": -0.21418536479689107,
+            "oos_sharpe": -4.295256956202817,
+            "total_cost_usd": 155.65970067830185
+          },
+          "combined_window_returns": [
+            0.1676417384229954,
+            -0.0006117086713139725,
+            -0.14468546355270068,
+            0.004420403291969997,
+            -0.14679511470271522,
+            -0.0033693682153547707,
+            -0.013406001824386912,
+            -0.06565163074100477
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 92,
+          "permutation_p": 0.3386613386613387,
+          "rule": "regime_filter"
+        },
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 5.006407568708861,
+          "bootstrap_ci": [
+            -101.32037845587152,
+            -507.7309003547182,
+            -74.10523544512111
+          ],
+          "combined": {
+            "num_trades": 193,
+            "num_windows": 8,
+            "oos_ann_vol": 0.3688134311502482,
+            "oos_max_drawdown": 0.7238812705454097,
+            "oos_return": -0.7238812705454097,
+            "oos_sharpe": -101.32037845587158,
+            "total_cost_usd": 142.8810494573148
+          },
+          "combined_window_returns": [
+            -0.08938369611895003,
+            -0.15052793287179317,
+            -0.160587289033353,
+            -0.1533055056117897,
+            -0.14661585530188312,
+            -0.15586371254024853,
+            -0.16989753672554447,
+            -0.16011423128061855
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 90,
+          "permutation_p": 0.015984015984015984,
+          "rule": "continuous_zscore"
+        }
+      ],
+      "sha256": "cf249c1f4e7f3ca82a1af4ee9b8721e3dbb26aa0f270c898aab3ce27bb44c8b3",
+      "tape_path": "data/raw/eval45/orderflow_okx_ETH_w05_507849899.json"
+    },
+    {
+      "control_results": {
+        "flat": {
+          "num_trades": 0,
+          "num_windows": 8,
+          "oos_ann_vol": 0.0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "total_cost_usd": 0.0
+        },
+        "options_only": {
+          "num_trades": 191,
+          "num_windows": 8,
+          "oos_ann_vol": 2.4537704166896166,
+          "oos_max_drawdown": 0.3363160951098877,
+          "oos_return": -0.09812476135706485,
+          "oos_sharpe": -0.09099162519789276,
+          "total_cost_usd": 162.03831063243558
+        },
+        "orderflow_only": {
+          "num_trades": 162,
+          "num_windows": 8,
+          "oos_ann_vol": 2.1503832411624875,
+          "oos_max_drawdown": 0.23087469981175812,
+          "oos_return": 0.4265785552455075,
+          "oos_sharpe": 6.4348663100551695,
+          "total_cost_usd": 162.40236041750032
+        }
+      },
+      "first_trade_utc": "2026-11-14T22:13:46.111000Z",
+      "last_trade_utc": "2026-11-14T23:58:47.625000Z",
+      "n_bars": 421,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 27000,
+      "name": "eth_w04",
+      "pbo": {
+        "config_details": {
+          "combined_continuous_zscore": {
+            "mean_is_sharpe": -24.80253713805937,
+            "mean_oos_sharpe": -101.59279513845271,
+            "pbo": 0.546875,
+            "valid_combinations": 4
+          },
+          "combined_regime_filter": {
+            "mean_is_sharpe": -1.8890523329240843,
+            "mean_oos_sharpe": -7.989365251610535,
+            "pbo": 0.671875,
+            "valid_combinations": 4
+          },
+          "combined_sign_agreement": {
+            "mean_is_sharpe": 17.41453396221995,
+            "mean_oos_sharpe": 2802958.4967046157,
+            "pbo": 0.640625,
+            "valid_combinations": 4
+          },
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "options_only": {
+            "mean_is_sharpe": -0.14582556208124736,
+            "mean_oos_sharpe": -1.5318516793328572,
+            "pbo": 0.484375,
+            "valid_combinations": 4
+          },
+          "orderflow_only": {
+            "mean_is_sharpe": 7.755581642992664,
+            "mean_oos_sharpe": 113.40838224375176,
+            "pbo": 0.25,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.5,
+        "pbo_per_config": {
+          "combined_continuous_zscore": 0.546875,
+          "combined_regime_filter": 0.671875,
+          "combined_sign_agreement": 0.640625,
+          "flat": 0.0,
+          "options_only": 0.484375,
+          "orderflow_only": 0.25
+        }
+      },
+      "rule_results": [
+        {
+          "best_control": "orderflow_only",
+          "best_control_sharpe": 6.4348663100551695,
+          "bootstrap_ci": [
+            16.26094749293468,
+            5.8214278619545095,
+            41.78542857636026
+          ],
+          "combined": {
+            "num_trades": 66,
+            "num_windows": 8,
+            "oos_ann_vol": 1.7519135916981126,
+            "oos_max_drawdown": 0.07865105693262461,
+            "oos_return": 1.2601738740135369,
+            "oos_sharpe": 16.260947492934676,
+            "total_cost_usd": 91.29486488953278
+          },
+          "combined_window_returns": [
+            0.1992576741791406,
+            -0.07865105693262463,
+            0.19878443358421732,
+            0.18725522731523933,
+            -0.0002724778610620706,
+            0.0,
+            0.19899996819371504,
+            0.1990000387201553
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": false,
+          "n_nonzero_positions": 45,
+          "permutation_p": 0.2677322677322677,
+          "rule": "sign_agreement"
+        },
+        {
+          "best_control": "orderflow_only",
+          "best_control_sharpe": 6.4348663100551695,
+          "bootstrap_ci": [
+            -1.3703767336242216,
+            -22.680463236347848,
+            7.877476209739125
+          ],
+          "combined": {
+            "num_trades": 157,
+            "num_windows": 8,
+            "oos_ann_vol": 1.2569852781217747,
+            "oos_max_drawdown": 0.22205273304937237,
+            "oos_return": -0.07690640761496659,
+            "oos_sharpe": -1.3703767336242225,
+            "total_cost_usd": 140.47319316451114
+          },
+          "combined_window_returns": [
+            0.025113376080903835,
+            0.15750713449112838,
+            -0.1472675096420657,
+            -0.007839447365144442,
+            -0.0417301774436752,
+            -0.04003791403548719,
+            -0.00013638882674000342,
+            -0.00029299007308640284
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 89,
+          "permutation_p": 0.46053946053946054,
+          "rule": "regime_filter"
+        },
+        {
+          "best_control": "orderflow_only",
+          "best_control_sharpe": 6.4348663100551695,
+          "bootstrap_ci": [
+            -23.033736512351844,
+            -85.78220368342808,
+            -11.87499202013852
+          ],
+          "combined": {
+            "num_trades": 169,
+            "num_windows": 8,
+            "oos_ann_vol": 1.336156464769067,
+            "oos_max_drawdown": 0.6601081405259547,
+            "oos_return": -0.6601081405259547,
+            "oos_sharpe": -23.033736512351826,
+            "total_cost_usd": 145.04401368305275
+          },
+          "combined_window_returns": [
+            -0.2712875339748732,
+            -0.09759186649589974,
+            -0.16149974068898723,
+            -0.14779067065746437,
+            3.244749340083217e-06,
+            0.00033608996830240356,
+            -0.13975328707674184,
+            -0.15945356753053957
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 85,
+          "permutation_p": 0.02197802197802198,
+          "rule": "continuous_zscore"
+        }
+      ],
+      "sha256": "9142bcf5c8921960066780cdcfc8005d6a56b2653166ef757567b901ff58b863",
+      "tape_path": "data/raw/eval45/orderflow_okx_ETH_w04_507921099.json"
+    },
+    {
+      "control_results": {
+        "flat": {
+          "num_trades": 0,
+          "num_windows": 8,
+          "oos_ann_vol": 0.0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "total_cost_usd": 0.0
+        },
+        "options_only": {
+          "num_trades": 168,
+          "num_windows": 8,
+          "oos_ann_vol": 4.2656982092449365,
+          "oos_max_drawdown": 0.12283105829691997,
+          "oos_return": 1.2250201656573294,
+          "oos_sharpe": 7.81094270152243,
+          "total_cost_usd": 175.2515564667326
+        },
+        "orderflow_only": {
+          "num_trades": 129,
+          "num_windows": 8,
+          "oos_ann_vol": 2.0307321329783496,
+          "oos_max_drawdown": 0.30517075765394847,
+          "oos_return": -0.057805077652769835,
+          "oos_sharpe": 0.06647221906519357,
+          "total_cost_usd": 162.71341080216368
+        }
+      },
+      "first_trade_utc": "2026-11-14T23:58:47.625000Z",
+      "last_trade_utc": "2026-11-15T01:44:14.992000Z",
+      "n_bars": 422,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 42200,
+      "name": "eth_w03",
+      "pbo": {
+        "config_details": {
+          "combined_continuous_zscore": {
+            "mean_is_sharpe": -11.526896884266554,
+            "mean_oos_sharpe": -116.96701486817673,
+            "pbo": 0.75,
+            "valid_combinations": 4
+          },
+          "combined_regime_filter": {
+            "mean_is_sharpe": -3.7342786863233055,
+            "mean_oos_sharpe": 36.68796746655708,
+            "pbo": 0.53125,
+            "valid_combinations": 4
+          },
+          "combined_sign_agreement": {
+            "mean_is_sharpe": 11.089831386264711,
+            "mean_oos_sharpe": 439.39498868504,
+            "pbo": 0.265625,
+            "valid_combinations": 4
+          },
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "options_only": {
+            "mean_is_sharpe": 7.737787918965683,
+            "mean_oos_sharpe": -0.6315760297235792,
+            "pbo": 0.4375,
+            "valid_combinations": 4
+          },
+          "orderflow_only": {
+            "mean_is_sharpe": -0.15148365355212895,
+            "mean_oos_sharpe": -0.593821089432339,
+            "pbo": 0.515625,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.5,
+        "pbo_per_config": {
+          "combined_continuous_zscore": 0.75,
+          "combined_regime_filter": 0.53125,
+          "combined_sign_agreement": 0.265625,
+          "flat": 0.0,
+          "options_only": 0.4375,
+          "orderflow_only": 0.515625
+        }
+      },
+      "rule_results": [
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 7.81094270152243,
+          "bootstrap_ci": [
+            10.753913717891258,
+            -9.276396605842947,
+            21.613512161588112
+          ],
+          "combined": {
+            "num_trades": 66,
+            "num_windows": 8,
+            "oos_ann_vol": 2.41941020619228,
+            "oos_max_drawdown": 0.012388189549457904,
+            "oos_return": 1.0465353952749052,
+            "oos_sharpe": 10.753913717891258,
+            "total_cost_usd": 114.59255464767703
+          },
+          "combined_window_returns": [
+            0.1993574329782139,
+            0.43775934035651737,
+            0.0023157628919805574,
+            0.1989293624094533,
+            -8.873639101220761e-05,
+            7.072608641930856e-05,
+            -0.012277410831853776,
+            -9.414081472539692e-05
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": false,
+          "n_nonzero_positions": 42,
+          "permutation_p": 0.7622377622377622,
+          "rule": "sign_agreement"
+        },
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 7.81094270152243,
+          "bootstrap_ci": [
+            -3.5036868464054827,
+            -18.88660714003915,
+            7.159934232414859
+          ],
+          "combined": {
+            "num_trades": 127,
+            "num_windows": 8,
+            "oos_ann_vol": 2.4930406731394084,
+            "oos_max_drawdown": 0.39720376211325376,
+            "oos_return": -0.32263136302942524,
+            "oos_sharpe": -3.5036868464054796,
+            "total_cost_usd": 156.54084685466623
+          },
+          "combined_window_returns": [
+            -0.05455483297154307,
+            0.1885520489845106,
+            -0.16147630056610418,
+            -0.15842414224897206,
+            0.19239149254828372,
+            -1.680107595064328e-05,
+            -0.28320579877963914,
+            -0.0005619774471697747
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 73,
+          "permutation_p": 0.2547452547452547,
+          "rule": "regime_filter"
+        },
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 7.81094270152243,
+          "bootstrap_ci": [
+            -9.068869648014811,
+            -193.09836282441663,
+            0.7038689845370217
+          ],
+          "combined": {
+            "num_trades": 131,
+            "num_windows": 8,
+            "oos_ann_vol": 1.9215148028813651,
+            "oos_max_drawdown": 0.5588359482561623,
+            "oos_return": -0.4704234455545804,
+            "oos_sharpe": -9.068869648014807,
+            "total_cost_usd": 152.93154428668646
+          },
+          "combined_window_returns": [
+            0.1996200899034967,
+            -0.009861685280490784,
+            -0.18556872142685693,
+            -0.16480980962584524,
+            -0.1479369075679108,
+            -0.15388888421054012,
+            -0.09141562002632228,
+            0.0006562279467881308
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 69,
+          "permutation_p": 0.03696303696303696,
+          "rule": "continuous_zscore"
+        }
+      ],
+      "sha256": "b6c68145b04a6cddcf57f7b972c76dd4b19507ccf5dd34093d1dfeced7b8fd0b",
+      "tape_path": "data/raw/eval45/orderflow_okx_ETH_w03_507948099.json"
+    },
+    {
+      "control_results": {
+        "flat": {
+          "num_trades": 0,
+          "num_windows": 8,
+          "oos_ann_vol": 0.0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "total_cost_usd": 0.0
+        },
+        "options_only": {
+          "num_trades": 158,
+          "num_windows": 8,
+          "oos_ann_vol": 1.5046222758623102,
+          "oos_max_drawdown": 0.03984221262227337,
+          "oos_return": 0.7063091698483936,
+          "oos_sharpe": 12.272232462133974,
+          "total_cost_usd": 155.10331708574392
+        },
+        "orderflow_only": {
+          "num_trades": 109,
+          "num_windows": 8,
+          "oos_ann_vol": 1.1373732423397704,
+          "oos_max_drawdown": 0.37613395250629955,
+          "oos_return": -0.37610395194897467,
+          "oos_sharpe": -12.065445605073718,
+          "total_cost_usd": 136.62497559885534
+        }
+      },
+      "first_trade_utc": "2026-11-15T01:44:18.055000Z",
+      "last_trade_utc": "2026-11-15T03:29:26.281000Z",
+      "n_bars": 421,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 54900,
+      "name": "eth_w02",
+      "pbo": {
+        "config_details": {
+          "combined_continuous_zscore": {
+            "mean_is_sharpe": 10.845033676776442,
+            "mean_oos_sharpe": 211.95356963913264,
+            "pbo": 0.453125,
+            "valid_combinations": 4
+          },
+          "combined_regime_filter": {
+            "mean_is_sharpe": -9.284662840107845,
+            "mean_oos_sharpe": -11.646741610266421,
+            "pbo": 0.921875,
+            "valid_combinations": 4
+          },
+          "combined_sign_agreement": {
+            "mean_is_sharpe": -1.361629883794004,
+            "mean_oos_sharpe": 8.316477275969412,
+            "pbo": 0.40625,
+            "valid_combinations": 4
+          },
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "options_only": {
+            "mean_is_sharpe": 12.61480793376002,
+            "mean_oos_sharpe": 28.8298204205063,
+            "pbo": 0.546875,
+            "valid_combinations": 4
+          },
+          "orderflow_only": {
+            "mean_is_sharpe": -12.224561809292865,
+            "mean_oos_sharpe": -41.414909416785804,
+            "pbo": 0.75,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.5,
+        "pbo_per_config": {
+          "combined_continuous_zscore": 0.453125,
+          "combined_regime_filter": 0.921875,
+          "combined_sign_agreement": 0.40625,
+          "flat": 0.0,
+          "options_only": 0.546875,
+          "orderflow_only": 0.75
+        }
+      },
+      "rule_results": [
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 12.272232462133974,
+          "bootstrap_ci": [
+            -3.0244176055518643,
+            -9.90120156165982,
+            16.041390617628135
+          ],
+          "combined": {
+            "num_trades": 26,
+            "num_windows": 8,
+            "oos_ann_vol": 0.007329817734493293,
+            "oos_max_drawdown": 0.0013771151041091071,
+            "oos_return": -0.0007043958553163975,
+            "oos_sharpe": -3.024417605551895,
+            "total_cost_usd": 57.26240551353712
+          },
+          "combined_window_returns": [
+            -0.0012486679486789216,
+            -0.0001286077437979111,
+            0.0003481312938388146,
+            1.650475237343926e-05,
+            0.0,
+            0.00026079183083522366,
+            0.0,
+            4.808813918527448e-05
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": false,
+          "n_nonzero_positions": 20,
+          "permutation_p": 0.12887112887112886,
+          "rule": "sign_agreement"
+        },
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 12.272232462133974,
+          "bootstrap_ci": [
+            -7.916928569385856,
+            -19.129378071235802,
+            -6.04222295298484
+          ],
+          "combined": {
+            "num_trades": 109,
+            "num_windows": 8,
+            "oos_ann_vol": 1.6843367627328532,
+            "oos_max_drawdown": 0.39069410981409297,
+            "oos_return": -0.39069410981409297,
+            "oos_sharpe": -7.916928569385854,
+            "total_cost_usd": 142.07041835445966
+          },
+          "combined_window_returns": [
+            -0.3285402727124006,
+            -0.004706981484170538,
+            -0.0003985598215297796,
+            9.874939652334434e-05,
+            6.371216277126222e-05,
+            -0.06024707211274843,
+            -0.029547639251450018,
+            -4.80897435543011e-05
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 74,
+          "permutation_p": 0.06993006993006994,
+          "rule": "regime_filter"
+        },
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 12.272232462133974,
+          "bootstrap_ci": [
+            10.740453822909513,
+            2.857435712247716,
+            15.86657510043903
+          ],
+          "combined": {
+            "num_trades": 134,
+            "num_windows": 8,
+            "oos_ann_vol": 1.415371840709021,
+            "oos_max_drawdown": 0.03928665053908555,
+            "oos_return": 0.5541461062551531,
+            "oos_sharpe": 10.740453822909513,
+            "total_cost_usd": 142.5391380974906
+          },
+          "combined_window_returns": [
+            0.16807498205170296,
+            -0.00019119959980220302,
+            -0.03910292740335397,
+            0.1869490628057222,
+            -0.00046353207889740587,
+            8.437497592531145e-06,
+            0.16727187898091972,
+            4.808813918527448e-05
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": false,
+          "n_nonzero_positions": 77,
+          "permutation_p": 0.8331668331668332,
+          "rule": "continuous_zscore"
+        }
+      ],
+      "sha256": "2ec36212f811c7b20578438c8e0b560d1b53aba6b211aad925c35583f6d48008",
+      "tape_path": "data/raw/eval45/orderflow_okx_ETH_w02_507990299.json"
+    },
+    {
+      "control_results": {
+        "flat": {
+          "num_trades": 0,
+          "num_windows": 8,
+          "oos_ann_vol": 0.0,
+          "oos_max_drawdown": 0.0,
+          "oos_return": 0.0,
+          "oos_sharpe": 0.0,
+          "total_cost_usd": 0.0
+        },
+        "options_only": {
+          "num_trades": 122,
+          "num_windows": 8,
+          "oos_ann_vol": 1.983352668790759,
+          "oos_max_drawdown": 0.3465601015418062,
+          "oos_return": -0.051599169984607576,
+          "oos_sharpe": 0.11678002800757806,
+          "total_cost_usd": 155.96833218440338
+        },
+        "orderflow_only": {
+          "num_trades": 124,
+          "num_windows": 8,
+          "oos_ann_vol": 1.5680341164990013,
+          "oos_max_drawdown": 0.6590691415267278,
+          "oos_return": -0.6590691415267278,
+          "oos_sharpe": -19.310504814517667,
+          "total_cost_usd": 139.98641664059807
+        }
+      },
+      "first_trade_utc": "2026-11-15T03:29:26.282000Z",
+      "last_trade_utc": "2026-11-15T05:14:36.626000Z",
+      "n_bars": 421,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 12300,
+      "name": "eth_w01",
+      "pbo": {
+        "config_details": {
+          "combined_continuous_zscore": {
+            "mean_is_sharpe": -83.44451425447164,
+            "mean_oos_sharpe": -5239.432668570464,
+            "pbo": 0.75,
+            "valid_combinations": 4
+          },
+          "combined_regime_filter": {
+            "mean_is_sharpe": 3.4077463426852246,
+            "mean_oos_sharpe": 23.356602051787384,
+            "pbo": 0.40625,
+            "valid_combinations": 4
+          },
+          "combined_sign_agreement": {
+            "mean_is_sharpe": -12.309408751441566,
+            "mean_oos_sharpe": -2232.4034847985877,
+            "pbo": 0.671875,
+            "valid_combinations": 4
+          },
+          "flat": {
+            "mean_is_sharpe": 0.0,
+            "mean_oos_sharpe": 0.0,
+            "pbo": 0.0,
+            "valid_combinations": 4
+          },
+          "options_only": {
+            "mean_is_sharpe": -0.7406235513629922,
+            "mean_oos_sharpe": 2235.358722640652,
+            "pbo": 0.578125,
+            "valid_combinations": 4
+          },
+          "orderflow_only": {
+            "mean_is_sharpe": -20.067674174566307,
+            "mean_oos_sharpe": -203.1785385278429,
+            "pbo": 0.59375,
+            "valid_combinations": 4
+          }
+        },
+        "k_folds": 4,
+        "n_combinations_used": 16,
+        "overall_pbo": 0.6666666666666666,
+        "pbo_per_config": {
+          "combined_continuous_zscore": 0.75,
+          "combined_regime_filter": 0.40625,
+          "combined_sign_agreement": 0.671875,
+          "flat": 0.0,
+          "options_only": 0.578125,
+          "orderflow_only": 0.59375
+        }
+      },
+      "rule_results": [
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 0.11678002800757806,
+          "bootstrap_ci": [
+            -12.165442672799392,
+            -27.43310569256231,
+            -5.745365288974627
+          ],
+          "combined": {
+            "num_trades": 40,
+            "num_windows": 8,
+            "oos_ann_vol": 0.3056103234704372,
+            "oos_max_drawdown": 0.11374416331355676,
+            "oos_return": -0.11347442041530245,
+            "oos_sharpe": -12.165442672799413,
+            "total_cost_usd": 67.74614581729102
+          },
+          "combined_window_returns": [
+            -3.624026075893198e-05,
+            0.0002755992711645376,
+            -0.03980767167495244,
+            0.0,
+            0.0004837285142450128,
+            -0.0391911571582967,
+            -0.039817347572995494,
+            6.499775793432491e-05
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": false,
+          "n_nonzero_positions": 42,
+          "permutation_p": 0.7322677322677322,
+          "rule": "sign_agreement"
+        },
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 0.11678002800757806,
+          "bootstrap_ci": [
+            3.194900942021845,
+            -12.781701180422774,
+            18.915856252034292
+          ],
+          "combined": {
+            "num_trades": 106,
+            "num_windows": 8,
+            "oos_ann_vol": 1.766371973726831,
+            "oos_max_drawdown": 0.20615385571481532,
+            "oos_return": 0.13833137785970598,
+            "oos_sharpe": 3.194900942021851,
+            "total_cost_usd": 143.04978142990726
+          },
+          "combined_window_returns": [
+            0.17880276286774766,
+            0.19851746142447532,
+            0.007712434239265567,
+            -0.039591898199512796,
+            -0.00026085311892747997,
+            -0.17321264359381328,
+            0.007252765339360776,
+            -6.499775793432491e-05
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 77,
+          "permutation_p": 0.6393606393606394,
+          "rule": "regime_filter"
+        },
+        {
+          "best_control": "options_only",
+          "best_control_sharpe": 0.11678002800757806,
+          "bootstrap_ci": [
+            -53.92359750038547,
+            -365.427013966571,
+            -29.792523954684324
+          ],
+          "combined": {
+            "num_trades": 91,
+            "num_windows": 8,
+            "oos_ann_vol": 0.7001418364703472,
+            "oos_max_drawdown": 0.729805594044067,
+            "oos_return": -0.729805594044067,
+            "oos_sharpe": -53.92359750038549,
+            "total_cost_usd": 124.45070559891074
+          },
+          "combined_window_returns": [
+            -0.15908358947499043,
+            -0.15899561451557617,
+            -0.19902436923985092,
+            -0.15882060882356164,
+            -0.14996909534187916,
+            -0.0392712758515816,
+            -0.17374437889257913,
+            -0.1596360387491148
+          ],
+          "dsr": 0.0,
+          "kill_switch_breach": true,
+          "n_nonzero_positions": 62,
+          "permutation_p": 0.008991008991008992,
+          "rule": "continuous_zscore"
+        }
+      ],
+      "sha256": "e9ef4da654f2df258d1de47e5b18ad42e4776daf17fa335d86e0fb7fd13b1c57",
+      "tape_path": "data/raw/eval45/orderflow_okx_ETH_w01_508045199.json"
+    }
+  ],
+  "tapes": {
+    "eth_w01": {
+      "first_trade_utc": "2026-11-15T03:29:26.282000Z",
+      "last_trade_utc": "2026-11-15T05:14:36.626000Z",
+      "n_bars": 421,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 12300,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w01_508045199.json",
+      "sha256": "e9ef4da654f2df258d1de47e5b18ad42e4776daf17fa335d86e0fb7fd13b1c57"
+    },
+    "eth_w02": {
+      "first_trade_utc": "2026-11-15T01:44:18.055000Z",
+      "last_trade_utc": "2026-11-15T03:29:26.281000Z",
+      "n_bars": 421,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 54900,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w02_507990299.json",
+      "sha256": "2ec36212f811c7b20578438c8e0b560d1b53aba6b211aad925c35583f6d48008"
+    },
+    "eth_w03": {
+      "first_trade_utc": "2026-11-14T23:58:47.625000Z",
+      "last_trade_utc": "2026-11-15T01:44:14.992000Z",
+      "n_bars": 422,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 42200,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w03_507948099.json",
+      "sha256": "b6c68145b04a6cddcf57f7b972c76dd4b19507ccf5dd34093d1dfeced7b8fd0b"
+    },
+    "eth_w04": {
+      "first_trade_utc": "2026-11-14T22:13:46.111000Z",
+      "last_trade_utc": "2026-11-14T23:58:47.625000Z",
+      "n_bars": 421,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 27000,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w04_507921099.json",
+      "sha256": "9142bcf5c8921960066780cdcfc8005d6a56b2653166ef757567b901ff58b863"
+    },
+    "eth_w05": {
+      "first_trade_utc": "2026-11-14T20:26:52.178000Z",
+      "last_trade_utc": "2026-11-14T22:13:46.111000Z",
+      "n_bars": 428,
+      "n_flat_bars": 0,
+      "n_snapshots_used": 201,
+      "n_trades": 71200,
+      "path": "data/raw/eval45/orderflow_okx_ETH_w05_507849899.json",
+      "sha256": "cf249c1f4e7f3ca82a1af4ee9b8721e3dbb26aa0f270c898aab3ce27bb44c8b3"
+    }
+  },
+  "task_id": "INIT-2026-11-15T07:12:35.088278Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_reason": "no fusion rule passed the pre-declared GO bar on all 5 real ETH tapes (need combined Sharpe > 0, no kill-switch breach, permutation p < 0.05 and bootstrap CI lower > 0 on both) -> the combined options+orderflow thesis is NOT net-of-cost tradable on the available real ETH data.",
+  "verdict_scope": "FULL_DENSE_ETH"
+}
