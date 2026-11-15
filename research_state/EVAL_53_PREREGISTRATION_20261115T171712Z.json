@@ -1,0 +1,78 @@
+{
+  "prereg_id": "EVAL_53_PREREGISTRATION",
+  "generated_at": "2026-11-15T17:17:12Z",
+  "task": "INIT-2026-11-15T17:17:12Z-EVAL-53-CROSS-WINDOW-SYNCHRONIZED-SURFACE-X-ORDERFLOW-REPLICATION",
+  "hypothesis": "The EVAL-52 fused options-surface x options-venue-order-flow NO-GO is temporally stable across an independent synchronized ~24h Deribit capture (window B, BTC+ETH).",
+  "window_a_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval52",
+  "window_b_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval53",
+  "protocol": {
+    "eval": "EVAL-52",
+    "title": "Real Deribit options surface x options-venue order flow net-of-cost falsification",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval52",
+    "surface_components": [
+      "gex_flip_signal",
+      "skew_slope_signal",
+      "calib_residual_signal"
+    ],
+    "surface_signal": "mean(components) clipped to [-1,1] (_options_signal_components)",
+    "orderflow_signals": [
+      "imbalance",
+      "notional_imbalance",
+      "call_minus_put"
+    ],
+    "fusion_rules": [
+      "sign_agreement",
+      "regime_filter",
+      "continuous_zscore"
+    ],
+    "fusion_detail": {
+      "sign_agreement": "both options-side legs agree in sign -> take that sign, else flat",
+      "regime_filter": "surface sign as causal regime gate x order-flow direction",
+      "continuous_zscore": "causal expanding z-score of each leg, summed, clip(z_sum/2,-1,1)"
+    },
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "zwindow": 20,
+    "z_clamp": 2.0,
+    "cost_bps": 5.0,
+    "cost_model": "net-of-cost: pre-registered 5 bps on turnover (taker + impact)",
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, bootstrap 95% CI lower > 0, and pooled PBO < 0.5; else NO-GO.",
+    "floor": {
+      "min_surface_snapshots_per_underlying": 100,
+      "min_bars_per_underlying": 240,
+      "min_instruments_per_underlying": 50,
+      "min_option_trades_per_underlying": 2000,
+      "min_span_seconds_per_underlying": 79200.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2
+    }
+  },
+  "meta_go_bar": "GO CONFIRMED only if the per-config GO bar (net-of-cost Sharpe > 0, no kill-switch breach max-DD <= 0.20, permutation p < 0.05, bootstrap 95% CI lower > 0) holds on both windows for the same config on both BTC and ETH, and pooled PBO < 0.5 on both windows; else NO-GO CONFIRMED (PASS) when both windows floor-passing; BLOCKED if window B is below the heavy-work floor.",
+  "floor": {
+    "min_surface_snapshots_per_underlying": 100,
+    "min_bars_per_underlying": 240,
+    "min_instruments_per_underlying": 50,
+    "min_option_trades_per_underlying": 2000,
+    "min_span_seconds_per_underlying": 79200.0,
+    "min_common_bars_per_underlying": 240,
+    "min_underlyings": 2
+  }
+}

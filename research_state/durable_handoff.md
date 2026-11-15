@@ -2,6 +2,26 @@
 
 ## AUTHORITATIVE INITIAL TASK (do this next; no other task is valid until it is done)
 
+**EVAL-53 IS SEALED (do not re-run):** `NO-GO CONFIRMED (PASS)` at
+`research_state/EVAL_53_CROSS_WINDOW_COMBINED_20261115T171712Z.{json,md}` (prereg
+`EVAL_53_PREREGISTRATION_20261115T171712Z`; window-B acquisition
+`EVAL_53_WINDOW_B_ACQUISITION_20261115T171210Z` — **independent new synchronized ~24h
+Deribit capture**, window A = sealed `data/raw/eval52/` (immutable), window B =
+`data/raw/eval53/` (`options_surface_orderflow_{BTC,ETH}_20261115T171210Z.json`);
+floor met on **both** windows: window B BTC 289 surface snaps / 102 inst / 289 5m
+bars, 4547 option trades / 99 inst / span 86036.016 s / 287 common 5m bars; ETH 289
+snaps / 102 inst / 289 bars, 3066 trades / 101 inst / span 85927.871 s / 287 common
+bars; 18 configs/underlying per window, all NO-GO; pooled PBO window A **0.6389**
+(matches sealed EVAL-52 exactly), window B **0.5556**; best Sharpe window A
+BTC −0.7473 `continuous_zscore::call_minus_put::bar300.0` / ETH −1.6028
+`sign_agreement::imbalance::bar300.0`; window B BTC −0.7315 **same best config**
+`continuous_zscore::call_minus_put::bar300.0` / ETH −1.7099 **same best config**
+`sign_agreement::imbalance::bar300.0`; BH-FDR rejected 32 configs per window;
+0 replicated passing configs; seal gate exit 0). **The EVAL-52 NO-GO is
+temporally stable — it replicates on an independent window B with identical best
+configs.** Tooling: `scripts/eval53_cross_window_replication.py`,
+`tests/test_eval53_cross_window_replication.py` (9 passed). Immutable.
+
 **EVAL-52 IS SEALED (do not re-run):** `NO-GO CONFIRMED (PASS)` at
 `research_state/EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_20261115T165018Z.{json,md}` (prereg
 `EVAL_52_PREREGISTRATION_20261115T165018Z`; acquisition
