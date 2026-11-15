@@ -26,6 +26,13 @@ CLI::
         --underlying BTC --expiries 261120,261127,261204 --bar 5m --limit 100 \
         --out data/raw/options_candles --data-dir data/raw/options_candles \
         --report-out research_state
+
+Historical-window paging (EVAL-46): the most-recent ``limit`` candles only reach
+back ~8 h at ``5m``. To align a series to a *fixed* historical window (e.g. the
+on-disk ETH orderflow tape at 2026-11-14T15:01Z->23:48Z) regardless of when the
+session runs, page backward with ``--max-pages`` (and optionally seed with
+``--after``/``--before``). Each page requests candles older than the previous
+page's oldest bar (``after``), so ``--max-pages 3`` covers ~25 h at ``5m``.
 """
 
 from __future__ import annotations
@@ -151,6 +158,9 @@ class BackfillResult:
     paths: List[str] = field(default_factory=list)
     content_sha256: Dict[str, str] = field(default_factory=dict)
     warnings: List[str] = field(default_factory=list)
+    max_pages: int = 1
+    after: Optional[str] = None
+    before: Optional[str] = None
 
 
 def fetch_live_option_instruments(
@@ -255,33 +265,148 @@ def fetch_option_candles(
     request_delay_seconds: float = DEFAULT_REQUEST_DELAY_SECONDS,
     timeout: float = DEFAULT_TIMEOUT_SECONDS,
     max_retries: int = DEFAULT_MAX_RETRIES,
+    after: Optional[Any] = None,
+    before: Optional[Any] = None,
+    max_pages: int = 1,
 ) -> Dict[int, Dict[str, float]]:
     """Fetch candle closes per instrument and group them by bar-start timestamp.
 
     Returns ``{bar_start_ms: {inst_id: close}}``. Instruments whose candles are
     empty, zero-priced or unparseable are skipped; nothing is interpolated and no
     price is ever fabricated.
+
+    ``max_pages`` > 1 pages **backward** through ``history-candles``: each page is
+    requested with ``after`` = the oldest bar timestamp of the previous page, so
+    older history is accumulated until ``max_pages`` pages are read, an empty page
+    is returned, or a page shorter than ``limit`` signals the end of history.
+    ``after``/``before`` (an OKX bar timestamp in ms, or an ISO-8601 string) seed
+    the first page. This makes a fixed historical window (e.g. an on-disk orderflow
+    tape) reachable regardless of the current wall-clock time.
     """
     _bar_seconds(bar)
+    if int(max_pages) < 1:
+        raise AcquisitionError(f"max_pages must be >= 1, got {max_pages!r}")
     raw: Dict[str, List[Sequence[Any]]] = {}
     for row in instruments:
         inst_id = str(row.get("inst_id") or "").strip()
         if not inst_id:
             continue
+        rows = _fetch_instrument_pages(
+            inst_id,
+            session=session,
+            bar=bar,
+            limit=limit,
+            request_delay_seconds=request_delay_seconds,
+            timeout=timeout,
+            max_retries=max_retries,
+            after=after,
+            before=before,
+            max_pages=int(max_pages),
+        )
+        if rows:
+            raw[inst_id] = rows
+        if request_delay_seconds > 0:
+            time.sleep(float(request_delay_seconds))
+    return group_candles_by_bar(raw, bar=bar)
+
+
+def _coerce_cursor(value: Any) -> Optional[str]:
+    """Normalise an OKX ``after``/``before`` cursor to a millisecond string.
+
+    Accepts an int/str of milliseconds or an ISO-8601 timestamp; ``None``/empty
+    returns ``None`` (no cursor).
+    """
+    if value is None:
+        return None
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, int):
+        return str(int(value))
+    text = str(value).strip()
+    if not text:
+        return None
+    if text.isdigit():
+        return text
+    iso = text[:-1] + "+00:00" if text.endswith("Z") else text
+    dt = datetime.fromisoformat(iso)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return str(int(dt.timestamp() * 1000))
+
+
+def _candle_values(candle: Any) -> Optional[List[Any]]:
+    if isinstance(candle, Mapping):
+        return [candle.get(k) for k in ("ts", "o", "h", "l", "c")]
+    if isinstance(candle, (list, tuple)):
+        return list(candle)
+    return None
+
+
+def _fetch_instrument_pages(
+    inst_id: str,
+    *,
+    session: Any,
+    bar: str,
+    limit: int,
+    request_delay_seconds: float,
+    timeout: float,
+    max_retries: int,
+    after: Any,
+    before: Any,
+    max_pages: int,
+) -> List[Sequence[Any]]:
+    """Page one instrument's candles backward, de-duplicated and oldest-first."""
+    seen: set = set()
+    ordered: List[Sequence[Any]] = []
+    cursor_after = _coerce_cursor(after)
+    cursor_before = _coerce_cursor(before)
+    for _ in range(int(max_pages)):
+        params: Dict[str, Any] = {
+            "instId": inst_id,
+            "bar": str(bar),
+            "limit": str(max(int(limit), 1)),
+        }
+        if cursor_after is not None:
+            params["after"] = cursor_after
+        if cursor_before is not None:
+            params["before"] = cursor_before
         payload = _get_json(
             session,
             HISTORY_CANDLES_ENDPOINT,
-            {"instId": inst_id, "bar": str(bar), "limit": str(max(int(limit), 1))},
+            params,
             timeout=timeout,
             max_retries=max_retries,
         )
         rows = payload.get("data") or []
         if not isinstance(rows, (list, tuple)):
-            continue
-        raw[inst_id] = rows
+            break
         if request_delay_seconds > 0:
             time.sleep(float(request_delay_seconds))
-    return group_candles_by_bar(raw, bar=bar)
+        if not rows:
+            break
+        page_ts: List[int] = []
+        for candle in rows:
+            values = _candle_values(candle)
+            if not values:
+                continue
+            bar_start = _iso_ms(values[0])
+            if bar_start is None or bar_start in seen:
+                continue
+            seen.add(int(bar_start))
+            ordered.append(values)
+            page_ts.append(int(bar_start))
+        # A short page means history is exhausted; stop.
+        if len(rows) < int(limit):
+            break
+        if not page_ts:
+            break
+        new_after = str(min(page_ts))
+        if new_after == cursor_after:
+            break
+        cursor_after = new_after
+        cursor_before = None
+    ordered.sort(key=lambda v: _iso_ms(v[0]) or 0)
+    return ordered
 
 
 def fetch_reference_spreads(
@@ -485,6 +610,9 @@ def backfill_dense_option_snapshots(
     max_retries: int = DEFAULT_MAX_RETRIES,
     session: Any = None,
     timestamp: Optional[str] = None,
+    after: Optional[Any] = None,
+    before: Optional[Any] = None,
+    max_pages: int = 1,
 ) -> BackfillResult:
     """Fetch, reconstruct, write and measure a dense real option snapshot series.
 
@@ -521,6 +649,9 @@ def backfill_dense_option_snapshots(
         request_delay_seconds=request_delay_seconds,
         timeout=timeout,
         max_retries=max_retries,
+        after=after,
+        before=before,
+        max_pages=max_pages,
     )
     if not candles:
         raise RealDataUnavailable(f"no option candles for {underlying!r} bar={bar!r}")
@@ -583,6 +714,9 @@ def backfill_dense_option_snapshots(
         paths=[str(p) for p in paths],
         content_sha256={str(p): _sha256(p) for p in paths},
         warnings=warnings,
+        max_pages=int(max_pages),
+        after=_coerce_cursor(after),
+        before=_coerce_cursor(before),
     )
 
 
@@ -620,6 +754,9 @@ def _result_to_dict(result: BackfillResult) -> Dict[str, Any]:
         "paths": list(result.paths),
         "content_sha256": dict(result.content_sha256),
         "warnings": list(result.warnings),
+        "max_pages": int(result.max_pages),
+        "after": result.after,
+        "before": result.before,
     }
 
 
@@ -652,6 +789,7 @@ def write_backfill_report(result: BackfillResult, out_dir: Path | str = OUT_DIR)
         f"- instruments requested: {result.n_instruments_requested}; with candles: {result.n_instruments_with_candles}",
         f"- snapshots: {result.n_snapshots}",
         f"- span: {result.span_seconds:.0f}s ({result.start_timestamp} → {result.end_timestamp})",
+        f"- paging: max_pages={result.max_pages} after={result.after} before={result.before}",
         f"- min_snapshots_for_series: {MIN_SNAPSHOTS_FOR_SERIES}; min_span_seconds: {MIN_SERIES_SPAN_SECONDS}",
         "",
         "## Snapshots",
@@ -692,6 +830,14 @@ def main(argv: Optional[List[str]] = None) -> int:
     )
     parser.add_argument("--bar", default=DEFAULT_BAR, help="candle bar size, e.g. 5m")
     parser.add_argument("--limit", type=int, default=DEFAULT_LIMIT, help="candles per instrument")
+    parser.add_argument(
+        "--max-pages",
+        type=int,
+        default=1,
+        help="pages per instrument (backward via after); >1 reaches a fixed historical window",
+    )
+    parser.add_argument("--after", default=None, help="seed OKX after cursor (ms or ISO-8601)")
+    parser.add_argument("--before", default=None, help="seed OKX before cursor (ms or ISO-8601)")
     parser.add_argument("--spot", type=float, default=None, help="moneyness centre (default: no band)")
     parser.add_argument("--min-moneyness", type=float, default=DEFAULT_MIN_MONEYNESS)
     parser.add_argument("--max-moneyness", type=float, default=DEFAULT_MAX_MONEYNESS)
@@ -717,6 +863,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         timeout=args.timeout,
         max_retries=args.max_retries,
         timestamp=args.timestamp,
+        after=args.after,
+        before=args.before,
+        max_pages=args.max_pages,
     )
     artifact_paths = write_backfill_report(result, Path(args.report_out))
     print(

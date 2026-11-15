@@ -228,3 +228,120 @@ def test_synthetic_output_path_is_refused(tmp_path: Path) -> None:
 def test_unsupported_bar_is_rejected() -> None:
     with pytest.raises(backfill.AcquisitionError):
         backfill._bar_seconds("7m")
+
+
+# ---------------------------------------------------------------------------
+# Historical-window paging (EVAL-46): max_pages / after / before
+# ---------------------------------------------------------------------------
+
+
+class PagingSession:
+    """Fake OKX that serves *pages* of candles per instrument via after/before."""
+
+    def __init__(self, pages_by_inst: Dict[str, List[List[List[Any]]]]) -> None:
+        # pages_by_inst[inst_id] = [page0_rows, page1_rows, ...] newest-first pages
+        self.pages_by_inst = pages_by_inst
+        self.calls: List[Dict[str, Any]] = []
+
+    def get(self, url: str, params: Optional[Dict[str, Any]] = None, timeout: float = 0.0) -> FakeResponse:
+        params = params or {}
+        self.calls.append({"url": url, **params})
+        if url.endswith(backfill.INSTRUMENTS_ENDPOINT):
+            return FakeResponse({"code": "0", "data": _instruments()})
+        if url.endswith(backfill.HISTORY_CANDLES_ENDPOINT):
+            inst = str(params.get("instId"))
+            pages = self.pages_by_inst.get(inst, [])
+            after = params.get("after")
+            if after is None:
+                page = pages[0] if pages else []
+                return FakeResponse({"code": "0", "data": page})
+            # emulate: after = oldest ts of previous page -> return next older page
+            after_ms = int(after)
+            older = [p for p in pages if p and min(int(r[0]) for r in p) < after_ms]
+            if older:
+                return FakeResponse({"code": "0", "data": older[0]})
+            return FakeResponse({"code": "0", "data": []})
+        if url.endswith(backfill.TICKERS_ENDPOINT):
+            return FakeResponse({"code": "0", "data": []})
+        raise AssertionError(f"unexpected URL: {url}")
+
+
+def _ms_pages(inst_ids: List[str], *, base_ms: int, n_pages: int, per_page: int) -> Dict[str, List[List[List[Any]]]]:
+    """Build newest-first pages: page k covers the k-th most recent block."""
+    out: Dict[str, List[List[List[Any]]]] = {}
+    for inst_id in inst_ids:
+        pages: List[List[List[Any]]] = []
+        # newest page first; each subsequent page is older
+        for k in range(n_pages):
+            # block k: starts at base_ms + (n_pages-1-k)*per_page*300_000 (older for larger k)
+            start = base_ms + (n_pages - 1 - k) * per_page * 300_000
+            rows = _candle_rows(inst_id, base_ms=start, n_bars=per_page, drift=0.0)
+            rows = list(reversed(rows))  # newest-first within a page, like OKX
+            pages.append(rows)
+        out[inst_id] = pages
+    return out
+
+
+def test_max_pages_accumulates_backward_history() -> None:
+    ids = _instrument_ids()
+    base_ms = int(datetime(2026, 11, 14, 11, 30, tzinfo=timezone.utc).timestamp() * 1000)
+    pages = _ms_pages(ids, base_ms=base_ms, n_pages=3, per_page=100)
+    session = PagingSession(pages)
+    candles = backfill.fetch_option_candles(
+        [{"inst_id": i} for i in ids], session=session, bar="5m", limit=100,
+        request_delay_seconds=0.0, max_pages=3,
+    )
+    # 3 pages x 100 bars = 300 distinct bars (assuming no overlap)
+    assert len(candles) == 300
+    # paging must have issued >1 history-candles call per instrument
+    hist_calls = [c for c in session.calls if backfill.HISTORY_CANDLES_ENDPOINT in c.get("url", "")]
+    # second page must carry an after cursor
+    after_calls = [c for c in session.calls if "after" in c]
+    assert after_calls, "expected backward paging via after cursor"
+    assert all(str(c["after"]).isdigit() for c in after_calls)
+
+
+def test_max_pages_one_keeps_single_page_semantics() -> None:
+    ids = _instrument_ids()
+    base_ms = int(datetime(2026, 11, 14, 11, 30, tzinfo=timezone.utc).timestamp() * 1000)
+    pages = _ms_pages(ids, base_ms=base_ms, n_pages=3, per_page=100)
+    session = PagingSession(pages)
+    candles = backfill.fetch_option_candles(
+        [{"inst_id": i} for i in ids], session=session, bar="5m", limit=100,
+        request_delay_seconds=0.0, max_pages=1,
+    )
+    assert len(candles) == 100
+    assert not [c for c in session.calls if "after" in c]
+
+
+def test_max_pages_rejects_non_positive() -> None:
+    session = PagingSession({})
+    with pytest.raises(backfill.AcquisitionError):
+        backfill.fetch_option_candles(
+            [{"inst_id": "BTC-USD-261127-60000-C"}], session=session, max_pages=0,
+            request_delay_seconds=0.0,
+        )
+
+
+def test_coerce_cursor_accepts_iso_and_ms() -> None:
+    assert backfill._coerce_cursor(None) is None
+    assert backfill._coerce_cursor("") is None
+    assert backfill._coerce_cursor(1794655800000) == "1794655800000"
+    assert backfill._coerce_cursor("1794655800000") == "1794655800000"
+    iso_ms = backfill._coerce_cursor("2026-11-14T15:01:50Z")
+    assert iso_ms is not None and iso_ms.isdigit()
+
+
+def test_backfill_records_paging_metadata(tmp_path: Path) -> None:
+    ids = _instrument_ids()
+    base_ms = int(datetime(2026, 11, 14, 11, 30, tzinfo=timezone.utc).timestamp() * 1000)
+    pages = _ms_pages(ids, base_ms=base_ms, n_pages=2, per_page=12)
+    session = PagingSession(pages)
+    result = backfill.backfill_dense_option_snapshots(
+        underlying="BTC", spot=SPOT, bar="5m", limit=12, out_dir=tmp_path,
+        request_delay_seconds=0.0, session=session, max_pages=2,
+        timestamp="2026-11-14T20:00:00Z",
+    )
+    assert result.max_pages == 2
+    assert result.after is None and result.before is None
+    assert result.n_snapshots == 24
