@@ -161,8 +161,24 @@ No prior-EVAL re-runs/re-seals, no `research_state/` enumeration, no full test s
    primitives); `scripts/check_session_sealed.py` supports `--glob` + repeatable `--require-glob` (AND)
    and `--require-any-glob` (OR) — gate in step 6 executable as written.
 4. **CLEARED:** `data/raw/eval53/` absent, no stale capture processes, clean tree for window-B capture.
-5. **Remaining work is the heavy work itself** (build `eval53_*` tooling + window-B synchronized capture
-   + measurement + seal), not an unblock. No valid alternative task.
+5. **DONE (this session):** `eval53_*` tooling built and tested —
+   `scripts/eval53_cross_window_replication.py` +
+   `tests/test_eval53_cross_window_replication.py` (`py_compile` OK;
+   `pytest -q` 9 passed). `--no-write` smoke verified offline: reuses sealed
+   EVAL-52 helpers, window A pooled PBO 0.6389 matches sealed EVAL-52, window
+   B absent -> `BLOCKED` (correct, not a verdict). No EVAL-02..52 edits; no
+   `phaseNN_*`; no `src/` edits.
+6. **BLOCKER (network):** Deribit public API unreachable
+   (`NetworkError` after retries) at this session, so window-B synchronized
+   capture (`--acquire-window-b`) + seal could NOT be completed. Heavy work
+   remaining: acquire window B (real Deribit BTC+ETH ~24h, floor: surface
+   ≥100 snaps / ≥50 instruments / ≥240 5m bars; options-venue order flow
+   ≥2000 trades / ≥50 instruments / ≥240 bars / ≥79200 s span; legs
+   time-overlapping / common 5m bars ≥240), then seal prereg +
+   `EVAL_53_CROSS_WINDOW_COMBINED_*` and pass gate. Retry capture when network
+   returns; widen `--max-per-expiry`/`--max-expiry-days` if below floor.
+   Never weaken the floor, never emit `{"valid": true}`, never substitute
+   `EVAL_53_BLOCKED_*` for a floor-passing combined verdict.
 
 ## ANTI-STALL RULE (read before touching this file)
 - **Only** acceptable outputs: (a) sealed `EVAL_53_WINDOW_B_ACQUISITION_*` + `EVAL_53_PREREGISTRATION_*` +
@@ -256,4 +272,22 @@ sealed artifact. Final responses must not ask follow-up questions.
 - 2026-11-15T15:22:00Z–15:26:16Z: EVAL-52 task set/hardened; no verdict until executed.
 - **2026-11-15T16:42:09Z–16:50:18Z (EVAL-52 COMPLETED, `INIT-2026-11-15T15:26:16Z-...-EVAL-52-...`):**
   `./scripts/verify_env.sh --check` exit 0. `py_compile` eval52 scripts+tests ok; `pytest -q tests/test_eval52_options_surface_orderflow_net_of_cost.py` → 7 passed. Synchronized real Deribit capture BTC+ETH `--out-dir data/raw/eval52 --seal` → `EVAL_52_SYNCHRONIZED_ACQUISITION_20261115T164732Z`. Floor met: BTC 289 snaps/102 inst/289 5m bars, 4688 trades/99 inst/span 86261.649s/288 common 5m; ETH 289/102/289, 3122/101/span 86204.278s/287 common. Prereg `EVAL_52_PREREGISTRATION_20261115T165018Z`; verdict `EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_20261115T165018Z` — **NO-GO CONFIRMED (PASS)** (18 configs/underlying; best BTC −0.7473 `continuous_zscore::call_minus_put::bar300.0`, ETH −1.6028 `sign_agreement::imbalance::bar300.0`; all NO-GO; pooled PBO 0.6389; BH-FDR rejected 32). Seal gate exit 0. EVAL-52 immutable.
-- **2026-11-15T16:54:19Z (this session, handoff refreshed for EVAL-53):** verified EVAL-52 sealed (verdict/prereg/acq manifests present, `data/raw/eval52/` has both legs, eval52 scripts+tests on disk, `pytest` previously 7 passed), env green (`verify_env.sh --check` exit 0), `data/raw/eval53/` absent, no `scripts/eval53*`. Set authoritative task **`INIT-2026-11-15T16:54:19Z-EVAL-53-CROSS-WINDOW-SYNCHRONIZED-SURFACE-X-ORDERFLOW-REPLICATION-ACQUIRE-MEASURE-AND-SEAL`** with unambiguous step-6 gate (`--glob "EVAL_53_WINDOW_B_ACQUISITION_*" --require-glob "EVAL_53_PREREGISTRATION_*" --require-glob "EVAL_53_CROSS_WINDOW_COMBINED_*"`, stamp ≥ task). Next session must build eval53 tooling, acquire window B (heavy real synchronized Deribit BTC+ETH ~24h), smoke `--no-write`, seal prereg+acquisition+cross-window combined verdict, and pass gate; no other task valid.
+- **2026-11-15T16:54:19Z (this session, handoff refreshed for EVAL-53):** verified EVAL-52 sealed (verdict/prereg/acq manifests present, `data/raw/eval52/` has both legs, eval52 scripts+tests on disk, `pytest` previously 7 passed), env green (`verify_env.sh --check` exit 0), `data/raw/eval53/` absent, no `scripts/eval53*`. Set authoritative task **`INIT-2026-11-15T16:54:19Z-EVAL-53-CROSS-WINDOW-SYNCHRONIZED-SURFACE-X-ORDERFLOW-REPLICATION-ACQUIRE-MEASURE-AND-SEAL`** with unambiguous step-6 gate (`--glob "EVAL_53_WINDOW_B_ACQUISITION_*" --require-glob "EVAL_53_PREREGISTRATION_*" --require-glob "EVAL_53_CROSS_WINDOW_COMBINED_*"`, stamp ≥ task). Next session must build eval53 tooling, acquire window B (heavy real synchronized Deribit BTC+ETH ~24h), smoke `--no-write`, seal prereg+acquisition+cross-window combined verdict, and pass    gate; no other task valid.
+- **2026-11-15T17:08:32Z (this session, EVAL-53 tooling built):** built
+  `scripts/eval53_cross_window_replication.py` +
+  `tests/test_eval53_cross_window_replication.py` (`py_compile` OK;
+  `pytest -q` 9 passed). `--no-write` smoke verified offline: reuses sealed
+  EVAL-52 helpers (`evaluate_config`, `surface_signal_series`, `build_bars`,
+  `_underlying_floor`, stats), window A `floor_ok: true` with pooled PBO
+  0.6389 matching sealed EVAL-52; window B (`data/raw/eval53`) absent ->
+  `BLOCKED` (correct, not a verdict). No EVAL-02..52 edits, no `src/` edits,
+  no `phaseNN_*`. Deribit public API unreachable (`NetworkError` after
+  retries) at this session, so window-B synchronized capture +
+  `--acquire-window-b` + seal could NOT be completed; seal gate (step 6)
+  cannot pass until `EVAL_53_WINDOW_B_ACQUISITION_*`,
+  `EVAL_53_PREREGISTRATION_*`, and a floor-passing
+  `EVAL_53_CROSS_WINDOW_COMBINED_*` (stamp ≥ task) exist. Heavy work
+  remaining: acquire real synchronized Deribit window B (BTC+ETH ~24h) meeting
+  the per-underlying floor, then seal prereg + combined cross-window verdict
+  and pass the gate. Authoritative task unchanged:
+  `INIT-2026-11-15T16:54:19Z-EVAL-53-CROSS-WINDOW-SYNCHRONIZED-SURFACE-X-ORDERFLOW-REPLICATION-ACQUIRE-MEASURE-AND-SEAL`.
