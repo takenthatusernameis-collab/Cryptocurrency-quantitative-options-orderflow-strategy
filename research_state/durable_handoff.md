@@ -2,7 +2,7 @@
 
 ## AUTHORITATIVE INITIAL TASK (do this next; no other task is valid until it is done)
 
-**TASK `INIT-2026-11-15T15:25:30Z-EVAL-52-SYNCHRONIZED-OPTIONS-SURFACE-X-OPTIONS-ORDERFLOW-FUSION-ACQUIRE-MEASURE-AND-SEAL`.**
+**TASK `INIT-2026-11-15T15:26:16Z-EVAL-52-SYNCHRONIZED-OPTIONS-SURFACE-X-OPTIONS-ORDERFLOW-FUSION-ACQUIRE-MEASURE-AND-SEAL`.**
 
 EVAL-51 is **SEALED `NO-GO CONFIRMED (PASS)`**. Every individual charter leg is now sealed `NO-GO`:
 option *surface/candles/greeks* (EVAL-46..49), *spot* order flow (EVAL-43/45), *spot* L2-book OFI
@@ -93,11 +93,11 @@ until step 6 passes.**
    short capture cannot satisfy the campaign). `check_session_sealed.py` supports these flags (verified
    2026-11-15T15:25:30Z):
    ```bash
-   python3 scripts/check_session_sealed.py \
-        --task-id "INIT-2026-11-15T15:25:30Z-EVAL-52-SYNCHRONIZED-OPTIONS-SURFACE-X-OPTIONS-ORDERFLOW-FUSION-ACQUIRE-MEASURE-AND-SEAL" \
-        --glob "EVAL_52_SYNCHRONIZED_ACQUISITION_*" \
-        --require-glob "EVAL_52_PREREGISTRATION_*" \
-        --require-glob "EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_*"
+python3 scripts/check_session_sealed.py \
+         --task-id "INIT-2026-11-15T15:26:16Z-EVAL-52-SYNCHRONIZED-OPTIONS-SURFACE-X-OPTIONS-ORDERFLOW-FUSION-ACQUIRE-MEASURE-AND-SEAL" \
+         --glob "EVAL_52_SYNCHRONIZED_ACQUISITION_*" \
+         --require-glob "EVAL_52_PREREGISTRATION_*" \
+         --require-glob "EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_*"
    ```
    Must print `OK` lines and exit `0`.
 
@@ -321,3 +321,12 @@ sealed artifact. Final responses must not ask follow-up questions.
   Next session must build `eval52_*` tooling, run the synchronized acquisition + `--no-write` smoke +
   sealed verdict, and pass the seal gate requiring BOTH an `EVAL_52_SYNCHRONIZED_ACQUISITION_*` and a
   floor-passing `EVAL_52_OPTIONS_SURFACE_ORDERFLOW_COMBINED_*` artifact stamped ≥ this task timestamp.
+- **2026-11-15T15:26:16Z (handoff refreshed for next agentic session):** task timestamp advanced to
+  `INIT-2026-11-15T15:26:16Z-EVAL-52-SYNCHRONIZED-OPTIONS-SURFACE-X-OPTIONS-ORDERFLOW-FUSION-ACQUIRE-MEASURE-AND-SEAL`
+  in both the authoritative task block and the seal-gate command; all bottlenecks verified cleared (env
+  green, Deribit endpoints live, no stale processes, clean working tree, check_session_sealed.py gate
+  confirmed executable). The next session MUST execute the 7-step EVAL-52 protocol end-to-end — build
+  `eval52_acquire_synchronized_options.py` + `eval52_options_surface_orderflow_net_of_cost.py` +
+  `test_eval52_options_surface_orderflow_net_of_cost.py`, run synchronized real Deribit capture for BTC+ETH
+  over the same ~24h window meeting the per-underlying floor, smoke test with `--no-write`, seal the
+  preregistration and combined verdict, and pass the seal gate. No other task is valid.
