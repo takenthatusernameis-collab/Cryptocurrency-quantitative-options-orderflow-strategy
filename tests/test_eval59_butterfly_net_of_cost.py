@@ -176,13 +176,13 @@ def test_rr_series_shape_and_costs():
     assert all(math.isfinite(r) for r in s["returns"])
     assert all(c >= -1e-12 for c in s["cost_returns"])
     assert s["entry_spread_usd"] >= 0.0 and s["exit_spread_usd"] >= 0.0
-    assert math.isfinite(s["median_call_iv"]) and s["median_call_iv"] > 0
-    assert math.isfinite(s["median_put_iv"]) and s["median_put_iv"] > 0
+    assert math.isfinite(s["median_call25_iv"]) and s["median_call25_iv"] > 0
+    assert math.isfinite(s["median_put25_iv"]) and s["median_put25_iv"] > 0
     assert math.isfinite(s["median_fly"])
     # Nonzero P&L exists (fly is ramping so positions are taken).
     assert any(abs(r) > 1e-12 for r in s["returns"])
     # ~25Δ wings sit roughly around spot.
-    assert s["strike_call"] > 0.0 and s["strike_put"] > 0.0
+    assert s["strike_call25"] > 0.0 and s["strike_put25"] > 0.0
 
 
 def test_rr_series_invalid_no_put_wing():
@@ -259,8 +259,8 @@ def test_evaluate_config_runs():
     assert res["valid"] is True
     assert res["n_returns"] >= e59.MIN_RETURNS_PER_CONFIG
     assert "sharpe" in res and "pass" in res
-    assert 0.0 <= res["median_call_iv"] <= 5.0
-    assert 0.0 <= res["median_put_iv"] <= 5.0
+    assert 0.0 <= res["median_call25_iv"] <= 5.0
+    assert 0.0 <= res["median_put25_iv"] <= 5.0
     assert "bootstrap_ci" in res and "permutation_p" in res
     assert math.isfinite(res["median_fly"])
 

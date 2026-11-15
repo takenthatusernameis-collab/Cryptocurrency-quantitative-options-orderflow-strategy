@@ -120,9 +120,9 @@ BLOCKED_ID = "EVAL_59_BLOCKED"
 
 BAR_SECONDS = 300.0
 HEDGE_FEE_BPS = 5.0          # taker fee + impact on delta-hedge turnover
-OPTION_SPREAD = ("each of the 4 butterfly legs (25Δ call, 25Δ put, ATM call, ATM put) "
-                 "pays half its real bid/ask at entry and half at exit (all legs charged "
-                 "round-trip spread); full spread charged when the butterfly side flips")
+OPTION_SPREAD = ("all 4 butterfly legs (25Δ call, 25Δ put, ATM call, ATM put) each pay "
+                 "half their real bid/ask at entry and half at exit (round-trip spread per "
+                 "leg); full 4-leg spread charged when the butterfly side flips")
 DAY_COUNT = 365.25
 PERMUTATION_PERMS = 1000
 BOOTSTRAP_RESAMPLES = 1000
@@ -410,6 +410,36 @@ def _select_rr_wings(
     return {"call": call, "put": put}
 
 
+def _select_atm_pair(
+    by_expiry: Dict[str, Dict[str, List[Dict[str, Any]]]], expiry: str,
+    spot: float,
+) -> Optional[Dict[str, Any]]:
+    """Select the ATM call+put at the common strike nearest spot (same expiry).
+
+    Only quotes with a finite, positive IV are eligible. If either leg is missing
+    or no common strike exists -> None (never fabricate).
+    """
+    want = str(expiry)[:10]
+    legs = by_expiry.get(want)
+    if not legs:
+        return None
+    calls = [g for g in (legs.get("call") or [])
+             if math.isfinite(g.get("iv", float("nan"))) and g.get("iv", 0.0) > 0.0]
+    puts = [g for g in (legs.get("put") or [])
+            if math.isfinite(g.get("iv", float("nan"))) and g.get("iv", 0.0) > 0.0]
+    if not calls or not puts:
+        return None
+    call_strikes = {g["strike"] for g in calls}
+    put_strikes = {g["strike"] for g in puts}
+    common = sorted(call_strikes & put_strikes)
+    if not common:
+        return None
+    atm_strike = min(common, key=lambda k: abs(k - spot))
+    atm_call = next(g for g in calls if g["strike"] == atm_strike)
+    atm_put = next(g for g in puts if g["strike"] == atm_strike)
+    return {"call": atm_call, "put": atm_put, "strike": float(atm_strike)}
+
+
 # ---------------------------------------------------------------------------
 # Butterfly / convexity book construction (causal, net of cost)
 # ---------------------------------------------------------------------------
@@ -424,9 +454,11 @@ def _rr_states(
 ) -> List[Dict[str, Any]]:
     """Build the causal butterfly state series (with side/exposure).
 
-    Each state is an end-of-bar real snapshot where a valid 25Δ call+put pair was
-    found at ``expiry``. ``skew = IV(put) - IV(call)``; the side/exposure is set by
-    the pre-registered mean-reversion rule vs the trailing skew median.
+    Each state is an end-of-bar real snapshot where a valid 25Δ call+put wing pair
+    AND an ATM call+put body pair were found at ``expiry``. ``skew = IV(~25Δ put) -
+    IV(~25Δ call)``; the side/exposure is set by the pre-registered mean-reversion
+    rule vs the trailing skew median. The butterfly position is long 25Δ call +
+    long 25Δ put − ATM call − ATM put (side +1) or its mirror (side -1).
     """
     if enriched is None:
         enriched = _enrich_snapshots(capture)
@@ -435,24 +467,42 @@ def _rr_states(
         pick = _select_rr_wings(es["by_expiry"], expiry)
         if not pick:
             continue
-        call = pick["call"]
-        put = pick["put"]
-        skew = float(put["iv"]) - float(call["iv"])
-        call_spread_usd = (float(call["ask_usd"]) - float(call["bid_usd"]))
-        put_spread_usd = (float(put["ask_usd"]) - float(put["bid_usd"]))
+        atm = _select_atm_pair(es["by_expiry"], expiry, float(es["spot"]))
+        if not atm:
+            continue
+        call25 = pick["call"]
+        put25 = pick["put"]
+        call_atm = atm["call"]
+        put_atm = atm["put"]
+        skew = float(put25["iv"]) - float(call25["iv"])
+        spread25_usd = (float(call25["ask_usd"]) - float(call25["bid_usd"])) \
+            + (float(put25["ask_usd"]) - float(put25["bid_usd"]))
+        spread_atm_usd = (float(call_atm["ask_usd"]) - float(call_atm["bid_usd"])) \
+            + (float(put_atm["ask_usd"]) - float(put_atm["bid_usd"]))
         raw.append({
             "bar_ms": int(es["bar_ms"]),
             "spot": float(es["spot"]),
             "skew": skew,
-            "call_iv": float(call["iv"]),
-            "put_iv": float(put["iv"]),
-            "call_delta": float(call["delta"]),
-            "put_delta": float(put["delta"]),
-            "call_mark": float(call["mark"]),
-            "put_mark": float(put["mark"]),
-            "call_strike": float(call["strike"]),
-            "put_strike": float(put["strike"]),
-            "spread_usd": float(call_spread_usd + put_spread_usd),
+            "call25_iv": float(call25["iv"]),
+            "put25_iv": float(put25["iv"]),
+            "call25_delta": float(call25["delta"]),
+            "put25_delta": float(put25["delta"]),
+            "call25_mark": float(call25["mark"]),
+            "put25_mark": float(put25["mark"]),
+            "call25_strike": float(call25["strike"]),
+            "put25_strike": float(put25["strike"]),
+            "call_atm_iv": float(call_atm["iv"]),
+            "put_atm_iv": float(put_atm["iv"]),
+            "call_atm_delta": float(call_atm["delta"]),
+            "put_atm_delta": float(put_atm["delta"]),
+            "call_atm_mark": float(call_atm["mark"]),
+            "put_atm_mark": float(put_atm["mark"]),
+            "call_atm_strike": float(call_atm["strike"]),
+            "put_atm_strike": float(put_atm["strike"]),
+            "atm_strike": float(atm["strike"]),
+            "spread_usd": float(spread25_usd + spread_atm_usd),
+            "spread25_usd": float(spread25_usd),
+            "spread_atm_usd": float(spread_atm_usd),
         })
 
     fly_lookback = max(1, int(fly_lookback))
@@ -487,15 +537,16 @@ def _rr_series(
     rebalance: int,
     enriched: Optional[List[Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
-    """Long/short 25Δ risk reversal sized by the skew mean-reversion deviation,
+    """Long/short 25Δ butterfly sized by the skew mean-reversion deviation,
     delta-hedged in the perpetual. Causal: state at bar ``k`` -> outcome over
     ``[k, k+1]``.
 
-    LONG risk reversal (side +1) = long 25Δ call / short 25Δ put, profits when the
-    call richens vs the put (skew = IV_put - IV_call falls); SHORT risk reversal
-    (side -1) = short 25Δ call / long 25Δ put, profits when skew rises. Each wing
-    pays half its real bid/ask at entry and exit; a side flip charges the full 2-leg
-    spread; hedge turnover charged at HEDGE_FEE_BPS.
+    LONG butterfly (side +1) = long 25Δ call + long 25Δ put − ATM call − ATM put,
+    profits when smile curvature converges (skew deviation reverses). SHORT
+    butterfly (side -1) = short 25Δ call − short 25Δ put + ATM call + ATM put,
+    profits when curvature diverges. All 4 legs pay half their real bid/ask at
+    entry and exit; a side flip charges the full 4-leg spread; hedge turnover
+    charged at HEDGE_FEE_BPS.
     """
     states = _rr_states(
         capture, expiry=expiry, fly_lookback=fly_lookback,
@@ -531,38 +582,56 @@ def _rr_series(
 
         side = int(states[k]["side"])
         exposure = float(states[k]["exposure"])
-        call_mark = float(states[k]["call_mark"])
-        put_mark = float(states[k]["put_mark"])
-        call_delta = float(states[k]["call_delta"])
-        put_delta = float(states[k]["put_delta"])
+        call25_mark = float(states[k]["call25_mark"])
+        put25_mark = float(states[k]["put25_mark"])
+        call_atm_mark = float(states[k]["call_atm_mark"])
+        put_atm_mark = float(states[k]["put_atm_mark"])
+        call25_delta = float(states[k]["call25_delta"])
+        put25_delta = float(states[k]["put25_delta"])
+        call_atm_delta = float(states[k]["call_atm_delta"])
+        put_atm_delta = float(states[k]["put_atm_delta"])
         spread_usd = float(states[k]["spread_usd"])
 
-        # Position weights: side=+1 -> long call/short put; side=-1 -> short call/long put.
-        w_call = float(side)
-        w_put = -float(side)
+        # Butterfly weights: side=+1 -> long 25D wings / short ATM body;
+        # side=-1 -> short 25D wings / long ATM body.
+        w_call25 = float(side)
+        w_put25 = float(side)
+        w_call_atm = -float(side)
+        w_put_atm = -float(side)
 
         if k % rebalance == 0:
-            hedge = -exposure * (w_call * call_delta + w_put * put_delta)
+            hedge = -exposure * (
+                w_call25 * call25_delta + w_put25 * put25_delta
+                + w_call_atm * call_atm_delta + w_put_atm * put_atm_delta
+            )
         else:
             hedge = prev_hedge
         if hedge != prev_hedge:
             n_rebalances += 1
 
-        # Option mark-to-market P&L for [k, k+1] (position held constant over the step).
-        next_call = float(states[k + 1]["call_mark"])
-        next_put = float(states[k + 1]["put_mark"])
-        d_option = exposure * (w_call * (next_call - call_mark) + w_put * (next_put - put_mark)) * s0
+        # Option mark-to-market P&L for [k, k+1] (position held constant over step).
+        next_call25 = float(states[k + 1]["call25_mark"])
+        next_put25 = float(states[k + 1]["put25_mark"])
+        next_call_atm = float(states[k + 1]["call_atm_mark"])
+        next_put_atm = float(states[k + 1]["put_atm_mark"])
+        d_option = exposure * (
+            w_call25 * (next_call25 - call25_mark)
+            + w_put25 * (next_put25 - put25_mark)
+            + w_call_atm * (next_call_atm - call_atm_mark)
+            + w_put_atm * (next_put_atm - put_atm_mark)
+        ) * s0
         gross = d_option + hedge * d_spot
 
-        # Costs: hedge turnover + entry/exit spread + side-flip spread.
+        # Costs: hedge turnover + entry/exit spread (all 4 legs, half each) +
+        # full 4-leg spread on side flip.
         turnover = abs(hedge - prev_hedge)
         cost = HEDGE_FEE_BPS * turnover * s0 / 1e4
         if k == 0:
-            cost += 0.5 * spread_usd * exposure          # entry: half spread
+            cost += 0.5 * spread_usd * exposure          # entry: half spread, 4 legs
         if k == n - 2:
-            cost += 0.5 * float(states[-1]["spread_usd"]) * float(states[-1]["exposure"])  # exit: half spread
+            cost += 0.5 * float(states[-1]["spread_usd"]) * float(states[-1]["exposure"])  # exit
         if prev_side != 0 and side != 0 and prev_side != side:
-            cost += spread_usd * exposure                # full spread on side flip
+            cost += spread_usd * exposure                # full 4-leg spread on flip
             n_flips += 1
 
         net = gross - cost
@@ -575,14 +644,18 @@ def _rr_series(
 
     active = [s for s in states if s.get("active")]
     devs = [float(s["fly_dev"]) for s in active if math.isfinite(float(s["fly_dev"]))]
-    median_call_iv = _finite(_median([s["call_iv"] for s in states if math.isfinite(s["call_iv"])]), 0.0)
-    median_put_iv = _finite(_median([s["put_iv"] for s in states if math.isfinite(s["put_iv"])]), 0.0)
+    median_call25_iv = _finite(_median([s["call25_iv"] for s in states if math.isfinite(s["call25_iv"])]), 0.0)
+    median_put25_iv = _finite(_median([s["put25_iv"] for s in states if math.isfinite(s["put25_iv"])]), 0.0)
+    median_call_atm_iv = _finite(_median([s["call_atm_iv"] for s in states if math.isfinite(s["call_atm_iv"])]), 0.0)
+    median_put_atm_iv = _finite(_median([s["put_atm_iv"] for s in states if math.isfinite(s["put_atm_iv"])]), 0.0)
     median_skew = _finite(_median([s["skew"] for s in states if math.isfinite(s["skew"])]), 0.0)
     median_fly = _finite(_median([s["fly_dev"] for s in states if math.isfinite(s["fly_dev"])]), 0.0)
 
     s0 = float(states[0]["spot"])
-    net_rr_premium_usd = (float(states[0]["call_mark"]) - float(states[0]["put_mark"])) \
-        * float(states[0]["exposure"]) * s0
+    net_fly_premium_usd = (
+        float(states[0]["call25_mark"]) + float(states[0]["put25_mark"])
+        - float(states[0]["call_atm_mark"]) - float(states[0]["put_atm_mark"])
+    ) * float(states[0]["exposure"]) * s0
 
     return {
         "structure": "butterfly_25d_delta_hedged",
@@ -591,16 +664,21 @@ def _rr_series(
         "rebalance": int(rebalance),
         "n_states": n, "n_returns": len(returns),
         "n_hedge_rebalances": int(n_rebalances), "n_side_flips": int(n_flips),
-        "median_call_iv": median_call_iv,
-        "median_put_iv": median_put_iv,
+        "median_call25_iv": median_call25_iv,
+        "median_put25_iv": median_put25_iv,
+        "median_call_atm_iv": median_call_atm_iv,
+        "median_put_atm_iv": median_put_atm_iv,
         "median_skew": median_skew,
         "median_fly": median_fly,
         "mean_fly_dev": _mean(devs),
         "entry_spread_usd": 0.5 * float(states[0]["spread_usd"]) * float(states[0]["exposure"]),
         "exit_spread_usd": 0.5 * float(states[-1]["spread_usd"]) * float(states[-1]["exposure"]),
-        "net_rr_premium_usd": float(net_rr_premium_usd),
-        "strike_call": float(states[0]["call_strike"]),
-        "strike_put": float(states[0]["put_strike"]),
+        "net_fly_premium_usd": float(net_fly_premium_usd),
+        "strike_call25": float(states[0]["call25_strike"]),
+        "strike_put25": float(states[0]["put25_strike"]),
+        "strike_call_atm": float(states[0]["call_atm_strike"]),
+        "strike_put_atm": float(states[0]["put_atm_strike"]),
+        "atm_strike": float(states[0]["atm_strike"]),
         "returns": returns,
         "gross_returns": gross_list,
         "cost_returns": cost_list,
@@ -654,18 +732,23 @@ def evaluate_config(
         "rebalance": int(rebalance),
         "bar_seconds": BAR_SECONDS,
         "n_states": series.get("n_states", 0),
-        "median_call_iv": series.get("median_call_iv", 0.0),
-        "median_put_iv": series.get("median_put_iv", 0.0),
+        "median_call25_iv": series.get("median_call25_iv", 0.0),
+        "median_put25_iv": series.get("median_put25_iv", 0.0),
+        "median_call_atm_iv": series.get("median_call_atm_iv", 0.0),
+        "median_put_atm_iv": series.get("median_put_atm_iv", 0.0),
         "median_skew": series.get("median_skew", 0.0),
         "median_fly": series.get("median_fly", 0.0),
         "mean_fly_dev": series.get("mean_fly_dev", 0.0),
         "n_hedge_rebalances": series.get("n_hedge_rebalances", 0),
         "n_side_flips": series.get("n_side_flips", 0),
-        "strike_call": series.get("strike_call", 0.0),
-        "strike_put": series.get("strike_put", 0.0),
+        "strike_call25": series.get("strike_call25", 0.0),
+        "strike_put25": series.get("strike_put25", 0.0),
+        "strike_call_atm": series.get("strike_call_atm", 0.0),
+        "strike_put_atm": series.get("strike_put_atm", 0.0),
+        "atm_strike": series.get("atm_strike", 0.0),
         "entry_spread_usd": series.get("entry_spread_usd", 0.0),
         "exit_spread_usd": series.get("exit_spread_usd", 0.0),
-        "net_rr_premium_usd": series.get("net_rr_premium_usd", 0.0),
+        "net_fly_premium_usd": series.get("net_fly_premium_usd", 0.0),
         "valid": series.get("valid", False),
     }
     if not series.get("valid", False):
@@ -1047,12 +1130,17 @@ def run_eval59(
             "n_configs": len(rows),
             "best_sharpe": _finite(best.get("sharpe"), 0.0),
             "best_config": best.get("config_key"),
-            "best_median_call_iv": _finite(best.get("median_call_iv"), 0.0),
-            "best_median_put_iv": _finite(best.get("median_put_iv"), 0.0),
+            "best_median_call25_iv": _finite(best.get("median_call25_iv"), 0.0),
+            "best_median_put25_iv": _finite(best.get("median_put25_iv"), 0.0),
+            "best_median_call_atm_iv": _finite(best.get("median_call_atm_iv"), 0.0),
+            "best_median_put_atm_iv": _finite(best.get("median_put_atm_iv"), 0.0),
             "best_median_skew": _finite(best.get("median_skew"), 0.0),
             "best_mean_fly_dev": _finite(best.get("mean_fly_dev"), 0.0),
-            "best_strike_call": _finite(best.get("strike_call"), 0.0),
-            "best_strike_put": _finite(best.get("strike_put"), 0.0),
+            "best_strike_call25": _finite(best.get("strike_call25"), 0.0),
+            "best_strike_put25": _finite(best.get("strike_put25"), 0.0),
+            "best_strike_call_atm": _finite(best.get("strike_call_atm"), 0.0),
+            "best_strike_put_atm": _finite(best.get("strike_put_atm"), 0.0),
+            "best_atm_strike": _finite(best.get("atm_strike"), 0.0),
             "any_pass": bool(any(r.get("pass") for r in rows)),
         })
 
@@ -1195,14 +1283,16 @@ def build_md(r: Dict[str, Any]) -> str:
             f"{fl['n_viable_expiries']} | {fl['ok']} |"
         )
     lines += ["", "## Per-underlying (best config)", "",
-              "| underlying | configs | best Sharpe | best config | best median call IV | best median put IV | best median skew | best mean skew dev | best strike call | best strike put | any pass |",
-              "|---|---|---|---|---|---|---|---|---|---|---|"]
+              "| underlying | configs | best Sharpe | best config | best median call25 IV | best median put25 IV | best median call ATM IV | best median put ATM IV | best median skew | best mean fly dev | best strike call25 | best strike put25 | best strike call ATM | best strike put ATM | any pass |",
+              "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---"]
     for s in r["per_underlying"]:
         lines.append(
             f"| {s['underlying']} | {s['n_configs']} | {s['best_sharpe']:.4f} | "
-            f"{s['best_config']} | {s['best_median_call_iv']:.4f} | {s['best_median_put_iv']:.4f} | "
+            f"{s['best_config']} | {s['best_median_call25_iv']:.4f} | {s['best_median_put25_iv']:.4f} | "
+            f"{s['best_median_call_atm_iv']:.4f} | {s['best_median_put_atm_iv']:.4f} | "
             f"{s['best_median_skew']:.4f} | {s['best_mean_fly_dev']:.4f} | "
-            f"{s['best_strike_call']:.2f} | {s['best_strike_put']:.2f} | {s['any_pass']} |"
+            f"{s['best_strike_call25']:.2f} | {s['best_strike_put25']:.2f} | "
+            f"{s['best_strike_call_atm']:.2f} | {s['best_strike_put_atm']:.2f} | {s['any_pass']} |"
         )
     lines += ["", "## Pooled", "",
               f"- Overall PBO: {r['pooled']['overall_pbo']:.4f}",
