@@ -40,21 +40,17 @@ net-of-cost falsification on the FULL dense real BTC dataset — the repo's **co
 **`NO-GO CONFIRMED (PASS)`** at `research_state/EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z.{json,md}`
 (prereg `EVAL_46_PREREGISTRATION_20261115T041621Z`; 101 BTC snapshots × 2 real tapes × 3 pre-registered
 fusion rules, all NO-GO; pooled PBO 0.833; BH-FDR rejected nothing). The fused options+orderflow
-strategy is **not net-of-cost tradable on dense real BTC**. **Next required task is EVAL-47 — the ETH
-COMBINED (fused) options+orderflow net-of-cost cross-asset replication** (see
-`research_state/durable_handoff.md`, task
-`INIT-2026-11-15T06:22:20Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL`):
-this is the natural cross-asset replication of EVAL-46 (does the combined thesis work on ETH?).
-**All data is on disk and git-tracked in `data/raw/eval45/`** (5 orderflow tapes, 207,600 trades;
-201 option snapshots) — no re-acquisition/backfill required. **The wrapper is BUILT and TESTED:**
-`scripts/eval47_eth_combined_audit.py` (11/11 tests; full ETH chain smoke-tested; ~10 s full run) —
-a thin wrapper importing the sealed eval46 module, overriding ETH constants + monkeypatching
-BTC→ETH labels, calling `run_eval46(symbol="ETH", ...)`. **The next agent's job is ONE command:**
-`python3 scripts/eval47_eth_combined_audit.py` (pre-registers `EVAL_47_PREREGISTRATION_*`, runs all
-5 ETH tapes × 3 fusion rules × full stat battery, seals `EVAL_47_*`), then pass
-`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T06:22:20Z-EVAL-47-ETH-COMBINED-CROSS-ASSET-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_47_*"`.
-This is mandatory heavy work: a NO-OP, handoff-only, BTC re-run, or partial/unsealed session is a
-failed session. **EVAL-48 (cross-venue) and EVAL-49 (L2 OFI) are the queued follow-on rungs.**
+strategy is **not net-of-cost tradable on dense real BTC**. EVAL-47 (ETH combined cross-asset
+replication) is sealed: **`NO-GO CONFIRMED (PASS)`** at
+`research_state/EVAL_47_ETH_COMBINED_20261115T071330Z.{json,md}` (5 ETH tapes × 3 fusion rules, all
+NO-GO; seal gate exit 0). The fused options+orderflow strategy is **not net-of-cost tradable on real
+BTC or real ETH**. **Next required task is EVAL-48 — cross-venue combined options+orderflow net-of-cost
+replication** (see `research_state/durable_handoff.md`, task
+`INIT-2026-11-15T07:17:14Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL`): test venue-specificity —
+does the combined thesis produce a net-of-cost GO on another venue pair (Deribit options +
+Bybit/OKX orderflow)? **This is mandatory heavy work: a NO-OP, handoff-only, BTC/ETH re-run, or
+partial/unsealed session is a failed session.** Seal `EVAL_48_*` then pass
+`python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-15T07:17:14Z-EVAL-48-CROSS-VENUE-REPLICATION-FALSIFY-AND-SEAL" --glob "EVAL_48_*"`. **EVAL-49 (L2 OFI) is the queued follow-on rung.**
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
@@ -82,8 +78,11 @@ replicates BTC), options `BLOCKED` (no real ETH option series). **EVAL-46 sealed
 options+orderflow thesis on the full dense real BTC data: `NO-GO CONFIRMED (PASS)`**
 (`research_state/EVAL_46_INTEGRATED_OPTIONS_ORDERFLOW_20261115T041621Z.{json,md}`; 101 BTC snapshots ×
 2 real tapes × 3 pre-registered fusion rules, all NO-GO; pooled PBO 0.833; BH-FDR rejected nothing) —
-the fused options+orderflow strategy is **not net-of-cost tradable on dense real BTC**. The **ETH
-combined** thesis (does the combined strategy work on ETH?) is the only untested extension — **EVAL-47
-is the active mandatory rung**: re-acquire the ETH orderflow tapes (git-ignored, wiped) + backfill dense
-ETH options + fuse under 3 rules + full-tape net-of-cost walk-forward + full stats + seal `EVAL_47_*`.
-See `research_state/durable_handoff.md`.
+the fused options+orderflow strategy is **not net-of-cost tradable on dense real BTC**. **EVAL-47 sealed
+the ETH combined thesis: `NO-GO CONFIRMED (PASS)`** at
+`research_state/EVAL_47_ETH_COMBINED_20261115T071330Z.{json,md}` (5 ETH tapes × 3 fusion rules, all NO-GO;
+seal gate exit 0) — the fused options+orderflow strategy is **not net-of-cost tradable on real ETH**. The
+combined thesis is NOT net-of-cost tradable on real BTC or real ETH (both OKX single-venue). Venue-
+specificity is the only untested extension — **EVAL-48 is the active mandatory rung**: acquire Deribit
+options + Bybit/OKX orderflow tapes, fuse under 3 pre-registered rules, full-tape net-of-cost walk-forward,
+full stats, seal `EVAL_48_*`. See `research_state/durable_handoff.md`.
