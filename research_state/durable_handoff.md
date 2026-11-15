@@ -2,7 +2,7 @@
 
 ## AUTHORITATIVE INITIAL TASK FOR NEXT SESSION (timestamped; only valid task)
 
-**Status as of 2026-11-15T21:51:36Z:** CAMPAIGN **CLOSED — NO NEXT EVAL TASK EXISTS.** EVAL-59 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0). `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z` (floor OK: BTC 289/103/289/3647/100/86083s/287 common, term-structure viable 8 expiries; ETH 289/102/289/2638/98/84614s/282 common, viable 8 expiries), `EVAL_59_PREREGISTRATION_20261115T210615Z` (pre-verdict), `EVAL_59_COMBINED_20261115T214832Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 0.0000 any_pass false; ETH best Sharpe 0.9168 `butterfly_25d_delta_hedged::2026-11-15::lb12::st0.5::sc1.0::reb2` any_pass false; pooled PBO 0.6667; BH-FDR rejected 8 BTC lb12 configs; combined NO-GO since neither underlying passed the GO bar; seal gate exit 0). **EVAL-59 tooling built+tested green (`py_compile` OK; `pytest -q` 16 passed). All EVAL-59 artifacts sealed.** The EVAL-59 task is COMPLETE.
+**Status as of 2026-11-15T21:56:47Z:** CAMPAIGN **CLOSED — NO NEXT EVAL TASK EXISTS WITHIN EVAL-02..59.** EVAL-59 **SEALED NO-GO CONFIRMED (PASS)** (gate exit 0). `EVAL_59_SYNCHRONIZED_ACQUISITION_20261115T210410Z` (floor OK: BTC 289/103/289/3647/100/86083s/287 common, term-structure viable 8 expiries; ETH 289/102/289/2638/98/84614s/282 common, viable 8 expiries), `EVAL_59_PREREGISTRATION_20261115T210615Z` (pre-verdict), `EVAL_59_COMBINED_20261115T214832Z` — **NO-GO CONFIRMED (PASS)** (floor_ok true; BTC best Sharpe 0.0000 any_pass false; ETH best Sharpe 0.9168 `butterfly_25d_delta_hedged::2026-11-15::lb12::st0.5::sc1.0::reb2` any_pass false; pooled PBO 0.6667; BH-FDR rejected 8 BTC lb12 configs; combined NO-GO since neither underlying passed the GO bar; seal gate exit 0). **EVAL-59 tooling built+tested green (`py_compile` OK; `pytest -q` 16 passed). All EVAL-59 artifacts sealed.** The EVAL-59 task is COMPLETE.
 
 ================================================================================
 >>> CAMPAIGN CLOSED (EVAL-02..59 all SEALED NO-GO CONFIRMED (PASS), gate exit 0). NO FURTHER EVAL RUNGS REMAIN. <<<
@@ -34,8 +34,51 @@ re-sealing EVAL-02..59 is prohibited re-litigation.
 
 **BOTTLENECK STATUS (all cleared):** EVAL-59 tooling was the last remaining bottleneck; it is now
 built, tested, acquired, pre-registered, measured, and sealed with gate exit 0. No bottlenecks remain.
-No next-session task is defined within the EVAL framework; any future work would be a fresh,
-pre-registered, heavy real-data falsification with a new timestamped task ID outside EVAL-02..59.
+
+---
+
+### POST-EVAL CAMPAIGN DEFINITION (MANDATORY — FUTURE AGENTS CANNOT AVOID HEAVY WORK)
+
+**Repository charter:** `Cryptocurrency-quantitative-options-orderflow-strategy` = a **combined OPTIONS + ORDERFLOW** strategy. All EVAL-02..59 cells are sealed NO-GO. The **next focus campaign MUST** be a **fresh, pre-registered, heavy real-data falsification** with a **new timestamped task ID outside EVAL-02..59** that tests a **net-of-cost tradable** combined options+orderflow hypothesis on **real data** with **causal, no-look-ahead P&L**.
+
+**Authoritative next-session task (timestamped):**
+
+```
+INIT-2026-11-15T21:56:47Z-POST-EVAL-CAMPAIGN-DEFINE-NEW-HYPOTHESIS-PREREG-ACQUIRE-MEASURE-SEAL
+```
+
+**Non-negotiable definition of done for ANY post-EVAL session (step-7 gate):**
+
+1. **Define a NEW falsifiable hypothesis** combining real options data (Deribit surface/greeks/orderflow) + real orderflow data (Deribit options-venue trades and/or OKX perpetual L2/L3) that has NOT been tested in EVAL-02..59.
+2. **Pre-register** the exact hypothesis, data sources, floor metrics, measurement grid, and GO/NO-GO criteria **BEFORE any verdict** → artifact `POST_EVAL_<NAME>_PREREGISTRATION_<STAMP>Z`.
+3. **Acquire real data** meeting or exceeding the pre-registered floor (no synthetic fallback; real loaders raise `RealDataUnavailable`) → artifact `POST_EVAL_<NAME>_ACQUISITION_<STAMP>Z`.
+4. **Measure net-of-cost P&L** causally (decision at bar k → outcome over [k, k+1]) with realistic costs (half-spread on options legs, hedge turnover on perp, funding/fees) → artifact `POST_EVAL_<NAME>_COMBINED_<STAMP>Z`.
+5. **Seal with gate exit 0** via `scripts/check_session_sealed.py --glob "POST_EVAL_<NAME>_ACQUISITION_*" --require-glob "POST_EVAL_<NAME>_PREREGISTRATION_*" --require-glob "POST_EVAL_<NAME>_COMBINED_*"` with stamp ≥ `2026-11-15T21:56:47Z`.
+6. **No handoff-only completion** — a session whose only diff to this file is the timestamp is a failed session.
+
+**Candidate hypothesis directions (repo-name priority — options + orderflow fusion):**
+
+- **A.** Synchronized real Deribit options SURFACE (greeks/IV/term-structure) × real Deribit options-venue ORDER FLOW (trade toxicity/OFI) × real OKX perpetual orderflow — net-of-cost delta/gamma/vega hedged fusion.
+- **B.** Real Deribit options SURFACE (vol-surface dynamics) → pure options-native strategies **beyond the smile ladder** (e.g., vol-of-vol / vanna / volga / term-structure slope / calendar basis) net-of-cost on perp.
+- **C.** Real OKX BTC/ETH perpetual L2/L3 orderbook OFI + real Deribit options surface — cross-venue microstructure alpha net-of-cost.
+- **D.** Real Deribit options surface + real Deribit options trades (venue order flow) — synchronized options-side fusion (EVAL-52/53 pattern but with NEW hypothesis not yet tested).
+
+**Heavy-work floor (minimum for ANY post-EVAL campaign):**
+
+- Synchronized capture: **BTC + ETH** over same ~24h window.
+- Options surface: ≥100 snapshots / ≥50 instruments / ≥240 5m bars per underlying; term-structure viable (≥2 expiries with common strike nearest spot in ≥100 snapshots).
+- Options-venue trades: ≥2000 trades / ≥50 instruments / ≥240 bars / ≥79200 s span per underlying.
+- Perp candles: 1m resolution, time-aligned.
+- Legs time-overlapping common 5m bars ≥240.
+- Real Deribit public endpoints only (polite rate limiting); no synthetic data; `RealDataUnavailable` if floor unmet.
+
+**Prohibited (hard constraints):**
+
+- Do NOT re-run, re-litigate, or re-seal EVAL-02..59.
+- Do NOT fall back to synthetic data; never relabel synthetic as real; never emit `{"valid": true}`.
+- Paper-only: `.env` absent; `LIVE_TRADING_ENABLED=false`.
+- Reuse `src/analytics/`, `src/data/`, `src/backtest/`, `src/telemetry/`, `src/features/options_pricing.py`; no `phaseNN_*` orchestrator wrappers.
+- Do NOT run the full test suite as discovery; do NOT enumerate `research_state/`; do NOT create timestamped handoff copies or new handoff files.
 
 ## WHY THIS IS THE RIGHT NEXT RUNG (repo-name / charter priority — NON-NEGOTIABLE)
 `Cryptocurrency-quantitative-options-orderflow-strategy` = a **combined options + orderflow** strategy,
