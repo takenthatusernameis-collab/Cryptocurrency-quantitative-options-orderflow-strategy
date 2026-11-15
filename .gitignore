@@ -23,6 +23,11 @@ data/raw/options_okx_*.json
 # are durable inputs; keep them tracked so a reset does not wipe them.
 !data/raw/eval49/
 !data/raw/eval49/options_deribit_*.json
+# EVAL-50 real OKX L2 order-book depth snapshots are reproducible via
+# scripts/eval50_acquire_l2_depth.py (live polling; no historical REST endpoint).
+# They are durable inputs; keep them tracked so a reset does not wipe them.
+!data/raw/eval50/
+!data/raw/eval50/l2_depth_*.json
 
 research_state/INTEGRATED_CAMPAIGN_*.json
 research_state/INTEGRATED_STEP_*.json
