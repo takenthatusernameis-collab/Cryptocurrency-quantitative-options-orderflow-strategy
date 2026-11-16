@@ -1,0 +1,55 @@
+{
+  "report_id": "EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED",
+  "generated_at": "2026-11-16T12:18:51Z",
+  "task": "EVAL66-ETH-OFLOW-TOX-RV-OOS",
+  "verdict": "BLOCKED",
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval66",
+  "underlyings": [
+    "ETH"
+  ],
+  "per_underlying_floor": {
+    "ETH": {
+      "underlying": "ETH",
+      "n_surface_snapshots": 1464,
+      "n_surface_instruments": 80,
+      "n_surface_bars_5m": 1001,
+      "n_option_trades": 1224,
+      "n_of_instruments": 69,
+      "of_span_seconds": 86370.812,
+      "n_of_bars_5m": 287,
+      "n_perp_candles": 5001,
+      "perp_span_seconds": 300000.0,
+      "n_perp_bars_5m": 1000,
+      "n_common_bars_5m": 288,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": false,
+        "surface_bars_ok": true,
+        "trades_ok": false,
+        "of_instruments_ok": false,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": false
+    }
+  },
+  "floor": {
+    "min_surface_snapshots_per_underlying": 1000,
+    "min_surface_instruments_per_underlying": 100,
+    "min_surface_bars_5m_per_underlying": 1000,
+    "min_option_trades_per_underlying": 2000,
+    "min_of_instruments_per_underlying": 150,
+    "min_of_span_seconds_per_underlying": 82000.0,
+    "min_of_bars_5m_per_underlying": 240,
+    "min_perp_bars_5m_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 300000.0,
+    "min_common_bars_per_underlying": 240,
+    "min_underlyings": 2,
+    "note": "order-flow span floor is a heavier-than-EVAL-62 24h bar because Deribit tick-trade retention is ~24h; surface/perp floors require the full >=7d"
+  },
+  "floor_ok": false,
+  "errors": []
+}
