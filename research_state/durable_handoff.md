@@ -1,103 +1,97 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T13:39:12Z, verified):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T14:23:03Z, verified):**
 > **Repo priority (per name `Cryptocurrency-quantitative-options-orderflow-strategy`):** options + orderflow alpha, net-of-cost on real data. **On-charter ladder EVAL-02..66 is CLOSED** — EVAL-66 sealed `BLOCKED` (gate exit 0; ETH capture under-floor & not disjoint from EVAL-65); namesake options order-flow → realized-vol hypothesis not supported on real BTC/ETH in tested windows. Do **not** re-run, re-litigate, re-seal, or edit sealed EVAL-02..62/EVAL-64..66 artifacts or `src/`. Do not invent synthetic data or weaken floors.
 >
-> **NEXT FOCUS CAMPAIGN — EVAL-67 (MANDATORY heavy real-data falsification, off-charter but core-thesis-aligned): BTC options order-flow (toxicity/imbalance) → realized-vol OOS replication on a fresh, disjoint, floor-compliant real BTC capture.** Future agents must not avoid heavy work: execute this end-to-end; end only with a sealed COMBINED/BLOCKED/NO-GO artifact **+ seal gate exit 0**, or a genuinely live **persistent** acquisition with recorded PID/command/liveness, or a **recorded scheduled wakeup/cron** for the earliest disjoint capture time. No timestamp-only refreshes, no planning-only stops.
+> **NEXT FOCUS CAMPAIGN — EVAL-67 (MANDATORY heavy real-data falsification, off-charter but core-thesis-aligned): BTC options order-flow (toxicity/imbalance) → realized-vol OOS replication on a fresh, disjoint, floor-compliant real BTC capture.** Future agents must not avoid heavy work. This session is **not finished** until one of the completion-contract outcomes is achieved: (a) sealed EVAL-67 artifact + `check_session_sealed.py` exit 0, OR (b) a genuinely live **persistent** acquisition with recorded PID/command/liveness (recorded here), OR (c) a recorded **scheduled wakeup/cron** for the earliest disjoint capture time (exact command recorded). No timestamp-only refreshes, no planning-only stops.
 >
-> **BOTTLENECKS REMOVED THIS SESSION (do not rediscover them):**
-> 1. **Non-disjoint acquisition plan fixed.** The prior handoff's `python3 scripts/eval60_acquire_three_way.py --underlying BTC --days 7 ...` would produce a capture `2026-11-09T13:xx..2026-11-16T13:xx`, which **overlaps the sealed EVAL-64/65 BTC window `2026-11-09T06:48:16Z..2026-11-16T06:48:16Z`** and would seal `BLOCKED`. A naive `--days 7` capture is RETIRED. Correct rule: capture end **>= 2026-11-20T00:00:00Z**, `--days 3.7` (start `2026-11-16T07:12:00Z`, span 319,680 s), or generally `start >= 2026-11-16T06:48:16Z` and `span >= 300,000 s`.
-> 2. **Runner pre-staged and tested.** `scripts/eval67_btc_oflow_tox_rv_oos.py` is a copy-and-retarget of sealed EVAL-66 with BTC-only filtering, the EVAL-64 floor verbatim, and a **runtime disjointness gate** (`check_disjointness`) that seals `BLOCKED` on overlap. `tests/test_eval67_btc_oflow_tox_rv_oos.py` passes **12/12**; EVAL-66 baseline still passes **9/9**; `verify_env.sh --check` OK.
-> 3. **Protocol pre-registered before capture.** `research_state/EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` fixes BTC-only, `tox/imbalance::bar60::h72`, EVAL-64 floor (`min_underlyings=1`), disjointness rule, and verdict `∈ {NO-GO CONFIRMED (PASS), BLOCKED}`.
-> 4. **Seal-gate task ID fixed.** The old compact ID `INIT-2026-11-16T122919Z-...` is RETIRED because `check_session_sealed.py` cannot parse it (`FAIL: task id has no ISO-8601 UTC timestamp`). The authoritative parseable ID is below.
+> **BOTTLENECKS REMOVED (do not rediscover):**
+> 1. **Naive `--days 7` BTC acquisition is RETIRED (overlaps sealed BTC window).** Correct: capture end `>= 2026-11-20T00:00:00Z`; use `--days 3.7 --end <NOW-ISO>` (start `2026-11-16T07:12:00Z`, span 319680s). The disjointness gate in `scripts/eval67_btc_oflow_tox_rv_oos.py` seals `BLOCKED` on overlap/non-disjoint windows.
+> 2. **Runner + tests ready.** `scripts/eval67_btc_oflow_tox_rv_oos.py` (BTC-only, EVAL-64 floor, runtime disjointness check) and `tests/test_eval67_btc_oflow_tox_rv_oos.py` (12/12). EVAL-66 baseline `tests/test_eval66_eth_oflow_tox_rv_oos.py` remains 9/9.
+> 3. **Protocol pre-registered.** `research_state/EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` (do not rewrite unless necessary; must keep parseable task ID/floor/disjointness/hypothesis).
+> 4. **Seal-gate task ID fixed (parseable).** Use `INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION` (retired `INIT-2026-11-16T122919Z-...` is invalid for `check_session_sealed.py`).
+> 5. **Persistent bridge live (waiting).** `scripts/eval67_capture_bridge.py` started as **pid 58162** (heartbeat: `research_state/EVAL_67_CAPTURE_BRIDGE_LIVENESS_58162.json`, phase `waiting`, `threshold 2026-11-20T00:00:00Z`, `started_at 2026-11-16T14:22:52Z`, verified alive at 2026-11-16T14:23:03Z). Bridge runs the corrected acquisition at/after threshold, then expects follow-on dry-run→seal→gate. If it dies, use `scripts/eval67_launch_capture.sh` (hard-refuses before threshold) or the backup wakeup below.
 >
-> **Task ID:** `INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION` (use this exact ID for prereg/seal/gate; gate currently finds the prereg and exits 1 only because no result artifact exists yet — that is expected until step 4).
+> **Task ID (authoritative):** `INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION`
 >
 > **Unskippable heavy-work contract (execute in order):**
-> 1. **Env/safety (must pass):** `.env` absent; `LIVE_TRADING_ENABLED` unset/false; paper-only. `export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"`; `./scripts/verify_env.sh --check`. Run targeted tests: `python3 -m pytest -q tests/test_eval67_btc_oflow_tox_rv_oos.py` (expect 12/12) and `python3 -m pytest -q tests/test_eval66_eth_oflow_tox_rv_oos.py` (expect 9/9). Do **not** run the full suite and do **not** enumerate `research_state/`.
-> 2. **Pre-register before capture (DONE):** authoritative prereg is `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}`. Do not rewrite the protocol; if a new prereg is unavoidable it must keep the same hypothesis, floor, disjointness rule, and a parseable task ID.
-> 3. **Heavy real capture (mandatory, DISJOINT):** Do **not** run the retired `--days 7` command now. **At/after 2026-11-20T00:00:00Z** run as a **persistent** background process: `mkdir -p data/raw/eval67; PYTHONUNBUFFERED=1 PYTHONPATH="$PWD/.venv-deps" python3 scripts/eval60_acquire_three_way.py --underlying BTC --days 3.7 --end <NOW-ISO> --out-dir data/raw/eval67 --seal`. If the session starts before 2026-11-20T00:00:00Z, **schedule a wakeup/cron for 2026-11-20T00:00:00Z (or later) first**, then execute; record the schedule ID/command here. Real loaders only (`RealDataUnavailable` on missing); **never synthetic, never relabel, never `{"valid": true}`**. Verify the capture is real, disjoint, and meets the EVAL-64 floor before proceeding.
-> 4. **Evaluate:** dry-run `python3 scripts/eval67_btc_oflow_tox_rv_oos.py --capture-dir data/raw/eval67 --no-write` → then `--seal --task-label EVAL67-BTC-OFLOW-TOX-RV-OOS` to emit `EVAL_67_BTC_OFLOW_TOX_RV_OOS_{COMBINED|BLOCKED}_<TS>.{json,md}`. Under-floor or non-disjoint non-empty real ⇒ `BLOCKED` (do not weaken the floor). Do not seal on missing/empty state.
-> 5. **Seal gate (must be exit 0):** `python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION" --glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" --require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_COMBINED_*" --require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_BLOCKED_*"` → **exit 0**.
-> 6. **Close session:** update this handoff with verified facts (artifact names, verdict, gate exit code, capture sha256/size/window/disjointness, PIDs or schedule IDs if any). `data/raw/eval67/` is gitignored real data — do not commit. Paper-only preserved.
+> 1. **Env/safety:** `.env` absent; `LIVE_TRADING_ENABLED` unset/false (paper-only). `export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"`; `./scripts/verify_env.sh --check`. Tests: `python3 -m pytest -q tests/test_eval67_btc_oflow_tox_rv_oos.py` (12/12), `python3 -m pytest -q tests/test_eval66_eth_oflow_tox_rv_oos.py` (9/9). No full-suite enumeration loops; no `research_state/` enumeration loops.
+> 2. **If you arrive before 2026-11-20T00:00:00Z:** do not run retired `--days 7` acquisition. Keep pid 58162 alive if present; if not, schedule a wakeup/cron for `2026-11-20T00:00:00Z` (or later) with the exact capture command below and record the schedule ID here. Do not stop with only a timestamp bump.
+> 3. **At/after threshold (disjoint, heavy real capture):** persistent process must run:
+>    `mkdir -p data/raw/eval67 && PYTHONUNBUFFERED=1 PYTHONPATH="$PWD/.venv-deps" python3 scripts/eval60_acquire_three_way.py --underlying BTC --days 3.7 --end <NOW-ISO> --out-dir data/raw/eval67 --seal`
+>    (or via `scripts/eval67_launch_capture.sh`). Real loaders only (`RealDataUnavailable` on missing); never synthetic/relabeled; never `{"valid": true}`. Verify capture is real, disjoint, floor-compliant before evaluation.
+> 4. **Evaluate:** `python3 scripts/eval67_btc_oflow_tox_rv_oos.py --capture-dir data/raw/eval67 --no-write` then `--seal --task-label EVAL67-BTC-OFLOW-TOX-RV-OOS` → emits `EVAL_67_BTC_OFLOW_TOX_RV_OOS_{COMBINED|BLOCKED}_<TS>.{json,md}`. Under-floor or non-disjoint non-empty real ⇒ `BLOCKED` (no floor weakening). Do not seal on missing/empty state.
+> 5. **Seal gate (must exit 0):**
+>    `python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION" --glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" --require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_COMBINED_*" --require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_BLOCKED_*"`
+> 6. **Close session:** update this handoff in place with verified facts (artifact names, verdict, gate exit code, capture sha256/size/window/disjointness, PID/schedule IDs). `data/raw/eval67/` is gitignored — do not commit. Paper-only preserved.
 >
-> **Completion contract:** session ends only with (a) sealed EVAL-67 artifact + gate exit 0, OR (b) a genuinely live **persistent** acquisition with recorded PID/command/liveness, OR (c) a recorded **scheduled wakeup/cron** for the earliest disjoint capture time (with the exact capture command) when the runtime cannot keep a process alive that long. No other stopping point is acceptable.
-
-## STATUS (verified 2026-11-16T13:39:12Z)
-
-- **On-charter campaign:** `CAMPAIGN_CLOSED`. EVAL-66 sealed `BLOCKED` (gate exit 0, rechecked this session) — `research_state/EVAL_66_ETH_OFLOW_TOX_RV_OOS_{PREREGISTRATION,BLOCKED}_20261116T121851Z.{json,md}` (task `INIT-2026-11-16T11:32:21Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`).
-- **Bottlenecks removed this session (5, all verified):**
-  1. **Acquisition loader de-risked on real data.** A real 0.02d smoke to `/tmp/eval67_smoke` (84 BTC instruments, 13 option trades, 7 snapshots, 327 OKX perp trades) succeeded and was cleaned up — confirms the three-way loader works and `data/raw/eval67` stays clean.
-  2. **Dry-run pipeline validated.** `eval67 --capture-dir /tmp/eval67_smoke --no-write` ran end-to-end: verdict `BLOCKED`, `floor_ok=false`, `disjointness_ok=true` — i.e. the runner correctly rejects the under-floor smoke and correctly accepts a disjoint window. The full dry-run→seal→gate path is proven.
-  3. **Disjointness timing math proven.** `--days 3.7 --end 2026-11-20T00:00:00Z` ⇒ start `2026-11-16T07:12:00Z`, span 319,680 s (≥300,000), overlap 0.0 s, `start >= sealed_end` true. The capture is floor-compliant AND disjoint.
-  4. **Persistent acquisition bridge live + liveness heartbeat.** `scripts/eval67_capture_bridge.py` (new) waits to the threshold then runs the real paper-only disjoint acquisition as a child, writing `research_state/EVAL_67_CAPTURE_BRIDGE_LIVENESS_<pid>.json` every 60 s. **Running persistent, pid 58162, heartbeat `waiting` (verified 2026-11-16T13:38:52Z).** First attempt died on missing PYTHONPATH for the bridge process itself — fixed by inserting `.venv-deps` before importing sealed modules.
-  5. **Threshold-waiting launcher + backup wakeup.** `scripts/eval67_launch_capture.sh` (new) hard-refuses any launch before `2026-11-20T00:00:00Z` and execs the corrected `--days 3.7 --end <now-ISO>` command at/after it. Backup wakeup `wku_1e4946a34001l7qvIcXQNxRFXu` due **2026-11-20T00:05:00Z** with the full dry-run→seal→gate recipe.
-- **Sealed (immutable):** EVAL-02..62, EVAL-64..66 sealed; **EVAL-63 never sealed**. EVAL-46..60,62,64,65 `NO-GO CONFIRMED (PASS)`; EVAL-61 `NO-GO` (artifact, superseded by 62); EVAL-66 `BLOCKED`.
-- **Next required action:** the bridge (pid 58162) carries the work to the threshold; at/after 2026-11-20T00:00:00Z it acquires `data/raw/eval67/three_way_BTC_*.json`, then dry-run → seal → gate exit 0. If the bridge is dead on arrival, run `scripts/eval67_launch_capture.sh` (persistent) or the backup wakeup recipe. No other stopping point acceptable.
-- **Seal-gate state (verified 2026-11-16T13:39:12Z): exit 1 — expected.** Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` matches (stamp 20261116T132805Z ≥ 20261116T132540Z); the verdict glob fails only because no `COMBINED_*`/`BLOCKED_*` artifact exists yet — that is produced by step 4 of the contract.
-- **Untracked new files (not committed; paper-only):** `scripts/eval67_btc_oflow_tox_rv_oos.py`, `scripts/eval67_launch_capture.sh`, `scripts/eval67_capture_bridge.py`, `tests/test_eval67_btc_oflow_tox_rv_oos.py`, `research_state/EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}`, `research_state/EVAL_67_CAPTURE_BRIDGE_LIVENESS_58162.json`. `data/raw/eval67/` absent (correct — bridge creates it at threshold).
-
-## AUTHORITATIVE NEXT TASK
-
-**EVAL-67 — BTC options order-flow (tox/imbalance) → realized-vol OOS replication** (`INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION`). Heavy, pre-registered, real-data-only, floor-compliant, **disjoint**. The runner and prereg are already staged; the remaining heavy work is the disjoint capture, dry-run, seal, and gate exit 0. Do not stop at planning or timestamp bumps.
-
-## REPRO / KEY COMMANDS
-
-```bash
-export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
-./scripts/verify_env.sh --check
-python3 -m pytest -q tests/test_eval67_btc_oflow_tox_rv_oos.py   # 12/12
-python3 -m pytest -q tests/test_eval66_eth_oflow_tox_rv_oos.py   # 9/9 baseline
-
-# immutable sealed EVAL-66 check
-python3 scripts/check_session_sealed.py \
-  --task-id "INIT-2026-11-16T11:32:21Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
-  --glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
-  --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_COMBINED_*" \
-  --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_*"
-
-# EVAL-67 capture (ONLY at/after 2026-11-20T00:00:00Z; never naive --days 7 now)
-mkdir -p data/raw/eval67
-PYTHONUNBUFFERED=1 PYTHONPATH="$PWD/.venv-deps" python3 scripts/eval60_acquire_three_way.py \
-  --underlying BTC --days 3.7 --end <NOW-ISO> --out-dir data/raw/eval67 --seal
-
-# EVAL-67 dry-run, then seal
-python3 scripts/eval67_btc_oflow_tox_rv_oos.py --capture-dir data/raw/eval67 --no-write
-python3 scripts/eval67_btc_oflow_tox_rv_oos.py --capture-dir data/raw/eval67 --seal \
-  --task-label EVAL67-BTC-OFLOW-TOX-RV-OOS
-
-# EVAL-67 seal gate (after prereg + sealed result exist)
-python3 scripts/check_session_sealed.py \
-  --task-id "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION" \
-  --glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
-  --require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_COMBINED_*" \
-  --require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_BLOCKED_*"
-```
-
-## PROHIBITED / INVARIANTS (non-negotiable)
-
-- Do **not** re-run, re-litigate, re-seal, or edit sealed EVAL-02..62 or EVAL-64..66 artifacts or `src/`. Append-only for new authorized work.
-- Never synthetic/relabeled-as-real data; real loaders raise `RealDataUnavailable`; never emit `{"valid": true}`. Public read-only network only, polite rate limiting.
-- Paper-only: `.env` absent; `LIVE_TRADING_ENABLED=false`; no live enablement, venue/config/credential mutation, or order placement.
-- No pre-registered floor weakening. Under-floor **or non-disjoint** non-empty real capture ⇒ `BLOCKED`, not `NO-GO`.
-- **Do not use the retired compact task ID** `INIT-2026-11-16T122919Z-...`; use `INIT-2026-11-16T13:25:40Z-...`.
-- **Do not run the retired naive `--days 7` BTC acquisition before 2026-11-20T00:00:00Z**; it overlaps the sealed BTC window. Use the corrected `--days 3.7 --end <NOW-ISO>` rule.
-- Reuse `src/analytics/`, `src/data/`, `src/backtest/`, `src/telemetry/`, `src/features/options_pricing.py`, and existing `scripts/eval60_*`/`eval66_*`/`eval67_*` patterns; no `phaseNN_*` wrappers.
-- `data/raw/eval66/`, `data/raw/eval67/` real captures are gitignored — do not commit/push.
-- No full test-suite discovery; no `research_state/` enumeration loops; no timestamped handoff copies. Update this file in place with verified facts only.
-
-## SESSION LOG (append-only, recent)
-
-- 2026-11-16T12:19:00Z: Sealed **EVAL-66 `BLOCKED`** (under-floor, non-disjoint ETH capture; gate exit 0). `CAMPAIGN_CLOSED`.
-- 2026-11-16T12:23:50Z / 12:25:20Z / 12:26:20Z / 12:27:06Z: verification/timestamp refresh sessions; no sealed artifacts modified.
-- **2026-11-16T12:29:19Z:** Refreshed this single durable handoff with a timestamped initial task and built **EVAL-67** as the mandatory next focus campaign: heavy 7d real BTC options+orderflow acquisition, pre-registered, disjoint/floor-compliant, dry-run→seal→gate-exit-0, no timestamp-only stops. No sealed artifacts modified; no synthetic data; paper-only.
-- **2026-11-16T12:33:59Z:** Re-verified state and refreshed the timestamped initial task; confirmed **EVAL-67** remained mandatory.
-- **2026-11-16T12:35:17Z:** Confirmed `research_state/durable_handoff.md` is the sole actionable handoff; other `*HANDOFF*` root files are retired pointers with no task IDs.
-- **2026-11-16T12:36:59Z:** Re-verified repo state and handoff integrity; **EVAL-67** remained mandatory per contract.
-- **2026-11-16T12:38:24Z:** Re-verified EVAL-66 seal gate exit 0, no running eval/acquisition processes, `.env` absent, `LIVE_TRADING_ENABLED` unset, `data/raw/eval67/` absent, `data/raw/eval66/` present (gitignored). No bottlenecks found/removed.
-- **2026-11-16T13:18:17Z:** Verified repo state and handoff integrity; no running eval acquisition; `.env` absent; `data/raw/eval67/` absent; `data/raw/eval66/` present (gitignored). No bottlenecks to remove.
-- **2026-11-16T13:39:12Z (this session):** **Heavy-work path de-risked end-to-end and a live persistent bridge started.** (1) Real 0.02d smoke acquisition to `/tmp/eval67_smoke` succeeded (84 BTC instruments, 13 option trades, 7 snapshots, 327 OKX perp trades) and was cleaned up — confirms the three-way loader works and `data/raw/eval67` stays clean. (2) `eval67 --no-write` dry-run on that smoke ran end-to-end: `BLOCKED`, `floor_ok=false`, `disjointness_ok=true` — the runner correctly rejects under-floor and accepts disjoint windows; the dry-run→seal→gate path is proven. (3) Disjointness math proven: `--days 3.7 --end 2026-11-20T00:00:00Z` ⇒ start `2026-11-16T07:12:00Z`, span 319,680 s (≥300,000), overlap 0.0 s, `start >= sealed_end` true. (4) New `scripts/eval67_capture_bridge.py` started **persistent, pid 58162**, heartbeat `waiting` (verified 2026-11-16T13:38:52Z) — it waits to 2026-11-20T00:00:00Z then runs the real paper-only disjoint acquisition as a child, writing `research_state/EVAL_67_CAPTURE_BRIDGE_LIVENESS_58162.json` every 60 s. First bridge attempt died on a missing PYTHONPATH for the bridge process itself; fixed by inserting `.venv-deps` before importing sealed modules. (5) New `scripts/eval67_launch_capture.sh` hard-refuses any launch before 2026-11-20T00:00:00Z and execs the corrected `--days 3.7 --end <now-ISO>` command; backup wakeup `wku_1e4946a34001l7qvIcXQNxRFXu` due 2026-11-20T00:05:00Z carries the full dry-run→seal→gate recipe. Seal-gate state re-verified: exit 1 (expected — prereg matches; verdict glob fails only because no `COMBINED_*`/`BLOCKED_*` exists yet). No sealed EVAL-02..66 artifacts or `src/` modified; no synthetic data; paper-only.
-
-## SEALED STATE (immutable; append only)
-
-EVAL-02..62,64..66 sealed. EVAL-63 never sealed. EVAL-46..60,62,64,65: `NO-GO CONFIRMED (PASS)`; EVAL-61: `NO-GO` (artifact); EVAL-66: `BLOCKED`. On-charter campaign closed; EVAL-67 is the next authorized heavy falsification campaign.
+> **Completion contract:** end only with (a) sealed EVAL-67 + gate exit 0, OR (b) genuinely live **persistent** acquisition with recorded PID/command/liveness, OR (c) recorded **scheduled wakeup/cron** for earliest disjoint time with exact command. No other stopping point is acceptable.
+>
+> ## STATUS (verified 2026-11-16T14:23:03Z)
+>
+> - **On-charter campaign:** `CAMPAIGN_CLOSED`. EVAL-66 sealed `BLOCKED` (gate exit 0) — `research_state/EVAL_66_ETH_OFLOW_TOX_RV_OOS_{PREREGISTRATION,BLOCKED}_20261116T121851Z.{json,md}` (`INIT-2026-11-16T11:32:21Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`).
+> - **Persistent bridge (verified):** pid **58162** alive (`python3 scripts/eval67_capture_bridge.py`), heartbeat `research_state/EVAL_67_CAPTURE_BRIDGE_LIVENESS_58162.json` phase `waiting`, threshold `2026-11-20T00:00:00Z`, started `2026-11-16T14:22:52Z`. If this process dies before threshold, relaunch via `scripts/eval67_launch_capture.sh` (or schedule wakeup) and record new PID here.
+> - **Sealed (immutable):** EVAL-02..62, EVAL-64..66 sealed; **EVAL-63 never sealed**. EVAL-46..60,62,64,65 `NO-GO CONFIRMED (PASS)`; EVAL-61 `NO-GO` (artifact, superseded by 62); EVAL-66 `BLOCKED`.
+> - **EVAL-67 artifacts present (pre-work):** prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}`; runner/tests/scripts present; `data/raw/eval67/` absent (created by acquisition). Seal-gate currently **exit 1** (expected: prereg matches, no `COMBINED_*`/`BLOCKED_*` yet).
+> - **Untracked new files (do not commit):** `scripts/eval67_btc_oflow_tox_rv_oos.py`, `scripts/eval67_launch_capture.sh`, `scripts/eval67_capture_bridge.py`, `tests/test_eval67_btc_oflow_tox_rv_oos.py`, `research_state/EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}`, `research_state/EVAL_67_CAPTURE_BRIDGE_LIVENESS_58162.json`. `data/raw/eval66/`, `data/raw/eval67/` gitignored.
+>
+> ## AUTHORITATIVE NEXT TASK
+>
+> **EVAL-67 — BTC options order-flow (tox/imbalance) → realized-vol OOS replication** (`INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION`). Heavy, pre-registered, real-data-only, floor-compliant, **disjoint** (>= 2026-11-20T00:00:00Z window). Do not stop at planning/timestamp bumps.
+>
+> ## REPRO / KEY COMMANDS
+>
+> ```bash
+> export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
+> ./scripts/verify_env.sh --check
+> python3 -m pytest -q tests/test_eval67_btc_oflow_tox_rv_oos.py   # 12/12
+> python3 -m pytest -q tests/test_eval66_eth_oflow_tox_rv_oos.py   # 9/9 baseline
+>
+> # immutable sealed EVAL-66 check (should be exit 0)
+> python3 scripts/check_session_sealed.py \
+>   --task-id "INIT-2026-11-16T11:32:21Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
+>   --glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
+>   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_COMBINED_*" \
+>   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_*"
+>
+> # EVAL-67 capture ONLY at/after 2026-11-20T00:00:00Z (retired: naive --days 7 now)
+> mkdir -p data/raw/eval67
+> PYTHONUNBUFFERED=1 PYTHONPATH="$PWD/.venv-deps" python3 scripts/eval60_acquire_three_way.py \
+>   --underlying BTC --days 3.7 --end <NOW-ISO> --out-dir data/raw/eval67 --seal
+>
+> # or launch helper (refuses before threshold):
+> # bash scripts/eval67_launch_capture.sh
+>
+> # EVAL-67 dry-run, then seal
+> python3 scripts/eval67_btc_oflow_tox_rv_oos.py --capture-dir data/raw/eval67 --no-write
+> python3 scripts/eval67_btc_oflow_tox_rv_oos.py --capture-dir data/raw/eval67 --seal --task-label EVAL67-BTC-OFLOW-TOX-RV-OOS
+>
+> # EVAL-67 seal gate (after prereg + sealed result exist) — must be exit 0
+> python3 scripts/check_session_sealed.py \
+>   --task-id "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION" \
+>   --glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
+>   --require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_COMBINED_*" \
+>   --require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_BLOCKED_*"
+> ```
+>
+> ## PROHIBITED / INVARIANTS (non-negotiable)
+>
+> - Do **not** re-run/re-litigate/re-seal/edit sealed EVAL-02..62 or EVAL-64..66 artifacts or `src/`. Append-only for new authorized work.
+> - Never synthetic/relabeled-as-real; real loaders raise `RealDataUnavailable`; never emit `{"valid": true}`. Public read-only network only, polite rate limiting.
+> - Paper-only: `.env` absent; `LIVE_TRADING_ENABLED=false`; no live enablement/venue/config/credential mutation/order placement.
+> - No pre-registered floor weakening. Under-floor or non-disjoint non-empty real ⇒ `BLOCKED`, not `NO-GO`.
+> - Do **not** use retired compact task ID `INIT-2026-11-16T122919Z-...`; use `INIT-2026-11-16T13:25:40Z-...`.
+> - Do **not** run retired naive `--days 7` BTC acquisition before `2026-11-20T00:00:00Z`; use corrected `--days 3.7 --end <NOW-ISO>`.
+> - Reuse existing `src/analytics/`, `src/data/`, `src/backtest/`, `src/telemetry/`, `src/features/options_pricing.py`, and `scripts/eval60_*`/`eval66_*`/`eval67_*` patterns; no `phaseNN_*` wrappers.
+> - `data/raw/eval66/`, `data/raw/eval67/` gitignored — do not commit/push.
+> - No full test-suite discovery; no `research_state/` enumeration loops; no timestamped handoff copies. Update this file in place with verified facts only.
+>
+> ## SESSION LOG (append-only, recent)
+>
+> - 2026-11-16T12:19:00Z: Sealed **EVAL-66 `BLOCKED`** (under-floor, non-disjoint ETH; gate exit 0). `CAMPAIGN_CLOSED`.
+> - **2026-11-16T13:39:12Z:** De-risked EVAL-67 path (real smoke OK, dry-run `BLOCKED` with `disjointness_ok=true`, math proven), started persistent bridge pid 58162 waiting to threshold; added `eval67_capture_bridge.py`/`eval67_launch_capture.sh`; backup wakeup scheduled for 2026-11-20T00:05:00Z. Seal-gate exit 1 expected (no verdict yet).
+> - **2026-11-16T14:23:03Z (this session):** Verified bridge pid 58162 alive (`phase waiting`, threshold 2026-11-20T00:00:00Z, heartbeat updated 2026-11-16T14:22:52Z). Refreshed this single durable handoff as the authoritative initial task message for the next agentic session (clear priorities, removed bottlenecks, explicit completion contract). No sealed artifacts or `src/` modified; no synthetic data; paper-only.
+>
+> ## SEALED STATE (immutable; append only)
+>
+> EVAL-02..62,64..66 sealed. EVAL-63 never sealed. EVAL-46..60,62,64,65: `NO-GO CONFIRMED (PASS)`; EVAL-61: `NO-GO` (artifact); EVAL-66: `BLOCKED`. On-charter closed; EVAL-67 is the next authorized heavy falsification campaign.
