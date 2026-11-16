@@ -68,11 +68,14 @@ realized-vol campaign (EVAL-61..65) is also COMPLETE: EVAL-61 (traded form) and 
 sealed `NO-GO CONFIRMED (PASS)`; EVAL-63 was never sealed; EVAL-65 (wrapper-free
 predictiveness) is sealed `NO-GO CONFIRMED (PASS)`. **The only remaining on-charter rung is
 EVAL-66: isolated disjoint-window OOS replication of the suggestive ETH 1m/72-bar slice
-(`tox::bar60.0::h72`, `imbalance::bar60.0::h72`).** EVAL-66 tooling/tests are ready; the next
-session must acquire a fresh real ETH 7d capture and seal EVAL-66. Do not re-run, re-litigate,
-or re-seal sealed EVAL-02..62 or EVAL-64..65 (EVAL-63 was never sealed). Any future work is a fresh, pre-registered, heavy real-data
-falsification with a new timestamped task ID; see `research_state/durable_handoff.md` for
-the authoritative EVAL-66 task.
+(`tox::bar60.0::h72`, `imbalance::bar60.0::h72`).** EVAL-66 tooling/tests are ready; a
+persistent 7d ETH acquisition is **already running** (see `research_state/durable_handoff.md`
+for the process ID, liveness check, and completion contract). The next session must monitor
+that acquisition, verify disjointness/floor, dry-run, seal EVAL-66, and pass the exit-0 gate;
+do **not** start a duplicate acquisition. Do not re-run, re-litigate, or re-seal sealed
+EVAL-02..62 or EVAL-64..65 (EVAL-63 was never sealed). Any future work is a fresh,
+pre-registered, heavy real-data falsification with a new timestamped task ID; see
+`research_state/durable_handoff.md` for the authoritative EVAL-66 task.
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
