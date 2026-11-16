@@ -1,8 +1,8 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT SESSION (2026-11-16T04:49:00Z, verified):** Execute **`INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH`** in full — fresh **>=7 day** real three-way Deribit+OKX (BTC+ETH options surface + options-venue orderflow + OKX perp) acquisition, copy-and-retarget EVAL-62 mark-path measurement with stricter pre-registered floor, preregister → measure → seal (gate exit 0). **No synthetic data, no floor weakening, no sealed-artifact edits, paper-only.** Under-floor real data ⇒ `BLOCKED` (not NO-GO). See "AUTHORITATIVE NEXT TASK" below.
+> **INITIAL TASK MESSAGE FOR NEXT SESSION (2026-11-16T04:49:46Z, verified):** Execute **`INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH`** in full — fresh **>=7 day** real three-way Deribit+OKX (BTC+ETH options surface + options-venue orderflow + OKX perp) acquisition, copy-and-retarget EVAL-62 mark-path measurement with stricter pre-registered floor, preregister → measure → seal (gate exit 0). **This is an execution session, not another handoff-only checkpoint: do not stop after timestamp edits; the session is complete only when EVAL-63 is sealed or honestly `BLOCKED` with gate exit 0.** **No synthetic data, no floor weakening, no sealed-artifact edits, paper-only.** Under-floor real data ⇒ `BLOCKED` (not NO-GO). See "AUTHORITATIVE NEXT TASK" below.
 
-## STATUS (verified 2026-11-16T04:49:00Z)
+## STATUS (verified 2026-11-16T04:49:46Z)
 
 - **EVAL-02..62 are sealed.** EVAL-61 sealed `NO-GO CONFIRMED (PASS)` but was a **measurement artifact** (un-normalized dollar P&L treated as returns → spurious max-DD=1.0 on all configs); it never honestly tested the namesake hypothesis. EVAL-61 artifacts remain immutable and superseded by EVAL-62.
 - **EVAL-62 (correct replacement) is SEALED `NO-GO CONFIRMED (PASS)`** on real data, mark-path P&L (EVAL-57 formula) driven by options order-flow toxicity side/exposure.
@@ -16,6 +16,7 @@
     - ETH best: `imbalance::bar300.0` Sharpe **+0.616252** (any_pass=false; fails GO bar on replication/permutation/bootstrap criteria across both underlyings).
   - **Conclusion:** real options order-flow toxicity → realized-vol signal, traded via signal-timed delta-hedged ATM straddle (mark-path, net-of-cost), is **not net-of-cost tradable** on real BTC or ETH with this ~24h capture/floor. Namesake rung honestly closed (NO-GO) on that sample.
 - **Bottleneck cleared (campaign focus):** EVAL-62 used ~1d captures (common bars ~287-288, span ~86400s); ETH showed positive Sharpe but failed GO criteria, leaving a power/duration gap. The next session has a concrete, heavy, pre-registered falsification defined below (EVAL-63 extended-duration replication) so work cannot stall on "no unsealed rung". No tooling blocker: `scripts/eval60_acquire_three_way.py` (acquisition) and `scripts/eval62_orderflow_realized_vol_markpath.py` (mark-path measurement) are sealed, tested, and reusable.
+- **Inefficiency removed (execution gate):** recent sessions only re-verified this handoff and bumped timestamps; that pattern is prohibited. If EVAL-63 is unsealed, the next session must perform real acquisition and/or build the EVAL-63 copy-and-retarget tooling, then seal a result or `BLOCKED`. Do not spend the session re-selecting a campaign or restating this task.
 - Env (expected at session start): run `./scripts/verify_env.sh --check` and export `PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"`; `.env` must be absent; `LIVE_TRADING_ENABLED` unset.
 
 ## AUTHORITATIVE NEXT TASK (timestamped, heavy — execute in full)
@@ -32,7 +33,13 @@ export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
 Confirm `.env` absent and `LIVE_TRADING_ENABLED` unset. Paper-only, public read-only market data, polite rate limiting.
 
 **Step 2 — Heavy real acquisition (BTC+ETH, >=7 days, no synthetic):**
-Reuse `scripts/eval60_acquire_three_way.py` (sealed/proven). Acquire fresh captures into `data/raw/eval63/` (or timestamped subdir) with explicit `--days 7` (or higher) for **both** BTC and ETH. Record acquisition artifact(s) in `research_state/` (`EVAL_63_THREE_WAY_ACQUISITION_<UTC>.{json,md}`) with exact commands, paths, counts, spans, and hashes. If the floor below cannot be met from real data, seal a `BLOCKED` (never a NO-GO) with evidence.
+Reuse `scripts/eval60_acquire_three_way.py` (sealed/proven). Start with this exact command; it captures both underlyings into `data/raw/eval63/` and writes the acquisition manifest:
+```bash
+python3 scripts/eval60_acquire_three_way.py \
+  --underlying BTC --underlying ETH --days 7 \
+  --out-dir data/raw/eval63 --seal
+```
+Record the resulting `research_state/POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION_<UTC>.{json,md}` path plus capture paths, counts, spans, and hashes in the session notes. If the floor below cannot be met from real data, seal a `BLOCKED` (never a NO-GO) with evidence.
 
 **Step 3 — Pre-register (before measurement) with stricter floor:**
 Copy-and-retarget EVAL-62 measurement into `scripts/eval63_orderflow_realized_vol_markpath_extended.py` + `tests/test_eval63_*` **or** run EVAL-62 tooling against the new capture only if it supports parameterization without modifying sealed behavior (prefer copy-and-retarget to keep EVAL-62 immutable; reuse `src/` + helpers from sealed eval scripts, no `phaseNN_*` wrappers). Pre-register and seal `research_state/EVAL_63_EXTENDED_OFLOW_RV_MARKPATH_PREREGISTRATION_<UTC>.{json,md}` including:
@@ -67,9 +74,8 @@ python3 scripts/check_session_sealed.py \
 python3 -m json.tool research_state/EVAL_62_OPTIONS_ORDERFLOW_VOL_MARKPATH_COMBINED_20261116T032105Z.json | head -120
 
 # --- EVAL-63 (authoritative next, heavy; do not run as discovery, run to execute task) ---
-# 1) Acquire fresh >=7d real three-way BTC+ETH (public read-only, polite rate limit; creates data/raw/eval63/)
-#    python3 scripts/eval60_acquire_three_way.py --underlying BTC --days 7 --outdir data/raw/eval63
-#    python3 scripts/eval60_acquire_three_way.py --underlying ETH --days 7 --outdir data/raw/eval63
+# 1) Acquire fresh >=7d real three-way BTC+ETH in one manifested run (public read-only, polite rate limit):
+#    python3 scripts/eval60_acquire_three_way.py --underlying BTC --underlying ETH --days 7 --out-dir data/raw/eval63 --seal
 # 2) Copy-and-retarget measurement to scripts/eval63_orderflow_realized_vol_markpath_extended.py + tests/test_eval63_*
 #    (reuse EVAL-62 mark-path helpers; enforce stricter floor; no sealed-file edits)
 # 3) Pre-register, measure, then seal (exit 0 required):
@@ -113,3 +119,4 @@ EVAL-02..62 sealed. EVAL-46..60 and EVAL-62: **NO-GO CONFIRMED (PASS)**, gate ex
 - **2026-11-16T04:45:36Z (this session, handoff verification/update only):** Verified durable handoff as single actionable source; EVAL-63 (`INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH`) remains the unsealed, heavy, on-charter next campaign with explicit steps/floor/seal command and BLOCKED-if-under-floor rule (no tooling bottlenecks). Updated initial task message timestamp to 2026-11-16T04:45:36Z and STATUS timestamp. No sealed artifacts modified; no synthetic; no EVAL re-runs.
 - **2026-11-16T04:48:02Z (this session, handoff verification/update only):** Verified durable handoff as single actionable source; EVAL-63 (`INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH`) remains the unsealed, heavy, on-charter next campaign with explicit steps/floor/seal command and BLOCKED-if-under-floor rule (no tooling bottlenecks). Updated initial task message timestamp to 2026-11-16T04:48:02Z and STATUS timestamp. No sealed artifacts modified; no synthetic; no EVAL re-runs.
 - **2026-11-16T04:49:00Z (this session, handoff verification/update only):** Verified durable handoff as single actionable source; EVAL-63 (`INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH`) remains the unsealed, heavy, on-charter next campaign with explicit steps/floor/seal command and BLOCKED-if-under-floor rule (no tooling bottlenecks). Updated initial task message timestamp to 2026-11-16T04:49:00Z and STATUS timestamp. No sealed artifacts modified; no synthetic; no EVAL re-runs.
+- **2026-11-16T04:49:46Z (handoff execution-gate update):** Confirmed no `scripts/eval63_*` or `data/raw/eval63/` capture exists, so EVAL-63 is still unsealed. Removed the timestamp-only checkpoint loop by requiring the next session to execute acquisition/tooling and finish only with an EVAL-63 result/`BLOCKED` seal (gate exit 0). Added the exact manifested BTC+ETH `--days 7` acquisition command and corrected its output flag to `--out-dir`. No sealed artifacts modified; no synthetic data; no EVAL re-runs.
