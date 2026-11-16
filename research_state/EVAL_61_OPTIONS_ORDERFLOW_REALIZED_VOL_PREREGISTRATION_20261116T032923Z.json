@@ -1,0 +1,57 @@
+{
+  "prereg_id": "EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_PREREGISTRATION",
+  "generated_at": "2026-11-16T03:29:23Z",
+  "task": "EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE",
+  "hypothesis": "Real options order-flow toxicity predicts subsequent realized volatility, and a signal-timed delta-hedged ATM straddle is net-of-cost tradable for the BTC/ETH perpetual on real, synchronized data.",
+  "protocol": {
+    "eval": "EVAL-61",
+    "title": "Real options order-flow toxicity -> subsequent realized volatility, traded via a signal-timed delta-hedged ATM straddle net-of-cost on the BTC/ETH perpetual",
+    "capture_dir": "data/raw/eval61",
+    "tox_signals": [
+      "tox",
+      "imbalance"
+    ],
+    "tox_detail": {
+      "tox": "(call_notional - put_notional) / (call_notional + put_notional) from real Deribit option trades per bar",
+      "imbalance": "(aggressive_buy_amt - aggressive_sell_amt) / total_amt (signed aggressor variant)"
+    },
+    "position": "q_k = clip(expanding_z(tox_k), -1, 1); causal decision at bar k",
+    "realized_vol_target": "rv_{k+1} = |log(S_{k+1}) - log(S_k)| from Deribit 1m perp candles",
+    "straddle": "ATM straddle from real surface snapshot (newest 5m snapshot whose candle closed by bar_end = bar_ms + 300s); IV backed out of the real mark via implied_volatility(mark*spot, spot, K, 0, T, type); greeks from black_scholes_greeks at that IV",
+    "pnl_per_bar": "q_k * [vega*(IV_{k+1}-IV_k) + 0.5*gamma*(dS)^2 - theta*dt] - cost_bps*|q_k*delta_k - q_{k-1}*delta_{k-1}|/1e4 - cost_bps*|q_k - q_{k-1}|/1e4",
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "zwindow": 20,
+    "cost_bps": 5.0,
+    "cost_model": "net-of-cost: pre-registered 5 bps on delta-hedge rebalance and straddle-position turnover",
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, bootstrap 95% CI lower > 0, and pooled PBO < 0.5; else NO-GO.",
+    "floor": {
+      "min_surface_snapshots_per_underlying": 100,
+      "min_bars_per_underlying": 240,
+      "min_instruments_per_underlying": 50,
+      "min_option_trades_per_underlying": 2000,
+      "min_span_seconds_per_underlying": 79200.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2
+    }
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+}
