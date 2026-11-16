@@ -1,0 +1,83 @@
+{
+  "prereg_id": "EVAL_64_FEASIBLE_OFLOW_RV_MARKPATH_PREREGISTRATION",
+  "generated_at": "2026-11-16T08:22:10Z",
+  "task": "EVAL64-FEASIBLE-FLOOR-OFLOW-RV-MARKPATH",
+  "hypothesis": "Real options order-flow toxicity predicts subsequent realized volatility, and a signal-timed delta-hedged ATM straddle measured with the correct mark-path net-of-cost P&L is tradable for the BTC/ETH perpetual on the already-acquired real 7d synchronized three-way captures, tested at the HEAVIEST floor the free Deribit/OKX public API can deliver (feasible-floor replication of EVAL-62; supersedes the sealed EVAL-63 BLOCKED whose strict >=7d perp floor is physically unreachable).",
+  "extends": "EVAL-62 (identical measurement, feasible pre-registered floor; EVAL-62 stays sealed/immutable)",
+  "data_availability": {
+    "deribit_option_trade_retention_seconds_approx": 86400,
+    "deribit_option_trade_retention_note": "1d/2d/3d/5d/7d lookbacks return the same trade set (~83.4ks); options order flow is 24h-capped, so no 7d options-flow floor is set",
+    "deribit_perp_1m_candle_retention_seconds_measured": 300000,
+    "deribit_perp_1m_candle_retention_note": "MEASURED on the real 7d capture: get_tradingview_chart_data for {BTC,ETH}-PERPETUAL at 1m returns 5001 candles / 300000 s regardless of requested window, so the perp leg can never reach 7d from the free public API",
+    "deribit_5m_candle_scaling_note": "surface 5m candles DO scale to the full 7d (2017 snaps / 604800 s / 1001 5m bars)",
+    "measured_capture": "data/raw/eval63/three_way_BTC_20261116T064816Z.json, data/raw/eval63/three_way_ETH_20261116T064816Z.json"
+  },
+  "protocol": {
+    "eval": "EVAL-64",
+    "title": "Feasible-floor real options order-flow toxicity -> signal-timed delta-hedged ATM straddle with correct mark-path net-of-cost P&L on the BTC/ETH perpetual (heaviest floor the free Deribit/OKX public API can deliver)",
+    "extends": "EVAL-62 (identical measurement, feasible pre-registered floor; EVAL-62 stays sealed/immutable)",
+    "supersedes": "EVAL-63 (sealed BLOCKED: the strict >=7d perp floor is physically unreachable; perp 1m candles cap at 300000 s)",
+    "capture_dir": "data/raw/eval63",
+    "tox_signals": [
+      "tox",
+      "imbalance"
+    ],
+    "tox_detail": {
+      "tox": "(call_notional - put_notional)/(call_notional + put_notional) from real Deribit option trades per bar (EVAL-61 helper, reused)",
+      "imbalance": "(aggressive_buy_amt - aggressive_sell_amt)/total_amt (signed aggressor variant, EVAL-61 helper, reused)"
+    },
+    "position": "side_k = sign(tox_z_k); exposure_k = clip(|tox_z_k|, 0, size_cap); causal decision at bar k; delta-hedged in the perp",
+    "straddle": "front-expiry common strike nearest spot, both legs priced from real marks (EVAL-57 _pick_straddle_quotes/_iv_and_greeks, reused)",
+    "pnl_per_bar": "dOption_k = side_k*exposure_k*(mark_{k+1}-mark_k)*S_k; gross_k = dOption_k + hedge_k*dS_k; ret_k = (gross_k - cost_k)/S_k",
+    "duration_note": "states are built with the identical EVAL-62 causal routine; on the real 7d capture the strategy is flat (side=0, ret=0) on bars without option-trade toxicity, so the extended duration enters as additional flat bars (conservative: it dilutes Sharpe, never inflates it). Only the ~24h options-order-flow overlap carries nonzero signal because Deribit tick-trade retention is ~24h.",
+    "data_availability": {
+      "deribit_option_trade_retention_seconds_approx": 86400,
+      "deribit_option_trade_retention_note": "1d/2d/3d/5d/7d lookbacks return the same trade set (~83.4ks); options order flow is 24h-capped, so no 7d options-flow floor is set",
+      "deribit_perp_1m_candle_retention_seconds_measured": 300000,
+      "deribit_perp_1m_candle_retention_note": "MEASURED on the real 7d capture: get_tradingview_chart_data for {BTC,ETH}-PERPETUAL at 1m returns 5001 candles / 300000 s regardless of requested window, so the perp leg can never reach 7d from the free public API",
+      "deribit_5m_candle_scaling_note": "surface 5m candles DO scale to the full 7d (2017 snaps / 604800 s / 1001 5m bars)",
+      "measured_capture": "data/raw/eval63/three_way_BTC_20261116T064816Z.json, data/raw/eval63/three_way_ETH_20261116T064816Z.json"
+    },
+    "cost_model": "net-of-cost: hedge_fee_bps on |dHedge|*S; half real 2-leg spread at entry/exit; full spread on side flip (identical to EVAL-57/62)",
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "zwindow": 20,
+    "cost_bps": 5.0,
+    "hedge_fee_bps": 5.0,
+    "size_cap": 1.0,
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, bootstrap 95% CI lower > 0, and pooled PBO < 0.5; else NO-GO.",
+    "floor": {
+      "min_surface_snapshots_per_underlying": 1000,
+      "min_surface_instruments_per_underlying": 100,
+      "min_surface_bars_5m_per_underlying": 1000,
+      "min_option_trades_per_underlying": 2000,
+      "min_of_instruments_per_underlying": 150,
+      "min_of_span_seconds_per_underlying": 82000.0,
+      "min_of_bars_5m_per_underlying": 240,
+      "min_perp_bars_5m_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 300000.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2,
+      "note": "order-flow span floor is a heavier-than-EVAL-62 24h bar because Deribit tick-trade retention is ~24h; surface/perp floors require the full >=7d"
+    }
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval63"
+}

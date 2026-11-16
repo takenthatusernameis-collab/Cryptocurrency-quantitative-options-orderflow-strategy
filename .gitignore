@@ -29,6 +29,11 @@ data/raw/options_okx_*.json
 !data/raw/eval50/
 !data/raw/eval50/l2_depth_*.json
 
+# EVAL-63/EVAL-65 real 7d Deribit three-way captures (~170 MB each) exceed
+# GitHub's 100 MB per-file push limit; keep them on local disk only and never
+# commit or push them. Re-acquire locally for EVAL-65 via the capture step.
+data/raw/eval63/
+
 research_state/INTEGRATED_CAMPAIGN_*.json
 research_state/INTEGRATED_STEP_*.json
 
