@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T17:58:51Z — verified this session):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T18:01:29Z — verified this session):**
 > **Repo-priority reading of `Cryptocurrency-quantitative-options-orderflow-strategy`:** the thesis is *crypto OPTIONS surface + OPTIONS order-flow + underlying order-flow → tradeable, net-of-cost alpha on REAL public data*. **On-charter ladder EVAL-02..66 is CLOSED** (EVAL-66 sealed `BLOCKED`, seal-gate exit 0; the namesake options order-flow → realized-vol hypothesis is not supported on real BTC/ETH in the tested windows). Do **not** re-run, re-litigate, re-seal, or edit sealed EVAL-02..62/EVAL-64..66 artifacts or `src/`. Never synthetic data, never weaken the EVAL-64 floor, paper-only.
 >
 > **SINGLE AUTHORIZED CAMPAIGN — EVAL-67 (heavy, real-data, off-charter but core-thesis-aligned):** BTC options order-flow toxicity/imbalance → forward realized-vol OOS replication on a fresh, DISJOINT, floor-compliant real BTC capture. Task ID `INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION`; prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}`.
