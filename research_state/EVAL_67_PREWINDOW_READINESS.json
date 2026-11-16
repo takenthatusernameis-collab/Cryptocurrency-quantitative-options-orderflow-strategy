@@ -6,13 +6,13 @@
   "eval67_seal_gate_exit": 1,
   "gate_exit": 10,
   "gate_phase": "NOT_DUE",
-  "notes": "Verified 2026-11-16T22:01:46Z on a fresh runner (gate run 22:03:59Z / 22:04:00Z): verify_env.sh --check OK; 87/87 targeted tests passed (eval67 12 + eval67_phaseb_gate 22 + eval66 9 + eval65 8 + eval68_runner 14 + eval68_gate 22) + 27/27 controller/campaign/diagnostics (targeted suite re-run this session at 22:01:46Z = 87 passed in 189.50s; controller/diagnostics 27 passed; no code changed since 21:52:32Z). Gate EVAL-67 NOT_DUE exit 10 with overlap_seconds 264736.152 (strictly decreasing from 264888.170 at 22:01:28Z; baseline 273337.532, disjoint false). EVAL-68 gate WAIT_EVAL67 exit 10 (eval67_sealed=false, overlap_seconds 264735.653). EVAL-66 seal gate exit 0; EVAL-67 seal gate exit 1 (expected); EVAL-68 seal gate exit 1 (expected). Pre-threshold carry; not a completion and not a timestamp-only bump. NOTE: eval68_phaseb_gate.py contains 22 test functions (grep -c ^def test = 22), so the targeted suite total is 87, not 88; prior handoff claims of 'eval68 gate 23' / '88 passed' were a miscount corrected here.",
-  "overlap_seconds": 264736.152,
+  "notes": "Verified 2026-11-16T22:14:20Z on a fresh runner (gate run 22:14:19Z / 22:14:20Z): verify_env.sh --check OK; 87/87 targeted tests passed (eval67 12 + eval67_phaseb_gate 22 + eval66 9 + eval65 8 + eval68_runner 14 + eval68_gate 22) in 187.85s + 27/27 controller/campaign/diagnostics in 0.97s, both suites re-run from scratch this session. Gate EVAL-67 NOT_DUE exit 10 with overlap_seconds 264116.174 (strictly decreasing from 264736.152 at 22:01:46Z; baseline 273337.532, disjoint false, now 2026-11-16T22:14:19Z). EVAL-68 gate WAIT_EVAL67 exit 10 (eval67_sealed=false, overlap_seconds 264115.272, now 2026-11-16T22:14:20Z). EVAL-66 seal gate exit 0; EVAL-67 seal gate exit 1 (expected); EVAL-68 seal gate exit 1 (expected). Pre-threshold carry; not a completion and not a timestamp-only bump. NOTE: eval68_phaseb_gate.py contains 22 test functions (grep -c ^def test = 22), so the targeted suite total is 87, not 88; prior handoff claims of 'eval68 gate 23' / '88 passed' were a miscount corrected here.",
+  "overlap_seconds": 264116.174,
   "schema_version": 2,
   "task_id": "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION",
   "tests_passed": 87,
   "threshold": "2026-11-20T00:00:00Z",
-  "updated_at": "2026-11-16T22:01:46Z",
+  "updated_at": "2026-11-16T22:14:20Z",
   "eval68": {
     "task_id": "INIT-2026-11-16T19:45:00Z-EVAL68-POOLED-BTC-ETH-OFLOW-TOX-RV-OOS",
     "prereg_present": true,
@@ -27,7 +27,7 @@
     "gate": "scripts/eval68_phaseb_gate.py",
     "tests": "tests/test_eval68_pooled_btc_eth_oflow_tox_rv_oos.py (14) + tests/test_eval68_phaseb_gate.py (22) = 36 passed this session",
     "min_pooled_pairs": 790,
-    "overlap_seconds": 264735.653,
+    "overlap_seconds": 264115.272,
     "note": "Pooled BTC+ETH power-adequate successor to EVAL-67. Acquires ONLY after EVAL-67 seals (single forward window; gate enforces WAIT_EVAL67). EVAL-64 floor verbatim; BLOCKED on under-floor/missing-underlying/non-disjoint."
   }
 }
