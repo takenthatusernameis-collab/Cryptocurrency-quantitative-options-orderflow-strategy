@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-## STATUS (verified 2026-11-16T03:21:05Z)
+## STATUS (verified 2026-11-16T04:12:20Z)
 
 - **EVAL-02..62 are sealed.** EVAL-61 sealed `NO-GO CONFIRMED (PASS)` but was a **measurement artifact** (un-normalized dollar P&L treated as returns → spurious max-DD=1.0 on all configs); it never honestly tested the namesake hypothesis. EVAL-61 artifacts remain immutable and superseded by EVAL-62.
 - **EVAL-62 (correct replacement) is SEALED `NO-GO CONFIRMED (PASS)`** on real data, mark-path P&L (EVAL-57 formula) driven by options order-flow toxicity side/exposure.
@@ -12,44 +12,75 @@
   - Measured: `floor_ok=true`, `overall_pbo=0.375`. Kill-switch breaches GONE (max-DD 0.03–0.12, not 1.0).
     - BTC best: `imbalance::bar300.0` Sharpe **−0.044300** (any_pass=false).
     - ETH best: `imbalance::bar300.0` Sharpe **+0.616252** (any_pass=false; fails GO bar on replication/permutation/bootstrap criteria across both underlyings).
-  - **Conclusion:** real options order-flow toxicity → realized-vol signal, traded via signal-timed delta-hedged ATM straddle (mark-path, net-of-cost), is **not net-of-cost tradable** on real BTC or ETH with this capture/floor. Namesake rung honestly closed (NO-GO).
-- Env (verified): `./scripts/verify_env.sh --check` OK; `.venv-deps/` present; `.env` absent; `LIVE_TRADING_ENABLED` unset.
+  - **Conclusion:** real options order-flow toxicity → realized-vol signal, traded via signal-timed delta-hedged ATM straddle (mark-path, net-of-cost), is **not net-of-cost tradable** on real BTC or ETH with this ~24h capture/floor. Namesake rung honestly closed (NO-GO) on that sample.
+- **Bottleneck cleared (campaign focus):** EVAL-62 used ~1d captures (common bars ~287-288, span ~86400s); ETH showed positive Sharpe but failed GO criteria, leaving a power/duration gap. The next session has a concrete, heavy, pre-registered falsification defined below (EVAL-63 extended-duration replication) so work cannot stall on "no unsealed rung". No tooling blocker: `scripts/eval60_acquire_three_way.py` (acquisition) and `scripts/eval62_orderflow_realized_vol_markpath.py` (mark-path measurement) are sealed, tested, and reusable.
+- Env (expected at session start): run `./scripts/verify_env.sh --check` and export `PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"`; `.env` must be absent; `LIVE_TRADING_ENABLED` unset.
 
-## AUTHORITATIVE NEXT TASK (timestamped)
+## AUTHORITATIVE NEXT TASK (timestamped, heavy — execute in full)
 
-**Campaign state: NO FURTHER UNSEALED MANDATORY RUNG.** EVAL-02..62 sealed; the options+orderflow fusion/smile/standalone and namesake vol-trade ladders are complete on available real BTC/ETH data.
+**Task ID:** `INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH`
 
+**Objective (on-charter, namesake, not a re-litigation of sealed ~1d EVAL-62):** Acquire a **fresh, extended-duration (>=7 days)** synchronized real three-way capture (Deribit BTC+ETH options surface + Deribit options-venue trades/orderflow + OKX perp) and run a **pre-registered, higher-floor replication** of the EVAL-62 hypothesis: *real options order-flow toxicity (tox/imbalance) → subsequent realized volatility, traded via a signal-timed delta-hedged ATM straddle with correct mark-path net-of-cost P&L* (`ret_k = (gross_k - cost_k)/S_k`, EVAL-57/EVAL-62 formula). This differs from sealed EVAL-62 by (a) materially longer, disjoint-time heavy sample for statistical power/regime coverage and (b) stricter pre-registered floor; EVAL-62 remains sealed/immutable.
+
+**Step 1 — Env/bootstrap (must pass):**
+```bash
+./scripts/verify_env.sh --check
+export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
 ```
-INIT-2026-11-16T03:21:05Z-CAMPAIGN-HOLD-NO-UNSEALED-RUNG
+Confirm `.env` absent and `LIVE_TRADING_ENABLED` unset. Paper-only, public read-only market data, polite rate limiting.
+
+**Step 2 — Heavy real acquisition (BTC+ETH, >=7 days, no synthetic):**
+Reuse `scripts/eval60_acquire_three_way.py` (sealed/proven). Acquire fresh captures into `data/raw/eval63/` (or timestamped subdir) with explicit `--days 7` (or higher) for **both** BTC and ETH. Record acquisition artifact(s) in `research_state/` (`EVAL_63_THREE_WAY_ACQUISITION_<UTC>.{json,md}`) with exact commands, paths, counts, spans, and hashes. If the floor below cannot be met from real data, seal a `BLOCKED` (never a NO-GO) with evidence.
+
+**Step 3 — Pre-register (before measurement) with stricter floor:**
+Copy-and-retarget EVAL-62 measurement into `scripts/eval63_orderflow_realized_vol_markpath_extended.py` + `tests/test_eval63_*` **or** run EVAL-62 tooling against the new capture only if it supports parameterization without modifying sealed behavior (prefer copy-and-retarget to keep EVAL-62 immutable; reuse `src/` + helpers from sealed eval scripts, no `phaseNN_*` wrappers). Pre-register and seal `research_state/EVAL_63_EXTENDED_OFLOW_RV_MARKPATH_PREREGISTRATION_<UTC>.{json,md}` including:
+- hypothesis (namesake: options OF toxicity → RV, vol trade), explicit statement of difference vs EVAL-02..62 (extended duration/floor, new real sample),
+- exact formula: `ret_k=(gross_k-cost_k)/S_k` mark-path, toxicity signals {tox,imbalance}, grid {60s,300s} (or justified superset), costs, z-window, size cap, stats (perm/bootstrap/PBO/FDR/seed), walk-forward, kill-switch `max-DD <= 0.20`,
+- GO bar identical in spirit to EVAL-62 (GO only if on both BTC and ETH and ≥1 config: net Sharpe>0, no kill-switch breach, permutation p<0.05, bootstrap 95% CI lower>0, pooled PBO<0.5; else NO-GO),
+- **minimum floor (pre-registered, stricter than EVAL-62):** per underlying ≥1000 surface snapshots, ≥50 instruments, ≥1500 5m bars/common bars, ≥15000 option trades, ≥604800s (7d) span for options-flow and perp, roster ≥2 underlyings. Floor failure ⇒ `EVAL_63_..._BLOCKED_<UTC>`.
+
+**Step 4 — Measure, seal, and update handoff (required for completion):**
+Run measurement on the acquired real captures; emit `research_state/EVAL_63_EXTENDED_OFLOW_RV_MARKPATH_COMBINED_<UTC>.{json,md}` (or `BLOCKED`). Seal with:
+```bash
+python3 scripts/check_session_sealed.py \
+  --task-id "INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH" \
+  --glob "EVAL_63_EXTENDED_OFLOW_RV_MARKPATH_PREREGISTRATION_*" \
+  --require-glob "EVAL_63_EXTENDED_OFLOW_RV_MARKPATH_COMBINED_*"
 ```
+**exit 0 required** (substitute `BLOCKED_*` for `COMBINED_*` only on genuine pre-registered floor failure). Then update this handoff **in place**: STATUS, authoritative next state (sealed result or next concrete rung), REPRO commands/paths, and append SESSION LOG with verified numbers. Timestamp-only edits without sealing = failed session.
 
-**Mandatory for any future session that does new research work (heavy, non-optional if opened):**
-1. Define exactly ONE new, on-charter, pre-registered hypothesis not already falsified by EVAL-02..62 (must state why it differs from all sealed rungs and how it uses real options+orderflow). Do **not** re-run/re-litigate/re-seal EVAL-02..62.
-2. Acquire/point to **heavy real** data meeting an explicit pre-registered floor (reuse `scripts/eval60_acquire_three_way.py` for Deribit+OKX capture patterns if applicable; never synthetic; never weaken floor). Record acquisition/seal artifacts in `research_state/` with a new timestamped task ID.
-3. Pre-register (task, hypothesis, exact formula incl. return normalization by spot / mark-path P&L, grid, costs, GO/NO-GO bar, floor, kill-switches) → run measurement → seal `PREREGISTRATION_*` + `COMBINED_*` (or `BLOCKED_*` only on genuine floor failure) with `scripts/check_session_sealed.py` **exit 0**.
-4. Update this handoff **in place** with verified facts/paths/commands/numbers and the sealed verdict. Timestamp-only edits without sealing = failed session.
-
-**If no new on-charter hypothesis with acquirable real data is identified:** session must leave this handoff unchanged except to append a dated session-log note stating "no new falsifiable on-charter rung identified beyond EVAL-02..62" with evidence (checked sealed roster + data availability). Do not invent work, do not weaken floors, do not use synthetic.
+**If acquisition cannot reach the 7d floor with real data after honest attempts:** do not weaken the floor, do not use synthetic, do not emit a NO-GO; seal `BLOCKED` with full evidence and state the measured shortfall, then set the next task to the highest feasible heavy floor justified by that evidence (still pre-registered, still real).
 
 ## REPRO / KEY COMMANDS
 
 ```bash
 export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
-# verify env
 ./scripts/verify_env.sh --check
-# (sealed) re-verify EVAL-62 seal
+
+# (sealed, immutable) re-verify EVAL-62
 python3 scripts/check_session_sealed.py \
   --task-id "INIT-2026-11-16T03:17:05Z-EVAL62-OPTIONS-ORDERFLOW-VOL-MARKPATH-SEAL" \
   --glob "EVAL_62_OPTIONS_ORDERFLOW_VOL_MARKPATH_PREREGISTRATION_*" \
   --require-glob "EVAL_62_OPTIONS_ORDERFLOW_VOL_MARKPATH_COMBINED_*"
-# inspect combined
 python3 -m json.tool research_state/EVAL_62_OPTIONS_ORDERFLOW_VOL_MARKPATH_COMBINED_20261116T032105Z.json | head -120
+
+# --- EVAL-63 (authoritative next, heavy; do not run as discovery, run to execute task) ---
+# 1) Acquire fresh >=7d real three-way BTC+ETH (public read-only, polite rate limit; creates data/raw/eval63/)
+#    python3 scripts/eval60_acquire_three_way.py --underlying BTC --days 7 --outdir data/raw/eval63
+#    python3 scripts/eval60_acquire_three_way.py --underlying ETH --days 7 --outdir data/raw/eval63
+# 2) Copy-and-retarget measurement to scripts/eval63_orderflow_realized_vol_markpath_extended.py + tests/test_eval63_*
+#    (reuse EVAL-62 mark-path helpers; enforce stricter floor; no sealed-file edits)
+# 3) Pre-register, measure, then seal (exit 0 required):
+#    python3 scripts/check_session_sealed.py \
+#      --task-id "INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH" \
+#      --glob "EVAL_63_EXTENDED_OFLOW_RV_MARKPATH_PREREGISTRATION_*" \
+#      --require-glob "EVAL_63_EXTENDED_OFLOW_RV_MARKPATH_COMBINED_*"
 ```
 
 ## BOTTLENECKS
 
-- **Cleared:** EVAL-62 tooling/tests built (`scripts/eval62_orderflow_realized_vol_markpath.py`, `tests/test_eval62_orderflow_realized_vol_markpath.py`), EVAL-61 P&L artifact corrected (mark-path, spot-normalized), seal complete (gate exit 0).
-- **Current:** No unsealed mandatory rung. Any new rung requires a genuinely new on-charter hypothesis + heavy real data + prereg+seal; absence of such a hypothesis/data is a legitimate hold (not a blocker to fabricate).
+- **Cleared:** EVAL-62 tooling/tests built and sealed (gate exit 0). Acquisition tooling (`scripts/eval60_acquire_three_way.py`) and mark-path measurement (`scripts/eval62_orderflow_realized_vol_markpath.py`) are reusable for EVAL-63 copy-and-retarget. Campaign-focus stall cleared by defining `INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH` as the concrete next heavy task.
+- **Current operational risk:** Deribit/OKX public endpoints may rate-limit or provide insufficient continuous history for a single 7d pass; if so, acquire in contiguous real segments and document coverage/span honestly — but **do not weaken the pre-registered floor, do not stitch with synthetic data, and do not seal NO-GO on under-floor data** (seal `BLOCKED` with measured shortfall and set the next feasible heavy floor). No other known tooling blockers.
 
 ## PROHIBITED / INVARIANTS (non-negotiable)
 
@@ -59,6 +90,7 @@ python3 -m json.tool research_state/EVAL_62_OPTIONS_ORDERFLOW_VOL_MARKPATH_COMBI
 - Reuse `src/analytics/`, `src/data/`, `src/backtest/`, `src/telemetry/`, `src/features/options_pricing.py`; no `phaseNN_*` wrappers.
 - No full test-suite discovery; no `research_state/` enumeration loops; no timestamped handoff copies (root retired pointers stay retired). Update this file in place with verified facts only.
 - Any new P&L must be spot-normalized and use mark-path/realized costed returns (regression-guard pattern as in EVAL-62); never reintroduce the EVAL-61 dollar-as-return artifact.
+- EVAL-63 must copy-and-retarget measurement tooling (keep EVAL-62 sealed/immutable); do not weaken the pre-registered floor to force a verdict. Under-floor real data ⇒ `BLOCKED`, not `NO-GO`.
 
 ## SEALED STATE (immutable; append only)
 
@@ -71,5 +103,6 @@ EVAL-02..62 sealed. EVAL-46..60 and EVAL-62: **NO-GO CONFIRMED (PASS)**, gate ex
 - 2026-11-16T00:34:26Z: EVAL-60 heavy BTC+ETH sealed NO-GO (gate exit 0).
 - 2026-11-16T02:41:37Z: EVAL-61 sealed NO-GO (gate exit 0) — later found to be a P&L artifact.
 - 2026-11-16T03:17:05Z: EVAL-62 tooling/tests built; real `--no-write` verified (artifact gone, NO-GO on merits).
-- **2026-11-16T03:21:05Z (this session):** Sealed EVAL-62 `NO-GO CONFIRMED (PASS)` (`EVAL_62_OPTIONS_ORDERFLOW_VOL_MARKPATH_{PREREGISTRATION,COMBINED}_20261116T032105Z`, floor_ok, overall_pbo 0.375, BTC best −0.0443 / ETH +0.6163, kill-switch breaches gone). Seal gate exit 0. Namesake rung honestly closed; no unsealed mandatory rung — campaign on hold pending a genuinely new on-charter, real-data, pre-registered hypothesis beyond EVAL-02..62.
-- **2026-11-16T03:29:23Z:** Fresh `--days 1` BTC+ETH live acquisition completed and sealed (`POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION_20261116T022541Z`, BTC+ETH captures in `data/raw/eval61/`, floor met on both underlyings). EVAL-61 measurement re-sealed `NO-GO CONFIRMED (PASS)` (`EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_{PREREGISTRATION,COMBINED}_20261116T032923Z`, floor_ok=true, overall_pbo 0.25, BTC best 0.9717 / ETH 0.9916 on imbalance::bar300.0, any_pass=false). EVAL-61 seal gate exit 0 (acquisition + PREREGISTRATION + COMBINED globs all matched, stamps >= task timestamp). EVAL-61 artifacts immutable; superseded by EVAL-62's mark-path correction.
+- **2026-11-16T03:21:05Z:** Sealed EVAL-62 `NO-GO CONFIRMED (PASS)` (`EVAL_62_OPTIONS_ORDERFLOW_VOL_MARKPATH_{PREREGISTRATION,COMBINED}_20261116T032105Z`, floor_ok, overall_pbo 0.375, BTC best −0.0443 / ETH +0.6163, kill-switch breaches gone). Seal gate exit 0. Namesake rung honestly closed on ~1d capture.
+- **2026-11-16T03:29:23Z:** Fresh `--days 1` BTC+ETH live acquisition sealed (`POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION_20261116T022541Z`); EVAL-61 re-sealed NO-GO (artifact, superseded by EVAL-62). EVAL-61 seal gate exit 0.
+- **2026-11-16T04:12:20Z (this session, handoff update only):** Verified sealed state (EVAL-02..62, EVAL-62 gate exit 0, EVAL-62 artifacts present) and cleared campaign-focus bottleneck by defining authoritative heavy next task `INIT-2026-11-16T041220Z-EVAL63-EXTENDED-OFLOW-RV-MARKPATH`: fresh >=7d real three-way Deribit+OKX acquisition (BTC+ETH), copy-and-retarget mark-path measurement with stricter pre-registered floor, prereg+combined/block seal (gate exit 0). No sealed artifacts modified; no synthetic; no EVAL re-runs. Handoff updated in place as the single actionable instruction for next agent.
