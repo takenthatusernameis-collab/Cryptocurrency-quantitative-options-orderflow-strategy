@@ -6,13 +6,13 @@
   "eval67_seal_gate_exit": 1,
   "gate_exit": 10,
   "gate_phase": "NOT_DUE",
-  "notes": "Verified 2026-11-16T20:00:51Z on a fresh runner: verify_env.sh --check OK (7 passed), 87/87 targeted tests passed (eval65 8, eval66 9, eval67 12, eval67 phaseb gate 22, eval68 pooled runner 13, eval68 phaseb gate 23) + 27/27 controller/campaign/diagnostics, gate NOT_DUE exit 10 with overlap_seconds 272124.12 (strictly decreasing from 272395.673 at 19:56:20Z; baseline 273337.532). EVAL-66 seal gate exit 0, EVAL-67 seal gate exit 1 (expected). EVAL-68 pooled BTC+ETH campaign BUILT and green: scripts/eval68_pooled_btc_eth_oflow_tox_rv_oos.py, scripts/eval68_phaseb_gate.py, 36 tests, prereg EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.{json,md}; EVAL-68 gate WAIT_EVAL67 exit 10 (EVAL-67 must seal first; no competing acquisition). Pre-threshold carry; each NOT_DUE session must update this file with the new gate overlap_seconds (strictly decreasing) and re-verified test/env status. Not a completion and not a timestamp-only bump.",
-  "overlap_seconds": 272124.12,
+  "notes": "Verified 2026-11-16T20:09:21Z on a fresh runner: verify_env.sh --check OK (7 passed), 88/88 targeted tests passed (eval65 8, eval66 9, eval67 12, eval67 phaseb gate 22, eval68 pooled runner 14, eval68 phaseb gate 23) + 27/27 controller/campaign/diagnostics, gate NOT_DUE exit 10 with overlap_seconds 271615.332 (strictly decreasing from 272124.12 at 20:00:51Z; baseline 273337.532). EVAL-66 seal gate exit 0, EVAL-67 seal gate exit 1 (expected). EVAL-68 pooled BTC+ETH campaign BUILT and green: scripts/eval68_pooled_btc_eth_oflow_tox_rv_oos.py, scripts/eval68_phaseb_gate.py, 37 tests, prereg EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.{json,md}; EVAL-68 gate WAIT_EVAL67 exit 10 (EVAL-67 must seal first; no competing acquisition). Pre-threshold carry; each NOT_DUE session must update this file with the new gate overlap_seconds (strictly decreasing) and re-verified test/env status. Not a completion and not a timestamp-only bump.",
+  "overlap_seconds": 271615.332,
   "schema_version": 2,
   "task_id": "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION",
-  "tests_passed": 87,
+  "tests_passed": 88,
   "threshold": "2026-11-20T00:00:00Z",
-  "updated_at": "2026-11-16T20:00:51Z",
+  "updated_at": "2026-11-16T20:09:21Z",
   "eval68": {
     "task_id": "INIT-2026-11-16T19:45:00Z-EVAL68-POOLED-BTC-ETH-OFLOW-TOX-RV-OOS",
     "prereg_present": true,
@@ -25,9 +25,9 @@
     "seal_gate_exit": 1,
     "runner": "scripts/eval68_pooled_btc_eth_oflow_tox_rv_oos.py",
     "gate": "scripts/eval68_phaseb_gate.py",
-    "tests": "tests/test_eval68_pooled_btc_eth_oflow_tox_rv_oos.py + tests/test_eval68_phaseb_gate.py (36 passed)",
+    "tests": "tests/test_eval68_pooled_btc_eth_oflow_tox_rv_oos.py + tests/test_eval68_phaseb_gate.py (37 passed)",
     "min_pooled_pairs": 790,
-    "overlap_seconds": 272123.806,
+    "overlap_seconds": 271614.762,
     "note": "Pooled BTC+ETH power-adequate successor to EVAL-67. Acquires ONLY after EVAL-67 seals (single forward window, no competition). Reuses EVAL-62 build_states, EVAL-64 floor verbatim, EVAL-65 stats."
   }
 }
