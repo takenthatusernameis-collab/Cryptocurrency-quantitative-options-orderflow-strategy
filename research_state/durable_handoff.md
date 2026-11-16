@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T17:30:39Z — verified this session):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T17:33:56Z — verified this session):**
 > **Repo-priority reading of `Cryptocurrency-quantitative-options-orderflow-strategy`:** the thesis is *crypto OPTIONS surface + OPTIONS order-flow + underlying order-flow → tradeable, net-of-cost alpha on REAL public data*. **On-charter ladder EVAL-02..66 is CLOSED** (EVAL-66 sealed `BLOCKED`, seal-gate exit 0; the namesake options order-flow → realized-vol hypothesis is not supported on real BTC/ETH in the tested windows). Do **not** re-run, re-litigate, re-seal, or edit sealed EVAL-02..62/EVAL-64..66 artifacts or `src/`. Never synthetic data, never weaken the EVAL-64 floor, paper-only.
 >
 > **NEXT FOCUS CAMPAIGN — EVAL-67 (heavy, real-data, off-charter but core-thesis-aligned):** BTC options order-flow toxicity/imbalance → forward realized-vol OOS replication on a fresh, DISJOINT, floor-compliant real BTC capture. Task ID `INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION`; prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}`.
@@ -67,7 +67,7 @@ python3 scripts/eval67_phaseb_gate.py --execute    # acquire->dry-run->seal->sea
 
 ## STATUS (verified 2026-11-16T17:30:39Z)
 - **On-charter campaign:** `CAMPAIGN_CLOSED`. EVAL-66 sealed `BLOCKED` (seal-gate exit 0) — `research_state/EVAL_66_ETH_OFLOW_TOX_RV_OOS_{PREREGISTRATION,BLOCKED}_20261116T121851Z.{json,md}` (`INIT-2026-11-16T11:32:21Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`).
-- **EVAL-67 phase:** `NOT_DUE` (gate exit 10) at 17:30:39Z. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate **exit 1** (expected). Gate/tooling re-verified this session.
+- **EVAL-67 phase:** `NOT_DUE` (gate exit 10) at 17:33:56Z. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate **exit 1** (expected). Gate/tooling re-verified this session.
 - **Data-availability constraint (hard):** earliest disjoint floor-compliant forward capture end = **2026-11-19T18:08:16Z** (prereg threshold **2026-11-20T00:00:00Z**). Past windows non-viable (options retention < 6 d). The gate's `disjointness` block shows overlap > 0 until then.
 - **Power expectation (recorded pre-run):** EVAL-67 underpowered for the EVAL-65 BTC effect (IC 0.088, n 596): one-sided power ≈ 0.70, conjunction ≈ 0.53, ~790 pairs for 80%.
 - **Durable mechanism:** git-committed handoff + external `*/5` cron + `eval67_phaseb_gate.py`. No bridges.
@@ -79,6 +79,7 @@ python3 scripts/eval67_phaseb_gate.py --execute    # acquire->dry-run->seal->sea
 - 2026-11-16T13:39:12Z: De-risked EVAL-67 path (real smoke OK, dry-run BLOCKED with disjointness_ok=true, math proven).
 - 2026-11-16T15:28:47Z: Verified gates; proved ephemeral-runner durability model; proved past-window non-viability; produced power/sample-adequacy analysis.
 - **2026-11-16T17:30:39Z (this session — bottleneck removal + deterministic gate):** Re-verified gates (EVAL-66 exit 0; EVAL-67 exit 1 expected), tests (eval67 12/12 after bridge removal, phaseb gate 22/22, eval66 9/9, eval65 8/8), env OK. Confirmed all bottlenecks already removed (zombie bridge gone, forward wait is hard physics constraint not fixable, power/sample-adequacy recorded pre-run). No sealed artifacts or `src/` modified; no synthetic data; paper-only. Updated this handoff's initial task message timestamp to this session.
+- **2026-11-16T17:33:56Z (repo-priority reaffirmation):** Confirmed repo name `Cryptocurrency-quantitative-options-orderflow-strategy` maps to core thesis (crypto options surface + options order-flow + underlying order-flow → net-of-cost alpha on REAL public data). EVAL-67 remains the single authorized heavy campaign; gated by `scripts/eval67_phaseb_gate.py` which cannot be bypassed (NOT_DUE until `2026-11-20T00:00:00Z`, DUE → `--execute` acquire→dry-run→seal→seal-gate, exits 0 only on seal-gate pass). Bottlenecks already removed: zombie bridge deleted, forward-wait is hard physics (not fixable), power/sample-adequacy recorded pre-run. Secondary handoff pointers retired; no competing task sources. No sealed artifacts or `src/` modified; no synthetic data; paper-only.
 
 ## SEALED STATE (immutable; append only)
 EVAL-02..62,64..66 sealed. EVAL-63 never sealed. EVAL-46..60,62,64,65: `NO-GO CONFIRMED (PASS)`; EVAL-61: `NO-GO` (artifact); EVAL-66: `BLOCKED`. On-charter closed; EVAL-67 is the next authorized heavy falsification campaign, gated by `scripts/eval67_phaseb_gate.py`.
