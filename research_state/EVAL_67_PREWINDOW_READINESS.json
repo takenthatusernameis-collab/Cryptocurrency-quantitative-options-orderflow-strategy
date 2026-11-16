@@ -6,13 +6,13 @@
   "eval67_seal_gate_exit": 1,
   "gate_exit": 10,
   "gate_phase": "NOT_DUE",
-  "notes": "Verified 2026-11-16T22:56:19Z on a fresh runner (all three gates run 22:56:18-19Z): verify_env.sh --check OK; 124/124 targeted tests passed (eval67 12 + eval67_phaseb_gate 22 + eval66 9 + eval65 8 + eval68_runner 14 + eval68_gate 22 + eval69_runner 14 + eval69_gate 23) in 242.54s + 27/27 controller/campaign/diagnostics in 0.90s, both suites re-run from scratch this session. Gate EVAL-67 NOT_DUE exit 10 with overlap_seconds 261597.772 (strictly decreasing from 261640.548 at ~22:55Z; baseline 273337.532, disjoint false, now 2026-11-16T22:56:18Z). EVAL-68 gate WAIT_EVAL67 exit 10 (eval67_sealed=false, overlap_seconds 261597.443, now 2026-11-16T22:56:18Z). EVAL-69 gate WAIT_EVAL68 exit 10 (eval68_sealed=false, overlap_seconds 261596.792, now 2026-11-16T22:56:19Z). Seal gates: EVAL-66 exit 0; EVAL-67/68/69 exit 1 (expected; prereg present, no COMBINED/BLOCKED yet). THIS SESSION BUILT EVAL-69 (pooled BTC+ETH traded-form net-of-cost monetization capstone): scripts/eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py + scripts/eval69_phaseb_gate.py + 37 tests + prereg EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.{json,md}. EVAL-69 reuses EVAL-68's disjoint forward capture (NO acquisition); runs only after EVAL-68 seals. Removed bottleneck #4 (no out-of-sample traded-form monetization campaign). Not a completion and not a timestamp-only bump.",
-  "overlap_seconds": 261597.772,
+  "notes": "Verified 2026-11-16T23:04:18Z on a fresh runner: verify_env.sh --check OK; 124/124 targeted tests passed (eval67 12 + eval67_phaseb_gate 22 + eval66 9 + eval65 8 + eval68_runner 14 + eval68_gate 22 + eval69_runner 14 + eval69_gate 23) in 243.03s + 27/27 controller/campaign/diagnostics in 0.91s, both suites re-run from scratch this session. All three arbiters re-run 23:04:18-19Z: EVAL-67 NOT_DUE exit 10 (overlap_seconds 261117.19, strictly decreasing from 261597.772 at ~22:56Z; baseline 273337.532, disjoint false, now 2026-11-16T23:04:18Z); EVAL-68 WAIT_EVAL67 exit 10 (eval67_sealed=false, overlap_seconds 261116.88); EVAL-69 WAIT_EVAL68 exit 10 (eval68_sealed=false, overlap_seconds 261116.204). Seal gates: EVAL-66 exit 0; EVAL-67/68/69 exit 1 (expected; prereg present, no COMBINED/BLOCKED yet). No new verified facts beyond the carry this session — no new disjointness datapoint, no new power calc, no EVAL-69 hardening change; the honest pre-threshold work is re-running the three arbiters + 124+27 tests and keeping all three campaigns green. Not a completion and not a timestamp-only bump.",
+  "overlap_seconds": 261117.19,
   "schema_version": 3,
   "task_id": "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION",
   "tests_passed": 124,
   "threshold": "2026-11-20T00:00:00Z",
-  "updated_at": "2026-11-16T22:56:19Z",
+  "updated_at": "2026-11-16T23:04:19Z",
   "eval68": {
     "task_id": "INIT-2026-11-16T19:45:00Z-EVAL68-POOLED-BTC-ETH-OFLOW-TOX-RV-OOS",
     "prereg_present": true,
@@ -27,7 +27,7 @@
     "gate": "scripts/eval68_phaseb_gate.py",
     "tests": "tests/test_eval68_pooled_btc_eth_oflow_tox_rv_oos.py (14) + tests/test_eval68_phaseb_gate.py (22) = 36 passed this session",
     "min_pooled_pairs": 790,
-    "overlap_seconds": 261597.443,
+    "overlap_seconds": 261116.88,
     "note": "Pooled BTC+ETH power-adequate predictiveness successor to EVAL-67. Acquires ONLY after EVAL-67 seals (single forward window; gate enforces WAIT_EVAL67). EVAL-64 floor verbatim; BLOCKED on under-floor/missing-underlying/non-disjoint."
   },
   "eval69": {
@@ -44,7 +44,7 @@
     "gate": "scripts/eval69_phaseb_gate.py",
     "tests": "tests/test_eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py (14) + tests/test_eval69_phaseb_gate.py (23) = 37 passed this session",
     "min_pooled_returns": 790,
-    "overlap_seconds": 261596.792,
+    "overlap_seconds": 261116.204,
     "acquires": false,
     "note": "Pooled BTC+ETH traded-form net-of-cost monetization capstone (repo-priority 'tradeable alpha'). Reuses EVAL-68's disjoint forward capture (NO acquisition; gate enforces WAIT_EVAL68). EVAL-64 floor verbatim; BLOCKED on under-floor/missing-underlying/non-disjoint. Runs only after EVAL-68 seals."
   }
