@@ -1,0 +1,63 @@
+{
+  "prereg_id": "EVAL_65_OFLOW_TOX_RV_PREDICTIVENESS_PREREGISTRATION",
+  "generated_at": "2026-11-16T08:49:47Z",
+  "task": "EVAL65-OFLOW-TOX-RV-PREDICTIVENESS",
+  "hypothesis": "The causal options order-flow toxicity signal (tox / signed-aggressor imbalance) has a positive monotone (Spearman rank) relationship with subsequent forward realized volatility on the BTC/ETH perpetual, independent of any trading wrapper; tested on the already-acquired real 7d captures at the EVAL-64 feasible floor.",
+  "extends": "EVAL-62/EVAL-64 (identical causal toxicity signal + spot series via sealed build_states; feasible floor reused verbatim from EVAL-64; no P&L, no wrapper)",
+  "data_availability": {
+    "note": "uses the already-acquired real 7d captures; no new acquisition, no network; the feasible floor is reused verbatim from sealed EVAL-64",
+    "measured_capture": "data/raw/eval63/three_way_BTC_20261116T064816Z.json, data/raw/eval63/three_way_ETH_20261116T064816Z.json"
+  },
+  "protocol": {
+    "eval": "EVAL-65",
+    "title": "Options order-flow toxicity -> subsequent realized volatility: wrapper-free rank information coefficient (predictiveness) falsification on real 7d BTC+ETH captures",
+    "extends": "EVAL-62/EVAL-64 (identical causal toxicity signal + spot series via sealed build_states; feasible floor reused verbatim from EVAL-64; no P&L, no wrapper)",
+    "supersedes": "nothing \u2014 this is the information-content follow-up that disambiguates EVAL-62/64 NO-GO (null signal vs. wrapper cost)",
+    "capture_dir": "data/raw/eval63",
+    "tox_signals": [
+      "tox",
+      "imbalance"
+    ],
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "signal_z_k = expanding-zscore of per-bar options order-flow toxicity (tox) / signed-aggressor imbalance (imbalance), reused verbatim from EVAL-61/EVAL-62 (causal, end-of-bar k)",
+    "target": "rv_{k+1..k+H} = sqrt(mean(log-return^2)) over the next H perp 1m/5m bars (forward realized vol, strictly after the decision at k)",
+    "statistic": "Spearman rank correlation IC = rho(signal_z_k, rv_forward_k)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle realized-vol series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real 7d captures; no new acquisition, no network; the feasible floor is reused verbatim from sealed EVAL-64",
+      "measured_capture": "data/raw/eval63/three_way_BTC_20261116T064816Z.json, data/raw/eval63/three_way_ETH_20261116T064816Z.json"
+    },
+    "floor": {
+      "min_surface_snapshots_per_underlying": 1000,
+      "min_surface_instruments_per_underlying": 100,
+      "min_surface_bars_5m_per_underlying": 1000,
+      "min_option_trades_per_underlying": 2000,
+      "min_of_instruments_per_underlying": 150,
+      "min_of_span_seconds_per_underlying": 82000.0,
+      "min_of_bars_5m_per_underlying": 240,
+      "min_perp_bars_5m_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 300000.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2,
+      "note": "order-flow span floor is a heavier-than-EVAL-62 24h bar because Deribit tick-trade retention is ~24h; surface/perp floors require the full >=7d"
+    }
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval63"
+}

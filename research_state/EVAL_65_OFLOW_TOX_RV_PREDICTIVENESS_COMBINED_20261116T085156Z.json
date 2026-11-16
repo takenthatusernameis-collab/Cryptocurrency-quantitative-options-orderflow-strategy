@@ -1,0 +1,607 @@
+{
+  "report_id": "EVAL_65_OFLOW_TOX_RV_PREDICTIVENESS_COMBINED",
+  "generated_at": "2026-11-16T08:51:56Z",
+  "task": "EVAL65-OFLOW-TOX-RV-PREDICTIVENESS",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "wrapper-free information-content test: Spearman rank IC between causal options order-flow toxicity and forward realized volatility on the real 7d BTC+ETH captures (reused EVAL-62 signal + EVAL-64 feasible floor)",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval63",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_surface_snapshots_per_underlying": 1000,
+    "min_surface_instruments_per_underlying": 100,
+    "min_surface_bars_5m_per_underlying": 1000,
+    "min_option_trades_per_underlying": 2000,
+    "min_of_instruments_per_underlying": 150,
+    "min_of_span_seconds_per_underlying": 82000.0,
+    "min_of_bars_5m_per_underlying": 240,
+    "min_perp_bars_5m_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 300000.0,
+    "min_common_bars_per_underlying": 240,
+    "min_underlyings": 2,
+    "note": "order-flow span floor is a heavier-than-EVAL-62 24h bar because Deribit tick-trade retention is ~24h; surface/perp floors require the full >=7d"
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_surface_snapshots": 2017,
+      "n_surface_instruments": 223,
+      "n_surface_bars_5m": 1001,
+      "n_option_trades": 3237,
+      "n_of_instruments": 174,
+      "of_span_seconds": 86446.405,
+      "n_of_bars_5m": 288,
+      "n_perp_candles": 5001,
+      "perp_span_seconds": 300000.0,
+      "n_perp_bars_5m": 1000,
+      "n_common_bars_5m": 288,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_surface_snapshots": 2017,
+      "n_surface_instruments": 233,
+      "n_surface_bars_5m": 1001,
+      "n_option_trades": 2270,
+      "n_of_instruments": 164,
+      "of_span_seconds": 83524.949,
+      "n_of_bars_5m": 278,
+      "n_perp_candles": 5001,
+      "perp_span_seconds": 300000.0,
+      "n_perp_bars_5m": 1000,
+      "n_common_bars_5m": 279,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    }
+  },
+  "protocol": {
+    "eval": "EVAL-65",
+    "title": "Options order-flow toxicity -> subsequent realized volatility: wrapper-free rank information coefficient (predictiveness) falsification on real 7d BTC+ETH captures",
+    "extends": "EVAL-62/EVAL-64 (identical causal toxicity signal + spot series via sealed build_states; feasible floor reused verbatim from EVAL-64; no P&L, no wrapper)",
+    "supersedes": "nothing \u2014 this is the information-content follow-up that disambiguates EVAL-62/64 NO-GO (null signal vs. wrapper cost)",
+    "capture_dir": "data/raw/eval63",
+    "tox_signals": [
+      "tox",
+      "imbalance"
+    ],
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "signal_z_k = expanding-zscore of per-bar options order-flow toxicity (tox) / signed-aggressor imbalance (imbalance), reused verbatim from EVAL-61/EVAL-62 (causal, end-of-bar k)",
+    "target": "rv_{k+1..k+H} = sqrt(mean(log-return^2)) over the next H perp 1m/5m bars (forward realized vol, strictly after the decision at k)",
+    "statistic": "Spearman rank correlation IC = rho(signal_z_k, rv_forward_k)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle realized-vol series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real 7d captures; no new acquisition, no network; the feasible floor is reused verbatim from sealed EVAL-64",
+      "measured_capture": "data/raw/eval63/three_way_BTC_20261116T064816Z.json, data/raw/eval63/three_way_ETH_20261116T064816Z.json"
+    },
+    "floor": {
+      "min_surface_snapshots_per_underlying": 1000,
+      "min_surface_instruments_per_underlying": 100,
+      "min_surface_bars_5m_per_underlying": 1000,
+      "min_option_trades_per_underlying": 2000,
+      "min_of_instruments_per_underlying": 150,
+      "min_of_span_seconds_per_underlying": 82000.0,
+      "min_of_bars_5m_per_underlying": 240,
+      "min_perp_bars_5m_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 300000.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2,
+      "note": "order-flow span floor is a heavier-than-EVAL-62 24h bar because Deribit tick-trade retention is ~24h; surface/perp floors require the full >=7d"
+    }
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "signal": "tox",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 662,
+      "n_states": 668,
+      "spearman_ic": -0.10648749864783663,
+      "permutation_p": 0.997002997002997,
+      "bootstrap_ci": [
+        -0.10621865750786119,
+        -0.17380842428999513,
+        -0.03758387727626845
+      ],
+      "nonzero_signal_pairs": 282,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "tox",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 644,
+      "n_states": 668,
+      "spearman_ic": -0.07618136463569716,
+      "permutation_p": 0.975024975024975,
+      "bootstrap_ci": [
+        -0.07696082727441504,
+        -0.14635786282085925,
+        -0.007432203536907322
+      ],
+      "nonzero_signal_pairs": 264,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "tox",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 596,
+      "n_states": 668,
+      "spearman_ic": -0.17148551051513858,
+      "permutation_p": 1.0,
+      "bootstrap_ci": [
+        -0.16992715349528528,
+        -0.24549730872080935,
+        -0.09686280518251708
+      ],
+      "nonzero_signal_pairs": 216,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "tox",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 662,
+      "n_states": 668,
+      "spearman_ic": -0.04982878668949827,
+      "permutation_p": 0.8941058941058941,
+      "bootstrap_ci": [
+        -0.049723194838940464,
+        -0.12251870318476364,
+        0.02952935846099799
+      ],
+      "nonzero_signal_pairs": 283,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "tox",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 644,
+      "n_states": 668,
+      "spearman_ic": -0.010564243517980144,
+      "permutation_p": 0.6143856143856143,
+      "bootstrap_ci": [
+        -0.008824109798578828,
+        -0.08343664241284797,
+        0.06232982469935042
+      ],
+      "nonzero_signal_pairs": 265,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "tox",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 596,
+      "n_states": 668,
+      "spearman_ic": -0.0006752040630847944,
+      "permutation_p": 0.5074925074925075,
+      "bootstrap_ci": [
+        0.0012752998060598277,
+        -0.07271486364399761,
+        0.07683045005458528
+      ],
+      "nonzero_signal_pairs": 217,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "imbalance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 662,
+      "n_states": 668,
+      "spearman_ic": 0.07778425653186352,
+      "permutation_p": 0.012987012987012988,
+      "bootstrap_ci": [
+        0.07820984766891759,
+        0.002275768270283054,
+        0.15182390024356693
+      ],
+      "nonzero_signal_pairs": 282,
+      "pass": true
+    },
+    {
+      "underlying": "BTC",
+      "signal": "imbalance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 644,
+      "n_states": 668,
+      "spearman_ic": 0.050867634250570656,
+      "permutation_p": 0.1018981018981019,
+      "bootstrap_ci": [
+        0.051802990684545636,
+        -0.02264496239796451,
+        0.12815115009241593
+      ],
+      "nonzero_signal_pairs": 264,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "imbalance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 596,
+      "n_states": 668,
+      "spearman_ic": 0.08833117025428101,
+      "permutation_p": 0.016983016983016984,
+      "bootstrap_ci": [
+        0.08590640134758869,
+        -0.0007179914908651955,
+        0.1678309587784064
+      ],
+      "nonzero_signal_pairs": 216,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "imbalance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 662,
+      "n_states": 668,
+      "spearman_ic": 0.043755133690501664,
+      "permutation_p": 0.12787212787212787,
+      "bootstrap_ci": [
+        0.04357440865298551,
+        -0.027641903826896883,
+        0.12093665556027601
+      ],
+      "nonzero_signal_pairs": 283,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "imbalance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 644,
+      "n_states": 668,
+      "spearman_ic": -0.000586052020942065,
+      "permutation_p": 0.5014985014985015,
+      "bootstrap_ci": [
+        -0.0007246576146832834,
+        -0.07405934201457759,
+        0.07413149619484072
+      ],
+      "nonzero_signal_pairs": 265,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "imbalance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 596,
+      "n_states": 668,
+      "spearman_ic": -0.015106170107591346,
+      "permutation_p": 0.6533466533466533,
+      "bootstrap_ci": [
+        -0.014518869256790842,
+        -0.08489890963562292,
+        0.05777964684860854
+      ],
+      "nonzero_signal_pairs": 217,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "tox",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 994,
+      "n_states": 1000,
+      "spearman_ic": -0.033695621828396666,
+      "permutation_p": 0.8651348651348651,
+      "bootstrap_ci": [
+        -0.033210937393404694,
+        -0.09069398400957789,
+        0.022996993479072348
+      ],
+      "nonzero_signal_pairs": 274,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "tox",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 976,
+      "n_states": 1000,
+      "spearman_ic": -0.008839516588361834,
+      "permutation_p": 0.6343656343656343,
+      "bootstrap_ci": [
+        -0.010478523636927767,
+        -0.06117742372993602,
+        0.04077013725339931
+      ],
+      "nonzero_signal_pairs": 256,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "tox",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 928,
+      "n_states": 1000,
+      "spearman_ic": 0.08325402088791962,
+      "permutation_p": 0.006993006993006993,
+      "bootstrap_ci": [
+        0.08343881777894256,
+        0.030060833433701167,
+        0.13836847555010928
+      ],
+      "nonzero_signal_pairs": 208,
+      "pass": true
+    },
+    {
+      "underlying": "ETH",
+      "signal": "tox",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 995,
+      "n_states": 1001,
+      "spearman_ic": 0.005739823689205201,
+      "permutation_p": 0.4325674325674326,
+      "bootstrap_ci": [
+        0.005880603395995949,
+        -0.047677657568492446,
+        0.06694649251309058
+      ],
+      "nonzero_signal_pairs": 275,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "tox",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 977,
+      "n_states": 1001,
+      "spearman_ic": 0.024663163175329423,
+      "permutation_p": 0.21078921078921078,
+      "bootstrap_ci": [
+        0.024043848724025145,
+        -0.015949092770991012,
+        0.06564030951040656
+      ],
+      "nonzero_signal_pairs": 257,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "tox",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 929,
+      "n_states": 1001,
+      "spearman_ic": 0.029325569718140702,
+      "permutation_p": 0.1838161838161838,
+      "bootstrap_ci": [
+        0.02832620897996575,
+        -0.019940542430732636,
+        0.07961174016029836
+      ],
+      "nonzero_signal_pairs": 209,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "imbalance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 994,
+      "n_states": 1000,
+      "spearman_ic": -0.0028715707675264672,
+      "permutation_p": 0.5584415584415584,
+      "bootstrap_ci": [
+        -0.0019087607126460958,
+        -0.05659836475068866,
+        0.05637857788768103
+      ],
+      "nonzero_signal_pairs": 274,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "imbalance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 976,
+      "n_states": 1000,
+      "spearman_ic": 0.045803003873900135,
+      "permutation_p": 0.07892107892107893,
+      "bootstrap_ci": [
+        0.04435915569151201,
+        0.002659684014825659,
+        0.08945947828981678
+      ],
+      "nonzero_signal_pairs": 256,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "imbalance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 928,
+      "n_states": 1000,
+      "spearman_ic": 0.11759773937293551,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.11737230730730694,
+        0.06809082156907384,
+        0.16698495368749275
+      ],
+      "nonzero_signal_pairs": 208,
+      "pass": true
+    },
+    {
+      "underlying": "ETH",
+      "signal": "imbalance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 995,
+      "n_states": 1001,
+      "spearman_ic": -0.02404369921887311,
+      "permutation_p": 0.7802197802197802,
+      "bootstrap_ci": [
+        -0.022501436933918744,
+        -0.07507955358245393,
+        0.030672250675183182
+      ],
+      "nonzero_signal_pairs": 275,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "imbalance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 977,
+      "n_states": 1001,
+      "spearman_ic": 0.004909507529039402,
+      "permutation_p": 0.4435564435564436,
+      "bootstrap_ci": [
+        0.004672945556634953,
+        -0.036748647445924085,
+        0.04533482088693893
+      ],
+      "nonzero_signal_pairs": 257,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "imbalance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 929,
+      "n_states": 1001,
+      "spearman_ic": 0.0069913673838915445,
+      "permutation_p": 0.4355644355644356,
+      "bootstrap_ci": [
+        0.006711188987821997,
+        -0.043070624588853634,
+        0.0529864198070152
+      ],
+      "nonzero_signal_pairs": 209,
+      "pass": false
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 12,
+      "best_ic": 0.08833117025428101,
+      "best_config": "imbalance::bar60.0::h72",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 12,
+      "best_ic": 0.11759773937293551,
+      "best_config": "imbalance::bar60.0::h72",
+      "n_pass": 2,
+      "pass_configs": [
+        "ETH::tox::bar60.0::h72",
+        "ETH::imbalance::bar60.0::h72"
+      ],
+      "any_pass": true
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [
+        "ETH::imbalance::bar60.0::h72",
+        "ETH::tox::bar60.0::h72"
+      ],
+      "thresholds": {
+        "ETH::imbalance::bar60.0::h72": 0.004166666666666667,
+        "ETH::tox::bar60.0::h72": 0.008333333333333333,
+        "BTC::imbalance::bar60.0::h6": 0.012500000000000002,
+        "BTC::imbalance::bar60.0::h72": 0.016666666666666666,
+        "ETH::imbalance::bar60.0::h24": 0.020833333333333332,
+        "BTC::imbalance::bar60.0::h24": 0.025000000000000005,
+        "BTC::imbalance::bar300.0::h6": 0.02916666666666667,
+        "ETH::tox::bar300.0::h72": 0.03333333333333333,
+        "ETH::tox::bar300.0::h24": 0.0375,
+        "ETH::tox::bar300.0::h6": 0.041666666666666664,
+        "ETH::imbalance::bar300.0::h72": 0.04583333333333334,
+        "ETH::imbalance::bar300.0::h24": 0.05000000000000001,
+        "BTC::imbalance::bar300.0::h24": 0.05416666666666667,
+        "BTC::tox::bar300.0::h72": 0.05833333333333334,
+        "ETH::imbalance::bar60.0::h6": 0.0625,
+        "BTC::tox::bar300.0::h24": 0.06666666666666667,
+        "ETH::tox::bar60.0::h24": 0.07083333333333335,
+        "BTC::imbalance::bar300.0::h72": 0.075,
+        "ETH::imbalance::bar300.0::h6": 0.07916666666666668,
+        "ETH::tox::bar60.0::h6": 0.08333333333333333,
+        "BTC::tox::bar300.0::h6": 0.08750000000000001,
+        "BTC::tox::bar60.0::h24": 0.09166666666666667,
+        "BTC::tox::bar60.0::h6": 0.09583333333333334,
+        "BTC::tox::bar60.0::h72": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 24,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": false,
+    "campaign_state": "EVAL_65_OFLOW_TOX_RV_PREDICTIVENESS"
+  },
+  "errors": []
+}
