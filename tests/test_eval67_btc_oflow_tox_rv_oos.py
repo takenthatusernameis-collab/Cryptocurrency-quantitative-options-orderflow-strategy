@@ -213,3 +213,120 @@ def test_run_eval67_no_write_blocks_non_disjoint_even_if_floor_ok():
     assert report["floor_and_disjoint_ok"] is False
     assert report["verdict"] == "BLOCKED"
     assert report["pooled"]["campaign_state"] == "EVAL_67_BLOCKED_FLOOR_OR_DISJOINTNESS"
+
+# ---------------------------------------------------------------------------
+# EVAL-67 self-completing capture bridge (persistent, no-network unit tests)
+# ---------------------------------------------------------------------------
+import scripts.eval67_capture_bridge as bridge  # noqa: E402
+
+
+def test_bridge_constants_and_task_id_parseable():
+    assert bridge.THRESHOLD == "2026-11-20T00:00:00Z"
+    assert bridge.CAPTURE_DIR == "data/raw/eval67"
+    assert bridge.TASK_ID == (
+        "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION"
+    )
+    # The task id must carry a parseable ISO stamp for check_session_sealed.py.
+    import re
+    assert re.search(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z", bridge.TASK_ID)
+
+
+def test_bridge_threshold_epoch_in_future_relative_to_sealed_window():
+    # Threshold must be strictly after the sealed BTC window end.
+    sealed_end = e67._parse_iso(e67.SEALED_BTC_WINDOW_END)
+    assert bridge._threshold_epoch() > sealed_end.timestamp()
+
+
+def test_bridge_refuses_before_threshold(monkeypatch):
+    # Simulate now < threshold: main() must NOT run any acquisition step.
+    monkeypatch.setattr(bridge, "_threshold_epoch", lambda: 1_000_000_000_000.0)
+    monkeypatch.setattr(bridge.time, "time", lambda: 1_000_000_000_000.0 - 1.0)
+    # If it ever reached the pipeline it would call _run_streaming; forbid that.
+    def _boom(*a, **k):
+        raise AssertionError("pipeline ran before threshold")
+    monkeypatch.setattr(bridge, "_run_streaming", _boom)
+    # Avoid an infinite wait loop: force the sleep to raise after first iteration.
+    def _sleep(_s):
+        raise SystemExit(0)
+    monkeypatch.setattr(bridge.time, "sleep", _sleep)
+    with pytest.raises(SystemExit):
+        bridge.main()
+
+
+def test_bridge_pipeline_order_and_completion_manifest(monkeypatch, tmp_path):
+    # Force threshold already reached, capture dir under tmp.
+    monkeypatch.setattr(bridge, "_threshold_epoch", lambda: 0.0)
+    monkeypatch.setattr(bridge.time, "time", lambda: 10.0)
+    monkeypatch.setattr(bridge, "LIVENESS_DIR", tmp_path)
+    monkeypatch.setattr(bridge, "CAPTURE_DIR", str(tmp_path / "data/raw/eval67"))
+    monkeypatch.setattr(bridge, "ROOT", tmp_path)
+
+    calls = []
+
+    def _fake_stream(pid, phase, cmd):
+        calls.append((phase, cmd))
+        # Every step succeeds.
+        return 0, f"{phase}-ok"
+
+    monkeypatch.setattr(bridge, "_run_streaming", _fake_stream)
+    rc = bridge.main()
+    assert rc == 0
+    phases = [p for p, _ in calls]
+    # Exact heavy-work order: acquire -> evaluate -> seal -> gate.
+    assert phases == ["acquiring", "evaluating", "sealing", "gating"]
+
+    # Completion manifest must exist and record COMPLETE + gate rc 0.
+    manifests = list(tmp_path.glob("EVAL_67_BRIDGE_COMPLETE_*.json"))
+    assert len(manifests) == 1
+    data = json.loads(manifests[0].read_text())
+    assert data["result"] == "COMPLETE"
+    assert data["gate_rc"] == 0
+    assert set(data["steps"]) == {"acquire", "dry_run", "seal", "gate"}
+    assert all(v["rc"] == 0 for v in data["steps"].values())
+    assert data["task_id"] == bridge.TASK_ID
+
+
+def test_bridge_acquire_failure_short_circuits(monkeypatch, tmp_path):
+    monkeypatch.setattr(bridge, "_threshold_epoch", lambda: 0.0)
+    monkeypatch.setattr(bridge.time, "time", lambda: 10.0)
+    monkeypatch.setattr(bridge, "LIVENESS_DIR", tmp_path)
+    monkeypatch.setattr(bridge, "CAPTURE_DIR", str(tmp_path / "data/raw/eval67"))
+    monkeypatch.setattr(bridge, "ROOT", tmp_path)
+
+    calls = []
+
+    def _fake_stream(pid, phase, cmd):
+        calls.append(phase)
+        if phase == "acquiring":
+            return 7, "acquire-boom"
+        return 0, "ok"
+
+    monkeypatch.setattr(bridge, "_run_streaming", _fake_stream)
+    rc = bridge.main()
+    assert rc == 7
+    # Must NOT proceed to evaluate/seal/gate after a failed acquisition.
+    assert calls == ["acquiring"]
+    data = json.loads(next(tmp_path.glob("EVAL_67_BRIDGE_COMPLETE_*.json")).read_text())
+    assert data["result"] == "ACQUIRE_FAILED"
+    assert data["steps"]["acquire"]["rc"] == 7
+
+
+def test_bridge_gate_failure_marks_gate_failed(monkeypatch, tmp_path):
+    monkeypatch.setattr(bridge, "_threshold_epoch", lambda: 0.0)
+    monkeypatch.setattr(bridge.time, "time", lambda: 10.0)
+    monkeypatch.setattr(bridge, "LIVENESS_DIR", tmp_path)
+    monkeypatch.setattr(bridge, "CAPTURE_DIR", str(tmp_path / "data/raw/eval67"))
+    monkeypatch.setattr(bridge, "ROOT", tmp_path)
+
+    def _fake_stream(pid, phase, cmd):
+        if phase == "gating":
+            return 1, "gate-fail"
+        return 0, "ok"
+
+    monkeypatch.setattr(bridge, "_run_streaming", _fake_stream)
+    rc = bridge.main()
+    assert rc == 1
+    data = json.loads(next(tmp_path.glob("EVAL_67_BRIDGE_COMPLETE_*.json")).read_text())
+    assert data["result"] == "GATE_FAILED"
+    assert data["gate_rc"] == 1
+    assert data["seal_rc"] == 0
