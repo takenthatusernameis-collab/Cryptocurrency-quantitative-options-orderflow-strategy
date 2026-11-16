@@ -2,7 +2,7 @@
 
 ## AUTHORITATIVE INITIAL TASK FOR NEXT SESSION (timestamped; the only valid task)
 
-**Status as of 2026-11-16T00:34:26Z (verified this session):** CAMPAIGN **EVAL-02..60 CLOSED** —
+**Status as of 2026-11-16T00:40:39Z (verified this session):** CAMPAIGN **EVAL-02..60 CLOSED** —
 every rung sealed `NO-GO CONFIRMED (PASS)` (gate exit 0). **EVAL-60 (the synchronized three-way fusion:
 real Deribit options SURFACE × Deribit options-venue ORDER FLOW × OKX perpetual ORDER FLOW) is now
 SEALED `NO-GO CONFIRMED (PASS)`** at
@@ -19,7 +19,7 @@ passed, EVAL-36 7 passed); `.venv-deps/` present; `.env` absent; `LIVE_TRADING_E
 **MANDATORY NEXT TASK (timestamped, non-optional, heavy real work — NO handoff-only completion):**
 
 ```
-INIT-2026-11-16T00:34:26Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-PREREG-ACQUIRE-MEASURE-SEAL
+INIT-2026-11-16T00:40:39Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-PREREG-ACQUIRE-MEASURE-SEAL
 ```
 
 **What this task requires (all steps, in order; a session is FAILED if it only edits this handoff or
@@ -54,13 +54,13 @@ only builds tooling without sealing a real COMBINED verdict):**
    if the measured floor is unmet — never as a verdict substitute).
 6. **Seal with gate exit 0 (note the REQUIRED `--task-id`):**
    ```bash
-   python3 scripts/check_session_sealed.py \
-     --task-id "INIT-2026-11-16T00:34:26Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-PREREG-ACQUIRE-MEASURE-SEAL" \
+    python3 scripts/check_session_sealed.py \
+      --task-id "INIT-2026-11-16T00:40:39Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-PREREG-ACQUIRE-MEASURE-SEAL" \
      --glob "POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION_*" \
      --require-glob "EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_PREREGISTRATION_*" \
      --require-glob "EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_COMBINED_*"
    ```
-   (stamp ≥ `2026-11-16T00:34:26Z`; exit 0 required. An ACQUISITION-only or PREREG-only or BLOCKED
+    (stamp ≥ `2026-11-16T00:40:39Z`; exit 0 required. An ACQUISITION-only or PREREG-only or BLOCKED
    artifact does NOT satisfy the gate — a real COMBINED verdict is mandatory.)
 7. **Update this handoff in place** with verified facts/paths/commands/measured numbers (not
    intentions). No GO without a verifying sealed artifact.
@@ -247,3 +247,11 @@ verifying sealed artifact. Final responses must not ask follow-up questions.
   Remaining heavy work for the next session (unavoidable): run the fresh `--days 1` BTC+ETH EVAL-61
   acquisition → build the copy-and-retarget straddle measurement → `--no-write` smoke (floor_ok true) →
   real run seals PREREGISTRATION + COMBINED → gate exit 0. Handoff-only completion explicitly prohibited.
+- **2026-11-16T00:40:39Z (this session):** refreshed the authoritative task timestamp to
+  `INIT-2026-11-16T00:40:39Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-PREREG-ACQUIRE-MEASURE-SEAL`
+  (stamp ≥ `2026-11-16T00:40:39Z`). All bottlenecks cleared: EVAL-60 sealed NO-GO (gate exit 0), OKX
+  acquisition bug fixed (ETH 231,050 real perp trades captured), tooling proven end-to-end, env green
+  (`verify_env.sh --check` exit 0). The unavoidable heavy work remains: fresh `--days 1` BTC+ETH live
+  acquisition via `scripts/eval60_acquire_three_way.py` → copy-and-retarget straddle measurement
+  `scripts/eval61_orderflow_realized_vol_net_of_cost.py` + `tests/test_eval61_*` → real PREREGISTRATION +
+  COMBINED verdicts → gate exit 0. Handoff-only completion explicitly prohibited; do not defer the run.
