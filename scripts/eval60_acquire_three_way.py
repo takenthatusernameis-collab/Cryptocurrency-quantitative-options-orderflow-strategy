@@ -127,27 +127,45 @@ def fetch_okx_perp_trades(
     empty page arrives, or a page yields no *new* tradeIds (retention wall).
     """
     out: Dict[int, Dict[str, Any]] = {}
+    seen_tids: set = set()
     cursor: Optional[str] = None
-    oldest_ts = end_ms
+    oldest_ts: Optional[int] = None
     for _ in range(max(1, int(max_pages))):
         params: Dict[str, Any] = {"instId": inst_id, "limit": str(OKX_PAGE_LIMIT)}
         if cursor is not None:
             params["after"] = cursor
-        try:
-            resp = session.get(OKX_HISTORY_URL, params=params, timeout=12)
-            if resp.status_code != 200:
-                break
-            payload = resp.json()
-        except Exception as exc:  # noqa: BLE001 - a transient page error ends the walk
-            print(json.dumps({"event": "okx_page_error", "inst_id": inst_id, "error": str(exc)}))
-            break
-        if str(payload.get("code")) != "0":
+        payload = None
+        for attempt in range(8):
+            try:
+                resp = session.get(OKX_HISTORY_URL, params=params, timeout=15)
+            except Exception as exc:  # noqa: BLE001 - transient network error
+                if attempt == 7:
+                    print(json.dumps({"event": "okx_page_error", "inst_id": inst_id, "error": str(exc)}))
+                time.sleep(min(20.0, 0.5 * (2 ** attempt)))
+                continue
+            if resp.status_code == 200:
+                try:
+                    payload = resp.json()
+                except ValueError:
+                    payload = None
+                if payload is not None and str(payload.get("code")) == "0":
+                    break
+                if attempt == 7:
+                    print(json.dumps({"event": "okx_page_error", "inst_id": inst_id,
+                                      "status": resp.status_code,
+                                      "code": (payload or {}).get("code") if payload else None}))
+            else:
+                if attempt == 7:
+                    print(json.dumps({"event": "okx_page_error", "inst_id": inst_id,
+                                      "status": resp.status_code}))
+            time.sleep(min(20.0, 0.5 * (2 ** attempt)))
+        if payload is None or str(payload.get("code")) != "0":
             break
         rows = payload.get("data") or []
         if not rows:
             break
-        new_this_page = 0
-        page_oldest_ts = end_ms
+        new_tids_this_page = 0
+        page_oldest_ts: Optional[int] = None
         page_oldest_tid: Optional[str] = None
         for r in rows:
             try:
@@ -161,12 +179,17 @@ def fetch_okx_perp_trades(
                 tid_key = int(tid)
             except ValueError:
                 tid_key = ts
+            if tid_key not in seen_tids:
+                seen_tids.add(tid_key)
+                new_tids_this_page += 1
+            # Track the oldest trade on this page (even out-of-window) for backward
+            # pagination; trades newer than ``end_ms`` (the walk runs after end_ms was
+            # captured) must still advance the cursor rather than abort the walk.
+            if page_oldest_ts is None or ts < page_oldest_ts:
+                page_oldest_ts = ts
+                page_oldest_tid = tid
             if ts < int(start_ms) or ts > int(end_ms):
-                # still track the oldest tradeId for pagination even if out of window
-                if ts < page_oldest_ts:
-                    page_oldest_ts = ts
-                    page_oldest_tid = tid
-                continue
+                continue  # out of window: used for paging only, not stored
             if tid_key not in out:
                 out[tid_key] = {
                     "ts": ts,
@@ -176,17 +199,14 @@ def fetch_okx_perp_trades(
                     "instrument": inst_id,
                     "trade_id": tid,
                 }
-                new_this_page += 1
-            if ts < page_oldest_ts:
-                page_oldest_ts = ts
-                page_oldest_tid = tid
-        if new_this_page == 0:
-            break  # retention wall / no forward progress
-        oldest_ts = min(oldest_ts, page_oldest_ts)
+        if new_tids_this_page == 0:
+            break  # retention wall: page yielded no new tradeIds at all
         if page_oldest_tid is None:
             break
+        if oldest_ts is None or (page_oldest_ts is not None and page_oldest_ts < oldest_ts):
+            oldest_ts = page_oldest_ts
         cursor = page_oldest_tid
-        if oldest_ts < int(start_ms):
+        if oldest_ts is not None and oldest_ts < int(start_ms):
             break  # window fully covered
         if delay > 0:
             time.sleep(float(delay))
