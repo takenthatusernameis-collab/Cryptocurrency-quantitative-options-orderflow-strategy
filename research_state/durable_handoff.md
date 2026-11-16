@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T17:56:19Z — verified this session):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T17:58:51Z — verified this session):**
 > **Repo-priority reading of `Cryptocurrency-quantitative-options-orderflow-strategy`:** the thesis is *crypto OPTIONS surface + OPTIONS order-flow + underlying order-flow → tradeable, net-of-cost alpha on REAL public data*. **On-charter ladder EVAL-02..66 is CLOSED** (EVAL-66 sealed `BLOCKED`, seal-gate exit 0; the namesake options order-flow → realized-vol hypothesis is not supported on real BTC/ETH in the tested windows). Do **not** re-run, re-litigate, re-seal, or edit sealed EVAL-02..62/EVAL-64..66 artifacts or `src/`. Never synthetic data, never weaken the EVAL-64 floor, paper-only.
 >
 > **SINGLE AUTHORIZED CAMPAIGN — EVAL-67 (heavy, real-data, off-charter but core-thesis-aligned):** BTC options order-flow toxicity/imbalance → forward realized-vol OOS replication on a fresh, DISJOINT, floor-compliant real BTC capture. Task ID `INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION`; prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}`.
@@ -89,7 +89,7 @@ python3 scripts/eval67_phaseb_gate.py --execute    # acquire->dry-run->seal->sea
 
 ## STATUS (verified 2026-11-16T17:56Z)
 - **On-charter campaign:** `CAMPAIGN_CLOSED`. EVAL-66 sealed `BLOCKED` (seal-gate exit 0) — `research_state/EVAL_66_ETH_OFLOW_TOX_RV_OOS_{PREREGISTRATION,BLOCKED}_20261116T121851Z.{json,md}` (`INIT-2026-11-16T11:32:21Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`).
-- **EVAL-67 phase:** `NOT_DUE` (gate exit 10) at 17:56:19Z; `overlap_seconds = 279596.056`, `disjoint = false`. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate **exit 1** (expected).
+- **EVAL-67 phase:** `NOT_DUE` (gate exit 10) at 17:58:51Z; `overlap_seconds = 279444.65`, `disjoint = false`. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate **exit 1** (expected).
 - **Data-availability constraint (hard):** earliest disjoint floor-compliant forward capture end = **2026-11-19T18:08:16Z** (prereg threshold **2026-11-20T00:00:00Z**). Past windows non-viable (options retention < 6 d; option trades ~24 h). The gate's `disjointness` block shows overlap > 0 until then.
 - **Power expectation (recorded pre-run):** EVAL-67 underpowered for the EVAL-65 BTC effect (IC 0.088, n 596): one-sided power ≈ 0.70, conjunction ≈ 0.53, ~790 pairs for 80%.
 - **Durable mechanism:** git-committed handoff + git-committed `EVAL_67_PREWINDOW_READINESS.json` + external `*/5` cron + `eval67_phaseb_gate.py`. No bridges.
