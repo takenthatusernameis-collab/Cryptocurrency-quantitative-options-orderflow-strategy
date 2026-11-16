@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T12:29:19Z, verified):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T12:33:59Z, verified):**
 > **Repo priority (per name `Cryptocurrency-quantitative-options-orderflow-strategy`):** options + orderflow alpha, net-of-cost on real data. **On-charter ladder EVAL-02..66 is CLOSED** — EVAL-66 sealed `BLOCKED` (gate exit 0; ETH capture under-floor & not disjoint from EVAL-65); namesake options order-flow → realized-vol hypothesis not supported on real BTC/ETH in tested windows. Do **not** re-run, re-litigate, re-seal, or edit sealed EVAL-02..62/EVAL-64..66 artifacts or `src/`. Do not invent synthetic data or weaken floors.
 >
 > **NEXT FOCUS CAMPAIGN — EVAL-67 (MANDATORY heavy real-data falsification, off-charter but core-thesis-aligned): BTC options order-flow (toxicity/imbalance) → realized-vol OOS replication on a fresh, disjoint, floor-compliant real BTC capture.** Future agents must not avoid heavy work: execute this end-to-end; end only with a sealed COMBINED/BLOCKED/NO-GO artifact **+ seal gate exit 0**, or a genuinely live **persistent** acquisition with recorded PID/command. No timestamp-only refreshes.
@@ -17,10 +17,10 @@
 >
 > **Completion contract:** session ends only with (a) sealed EVAL-67 artifact + gate exit 0, OR (b) a genuinely live **persistent** acquisition with recorded PID/command/liveness check noted here. No other stopping point is acceptable.
 
-## STATUS (verified 2026-11-16T12:29:19Z)
+## STATUS (verified 2026-11-16T12:33:59Z)
 
 - **On-charter campaign:** `CAMPAIGN_CLOSED`. EVAL-66 sealed `BLOCKED` (gate exit 0) — `research_state/EVAL_66_ETH_OFLOW_TOX_RV_OOS_{PREREGISTRATION,BLOCKED}_20261116T121851Z.{json,md}` (task `INIT-2026-11-16T11:32:21Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`). ETH capture `data/raw/eval66/three_way_ETH_20261116T111833Z.json` (93,667,786 B, sha256 `d9873…d37e1`, 2026-11-09T11:18:33Z..2026-11-16T11:18:33Z) overlapped EVAL-65 and failed EVAL-64 floor ⇒ BLOCKED.
-- **Bottlenecks:** **None blocking.** No acquisition/background processes running; `data/raw/eval66/` present (gitignored); `./scripts/verify_env.sh --check` previously OK; EVAL-66 tests 9/9 at last run; `.env` absent; `LIVE_TRADING_ENABLED` unset. `data/raw/eval67/` not yet created (next campaign). EVAL-66/60 acquisition + harness tooling exists and is reusable.
+- **Bottlenecks:** **None blocking.** No acquisition/background processes running; `data/raw/eval66/` present (gitignored); `./scripts/verify_env.sh --check` OK (deps bootstrapped in `.venv-deps`); EVAL-66 tests 9/9 at last run; `.env` absent; `LIVE_TRADING_ENABLED` unset. `data/raw/eval67/` not yet created (next campaign). EVAL-66/60 acquisition + harness tooling exists and is reusable.
 - **Sealed (immutable):** EVAL-02..62, EVAL-64..66 sealed; **EVAL-63 never sealed**. EVAL-46..60,62,64,65 `NO-GO CONFIRMED (PASS)`; EVAL-61 `NO-GO` (artifact, superseded by 62); EVAL-66 `BLOCKED`.
 - **Next required action:** execute **EVAL-67** per the heavy-work contract above (start with pre-reg + persistent 7d BTC acquisition).
 
@@ -65,6 +65,7 @@ python3 scripts/check_session_sealed.py \
 - 2026-11-16T12:19:00Z: Sealed **EVAL-66 `BLOCKED`** (under-floor, non-disjoint ETH capture; gate exit 0). `CAMPAIGN_CLOSED`.
 - 2026-11-16T12:23:50Z / 12:25:20Z / 12:26:20Z / 12:27:06Z: verification/timestamp refresh sessions; no sealed artifacts modified.
 - **2026-11-16T12:29:19Z (this session):** Re-verified state (EVAL-66 BLOCKED gate exit 0, campaign closed, no running acquisition, `.env` absent, no bottlenecks). Refreshed this single durable handoff with a timestamped initial task and built **EVAL-67** as the mandatory next focus campaign: heavy 7d real BTC options+orderflow acquisition, pre-registered, disjoint/floor-compliant, dry-run→seal→gate-exit-0, no timestamp-only stops. No sealed artifacts modified; no synthetic data; paper-only.
+- **2026-11-16T12:33:59Z (this session):** Re-verified state (EVAL-66 BLOCKED gate exit 0, campaign closed, no running acquisition, `.venv-deps` bootstrapped, `.env` absent, `LIVE_TRADING_ENABLED` unset, no bottlenecks). Refreshed the timestamped initial task message in this single durable handoff and confirmed **EVAL-67** remains the mandatory next focus campaign: heavy 7d real BTC options+orderflow acquisition, pre-registered, disjoint/floor-compliant, dry-run→seal→gate-exit-0, no timestamp-only stops. No sealed artifacts modified; no synthetic data; paper-only.
 
 ## SEALED STATE (immutable; append only)
 
