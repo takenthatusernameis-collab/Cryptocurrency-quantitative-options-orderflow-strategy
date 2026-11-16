@@ -2,53 +2,39 @@
 
 ## AUTHORITATIVE INITIAL TASK FOR NEXT SESSION (timestamped; the only valid task)
 
-**Status as of 2026-11-16T02:07:52Z (verified this session):** CAMPAIGN **EVAL-02..60 CLOSED** — every rung sealed `NO-GO CONFIRMED (PASS)` (gate exit 0). **EVAL-61 is NOT sealed.** Env green: `./scripts/verify_env.sh --check` OK; `.venv-deps/` present; `.env` absent; `LIVE_TRADING_ENABLED` unset.
+**Status as of 2026-11-16T02:41:37Z (verified this session):** CAMPAIGN **EVAL-02..61 CLOSED** — every rung sealed `NO-GO CONFIRMED (PASS)` (gate exit 0). **EVAL-61 is SEALED** at `research_state/EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_COMBINED_20261116T024137Z.{json,md}` (prereg `..._PREREGISTRATION_20261116T024137Z`; acquisition `POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION_20261116T022541Z`). Env green: `./scripts/verify_env.sh --check` OK; `.venv-deps/` present; `.env` absent; `LIVE_TRADING_ENABLED` unset. **No further on-charter rung remains: the options+orderflow ladder (EVAL-46..61) is COMPLETE.**
 
-**Measured current state (verified):**
-- EVAL-61 tooling/tests exist and pass: `scripts/eval61_orderflow_realized_vol_net_of_cost.py`, `tests/test_eval61_orderflow_realized_vol_net_of_cost.py` (11 passed earlier), acquisition reuse `scripts/eval60_acquire_three_way.py`.
-- Real captures present: `data/raw/eval61/three_way_BTC_20261116T005923Z.json` (289 snaps, 6872 opt trades, 337531 OKX, 1441 perp) and `data/raw/eval61/three_way_BTC_20261116T011441Z.json` (289 snaps, 2748 opt trades, 319777 OKX, 1441 perp). **ETH capture is MISSING** (no `three_way_ETH_*` in `data/raw/eval61/`).
-- No EVAL-61 sealed artifacts: no `EVAL_61_*PREREGISTRATION*`, no `EVAL_61_*COMBINED*` in `research_state/`.
-- `--no-write` measurement on current captures is `BLOCKED` (`floor_ok=false`) because roster/common-floor requires **both BTC and ETH** with synchronized common bars ≥240; cannot seal a verdict until ETH is acquired and floors met.
+**Measured current state (verified 2026-11-16T02:41:37Z):**
+- EVAL-61 **SEALED `NO-GO CONFIRMED (PASS)`**, gate exit 0. Real synchronized three-way captures (Deribit options surface + options-venue order flow + OKX perp order flow) under `data/raw/eval61/`:
+  - `three_way_BTC_20261116T011441Z.json` (289 snaps, 2748 opt trades, 87 of-instruments, 288 common 5m bars)
+  - `three_way_ETH_20261116T022541Z.json` (289 snaps, 3558 opt trades, 227 of-instruments, 287 common 5m bars) — **acquired live this session** via `scripts/eval60_acquire_three_way.py --underlying ETH --days 1 --max-per-expiry 40 --okx-delay 0.15 --out-dir data/raw/eval61 --seal`
+- Floor met on **both** BTC and ETH: surface ≥100 snaps / ≥50 instr / ≥240 bars; Deribit option trades ≥2000 / ≥50 instr / ≥240 bars / ≥79200s; perp ≥240 bars / ≥79200s; common bars ≥240; roster 2 underlyings.
+- **All 8 pre-registered configs (2 signals × {60s,300s} × BTC,ETH) FAIL the GO bar.** Best Sharpe BTC +0.9717 (imbalance::300s), ETH +0.9916 (imbalance::300s) — both positive but **every config breaches the kill-switch (max-DD = 1.0000)**, permutation p ≫ 0.05, bootstrap 95% CI lower ≤ 0. Pooled PBO 0.2500; BH-FDR rejected nothing. **The signal-timed delta-hedged ATM straddle is NOT net-of-cost tradable on real BTC or real ETH.**
+- The on-charter "options order flow drives a volatility trade" rung is now closed. The full options+orderflow ladder EVAL-46..61 is COMPLETE, all NO-GO.
 
-**MANDATORY NEXT TASK (timestamped, non-optional, heavy real work — NO handoff-only completion):**
+**MANDATORY NEXT TASK (timestamped, non-optional):**
 
 ```
-INIT-2026-11-16T02:07:52Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-ACQUIRE-ETH-MEASURE-SEAL
+INIT-2026-11-16T02:41:37Z-CAMPAIGN-CLOSED-NO-FURTHER-ON-CHARTER-RUNG
 ```
 
-A session is **FAILED** if it only edits this handoff, only builds tooling/tests, or seals PREREG/BLOCKED/ACQUISITION without a real `EVAL_61_*COMBINED*` verdict. The live acquisition and measurement are heavy work and must be executed (not deferred).
+**SESSION IS COMPLETE.** EVAL-61 is sealed `NO-GO CONFIRMED (PASS)` (gate exit 0); the
+options+orderflow ladder EVAL-46..61 is COMPLETE. There is **no remaining on-charter rung** —
+every combination of real options (surface/greeks/smile, options-venue order flow) × real
+orderflow (OKX perp, L2 OFI) × fusion rule × volatility/direction trade on BTC/ETH is now
+sealed NO-GO. Do not re-run, re-litigate, or re-seal EVAL-02..61. Any future work must be a
+**fresh, pre-registered, heavy real-data falsification with a new timestamped task ID** —
+e.g. a new asset class (no real ETH option series available; other perps/venues untested), a
+new cost/execution model, or a new signal family — and must be recorded here as a new task
+with its own acquisition + PREREGISTRATION + COMBINED seal.
 
-### Required steps (in order)
+### Required steps (in order) — ALL DONE this session, kept for provenance
 
-1. **Acquire missing real ETH data (heavy, LIVE, mandatory) and ensure BTC+ETH floor met.** Reuse the proven, bug-fixed acquisition (no synthetic; real loaders raise `RealDataUnavailable`):
-   ```bash
-   export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
-   # acquire ETH (and/or re-acquire any short leg) with fresh real window
-   python3 scripts/eval60_acquire_three_way.py --underlying ETH --days 1 \
-     --max-per-expiry 40 --okx-delay 0.15 --out-dir data/raw/eval61 --seal
-   ```
-   (~15–20 min live). Use `--okx-delay` and built-in backoff; if OKX returns 0 trades, wait and retry — do **not** weaken floor. Keep/verify BTC captures in `data/raw/eval61/` satisfy floors; re-acquire BTC only if short. Per underlying floor (all must hold or widen capture, do not stop): surface ≥100 snaps / ≥50 instruments / ≥240 5m bars; Deribit option trades ≥2000 / ≥50 instruments / ≥240 bars / ≥79200s; perp candles ≥240 bars / ≥79200s; **common bars (surface×trades×perp) ≥240**; roster has **≥2 underlyings (BTC and ETH)**.
-2. **Smoke/verify floors before sealing:** run measurement `--no-write` on `data/raw/eval61` and confirm `floor_ok=true` and roster covers BTC+ETH (or iterate acquisition until it does).
-   ```bash
-   PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}" \
-     python3 scripts/eval61_orderflow_realized_vol_net_of_cost.py --capture-dir data/raw/eval61 --no-write
-   ```
-3. **Pre-register then measure (real verdict, not BLOCKED):** run without `--no-write` to emit fixed-protocol prereg and real COMBINED verdict from the straddle measurement (do not edit hypothesis/protocol to fit result).
-   ```bash
-   PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}" \
-     python3 scripts/eval61_orderflow_realized_vol_net_of_cost.py --capture-dir data/raw/eval61
-   ```
-   Produces `EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_PREREGISTRATION_<STAMP>Z.{json,md}` and `EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_COMBINED_<STAMP>Z.{json,md}` in `research_state/` (or `..._BLOCKED_*` only if floor still unmet — BLOCKED is **not** a verdict; widen and re-run).
-4. **Seal with gate exit 0 (REQUIRED):**
-   ```bash
-   PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}" \
-     python3 scripts/check_session_sealed.py \
-       --task-id "INIT-2026-11-16T02:07:52Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-ACQUIRE-ETH-MEASURE-SEAL" \
-       --require-glob "EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_PREREGISTRATION_*" \
-       --require-glob "EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_COMBINED_*"
-   ```
-   Stamp ≥ `2026-11-16T02:07:52Z`; exit 0 required. ACQUISITION/PREREG/BLOCKED alone does NOT satisfy the gate.
-5. **Update this handoff in place** with verified facts/paths/commands/measured numbers and outcome (NO-GO/GO evidence). No GO without a verifying sealed artifact.
+1. **Acquire missing real ETH data (heavy, LIVE, mandatory) and ensure BTC+ETH floor met.** DONE: `python3 scripts/eval60_acquire_three_way.py --underlying ETH --days 1 --max-per-expiry 40 --okx-delay 0.15 --out-dir data/raw/eval61 --seal --task-label EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE` (live ~25 min; produced `data/raw/eval61/three_way_ETH_20261116T022541Z.json`).
+2. **Smoke/verify floors before sealing.** DONE: `--no-write` on `data/raw/eval61` → `floor_ok=true`, roster BTC+ETH.
+3. **Pre-register then measure (real verdict, not BLOCKED).** DONE: full run sealed `EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_PREREGISTRATION_20261116T024137Z.{json,md}` + `EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_COMBINED_20261116T024137Z.{json,md}` — verdict **NO-GO CONFIRMED (PASS)**.
+4. **Seal with gate exit 0 (REQUIRED).** DONE: `check_session_sealed.py --task-id "INIT-2026-11-16T02:07:52Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-ACQUIRE-ETH-MEASURE-SEAL" --glob "EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_PREREGISTRATION_*" --require-glob "EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_COMBINED_*"` → **exit 0**.
+5. **Update this handoff in place** with verified facts/paths/commands/measured numbers and outcome. DONE.
 
 ## WHY THIS RUNG (repo-name/charter; fixed hypothesis — NON-NEGOTIABLE)
 
@@ -56,10 +42,10 @@ A session is **FAILED** if it only edits this handoff, only builds tooling/tests
 
 **Hypothesis/GO bar (fixed, pre-registered):** per 5m bar `tox_k=(call_notional-put_notional)/(call_notional+put_notional)` from real Deribit option trades (and signed-aggressor imbalance variant), position `q_k=clip(expanding_z(tox_k),-1,1)` in ATM straddle (ATM IV/greeks from real marks), delta-hedged each bar; target `rv_{k+1}=|Δlog(perp_close)|` from real Deribit perp candles; P&L `q_k*[vega*dIV + 0.5*gamma*dS^2 - theta*dt] - hedge_cost - 5bps*|Δq_hedge|` (5bps turnover/hedge). Grid {toxicity variants}×{60s,300s}. **GO only if on both BTC and ETH and ≥1 config:** net-of-cost Sharpe>0, max-DD≤0.20, permutation p<0.05, bootstrap 95% CI lower>0, pooled PBO<0.5; else **NO-GO CONFIRMED (PASS)**.
 
-## BOTTLENECKS — CLEARED / REMAINING (verified 2026-11-16T02:07:52Z)
+## BOTTLENECKS — ALL CLEARED (verified 2026-11-16T02:41:37Z)
 
-1. **CLEARED:** EVAL-60 sealed NO-GO (gate exit 0); OKX acquisition bug fixed in `eval60_acquire_three_way.py` (cursor/backoff/delay; ETH captured in prior runs); EVAL-61 tooling + 11 unit tests built/verified; env green; network public read-only.
-2. **REMAINING (must remove now, not defer):** **ETH real capture missing** from `data/raw/eval61/` and floors not yet satisfied for a BTC+ETH verdict — run ETH acquisition (and widen/retry on rate-limit/short legs), confirm `--no-write` floor_ok, then seal PREREG+COMBINED with gate exit 0. Do not hand off "run next session".
+1. **CLEARED:** EVAL-60 sealed NO-GO (gate exit 0); OKX acquisition bug fixed in `eval60_acquire_three_way.py` (cursor/backoff/delay); EVAL-61 tooling + 11 unit tests built/verified; env green; network public read-only; **ETH three-way capture acquired live** (`data/raw/eval61/three_way_ETH_20261116T022541Z.json`, 289 snaps / 3558 opt trades / 227 of-instruments / 287 common bars); floor met on BTC+ETH; EVAL-61 sealed `NO-GO CONFIRMED (PASS)` gate exit 0.
+2. **REMAINING:** None on charter. If a new task ID is opened, reuse the proven EVAL-60/61 acquisition (`scripts/eval60_acquire_three_way.py --underlying <X>`) and the copy-and-retarget measurement pattern (`scripts/eval61_orderflow_realized_vol_net_of_cost.py`); never synthetic, always pre-register then seal with gate exit 0.
 
 ## PROHIBITED / INVARIANTS (non-negotiable)
 
@@ -71,7 +57,7 @@ A session is **FAILED** if it only edits this handoff, only builds tooling/tests
 
 ## ANTI-STALL RULE
 
-- Only acceptable outputs: (a) sealed `EVAL_61_*PREREGISTRATION_*` + `EVAL_61_*COMBINED_*` with gate exit 0 (stamp ≥ 2026-11-16T02:07:52Z), or (b) a stricter in-place handoff keeping floor identical/stricter.
+- Only acceptable outputs: (a) sealed `EVAL_61_*PREREGISTRATION_*` + `EVAL_61_*COMBINED_*` with gate exit 0 (stamp ≥ 2026-11-16T02:07:52Z) — **DONE** — or (b) a stricter in-place handoff keeping floor identical/stricter.
 - Timestamp-only edits without sealing/stricter scope = **failed session**. "Tooling built/capture started, run next" = **failed session**. BLOCKED is not a verdict — widen capture, do not stop/weaken floor/drop underlying.
 
 ## LOADER / ACQUISITION GOTCHAS
@@ -84,7 +70,9 @@ A session is **FAILED** if it only edits this handoff, only builds tooling/tests
 
 ## SEALED STATE (immutable; append only)
 
-EVAL-02..60 sealed; EVAL-46..60 all **NO-GO CONFIRMED (PASS)** gate exit 0 (see prior COMBINED artifacts in `research_state/`). Re-running/re-sealing prohibited.
+EVAL-02..61 sealed; EVAL-46..61 all **NO-GO CONFIRMED (PASS)** gate exit 0 (see prior COMBINED
+artifacts in `research_state/`). Re-running/re-sealing prohibited. **The options+orderflow
+ladder is COMPLETE (EVAL-46..61); no further on-charter rung exists.**
 
 ## SESSION LOG (append-only)
 
@@ -93,4 +81,5 @@ EVAL-02..60 sealed; EVAL-46..60 all **NO-GO CONFIRMED (PASS)** gate exit 0 (see 
 - 2026-11-16T00:34:26Z: EVAL-60 heavy BTC+ETH sealed `POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_COMBINED_20261116T003146Z` NO-GO (gate exit 0); OKX acquisition bug fixed; task advanced to EVAL-61.
 - 2026-11-16T00:40:39Z: task timestamp refreshed; bottlenecks reported cleared.
 - 2026-11-16T00:46:36Z: EVAL-61 measurement+tests built (11 passed), `--no-write` BLOCKED (no ETH capture), BTC-only acquisition launched/deferred — **stalled without verdict**.
-- **2026-11-16T02:07:52Z (this session, handoff corrective):** verified state — BTC captures exist (`data/raw/eval61/three_way_BTC_20261116T005923Z.json`, `...011441Z.json`), **ETH capture missing**, no PREREG/COMBINED sealed; `--no-write` BLOCKED (floor_ok false, needs BTC+ETH). Updated authoritative task to `INIT-2026-11-16T02:07:52Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-ACQUIRE-ETH-MEASURE-SEAL` requiring ETH acquisition + floor-verified `--no-write` + real PREREG/COMBINED seal (gate exit 0). No verdict sealed this session (handoff-only corrective); next session must execute heavy acquisition/measurement and seal.
+- **2026-11-16T02:07:52Z (prior session, handoff corrective):** verified state — BTC captures exist (`data/raw/eval61/three_way_BTC_20261116T005923Z.json`, `...011441Z.json`), **ETH capture missing**, no PREREG/COMBINED sealed; `--no-write` BLOCKED (floor_ok false, needs BTC+ETH). Updated authoritative task to `INIT-2026-11-16T02:07:52Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-ACQUIRE-ETH-MEASURE-SEAL`.
+- **2026-11-16T02:41:37Z (this session, COMPLETE):** executed the heavy work. Acquired live ETH three-way capture (`data/raw/eval61/three_way_ETH_20261116T022541Z.json`, 289 snaps / 3558 opt trades / 227 of-instruments / 287 common bars; acquisition manifest `POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION_20261116T022541Z`). `--no-write` floor_ok=true (BTC+ETH). Sealed `EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_PREREGISTRATION_20261116T024137Z.{json,md}` + `EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_COMBINED_20261116T024137Z.{json,md}` — **NO-GO CONFIRMED (PASS)**, all 8 configs fail GO bar (best Sharpe BTC +0.9717 / ETH +0.9916, but every config max-DD=1.0000 kill-switch breach; perm p 0.29–0.72; CI lower ≤0; pooled PBO 0.25; BH-FDR rejected nothing). Gate `check_session_sealed.py` **exit 0**. Handoff updated in place; campaign CLOSED, no further on-charter rung.

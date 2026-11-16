@@ -1,0 +1,512 @@
+{
+  "report_id": "EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL_COMBINED",
+  "generated_at": "2026-11-16T02:41:37Z",
+  "task": "EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "real options order-flow toxicity -> subsequent realized volatility, signal-timed delta-hedged ATM straddle net-of-cost falsification",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_surface_snapshots_per_underlying": 100,
+    "min_bars_per_underlying": 240,
+    "min_instruments_per_underlying": 50,
+    "min_option_trades_per_underlying": 2000,
+    "min_span_seconds_per_underlying": 79200.0,
+    "min_common_bars_per_underlying": 240,
+    "min_underlyings": 2
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_surface_snapshots": 289,
+      "n_surface_instruments": 92,
+      "n_surface_bars_5m": 289,
+      "n_option_trades": 2748,
+      "n_of_instruments": 87,
+      "of_span_seconds": 86350.967,
+      "n_of_bars_5m": 287,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "n_perp_bars_5m": 288,
+      "n_common_bars_5m": 288,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_surface_snapshots": 289,
+      "n_surface_instruments": 280,
+      "n_surface_bars_5m": 289,
+      "n_option_trades": 3558,
+      "n_of_instruments": 227,
+      "of_span_seconds": 86289.223,
+      "n_of_bars_5m": 287,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "n_perp_bars_5m": 288,
+      "n_common_bars_5m": 287,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    }
+  },
+  "protocol": {
+    "eval": "EVAL-61",
+    "title": "Real options order-flow toxicity -> subsequent realized volatility, traded via a signal-timed delta-hedged ATM straddle net-of-cost on the BTC/ETH perpetual",
+    "capture_dir": "data/raw/eval61",
+    "tox_signals": [
+      "tox",
+      "imbalance"
+    ],
+    "tox_detail": {
+      "tox": "(call_notional - put_notional) / (call_notional + put_notional) from real Deribit option trades per bar",
+      "imbalance": "(aggressive_buy_amt - aggressive_sell_amt) / total_amt (signed aggressor variant)"
+    },
+    "position": "q_k = clip(expanding_z(tox_k), -1, 1); causal decision at bar k",
+    "realized_vol_target": "rv_{k+1} = |log(S_{k+1}) - log(S_k)| from Deribit 1m perp candles",
+    "straddle": "ATM straddle from real surface snapshot (newest 5m snapshot whose candle closed by bar_end = bar_ms + 300s); IV backed out of the real mark via implied_volatility(mark*spot, spot, K, 0, T, type); greeks from black_scholes_greeks at that IV",
+    "pnl_per_bar": "q_k * [vega*(IV_{k+1}-IV_k) + 0.5*gamma*(dS)^2 - theta*dt] - cost_bps*|q_k*delta_k - q_{k-1}*delta_{k-1}|/1e4 - cost_bps*|q_k - q_{k-1}|/1e4",
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "zwindow": 20,
+    "cost_bps": 5.0,
+    "cost_model": "net-of-cost: pre-registered 5 bps on delta-hedge rebalance and straddle-position turnover",
+    "walkforward": {
+      "train_frac": "1/3",
+      "test_frac": "1/5",
+      "step_frac": "1/5"
+    },
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "pbo_n_combinations": 16,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), permutation p < 0.05, bootstrap 95% CI lower > 0, and pooled PBO < 0.5; else NO-GO.",
+    "floor": {
+      "min_surface_snapshots_per_underlying": 100,
+      "min_bars_per_underlying": 240,
+      "min_instruments_per_underlying": 50,
+      "min_option_trades_per_underlying": 2000,
+      "min_span_seconds_per_underlying": 79200.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2
+    }
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "signal": "tox",
+      "bar_seconds": 60.0,
+      "n_bars": 1441,
+      "n_returns": 1440,
+      "nonzero_positions": 1437,
+      "sharpe": 0.16422811932527984,
+      "max_drawdown": 1.0,
+      "kill_switch_breach": true,
+      "permutation_p": 0.7192807192807192,
+      "bootstrap_ci": [
+        0.16422811932527984,
+        -0.5363169490220967,
+        1.0435136949526078
+      ],
+      "dsr": 4.3833214835586887e-10,
+      "walkforward": [
+        {
+          "test_start": 480,
+          "test_end": 768,
+          "oos_sharpe": 0.2887766279794161,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        },
+        {
+          "test_start": 768,
+          "test_end": 1056,
+          "oos_sharpe": -0.08461337848948301,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        },
+        {
+          "test_start": 1056,
+          "test_end": 1344,
+          "oos_sharpe": 0.9115672755308318,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        }
+      ],
+      "mean_return": 0.526498090432073,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "tox",
+      "bar_seconds": 300.0,
+      "n_bars": 289,
+      "n_returns": 288,
+      "nonzero_positions": 285,
+      "sharpe": 0.5096155060564683,
+      "max_drawdown": 1.0,
+      "kill_switch_breach": true,
+      "permutation_p": 0.6263736263736264,
+      "bootstrap_ci": [
+        0.5096155060564683,
+        -0.9434776706926175,
+        2.7358897813178173
+      ],
+      "dsr": 1.2948647931665391e-08,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": 3.080625085915732,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -2.840375668959923,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -1.6161784799090506,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        }
+      ],
+      "mean_return": 3.674862838531721,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "imbalance",
+      "bar_seconds": 60.0,
+      "n_bars": 1441,
+      "n_returns": 1440,
+      "nonzero_positions": 1437,
+      "sharpe": -0.23103270885882227,
+      "max_drawdown": 1.0,
+      "kill_switch_breach": true,
+      "permutation_p": 0.6213786213786214,
+      "bootstrap_ci": [
+        -0.23103270885882227,
+        -1.1460079697461156,
+        0.5791045673728067
+      ],
+      "dsr": 0.9999999999999958,
+      "walkforward": [
+        {
+          "test_start": 480,
+          "test_end": 768,
+          "oos_sharpe": 0.1376982572106334,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        },
+        {
+          "test_start": 768,
+          "test_end": 1056,
+          "oos_sharpe": -0.2870706215180785,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        },
+        {
+          "test_start": 1056,
+          "test_end": 1344,
+          "oos_sharpe": -0.09015134212208097,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        }
+      ],
+      "mean_return": -0.6963534898822298,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "imbalance",
+      "bar_seconds": 300.0,
+      "n_bars": 289,
+      "n_returns": 288,
+      "nonzero_positions": 285,
+      "sharpe": 0.9716509990186445,
+      "max_drawdown": 1.0,
+      "kill_switch_breach": true,
+      "permutation_p": 0.3016983016983017,
+      "bootstrap_ci": [
+        0.9716509990186445,
+        -1.0721314677060174,
+        2.8562751936700885
+      ],
+      "dsr": 1.1102230246251565e-16,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": 4.351406406456901,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -0.7402457248673331,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": 2.574962578885363,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        }
+      ],
+      "mean_return": 7.035898947936754,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "tox",
+      "bar_seconds": 60.0,
+      "n_bars": 1441,
+      "n_returns": 1440,
+      "nonzero_positions": 1437,
+      "sharpe": 0.4053825901171122,
+      "max_drawdown": 1.0,
+      "kill_switch_breach": true,
+      "permutation_p": 0.33266733266733267,
+      "bootstrap_ci": [
+        0.4053825901171122,
+        -0.44170629191759947,
+        1.1990650254846074
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "test_start": 480,
+          "test_end": 768,
+          "oos_sharpe": 0.10276165156792193,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        },
+        {
+          "test_start": 768,
+          "test_end": 1056,
+          "oos_sharpe": -1.0877950909159555,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        },
+        {
+          "test_start": 1056,
+          "test_end": 1344,
+          "oos_sharpe": -0.4824048034681478,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        }
+      ],
+      "mean_return": 0.04555415453282761,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "tox",
+      "bar_seconds": 300.0,
+      "n_bars": 289,
+      "n_returns": 288,
+      "nonzero_positions": 285,
+      "sharpe": -1.0551495900934835,
+      "max_drawdown": 1.0,
+      "kill_switch_breach": true,
+      "permutation_p": 0.23476523476523475,
+      "bootstrap_ci": [
+        -1.0551495900934835,
+        -2.4760932001595712,
+        0.8039754434525648
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -1.4238798725167974,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": -2.3348731802590508,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": -1.3375717252400214,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        }
+      ],
+      "mean_return": -0.2792605830347047,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "imbalance",
+      "bar_seconds": 60.0,
+      "n_bars": 1441,
+      "n_returns": 1440,
+      "nonzero_positions": 1437,
+      "sharpe": -0.28310465794404627,
+      "max_drawdown": 1.0,
+      "kill_switch_breach": true,
+      "permutation_p": 0.5244755244755245,
+      "bootstrap_ci": [
+        -0.28310465794404627,
+        -1.1178433378784647,
+        0.5399717013336762
+      ],
+      "dsr": 1.0,
+      "walkforward": [
+        {
+          "test_start": 480,
+          "test_end": 768,
+          "oos_sharpe": -0.17524670718283275,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        },
+        {
+          "test_start": 768,
+          "test_end": 1056,
+          "oos_sharpe": -1.1773970303995895,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        },
+        {
+          "test_start": 1056,
+          "test_end": 1344,
+          "oos_sharpe": -0.004482141742892623,
+          "oos_max_drawdown": 1.0,
+          "n": 288
+        }
+      ],
+      "mean_return": -0.03102942167783186,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "imbalance",
+      "bar_seconds": 300.0,
+      "n_bars": 289,
+      "n_returns": 288,
+      "nonzero_positions": 285,
+      "sharpe": 0.9915868955462902,
+      "max_drawdown": 1.0,
+      "kill_switch_breach": true,
+      "permutation_p": 0.2897102897102897,
+      "bootstrap_ci": [
+        0.9915868955462902,
+        -0.6687479488489352,
+        2.773988293010249
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "test_start": 96,
+          "test_end": 153,
+          "oos_sharpe": -0.6753613822277567,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        },
+        {
+          "test_start": 153,
+          "test_end": 210,
+          "oos_sharpe": 1.6817432475441323,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        },
+        {
+          "test_start": 210,
+          "test_end": 267,
+          "oos_sharpe": 3.9170792385994804,
+          "oos_max_drawdown": 1.0,
+          "n": 57
+        }
+      ],
+      "mean_return": 0.26074607065696875,
+      "pass": false
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 4,
+      "best_sharpe": 0.9716509990186445,
+      "best_config": "imbalance::bar300.0",
+      "any_pass": false
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 4,
+      "best_sharpe": 0.9915868955462902,
+      "best_config": "imbalance::bar300.0",
+      "any_pass": false
+    }
+  ],
+  "pooled": {
+    "overall_pbo": 0.25,
+    "bh_fdr": {
+      "rejected": [],
+      "thresholds": {
+        "ETH::tox::bar300.0": 0.0125,
+        "ETH::imbalance::bar300.0": 0.025,
+        "BTC::imbalance::bar300.0": 0.037500000000000006,
+        "ETH::tox::bar60.0": 0.05,
+        "ETH::imbalance::bar60.0": 0.0625,
+        "BTC::imbalance::bar60.0": 0.07500000000000001,
+        "BTC::tox::bar300.0": 0.08750000000000001,
+        "BTC::tox::bar60.0": 0.1
+      },
+      "alpha": 0.1,
+      "m_tests": 8,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": false,
+    "campaign_state": "EVAL_61_OPTIONS_ORDERFLOW_REALIZED_VOL"
+  },
+  "errors": []
+}
