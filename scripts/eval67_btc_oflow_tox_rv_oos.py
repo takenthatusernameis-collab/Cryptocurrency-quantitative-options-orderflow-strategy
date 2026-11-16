@@ -1,0 +1,689 @@
+#!/usr/bin/env python3
+"""EVAL-67: isolated, out-of-sample replication on a **disjoint** real BTC window
+of the only suggestive EVAL-65 slice (`tox::bar60.0::h72`, `imbalance::bar60.0::h72`).
+
+This is a strict copy-and-retarget of EVAL-66 (predictiveness, Spearman rank IC
+between causal options order-flow toxicity and forward realized volatility):
+- BTC-only
+- configs restricted to tox/imbalance at bar60, horizon 72 (pre-registered)
+- reuses sealed EVAL-62 `build_states` and EVAL-64 feasible floor verbatim
+- same stats/GO bar (IC>0, directional permutation p<0.05, block-bootstrap 95% CI
+  lower>0, BH-FDR rejects)
+- artifact IDs EVAL_67_BTC_OFLOW_TOX_RV_OOS_{PREREGISTRATION,COMBINED|BLOCKED}
+
+The sealed EVAL-64/65 BTC window is 2026-11-09T06:48:16Z..2026-11-16T06:48:16Z.
+A fresh capture is only usable if its window is **disjoint** from that sealed
+window and still meets the EVAL-64 floor (>=300000 s of surface/perp history).
+Because the free Deribit perp 1m endpoint returns only 5001 candles (300000 s),
+the earliest floor-compliant capture end is 2026-11-19T18:08:16Z (sealed end +
+300000 s); use 2026-11-20T00:00:00Z or later with `--days 3.7` for margin
+(start 2026-11-16T07:12:00Z, span 319680 s). Do **not** use a naive trailing
+`--days 7` capture before then: it overlaps the sealed BTC window and must seal
+BLOCKED.
+
+If the feasible floor or disjointness is not met on a non-empty real capture,
+seal BLOCKED (never NO-GO) and do not weaken the floor. An empty capture
+directory is not a BLOCKED result: ``--seal`` refuses to write any artifact
+until a real ``three_way_BTC_*.json`` capture has been acquired.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import math
+import random
+import sys
+import traceback
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Sequence, Tuple
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+# Reuse sealed EVAL-61/EVAL-62 measurement + EVAL-64 feasible floor + EVAL-65 stats.
+import scripts.eval61_orderflow_realized_vol_net_of_cost as e61  # noqa: E402
+import scripts.eval62_orderflow_realized_vol_markpath as e62  # noqa: E402
+import scripts.eval64_orderflow_realized_vol_markpath_feasible as e64  # noqa: E402
+import scripts.eval65_orderflow_tox_rv_predictiveness as e65  # noqa: E402
+from src.analytics.real_walkforward_certification import (  # noqa: E402
+    _benjamini_hochberg,
+)
+
+OUT_DIR = ROOT / "research_state"
+REPORT_ID = "EVAL_67_BTC_OFLOW_TOX_RV_OOS_COMBINED"
+PREREG_ID = "EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION"
+BLOCKED_ID = "EVAL_67_BTC_OFLOW_TOX_RV_OOS_BLOCKED"
+
+# Sealed EVAL-64/65 BTC window (must not overlap). Source:
+# research_state/POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION_20261116T064816Z.json
+SEALED_BTC_WINDOW_START = "2026-11-09T06:48:16Z"
+SEALED_BTC_WINDOW_END = "2026-11-16T06:48:16Z"
+# Earliest capture end that yields a disjoint >=300000 s window with margin.
+EARLIEST_DISJOINT_CAPTURE_END = "2026-11-20T00:00:00Z"
+
+
+class NoRealCaptureError(RuntimeError):
+    """Raised when sealing is attempted before a real BTC capture exists."""
+
+# Pre-registered configs: only the suggestive EVAL-65 BTC slice.
+TOX_SIGNALS: Tuple[str, ...] = ("tox", "imbalance")
+GRID_BAR_SECONDS: Tuple[float, ...] = (60.0,)
+FORWARD_HORIZONS_BARS: Tuple[int, ...] = (72,)
+
+# Stats (identical to EVAL-65).
+PERMUTATION_PERMS = e65.PERMUTATION_PERMS
+BOOTSTRAP_RESAMPLES = e65.BOOTSTRAP_RESAMPLES
+BOOTSTRAP_BLOCK = e65.BOOTSTRAP_BLOCK
+FDR_ALPHA = e65.FDR_ALPHA
+SEED = e65.SEED
+
+# Feasible floor reused verbatim from sealed EVAL-64.
+_underlying_floor_strict = e64._underlying_floor_strict
+MIN_UNDERLYINGS = 1  # BTC-only replication
+
+CODE_PATHS: Tuple[str, ...] = (
+    "src/analytics/real_walkforward_certification.py",
+    "scripts/eval60_acquire_three_way.py",
+    "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+    "scripts/eval62_orderflow_realized_vol_markpath.py",
+    "scripts/eval64_orderflow_realized_vol_markpath_feasible.py",
+    "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+    "scripts/eval66_eth_oflow_tox_rv_oos.py",
+    "scripts/eval67_btc_oflow_tox_rv_oos.py",
+)
+
+COMMANDS: Tuple[str, ...] = (
+    'export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"',
+    "python3 -m py_compile scripts/eval67_btc_oflow_tox_rv_oos.py "
+    "tests/test_eval67_btc_oflow_tox_rv_oos.py",
+    "python3 -m pytest -q tests/test_eval67_btc_oflow_tox_rv_oos.py",
+    "mkdir -p data/raw/eval67",
+    "# DISJOINTNESS RULE: do NOT run a naive trailing --days 7 capture before "
+    "2026-11-19T20:00:00Z; it overlaps the sealed BTC window "
+    "(2026-11-09T06:48:16Z..2026-11-16T06:48:16Z). Earliest safe example:",
+    "python3 scripts/eval60_acquire_three_way.py --underlying BTC --days 3.7 "
+    "--end 2026-11-20T00:00:00Z --out-dir data/raw/eval67 --seal",
+    "python3 scripts/eval67_btc_oflow_tox_rv_oos.py --capture-dir data/raw/eval67 --no-write",
+    "python3 scripts/eval67_btc_oflow_tox_rv_oos.py --capture-dir data/raw/eval67 --seal --task-label EVAL67-BTC-OFLOW-TOX-RV-OOS",
+    'python3 scripts/check_session_sealed.py --task-id "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION" '
+    '--glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" '
+    '--require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_COMBINED_*" '
+    '--require-any-glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_BLOCKED_*"',
+)
+
+
+# ---------------------------------------------------------------------------
+# Disjointness gate (EVAL-67 addition; sealed EVAL-64/65 BTC window)
+# ---------------------------------------------------------------------------
+def _parse_iso(value: str) -> datetime:
+    dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
+def _capture_window(capture: Dict[str, Any]) -> Tuple[Optional[datetime], Optional[datetime]]:
+    start_raw = capture.get("window_start")
+    end_raw = capture.get("window_end")
+    try:
+        start = _parse_iso(str(start_raw)) if start_raw else None
+        end = _parse_iso(str(end_raw)) if end_raw else None
+    except (TypeError, ValueError):
+        return None, None
+    return start, end
+
+
+def check_disjointness(capture: Dict[str, Any]) -> Dict[str, Any]:
+    """Return whether the capture window is disjoint from the sealed BTC window."""
+    inst = capture.get("underlying", "?")
+    start, end = _capture_window(capture)
+    sealed_start = _parse_iso(SEALED_BTC_WINDOW_START)
+    sealed_end = _parse_iso(SEALED_BTC_WINDOW_END)
+    if start is None or end is None:
+        return {
+            "underlying": inst,
+            "ok": False,
+            "reason": "missing_capture_window",
+            "capture_window": [None, None],
+            "sealed_window": [SEALED_BTC_WINDOW_START, SEALED_BTC_WINDOW_END],
+            "overlap_seconds": None,
+        }
+    overlap_start = max(start, sealed_start)
+    overlap_end = min(end, sealed_end)
+    overlap_seconds = max(0.0, (overlap_end - overlap_start).total_seconds())
+    return {
+        "underlying": inst,
+        "ok": bool(overlap_seconds <= 0.0),
+        "reason": "disjoint" if overlap_seconds <= 0.0 else "overlaps_sealed_btc_window",
+        "capture_window": [start.strftime("%Y-%m-%dT%H:%M:%SZ"), end.strftime("%Y-%m-%dT%H:%M:%SZ")],
+        "sealed_window": [SEALED_BTC_WINDOW_START, SEALED_BTC_WINDOW_END],
+        "overlap_seconds": round(overlap_seconds, 3),
+        "capture_span_seconds": round((end - start).total_seconds(), 3),
+        "meets_min_span": bool((end - start).total_seconds() >= 300000.0),
+    }
+
+
+# ---------------------------------------------------------------------------
+# Local wrappers around EVAL-65 helpers bound to EVAL-67 constants
+# ---------------------------------------------------------------------------
+def evaluate_predictiveness(
+    capture: Dict[str, Any],
+    *,
+    tox_signal: str,
+    bar_seconds: float,
+    horizon_bars: int,
+) -> Dict[str, Any]:
+    """EVAL-65 statistic but with EVAL-67 stats constants."""
+    inst = capture.get("underlying", "UNKNOWN")
+    states = e62.build_states(capture, tox_signal=tox_signal, bar_seconds=bar_seconds)
+    pts = [
+        (float(s["spot"]), float(s.get("signal_z", 0.0)))
+        for s in states
+        if float(s.get("spot", 0.0)) > 0.0
+    ]
+    if len(pts) < horizon_bars + 5:
+        return {
+            "underlying": inst, "signal": tox_signal,
+            "bar_seconds": float(bar_seconds), "horizon_bars": int(horizon_bars),
+            "error": "insufficient priced states", "n_pairs": 0, "pass": False,
+        }
+    spot = [p[0] for p in pts]
+    sigz = [p[1] for p in pts]
+    lr = [math.log(spot[i + 1] / spot[i]) for i in range(len(spot) - 1)]
+
+    xs: List[float] = []
+    ys: List[float] = []
+    for k in range(0, len(lr) - horizon_bars + 1):
+        seg = lr[k:k + horizon_bars]
+        rv = math.sqrt(sum(r * r for r in seg) / float(horizon_bars))
+        xs.append(sigz[k])
+        ys.append(rv)
+
+    if len(xs) < 8:
+        return {
+            "underlying": inst, "signal": tox_signal,
+            "bar_seconds": float(bar_seconds), "horizon_bars": int(horizon_bars),
+            "error": "insufficient aligned pairs", "n_pairs": len(xs), "pass": False,
+        }
+
+    ic, perm_p = e65._perm_p_ic(xs, ys, PERMUTATION_PERMS, SEED)
+    med, ci_lo, ci_hi = e65._boot_ci_ic(xs, ys, BOOTSTRAP_RESAMPLES, BOOTSTRAP_BLOCK, SEED)
+    passed = bool(ic > 0.0 and perm_p < 0.05 and ci_lo > 0.0 and len(xs) >= 20)
+    return {
+        "underlying": inst,
+        "signal": tox_signal,
+        "bar_seconds": float(bar_seconds),
+        "horizon_bars": int(horizon_bars),
+        "n_pairs": len(xs),
+        "n_states": len(states),
+        "spearman_ic": ic,
+        "permutation_p": perm_p,
+        "bootstrap_ci": [med, ci_lo, ci_hi],
+        "nonzero_signal_pairs": int(sum(1 for v in xs if abs(v) > 1e-9)),
+        "pass": passed,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Protocol + orchestration
+# ---------------------------------------------------------------------------
+def build_protocol(capture_dir: str) -> Dict[str, Any]:
+    floor = dict(e65.build_protocol(capture_dir)["floor"])
+    floor["min_underlyings"] = MIN_UNDERLYINGS
+    return {
+        "eval": "EVAL-67",
+        "title": "Isolated disjoint-window OOS replication (BTC-only) of the suggestive "
+                 "EVAL-65 options order-flow toxicity -> forward realized-vol slice "
+                 "(tox/imbalance, bar60, horizon 72), wrapper-free Spearman rank IC",
+        "extends": "EVAL-65/EVAL-66 (identical signal/statistic/floor reused; restricted "
+                   "to the single BTC predictive slice on a fresh disjoint real window)",
+        "supersedes": "nothing — replication check for the only suggestive EVAL-65 slice "
+                      "on BTC; non-replication or BLOCKED is a valid sealed result",
+        "capture_dir": str(capture_dir),
+        "underlyings_required": ["BTC"],
+        "disjoint_from": "data/raw/eval63/three_way_BTC_20261116T064816Z.json "
+                         "(window 2026-11-09T06:48:16Z..2026-11-16T06:48:16Z)",
+        "disjointness_rule": (
+            "A capture is usable only if [window_start, window_end] does not overlap "
+            "[2026-11-09T06:48:16Z, 2026-11-16T06:48:16Z]. Because the free Deribit "
+            "perp 1m endpoint returns at most 5001 candles (300000 s), the capture "
+            "must also span >=300000 s. The earliest floor-compliant end is "
+            "2026-11-19T18:08:16Z (sealed end + 300000 s); for margin use "
+            "2026-11-20T00:00:00Z or later. A naive trailing --days 7 capture before "
+            "the sealed window has cleared will overlap and must seal BLOCKED."
+        ),
+        "capture_window_rule": (
+            "At/after 2026-11-20T00:00:00Z: --underlying BTC --days 3.7 "
+            "--end <now-ISO> --out-dir data/raw/eval67 --seal. At end "
+            "2026-11-20T00:00:00Z this gives start 2026-11-16T07:12:00Z (disjoint "
+            "from 2026-11-16T06:48:16Z; span 319680 s). If running later, start moves "
+            "later and stays disjoint. Do not weaken the EVAL-64 floor."
+        ),
+        "tox_signals": list(TOX_SIGNALS),
+        "bar_seconds_grid": [float(b) for b in GRID_BAR_SECONDS],
+        "forward_horizons_bars": list(FORWARD_HORIZONS_BARS),
+        "signal": e65.build_protocol(capture_dir)["signal"],
+        "target": e65.build_protocol(capture_dir)["target"],
+        "statistic": e65.build_protocol(capture_dir)["statistic"],
+        "stats": e65.build_protocol(capture_dir)["stats"],
+        "go_bar": (
+            "GO only if, on BTC and at least one of the pre-registered configs "
+            "(tox::bar60::h72, imbalance::bar60::h72), Spearman IC > 0, directional "
+            "permutation p < 0.05, block-bootstrap 95% CI lower > 0, pooled BH-FDR "
+            "rejects that config, the EVAL-64 floor is met, and the capture window is "
+            "disjoint from the sealed BTC window; else NO-GO CONFIRMED (PASS) when "
+            "floor+disjoint but not predictive, or BLOCKED when floor/disjoint fails."
+        ),
+        "data_availability": {
+            "note": "fresh real BTC three-way capture, disjoint from the sealed "
+                    "eval63 BTC window; public read-only, polite rate limiting, single "
+                    "acquisition process; no synthetic data",
+            "sealed_btc_window": [SEALED_BTC_WINDOW_START, SEALED_BTC_WINDOW_END],
+            "earliest_disjoint_capture_end": EARLIEST_DISJOINT_CAPTURE_END,
+            "deribit_perp_1m_retention_seconds_approx": 300000,
+        },
+        "floor": floor,
+        "min_underlyings": MIN_UNDERLYINGS,
+    }
+
+
+def run_eval67(
+    *,
+    capture_dir: str = "data/raw/eval67",
+    write: bool = True,
+    task_label: str = "EVAL67-BTC-OFLOW-TOX-RV-OOS",
+) -> Dict[str, Any]:
+    generated_at = e65._utc_now_iso()
+    capture_dir_abs = Path(capture_dir)
+    if not capture_dir_abs.is_absolute():
+        capture_dir_abs = ROOT / capture_dir_abs
+    captures = e61._capture_inventory(str(capture_dir_abs))
+    # BTC-only replication
+    captures = [c for c in captures if str(c.get("underlying", "")).upper() == "BTC"]
+
+    if write and not captures:
+        raise NoRealCaptureError(
+            f"no real BTC capture found in {capture_dir_abs}; run "
+            "scripts/eval60_acquire_three_way.py --underlying BTC --days 3.7 "
+            f"--end <at/after {EARLIEST_DISJOINT_CAPTURE_END}> --out-dir {capture_dir_abs} "
+            "and verify three_way_BTC_*.json (disjoint from the sealed BTC window) "
+            "before sealing"
+        )
+
+    per_underlying_floor: Dict[str, Dict[str, Any]] = {}
+    disjointness: Dict[str, Dict[str, Any]] = {}
+    for c in captures:
+        inst = c.get("underlying", "?")
+        per_underlying_floor[inst] = _underlying_floor_strict(c)
+        disjointness[inst] = check_disjointness(c)
+
+    floor_ok = bool(
+        len(captures) >= MIN_UNDERLYINGS
+        and per_underlying_floor
+        and all(v["ok"] for v in per_underlying_floor.values())
+    )
+    disjoint_ok = bool(
+        len(captures) >= MIN_UNDERLYINGS
+        and disjointness
+        and all(v["ok"] for v in disjointness.values())
+    )
+    floor_and_disjoint_ok = bool(floor_ok and disjoint_ok)
+
+    per_config: List[Dict[str, Any]] = []
+    errors: List[str] = []
+    for cap in captures:
+        for sig in TOX_SIGNALS:
+            for bar_s in GRID_BAR_SECONDS:
+                for horizon in FORWARD_HORIZONS_BARS:
+                    try:
+                        res = evaluate_predictiveness(
+                            cap, tox_signal=sig, bar_seconds=bar_s, horizon_bars=horizon
+                        )
+                    except BaseException as exc:  # noqa: BLE001
+                        errors.append(
+                            f"{cap.get('underlying')}::{sig}::bar{bar_s}::h{horizon}: {exc!r}"
+                        )
+                        continue
+                    per_config.append(res)
+
+    p_values = {
+        f"{r['underlying']}::{r['signal']}::bar{r['bar_seconds']}::h{r['horizon_bars']}":
+            e65._finite(r.get("permutation_p"), 1.0)
+        for r in per_config
+        if r.get("n_pairs", 0) > 0
+    }
+    bh = _benjamini_hochberg(p_values, alpha=FDR_ALPHA) if p_values else {"rejected": []}
+    rejected = set(bh.get("rejected") or [])
+
+    by_inst: Dict[str, List[Dict[str, Any]]] = {}
+    for r in per_config:
+        by_inst.setdefault(r["underlying"], []).append(r)
+
+    inst_summary: List[Dict[str, Any]] = []
+    for inst, rows in by_inst.items():
+        valid = [r for r in rows if r.get("n_pairs", 0) > 0]
+        best = max(valid, key=lambda r: e65._finite(r.get("spearman_ic"), -1e9)) if valid else None
+        pass_configs = []
+        for r in valid:
+            key = (
+                f"{r['underlying']}::{r['signal']}::bar{r['bar_seconds']}::"
+                f"h{r['horizon_bars']}"
+            )
+            if r.get("pass") and key in rejected:
+                pass_configs.append(key)
+        inst_summary.append({
+            "underlying": inst,
+            "n_configs": len(rows),
+            "best_ic": e65._finite(best.get("spearman_ic"), 0.0) if best else 0.0,
+            "best_config": (
+                f"{best['signal']}::bar{best['bar_seconds']}::h{best['horizon_bars']}"
+                if best else "n/a"
+            ),
+            "n_pass": len(pass_configs),
+            "pass_configs": pass_configs,
+            "any_pass": bool(pass_configs),
+        })
+
+    all_pass = bool(inst_summary) and all(s["any_pass"] for s in inst_summary)
+    go = bool(floor_and_disjoint_ok and all_pass and len(rejected) >= 1)
+    if not floor_and_disjoint_ok:
+        verdict = "BLOCKED"
+    elif go:
+        verdict = "GO CONFIRMED"
+    else:
+        verdict = "NO-GO CONFIRMED (PASS)"
+    campaign_state = (
+        "EVAL_67_BTC_OFLOW_TOX_RV_OOS"
+        if floor_and_disjoint_ok
+        else "EVAL_67_BLOCKED_FLOOR_OR_DISJOINTNESS"
+    )
+
+    report: Dict[str, Any] = {
+        "report_id": REPORT_ID,
+        "generated_at": generated_at,
+        "task": task_label,
+        "verdict": verdict,
+        "verdict_detail": (
+            "isolated OOS replication (disjoint real BTC window) of the suggestive "
+            "EVAL-65 slice tox/imbalance::bar60::h72; wrapper-free Spearman rank IC "
+            "with EVAL-62 signal + EVAL-64 feasible floor reused"
+            if floor_and_disjoint_ok
+            else "capture below the pre-registered feasible floor and/or overlapping "
+                 "the sealed BTC window; no GO/NO-GO verdict"
+        ),
+        "floor_ok": bool(floor_ok),
+        "disjointness_ok": bool(disjoint_ok),
+        "floor_and_disjoint_ok": floor_and_disjoint_ok,
+        "capture_dir": str(capture_dir_abs),
+        "underlyings": sorted(per_underlying_floor),
+        "floor": build_protocol(capture_dir)["floor"],
+        "disjointness_rule": build_protocol(capture_dir)["disjointness_rule"],
+        "per_underlying_floor": per_underlying_floor,
+        "disjointness": disjointness,
+        "protocol": build_protocol(capture_dir),
+        "per_config": per_config,
+        "per_underlying": inst_summary,
+        "pooled": {
+            "bh_fdr": bh,
+            "all_underlyings_pass": all_pass,
+            "campaign_state": campaign_state,
+        },
+        "errors": errors,
+    }
+
+    if not write:
+        return report
+
+    prereg = _build_prereg(report)
+    e62._seal(PREREG_ID, prereg, _build_prereg_md)
+
+    if not floor_and_disjoint_ok:
+        e62._seal(BLOCKED_ID, _build_blocked_report(report), _build_blocked_md)
+        return report
+
+    e62._seal(REPORT_ID, report, _build_md)
+    return report
+
+
+def _build_prereg(report: Dict[str, Any]) -> Dict[str, Any]:
+    p = report["protocol"]
+    return {
+        "prereg_id": PREREG_ID,
+        "generated_at": report["generated_at"],
+        "task": report["task"],
+        "hypothesis": (
+            "The suggestive EVAL-65 BTC slice (tox/imbalance, bar60, horizon 72) "
+            "replicates out-of-sample on a fresh disjoint real BTC window: "
+            "Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% "
+            "CI lower > 0, and BH-FDR rejects, at the sealed EVAL-64 feasible floor."
+        ),
+        "extends": p["extends"],
+        "disjointness_rule": p["disjointness_rule"],
+        "data_availability": p["data_availability"],
+        "protocol": p,
+        "capture_dir": report["capture_dir"],
+    }
+
+
+def _build_prereg_md(r: Dict[str, Any]) -> str:
+    p = r["protocol"]
+    fl = p["floor"]
+    lines = [
+        f"# {PREREG_ID} — BTC OOS replication of suggestive EVAL-65 slice "
+        f"(tox/imbalance::bar60::h72, wrapper-free Spearman rank IC)",
+        "",
+        f"- Generated: `{r['generated_at']}`",
+        f"- Task: `{r['task']}`",
+        f"- Hypothesis: {r['hypothesis']}",
+        f"- Capture dir: `{r['capture_dir']}`",
+        f"- Extends: {p['extends']}",
+        f"- Disjoint from: {p['disjoint_from']}",
+        "",
+        "## Pre-declared protocol",
+        "",
+        f"- Underlyings: {p['underlyings_required']}",
+        f"- Tox signals: {p['tox_signals']}",
+        f"- Bar grid (s): {p['bar_seconds_grid']}",
+        f"- Forward horizons (bars): {p['forward_horizons_bars']}",
+        f"- Signal: {p['signal']}",
+        f"- Target: {p['target']}",
+        f"- Statistic: {p['statistic']}",
+        f"- Stats: perm {p['stats']['permutation_perms']} ({p['stats']['permutation']}) / "
+        f"bootstrap {p['stats']['bootstrap_resamples']} block {p['stats']['bootstrap_block']} / "
+        f"BH-FDR alpha {p['stats']['fdr_alpha']} / seed {p['stats']['seed']}",
+        "",
+        "## Pre-declared disjointness + capture-window rule",
+        "",
+        p["disjointness_rule"],
+        "",
+        p["capture_window_rule"],
+        "",
+        "## Pre-declared GO bar",
+        "",
+        p["go_bar"],
+        "",
+        "## Pre-registered feasible floor (reused verbatim from sealed EVAL-64)",
+        "",
+        f"- min surface snapshots/underlying: {fl['min_surface_snapshots_per_underlying']}",
+        f"- min surface 5m bars/underlying: {fl['min_surface_bars_5m_per_underlying']}",
+        f"- min Deribit option trades/underlying: {fl['min_option_trades_per_underlying']}",
+        f"- min perp 5m bars/underlying: {fl['min_perp_bars_5m_per_underlying']}",
+        f"- min perp span seconds/underlying: {fl['min_perp_span_seconds_per_underlying']}",
+        f"- min common 5m bars/underlying: {fl['min_common_bars_per_underlying']}",
+        f"- min underlyings (BTC-only): {p['min_underlyings']}",
+        "",
+    ]
+    return "\n".join(lines) + "\n"
+
+
+def _build_md(r: Dict[str, Any]) -> str:
+    lines = [
+        f"# {r['report_id']} — BTC OOS replication of suggestive EVAL-65 slice "
+        f"(tox/imbalance::bar60::h72)",
+        "",
+        f"- Generated: `{r['generated_at']}`",
+        f"- Task: `{r['task']}`",
+        f"- Verdict: **{r['verdict']}**",
+        f"- Floor OK: {r['floor_ok']} (underlyings {', '.join(r['underlyings'])})",
+        f"- Disjointness OK: {r.get('disjointness_ok')}",
+        "",
+        "## Disjointness (sealed BTC window 2026-11-09T06:48:16Z..2026-11-16T06:48:16Z)",
+        "",
+        "| underlying | disjoint | overlap s | capture window | span s |",
+        "|---|---|---|---|---|",
+    ]
+    for inst, dj in (r.get("disjointness") or {}).items():
+        lines.append(
+            f"| {inst} | {dj.get('ok')} | {dj.get('overlap_seconds')} | "
+            f"{dj.get('capture_window')} | {dj.get('capture_span_seconds')} |"
+        )
+    lines += [
+        "",
+        "## Per-underlying floor",
+        "",
+        "| underlying | snaps | surf inst | 5m bars | deribit trades | perp bars | perp span s | common 5m | ok |",
+        "|---|---|---|---|---|---|---|---|---|",
+    ]
+    for inst, fl in r["per_underlying_floor"].items():
+        lines.append(
+            f"| {inst} | {fl['n_surface_snapshots']} | {fl['n_surface_instruments']} | "
+            f"{fl['n_surface_bars_5m']} | {fl['n_option_trades']} | "
+            f"{fl['n_perp_bars_5m']} | {fl['perp_span_seconds']:.0f} | "
+            f"{fl['n_common_bars_5m']} | {fl['ok']} |"
+        )
+    lines += ["", "## Per-underlying (best config by Spearman IC)", "",
+              "| underlying | configs | best IC | best config | n pass | any pass |",
+              "|---|---|---|---|---|---|"]
+    for s in r["per_underlying"]:
+        lines.append(
+            f"| {s['underlying']} | {s['n_configs']} | {s['best_ic']:.4f} | "
+            f"{s['best_config']} | {s['n_pass']} | {s['any_pass']} |"
+        )
+    lines += ["", "## Per-config", "",
+              "| underlying | signal | bar_s | horizon | n_pairs | IC | perm_p | CI95 | pass |",
+              "|---|---|---|---|---|---|---|---|---|"]
+    for c in r.get("per_config", []):
+        ci = c.get("bootstrap_ci") or [float("nan")] * 3
+        lines.append(
+            f"| {c.get('underlying')} | {c.get('signal')} | {c.get('bar_seconds')} | "
+            f"{c.get('horizon_bars')} | {c.get('n_pairs')} | "
+            f"{e65._finite(c.get('spearman_ic'), 0.0):.4f} | "
+            f"{e65._finite(c.get('permutation_p'), 1.0):.4f} | "
+            f"[{e65._finite(ci[1], 0.0):.4f}, {e65._finite(ci[2], 0.0):.4f}] | {c.get('pass')} |"
+        )
+    lines += ["", "## Pooled", "",
+              f"- BH-FDR rejected: {r['pooled']['bh_fdr'].get('rejected')}",
+              f"- All underlyings pass: {r['pooled']['all_underlyings_pass']}"]
+    if r["errors"]:
+        lines += ["", "## Errors", ""] + [f"- {e}" for e in r["errors"]]
+    return "\n".join(lines) + "\n"
+
+
+def _build_blocked_report(r: Dict[str, Any]) -> Dict[str, Any]:
+    return {
+        "report_id": BLOCKED_ID,
+        "generated_at": r["generated_at"],
+        "task": r["task"],
+        "verdict": "BLOCKED",
+        "capture_dir": r["capture_dir"],
+        "underlyings": r["underlyings"],
+        "per_underlying_floor": r["per_underlying_floor"],
+        "floor": r["floor"],
+        "floor_ok": r["floor_ok"],
+        "disjointness_ok": r.get("disjointness_ok", False),
+        "disjointness": r.get("disjointness", {}),
+        "errors": r.get("errors", []),
+    }
+
+
+def _build_blocked_md(r: Dict[str, Any]) -> str:
+    lines = [
+        f"# {BLOCKED_ID} — BTC OOS replication of suggestive EVAL-65 slice "
+        f"(below the pre-registered feasible floor and/or overlapping the sealed BTC window)",
+        "",
+        f"- Generated: `{r['generated_at']}`",
+        f"- Task: `{r['task']}`",
+        "- Verdict: **BLOCKED** (measured; not NO-GO)",
+        f"- Capture dir: `{r['capture_dir']}`",
+        f"- Underlyings: {', '.join(r['underlyings'])}",
+        f"- Floor met: {r['floor_ok']}",
+        f"- Disjointness met: {r.get('disjointness_ok', False)}",
+        "",
+        "The capture does not meet the pre-registered feasible floor (reused from "
+        "sealed EVAL-64) and/or overlaps the sealed EVAL-64/65 BTC window "
+        "(2026-11-09T06:48:16Z..2026-11-16T06:48:16Z), so no GO/NO-GO verdict is "
+        "emitted. Do NOT weaken the floor, do NOT use synthetic data, and do NOT "
+        "emit NO-GO on under-floor or non-disjoint data.",
+        "",
+        "## Disjointness",
+        "",
+    ]
+    for inst, dj in (r.get("disjointness") or {}).items():
+        lines.append(f"- {inst}: {json.dumps(dj)}")
+    lines += ["", "## Per-underlying floor", ""]
+    for inst, fl in r["per_underlying_floor"].items():
+        lines.append(f"- {inst}: {json.dumps(fl['checks'])}")
+    lines.append("")
+    return "\n".join(lines) + "\n"
+
+
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    ap = argparse.ArgumentParser(
+        description="EVAL-67: isolated disjoint-window BTC OOS replication of the "
+                    "suggestive EVAL-65 options order-flow toxicity -> realized-vol "
+                    "slice (tox/imbalance, bar60, horizon 72)"
+    )
+    ap.add_argument("--capture-dir", default="data/raw/eval67")
+    ap.add_argument("--no-write", action="store_true", help="compute + print, seal nothing")
+    ap.add_argument("--seal", action="store_true", help="seal prereg + combined/blocked (default)")
+    ap.add_argument("--task-label", default="EVAL67-BTC-OFLOW-TOX-RV-OOS")
+    args = ap.parse_args(argv)
+
+    write = not args.no_write
+    try:
+        report = run_eval67(
+            capture_dir=args.capture_dir, write=write, task_label=args.task_label
+        )
+    except NoRealCaptureError as exc:
+        print(json.dumps({
+            "verdict": "NOT_SEALED",
+            "reason": "no_real_capture",
+            "error": str(exc),
+        }, indent=2))
+        return 2
+    except BaseException as exc:  # noqa: BLE001
+        traceback.print_exc()
+        if write:
+            blocked = _build_blocked_report({
+                "generated_at": e65._utc_now_iso(),
+                "task": args.task_label,
+                "verdict": "BLOCKED",
+                "capture_dir": args.capture_dir,
+                "underlyings": [],
+                "per_underlying_floor": {},
+                "floor": build_protocol(args.capture_dir)["floor"],
+                "floor_ok": False,
+                "disjointness_ok": False,
+                "disjointness": {},
+                "errors": [repr(exc)],
+            })
+            e62._seal(BLOCKED_ID, blocked, _build_blocked_md)
+        return 1
+
+    print(json.dumps({
+        "verdict": report.get("verdict"),
+        "floor_ok": report.get("floor_ok"),
+        "disjointness_ok": report.get("disjointness_ok"),
+        "underlyings": report.get("underlyings"),
+        "per_underlying": report.get("per_underlying"),
+        "bh_fdr_rejected": report.get("pooled", {}).get("bh_fdr", {}).get("rejected"),
+        "n_configs": len(report.get("per_config", [])),
+    }, indent=2, default=str))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
