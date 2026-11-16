@@ -1,0 +1,77 @@
+{
+  "prereg_id": "EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION",
+  "generated_at": "2026-11-16T22:55:49Z",
+  "task": "EVAL69-POOLED-BTC-ETH-OFLOW-TOX-RV-TRADED-OOS",
+  "hypothesis": "Pooled across BTC and ETH, the suggestive EVAL-65 slice (tox/imbalance, bar60) is monetizable net-of-cost out-of-sample on a fresh disjoint real forward window (reused from EVAL-68): pooled Sharpe > 0, no kill-switch breach (max-DD <= 0.20), directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, >=790 pooled returns (80% power), and BH-FDR rejects, at the sealed EVAL-64 floor on both underlyings.",
+  "extends": "EVAL-65/EVAL-67/EVAL-68 (identical signal/P&L/floor reused; BTC and ETH traded-form returns pooled into one sample on the same disjoint real forward window EVAL-68 acquires)",
+  "disjointness_rule": "A capture is usable only if [window_start, window_end] does not overlap [2026-11-09T06:48:16Z, 2026-11-16T06:48:16Z]. Because the free Deribit perp 1m endpoint returns at most 5001 candles (300000 s), each capture must also span >=300000 s. EVAL-69 reuses EVAL-68's capture, which EVAL-68's gate already enforces to be disjoint; EVAL-69 re-checks it here.",
+  "data_availability": {
+    "note": "reuses EVAL-68's fresh real BTC+ETH three-way capture, disjoint from the sealed eval63 window; no new acquisition; public read-only; no synthetic data",
+    "sealed_window": [
+      "2026-11-09T06:48:16Z",
+      "2026-11-16T06:48:16Z"
+    ],
+    "earliest_disjoint_capture_end": "2026-11-20T00:00:00Z",
+    "deribit_perp_1m_retention_seconds_approx": 300000
+  },
+  "protocol": {
+    "eval": "EVAL-69",
+    "title": "Pooled BTC+ETH disjoint-window OOS traded-form net-of-cost monetization of the suggestive EVAL-65 options order-flow toxicity -> realized-vol slice (tox/imbalance, bar60), pooled-sample Sharpe / max-DD / permutation / bootstrap on the mark-path net-of-cost P&L",
+    "extends": "EVAL-65/EVAL-67/EVAL-68 (identical signal/P&L/floor reused; BTC and ETH traded-form returns pooled into one sample on the same disjoint real forward window EVAL-68 acquires)",
+    "supersedes": "nothing \u2014 disjoint forward OOS traded-form test; non-monetization, underpowered, or BLOCKED is a valid sealed result. EVAL-62/64 sealed NO-GO on the in-sample window only; this is a fresh-window claim.",
+    "capture_dir": "data/raw/eval68",
+    "underlyings_required": [
+      "BTC",
+      "ETH"
+    ],
+    "disjoint_from": "data/raw/eval63/three_way_{BTC,ETH}_20261116T064816Z.json (window 2026-11-09T06:48:16Z..2026-11-16T06:48:16Z)",
+    "disjointness_rule": "A capture is usable only if [window_start, window_end] does not overlap [2026-11-09T06:48:16Z, 2026-11-16T06:48:16Z]. Because the free Deribit perp 1m endpoint returns at most 5001 candles (300000 s), each capture must also span >=300000 s. EVAL-69 reuses EVAL-68's capture, which EVAL-68's gate already enforces to be disjoint; EVAL-69 re-checks it here.",
+    "capture_window_rule": "EVAL-69 does NOT acquire. It reads EVAL-68's disjoint forward capture at data/raw/eval68 (three_way_BTC_*.json + three_way_ETH_*.json), acquired by scripts/eval68_phaseb_gate.py --execute at/after 2026-11-20T00:00:00Z. Do not weaken the EVAL-64 floor.",
+    "tox_signals": [
+      "tox",
+      "imbalance"
+    ],
+    "bar_seconds_grid": [
+      60.0
+    ],
+    "signal": "signal_z_k = expanding-zscore of per-bar options order-flow toxicity (tox) / signed-aggressor imbalance (imbalance), reused verbatim from EVAL-61/EVAL-62 (causal, end-of-bar k)",
+    "target": "signal-timed delta-hedged ATM straddle mark-path net-of-cost P&L (EVAL-62/64 traded form), pooled across BTC+ETH",
+    "statistic": "Pooled Sharpe / max-drawdown / directional permutation p / block-bootstrap 95% CI of the concatenated per-bar net-of-cost traded-form returns across BTC and ETH, per config",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle realized-vol series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "go_bar": "GO only if, pooled across BTC+ETH and at least one of the pre-registered configs (tox::bar60, imbalance::bar60), the pooled Sharpe > 0, no kill-switch breach (max-DD <= 0.20), directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, nonzero positions > 0, pooled returns >= 790 (power), pooled BH-FDR rejects that config, the EVAL-64 floor is met on BOTH underlyings, and both capture windows are disjoint from the sealed window; else NO-GO CONFIRMED (PASS) when floor+disjoint+power but not monetizable, INCONCLUSIVE (UNDERPOWERED) when floor+disjoint but pooled returns < 790, or BLOCKED when floor/disjoint fails.",
+    "data_availability": {
+      "note": "reuses EVAL-68's fresh real BTC+ETH three-way capture, disjoint from the sealed eval63 window; no new acquisition; public read-only; no synthetic data",
+      "sealed_window": [
+        "2026-11-09T06:48:16Z",
+        "2026-11-16T06:48:16Z"
+      ],
+      "earliest_disjoint_capture_end": "2026-11-20T00:00:00Z",
+      "deribit_perp_1m_retention_seconds_approx": 300000
+    },
+    "floor": {
+      "min_surface_snapshots_per_underlying": 1000,
+      "min_surface_instruments_per_underlying": 100,
+      "min_surface_bars_5m_per_underlying": 1000,
+      "min_option_trades_per_underlying": 2000,
+      "min_of_instruments_per_underlying": 150,
+      "min_of_span_seconds_per_underlying": 82000.0,
+      "min_of_bars_5m_per_underlying": 240,
+      "min_perp_bars_5m_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 300000.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2,
+      "note": "order-flow span floor is a heavier-than-EVAL-62 24h bar because Deribit tick-trade retention is ~24h; surface/perp floors require the full >=7d"
+    },
+    "min_underlyings": 2,
+    "min_pooled_returns": 790
+  },
+  "capture_dir": "data/raw/eval68"
+}
