@@ -1,0 +1,50 @@
+{
+  "manifest_id": "POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION",
+  "task_id": "INIT-2026-11-16T11:18:33Z-POST-EVAL-THREE-WAY-OPTIONS-ORDERFLOW-FUSION",
+  "generated_at": "2026-11-16T11:18:33Z",
+  "schema": "three_way_options_surface_orderflow_okx_perp_capture_v1",
+  "venue": "deribit+okx",
+  "window_start": "2026-11-09T11:18:33Z",
+  "window_end": "2026-11-16T11:18:33Z",
+  "underlyings": [
+    "ETH"
+  ],
+  "captures": {
+    "ETH": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval66/three_way_ETH_20261116T111833Z.json",
+      "sha256": "d987374781dec6b830b60d9f135b9137e9c10a0c8649375128c4db1adb8d37e1",
+      "underlying": "ETH",
+      "surface": {
+        "n_snapshots": 1464,
+        "n_instruments_with_data": 80,
+        "min_quotes_realized": 8,
+        "max_quotes_realized": 80,
+        "span_seconds": 438900.0,
+        "n_bars_5m": 1463,
+        "non_degenerate": true
+      },
+      "orderflow": {
+        "underlying": "ETH",
+        "n_option_trades": 1224,
+        "n_instruments_with_trades": 69,
+        "n_distinct_strikes": 11,
+        "n_buy": 731,
+        "n_sell": 493,
+        "notional": 72082040.17000009,
+        "span_seconds": 86370.812,
+        "n_perp_candles": 5001,
+        "non_degenerate": true
+      },
+      "okx_orderflow": {
+        "n_okx_perp_trades": 565105,
+        "n_buy": 282992,
+        "n_sell": 282113,
+        "span_seconds": 200872.181,
+        "n_bars_5m": 669,
+        "non_degenerate": true
+      }
+    }
+  },
+  "synthetic": false,
+  "provenance": "real Deribit options surface (5m candles) + Deribit options-venue order flow (signed trades) + real OKX perpetual history-trades (signed taker flow) + Deribit perpetual 1m candles; synchronized window; no synthetic data"
+}
