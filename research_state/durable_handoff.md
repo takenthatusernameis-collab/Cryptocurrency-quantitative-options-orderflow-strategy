@@ -116,7 +116,7 @@ Per underlying (BTC **and** ETH), all must hold or the run seals BLOCKED (then w
 * roster has **≥2 underlyings**.
 No synthetic fallback; real loaders raise `RealDataUnavailable`.
 
-## BOTTLENECKS — CLEARED THIS SESSION / REMAINING (verified 2026-11-16T00:34:26Z)
+## BOTTLENECKS — CLEARED THIS SESSION / REMAINING (verified 2026-11-16T00:46:36Z)
 1. **CLEARED (this session): the EVAL-60 heavy live run is DONE** — the previously-deferred ~20-min
    BTC+ETH three-way acquisition was executed and sealed `NO-GO CONFIRMED (PASS)` (COMBINED
    `20261116T003146Z`, gate exit 0). This is the significant progress the prior two sessions deferred.
@@ -133,12 +133,27 @@ No synthetic fallback; real loaders raise `RealDataUnavailable`.
    `scripts/eval60_three_way_net_of_cost.py` + `tests/test_eval60_three_way_net_of_cost.py` ran on live
    BTC+ETH and sealed a real verdict. EVAL-61 reuses the acquisition verbatim and copy-and-retargets
    the measurement.
-4. **CLEARED:** env ready — `.venv-deps/` present; `verify_env.sh --check` exit 0; `.env` absent;
+4. **CLEARED (this session): EVAL-61 tooling BUILT AND VERIFIED** —
+   `scripts/eval61_orderflow_realized_vol_net_of_cost.py` (copy-and-retarget of the eval60 measurement
+   with the delta-hedged ATM straddle body: order-flow toxicity `tox`/`imbalance` position
+   `clip(expanding_z(tox),-1,1)`, ATM straddle IV/greeks from real marks via
+   `implied_volatility`/`black_scholes_greeks`, net-of-cost P&L
+   `q*[vega*dIV + 0.5*gamma*dS^2 - theta*dt] - 5bps*|dq_hedge| - 5bps*|dq|`, grid
+   `{tox,imbalance}x{60s,300s}`, GO bar Sharpe>0/max-DD<=0.20/perm p<0.05/bootstrap CI lower>0/PBO<0.5
+   on both BTC and ETH) and `tests/test_eval61_orderflow_realized_vol_net_of_cost.py` (11 unit tests).
+   `py_compile` OK; `pytest -q tests/test_eval61_*` → **11 passed**; `--no-write` smoke → `BLOCKED`
+   (no captures yet), `floor_ok=false`, nothing sealed. Network verified reachable: Deribit and OKX
+   both HTTP 200.
+5. **CLEARED:** env ready — `.venv-deps/` present; `verify_env.sh --check` exit 0; `.env` absent;
    `LIVE_TRADING_ENABLED` unset/false.
-5. **REMAINING (the heavy work for the next session, unavoidable):** the fresh `--days 1` BTC+ETH
-   EVAL-61 live acquisition (step 2) + the new straddle measurement build (step 4) + real verdict (step
-   5) + gate (step 6). If any floor metric is short, **widen the capture** (`--max-per-expiry`,
-   `--okx-delay`) and re-run; do not stop and do not weaken the floor.
+6. **IN PROGRESS (heavy work, launched this session, non-deferrable):** the fresh `--days 1` BTC+ETH
+   EVAL-61 live acquisition via `scripts/eval60_acquire_three_way.py --underlying BTC --underlying ETH
+   --days 1 --out-dir data/raw/eval61 --seal --task-label EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE`
+   is running as a background process (≈15–20 min). On completion: run the measurement
+   (`python3 scripts/eval61_orderflow_realized_vol_net_of_cost.py --capture-dir data/raw/eval61`) to
+   seal PREREGISTRATION + COMBINED verdicts, then the seal gate (step 7). If any floor metric is
+   short, **widen the capture** (`--max-per-expiry`, `--okx-delay`) and re-run; do not stop and do not
+   weaken the floor.
 
 ## PROHIBITED (hard constraints)
 - Do **not** re-run, re-litigate, or re-seal EVAL-02..60; do not edit sealed artifacts or `src/`.
@@ -251,7 +266,13 @@ verifying sealed artifact. Final responses must not ask follow-up questions.
   `INIT-2026-11-16T00:40:39Z-EVAL61-OPTIONS-ORDERFLOW-TO-REALIZED-VOL-STRADDLE-PREREG-ACQUIRE-MEASURE-SEAL`
   (stamp ≥ `2026-11-16T00:40:39Z`). All bottlenecks cleared: EVAL-60 sealed NO-GO (gate exit 0), OKX
   acquisition bug fixed (ETH 231,050 real perp trades captured), tooling proven end-to-end, env green
-  (`verify_env.sh --check` exit 0). The unavoidable heavy work remains: fresh `--days 1` BTC+ETH live
-  acquisition via `scripts/eval60_acquire_three_way.py` → copy-and-retarget straddle measurement
-  `scripts/eval61_orderflow_realized_vol_net_of_cost.py` + `tests/test_eval61_*` → real PREREGISTRATION +
-  COMBINED verdicts → gate exit 0. Handoff-only completion explicitly prohibited; do not defer the run.
+  (`verify_env.sh --check` exit 0).
+- **2026-11-16T00:46:36Z (this session — tooling built, acquisition launched):** built and verified the
+  EVAL-61 measurement `scripts/eval61_orderflow_realized_vol_net_of_cost.py` (copy-and-retarget of the
+  eval60 measurement with the delta-hedged ATM straddle) and `tests/test_eval61_orderflow_realized_vol_net_of_cost.py`
+  (11 unit tests, all passing); `py_compile` OK; `--no-write` smoke → `BLOCKED` (no captures yet),
+  `floor_ok=false`, nothing sealed. Network verified reachable (Deribit + OKX both HTTP 200).
+  **Launched the fresh `--days 1` BTC+ETH live acquisition** via
+  `scripts/eval60_acquire_three_way.py --underlying BTC --underlying ETH --days 1 --out-dir data/raw/eval61 --seal`
+  as a background process (≈15–20 min; non-deferrable heavy work). On completion: run the measurement
+  to seal PREREGISTRATION + COMBINED → seal gate exit 0. Handoff-only completion explicitly prohibited.
