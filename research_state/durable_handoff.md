@@ -1,7 +1,7 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T11:17:34Z, verified):**
-> Execute **`INIT-2026-11-16T11:17:34Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`** end-to-end.
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T11:25:00Z, verified):**
+> Execute **`INIT-2026-11-16T11:25:00Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`** end-to-end.
 > **A persistent 7d ETH acquisition is ALREADY RUNNING** as background process
 > `bgp_1e414866b001E3JjNc6QFdoISS` (PID 18906; `scripts/eval60_acquire_three_way.py --underlying ETH
 > --days 7 --out-dir data/raw/eval66 --seal`; `lifetime: persistent`). **Do NOT start a duplicate
@@ -23,16 +23,16 @@
 > acquisition genuinely running as a live persistent process with its process ID recorded here. Do NOT
 > re-run or re-seal EVAL-02..62 or EVAL-64..65.**
 
-## STATUS (verified 2026-11-16T11:17:34Z)
+## STATUS (verified 2026-11-16T11:25:00Z)
 
 - **EVAL-65 SEALED `NO-GO CONFIRMED (PASS)`** (immutable, gate exit 0). Prereg `research_state/EVAL_65_OFLOW_TOX_RV_PREDICTIVENESS_PREREGISTRATION_20261116T084947Z.{json,md}`; combined `..._COMBINED_20261116T084947Z.{json,md}`. GO bar not met; ETH 2 individually passing configs (`tox::bar60.0::h72`, `imbalance::bar60.0::h72`) both BH-FDR-rejected; BTC 0 aggregated passing configs. Only remaining on-charter rung: isolated disjoint-window OOS replication of that ETH slice.
-- **EVAL-66 (NOT sealed):** `INIT-2026-11-16T11:17:34Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`. **Acquisition RUNNING** as persistent background process `bgp_1e414866b001E3JjNc6QFdoISS` (PID 18906; `scripts/eval60_acquire_three_way.py --underlying ETH --days 7 --out-dir data/raw/eval66 --seal`, `PYTHONPATH="$PWD/.venv-deps"` set, `lifetime: persistent`). Tooling/tests ready: `scripts/eval66_eth_oflow_tox_rv_oos.py`, `tests/test_eval66_eth_oflow_tox_rv_oos.py` (**9 passed**, re-verified 2026-11-16T11:17:34Z). `--seal` refuses to write an artifact when no real ETH capture exists (`NoRealCaptureError`, exit 2). Smoke of the acquisition tooling captured real ETH data (84 instruments, real Deribit surface + Deribit option trades + OKX ETH-USD-SWAP perp flow). `./scripts/verify_env.sh --check` OK; `.env` absent; `LIVE_TRADING_ENABLED` unset.
+- **EVAL-66 (NOT sealed):** `INIT-2026-11-16T11:25:00Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`. **Acquisition RUNNING** as persistent background process `bgp_1e414866b001E3JjNc6QFdoISS` (PID 18906; `scripts/eval60_acquire_three_way.py --underlying ETH --days 7 --out-dir data/raw/eval66 --seal`, `PYTHONPATH="$PWD/.venv-deps"` set, `lifetime: persistent`). Tooling/tests ready: `scripts/eval66_eth_oflow_tox_rv_oos.py`, `tests/test_eval66_eth_oflow_tox_rv_oos.py` (**9 passed**, re-verified 2026-11-16T11:25:00Z). `--seal` refuses to write an artifact when no real ETH capture exists (`NoRealCaptureError`, exit 2). Smoke of the acquisition tooling captured real ETH data (84 instruments, real Deribit surface + Deribit option trades + OKX ETH-USD-SWAP perp flow). `./scripts/verify_env.sh --check` OK; `.env` absent; `LIVE_TRADING_ENABLED` unset.
 - **No ETH capture yet:** `data/raw/eval66/` is empty (acquisition running). Once the acquisition finishes it must write `data/raw/eval66/three_way_ETH_*.json` + a `POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION_*` manifest in `research_state/`. **Do NOT start a duplicate process** — check `background_process logs`/`status` for `bgp_1e414866b001E3JjNc6QFdoISS` first.
 - **EVAL-65 baseline:** `data/raw/eval63/three_way_ETH_20261116T064816Z.json` absent from checkout (gitignored); disjointness baseline is sealed EVAL-65 window `2026-11-09T06:48:16Z..2026-11-16T06:48:16Z`. Do not re-acquire EVAL-63 or edit sealed artifacts.
 
 ## AUTHORITATIVE NEXT TASK (timestamped, heavy — execute in full)
 
-**Task ID:** `INIT-2026-11-16T11:17:34Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`
+**Task ID:** `INIT-2026-11-16T11:25:00Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`
 
 **Objective (on-charter, final replication check):** Acquire a fresh real ETH 7d window disjoint from the sealed EVAL-65 window (`2026-11-09T06:48:16Z..2026-11-16T06:48:16Z`), verify it meets the sealed EVAL-64 feasible floor, and seal EVAL-66 (COMBINED or honest BLOCKED) with an exit-0 gate. This determines whether the EVAL-65 ETH 1m/72-bar slice (`tox::bar60.0::h72`, `imbalance::bar60.0::h72`) is real or sample-specific. Failed replication or an under-floor capture with no feasible path ⇒ **campaign closure**. Successful replication on the pre-registered configs/floor ⇒ define and execute a fresh pre-registered traded-form follow-up (new task ID); do not invent off-charter rungs.
 
@@ -85,7 +85,7 @@ The seal command writes the PREREG artifact and then COMBINED (floor met) or BLO
 
 ```bash
 python3 scripts/check_session_sealed.py \
-  --task-id "INIT-2026-11-16T11:17:34Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
+  --task-id "INIT-2026-11-16T11:25:00Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
   --glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_COMBINED_*" \
   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_*"
@@ -113,7 +113,7 @@ python3 -m pytest -q tests/test_eval66_eth_oflow_tox_rv_oos.py
 python3 scripts/eval66_eth_oflow_tox_rv_oos.py --capture-dir data/raw/eval66 --no-write
 python3 scripts/eval66_eth_oflow_tox_rv_oos.py --capture-dir data/raw/eval66 --seal --task-label EVAL66-ETH-OFLOW-TOX-RV-OOS
 python3 scripts/check_session_sealed.py \
-  --task-id "INIT-2026-11-16T11:17:34Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
+  --task-id "INIT-2026-11-16T11:25:00Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
   --glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_COMBINED_*" \
   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_*"
@@ -163,5 +163,6 @@ EVAL-02..62 and EVAL-64..65 sealed. EVAL-46..60, EVAL-62, EVAL-64, **EVAL-65**: 
 - **2026-11-16T10:33:07Z (this session):** Diagnosed the ghost-acquisition deadlock: the prior session's acquisition `bgp_1e3e8ae6e001i1x54VtGBiJNJG` died with its session and `data/raw/eval66/` is empty (zero captures) — the "do not start a duplicate" instruction would have stalled the next agent. **Lifted that instruction**, made the heavy 7d ETH acquisition the mandatory FIRST action of the next session with a **persistent** background process (survives session boundaries), and added an explicit session completion contract (end only with a sealed EVAL-66 artifact + exit-0 gate, or a genuinely live persistent acquisition with recorded PID). Re-verified: `./scripts/verify_env.sh --check` OK, EVAL-66 tests **9/9 passed**, `.env` absent, `LIVE_TRADING_ENABLED` unset, `data/raw/eval66/` empty, `data/raw/eval66/` gitignored, no EVAL-66 artifact sealed, no background processes running. No sealed EVAL-02..62 or EVAL-64..65 artifacts modified or re-run.
 - **2026-11-16T10:33:58Z:** Refreshed the single durable handoff initial task message and authoritative next task to timestamp `2026-11-16T10:33:58Z` per user directive to prioritize the project's core thesis (options+orderflow OOS replication). Verified `./scripts/verify_env.sh --check` OK, EVAL-66 tests **9/9 passed**, `.env` absent, `LIVE_TRADING_ENABLED` unset, `data/raw/eval66/` empty, no background processes running. The handoff now contains the most relevant inferred timestamped clear initial task for the next agentic session: execute EVAL-66 end-to-end starting with a persistent 7d ETH acquisition. No sealed artifacts modified.
 - **2026-11-16T11:17:34Z (this session):** Verified acquisition tooling end-to-end with a real-data smoke (84 ETH instruments, real Deribit surface + option trades + OKX ETH-USD-SWAP perp flow, `EXIT=0`). Discovered bare `python3` fails under `background_process` (`ModuleNotFoundError: No module named 'pydantic'`) — the env is NOT auto-exported; `PYTHONPATH="$PWD/.venv-deps"` MUST be in the launched command. Started the mandatory heavy 7d ETH acquisition as a **persistent** background process `bgp_1e414866b001E3JjNc6QFdoISS` (PID 18906; `PYTHONPATH="$PWD/.venv-deps" python3 scripts/eval60_acquire_three_way.py --underlying ETH --days 7 --out-dir data/raw/eval66 --seal`, `lifetime: persistent`). Updated this handoff with the running PID, the do-not-duplicate guard, and the env-prefix requirement. EVAL-66 tests **9/9 passed**; `.env` absent; `LIVE_TRADING_ENABLED` unset; `data/raw/eval66/` gitignored. No sealed EVAL-02..62/EVAL-64..65 modified or re-run; no EVAL-66 artifact sealed yet (acquisition running).
+- **2026-11-16T11:25:00Z (this session):** Refreshed the single durable handoff initial task message to current timestamp per user directive. Verified persistent acquisition `bgp_1e414866b001E3JjNc6QFdoISS` (PID 18906) still running, `data/raw/eval66/` empty, EVAL-66 tests **9/9 passed**, `./scripts/verify_env.sh --check` OK, `.env` absent, `LIVE_TRADING_ENABLED` unset. The handoff contains the most relevant inferred timestamped clear initial task for the next agentic session: execute EVAL-66 end-to-end starting with monitoring the persistent 7d ETH acquisition to completion. No sealed artifacts modified.
 
 (End of file)
