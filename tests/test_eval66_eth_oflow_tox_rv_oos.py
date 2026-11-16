@@ -15,6 +15,8 @@ import random
 import tempfile
 from pathlib import Path
 
+import pytest
+
 import scripts.eval62_orderflow_realized_vol_markpath as e62
 import scripts.eval64_orderflow_realized_vol_markpath_feasible as e64
 import scripts.eval65_orderflow_tox_rv_predictiveness as e65
@@ -133,6 +135,20 @@ def test_run_eval66_no_write_blocks_below_floor():
     assert report["floor_ok"] is False
     assert report["verdict"] == "BLOCKED"
     assert report["report_id"] == e66.REPORT_ID
+
+
+def test_run_eval66_refuses_to_seal_empty_capture_dir():
+    with tempfile.TemporaryDirectory() as td:
+        with pytest.raises(e66.NoRealCaptureError):
+            e66.run_eval66(capture_dir=td, write=True)
+
+
+def test_run_eval66_refuses_to_seal_dir_with_only_btc_capture():
+    btc = _craft_capture(n_bars=1010, seed=8, inst="BTC")
+    with tempfile.TemporaryDirectory() as td:
+        (Path(td) / "three_way_BTC_20230101T000000Z.json").write_text(json.dumps(btc))
+        with pytest.raises(e66.NoRealCaptureError):
+            e66.run_eval66(capture_dir=td, write=True)
 
 
 def test_run_eval66_filters_to_eth_only_and_counts_configs():

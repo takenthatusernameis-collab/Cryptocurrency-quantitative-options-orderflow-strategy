@@ -1,35 +1,45 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T09:24:56Z, verified):** Execute and complete **`INIT-2026-11-16T08:49:47Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`** end-to-end now (or honestly close the campaign if infeasible per the floor). EVAL-65 is **SEALED `NO-GO CONFIRMED (PASS)`** (gate exit 0): only the isolated ETH 1m/72-bar slice remains on-charter as EVAL-66 OOS replication. **Verified this session:** env bootstrapped (`./scripts/verify_env.sh --check` OK; `PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"`; `.env` absent; `LIVE_TRADING_ENABLED` unset, paper-only). EVAL-66 tooling/tests exist and pass: `scripts/eval66_eth_oflow_tox_rv_oos.py`, `tests/test_eval66_eth_oflow_tox_rv_oos.py` (`python3 -m py_compile ...` OK; `PYTHONPATH=.venv-deps python3 -m pytest -q tests/test_eval66_eth_oflow_tox_rv_oos.py` → **7 passed**). `--no-write` on empty `data/raw/eval66` reports `BLOCKED` (floor_ok false, n_configs 0) as expected. **Bottleneck:** `data/raw/eval66/` is empty, no `eval60_acquire`/`eval66` process is running, and `/tmp/eval66_acquire.log` is empty — **no fresh disjoint ETH capture exists; no EVAL-66 PREREG/COMBINED/BLOCKED artifact is sealed.** Do NOT stop at handoff edits or env checks. Do NOT re-run, re-litigate, or re-seal EVAL-02..65. Do NOT produce a timestamp-only checkpoint.
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T10:20:49Z, verified):** Execute and complete **`INIT-2026-11-16T10:20:49Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`** end-to-end now: acquire one fresh, disjoint, real ETH 7d capture; verify the capture is disjoint and meets the sealed EVAL-64 feasible floor; dry-run EVAL-66; seal `EVAL_66_ETH_OFLOW_TOX_RV_OOS_{PREREGISTRATION,COMBINED|BLOCKED}`; and pass `check_session_sealed.py` with exit 0. EVAL-65 is **SEALED `NO-GO CONFIRMED (PASS)`**: only the isolated ETH 1m/72-bar slice (`tox::bar60.0::h72`, `imbalance::bar60.0::h72`) remains on-charter as an out-of-sample replication. **Do NOT stop at handoff edits, environment checks, or a dry-run. Do NOT produce a timestamp-only checkpoint. Do NOT re-run, re-litigate, or re-seal sealed EVAL-02..62 or EVAL-64..65.**
 
-## STATUS (verified 2026-11-16T09:24:56Z)
+## STATUS (verified 2026-11-16T10:20:49Z)
 
-- **EVAL-65 SEALED `NO-GO CONFIRMED (PASS)`** (immutable, gate exit 0). Task `INIT-2026-11-16T08:25:00Z-EVAL65-OFLOW-TOX-RV-PREDICTIVENESS-SEAL`. Prereg `research_state/EVAL_65_OFLOW_TOX_RV_PREDICTIVENESS_PREREGISTRATION_20261116T084947Z.{json,md}`; combined `research_state/EVAL_65_OFLOW_TOX_RV_PREDICTIVENESS_COMBINED_20261116T084947Z.{json,md}`. GO bar not met; only ETH 1m/72-bar slice (`tox::bar60.0::h72`, `imbalance::bar60.0::h72`) remains suggestive and requires isolated disjoint-window OOS replication (EVAL-66).
-- **EVAL-64 sealed `NO-GO CONFIRMED (PASS)`** (immutable). **EVAL-63 never sealed** (no artifact). EVAL-02..62 sealed immutable.
-- **EVAL-66 (NOT sealed):** `INIT-2026-11-16T08:49:47Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`. Tooling/tests ready and passing (7/7). Acquisition **not running**; `data/raw/eval66/` empty; no `three_way_ETH_*.json`; disjointness vs eval63 ETH window (`data/raw/eval63/three_way_ETH_20261116T064816Z.json`, 2026-11-09T06:48:16Z..2026-11-16T06:48:16Z) unverified. `research_state/EVAL_66_ETH_OFLOW_TOX_RV_OOS_{PREREGISTRATION,COMBINED,BLOCKED}_*` absent.
-- Env: `./scripts/verify_env.sh --check` OK. `PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"`. `.env` absent; `LIVE_TRADING_ENABLED` unset. Paper-only.
+- **EVAL-65 SEALED `NO-GO CONFIRMED (PASS)`** (immutable, gate exit 0). Task `INIT-2026-11-16T08:25:00Z-EVAL65-OFLOW-TOX-RV-PREDICTIVENESS-SEAL`. Prereg `research_state/EVAL_65_OFLOW_TOX_RV_PREDICTIVENESS_PREREGISTRATION_20261116T084947Z.{json,md}`; combined `research_state/EVAL_65_OFLOW_TOX_RV_PREDICTIVENESS_COMBINED_20261116T084947Z.{json,md}`. GO bar not met; ETH has 2 individually passing configs (`tox::bar60.0::h72`, `imbalance::bar60.0::h72`), both BH-FDR-rejected; BTC has 0 aggregated passing configs. The only remaining on-charter rung is isolated disjoint-window OOS replication of the ETH slice.
+- **EVAL-66 (NOT sealed):** `INIT-2026-11-16T10:20:49Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`. Tooling/tests are ready: `scripts/eval66_eth_oflow_tox_rv_oos.py`, `tests/test_eval66_eth_oflow_tox_rv_oos.py` (**9 passed** via `PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"`). `--seal` now **refuses to write any artifact when no real ETH capture exists** (exit 2, `NOT_SEALED`); an empty directory is not a BLOCKED verdict. `data/raw/eval66/` is absent and no acquisition process is running. `data/raw/eval66/` is now gitignored.
+- **EVAL-63/EVAL-65 baseline capture:** `data/raw/eval63/three_way_ETH_20261116T064816Z.json` is gitignored and absent from this checkout. Use the sealed window timestamps for disjointness; do **not** re-acquire EVAL-63 or edit sealed EVAL-65 artifacts.
+- **Environment:** `./scripts/verify_env.sh --check` OK; `.venv-deps` present; `.env` absent; `LIVE_TRADING_ENABLED` unset; paper-only.
 
 ## AUTHORITATIVE NEXT TASK (timestamped, heavy — execute in full)
 
-**Task ID:** `INIT-2026-11-16T08:49:47Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`
+**Task ID:** `INIT-2026-11-16T10:20:49Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION`
 
-**Objective (on-charter, final replication check):** Acquire a fresh, **disjoint** real ETH 7d window meeting the sealed EVAL-64 feasible floor, then seal EVAL-66 (COMBINED or honest BLOCKED) with exit-0 gate. Determines whether the EVAL-65 ETH 1m/72-bar slice (`tox::bar60.0::h72`, `imbalance::bar60.0::h72`) is real or sample-specific. Failed replication or honest `BLOCKED` with no feasible path ⇒ **campaign closure** (namesake definitively closed). Successful replication on the pre-registered configs/floor ⇒ define a concrete, pre-registered traded-form follow-up as the next task (new ID).
+**Objective (on-charter, final replication check):** Acquire a fresh real ETH 7d window disjoint from the sealed EVAL-65 window (`2026-11-09T06:48:16Z..2026-11-16T06:48:16Z`), verify it meets the sealed EVAL-64 feasible floor, and seal EVAL-66 (COMBINED or honest BLOCKED) with an exit-0 gate. This determines whether the EVAL-65 ETH 1m/72-bar slice (`tox::bar60.0::h72`, `imbalance::bar60.0::h72`) is real or sample-specific. Failed replication or an under-floor capture with no feasible path ⇒ **campaign closure**. Successful replication on the pre-registered configs/floor ⇒ define and execute a fresh pre-registered traded-form follow-up (new task ID); do not invent off-charter rungs.
 
-**Step 1 — Env/bootstrap (re-confirm):**
+**Step 1 — Environment (re-confirm):**
 ```bash
 ./scripts/verify_env.sh --check
 export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
 ```
 Confirm `.env` absent and `LIVE_TRADING_ENABLED` unset. Paper-only.
 
-**Step 2 — Fresh, disjoint real ETH acquisition (public read-only, polite rate limiting, ONE process):**
+**Step 2 — Fresh, disjoint real ETH acquisition (public read-only, polite rate limiting, exactly ONE acquisition process):**
 ```bash
 mkdir -p data/raw/eval66
 python3 scripts/eval60_acquire_three_way.py --underlying ETH --days 7 --out-dir data/raw/eval66 --seal
 ```
-- Capture must land in `data/raw/eval66/` as `three_way_ETH_*.json` (+ manifest). **Disjointness:** verify new window disjoint from `data/raw/eval63/three_way_ETH_20261116T064816Z.json` (2026-11-09T06:48:16Z..2026-11-16T06:48:16Z); record/verify timestamps and hashes. No synthetic data.
-- **Feasible floor (EVAL-64, must meet):** `n_surface_snapshots>=1000`, `n_surface_instruments>=100`, `n_surface_bars_5m>=1000`, `n_option_trades>=2000`, `n_of_instruments>=150`, `of_span_seconds>=82000`, `n_of_bars_5m>=240`, `n_perp_bars_5m>=1000`, `perp_span_seconds>=300000`, `n_common_bars_5m>=240`. Check via `scripts.eval64_orderflow_realized_vol_markpath_feasible._underlying_floor_strict`.
-- **If floor not met ⇒ seal `EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_<UTC>` with honest diagnostics, do not weaken floor, and proceed to campaign closure (Step 5).**
+- The capture must land as `data/raw/eval66/three_way_ETH_*.json` (plus the acquisition manifest). Acquisition is heavy; monitor it to completion and do not start a duplicate process.
+- **Disjointness:** verify the new `window_start`/`window_end` do not overlap `2026-11-09T06:48:16Z..2026-11-16T06:48:16Z`. A default trailing 7d window starting after `2026-11-16T06:48:16Z` is disjoint; record timestamps and the capture SHA-256 from the manifest. No synthetic data.
+- **Feasible floor (EVAL-64, must meet):** `n_surface_snapshots>=1000`, `n_surface_instruments>=100`, `n_surface_bars_5m>=1000`, `n_option_trades>=2000`, `n_of_instruments>=150`, `of_span_seconds>=82000`, `n_of_bars_5m>=240`, `n_perp_bars_5m>=1000`, `perp_span_seconds>=300000`, `n_common_bars_5m>=240`. Check with:
+```bash
+python3 - <<'PY'
+import glob, json
+from scripts.eval64_orderflow_realized_vol_markpath_feasible import _underlying_floor_strict
+for p in sorted(glob.glob("data/raw/eval66/three_way_ETH_*.json")):
+    c = json.load(open(p))
+    print(p, c.get("window_start"), c.get("window_end"), _underlying_floor_strict(c))
+PY
+```
+- **If a non-empty capture is below the floor ⇒ seal `EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_<UTC>` with honest diagnostics, do not weaken the floor, and proceed to campaign closure (Step 5).** If no capture was acquired, do not seal BLOCKED; treat the acquisition as incomplete and finish it.
 
 **Step 3 — Dry-run, then seal EVAL-66:**
 ```bash
@@ -37,17 +47,18 @@ python3 -m pytest -q tests/test_eval66_eth_oflow_tox_rv_oos.py
 python3 scripts/eval66_eth_oflow_tox_rv_oos.py --capture-dir data/raw/eval66 --no-write
 python3 scripts/eval66_eth_oflow_tox_rv_oos.py --capture-dir data/raw/eval66 --seal --task-label EVAL66-ETH-OFLOW-TOX-RV-OOS
 ```
+The seal command writes the PREREG artifact and then COMBINED (floor met) or BLOCKED (non-empty capture below floor). It exits 2 and writes nothing if the capture directory has no real ETH capture.
 
 **Step 4 — Seal gate (exit 0 required):**
 ```bash
 python3 scripts/check_session_sealed.py \
-  --task-id "INIT-2026-11-16T08:49:47Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
+  --task-id "INIT-2026-11-16T10:20:49Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
   --glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_COMBINED_*" \
   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_*"
 ```
 
-**Step 5 — After sealing:** update this handoff in place with verified paths/numbers and the **definitive outcome**. If EVAL-66 `NO-GO` (fails to replicate) or `BLOCKED` with no feasible path: record `CAMPAIGN_CLOSED` (namesake options order-flow → realized-vol hypothesis not supported on real BTC/ETH, traded and informational forms closed, ETH slice non-replicating) and state that no further on-charter rungs are justified. If EVAL-66 GO (replicates on pre-registered slice/floor): define a concrete, pre-registered traded-form follow-up as the next task (new ID). Do not invent synthetic or off-charter rungs.
+**Step 5 — After sealing:** update this handoff in place with verified paths, capture timestamps/hash, floor numbers, and the definitive outcome. If EVAL-66 is `NO-GO CONFIRMED (PASS)` or `BLOCKED` with no feasible path: record `CAMPAIGN_CLOSED` (namesake options order-flow → realized-vol hypothesis not supported on real BTC/ETH; traded and informational forms closed; ETH slice non-replicating) and state that no further on-charter rungs are justified. If EVAL-66 is `GO CONFIRMED`: define a concrete, pre-registered traded-form follow-up as the next timestamped task (new ID) and do not stop at the GO artifact.
 
 ## REPRO / KEY COMMANDS
 ```bash
@@ -67,7 +78,7 @@ python3 scripts/eval60_acquire_three_way.py --underlying ETH --days 7 --out-dir 
 python3 scripts/eval66_eth_oflow_tox_rv_oos.py --capture-dir data/raw/eval66 --no-write
 python3 scripts/eval66_eth_oflow_tox_rv_oos.py --capture-dir data/raw/eval66 --seal --task-label EVAL66-ETH-OFLOW-TOX-RV-OOS
 python3 scripts/check_session_sealed.py \
-  --task-id "INIT-2026-11-16T08:49:47Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
+  --task-id "INIT-2026-11-16T10:20:49Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
   --glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_COMBINED_*" \
   --require-any-glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_*"
@@ -75,23 +86,24 @@ python3 scripts/check_session_sealed.py \
 
 ## BOTTLENECKS
 
-- **Cleared:** EVAL-65 sealed (gate exit 0). EVAL-66 tooling/tests built and passing (7/7). Env bootstrapped (`.venv-deps` present); `.env` absent / paper-only.
-- **Active (blocking EVAL-66 seal):** no fresh disjoint real ETH 7d capture in `data/raw/eval66/` (dir empty); no acquisition process running. Must run acquisition (single process, public read-only, polite rate limiting), verify disjointness vs `data/raw/eval63/three_way_ETH_20261116T064816Z.json` (2026-11-09T06:48:16Z..2026-11-16T06:48:16Z) and verify EVAL-64 feasible floor on the capture. Acquisition is heavy (Deribit+OKX); monitor to completion. **Under-floor real data ⇒ seal `BLOCKED` (never `NO-GO`) and close campaign — do not weaken floor.** `data/raw/eval66/` captures are real/large; keep gitignored, do not commit.
-- **Process:** timestamp-only handoff-edit loop prohibited. A session that does not produce a sealed artifact for its task-id (or an honest `BLOCKED` with exit-0 gate) is a failure.
+- **Cleared:** EVAL-65 sealed (gate exit 0). EVAL-66 tooling/tests ready (9/9). Empty-capture seal loophole closed in `scripts/eval66_eth_oflow_tox_rv_oos.py` (`NoRealCaptureError`, exit 2, no artifact). `data/raw/eval66/` is gitignored, preventing a repeat of the 100 MB push rejection. Environment bootstrapped and paper-only.
+- **Active (blocking EVAL-66 seal):** no fresh disjoint real ETH 7d capture in `data/raw/eval66/` (directory absent); no acquisition process running. Run the single acquisition in Step 2, verify disjointness and the EVAL-64 feasible floor, then dry-run and seal. **Under-floor non-empty real data ⇒ `BLOCKED` (never `NO-GO`) and campaign closure; do not weaken the floor. No capture ⇒ acquisition incomplete, not a verdict.**
+- **Process:** timestamp-only handoff edits, env-only sessions, and empty-capture BLOCKED seals are failures. A session that does not produce a sealed EVAL-66 artifact for its task ID (or an honest under-floor BLOCKED with exit-0 gate) has not completed the task.
 
 ## PROHIBITED / INVARIANTS (non-negotiable)
 
-- Do **not** re-run/re-litigate/re-seal EVAL-02..65; do not edit sealed artifacts or `src/`. EVAL-66 must be sealed once (append-only).
-- Never synthetic fallback; real loaders raise `RealDataUnavailable`; never relabel synthetic as real; never emit `{"valid": true}`.
-- Paper-only: `.env` absent; `LIVE_TRADING_ENABLED=false`; no live enablement/venue/config/credential mutation/order placement. Public read-only network only, polite rate limiting.
+- Do **not** re-run, re-litigate, or re-seal sealed EVAL-02..62 or EVAL-64..65; do not edit sealed artifacts or `src/`. EVAL-66 must be sealed once (append-only).
+- Never use synthetic data or relabel synthetic as real; real loaders raise `RealDataUnavailable`; never emit `{"valid": true}`.
+- Paper-only: `.env` absent; `LIVE_TRADING_ENABLED=false`; no live enablement, venue/config/credential mutation, or order placement. Public read-only network only, with polite rate limiting.
 - Reuse `src/analytics/`, `src/data/`, `src/backtest/`, `src/telemetry/`, `src/features/options_pricing.py`; no `phaseNN_*` wrappers.
+- Do not weaken a pre-registered floor to force a verdict. Under-floor non-empty real data ⇒ `BLOCKED`, not `NO-GO`. Empty capture ⇒ no seal.
+- `data/raw/eval66/` captures are real and large (~170 MB); keep them gitignored and do not commit or push them.
 - No full test-suite discovery; no `research_state/` enumeration loops; no timestamped handoff copies. Update this file in place with verified facts only.
-- P&L must be spot-normalized with mark-path/realized costed returns (EVAL-62 pattern); never reintroduce EVAL-61 dollar-as-return artifact.
-- Do not weaken a pre-registered floor to force a verdict. Under-floor real data ⇒ `BLOCKED`, not `NO-GO`.
+- P&L must be spot-normalized with mark-path/realized costed returns (EVAL-62 pattern); never reintroduce the EVAL-61 dollar-as-return artifact.
 
 ## SEALED STATE (immutable; append only)
 
-EVAL-02..65 sealed. EVAL-46..60, EVAL-62, EVAL-64, **EVAL-65**: **NO-GO CONFIRMED (PASS)**, gate exit 0. EVAL-61: **NO-GO CONFIRMED (PASS)** but measurement-artifact (superseded by EVAL-62). **EVAL-63: NEVER sealed.** **EVAL-66: not yet sealed.** Re-running/re-sealing prohibited for sealed evals.
+EVAL-02..62 and EVAL-64..65 sealed. EVAL-46..60, EVAL-62, EVAL-64, **EVAL-65**: **NO-GO CONFIRMED (PASS)**, gate exit 0. EVAL-61: **NO-GO CONFIRMED (PASS)** but measurement-artifact (superseded by EVAL-62). **EVAL-63: NEVER sealed.** **EVAL-66: not yet sealed.** Re-running/re-sealing prohibited for sealed evals.
 
 ## SESSION LOG (append-only)
 
@@ -106,6 +118,7 @@ EVAL-02..65 sealed. EVAL-46..60, EVAL-62, EVAL-64, **EVAL-65**: **NO-GO CONFIRME
 - 2026-11-16T08:1x–08:25Z: Fixed EVAL-64 copy-and-retarget bugs; sealed **EVAL-64 `NO-GO CONFIRMED (PASS)`** (gate exit 0); corrected EVAL-63 as never sealed; built+tested EVAL-65 (8/8), dry-run verified.
 - 2026-11-16T08:39Z (recovery): diagnosed 100 MB push rejection (eval63 captures); preserved `d98a38942` as `recovery/session-58-checkpoint-d98a38942`; rewound+recommitted pushable subset; pushed `origin/main == 4f26fb5859`.
 - **2026-11-16T08:49:47Z:** Verified env/EVAL-64 gate/EVAL-65 tests 8/8. **Sealed EVAL-65 `NO-GO CONFIRMED (PASS)`** (`EVAL_65_..._{PREREGISTRATION,COMBINED}_20261116T084947Z.{json,md}`; gate exit 0). Defined EVAL-66 as next heavy on-charter task.
-- **2026-11-16T09:24:56Z (this session):** Verified env (`./scripts/verify_env.sh --check` OK, paper-only), EVAL-66 tooling/tests present and passing (7/7 via `.venv-deps`), `--no-write` on empty eval66 → BLOCKED as expected. Confirmed **no acquisition running** and `data/raw/eval66/` empty (no capture). Updated durable handoff in place with verified bottleneck and explicit, unambiguous EVAL-66 completion steps (acquire+verify disjoint/floor → dry-run → seal → gate, or honest BLOCKED → campaign closure). No EVAL-02..65 modified/re-run; no synthetic data; no sealed artifacts produced.
+- **2026-11-16T09:24:56Z:** Verified env and EVAL-66 tooling (7/7); confirmed no acquisition and empty `data/raw/eval66`; updated handoff with EVAL-66 completion steps. No heavy artifact sealed.
+- **2026-11-16T10:20:49Z (this session):** Refreshed the single durable handoff to the current timestamped EVAL-66 task. Closed the empty-capture seal loophole in `scripts/eval66_eth_oflow_tox_rv_oos.py` (`NoRealCaptureError`; `--seal` exits 2 and writes no artifact without a real ETH capture), added regression tests (now **9 passed**), and gitignored `data/raw/eval66/` to prevent another 100 MB push rejection. Corrected stale `AGENTS.md` routing from EVAL-61 to the active EVAL-66 rung and updated the sealed range to EVAL-02..62 plus EVAL-64..65 (EVAL-63 never sealed). Verified `./scripts/verify_env.sh --check` OK, `.env` absent, `LIVE_TRADING_ENABLED` unset, and `data/raw/eval66` absent/no acquisition running. No sealed EVAL-02..62 or EVAL-64..65 artifacts were modified or re-run; no EVAL-66 artifact was sealed.
 
 (End of file)

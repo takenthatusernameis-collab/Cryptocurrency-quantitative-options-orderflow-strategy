@@ -61,18 +61,18 @@ SEALED `NO-GO CONFIRMED (PASS)`, and the synchronized three-way fusion **EVAL-60
 SURFACE × Deribit options-venue ORDER FLOW × OKX perp ORDER FLOW)** is SEALED `NO-GO CONFIRMED (PASS)` at
 `research_state/POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_COMBINED_20261116T003146Z.{json,md}` (prereg
 `..._PREREGISTRATION_20261116T003146Z`; 18 configs/underlying; pooled PBO 0.75; gate exit 0) — see
-"Current measured state" below. The options greeks/smile ladder (EVAL-54..59) is COMPLETE and the
-options+orderflow fusion ladder (EVAL-46..60) is COMPLETE. **The next focus campaign is now DEFINED as
-EVAL-61 (real options ORDER-FLOW toxicity → subsequent realized volatility, traded via a signal-timed
-delta-hedged ATM straddle net-of-cost on the BTC/ETH perpetual, fresh heavy real Deribit BTC+ETH):**
-it is the one on-charter rung that makes the options order flow (the repo's namesake) drive a
-volatility trade rather than a directional one, still untested. EVAL-60 tooling
-(`scripts/eval60_acquire_three_way.py`, `scripts/eval60_three_way_net_of_cost.py`,
-`tests/test_eval60_*`) is sealed/immutable and proven end-to-end; EVAL-61 reuses the acquisition and
-copy-and-retargets the measurement (`scripts/eval61_orderflow_realized_vol_net_of_cost.py`,
-`tests/test_eval61_*`, to be built). Do not re-run, re-litigate, or re-seal EVAL-02..60. Any future work
-is a fresh, pre-registered, heavy real-data falsification with a new timestamped task ID; see
-`research_state/durable_handoff.md` for the authoritative EVAL-61 task.
+"Current measured state" below. The options greeks/smile ladder (EVAL-54..59) and the
+options+orderflow fusion ladder (EVAL-46..60) are COMPLETE. The options order-flow →
+realized-vol campaign (EVAL-61..65) is also COMPLETE: EVAL-61 (traded form) and EVAL-64
+(feasible floor) are sealed `NO-GO CONFIRMED (PASS)`; EVAL-62 (mark-path correction) is
+sealed `NO-GO CONFIRMED (PASS)`; EVAL-63 was never sealed; EVAL-65 (wrapper-free
+predictiveness) is sealed `NO-GO CONFIRMED (PASS)`. **The only remaining on-charter rung is
+EVAL-66: isolated disjoint-window OOS replication of the suggestive ETH 1m/72-bar slice
+(`tox::bar60.0::h72`, `imbalance::bar60.0::h72`).** EVAL-66 tooling/tests are ready; the next
+session must acquire a fresh real ETH 7d capture and seal EVAL-66. Do not re-run, re-litigate,
+or re-seal sealed EVAL-02..62 or EVAL-64..65 (EVAL-63 was never sealed). Any future work is a fresh, pre-registered, heavy real-data
+falsification with a new timestamped task ID; see `research_state/durable_handoff.md` for
+the authoritative EVAL-66 task.
 
 **Do not** run the full test suite (~5k tests / ~75k state files) as a discovery loop; run only checks
 specific to the work item.
@@ -82,16 +82,16 @@ specific to the work item.
   venue/config/credential mutation, or order placement.
 - **Never fall back to synthetic data.** Real loaders raise `RealDataUnavailable`. Never relabel
   synthetic as real. Never emit `{"valid": true}`.
-- **Sealed artifacts are immutable.** EVAL-02..48 are sealed; append new timestamped artifacts only.
+- **Sealed artifacts are immutable.** EVAL-02..62 and EVAL-64..65 are sealed; EVAL-63 was never sealed; append new timestamped artifacts only.
   Do not modify sealed artifacts to make a check pass.
 - Network is public read-only market data only, with polite rate limiting, if truly required.
 - Reuse existing modules under `src/analytics/`, `src/data/`, `src/backtest/`, `src/telemetry/`
   rather than writing new orchestrator wrappers (`phaseNN_*` wrappers are prohibited).
 
 ## Current measured state
-Campaign is **CLOSED (EVAL-46..50 all sealed NO-GO CONFIRMED (PASS))**. The options+orderflow strategy
-is **not net-of-cost tradable** on the available real BTC/OKX data. EVAL-37 post-termination audit
-sealed **PASS 9/9**. EVAL-41/42 sealed the BTC options pillar closed; EVAL-43 sealed the BTC orderflow
+Campaign status: EVAL-46..65 are sealed; EVAL-66 is the only open on-charter rung. The
+options+orderflow strategy is **not net-of-cost tradable** on the available real BTC/OKX data.
+EVAL-37 post-termination audit sealed **PASS 9/9**. EVAL-41/42 sealed the BTC options pillar closed; EVAL-43 sealed the BTC orderflow
 pillar closed across the full roster (`NO-GO CONFIRMED (PASS)`,
 `research_state/EVAL_43_ORDERFLOW_FULL_ROSTER_META_20261114T224516Z.{json,md}`). EVAL-44 sealed
 BTC-scoped `CAMPAIGN_CLOSED`. EVAL-45 measured ETH: orderflow `NO-GO CONFIRMED (PASS)`
@@ -125,9 +125,10 @@ The combined options+orderflow thesis is **NOT net-of-cost tradable on BTC/OKX, 
 Deribit-cross-venue, ETH Deribit-cross-venue, nor on real L2 order-book OFI (BTC+ETH)**, and the
 options-venue order flow standalone is **NOT net-of-cost tradable on BTC or ETH**, and the synchronized
 three-way fusion (EVAL-60) is **NOT net-of-cost tradable on real BTC or ETH**. **The ladder EVAL-46..60 is
-COMPLETE; the next focus campaign is EVAL-61 (real options ORDER-FLOW toxicity → subsequent realized
-volatility, traded via a signal-timed delta-hedged ATM straddle net-of-cost on the BTC/ETH perpetual,
-fresh heavy real Deribit BTC+ETH), the one on-charter rung that makes the options order flow drive a
-volatility trade rather than a directional one.** Do not re-run, re-litigate, or re-seal EVAL-02..60.
-Any future work is a fresh, pre-registered, heavy real-data falsification with a new timestamped task
-ID. See `research_state/durable_handoff.md`.
+COMPLETE; the options order-flow → realized-vol campaign EVAL-61..65 is also COMPLETE (EVAL-61 traded
+form NO-GO/artifact, EVAL-62 mark-path NO-GO, EVAL-63 never sealed, EVAL-64 feasible-floor NO-GO,
+EVAL-65 wrapper-free predictiveness NO-GO). The only remaining on-charter rung is EVAL-66: isolated
+disjoint-window OOS replication of the suggestive ETH 1m/72-bar slice (`tox::bar60.0::h72`,
+`imbalance::bar60.0::h72`).** Do not re-run, re-litigate, or re-seal sealed EVAL-02..62 or EVAL-64..65 (EVAL-63 was never sealed). Any future work is a
+fresh, pre-registered, heavy real-data falsification with a new timestamped task ID. See
+`research_state/durable_handoff.md` for the authoritative EVAL-66 task.

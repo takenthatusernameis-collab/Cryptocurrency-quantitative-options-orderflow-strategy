@@ -11,8 +11,10 @@ IC between causal options order-flow toxicity and forward realized volatility):
   lower>0, BH-FDR rejects)
 - artifact IDs EVAL_66_ETH_OFLOW_TOX_RV_OOS_{PREREGISTRATION,COMBINED|BLOCKED}
 
-If the feasible floor is not met on the fresh disjoint capture, seal BLOCKED (never
-NO-GO) and do not weaken the floor.
+If the feasible floor is not met on a non-empty fresh disjoint capture, seal
+BLOCKED (never NO-GO) and do not weaken the floor. An empty capture directory is
+not a BLOCKED result: ``--seal`` refuses to write any artifact until a real
+``three_way_ETH_*.json`` capture has been acquired.
 """
 
 from __future__ import annotations
@@ -44,6 +46,10 @@ OUT_DIR = ROOT / "research_state"
 REPORT_ID = "EVAL_66_ETH_OFLOW_TOX_RV_OOS_COMBINED"
 PREREG_ID = "EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION"
 BLOCKED_ID = "EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED"
+
+
+class NoRealCaptureError(RuntimeError):
+    """Raised when sealing is attempted before a real ETH capture exists."""
 
 # Pre-registered configs: only the suggestive EVAL-65 ETH slice.
 TOX_SIGNALS: Tuple[str, ...] = ("tox", "imbalance")
@@ -201,6 +207,13 @@ def run_eval66(
     captures = e61._capture_inventory(str(capture_dir_abs))
     # ETH-only replication
     captures = [c for c in captures if str(c.get("underlying", "")).upper() == "ETH"]
+
+    if write and not captures:
+        raise NoRealCaptureError(
+            f"no real ETH capture found in {capture_dir_abs}; run "
+            "scripts/eval60_acquire_three_way.py --underlying ETH --days 7 "
+            f"--out-dir {capture_dir_abs} and verify three_way_ETH_*.json before sealing"
+        )
 
     per_underlying_floor: Dict[str, Dict[str, Any]] = {}
     for c in captures:
@@ -485,6 +498,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         report = run_eval66(
             capture_dir=args.capture_dir, write=write, task_label=args.task_label
         )
+    except NoRealCaptureError as exc:
+        print(json.dumps({
+            "verdict": "NOT_SEALED",
+            "reason": "no_real_capture",
+            "error": str(exc),
+        }, indent=2))
+        return 2
     except BaseException as exc:  # noqa: BLE001
         traceback.print_exc()
         if write:
