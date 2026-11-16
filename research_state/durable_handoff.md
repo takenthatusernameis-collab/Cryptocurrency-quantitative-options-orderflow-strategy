@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T14:38:39Z, verified — supersedes 14:28:41Z):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-16T14:39:46Z, verified — supersedes 14:38:39Z):**
 > **Repo priority (per name `Cryptocurrency-quantitative-options-orderflow-strategy`):** options + orderflow alpha, net-of-cost on real data. **On-charter ladder EVAL-02..66 is CLOSED** — EVAL-66 sealed `BLOCKED` (gate exit 0; ETH capture under-floor & not disjoint from EVAL-65); namesake options order-flow → realized-vol hypothesis not supported on real BTC/ETH in tested windows. Do **not** re-run, re-litigate, re-seal, or edit sealed EVAL-02..62/EVAL-64..66 artifacts or `src/`. Do not invent synthetic data or weaken floors.
 >
 > **NEXT FOCUS CAMPAIGN — EVAL-67 (MANDATORY heavy real-data falsification, off-charter but core-thesis-aligned): BTC options order-flow (toxicity/imbalance) → realized-vol OOS replication on a fresh, disjoint, floor-compliant real BTC capture.** Future agents must not avoid heavy work. This session is **not finished** until one of the completion-contract outcomes is achieved: (a) sealed EVAL-67 artifact + `check_session_sealed.py` exit 0, OR (b) a genuinely live **persistent, self-completing** acquisition with recorded PID/command/liveness (recorded here), OR (c) a recorded **scheduled wakeup/cron** for the earliest disjoint capture time (exact command recorded). No timestamp-only refreshes, no planning-only stops.
