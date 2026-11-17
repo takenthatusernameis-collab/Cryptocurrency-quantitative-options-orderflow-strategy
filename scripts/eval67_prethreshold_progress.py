@@ -69,6 +69,10 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval83_phaseb_gate.py",
     "tests/test_eval84_term_structure_vol_of_vol_predictiveness.py",
     "tests/test_eval84_phaseb_gate.py",
+    "tests/test_eval85_surface_skew_forward_return_tail.py",
+    "tests/test_eval85_phaseb_gate.py",
+    "tests/test_eval86_surface_skew_forward_vrp_predictiveness.py",
+    "tests/test_eval86_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -77,7 +81,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 375
+EXPECTED_TARGETED_TESTS = 427
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -154,6 +158,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-84",
         "script": ROOT / "scripts" / "eval84_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-85",
+        "script": ROOT / "scripts" / "eval85_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-86",
+        "script": ROOT / "scripts" / "eval86_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -300,6 +314,22 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_84_TERM_STRUCTURE_VOL_OF_VOL_PREDICTIVENESS_PREREGISTRATION_*",
         "combined": "EVAL_84_TERM_STRUCTURE_VOL_OF_VOL_PREDICTIVENESS_COMBINED_*",
         "blocked": "EVAL_84_TERM_STRUCTURE_VOL_OF_VOL_PREDICTIVENESS_BLOCKED_*",
+        "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-85",
+        "task_id": "INIT-2026-11-17T23:20:00Z-EVAL85-SURFACE-SKEW-FORWARD-RETURN-TAIL-ASYMMETRY",
+        "prereg": "EVAL_85_SURFACE_SKEW_FORWARD_RETURN_TAIL_ASYMMETRY_PREREGISTRATION_*",
+        "combined": "EVAL_85_SURFACE_SKEW_FORWARD_RETURN_TAIL_ASYMMETRY_COMBINED_*",
+        "blocked": "EVAL_85_SURFACE_SKEW_FORWARD_RETURN_TAIL_ASYMMETRY_BLOCKED_*",
+        "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-86",
+        "task_id": "INIT-2026-11-17T23:35:00Z-EVAL86-SURFACE-SKEW-FORWARD-VRP-PREDICTIVENESS",
+        "prereg": "EVAL_86_SURFACE_SKEW_FORWARD_VRP_PREDICTIVENESS_PREREGISTRATION_*",
+        "combined": "EVAL_86_SURFACE_SKEW_FORWARD_VRP_PREDICTIVENESS_COMBINED_*",
+        "blocked": "EVAL_86_SURFACE_SKEW_FORWARD_VRP_PREDICTIVENESS_BLOCKED_*",
         "expected_exit": 1,
     },
     {

@@ -1,0 +1,401 @@
+{
+  "report_id": "EVAL_86_SURFACE_SKEW_FORWARD_VRP_PREDICTIVENESS_COMBINED",
+  "generated_at": "2026-11-17T23:40:08Z",
+  "task": "EVAL86-SURFACE-SKEW-FORWARD-VRP-PREDICTIVENESS",
+  "verdict": "GO CONFIRMED",
+  "verdict_detail": "wrapper-free Spearman rank IC between causal put-call skew and forward volatility risk premium (implied vol - forward realized vol) on real captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_usable_pairs_per_config": 100,
+    "note": "EVAL-86 consumes each underlying's causal options-surface series (real option trade tape for the IV surface, real perp candles for forward returns) and reuses the sealed EVAL-71 surface floor for EACH underlying (verbatim, neither weakened). Below the composed floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_option_trades": 2748,
+      "n_near_atm_option_trades": 2331,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "checks": {
+        "option_trades_ok": true,
+        "near_atm_ok": true,
+        "candles_ok": true,
+        "span_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_option_trades": 3547,
+      "n_near_atm_option_trades": 1509,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "checks": {
+        "option_trades_ok": true,
+        "near_atm_ok": true,
+        "candles_ok": true,
+        "span_ok": true
+      },
+      "ok": true
+    }
+  },
+  "campaign_floor": {
+    "checks": {
+      "underlyings_ok": true,
+      "all_underlyings_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-86",
+    "title": "Causal put-call skew -> subsequent forward volatility risk premium (VRP = implied vol - forward realized vol) predictiveness (Spearman rank IC) on the real on-disk captures",
+    "extends": "EVAL-71 (own-asset surface -> own forward RV level), EVAL-85 (skew -> forward return tail asymmetry): same Spearman rank-IC statistic and sealed signal reconstructions reused verbatim, but a distinct on-charter signal x target cell \u2014 put-call skew (surface) -> forward *VRP*; no new acquisition",
+    "supersedes": "nothing \u2014 complements EVAL-71/81/85; does not re-litigate them and makes no traded-form claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signals": [
+      "skew"
+    ],
+    "target": "forward_vrp",
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal put-call skew z (EVAL-71 build_surface_bars + EVAL-61 expanding_zscore, end-of-bar k)",
+    "target_detail": "forward VRP = near-ATM implied vol at bar k minus forward realized vol over the SAME underlying's next H perp log returns (strictly after the decision at bar k)",
+    "statistic": "Spearman rank correlation IC = rho(skew_z_k, forward_vrp_k); directional permutation H1: IC > 0",
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle target series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 100
+    },
+    "data_availability": {
+      "note": "uses already-acquired real on-disk three-way captures (option trades + perp candles); no new acquisition, no network",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_usable_pairs_per_config": 100,
+      "note": "EVAL-86 consumes each underlying's causal options-surface series (real option trade tape for the IV surface, real perp candles for forward returns) and reuses the sealed EVAL-71 surface floor for EACH underlying (verbatim, neither weakened). Below the composed floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval86_surface_skew_forward_vrp_predictiveness.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval86_surface_skew_forward_vrp_predictiveness.py tests/test_eval86_surface_skew_forward_vrp_predictiveness.py",
+      "python3 -m pytest -q tests/test_eval86_surface_skew_forward_vrp_predictiveness.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval86_surface_skew_forward_vrp_predictiveness.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval86_surface_skew_forward_vrp_predictiveness.py --capture-dir data/raw/eval61 --seal --task-label EVAL86-SURFACE-SKEW-FORWARD-VRP-PREDICTIVENESS"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "spearman_ic": 0.13554448123502538,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.13472994431665558,
+      "bootstrap_ci": [
+        0.13472994431665558,
+        0.06251126809553198,
+        0.2055134544156433
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "spearman_ic": 0.137767764660608,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.1361733528229185,
+      "bootstrap_ci": [
+        0.1361733528229185,
+        0.06432066764750057,
+        0.21095215955574995
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "spearman_ic": 0.14479760573967076,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.14123730629912357,
+      "bootstrap_ci": [
+        0.14123730629912357,
+        0.07510990332204401,
+        0.2179141968842825
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "spearman_ic": 0.11469236493449189,
+      "permutation_p": 0.03296703296703297,
+      "bootstrap_median": 0.11725159297305117,
+      "bootstrap_ci": [
+        0.11725159297305117,
+        -0.0450219959466762,
+        0.2652528517746409
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "spearman_ic": 0.10723814344753912,
+      "permutation_p": 0.03896103896103896,
+      "bootstrap_median": 0.10629771847682638,
+      "bootstrap_ci": [
+        0.10629771847682638,
+        -0.05850112038960841,
+        0.2615775805753693
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "spearman_ic": 0.09530883828742126,
+      "permutation_p": 0.07492507492507493,
+      "bootstrap_median": 0.09562396847456059,
+      "bootstrap_ci": [
+        0.09562396847456059,
+        -0.07003784797977658,
+        0.2577702688816948
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "spearman_ic": 0.299197365851845,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.2991675253980875,
+      "bootstrap_ci": [
+        0.2991675253980875,
+        0.23157495653283788,
+        0.36522578431464114
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "spearman_ic": 0.2962363403365915,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.295541777901207,
+      "bootstrap_ci": [
+        0.295541777901207,
+        0.23232288174519655,
+        0.3665295017302461
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "spearman_ic": 0.29768418790913215,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.29841962700363084,
+      "bootstrap_ci": [
+        0.29841962700363084,
+        0.23477487720680257,
+        0.36691972530601424
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "spearman_ic": 0.2901601835512415,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.2906433871001334,
+      "bootstrap_ci": [
+        0.2906433871001334,
+        0.15788704552189514,
+        0.4165807808306532
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "spearman_ic": 0.3019172640824415,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.29712235029152523,
+      "bootstrap_ci": [
+        0.29712235029152523,
+        0.15486885102915865,
+        0.42394495967503115
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "target": "forward_vrp",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "spearman_ic": 0.29577906425864015,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.2975872180352922,
+      "bootstrap_ci": [
+        0.2975872180352922,
+        0.13862883894207337,
+        0.44440999196492337
+      ],
+      "pass": true,
+      "reason": "ok"
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 6,
+      "best_ic": 0.14479760573967076,
+      "best_config": "skew::bar60.0::h72",
+      "n_pass": 3,
+      "pass_configs": [
+        "BTC::skew::bar60.0::h6",
+        "BTC::skew::bar60.0::h24",
+        "BTC::skew::bar60.0::h72"
+      ],
+      "any_pass": true
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 6,
+      "best_ic": 0.3019172640824415,
+      "best_config": "skew::bar300.0::h24",
+      "n_pass": 6,
+      "pass_configs": [
+        "ETH::skew::bar60.0::h6",
+        "ETH::skew::bar60.0::h24",
+        "ETH::skew::bar60.0::h72",
+        "ETH::skew::bar300.0::h6",
+        "ETH::skew::bar300.0::h24",
+        "ETH::skew::bar300.0::h72"
+      ],
+      "any_pass": true
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [
+        "BTC::skew::bar60.0::h6",
+        "BTC::skew::bar60.0::h24",
+        "BTC::skew::bar60.0::h72",
+        "ETH::skew::bar60.0::h6",
+        "ETH::skew::bar60.0::h24",
+        "ETH::skew::bar60.0::h72",
+        "ETH::skew::bar300.0::h6",
+        "ETH::skew::bar300.0::h24",
+        "ETH::skew::bar300.0::h72",
+        "BTC::skew::bar300.0::h6",
+        "BTC::skew::bar300.0::h24",
+        "BTC::skew::bar300.0::h72"
+      ],
+      "thresholds": {
+        "BTC::skew::bar60.0::h6": 0.008333333333333333,
+        "BTC::skew::bar60.0::h24": 0.016666666666666666,
+        "BTC::skew::bar60.0::h72": 0.025000000000000005,
+        "ETH::skew::bar60.0::h6": 0.03333333333333333,
+        "ETH::skew::bar60.0::h24": 0.041666666666666664,
+        "ETH::skew::bar60.0::h72": 0.05000000000000001,
+        "ETH::skew::bar300.0::h6": 0.05833333333333334,
+        "ETH::skew::bar300.0::h24": 0.06666666666666667,
+        "ETH::skew::bar300.0::h72": 0.075,
+        "BTC::skew::bar300.0::h6": 0.08333333333333333,
+        "BTC::skew::bar300.0::h24": 0.09166666666666667,
+        "BTC::skew::bar300.0::h72": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 12,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": true,
+    "campaign_state": "EVAL_86_SURFACE_SKEW_FORWARD_VRP_PREDICTIVENESS"
+  },
+  "errors": []
+}
