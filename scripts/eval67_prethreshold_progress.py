@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Deterministic pre-threshold progress driver for the EVAL-67/68/69 ladder
-plus the physics-independent EVAL-70 and EVAL-71 campaigns.
+plus the physics-independent EVAL-70, EVAL-71, and EVAL-72 campaigns.
 
 This is the single heavy-work entrypoint for sessions that run before the
 2026-11-20 disjointness threshold. It removes the repeated manual loop that
@@ -8,9 +8,9 @@ previously let sessions do timestamp-only carries:
 
 1. bootstrap and verify the environment;
 2. run the full targeted + controller/campaign/diagnostics test suites;
-3. run all campaign arbiters in order (EVAL-70 and EVAL-71 first — they are
-   physics-independent and runnable now — then the EVAL-67 -> EVAL-68 -> EVAL-69
-   disjoint-forward ladder);
+3. run all campaign arbiters in order (EVAL-70, EVAL-71, and EVAL-72 first --
+   they are physics-independent and runnable now -- then the EVAL-67 -> EVAL-68 ->
+   EVAL-69 disjoint-forward ladder);
 4. if requested with --execute, execute any arbiter that is DUE;
 5. record the verified facts in the readiness JSON.
 
@@ -50,6 +50,7 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py",
     "tests/test_eval69_phaseb_gate.py",
     "tests/test_eval71_surface_iv_rv_predictiveness.py",
+    "tests/test_eval72_surface_skew_straddle_monetization.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -58,7 +59,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 164
+EXPECTED_TARGETED_TESTS = 176
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -70,6 +71,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-71",
         "script": ROOT / "scripts" / "eval71_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-72",
+        "script": ROOT / "scripts" / "eval72_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -112,6 +118,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_71_SURFACE_IV_RV_PREDICTIVENESS_PREREGISTRATION_*",
         "combined": "EVAL_71_SURFACE_IV_RV_PREDICTIVENESS_COMBINED_*",
         "blocked": "EVAL_71_SURFACE_IV_RV_PREDICTIVENESS_BLOCKED_*",
+        "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-72",
+        "task_id": "INIT-2026-11-17T05:10:00Z-EVAL72-SURFACE-SKEW-STRADDLE-MONETIZATION",
+        "prereg": "EVAL_72_SURFACE_SKEW_STRADDLE_MONETIZATION_PREREGISTRATION_*",
+        "combined": "EVAL_72_SURFACE_SKEW_STRADDLE_MONETIZATION_COMBINED_*",
+        "blocked": "EVAL_72_SURFACE_SKEW_STRADDLE_MONETIZATION_BLOCKED_*",
         "expected_exit": 1,
     },
     {
@@ -425,6 +439,8 @@ def update_readiness(
     d69 = (p69.get("disjointness") or {})
     g70 = gates.get("EVAL-70", {})
     p70 = (g70.get("payload") or {})
+    g72 = gates.get("EVAL-72", {})
+    p72 = (g72.get("payload") or {})
 
     notes = (
         f"Verified {utc_now_iso()} by scripts/eval67_prethreshold_progress.py "
@@ -435,6 +451,9 @@ def update_readiness(
         f"diagnostics={diagnostics.get('passed')}/{EXPECTED_DIAGNOSTIC_TESTS} "
         f"(rc={diagnostics.get('rc')}); "
         f"EVAL-70={p70.get('phase')} exit={g70.get('exit_code')}; "
+        f"EVAL-71={(gates.get('EVAL-71', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-71', {}).get('exit_code')}; "
+        f"EVAL-72={p72.get('phase')} exit={g72.get('exit_code')}; "
         f"EVAL-67={p67.get('phase')} exit={g67.get('exit_code')} "
         f"overlap_seconds={d67.get('overlap_seconds')} disjoint={d67.get('disjoint')}; "
         f"EVAL-68={p68.get('phase')} exit={g68.get('exit_code')} "
@@ -469,6 +488,8 @@ def update_readiness(
             },
             "gates": {
                 "eval70": _compact_gate(g70),
+                "eval71": _compact_gate(gates.get("EVAL-71", {})),
+                "eval72": _compact_gate(g72),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),

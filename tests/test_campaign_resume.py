@@ -23,13 +23,16 @@ def test_durable_handoff_is_source_of_truth():
     text = HANDOFF_DURABLE.read_text(encoding="utf-8")
     assert "SINGLE DURABLE HANDOFF" in text
     assert "INITIAL TASK MESSAGE" in text
-    # Case-insensitive: the authoritative handoff carries the active focus campaigns (EVAL-67/68/69/70).
+    # Case-insensitive: the authoritative handoff carries the active focus campaigns
+    # (EVAL-67/68/69/70/71/72).
     tl = text.lower()
     assert (
         "eval-67" in tl
         or "eval-68" in tl
         or "eval-69" in tl
         or "eval-70" in tl
+        or "eval-71" in tl
+        or "eval-72" in tl
     )
 
 
