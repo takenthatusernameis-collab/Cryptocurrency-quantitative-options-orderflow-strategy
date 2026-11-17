@@ -23,26 +23,13 @@ def test_durable_handoff_is_source_of_truth():
     text = HANDOFF_DURABLE.read_text(encoding="utf-8")
     assert "SINGLE DURABLE HANDOFF" in text
     assert "INITIAL TASK MESSAGE" in text
-    # Case-insensitive: the authoritative handoff carries the active focus campaign.
+    # Case-insensitive: the authoritative handoff carries the active focus campaigns (EVAL-67/68/69/70).
     tl = text.lower()
     assert (
-        "phase 15" in tl
-        or "phase 16" in tl
-        or "phase 17" in tl
-        or "phase 18" in tl
-        or "phase 19" in tl
-        or "phase 38" in tl
-        or "phase 39" in tl
-        or "phase 80" in tl
-        or "phase 81" in tl
-        or "phase 82" in tl
-        or "phase 83" in tl
-        or "phase 84" in tl
-        or "phase 85" in tl
-        or "phase 110" in tl
-        or "phase_110" in tl
-        or "v89" in tl
-        or "v90" in tl
+        "eval-67" in tl
+        or "eval-68" in tl
+        or "eval-69" in tl
+        or "eval-70" in tl
     )
 
 
