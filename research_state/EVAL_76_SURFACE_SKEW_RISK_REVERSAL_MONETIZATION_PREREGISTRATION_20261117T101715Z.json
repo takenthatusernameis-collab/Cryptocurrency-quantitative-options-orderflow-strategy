@@ -1,0 +1,64 @@
+{
+  "prereg_id": "EVAL_76_SURFACE_SKEW_RISK_REVERSAL_MONETIZATION_PREREGISTRATION",
+  "generated_at": "2026-11-17T10:17:15Z",
+  "task": "EVAL76-SURFACE-SKEW-RISK-REVERSAL-MONETIZATION",
+  "hypothesis": "The causal options implied-volatility surface SKEW (EVAL-71 put-minus-call near-ATM IV skew) can be monetized net-of-cost by a signal-timed delta-hedged RISK REVERSAL (nearest OTM call + nearest OTM put) on the BTC/ETH perpetual, on the already-acquired real on-disk captures at the composed floor.",
+  "extends": "EVAL-72 / EVAL-75 (identical correct mark-path net-of-cost delta-hedged traded form) but a different, on-charter traded structure: a RISK REVERSAL (nearest OTM call + nearest OTM put) driven by the EVAL-71 surface SKEW rather than an ATM straddle driven by level/skew or term structure; no new acquisition",
+  "protocol": {
+    "eval": "EVAL-76",
+    "title": "Options implied-volatility surface skew (EVAL-71 put-minus-call near-ATM IV skew) -> signal-timed delta-hedged risk reversal with correct mark-path net-of-cost P&L: traded-form monetization falsification on the real on-disk three-way captures",
+    "extends": "EVAL-72 / EVAL-75 (identical correct mark-path net-of-cost delta-hedged traded form) but a different, on-charter traded structure: a RISK REVERSAL (nearest OTM call + nearest OTM put) driven by the EVAL-71 surface SKEW rather than an ATM straddle driven by level/skew or term structure; no new acquisition",
+    "supersedes": "nothing \u2014 this is the risk-reversal (skew-structure) monetization complement to EVAL-71's predictive skew. EVAL-57 traded a static VRP straddle (NO-GO), EVAL-61/62 traded an order-flow-timed ATM straddle (NO-GO), EVAL-72 traded an EVAL-71 level/skew-timed ATM straddle (NO-GO), and EVAL-75 traded an EVAL-74 term-structure-timed ATM straddle (NO-GO), so a skew-timed risk reversal is genuinely new",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signals": [
+      "skew"
+    ],
+    "signal_detail": "skew = mean(put near-ATM iv) - mean(call near-ATM iv) over the trailing window (EVAL-71 helper, reused verbatim)",
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "position": "side_k = sign(z_k); exposure_k = min(|z_k|, SIZE_CAP); causal decision at bar k; z_k = expanding-z of the causal EVAL-71 surface skew",
+    "traded_form": "risk reversal (front expiry; nearest OTM call = smallest strike > spot; nearest OTM put = largest strike < spot; IV backed out of the real mark via EVAL-57 helpers) with the EVAL-62 mark-path net-of-cost P&L on the signed long-call/short-put aggregate mark/delta: delta-hedge + half real 2-leg spread + hedge fee, spot-normalized",
+    "zwindow": 20,
+    "size_cap": 1.0,
+    "hedge_fee_bps": 5.0,
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, nonzero positions > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "floor": {
+      "composed_of": [
+        "EVAL-61/62 traded-instrument floor",
+        "EVAL-71 surface floor"
+      ],
+      "min_underlyings": 2,
+      "note": "EVAL-76 consumes both the traded-instrument data (surface snapshots / perp candles / option trades; EVAL-61/62 floor) and the surface skew signal data (per-bar near-ATM option trade tape; EVAL-71 surface floor). Both sealed floors are reused verbatim and BOTH must pass; neither is weakened. This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+    },
+    "code_paths": [
+      "src/analytics/integrated_options_orderflow_evaluation.py",
+      "src/analytics/real_walkforward_certification.py",
+      "src/analytics/strategy_evaluation.py",
+      "scripts/eval57_vrp_net_of_cost.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval76_surface_skew_risk_reversal_monetization.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval76_surface_skew_risk_reversal_monetization.py tests/test_eval76_surface_skew_risk_reversal_monetization.py",
+      "python3 -m pytest -q tests/test_eval76_surface_skew_risk_reversal_monetization.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval76_surface_skew_risk_reversal_monetization.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval76_surface_skew_risk_reversal_monetization.py --capture-dir data/raw/eval61 --seal --task-label EVAL76-SURFACE-SKEW-RISK-REVERSAL-MONETIZATION"
+    ]
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+}

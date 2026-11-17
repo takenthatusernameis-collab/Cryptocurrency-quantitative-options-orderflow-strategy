@@ -1,0 +1,396 @@
+{
+  "report_id": "EVAL_76_SURFACE_SKEW_RISK_REVERSAL_MONETIZATION_COMBINED",
+  "generated_at": "2026-11-17T10:17:15Z",
+  "task": "EVAL76-SURFACE-SKEW-RISK-REVERSAL-MONETIZATION",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "skew-timed delta-hedged risk reversal with correct mark-path net-of-cost P&L (traded-form monetization of EVAL-71's predictive surface skew) on the real on-disk captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "note": "EVAL-76 consumes both the traded-instrument data (surface snapshots / perp candles / option trades; EVAL-61/62 floor) and the surface skew signal data (per-bar near-ATM option trade tape; EVAL-71 surface floor). Both sealed floors are reused verbatim and BOTH must pass; neither is weakened. This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "traded_floor_ok": true,
+      "signal_floor_ok": true,
+      "traded_floor": {
+        "underlying": "BTC",
+        "n_surface_snapshots": 289,
+        "n_surface_instruments": 92,
+        "n_surface_bars_5m": 289,
+        "n_option_trades": 2748,
+        "n_of_instruments": 87,
+        "of_span_seconds": 86350.967,
+        "n_of_bars_5m": 287,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "n_perp_bars_5m": 288,
+        "n_common_bars_5m": 288,
+        "checks": {
+          "snapshots_ok": true,
+          "surface_instruments_ok": true,
+          "surface_bars_ok": true,
+          "trades_ok": true,
+          "of_instruments_ok": true,
+          "of_span_ok": true,
+          "of_bars_ok": true,
+          "perp_bars_ok": true,
+          "perp_span_ok": true,
+          "common_overlap_ok": true
+        },
+        "ok": true
+      },
+      "signal_floor": {
+        "underlying": "BTC",
+        "n_option_trades": 2748,
+        "n_near_atm_option_trades": 2331,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "checks": {
+          "option_trades_ok": true,
+          "near_atm_ok": true,
+          "candles_ok": true,
+          "span_ok": true
+        },
+        "ok": true
+      },
+      "checks": {
+        "traded_floor_ok": true,
+        "signal_floor_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "traded_floor_ok": true,
+      "signal_floor_ok": true,
+      "traded_floor": {
+        "underlying": "ETH",
+        "n_surface_snapshots": 289,
+        "n_surface_instruments": 280,
+        "n_surface_bars_5m": 289,
+        "n_option_trades": 3558,
+        "n_of_instruments": 227,
+        "of_span_seconds": 86289.223,
+        "n_of_bars_5m": 287,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "n_perp_bars_5m": 288,
+        "n_common_bars_5m": 287,
+        "checks": {
+          "snapshots_ok": true,
+          "surface_instruments_ok": true,
+          "surface_bars_ok": true,
+          "trades_ok": true,
+          "of_instruments_ok": true,
+          "of_span_ok": true,
+          "of_bars_ok": true,
+          "perp_bars_ok": true,
+          "perp_span_ok": true,
+          "common_overlap_ok": true
+        },
+        "ok": true
+      },
+      "signal_floor": {
+        "underlying": "ETH",
+        "n_option_trades": 3547,
+        "n_near_atm_option_trades": 1509,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "checks": {
+          "option_trades_ok": true,
+          "near_atm_ok": true,
+          "candles_ok": true,
+          "span_ok": true
+        },
+        "ok": true
+      },
+      "checks": {
+        "traded_floor_ok": true,
+        "signal_floor_ok": true
+      },
+      "ok": true
+    }
+  },
+  "protocol": {
+    "eval": "EVAL-76",
+    "title": "Options implied-volatility surface skew (EVAL-71 put-minus-call near-ATM IV skew) -> signal-timed delta-hedged risk reversal with correct mark-path net-of-cost P&L: traded-form monetization falsification on the real on-disk three-way captures",
+    "extends": "EVAL-72 / EVAL-75 (identical correct mark-path net-of-cost delta-hedged traded form) but a different, on-charter traded structure: a RISK REVERSAL (nearest OTM call + nearest OTM put) driven by the EVAL-71 surface SKEW rather than an ATM straddle driven by level/skew or term structure; no new acquisition",
+    "supersedes": "nothing \u2014 this is the risk-reversal (skew-structure) monetization complement to EVAL-71's predictive skew. EVAL-57 traded a static VRP straddle (NO-GO), EVAL-61/62 traded an order-flow-timed ATM straddle (NO-GO), EVAL-72 traded an EVAL-71 level/skew-timed ATM straddle (NO-GO), and EVAL-75 traded an EVAL-74 term-structure-timed ATM straddle (NO-GO), so a skew-timed risk reversal is genuinely new",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signals": [
+      "skew"
+    ],
+    "signal_detail": "skew = mean(put near-ATM iv) - mean(call near-ATM iv) over the trailing window (EVAL-71 helper, reused verbatim)",
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "position": "side_k = sign(z_k); exposure_k = min(|z_k|, SIZE_CAP); causal decision at bar k; z_k = expanding-z of the causal EVAL-71 surface skew",
+    "traded_form": "risk reversal (front expiry; nearest OTM call = smallest strike > spot; nearest OTM put = largest strike < spot; IV backed out of the real mark via EVAL-57 helpers) with the EVAL-62 mark-path net-of-cost P&L on the signed long-call/short-put aggregate mark/delta: delta-hedge + half real 2-leg spread + hedge fee, spot-normalized",
+    "zwindow": 20,
+    "size_cap": 1.0,
+    "hedge_fee_bps": 5.0,
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, nonzero positions > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "floor": {
+      "composed_of": [
+        "EVAL-61/62 traded-instrument floor",
+        "EVAL-71 surface floor"
+      ],
+      "min_underlyings": 2,
+      "note": "EVAL-76 consumes both the traded-instrument data (surface snapshots / perp candles / option trades; EVAL-61/62 floor) and the surface skew signal data (per-bar near-ATM option trade tape; EVAL-71 surface floor). Both sealed floors are reused verbatim and BOTH must pass; neither is weakened. This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+    },
+    "code_paths": [
+      "src/analytics/integrated_options_orderflow_evaluation.py",
+      "src/analytics/real_walkforward_certification.py",
+      "src/analytics/strategy_evaluation.py",
+      "scripts/eval57_vrp_net_of_cost.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval76_surface_skew_risk_reversal_monetization.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval76_surface_skew_risk_reversal_monetization.py tests/test_eval76_surface_skew_risk_reversal_monetization.py",
+      "python3 -m pytest -q tests/test_eval76_surface_skew_risk_reversal_monetization.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval76_surface_skew_risk_reversal_monetization.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval76_surface_skew_risk_reversal_monetization.py --capture-dir data/raw/eval61 --seal --task-label EVAL76-SURFACE-SKEW-RISK-REVERSAL-MONETIZATION"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "n_states": 275,
+      "n_returns": 274,
+      "nonzero_positions": 275,
+      "n_hedge_rebalances": 274,
+      "n_side_flips": 50,
+      "sharpe": -0.9355657005185016,
+      "max_drawdown": 0.058549075863747566,
+      "kill_switch_breach": false,
+      "permutation_p": 0.32667332667332666,
+      "bootstrap_ci": [
+        -0.9355657005185016,
+        -2.4915602171264437,
+        1.1287196874420817
+      ],
+      "dsr": 1.0,
+      "walkforward": [
+        {
+          "test_start": 91,
+          "test_end": 145,
+          "oos_sharpe": -4.053911027333239,
+          "oos_max_drawdown": 0.03199957772591585,
+          "n": 54
+        },
+        {
+          "test_start": 145,
+          "test_end": 199,
+          "oos_sharpe": -0.6221153455446625,
+          "oos_max_drawdown": 0.01868591878883703,
+          "n": 54
+        },
+        {
+          "test_start": 199,
+          "test_end": 253,
+          "oos_sharpe": 1.647079620804287,
+          "oos_max_drawdown": 0.010630326766660267,
+          "n": 54
+        }
+      ],
+      "mean_return": -0.00017960949038240098,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "n_states": 275,
+      "n_returns": 274,
+      "nonzero_positions": 275,
+      "n_hedge_rebalances": 274,
+      "n_side_flips": 46,
+      "sharpe": -1.0282337518479292,
+      "max_drawdown": 0.08338956162641564,
+      "kill_switch_breach": false,
+      "permutation_p": 0.29270729270729273,
+      "bootstrap_ci": [
+        -1.0282337518479292,
+        -2.4104099923983,
+        0.9132112071866273
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "test_start": 91,
+          "test_end": 145,
+          "oos_sharpe": -5.457043381168047,
+          "oos_max_drawdown": 0.023651766959379417,
+          "n": 54
+        },
+        {
+          "test_start": 145,
+          "test_end": 199,
+          "oos_sharpe": -1.5512993439300051,
+          "oos_max_drawdown": 0.027834404182389434,
+          "n": 54
+        },
+        {
+          "test_start": 199,
+          "test_end": 253,
+          "oos_sharpe": 3.183309710262198,
+          "oos_max_drawdown": 0.00975073991313734,
+          "n": 54
+        }
+      ],
+      "mean_return": -0.0001881248317443189,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "n_states": 271,
+      "n_returns": 270,
+      "nonzero_positions": 270,
+      "n_hedge_rebalances": 267,
+      "n_side_flips": 68,
+      "sharpe": -0.203307077779856,
+      "max_drawdown": 0.05410879179699631,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8251748251748252,
+      "bootstrap_ci": [
+        -0.203307077779856,
+        -2.029579737005728,
+        1.4826234723842144
+      ],
+      "dsr": 0.9996241484694719,
+      "walkforward": [
+        {
+          "test_start": 90,
+          "test_end": 144,
+          "oos_sharpe": 0.18919138702237664,
+          "oos_max_drawdown": 0.018523545189848563,
+          "n": 54
+        },
+        {
+          "test_start": 144,
+          "test_end": 198,
+          "oos_sharpe": 0.9125038987531133,
+          "oos_max_drawdown": 0.014816117387911701,
+          "n": 54
+        },
+        {
+          "test_start": 198,
+          "test_end": 252,
+          "oos_sharpe": -0.0720032020616005,
+          "oos_max_drawdown": 0.0243931144421754,
+          "n": 54
+        }
+      ],
+      "mean_return": -5.583487076532413e-05,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "n_states": 271,
+      "n_returns": 270,
+      "nonzero_positions": 267,
+      "n_hedge_rebalances": 264,
+      "n_side_flips": 52,
+      "sharpe": -2.0776719154871066,
+      "max_drawdown": 0.14504012836786218,
+      "kill_switch_breach": false,
+      "permutation_p": 0.030969030969030968,
+      "bootstrap_ci": [
+        -2.0776719154871066,
+        -4.082494766714438,
+        -0.3419526939652515
+      ],
+      "dsr": 0.0,
+      "walkforward": [
+        {
+          "test_start": 90,
+          "test_end": 144,
+          "oos_sharpe": -2.9036288208023073,
+          "oos_max_drawdown": 0.03878986933030815,
+          "n": 54
+        },
+        {
+          "test_start": 144,
+          "test_end": 198,
+          "oos_sharpe": -2.8130805216156896,
+          "oos_max_drawdown": 0.026678297425433792,
+          "n": 54
+        },
+        {
+          "test_start": 198,
+          "test_end": 252,
+          "oos_sharpe": 0.550082935450396,
+          "oos_max_drawdown": 0.02553836202167161,
+          "n": 54
+        }
+      ],
+      "mean_return": -0.0005626472063433377,
+      "pass": false
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 2,
+      "best_sharpe": -0.9355657005185016,
+      "best_config": "skew::bar60.0",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 2,
+      "best_sharpe": -0.203307077779856,
+      "best_config": "skew::bar60.0",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [],
+      "thresholds": {
+        "ETH::skew::bar300.0": 0.025,
+        "BTC::skew::bar300.0": 0.05,
+        "BTC::skew::bar60.0": 0.07500000000000001,
+        "ETH::skew::bar60.0": 0.1
+      },
+      "alpha": 0.1,
+      "m_tests": 4,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": false,
+    "campaign_state": "EVAL_76_SURFACE_SKEW_RISK_REVERSAL_MONETIZATION"
+  },
+  "errors": []
+}
