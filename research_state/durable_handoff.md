@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T01:38:50Z — RUN THE HEAVY-WORK DRIVER FIRST; EVAL-67 `NOT_DUE` exit 10, EVAL-68 `WAIT_EVAL67` exit 10, EVAL-69 `WAIT_EVAL68` exit 10; timestamp-only carry is forbidden):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T01:51:24Z — RUN THE HEAVY-WORK DRIVER FIRST; EVAL-67 `NOT_DUE` exit 10, EVAL-68 `WAIT_EVAL67` exit 10, EVAL-69 `WAIT_EVAL68` exit 10; timestamp-only carry is forbidden):**
 >
 > **FIRST ACTION, non-negotiable:** run
 >
@@ -38,11 +38,11 @@ The orchestrator does all of this automatically. Run it with `--execute` every s
 
 If it reports `exit_code: 20`, a campaign is `DUE`: re-run with `--execute`. If it reports `exit_code: 1`, fix the reported failed step and re-run. Do not replace this loop with a timestamp-only handoff bump.
 
-## STATUS (verified 2026-11-17T01:38:50Z)
+## STATUS (verified 2026-11-17T01:51:24Z)
 
-- **EVAL-67:** `NOT_DUE` (gate exit 10) at `2026-11-17T01:38:50Z`; `overlap_seconds = 251847.446` (strictly decreasing; baseline 273337.532), `disjoint = false`. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate exit 1 (expected).
-- **EVAL-68:** `WAIT_EVAL67` (gate exit 10); `eval67_sealed = false`; `overlap_seconds = 251847.195`. Prereg `EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.{json,md}` present; `data/raw/eval68/` absent; seal gate exit 1 (expected). Acquires only after EVAL-67 seals.
-- **EVAL-69:** `WAIT_EVAL68` (gate exit 10); `eval68_sealed = false`; `overlap_seconds = 251846.672`. Runner + gate + 37 tests green; prereg `EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.{json,md}` present; acquires nothing; seal gate exit 1 (expected).
+- **EVAL-67:** `NOT_DUE` (gate exit 10) at `2026-11-17T01:51:24Z`; `overlap_seconds = 251093.672` (strictly decreasing; baseline 273337.532), `disjoint = false`. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate exit 1 (expected).
+- **EVAL-68:** `WAIT_EVAL67` (gate exit 10); `eval67_sealed = false`; `overlap_seconds = 251093.419`. Prereg `EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.{json,md}` present; `data/raw/eval68/` absent; seal gate exit 1 (expected). Acquires only after EVAL-67 seals.
+- **EVAL-69:** `WAIT_EVAL68` (gate exit 10); `eval68_sealed = false`; `overlap_seconds = 251092.89`. Runner + gate + 37 tests green; prereg `EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.{json,md}` present; acquires nothing; seal gate exit 1 (expected).
 - **Tests:** **134 passed** targeted; **27 passed** controller/campaign/diagnostics; `verify_env.sh --check` → `OK`. Both suites re-run from scratch this session.
 - **Data-availability constraint (hard):** earliest disjoint floor-compliant forward capture end = **2026-11-19T18:08:16Z** (prereg threshold **2026-11-20T00:00:00Z**). Past windows are non-viable because options retention is < 6 days and option trades only ~24 h.
 - **Power expectation (recorded pre-run):** EVAL-67 is underpowered for the EVAL-65 BTC effect (IC 0.088, n 596): one-sided ≈0.70, conjunction ≈0.53, ~790 pairs for 80%. EVAL-68 pooled at the EVAL-64 floor is power-adequate (n ≈1856 ≫ 790). EVAL-69 inherits the same pooled adequacy.
