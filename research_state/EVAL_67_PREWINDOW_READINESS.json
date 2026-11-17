@@ -1,51 +1,141 @@
 {
+  "diagnostics_passed": 27,
   "disjoint": false,
   "earliest_disjoint_capture_end": "2026-11-19T18:08:16Z",
   "env_check": "OK",
   "eval66_seal_gate_exit": 0,
   "eval67_seal_gate_exit": 1,
-  "gate_exit": 10,
-  "gate_phase": "NOT_DUE",
-  "notes": "Verified 2026-11-16T23:04:18Z on a fresh runner: verify_env.sh --check OK; 124/124 targeted tests passed (eval67 12 + eval67_phaseb_gate 22 + eval66 9 + eval65 8 + eval68_runner 14 + eval68_gate 22 + eval69_runner 14 + eval69_gate 23) in 243.03s + 27/27 controller/campaign/diagnostics in 0.91s, both suites re-run from scratch this session. All three arbiters re-run 23:04:18-19Z: EVAL-67 NOT_DUE exit 10 (overlap_seconds 261117.19, strictly decreasing from 261597.772 at ~22:56Z; baseline 273337.532, disjoint false, now 2026-11-16T23:04:18Z); EVAL-68 WAIT_EVAL67 exit 10 (eval67_sealed=false, overlap_seconds 261116.88); EVAL-69 WAIT_EVAL68 exit 10 (eval68_sealed=false, overlap_seconds 261116.204). Seal gates: EVAL-66 exit 0; EVAL-67/68/69 exit 1 (expected; prereg present, no COMBINED/BLOCKED yet). No new verified facts beyond the carry this session — no new disjointness datapoint, no new power calc, no EVAL-69 hardening change; the honest pre-threshold work is re-running the three arbiters + 124+27 tests and keeping all three campaigns green. Not a completion and not a timestamp-only bump.",
-  "overlap_seconds": 261117.19,
-  "schema_version": 3,
-  "task_id": "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION",
-  "tests_passed": 124,
-  "threshold": "2026-11-20T00:00:00Z",
-  "updated_at": "2026-11-16T23:04:19Z",
   "eval68": {
-    "task_id": "INIT-2026-11-16T19:45:00Z-EVAL68-POOLED-BTC-ETH-OFLOW-TOX-RV-OOS",
-    "prereg_present": true,
+    "gate": "scripts/eval68_phaseb_gate.py",
+    "gate_exit": 10,
+    "gate_phase": "WAIT_EVAL67",
+    "min_pooled_pairs": 790,
+    "note": "Pooled BTC+ETH power-adequate predictiveness successor to EVAL-67. Acquires ONLY after EVAL-67 seals (single forward window; gate enforces WAIT_EVAL67). EVAL-64 floor verbatim; BLOCKED on under-floor/missing-underlying/non-disjoint.",
+    "overlap_seconds": 253435.885,
     "prereg_files": [
       "EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.json",
       "EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.md"
     ],
-    "gate_phase": "WAIT_EVAL67",
-    "gate_exit": 10,
-    "seal_gate_exit": 1,
+    "prereg_present": true,
     "runner": "scripts/eval68_pooled_btc_eth_oflow_tox_rv_oos.py",
-    "gate": "scripts/eval68_phaseb_gate.py",
-    "tests": "tests/test_eval68_pooled_btc_eth_oflow_tox_rv_oos.py (14) + tests/test_eval68_phaseb_gate.py (22) = 36 passed this session",
-    "min_pooled_pairs": 790,
-    "overlap_seconds": 261116.88,
-    "note": "Pooled BTC+ETH power-adequate predictiveness successor to EVAL-67. Acquires ONLY after EVAL-67 seals (single forward window; gate enforces WAIT_EVAL67). EVAL-64 floor verbatim; BLOCKED on under-floor/missing-underlying/non-disjoint."
+    "seal_gate_exit": 1,
+    "task_id": "INIT-2026-11-16T19:45:00Z-EVAL68-POOLED-BTC-ETH-OFLOW-TOX-RV-OOS",
+    "tests": "tests/test_eval68_pooled_btc_eth_oflow_tox_rv_oos.py (14) + tests/test_eval68_phaseb_gate.py (22) = 36 passed this session"
   },
   "eval69": {
-    "task_id": "INIT-2026-11-16T22:45:00Z-EVAL69-POOLED-BTC-ETH-OFLOW-TOX-RV-TRADED-OOS",
-    "prereg_present": true,
+    "acquires": false,
+    "gate": "scripts/eval69_phaseb_gate.py",
+    "gate_exit": 10,
+    "gate_phase": "WAIT_EVAL68",
+    "min_pooled_returns": 790,
+    "note": "Pooled BTC+ETH traded-form net-of-cost monetization capstone (repo-priority 'tradeable alpha'). Reuses EVAL-68's disjoint forward capture (NO acquisition; gate enforces WAIT_EVAL68). EVAL-64 floor verbatim; BLOCKED on under-floor/missing-underlying/non-disjoint. Runs only after EVAL-68 seals.",
+    "overlap_seconds": 253435.364,
     "prereg_files": [
       "EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.json",
       "EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.md"
     ],
-    "gate_phase": "WAIT_EVAL68",
-    "gate_exit": 10,
-    "seal_gate_exit": 1,
+    "prereg_present": true,
     "runner": "scripts/eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py",
-    "gate": "scripts/eval69_phaseb_gate.py",
-    "tests": "tests/test_eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py (14) + tests/test_eval69_phaseb_gate.py (23) = 37 passed this session",
-    "min_pooled_returns": 790,
-    "overlap_seconds": 261116.204,
-    "acquires": false,
-    "note": "Pooled BTC+ETH traded-form net-of-cost monetization capstone (repo-priority 'tradeable alpha'). Reuses EVAL-68's disjoint forward capture (NO acquisition; gate enforces WAIT_EVAL68). EVAL-64 floor verbatim; BLOCKED on under-floor/missing-underlying/non-disjoint. Runs only after EVAL-68 seals."
-  }
+    "seal_gate_exit": 1,
+    "task_id": "INIT-2026-11-16T22:45:00Z-EVAL69-POOLED-BTC-ETH-OFLOW-TOX-RV-TRADED-OOS",
+    "tests": "tests/test_eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py (14) + tests/test_eval69_phaseb_gate.py (23) = 37 passed this session"
+  },
+  "gate_exit": 10,
+  "gate_phase": "NOT_DUE",
+  "gates": {
+    "eval67": {
+      "classification": "ok",
+      "disjoint": false,
+      "duration_seconds": 0.246,
+      "eval67_sealed": null,
+      "eval68_sealed": null,
+      "execute": false,
+      "exit_code": 10,
+      "name": "EVAL-67",
+      "overlap_seconds": 253436.131,
+      "phase": "NOT_DUE",
+      "tail": ",\n    \"window_end\": \"2026-11-17T01:12:19Z\",\n    \"span_seconds\": 319680.0,\n    \"meets_min_span\": true,\n    \"sealed_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"overlap_seconds\": 253436.131,\n    \"disjoint\": false,\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"readiness\": {\n    \"prereg_present\": true,\n    \"prereg_files\": [\n      \"EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.json\",\n      \"EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.md\"\n    ],\n    \"capture_dir_present\": false,\n    \"capture_files\": [],\n    \"task_id\": \"INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION\",\n    \"threshold\": \"2026-11-20T00:00:00Z\",\n    \"sealed_btc_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"contract\": \"CORRECT CARRY (not a completion). Durably carry via the git-committed handoff + external */5 cron. Do NOT bump the handoff timestamp without new verified facts. Do NOT spawn a capture bridge (it dies with the <=6h job). At/after 2026-11-20T00:00:00Z run: python3 scripts/eval67_phaseb_gate.py --execute\"\n}\n"
+    },
+    "eval68": {
+      "classification": "ok",
+      "disjoint": false,
+      "duration_seconds": 0.52,
+      "eval67_sealed": false,
+      "eval68_sealed": null,
+      "execute": false,
+      "exit_code": 10,
+      "name": "EVAL-68",
+      "overlap_seconds": 253435.885,
+      "phase": "WAIT_EVAL67",
+      "tail": "\"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"readiness\": {\n    \"prereg_present\": true,\n    \"prereg_files\": [\n      \"EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.json\",\n      \"EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.md\"\n    ],\n    \"capture_dir_present\": false,\n    \"capture_btc\": [],\n    \"capture_eth\": [],\n    \"task_id\": \"INIT-2026-11-16T19:45:00Z-EVAL68-POOLED-BTC-ETH-OFLOW-TOX-RV-OOS\",\n    \"threshold\": \"2026-11-20T00:00:00Z\",\n    \"underlyings\": [\n      \"BTC\",\n      \"ETH\"\n    ],\n    \"sealed_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\",\n    \"eval67_sealed\": false\n  },\n  \"contract\": \"EVAL-67 has not sealed (or now < threshold). Do NOT acquire EVAL-68 data (it would compete with EVAL-67's single forward window). Do the BUILD-ONLY heavy work: keep scripts/eval68_pooled_btc_eth_oflow_tox_rv_oos.py + eval68_phaseb_gate.py + their tests green and the EVAL-68 prereg present. Then durably carry via the git-committed handoff. At/after the threshold with EVAL-67 sealed run: python3 scripts/eval68_phaseb_gate.py --execute\"\n}\n"
+    },
+    "eval69": {
+      "classification": "ok",
+      "disjoint": false,
+      "duration_seconds": 0.561,
+      "eval67_sealed": null,
+      "eval68_sealed": false,
+      "execute": false,
+      "exit_code": 10,
+      "name": "EVAL-69",
+      "overlap_seconds": 253435.364,
+      "phase": "WAIT_EVAL68",
+      "tail": "alse,\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"readiness\": {\n    \"prereg_present\": true,\n    \"prereg_files\": [\n      \"EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.json\",\n      \"EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.md\"\n    ],\n    \"capture_dir_present\": false,\n    \"capture_btc\": [],\n    \"capture_eth\": [],\n    \"task_id\": \"INIT-2026-11-16T22:45:00Z-EVAL69-POOLED-BTC-ETH-OFLOW-TOX-RV-TRADED-OOS\",\n    \"threshold\": \"2026-11-20T00:00:00Z\",\n    \"underlyings\": [\n      \"BTC\",\n      \"ETH\"\n    ],\n    \"sealed_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\",\n    \"eval68_sealed\": false\n  },\n  \"contract\": \"EVAL-68 has not sealed (or now < threshold). Do NOT run EVAL-69 (it reads EVAL-68's disjoint forward capture). Do the BUILD-ONLY heavy work: keep scripts/eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py + eval69_phaseb_gate.py + their tests green and the EVAL-69 prereg present. Then durably carry via the git-committed handoff. Once EVAL-68 has sealed run: python3 scripts/eval69_phaseb_gate.py --execute\"\n}\n"
+    }
+  },
+  "notes": "Verified 2026-11-17T01:12:22Z by scripts/eval67_prethreshold_progress.py (execute_requested=True): env_check=OK; targeted_tests=134/134 (rc=0); diagnostics=27/27 (rc=0); EVAL-67=NOT_DUE exit=10 overlap_seconds=253436.131 disjoint=False; EVAL-68=WAIT_EVAL67 exit=10 eval67_sealed=False; EVAL-69=WAIT_EVAL68 exit=10 eval68_sealed=False; overall_ok=True exit=0. This is a verified pre-threshold carry, not a completion.",
+  "orchestrator": {
+    "execute_requested": true,
+    "exit_code": 0,
+    "failures": [],
+    "generated_at": "2026-11-17T01:12:22Z",
+    "needs_execute": [],
+    "overall_ok": true,
+    "script": "scripts/eval67_prethreshold_progress.py"
+  },
+  "overlap_seconds": 253436.131,
+  "schema_version": 3,
+  "seal_gates": {
+    "EVAL-66": {
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "EVAL-66",
+      "ok": true,
+      "tail": "OK: EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T121851Z.json (stamp 20261116T121851Z >= 20261116T113221Z)\nOK: EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T121851Z.md (stamp 20261116T121851Z >= 20261116T113221Z)\nOK: EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T121925Z.json (stamp 20261116T121925Z >= 20261116T113221Z)\nOK: EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T121925Z.md (stamp 20261116T121925Z >= 20261116T113221Z)\nOK (required-any): EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_20261116T121851Z.json (stamp 20261116T121851Z >= 20261116T113221Z)\nOK (required-any): EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_20261116T121851Z.md (stamp 20261116T121851Z >= 20261116T113221Z)\nOK (required-any): EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_20261116T121925Z.json (stamp 20261116T121925Z >= 20261116T113221Z)\nOK (required-any): EVAL_66_ETH_OFLOW_TOX_RV_OOS_BLOCKED_20261116T121925Z.md (stamp 20261116T121925Z >= 20261116T113221Z)\n"
+    },
+    "EVAL-67": {
+      "exit_code": 1,
+      "expected_exit": 1,
+      "name": "EVAL-67",
+      "ok": true,
+      "tail": "OK: EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.json (stamp 20261116T132805Z >= 20261116T132540Z)\nOK: EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.md (stamp 20261116T132805Z >= 20261116T132540Z)\n\nFAIL: no artifact matching any of required ['EVAL_67_BTC_OFLOW_TOX_RV_OOS_COMBINED_*', 'EVAL_67_BTC_OFLOW_TOX_RV_OOS_BLOCKED_*'] with stamp >= 20261116T132540Z in /home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state (an acquisition/handoff-only artifact is not enough)\n"
+    },
+    "EVAL-68": {
+      "exit_code": 1,
+      "expected_exit": 1,
+      "name": "EVAL-68",
+      "ok": true,
+      "tail": "OK: EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.json (stamp 20261116T194851Z >= 20261116T194500Z)\nOK: EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.md (stamp 20261116T194851Z >= 20261116T194500Z)\n\nFAIL: no artifact matching any of required ['EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_COMBINED_*', 'EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_BLOCKED_*'] with stamp >= 20261116T194500Z in /home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state (an acquisition/handoff-only artifact is not enough)\n"
+    },
+    "EVAL-69": {
+      "exit_code": 1,
+      "expected_exit": 1,
+      "name": "EVAL-69",
+      "ok": true,
+      "tail": "OK: EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.json (stamp 20261116T225549Z >= 20261116T224500Z)\nOK: EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.md (stamp 20261116T225549Z >= 20261116T224500Z)\n\nFAIL: no artifact matching any of required ['EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_COMBINED_*', 'EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_BLOCKED_*'] with stamp >= 20261116T224500Z in /home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/research_state (an acquisition/handoff-only artifact is not enough)\n"
+    }
+  },
+  "task_id": "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION",
+  "test_details": {
+    "diagnostics_duration_seconds": 0.953,
+    "diagnostics_expected": 27,
+    "diagnostics_rc": 0,
+    "targeted_duration_seconds": 189.257,
+    "targeted_expected": 134,
+    "targeted_rc": 0
+  },
+  "tests_passed": 134,
+  "threshold": "2026-11-20T00:00:00Z",
+  "total_tests_passed": 161,
+  "updated_at": "2026-11-17T01:12:22Z"
 }
