@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T11:04:00Z — pre-threshold heavy work remains fully green: 236/236 targeted, 27/27 diagnostics, 11 campaign arbiters, 12 seal specs, env OK; new EVAL-77 sealed + wired this session; do not launch another pre-threshold wait session):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T11:16:04Z — pre-threshold heavy work remains fully green: 236/236 targeted, 27/27 diagnostics, 11 campaign arbiters, 12 seal specs, env OK; EVAL-77 sealed + wired at 2026-11-17T10:59:39Z; no new code/artifacts since the last verified driver run at 2026-11-17T11:03:13Z; do not launch another pre-threshold wait session):**
 > **NEXT-SESSION TRIGGER:** start only at/after **2026-11-20T00:00:00Z**, or immediately when any phase-B arbiter reports `DUE` (exit 20) or `FAILED` (exit 1). The external `*/5` cron owns routine pre-threshold polling; do **not** create another agent session merely to rerun unchanged tests or bump this timestamp.
 >
 > **FIRST ACTION, non-negotiable:** run
