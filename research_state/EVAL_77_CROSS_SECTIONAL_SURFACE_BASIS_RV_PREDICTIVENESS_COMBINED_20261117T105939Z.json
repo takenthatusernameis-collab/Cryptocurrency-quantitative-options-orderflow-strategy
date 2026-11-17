@@ -1,0 +1,390 @@
+{
+  "report_id": "EVAL_77_CROSS_SECTIONAL_SURFACE_BASIS_RV_PREDICTIVENESS_COMBINED",
+  "generated_at": "2026-11-17T10:59:39Z",
+  "task": "EVAL77-CROSS-SECTIONAL-SURFACE-BASIS-RV",
+  "verdict": "GO CONFIRMED",
+  "verdict_detail": "wrapper-free information-content test: Spearman rank IC between the causal cross-sectional options implied-vol basis (ETH - BTC near-ATM IV / skew) and the subsequent BTC-minus-ETH forward realized-vol spread on the real on-disk captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_aligned_common_bars": 200,
+    "min_usable_pairs_per_config": 120,
+    "note": "EVAL-77 consumes both underlyings' trade-tape IV surfaces and both perp series. It composes the sealed EVAL-71 surface floor (applied to BOTH BTC and ETH, reused verbatim, neither weakened) with a cross-sectional alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal near-ATM IV on the coarsest grid). This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+  },
+  "campaign_floor": {
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "per_underlying": {
+      "BTC": {
+        "underlying": "BTC",
+        "surface_floor_ok": true,
+        "surface_floor": {
+          "underlying": "BTC",
+          "n_option_trades": 2748,
+          "n_near_atm_option_trades": 2331,
+          "n_perp_candles": 1441,
+          "perp_span_seconds": 86400.0,
+          "checks": {
+            "option_trades_ok": true,
+            "near_atm_ok": true,
+            "candles_ok": true,
+            "span_ok": true
+          },
+          "ok": true
+        },
+        "checks": {
+          "surface_floor_ok": true
+        },
+        "ok": true
+      },
+      "ETH": {
+        "underlying": "ETH",
+        "surface_floor_ok": true,
+        "surface_floor": {
+          "underlying": "ETH",
+          "n_option_trades": 3547,
+          "n_near_atm_option_trades": 1509,
+          "n_perp_candles": 1441,
+          "perp_span_seconds": 86400.0,
+          "checks": {
+            "option_trades_ok": true,
+            "near_atm_ok": true,
+            "candles_ok": true,
+            "span_ok": true
+          },
+          "ok": true
+        },
+        "checks": {
+          "surface_floor_ok": true
+        },
+        "ok": true
+      }
+    },
+    "underlyings_ok": true,
+    "aligned_common_bars_by_grid": {
+      "60.0": 1370,
+      "300.0": 274
+    },
+    "aligned_common_bars_binding": 274,
+    "aligned_ok": true,
+    "checks": {
+      "underlyings_ok": true,
+      "aligned_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-77",
+    "title": "Cross-sectional options implied-volatility surface basis (BTC-vs-ETH relative near-ATM IV / skew) -> subsequent relative realized volatility (BTC-minus-ETH RV spread): wrapper-free rank information coefficient (predictiveness) falsification on the real on-disk three-way captures",
+    "extends": "EVAL-71 / EVAL-73 / EVAL-74 (identical Spearman rank-IC statistic and surface reconstruction) but a different, on-charter signal family: the *cross-sectional* BTC-vs-ETH implied-vol basis rather than a single-underlying level/skew or term structure; no new acquisition",
+    "supersedes": "nothing \u2014 this is the cross-sectional complement to EVAL-71 (single-underlying level/skew), EVAL-73 (OOS stability) and EVAL-74 (term structure). EVAL-72/75/76 traded within-underlying signals net-of-cost; none measured the BTC-vs-ETH relative surface basis",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "cross_section": {
+      "baseline": "BTC",
+      "relative": "ETH",
+      "relative_signal": "rel_k = signal[ETH](k) - signal[BTC](k)",
+      "target": "spread_k = rv[BTC](k+1..k+H) - rv[ETH](k+1..k+H)"
+    },
+    "surface_signals": [
+      "atm_iv",
+      "skew"
+    ],
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal per-bar near-ATM implied-vol surface (EVAL-71 build_surface_bars) for BTC and ETH: atm_iv = amount-weighted mean iv of near-ATM trades; skew = mean(put iv) - mean(call iv); the relative series (ETH - BTC) is forward-filled then expanding-zscored end-of-bar k (reused e61.expanding_zscore)",
+    "target": "rv = sqrt(mean(log-return^2)) over the next H perp bars, computed per underlying on the common aligned bar grid; target = rv[BTC] - rv[ETH] (relative realized vol)",
+    "statistic": "Spearman rank correlation IC = rho(rel_z_k, spread_k) over the common aligned bar-ends (H1: IC > 0, relative richness mean-reverts)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle the realized-vol spread",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120
+    },
+    "go_bar": "GO only if at least one config (surface signal x bar grid x horizon) has Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, at least min_usable_pairs_per_config usable pairs, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real on-disk three-way captures (option trades with real iv + perp candles for BTC and ETH); no new acquisition, no network; composes the EVAL-71 floor for both underlyings with a cross-sectional alignment floor",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_aligned_common_bars": 200,
+      "min_usable_pairs_per_config": 120,
+      "note": "EVAL-77 consumes both underlyings' trade-tape IV surfaces and both perp series. It composes the sealed EVAL-71 surface floor (applied to BOTH BTC and ETH, reused verbatim, neither weakened) with a cross-sectional alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal near-ATM IV on the coarsest grid). This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py tests/test_eval77_cross_sectional_surface_basis_rv_predictiveness.py",
+      "python3 -m pytest -q tests/test_eval77_cross_sectional_surface_basis_rv_predictiveness.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py --capture-dir data/raw/eval61 --seal --task-label EVAL77-CROSS-SECTIONAL-SURFACE-BASIS-RV"
+    ]
+  },
+  "per_config": [
+    {
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_common_bars": 1370,
+      "n_pairs": 1364,
+      "spearman_ic": 0.020499626997143475,
+      "permutation_p": 0.21678321678321677,
+      "bootstrap_ci": [
+        0.021692521110969375,
+        -0.04682633073068467,
+        0.08524164206546525
+      ],
+      "nonzero_signal_pairs": 1360,
+      "pass": false
+    },
+    {
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_common_bars": 1370,
+      "n_pairs": 1346,
+      "spearman_ic": 0.10627615130707264,
+      "permutation_p": 0.001998001998001998,
+      "bootstrap_ci": [
+        0.10637633263924745,
+        0.02812213695666281,
+        0.18034346464989912
+      ],
+      "nonzero_signal_pairs": 1342,
+      "pass": true
+    },
+    {
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_common_bars": 1370,
+      "n_pairs": 1298,
+      "spearman_ic": 0.09555304913497305,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.09803932992426694,
+        0.016873781876805296,
+        0.17174270869841152
+      ],
+      "nonzero_signal_pairs": 1294,
+      "pass": true
+    },
+    {
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": 0.09422213660542682,
+      "permutation_p": 0.05094905094905095,
+      "bootstrap_ci": [
+        0.09705530696103065,
+        -0.03989708081849054,
+        0.2397602164037866
+      ],
+      "nonzero_signal_pairs": 264,
+      "pass": false
+    },
+    {
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": 0.04130493218446088,
+      "permutation_p": 0.27472527472527475,
+      "bootstrap_ci": [
+        0.03864655824432139,
+        -0.1094647634514808,
+        0.18302196985610855
+      ],
+      "nonzero_signal_pairs": 246,
+      "pass": false
+    },
+    {
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.2972389815524721,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.2991956870334303,
+        0.10312271576978027,
+        0.49105386826787223
+      ],
+      "nonzero_signal_pairs": 198,
+      "pass": true
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_common_bars": 1370,
+      "n_pairs": 1364,
+      "spearman_ic": 0.09662495572050316,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.0959806515203787,
+        0.02798236761346458,
+        0.16482446783498345
+      ],
+      "nonzero_signal_pairs": 1360,
+      "pass": true
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_common_bars": 1370,
+      "n_pairs": 1346,
+      "spearman_ic": 0.0904558755121386,
+      "permutation_p": 0.001998001998001998,
+      "bootstrap_ci": [
+        0.08926430368648516,
+        0.014856092071188645,
+        0.1650660764410142
+      ],
+      "nonzero_signal_pairs": 1342,
+      "pass": true
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_common_bars": 1370,
+      "n_pairs": 1298,
+      "spearman_ic": 0.0421426917482806,
+      "permutation_p": 0.07592407592407592,
+      "bootstrap_ci": [
+        0.04132114556176494,
+        -0.03816844550090509,
+        0.12091320519463097
+      ],
+      "nonzero_signal_pairs": 1294,
+      "pass": false
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": 0.03414524971100647,
+      "permutation_p": 0.2827172827172827,
+      "bootstrap_ci": [
+        0.03764807102685646,
+        -0.11563431098043396,
+        0.17993757300544555
+      ],
+      "nonzero_signal_pairs": 264,
+      "pass": false
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": -0.04749128304387968,
+      "permutation_p": 0.7732267732267732,
+      "bootstrap_ci": [
+        -0.05416631543899654,
+        -0.22927937891907454,
+        0.1098615905328053
+      ],
+      "nonzero_signal_pairs": 246,
+      "pass": false
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.19595019567777955,
+      "permutation_p": 0.001998001998001998,
+      "bootstrap_ci": [
+        0.19917902969421142,
+        0.028467768913326363,
+        0.3726698760537758
+      ],
+      "nonzero_signal_pairs": 198,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "n_configs": 12,
+    "n_pass": 6,
+    "pass_configs": [
+      "atm_iv::bar60.0::h24",
+      "atm_iv::bar60.0::h72",
+      "atm_iv::bar300.0::h72",
+      "skew::bar60.0::h6",
+      "skew::bar60.0::h24",
+      "skew::bar300.0::h72"
+    ],
+    "best_ic": 0.2972389815524721,
+    "best_config": "atm_iv::bar300.0::h72"
+  },
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [
+        "atm_iv::bar60.0::h72",
+        "atm_iv::bar300.0::h72",
+        "skew::bar60.0::h6",
+        "atm_iv::bar60.0::h24",
+        "skew::bar60.0::h24",
+        "skew::bar300.0::h72",
+        "atm_iv::bar300.0::h6"
+      ],
+      "thresholds": {
+        "atm_iv::bar60.0::h72": 0.008333333333333333,
+        "atm_iv::bar300.0::h72": 0.016666666666666666,
+        "skew::bar60.0::h6": 0.025000000000000005,
+        "atm_iv::bar60.0::h24": 0.03333333333333333,
+        "skew::bar60.0::h24": 0.041666666666666664,
+        "skew::bar300.0::h72": 0.05000000000000001,
+        "atm_iv::bar300.0::h6": 0.05833333333333334,
+        "skew::bar60.0::h72": 0.06666666666666667,
+        "atm_iv::bar60.0::h6": 0.075,
+        "atm_iv::bar300.0::h24": 0.08333333333333333,
+        "skew::bar300.0::h6": 0.09166666666666667,
+        "skew::bar300.0::h24": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 12,
+      "method": "Benjamini-Hochberg"
+    },
+    "any_config_pass": true,
+    "campaign_state": "EVAL_77_CROSS_SECTIONAL_SURFACE_BASIS_RV_PREDICTIVENESS"
+  },
+  "errors": []
+}

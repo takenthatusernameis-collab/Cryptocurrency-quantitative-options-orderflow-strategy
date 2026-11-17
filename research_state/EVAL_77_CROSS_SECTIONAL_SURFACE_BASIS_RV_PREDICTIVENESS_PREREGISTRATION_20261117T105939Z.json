@@ -1,0 +1,78 @@
+{
+  "prereg_id": "EVAL_77_CROSS_SECTIONAL_SURFACE_BASIS_RV_PREDICTIVENESS_PREREGISTRATION",
+  "generated_at": "2026-11-17T10:59:39Z",
+  "task": "EVAL77-CROSS-SECTIONAL-SURFACE-BASIS-RV",
+  "hypothesis": "The causal cross-sectional options implied-volatility surface basis (BTC-vs-ETH relative near-ATM IV / put-call skew, reconstructed from the real Deribit option trade tapes) has a positive monotone (Spearman rank) relationship with the subsequent relative realized volatility (BTC-minus-ETH forward RV spread): relative implied-vol richness mean-reverts. Tested on the already-acquired real on-disk captures at the composed EVAL-71 + alignment floor.",
+  "extends": "EVAL-71 / EVAL-73 / EVAL-74 (identical Spearman rank-IC statistic and surface reconstruction) but a different, on-charter signal family: the *cross-sectional* BTC-vs-ETH implied-vol basis rather than a single-underlying level/skew or term structure; no new acquisition",
+  "data_availability": {
+    "note": "uses the already-acquired real on-disk three-way captures (option trades with real iv + perp candles for BTC and ETH); no new acquisition, no network; composes the EVAL-71 floor for both underlyings with a cross-sectional alignment floor",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+  },
+  "protocol": {
+    "eval": "EVAL-77",
+    "title": "Cross-sectional options implied-volatility surface basis (BTC-vs-ETH relative near-ATM IV / skew) -> subsequent relative realized volatility (BTC-minus-ETH RV spread): wrapper-free rank information coefficient (predictiveness) falsification on the real on-disk three-way captures",
+    "extends": "EVAL-71 / EVAL-73 / EVAL-74 (identical Spearman rank-IC statistic and surface reconstruction) but a different, on-charter signal family: the *cross-sectional* BTC-vs-ETH implied-vol basis rather than a single-underlying level/skew or term structure; no new acquisition",
+    "supersedes": "nothing \u2014 this is the cross-sectional complement to EVAL-71 (single-underlying level/skew), EVAL-73 (OOS stability) and EVAL-74 (term structure). EVAL-72/75/76 traded within-underlying signals net-of-cost; none measured the BTC-vs-ETH relative surface basis",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "cross_section": {
+      "baseline": "BTC",
+      "relative": "ETH",
+      "relative_signal": "rel_k = signal[ETH](k) - signal[BTC](k)",
+      "target": "spread_k = rv[BTC](k+1..k+H) - rv[ETH](k+1..k+H)"
+    },
+    "surface_signals": [
+      "atm_iv",
+      "skew"
+    ],
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal per-bar near-ATM implied-vol surface (EVAL-71 build_surface_bars) for BTC and ETH: atm_iv = amount-weighted mean iv of near-ATM trades; skew = mean(put iv) - mean(call iv); the relative series (ETH - BTC) is forward-filled then expanding-zscored end-of-bar k (reused e61.expanding_zscore)",
+    "target": "rv = sqrt(mean(log-return^2)) over the next H perp bars, computed per underlying on the common aligned bar grid; target = rv[BTC] - rv[ETH] (relative realized vol)",
+    "statistic": "Spearman rank correlation IC = rho(rel_z_k, spread_k) over the common aligned bar-ends (H1: IC > 0, relative richness mean-reverts)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle the realized-vol spread",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120
+    },
+    "go_bar": "GO only if at least one config (surface signal x bar grid x horizon) has Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, at least min_usable_pairs_per_config usable pairs, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real on-disk three-way captures (option trades with real iv + perp candles for BTC and ETH); no new acquisition, no network; composes the EVAL-71 floor for both underlyings with a cross-sectional alignment floor",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_aligned_common_bars": 200,
+      "min_usable_pairs_per_config": 120,
+      "note": "EVAL-77 consumes both underlyings' trade-tape IV surfaces and both perp series. It composes the sealed EVAL-71 surface floor (applied to BOTH BTC and ETH, reused verbatim, neither weakened) with a cross-sectional alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal near-ATM IV on the coarsest grid). This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py tests/test_eval77_cross_sectional_surface_basis_rv_predictiveness.py",
+      "python3 -m pytest -q tests/test_eval77_cross_sectional_surface_basis_rv_predictiveness.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py --capture-dir data/raw/eval61 --seal --task-label EVAL77-CROSS-SECTIONAL-SURFACE-BASIS-RV"
+    ]
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+}
