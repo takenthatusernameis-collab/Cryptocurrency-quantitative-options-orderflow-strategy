@@ -1,0 +1,625 @@
+{
+  "report_id": "EVAL_71_SURFACE_IV_RV_PREDICTIVENESS_COMBINED",
+  "generated_at": "2026-11-17T04:15:13Z",
+  "task": "EVAL71-SURFACE-IV-RV-PREDICTIVENESS",
+  "verdict": "GO CONFIRMED",
+  "verdict_detail": "wrapper-free information-content test: Spearman rank IC between causal options implied-vol surface (near-ATM IV level / put-call skew) and forward realized volatility on the real on-disk captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_option_trades_per_underlying": 1000,
+    "min_near_atm_option_trades_per_underlying": 400,
+    "min_perp_candles_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 82000.0,
+    "note": "EVAL-71 measures a trade-tape implied-vol surface signal, so it carries its own pre-registered floor (option trades / near-ATM trades / perp candles / span). This is NOT a weakening of the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is reused verbatim there."
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_option_trades": 2748,
+      "n_near_atm_option_trades": 2331,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "checks": {
+        "option_trades_ok": true,
+        "near_atm_ok": true,
+        "candles_ok": true,
+        "span_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_option_trades": 3547,
+      "n_near_atm_option_trades": 1509,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "checks": {
+        "option_trades_ok": true,
+        "near_atm_ok": true,
+        "candles_ok": true,
+        "span_ok": true
+      },
+      "ok": true
+    }
+  },
+  "protocol": {
+    "eval": "EVAL-71",
+    "title": "Options implied-volatility surface (near-ATM IV level + put-call skew) -> subsequent realized volatility: wrapper-free rank information coefficient (predictiveness) falsification on the real on-disk three-way captures",
+    "extends": "EVAL-65 (identical Spearman rank-IC statistic) but a different, on-charter signal source: the options *surface* (trade-tape IV) rather than the options *order-flow* tape; no new acquisition",
+    "supersedes": "nothing \u2014 this is the surface complement to EVAL-65 (options order-flow) and EVAL-70 (underlying perp order-flow) that is runnable pre-threshold; EVAL-57 tested the VRP surface only as a traded net-of-cost straddle, never as information content",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signals": [
+      "atm_iv",
+      "skew"
+    ],
+    "signal_window_seconds": 900.0,
+    "atm_band": 0.05,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal per-bar near-ATM implied-vol surface from the real Deribit option trade tape: atm_iv = amount-weighted mean iv of near-ATM trades (|strike/spot-1|<=atm_band) over the trailing window; skew = mean(put iv) - mean(call iv) over the same trades; both forward-filled then expanding-zscored end-of-bar k (reused e61.expanding_zscore)",
+    "target": "rv = sqrt(mean(log-return^2)) over the next H perp bars (forward realized vol, strictly after the decision at k)",
+    "statistic": "Spearman rank correlation IC = rho(signal_z_k, rv_forward_k)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle realized-vol series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real on-disk three-way captures (option trades with real iv + perp candles); no new acquisition, no network; carries its own pre-registered trade-tape IV floor",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_option_trades_per_underlying": 1000,
+      "min_near_atm_option_trades_per_underlying": 400,
+      "min_perp_candles_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 82000.0,
+      "note": "EVAL-71 measures a trade-tape implied-vol surface signal, so it carries its own pre-registered floor (option trades / near-ATM trades / perp candles / span). This is NOT a weakening of the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is reused verbatim there."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval71_surface_iv_rv_predictiveness.py tests/test_eval71_surface_iv_rv_predictiveness.py",
+      "python3 -m pytest -q tests/test_eval71_surface_iv_rv_predictiveness.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval71_surface_iv_rv_predictiveness.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval71_surface_iv_rv_predictiveness.py --capture-dir data/raw/eval61 --seal --task-label EVAL71-SURFACE-IV-RV-PREDICTIVENESS"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1431,
+      "spearman_ic": -0.09795697029956899,
+      "permutation_p": 1.0,
+      "bootstrap_ci": [
+        -0.09990319693880179,
+        -0.17330116944193213,
+        -0.022525835733475434
+      ],
+      "nonzero_signal_pairs": 1431,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1431,
+      "spearman_ic": -0.13713746439024163,
+      "permutation_p": 1.0,
+      "bootstrap_ci": [
+        -0.13812776051232825,
+        -0.21732134995553692,
+        -0.06371483081244582
+      ],
+      "nonzero_signal_pairs": 1413,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1431,
+      "spearman_ic": -0.07379265801418756,
+      "permutation_p": 0.994005994005994,
+      "bootstrap_ci": [
+        -0.07373214897282433,
+        -0.1554979303743284,
+        0.0069879884195196505
+      ],
+      "nonzero_signal_pairs": 1365,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 288,
+      "spearman_ic": -0.06656476448981458,
+      "permutation_p": 0.8531468531468531,
+      "bootstrap_ci": [
+        -0.0674778784490726,
+        -0.21813800629337415,
+        0.10027256136601899
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 288,
+      "spearman_ic": 0.007909258420383284,
+      "permutation_p": 0.47052947052947053,
+      "bootstrap_ci": [
+        0.0016934123936377735,
+        -0.16063078753805635,
+        0.17735655354487406
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 288,
+      "spearman_ic": -0.261179757501224,
+      "permutation_p": 1.0,
+      "bootstrap_ci": [
+        -0.26707961462888125,
+        -0.4540279075011845,
+        -0.08139013861100067
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1431,
+      "spearman_ic": 0.045977856121510896,
+      "permutation_p": 0.04095904095904096,
+      "bootstrap_ci": [
+        0.04437697291702079,
+        -0.02174018641165192,
+        0.11550417144565261
+      ],
+      "nonzero_signal_pairs": 1431,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1431,
+      "spearman_ic": 0.08278328482890389,
+      "permutation_p": 0.001998001998001998,
+      "bootstrap_ci": [
+        0.08399145550078814,
+        0.008283418280541478,
+        0.1599908214200806
+      ],
+      "nonzero_signal_pairs": 1413,
+      "pass": true
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1431,
+      "spearman_ic": 0.21812481168992245,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.21992214264783153,
+        0.13931651046627624,
+        0.2944538761203048
+      ],
+      "nonzero_signal_pairs": 1365,
+      "pass": true
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 288,
+      "spearman_ic": 0.12069981064101201,
+      "permutation_p": 0.02197802197802198,
+      "bootstrap_ci": [
+        0.12050408612945097,
+        -0.018570800748437043,
+        0.278871838914007
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 288,
+      "spearman_ic": 0.2790738839069837,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.2746024376090502,
+        0.1118924840572453,
+        0.42160755485101026
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": true
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 288,
+      "spearman_ic": 0.3349185648257459,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.3383229111128408,
+        0.19196787077909275,
+        0.48456051985531123
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": true
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1420,
+      "spearman_ic": -0.031529527744934706,
+      "permutation_p": 0.8891108891108891,
+      "bootstrap_ci": [
+        -0.03126010050944148,
+        -0.10114830550862366,
+        0.032930882957001556
+      ],
+      "nonzero_signal_pairs": 1431,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1420,
+      "spearman_ic": -0.09940587040963486,
+      "permutation_p": 0.999000999000999,
+      "bootstrap_ci": [
+        -0.1005437414499663,
+        -0.17529841221793319,
+        -0.024411406254879163
+      ],
+      "nonzero_signal_pairs": 1413,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1420,
+      "spearman_ic": -0.043422159259382205,
+      "permutation_p": 0.9370629370629371,
+      "bootstrap_ci": [
+        -0.04200280203252212,
+        -0.12682904863104316,
+        0.03295172189810784
+      ],
+      "nonzero_signal_pairs": 1365,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 285,
+      "spearman_ic": -0.006611817034594204,
+      "permutation_p": 0.5554445554445554,
+      "bootstrap_ci": [
+        -0.0018163883179587704,
+        -0.17100604992040216,
+        0.14962005011814866
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 285,
+      "spearman_ic": 0.22761550254659915,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.22886800273682859,
+        0.05285179298398421,
+        0.366974204602763
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": true
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 285,
+      "spearman_ic": 0.18831880710188145,
+      "permutation_p": 0.004995004995004995,
+      "bootstrap_ci": [
+        0.1877108173371835,
+        0.034966850082531885,
+        0.3387521780008844
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": true
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1420,
+      "spearman_ic": 0.005866035099633504,
+      "permutation_p": 0.4225774225774226,
+      "bootstrap_ci": [
+        0.004568572233536849,
+        -0.057687259319260095,
+        0.06864051487572498
+      ],
+      "nonzero_signal_pairs": 1431,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1420,
+      "spearman_ic": -0.03628921032498341,
+      "permutation_p": 0.903096903096903,
+      "bootstrap_ci": [
+        -0.03732389592059552,
+        -0.10931827194190964,
+        0.03417704345856545
+      ],
+      "nonzero_signal_pairs": 1413,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "n_surface_bars": 1441,
+      "n_bars_with_atm": 1420,
+      "spearman_ic": -0.040101652203172,
+      "permutation_p": 0.9410589410589411,
+      "bootstrap_ci": [
+        -0.04031342414872236,
+        -0.11505077728204284,
+        0.0332690438346897
+      ],
+      "nonzero_signal_pairs": 1365,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 285,
+      "spearman_ic": 0.1066986739040384,
+      "permutation_p": 0.04595404595404595,
+      "bootstrap_ci": [
+        0.1053708919268059,
+        -0.03821738171038953,
+        0.2376635807334966
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 285,
+      "spearman_ic": 0.2627849578682497,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.2619575768729918,
+        0.10522293831551985,
+        0.39805623642962473
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": true
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "n_surface_bars": 289,
+      "n_bars_with_atm": 285,
+      "spearman_ic": 0.1791984902043001,
+      "permutation_p": 0.005994005994005994,
+      "bootstrap_ci": [
+        0.1699189732302774,
+        0.023370122464703456,
+        0.3285070738694976
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": true
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 12,
+      "best_ic": 0.3349185648257459,
+      "best_config": "skew::bar300.0::h72",
+      "n_pass": 4,
+      "pass_configs": [
+        "BTC::skew::bar60.0::h24",
+        "BTC::skew::bar60.0::h72",
+        "BTC::skew::bar300.0::h24",
+        "BTC::skew::bar300.0::h72"
+      ],
+      "any_pass": true
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 12,
+      "best_ic": 0.2627849578682497,
+      "best_config": "skew::bar300.0::h24",
+      "n_pass": 4,
+      "pass_configs": [
+        "ETH::atm_iv::bar300.0::h24",
+        "ETH::atm_iv::bar300.0::h72",
+        "ETH::skew::bar300.0::h24",
+        "ETH::skew::bar300.0::h72"
+      ],
+      "any_pass": true
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [
+        "BTC::skew::bar60.0::h72",
+        "BTC::skew::bar300.0::h24",
+        "BTC::skew::bar300.0::h72",
+        "ETH::atm_iv::bar300.0::h24",
+        "ETH::skew::bar300.0::h24",
+        "BTC::skew::bar60.0::h24",
+        "ETH::atm_iv::bar300.0::h72",
+        "ETH::skew::bar300.0::h72",
+        "BTC::skew::bar300.0::h6",
+        "BTC::skew::bar60.0::h6"
+      ],
+      "thresholds": {
+        "BTC::skew::bar60.0::h72": 0.004166666666666667,
+        "BTC::skew::bar300.0::h24": 0.008333333333333333,
+        "BTC::skew::bar300.0::h72": 0.012500000000000002,
+        "ETH::atm_iv::bar300.0::h24": 0.016666666666666666,
+        "ETH::skew::bar300.0::h24": 0.020833333333333332,
+        "BTC::skew::bar60.0::h24": 0.025000000000000005,
+        "ETH::atm_iv::bar300.0::h72": 0.02916666666666667,
+        "ETH::skew::bar300.0::h72": 0.03333333333333333,
+        "BTC::skew::bar300.0::h6": 0.0375,
+        "BTC::skew::bar60.0::h6": 0.041666666666666664,
+        "ETH::skew::bar300.0::h6": 0.04583333333333334,
+        "ETH::skew::bar60.0::h6": 0.05000000000000001,
+        "BTC::atm_iv::bar300.0::h24": 0.05416666666666667,
+        "ETH::atm_iv::bar300.0::h6": 0.05833333333333334,
+        "BTC::atm_iv::bar300.0::h6": 0.0625,
+        "ETH::atm_iv::bar60.0::h6": 0.06666666666666667,
+        "ETH::skew::bar60.0::h24": 0.07083333333333335,
+        "ETH::atm_iv::bar60.0::h72": 0.075,
+        "ETH::skew::bar60.0::h72": 0.07916666666666668,
+        "BTC::atm_iv::bar60.0::h72": 0.08333333333333333,
+        "ETH::atm_iv::bar60.0::h24": 0.08750000000000001,
+        "BTC::atm_iv::bar60.0::h6": 0.09166666666666667,
+        "BTC::atm_iv::bar60.0::h24": 0.09583333333333334,
+        "BTC::atm_iv::bar300.0::h72": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 24,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": true,
+    "campaign_state": "EVAL_71_SURFACE_IV_RV_PREDICTIVENESS"
+  },
+  "errors": []
+}

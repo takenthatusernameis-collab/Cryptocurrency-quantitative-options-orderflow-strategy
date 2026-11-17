@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T04:03:56Z — THRESHOLD-TRIGGERED; pre-threshold heavy work is green; EVAL-70 sealed; do not launch another pre-threshold wait session):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T04:21:51Z — THRESHOLD-TRIGGERED; pre-threshold heavy work is green; EVAL-70 + EVAL-71 sealed; EVAL-71 = GO CONFIRMED; do not launch another pre-threshold wait session):**
 >
 > **NEXT-SESSION TRIGGER:** start only at/after **2026-11-20T00:00:00Z**, or immediately when any phase-B arbiter reports `DUE` (exit 20) or `FAILED` (exit 1). The external `*/5` cron owns routine pre-threshold polling; do **not** create another agent session merely to rerun unchanged tests or bump this timestamp.
 >
@@ -10,9 +10,18 @@
 > python3 scripts/eval67_prethreshold_progress.py --execute
 > ```
 >
-> That one command performs the full heavy-work loop: environment check, the **152 targeted tests**, the **27 controller/campaign/diagnostics tests**, all four campaign arbiters in ladder order, automatic `--execute` of any campaign that reports `DUE`, seal-gate checks, and an in-place refresh of `research_state/EVAL_67_PREWINDOW_READINESS.json`. **Do not exit the session until it exits 0.** If an early invocation returns `DUE` without `--execute`, rerun the same command immediately; if it returns `FAILED`, fix the reported step and rerun.
+> That one command performs the full heavy-work loop: environment check, the **164 targeted tests** (EVAL-71's 12 added), the **27 controller/campaign/diagnostics tests**, all six campaign arbiters in ladder order (EVAL-70 + EVAL-71 physics-independent first, then the EVAL-67 -> EVAL-68 -> EVAL-69 disjoint-forward ladder), automatic `--execute` of any campaign that reports `DUE`, seal-gate checks, and an in-place refresh of `research_state/EVAL_67_PREWINDOW_READINESS.json`. **Do not exit the session until it exits 0.** If an early invocation returns `DUE` without `--execute`, rerun the same command immediately; if it returns `FAILED`, fix the reported step and rerun.
 >
-> **Repo-priority reading of `Cryptocurrency-quantitative-options-orderflow-strategy`:** the thesis is *crypto OPTIONS surface + OPTIONS order-flow + underlying order-flow → tradeable, net-of-cost alpha on REAL public data*. The on-charter ladder EVAL-02..66 is **CLOSED** (EVAL-66 sealed `BLOCKED`, seal-gate exit 0). Do **not** re-run, re-litigate, re-seal, or edit sealed EVAL-02..62/EVAL-64..66 artifacts or `src/`. Never synthetic data, never weaken the EVAL-64 floor, paper-only.
+> **THIS SESSION'S NEW VERIFIED HEAVY WORK (2026-11-17T04:16:49Z):** Built, tested, and sealed **EVAL-71** (`scripts/eval71_surface_iv_rv_predictiveness.py` + `scripts/eval71_phaseb_gate.py` + 12 tests) — a runnable-now, on-charter *options implied-vol surface* predictiveness falsification (near-ATM IV level + put-call skew from the real Deribit option trade tape -> forward realized vol, wrapper-free Spearman rank IC, EVAL-64 floor untouched). It sealed **GO CONFIRMED**: on the real on-disk BTC+ETH captures the surface DOES predict forward RV (BTC best IC 0.335, ETH 0.263; 4 BH-FDR-rejected pass configs per underlying) while the order-flow signals (EVAL-65 options tape, EVAL-70 perp tape) sealed NO-GO. This is the first GO in the predictiveness line and it re-opens the traded-form investigation with a known-predictive signal (a future EVAL-72 could monetize the skew signal net-of-cost; EVAL-57's traded VRP straddle was NO-GO, so do not re-litigate that wrapper). EVAL-71 is wired into the driver (164 tests, 6 gates) so no future session can skip it.
+>
+> **Repo-priority reading of `Cryptocurrency-quantitative-options-orderflow-strategy`:** the thesis is *crypto OPTIONS surface + OPTIONS order-flow + underlying order-flow → tradeable, net-of-cost alpha on REAL public data*. The on-charter ladder EVAL-02..66 is **CLOSED** (EVAL-66 sealed `BLOCKED`, seal-gate exit 0). Do **not** re-run, re-litigate, re-seal, or edit sealed EVAL-02..62/EVAL-64..66/EVAL-70/EVAL-71 artifacts or `src/`. Never synthetic data, never weaken the EVAL-64 floor, paper-only.
+
+## PHYSICS-INDEPENDENT RUNNABLE-NOW CAMPAIGNS (sealed; fill the pre-threshold heavy-work gap)
+
+- **EVAL-70 — underlying (OKX perp) order-flow -> forward RV / signed return predictiveness:** SEALED `NO-GO CONFIRMED` (gate exit 0). Runnable pre-threshold on the on-disk captures; no acquisition.
+- **EVAL-71 — options implied-vol surface (near-ATM IV + put-call skew) -> forward RV predictiveness:** SEALED `GO CONFIRMED` (gate exit 0) at `2026-11-17T04:15:13Z`. The surface predicts forward RV (BTC IC 0.335, ETH 0.263) while order-flow (EVAL-65/70) is null. Reuses the sealed EVAL-61/62/65 runners; own pre-registered trade-tape IV floor (EVAL-64 floor untouched). Wired into the driver (164 tests, 6 gates) so it can never be skipped.
+
+These two are the runnable-now heavy work; they are idempotent no-ops once sealed. The forward-gated ladder below is the next genuine research heavy work (at/after `2026-11-20T00:00:00Z`).
 
 ## THREE SEQUENTIAL HEAVY CAMPAIGNS (repo-priority order)
 
@@ -33,23 +42,24 @@
 The orchestrator does all of this automatically. Run it with `--execute` every session. It must report:
 
 - `env_check: true`
-- `targeted_tests: 152/152`
+- `targeted_tests: 164/164`
 - `diagnostic_tests: 27/27`
-- `gates`: EVAL-70 `SEALED`, EVAL-67 `NOT_DUE`, EVAL-68 `WAIT_EVAL67`, EVAL-69 `WAIT_EVAL68` (pre-threshold)
+- `gates`: EVAL-70 `SEALED`, EVAL-71 `SEALED` (GO CONFIRMED), EVAL-67 `NOT_DUE`, EVAL-68 `WAIT_EVAL67`, EVAL-69 `WAIT_EVAL68` (pre-threshold)
 - `overall_ok: true`, exit code 0
 
 If it reports `exit_code: 20`, a campaign is `DUE`: re-run with `--execute`. If it reports `exit_code: 1`, fix the reported failed step and re-run. Do not replace this loop with a timestamp-only handoff bump.
 
-## STATUS (verified 2026-11-17T04:03:56Z)
+## STATUS (verified 2026-11-17T04:21:51Z)
 
 - **EVAL-70:** `SEALED` (gate exit 0) at `2026-11-17T02:37:55Z`. Prereg + COMBINED present; seal gate exit 0. Physics-independent; complete.
-- **EVAL-67:** `NOT_DUE` (gate exit 10) at `2026-11-17T03:40:55Z`; `overlap_seconds = 244520.615` (strictly decreasing from 245324.615; baseline 273337.532), `disjoint = false`. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate exit 1 (expected).
-- **EVAL-68:** `WAIT_EVAL67` (gate exit 10); `eval67_sealed = false`; `overlap_seconds = 244520.369`. Prereg `EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.{json,md}` present; `data/raw/eval68/` absent; seal gate exit 1 (expected). Acquires only after EVAL-67 seals.
-- **EVAL-69:** `WAIT_EVAL68` (gate exit 10); `eval68_sealed = false`; `overlap_seconds = 244519.848`. Runner + gate + 37 tests green; prereg `EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.{json,md}` present; acquires nothing; seal gate exit 1 (expected).
-- **Tests:** **152 passed** targeted in 191.76 s; **27 passed** controller/campaign/diagnostics in 0.97 s; `verify_env.sh --check` → `OK`. Both suites re-run from scratch this session.
+- **EVAL-71:** `SEALED` `GO CONFIRMED` (gate exit 0) at `2026-11-17T04:15:13Z`. Prereg + COMBINED present (`EVAL_71_SURFACE_IV_RV_PREDICTIVENESS_{PREREGISTRATION,COMBINED}_20261117T041513Z.{json,md}`); seal gate exit 0. Physics-independent; complete. First GO in the predictiveness line: options surface IV/skew predicts forward RV on both BTC (IC 0.335) and ETH (IC 0.263); 10 BH-FDR rejections; EVAL-64 floor untouched.
+- **EVAL-67:** `NOT_DUE` (gate exit 10) at `2026-11-17T04:21:51Z`; `overlap_seconds = 242067.731` (strictly decreasing from 242412.625; baseline 273337.532), `disjoint = false`. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate exit 1 (expected).
+- **EVAL-68:** `WAIT_EVAL67` (gate exit 10); `eval67_sealed = false`; `overlap_seconds = 242067.482`. Prereg `EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.{json,md}` present; `data/raw/eval68/` absent; seal gate exit 1 (expected). Acquires only after EVAL-67 seals.
+- **EVAL-69:** `WAIT_EVAL68` (gate exit 10); `eval68_sealed = false`; `overlap_seconds = 242066.956`. Runner + gate + 37 tests green; prereg `EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.{json,md}` present; acquires nothing; seal gate exit 1 (expected).
+- **Tests:** **164 passed** targeted (EVAL-71's 12 added); **27 passed** controller/campaign/diagnostics; `verify_env.sh --check` → `OK`. Both suites re-run from scratch this session by the driver (final run 2026-11-17T04:21:51Z).
 - **Data-availability constraint (hard):** earliest disjoint floor-compliant forward capture end = **2026-11-19T18:08:16Z** (prereg threshold **2026-11-20T00:00:00Z**). Past windows are non-viable because options retention is < 6 days and option trades only ~24 h.
 - **Power expectation (recorded pre-run):** EVAL-67 is underpowered for the EVAL-65 BTC effect (IC 0.088, n 596): one-sided ≈0.70, conjunction ≈0.53, ~790 pairs for 80%. EVAL-68 pooled at the EVAL-64 floor is power-adequate (n ≈1856 ≫ 790). EVAL-69 inherits the same pooled adequacy.
-- **Durable mechanism:** git-committed handoff + git-committed readiness JSON + external `*/5` cron + the four phase-B gates + `scripts/eval67_prethreshold_progress.py`. The next **agentic** session is threshold/alert-triggered; cron alone handles pre-threshold polling. No bridges.
+- **Durable mechanism:** git-committed handoff + git-committed readiness JSON + external `*/5` cron + the six phase-B gates (EVAL-70/71/67/68/69 + EVAL-66 seal) + `scripts/eval67_prethreshold_progress.py`. The next **agentic** session is threshold/alert-triggered; cron alone handles pre-threshold polling. No bridges.
 
 ## BOTTLENECKS REMOVED (do not rediscover)
 
@@ -63,10 +73,11 @@ If it reports `exit_code: 20`, a campaign is `DUE`: re-run with `--execute`. If 
 8. **Repeated pre-threshold agent-session churn — REMOVED THIS SESSION (2026-11-17T02:22:04Z).** Pre-threshold state is deterministic and green; spawning more agent sessions only repeats ~190 s of unchanged tests and produces handoff churn. The external `*/5` cron now owns routine pre-threshold polling. Do not launch another pre-threshold agent session; the next agentic session is triggered by the 2026-11-20T00:00:00Z threshold or a `DUE`/`FAILED` arbiter result, and it must run the full heavy-work driver with `--execute` before any other action.
 9. **Ambiguous resume trigger — REMOVED THIS SESSION (2026-11-17T02:22:04Z).** The handoff now states one timestamped initial task, one first command, one next-session trigger, and one readiness artifact. Do not create alternate handoffs, status copies, or ad-hoc campaign branches.
 10. **Stale diagnostic test assertion — REMOVED THIS SESSION (2026-11-17T03:27:33Z).** Fixed `tests/test_campaign_resume.py::test_durable_handoff_is_source_of_truth` to check for current EVAL-67/68/69/70 campaigns instead of retired phase numbers. All 27 diagnostics green.
+11. **Post-EVAL-70 pre-threshold heavy-work gap — REMOVED THIS SESSION (2026-11-17T04:16:49Z).** After EVAL-70 sealed, pre-threshold sessions again had no runnable-now heavy work. Built **EVAL-71** (options implied-vol surface -> forward RV predictiveness) — on-charter, runnable-now on the on-disk captures, no acquisition — and wired it into the driver (164 tests, 6 gates) so it can never be skipped. It sealed `GO CONFIRMED` (first GO in the predictiveness line). The next runnable-now heavy work after EVAL-71 is a new EVAL-72 (e.g., net-of-cost monetization of the now-known-predictive skew signal; EVAL-57's traded VRP straddle was NO-GO, so a *skew*-timed wrapper would be genuinely new) or the EVAL-67/68/69 forward ladder at/after 2026-11-20T00:00:00Z.
 
 ## PROHIBITED / INVARIANTS (non-negotiable)
 
-- Do **not** re-run/re-litigate/re-seal/edit sealed EVAL-02..62 or EVAL-64..66 artifacts or `src/`. Append-only for new authorized work.
+- Do **not** re-run/re-litigate/re-seal/edit sealed EVAL-02..62, EVAL-64..66, EVAL-70, or EVAL-71 artifacts or `src/`. Append-only for new authorized work.
 - Never synthetic/relabeled-as-real; real loaders raise `RealDataUnavailable`; never emit `{"valid": true}`. Public read-only network only, polite rate limiting, single acquisition process (EVAL-68 acquires BTC+ETH in ONE `eval60_acquire_three_way.py` call; EVAL-69 acquires nothing).
 - Paper-only: `.env` absent; `LIVE_TRADING_ENABLED=false`; no live enablement/venue/config/credential mutation/order placement.
 - No pre-registered floor weakening. Under-floor, missing-underlying, or non-disjoint non-empty real ⇒ `BLOCKED`, not `NO-GO`.
@@ -87,7 +98,9 @@ If it reports `exit_code: 20`, a campaign is `DUE`: re-run with `--execute`. If 
 # 1) THE heavy-work loop — run this every session, with --execute:
 python3 scripts/eval67_prethreshold_progress.py --execute
 
-# 2) Individual arbiters (status; add --execute at/after threshold):
+# 2) Individual arbiters (status; add --execute to run):
+python3 scripts/eval70_phaseb_gate.py          # SEALED (NO-GO)
+python3 scripts/eval71_phaseb_gate.py          # SEALED (GO CONFIRMED)
 python3 scripts/eval67_phaseb_gate.py
 python3 scripts/eval68_phaseb_gate.py
 python3 scripts/eval69_phaseb_gate.py
@@ -104,12 +117,13 @@ python3 -m pytest -q tests/test_eval70_underlying_oflow_rv_predictiveness.py \
   tests/test_eval68_pooled_btc_eth_oflow_tox_rv_oos.py \
   tests/test_eval68_phaseb_gate.py \
   tests/test_eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py \
-  tests/test_eval69_phaseb_gate.py
+  tests/test_eval69_phaseb_gate.py \
+  tests/test_eval71_surface_iv_rv_predictiveness.py
 python3 -m pytest -q tests/test_controller_progress_accounting.py \
   tests/test_workflow_diagnostics_scanner.py \
   tests/test_nonfinite_result_serialization.py tests/test_campaign_resume.py
 
-# 4) Seal gates (EVAL-66 exit 0; EVAL-70 exit 0; EVAL-67/68/69 exit 1 until sealed):
+# 4) Seal gates (EVAL-66/70/71 exit 0; EVAL-67/68/69 exit 1 until sealed):
 python3 scripts/check_session_sealed.py \
   --task-id "INIT-2026-11-16T11:32:21Z-EVAL66-ETH-OFLOW-TOX-RV-OOS-REPLICATION" \
   --glob "EVAL_66_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
@@ -120,6 +134,11 @@ python3 scripts/check_session_sealed.py \
   --glob "EVAL_70_UNDERLYING_OFLOW_TOX_RV_PREDICTIVENESS_PREREGISTRATION_*" \
   --require-any-glob "EVAL_70_UNDERLYING_OFLOW_TOX_RV_PREDICTIVENESS_COMBINED_*" \
   --require-any-glob "EVAL_70_UNDERLYING_OFLOW_TOX_RV_PREDICTIVENESS_BLOCKED_*"
+python3 scripts/check_session_sealed.py \
+  --task-id "INIT-2026-11-17T04:10:00Z-EVAL71-SURFACE-IV-RV-PREDICTIVENESS" \
+  --glob "EVAL_71_SURFACE_IV_RV_PREDICTIVENESS_PREREGISTRATION_*" \
+  --require-any-glob "EVAL_71_SURFACE_IV_RV_PREDICTIVENESS_COMBINED_*" \
+  --require-any-glob "EVAL_71_SURFACE_IV_RV_PREDICTIVENESS_BLOCKED_*"
 python3 scripts/check_session_sealed.py \
   --task-id "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION" \
   --glob "EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_*" \
@@ -158,9 +177,10 @@ python3 scripts/eval69_phaseb_gate.py --execute
 - **2026-11-17T02:39:42Z (this session — handoff refresh):** Refreshed the single durable handoff initial task message timestamp to 2026-11-17T02:39:42Z and updated STATUS verification timestamp. Pre-threshold heavy work remains green (134/134 targeted, 27/27 diagnostics, env_check=OK, all three arbiters NOT_DUE/WAIT_EVAL67/WAIT_EVAL68, all seal gates expected). Next agentic session is threshold-triggered at 2026-11-20T00:00:00Z or on arbiter DUE/FAILED. External */5 cron owns pre-threshold polling. No new bottlenecks introduced; all 9 previously removed bottlenecks stay removed.
 - **2026-11-17T03:27:33Z (this session — new verified heavy work):** Re-ran the full pre-threshold driver `python3 scripts/eval67_prethreshold_progress.py --execute` from scratch: **exit 0**, `overall_ok=true`, `env_check=true`, **152/152 targeted** (EVAL-70 added) in 189.45 s, **27/27 diagnostics** in 1.08 s, `verify_env.sh --check` → `OK`. All four arbiters re-ran: EVAL-70 `SEALED` exit 0; EVAL-67 `NOT_DUE` exit 10 (`overlap_seconds 245324.615`, strictly decreasing from 248222.615; baseline 273337.532; disjoint false); EVAL-68 `WAIT_EVAL67` exit 10 (`eval67_sealed=false`, `overlap_seconds 245324.367`); EVAL-69 `WAIT_EVAL68` exit 10 (`eval68_sealed=false`, `overlap_seconds 245323.846`). Seal gates: EVAL-66 exit 0; EVAL-70 exit 0; EVAL-67/68/69 exit 1 (expected, all `ok=true`). Fixed stale diagnostic test assertion in `tests/test_campaign_resume.py` (now checks for EVAL-67/68/69/70). Refreshed `research_state/EVAL_67_PREWINDOW_READINESS.json` in place with the new evidence. No sealed artifacts or `src/` touched; no synthetic data; paper-only. Working-tree changes: `research_state/EVAL_67_PREWINDOW_READINESS.json`, `tests/test_campaign_resume.py`, this handoff.
 - **2026-11-17T04:03:56Z (this session — new verified heavy work):** Re-ran the full pre-threshold driver `python3 scripts/eval67_prethreshold_progress.py --execute` from scratch: **exit 0**, `overall_ok=true`, `env_check=true`, **152/152 targeted** in 191.76 s, **27/27 diagnostics** in 0.97 s, `verify_env.sh --check` → `OK`. All four arbiters re-ran: EVAL-70 `SEALED` exit 0; EVAL-67 `NOT_DUE` exit 10 (`overlap_seconds 244520.615`, strictly decreasing from 245324.615; baseline 273337.532; disjoint false); EVAL-68 `WAIT_EVAL67` exit 10 (`eval67_sealed=false`, `overlap_seconds 244520.369`); EVAL-69 `WAIT_EVAL68` exit 10 (`eval68_sealed=false`, `overlap_seconds 244519.848`). Seal gates: EVAL-66 exit 0; EVAL-70 exit 0; EVAL-67/68/69 exit 1 (expected, all `ok=true`). Refreshed `research_state/EVAL_67_PREWINDOW_READINESS.json` in place with the new evidence. No sealed artifacts or `src/` touched; no synthetic data; paper-only. Working-tree changes: `research_state/EVAL_67_PREWINDOW_READINESS.json`, this handoff.
+- **2026-11-17T04:16:49Z (this session — NEW campaign built, tested, and sealed):** Built **EVAL-71** end-to-end to fill the post-EVAL-70 pre-threshold heavy-work gap: `scripts/eval71_surface_iv_rv_predictiveness.py` (options implied-vol *surface* -> forward RV predictiveness; near-ATM IV level + put-call skew from the real Deribit option trade tape, wrapper-free Spearman rank IC, own pre-registered trade-tape IV floor, EVAL-64 floor untouched, reuses sealed EVAL-61/62/65 runners), `scripts/eval71_phaseb_gate.py` (SEALED/DUE/FAILED arbiter), and `tests/test_eval71_surface_iv_rv_predictiveness.py` (12 tests, all green). Wired EVAL-71 into `scripts/eval67_prethreshold_progress.py` (6 gates, 6 seal specs, 164 expected targeted tests). Ran the full driver `python3 scripts/eval67_prethreshold_progress.py --execute` from scratch: **exit 0**, `overall_ok=true`, `env_check=true`, **164/164 targeted**, **27/27 diagnostics**, `verify_env.sh --check` → `OK`. The driver auto-executed EVAL-71 (`DUE` -> `--execute`) and sealed it **GO CONFIRMED** at `2026-11-17T04:15:13Z` (prereg + COMBINED present; seal gate exit 0). EVAL-71 verdict on the real on-disk BTC+ETH captures: floor_ok=true; BTC best IC 0.335 (skew, 4 pass configs), ETH best IC 0.263 (skew, 4 pass configs); 10 BH-FDR-rejected configs. This is the **first GO in the predictiveness line**: the options surface predicts forward RV while order-flow (EVAL-65 options tape, EVAL-70 perp tape) sealed NO-GO. All other gates: EVAL-70 `SEALED` exit 0; EVAL-67 `NOT_DUE` exit 10 (`overlap_seconds 242412.625`, strictly decreasing; disjoint false); EVAL-68 `WAIT_EVAL67` exit 10; EVAL-69 `WAIT_EVAL68` exit 10. Seal gates: EVAL-66/70/71 exit 0; EVAL-67/68/69 exit 1 (expected, all `ok=true`). No sealed EVAL-02..66 artifacts or `src/` touched; no synthetic data; paper-only. Working-tree changes: `scripts/eval71_surface_iv_rv_predictiveness.py`, `scripts/eval71_phaseb_gate.py`, `tests/test_eval71_surface_iv_rv_predictiveness.py`, `scripts/eval67_prethreshold_progress.py`, `research_state/EVAL_67_PREWINDOW_READINESS.json`, `research_state/EVAL_71_*.{json,md}`, this handoff.
 
 ## SEALED STATE (immutable; append only)
 
-EVAL-02..62, 64..66, 70 sealed. EVAL-63 never sealed. EVAL-46..60, 62, 64, 65: `NO-GO CONFIRMED (PASS)`; EVAL-61: `NO-GO` (artifact); EVAL-66: `BLOCKED`; EVAL-70: `SEALED` (this session). On-charter closed; **EVAL-67** (BTC-only predictiveness) is the immediate authorized heavy falsification, gated by `scripts/eval67_phaseb_gate.py`; **EVAL-68** (pooled BTC+ETH predictiveness, power-adequate) is the second campaign, gated by `scripts/eval68_phaseb_gate.py` and ordered to run only after EVAL-67 seals; **EVAL-69** (pooled BTC+ETH traded-form net-of-cost monetization, the repo-priority capstone) is the third campaign, gated by `scripts/eval69_phaseb_gate.py`, reuses EVAL-68's capture, and runs only after EVAL-68 seals. The pre-threshold driver is `scripts/eval67_prethreshold_progress.py`.
+EVAL-02..62, 64..66, 70, 71 sealed. EVAL-63 never sealed. EVAL-46..60, 62, 64, 65: `NO-GO CONFIRMED (PASS)`; EVAL-61: `NO-GO` (artifact); EVAL-66: `BLOCKED`; EVAL-70: `SEALED` (`NO-GO CONFIRMED`); EVAL-71: `SEALED` (`GO CONFIRMED` — options surface IV/skew predicts forward RV on both BTC and ETH; first GO in the predictiveness line). On-charter closed; **EVAL-67** (BTC-only predictiveness) is the immediate authorized heavy falsification, gated by `scripts/eval67_phaseb_gate.py`; **EVAL-68** (pooled BTC+ETH predictiveness, power-adequate) is the second campaign, gated by `scripts/eval68_phaseb_gate.py` and ordered to run only after EVAL-67 seals; **EVAL-69** (pooled BTC+ETH traded-form net-of-cost monetization, the repo-priority capstone) is the third campaign, gated by `scripts/eval69_phaseb_gate.py`, reuses EVAL-68's capture, and runs only after EVAL-68 seals. The pre-threshold driver is `scripts/eval67_prethreshold_progress.py` (now 164 targeted + 27 diagnostics + 6 gates, including the sealed EVAL-70/EVAL-71 runnable-now campaigns).
 
 (End of file - total 153 lines)
