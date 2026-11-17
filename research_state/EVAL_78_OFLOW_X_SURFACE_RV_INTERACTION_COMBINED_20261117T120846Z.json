@@ -1,0 +1,635 @@
+{
+  "report_id": "EVAL_78_OFLOW_X_SURFACE_RV_INTERACTION_COMBINED",
+  "generated_at": "2026-11-17T12:08:46Z",
+  "task": "EVAL78-OFLOW-X-SURFACE-RV-INTERACTION",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "wrapper-free information-content test: Spearman rank IC between the causal options order-flow imbalance x implied-vol surface interaction and forward realized volatility on the real on-disk captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_oflow_states_per_underlying": 200,
+    "min_usable_pairs_per_config": 120,
+    "note": "EVAL-78 consumes both the surface (EVAL-71) and the options order-flow leg (EVAL-61/62). It composes the sealed EVAL-71 surface floor (applied to EACH underlying, reused verbatim, neither weakened) with an options order-flow adequacy floor (>= min_oflow_states_per_underlying priceable per-bar order-flow states per underlying). This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+  },
+  "campaign_floor": {
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "per_underlying": {
+      "BTC": {
+        "underlying": "BTC",
+        "surface_floor_ok": true,
+        "surface_floor": {
+          "underlying": "BTC",
+          "n_option_trades": 2748,
+          "n_near_atm_option_trades": 2331,
+          "n_perp_candles": 1441,
+          "perp_span_seconds": 86400.0,
+          "checks": {
+            "option_trades_ok": true,
+            "near_atm_ok": true,
+            "candles_ok": true,
+            "span_ok": true
+          },
+          "ok": true
+        },
+        "n_oflow_states": 289,
+        "oflow_ok": true,
+        "checks": {
+          "surface_floor_ok": true,
+          "oflow_ok": true
+        },
+        "ok": true
+      },
+      "ETH": {
+        "underlying": "ETH",
+        "surface_floor_ok": true,
+        "surface_floor": {
+          "underlying": "ETH",
+          "n_option_trades": 3547,
+          "n_near_atm_option_trades": 1509,
+          "n_perp_candles": 1441,
+          "perp_span_seconds": 86400.0,
+          "checks": {
+            "option_trades_ok": true,
+            "near_atm_ok": true,
+            "candles_ok": true,
+            "span_ok": true
+          },
+          "ok": true
+        },
+        "n_oflow_states": 289,
+        "oflow_ok": true,
+        "checks": {
+          "surface_floor_ok": true,
+          "oflow_ok": true
+        },
+        "ok": true
+      }
+    },
+    "checks": {
+      "all_underlyings_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-78",
+    "title": "Options order-flow imbalance x implied-volatility surface interaction -> subsequent realized volatility (wrapper-free rank information coefficient) falsification on the real on-disk three-way captures",
+    "extends": "EVAL-65 (unconditional options order-flow -> RV) and EVAL-71/77 (unconditional surface -> RV): identical Spearman rank-IC statistic and both signal reconstructions reused verbatim, but a different, on-charter signal family \u2014 the *interaction* (product) of the options order-flow imbalance and the near-ATM surface state; no new acquisition",
+    "supersedes": "nothing \u2014 this is the conditional-flow complement to EVAL-65 (unconditional flow) and EVAL-71/77 (unconditional surface); none of them measured the flow x surface interaction",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signals": [
+      "atm_iv",
+      "skew"
+    ],
+    "oflow_signals": [
+      "imbalance"
+    ],
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal options order-flow imbalance z (EVAL-61/62 build_states, expanding-z-scored) times causal near-ATM surface z (EVAL-71 build_surface_bars atm_iv / skew, forward-filled then expanding-z-scored end-of-bar k): x_k = oflow_z_k * surf_z_k",
+    "target": "rv = sqrt(mean(log-return^2)) over the next H perp bars (EVAL-71 definition) on the common aligned bar grid",
+    "statistic": "Spearman rank correlation IC = rho(x_k, rv_k) over the common aligned bar-ends (H1: IC > 0, rich surface amplifies buy-heavy flow into higher subsequent realized vol)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle the realized-vol series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH, at least one config (interaction x bar grid x horizon) has Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, at least min_usable_pairs_per_config usable pairs, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real on-disk three-way captures (surface snapshots + option trade tape with direction + perp candles); no new acquisition, no network; composes the EVAL-71 floor for each underlying with an options order-flow state floor",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_oflow_states_per_underlying": 200,
+      "min_usable_pairs_per_config": 120,
+      "note": "EVAL-78 consumes both the surface (EVAL-71) and the options order-flow leg (EVAL-61/62). It composes the sealed EVAL-71 surface floor (applied to EACH underlying, reused verbatim, neither weakened) with an options order-flow adequacy floor (>= min_oflow_states_per_underlying priceable per-bar order-flow states per underlying). This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval78_oflow_x_surface_rv_predictiveness.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval78_oflow_x_surface_rv_predictiveness.py tests/test_eval78_oflow_x_surface_rv_predictiveness.py",
+      "python3 -m pytest -q tests/test_eval78_oflow_x_surface_rv_predictiveness.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval78_oflow_x_surface_rv_predictiveness.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval78_oflow_x_surface_rv_predictiveness.py --capture-dir data/raw/eval61 --seal --task-label EVAL78-OFLOW-X-SURFACE-RV-INTERACTION"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_aligned_states": 288,
+      "n_pairs": 282,
+      "spearman_ic": -0.10428603993613743,
+      "permutation_p": 0.962037962037962,
+      "bootstrap_ci": [
+        -0.10568566096716896,
+        -0.23223265942932703,
+        0.02360483987380057
+      ],
+      "nonzero_signal_pairs": 278,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_aligned_states": 288,
+      "n_pairs": 264,
+      "spearman_ic": -0.10667340599869067,
+      "permutation_p": 0.961038961038961,
+      "bootstrap_ci": [
+        -0.10572167453154531,
+        -0.24010744854418076,
+        0.030637735287905594
+      ],
+      "nonzero_signal_pairs": 260,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_aligned_states": 288,
+      "n_pairs": 216,
+      "spearman_ic": 0.004312995847182828,
+      "permutation_p": 0.48151848151848153,
+      "bootstrap_ci": [
+        0.007372049743648116,
+        -0.154406090573301,
+        0.15799390922726406
+      ],
+      "nonzero_signal_pairs": 212,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_aligned_states": 289,
+      "n_pairs": 283,
+      "spearman_ic": -0.06429208474758238,
+      "permutation_p": 0.8631368631368631,
+      "bootstrap_ci": [
+        -0.05893980362103112,
+        -0.1848409462085025,
+        0.05869165746914676
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_aligned_states": 289,
+      "n_pairs": 265,
+      "spearman_ic": -0.08090103190184474,
+      "permutation_p": 0.8971028971028971,
+      "bootstrap_ci": [
+        -0.0781070770519979,
+        -0.20713346612443584,
+        0.045365991757752376
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_aligned_states": 289,
+      "n_pairs": 217,
+      "spearman_ic": -0.18971926781529452,
+      "permutation_p": 0.997002997002997,
+      "bootstrap_ci": [
+        -0.19183885228711187,
+        -0.32695925473638265,
+        -0.05949144082211019
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_aligned_states": 288,
+      "n_pairs": 282,
+      "spearman_ic": 0.07378873366059895,
+      "permutation_p": 0.10789210789210789,
+      "bootstrap_ci": [
+        0.07359217302904318,
+        -0.033925085303318475,
+        0.18634589194127066
+      ],
+      "nonzero_signal_pairs": 278,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_aligned_states": 288,
+      "n_pairs": 264,
+      "spearman_ic": -0.0020354956262306637,
+      "permutation_p": 0.5244755244755245,
+      "bootstrap_ci": [
+        -0.0008296330308745338,
+        -0.13500583169910602,
+        0.12340265528155597
+      ],
+      "nonzero_signal_pairs": 260,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_aligned_states": 288,
+      "n_pairs": 216,
+      "spearman_ic": 0.007916288346789466,
+      "permutation_p": 0.43456543456543456,
+      "bootstrap_ci": [
+        0.013239630767032806,
+        -0.14311504780991258,
+        0.1539032695803569
+      ],
+      "nonzero_signal_pairs": 212,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_aligned_states": 289,
+      "n_pairs": 283,
+      "spearman_ic": 0.09706155878042504,
+      "permutation_p": 0.06293706293706294,
+      "bootstrap_ci": [
+        0.10029079387688736,
+        -0.022424468254793134,
+        0.21777178817231896
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_aligned_states": 289,
+      "n_pairs": 265,
+      "spearman_ic": 0.0468406976501106,
+      "permutation_p": 0.23276723276723277,
+      "bootstrap_ci": [
+        0.04702393936502427,
+        -0.0757597741909897,
+        0.1695345242417775
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_aligned_states": 289,
+      "n_pairs": 217,
+      "spearman_ic": 0.17641812061184273,
+      "permutation_p": 0.005994005994005994,
+      "bootstrap_ci": [
+        0.1805376243377462,
+        0.05017920094538452,
+        0.3115516745261622
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": true
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_aligned_states": 289,
+      "n_pairs": 283,
+      "spearman_ic": -0.08708241660649553,
+      "permutation_p": 0.929070929070929,
+      "bootstrap_ci": [
+        -0.09178720429045727,
+        -0.2128783768274959,
+        0.021735087407159813
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_aligned_states": 289,
+      "n_pairs": 265,
+      "spearman_ic": -0.07579230418300029,
+      "permutation_p": 0.8991008991008991,
+      "bootstrap_ci": [
+        -0.07563025751993219,
+        -0.21249996775633073,
+        0.056605741667119895
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_aligned_states": 289,
+      "n_pairs": 217,
+      "spearman_ic": -0.13449061691379982,
+      "permutation_p": 0.965034965034965,
+      "bootstrap_ci": [
+        -0.127764517342461,
+        -0.26931709408234333,
+        0.010122719921683282
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_aligned_states": 289,
+      "n_pairs": 283,
+      "spearman_ic": 0.00127333600001594,
+      "permutation_p": 0.47952047952047955,
+      "bootstrap_ci": [
+        0.0012133046813758129,
+        -0.13960337102507453,
+        0.11777287074774695
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_aligned_states": 289,
+      "n_pairs": 265,
+      "spearman_ic": -0.015996492082218264,
+      "permutation_p": 0.5964035964035964,
+      "bootstrap_ci": [
+        -0.01982887650878669,
+        -0.14430073473486352,
+        0.11426367782195218
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_aligned_states": 289,
+      "n_pairs": 217,
+      "spearman_ic": -0.0685755993358254,
+      "permutation_p": 0.8641358641358642,
+      "bootstrap_ci": [
+        -0.068501472663224,
+        -0.22281862798389987,
+        0.08683705976487631
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_aligned_states": 289,
+      "n_pairs": 283,
+      "spearman_ic": -0.028298767511372967,
+      "permutation_p": 0.6693306693306693,
+      "bootstrap_ci": [
+        -0.031329136083320844,
+        -0.14350770882770322,
+        0.07759779377447107
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_aligned_states": 289,
+      "n_pairs": 265,
+      "spearman_ic": -0.1185089414827329,
+      "permutation_p": 0.975024975024975,
+      "bootstrap_ci": [
+        -0.12122864380880063,
+        -0.24999774295584723,
+        0.00694739571011738
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_aligned_states": 289,
+      "n_pairs": 217,
+      "spearman_ic": -0.034760198260759996,
+      "permutation_p": 0.6873126873126874,
+      "bootstrap_ci": [
+        -0.03007620350188979,
+        -0.1662095522770746,
+        0.11184674146395175
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_aligned_states": 289,
+      "n_pairs": 283,
+      "spearman_ic": -0.09300011992133053,
+      "permutation_p": 0.9330669330669331,
+      "bootstrap_ci": [
+        -0.09662378150934516,
+        -0.2138167108340202,
+        0.013437281632931656
+      ],
+      "nonzero_signal_pairs": 279,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_aligned_states": 289,
+      "n_pairs": 265,
+      "spearman_ic": -0.07443556538584678,
+      "permutation_p": 0.8791208791208791,
+      "bootstrap_ci": [
+        -0.07485494044057964,
+        -0.2066708766659928,
+        0.05501224307125997
+      ],
+      "nonzero_signal_pairs": 261,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "interaction": "oflow[imbalance]_x_skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_aligned_states": 289,
+      "n_pairs": 217,
+      "spearman_ic": 0.02469567137275171,
+      "permutation_p": 0.3866133866133866,
+      "bootstrap_ci": [
+        0.026165089352212508,
+        -0.11945685308121053,
+        0.1900283755913539
+      ],
+      "nonzero_signal_pairs": 213,
+      "pass": false
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 12,
+      "best_ic": 0.17641812061184273,
+      "best_config": "oflow[imbalance]_x_skew::bar300.0::h72",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 12,
+      "best_ic": 0.02469567137275171,
+      "best_config": "oflow[imbalance]_x_skew::bar300.0::h72",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    }
+  ],
+  "summary": {
+    "n_configs": 24,
+    "n_pass": 0,
+    "per_underlying": [
+      {
+        "underlying": "BTC",
+        "n_configs": 12,
+        "best_ic": 0.17641812061184273,
+        "best_config": "oflow[imbalance]_x_skew::bar300.0::h72",
+        "n_pass": 0,
+        "pass_configs": [],
+        "any_pass": false
+      },
+      {
+        "underlying": "ETH",
+        "n_configs": 12,
+        "best_ic": 0.02469567137275171,
+        "best_config": "oflow[imbalance]_x_skew::bar300.0::h72",
+        "n_pass": 0,
+        "pass_configs": [],
+        "any_pass": false
+      }
+    ]
+  },
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [],
+      "thresholds": {
+        "BTC::oflow[imbalance]_x_skew::bar300.0::h72": 0.004166666666666667,
+        "BTC::oflow[imbalance]_x_skew::bar300.0::h6": 0.008333333333333333,
+        "BTC::oflow[imbalance]_x_skew::bar60.0::h6": 0.012500000000000002,
+        "BTC::oflow[imbalance]_x_skew::bar300.0::h24": 0.016666666666666666,
+        "ETH::oflow[imbalance]_x_skew::bar300.0::h72": 0.020833333333333332,
+        "BTC::oflow[imbalance]_x_skew::bar60.0::h72": 0.025000000000000005,
+        "ETH::oflow[imbalance]_x_atm_iv::bar300.0::h6": 0.02916666666666667,
+        "BTC::oflow[imbalance]_x_atm_iv::bar60.0::h72": 0.03333333333333333,
+        "BTC::oflow[imbalance]_x_skew::bar60.0::h24": 0.0375,
+        "ETH::oflow[imbalance]_x_atm_iv::bar300.0::h24": 0.041666666666666664,
+        "ETH::oflow[imbalance]_x_skew::bar60.0::h6": 0.04583333333333334,
+        "ETH::oflow[imbalance]_x_skew::bar60.0::h72": 0.05000000000000001,
+        "BTC::oflow[imbalance]_x_atm_iv::bar300.0::h6": 0.05416666666666667,
+        "ETH::oflow[imbalance]_x_atm_iv::bar300.0::h72": 0.05833333333333334,
+        "ETH::oflow[imbalance]_x_skew::bar300.0::h24": 0.0625,
+        "BTC::oflow[imbalance]_x_atm_iv::bar300.0::h24": 0.06666666666666667,
+        "ETH::oflow[imbalance]_x_atm_iv::bar60.0::h24": 0.07083333333333335,
+        "ETH::oflow[imbalance]_x_atm_iv::bar60.0::h6": 0.075,
+        "ETH::oflow[imbalance]_x_skew::bar300.0::h6": 0.07916666666666668,
+        "BTC::oflow[imbalance]_x_atm_iv::bar60.0::h24": 0.08333333333333333,
+        "BTC::oflow[imbalance]_x_atm_iv::bar60.0::h6": 0.08750000000000001,
+        "ETH::oflow[imbalance]_x_atm_iv::bar60.0::h72": 0.09166666666666667,
+        "ETH::oflow[imbalance]_x_skew::bar60.0::h24": 0.09583333333333334,
+        "BTC::oflow[imbalance]_x_atm_iv::bar300.0::h72": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 24,
+      "method": "Benjamini-Hochberg"
+    },
+    "any_config_pass": false,
+    "campaign_state": "EVAL_78_OFLOW_X_SURFACE_RV_INTERACTION"
+  },
+  "errors": []
+}
