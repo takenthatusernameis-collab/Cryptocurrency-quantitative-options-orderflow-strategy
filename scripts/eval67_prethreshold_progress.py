@@ -67,6 +67,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval82_phaseb_gate.py",
     "tests/test_eval83_cross_asset_surface_spillover_rv_predictiveness.py",
     "tests/test_eval83_phaseb_gate.py",
+    "tests/test_eval84_term_structure_vol_of_vol_predictiveness.py",
+    "tests/test_eval84_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -75,7 +77,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 357
+EXPECTED_TARGETED_TESTS = 375
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -147,6 +149,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-83",
         "script": ROOT / "scripts" / "eval83_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-84",
+        "script": ROOT / "scripts" / "eval84_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -285,6 +292,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_83_CROSS_ASSET_SURFACE_SPILLOVER_RV_PREDICTIVENESS_PREREGISTRATION_*",
         "combined": "EVAL_83_CROSS_ASSET_SURFACE_SPILLOVER_RV_PREDICTIVENESS_COMBINED_*",
         "blocked": "EVAL_83_CROSS_ASSET_SURFACE_SPILLOVER_RV_PREDICTIVENESS_BLOCKED_*",
+        "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-84",
+        "task_id": "INIT-2026-11-17T22:20:00Z-EVAL84-TERM-STRUCTURE-VOL-OF-VOL-PREDICTIVENESS",
+        "prereg": "EVAL_84_TERM_STRUCTURE_VOL_OF_VOL_PREDICTIVENESS_PREREGISTRATION_*",
+        "combined": "EVAL_84_TERM_STRUCTURE_VOL_OF_VOL_PREDICTIVENESS_COMBINED_*",
+        "blocked": "EVAL_84_TERM_STRUCTURE_VOL_OF_VOL_PREDICTIVENESS_BLOCKED_*",
         "expected_exit": 1,
     },
     {
