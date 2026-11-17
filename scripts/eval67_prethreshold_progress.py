@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Deterministic pre-threshold progress driver for the EVAL-67/68/69 ladder
-plus the physics-independent EVAL-70..82 campaigns.
+plus the physics-independent EVAL-70..83 campaigns.
 
 This is the single heavy-work entrypoint for sessions that run before the
 2026-11-20 disjointness threshold. It removes the repeated manual loop that
@@ -8,9 +8,9 @@ previously let sessions do timestamp-only carries:
 
 1. bootstrap and verify the environment;
 2. run the full targeted + controller/campaign/diagnostics test suites;
-    3. run all campaign arbiters in order (EVAL-70..82 first -- they are
-        physics-independent and runnable now -- then the EVAL-67 -> EVAL-68 ->
-        EVAL-69 disjoint-forward ladder);
+3. run all campaign arbiters in order (EVAL-70..83 first -- they are
+         physics-independent and runnable now -- then the EVAL-67 -> EVAL-68 ->
+         EVAL-69 disjoint-forward ladder);
 4. if requested with --execute, execute any arbiter that is DUE;
 5. record the verified facts in the readiness JSON.
 
@@ -65,6 +65,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval81_phaseb_gate.py",
     "tests/test_eval82_surface_skew_butterfly_monetization.py",
     "tests/test_eval82_phaseb_gate.py",
+    "tests/test_eval83_cross_asset_surface_spillover_rv_predictiveness.py",
+    "tests/test_eval83_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -73,7 +75,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 329
+EXPECTED_TARGETED_TESTS = 357
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -140,6 +142,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-82",
         "script": ROOT / "scripts" / "eval82_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-83",
+        "script": ROOT / "scripts" / "eval83_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -271,6 +278,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_82_SURFACE_SKEW_BUTTERFLY_MONETIZATION_COMBINED_*",
         "blocked": "EVAL_82_SURFACE_SKEW_BUTTERFLY_MONETIZATION_BLOCKED_*",
         "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-83",
+        "task_id": "INIT-2026-11-17T21:07:14Z-EVAL83-CROSS-ASSET-SURFACE-SPILLOVER-RV-PREDICTIVENESS",
+        "prereg": "EVAL_83_CROSS_ASSET_SURFACE_SPILLOVER_RV_PREDICTIVENESS_PREREGISTRATION_*",
+        "combined": "EVAL_83_CROSS_ASSET_SURFACE_SPILLOVER_RV_PREDICTIVENESS_COMBINED_*",
+        "blocked": "EVAL_83_CROSS_ASSET_SURFACE_SPILLOVER_RV_PREDICTIVENESS_BLOCKED_*",
+        "expected_exit": 1,
     },
     {
         "name": "EVAL-67",
@@ -618,6 +633,8 @@ def update_readiness(
         f"exit={gates.get('EVAL-81', {}).get('exit_code')}; "
         f"EVAL-82={(gates.get('EVAL-82', {}).get('payload') or {}).get('phase')} "
         f"exit={gates.get('EVAL-82', {}).get('exit_code')}; "
+        f"EVAL-83={(gates.get('EVAL-83', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-83', {}).get('exit_code')}; "
         f"EVAL-67={p67.get('phase')} exit={g67.get('exit_code')} "
         f"overlap_seconds={d67.get('overlap_seconds')} disjoint={d67.get('disjoint')}; "
         f"EVAL-68={p68.get('phase')} exit={g68.get('exit_code')} "
@@ -664,6 +681,7 @@ def update_readiness(
                 "eval80": _compact_gate(gates.get("EVAL-80", {})),
                 "eval81": _compact_gate(gates.get("EVAL-81", {})),
                 "eval82": _compact_gate(gates.get("EVAL-82", {})),
+                "eval83": _compact_gate(gates.get("EVAL-83", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),
