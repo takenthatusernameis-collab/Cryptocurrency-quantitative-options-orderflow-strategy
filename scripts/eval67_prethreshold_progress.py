@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Deterministic pre-threshold progress driver for the EVAL-67/68/69 ladder
-plus the physics-independent EVAL-70..79 campaigns.
+plus the physics-independent EVAL-70..80 campaigns.
 
 This is the single heavy-work entrypoint for sessions that run before the
 2026-11-20 disjointness threshold. It removes the repeated manual loop that
@@ -8,7 +8,7 @@ previously let sessions do timestamp-only carries:
 
 1. bootstrap and verify the environment;
 2. run the full targeted + controller/campaign/diagnostics test suites;
-    3. run all campaign arbiters in order (EVAL-70..79 first -- they are
+    3. run all campaign arbiters in order (EVAL-70..80 first -- they are
         physics-independent and runnable now -- then the EVAL-67 -> EVAL-68 ->
         EVAL-69 disjoint-forward ladder);
 4. if requested with --execute, execute any arbiter that is DUE;
@@ -59,6 +59,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval78_oflow_x_surface_rv_predictiveness.py",
     "tests/test_eval79_oflow_x_cross_sectional_basis_rv_predictiveness.py",
     "tests/test_eval79_phaseb_gate.py",
+    "tests/test_eval80_cross_sectional_relative_value_straddle_monetization.py",
+    "tests/test_eval80_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -67,7 +69,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 265
+EXPECTED_TARGETED_TESTS = 286
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -119,6 +121,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-79",
         "script": ROOT / "scripts" / "eval79_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-80",
+        "script": ROOT / "scripts" / "eval80_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -225,6 +232,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_79_OFLOW_X_CROSS_SECTIONAL_BASIS_RV_PREDICTIVENESS_PREREGISTRATION_*",
         "combined": "EVAL_79_OFLOW_X_CROSS_SECTIONAL_BASIS_RV_PREDICTIVENESS_COMBINED_*",
         "blocked": "EVAL_79_OFLOW_X_CROSS_SECTIONAL_BASIS_RV_PREDICTIVENESS_BLOCKED_*",
+        "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-80",
+        "task_id": "INIT-2026-11-17T13:00:00Z-EVAL80-CROSS-SECTIONAL-RV-STRADDLE-MONETIZATION",
+        "prereg": "EVAL_80_CROSS_SECTIONAL_RELATIVE_VALUE_STRADDLE_MONETIZATION_PREREGISTRATION_*",
+        "combined": "EVAL_80_CROSS_SECTIONAL_RELATIVE_VALUE_STRADDLE_MONETIZATION_COMBINED_*",
+        "blocked": "EVAL_80_CROSS_SECTIONAL_RELATIVE_VALUE_STRADDLE_MONETIZATION_BLOCKED_*",
         "expected_exit": 1,
     },
     {
@@ -567,6 +582,8 @@ def update_readiness(
         f"exit={gates.get('EVAL-78', {}).get('exit_code')}; "
         f"EVAL-79={(gates.get('EVAL-79', {}).get('payload') or {}).get('phase')} "
         f"exit={gates.get('EVAL-79', {}).get('exit_code')}; "
+        f"EVAL-80={(gates.get('EVAL-80', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-80', {}).get('exit_code')}; "
         f"EVAL-67={p67.get('phase')} exit={g67.get('exit_code')} "
         f"overlap_seconds={d67.get('overlap_seconds')} disjoint={d67.get('disjoint')}; "
         f"EVAL-68={p68.get('phase')} exit={g68.get('exit_code')} "
@@ -610,6 +627,7 @@ def update_readiness(
                 "eval77": _compact_gate(gates.get("EVAL-77", {})),
                 "eval78": _compact_gate(gates.get("EVAL-78", {})),
                 "eval79": _compact_gate(gates.get("EVAL-79", {})),
+                "eval80": _compact_gate(gates.get("EVAL-80", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),
