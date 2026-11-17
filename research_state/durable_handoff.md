@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T02:22:04Z — THRESHOLD-TRIGGERED; pre-threshold heavy work is green; do not launch another pre-threshold wait session):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T02:40:00Z — THRESHOLD-TRIGGERED; pre-threshold heavy work is green; EVAL-70 sealed this session; do not launch another pre-threshold wait session):**
 >
 > **NEXT-SESSION TRIGGER:** start only at/after **2026-11-20T00:00:00Z**, or immediately when any phase-B arbiter reports `DUE` (exit 20) or `FAILED` (exit 1). The external `*/5` cron owns routine pre-threshold polling; do **not** create another agent session merely to rerun unchanged tests or bump this timestamp.
 >
@@ -150,4 +150,4 @@ python3 scripts/eval69_phaseb_gate.py --execute
 
 ## SEALED STATE (immutable; append only)
 
-EVAL-02..62, 64..66 sealed. EVAL-63 never sealed. EVAL-46..60, 62, 64, 65: `NO-GO CONFIRMED (PASS)`; EVAL-61: `NO-GO` (artifact); EVAL-66: `BLOCKED`. Superseded legacy phase campaigns (through Phase 110) are sealed and **non-actionable**. On-charter closed; **EVAL-67** (BTC-only predictiveness) is the immediate authorized heavy falsification, gated by `scripts/eval67_phaseb_gate.py`; **EVAL-68** (pooled BTC+ETH predictiveness, power-adequate) is the second campaign, gated by `scripts/eval68_phaseb_gate.py` and ordered to run only after EVAL-67 seals; **EVAL-69** (pooled BTC+ETH traded-form net-of-cost monetization, the repo-priority capstone) is the third campaign, gated by `scripts/eval69_phaseb_gate.py`, reuses EVAL-68's capture, and runs only after EVAL-68 seals. The pre-threshold driver is `scripts/eval67_prethreshold_progress.py`.
+EVAL-02..62, 64..66, 70 sealed. EVAL-63 never sealed. EVAL-46..60, 62, 64, 65: `NO-GO CONFIRMED (PASS)`; EVAL-61: `NO-GO` (artifact); EVAL-66: `BLOCKED`; EVAL-70: `SEALED` (this session). On-charter closed; **EVAL-67** (BTC-only predictiveness) is the immediate authorized heavy falsification, gated by `scripts/eval67_phaseb_gate.py`; **EVAL-68** (pooled BTC+ETH predictiveness, power-adequate) is the second campaign, gated by `scripts/eval68_phaseb_gate.py` and ordered to run only after EVAL-67 seals; **EVAL-69** (pooled BTC+ETH traded-form net-of-cost monetization, the repo-priority capstone) is the third campaign, gated by `scripts/eval69_phaseb_gate.py`, reuses EVAL-68's capture, and runs only after EVAL-68 seals. The pre-threshold driver is `scripts/eval67_prethreshold_progress.py`.
