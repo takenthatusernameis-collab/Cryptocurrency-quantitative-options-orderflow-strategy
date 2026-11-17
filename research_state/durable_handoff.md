@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T01:12:22Z — RUN THE HEAVY-WORK DRIVER FIRST; EVAL-67 `NOT_DUE` exit 10, EVAL-68 `WAIT_EVAL67` exit 10, EVAL-69 `WAIT_EVAL68` exit 10; timestamp-only carry is forbidden):**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T01:20:41Z — RUN THE HEAVY-WORK DRIVER FIRST; EVAL-67 `NOT_DUE` exit 10, EVAL-68 `WAIT_EVAL67` exit 10, EVAL-69 `WAIT_EVAL68` exit 10; timestamp-only carry is forbidden):**
 >
 > **FIRST ACTION, non-negotiable:** run
 >
@@ -38,12 +38,12 @@ The orchestrator does all of this automatically. Run it with `--execute` every s
 
 If it reports `exit_code: 20`, a campaign is `DUE`: re-run with `--execute`. If it reports `exit_code: 1`, fix the reported failed step and re-run. Do not replace this loop with a timestamp-only handoff bump.
 
-## STATUS (verified 2026-11-17T01:12:22Z)
+## STATUS (verified 2026-11-17T01:20:41Z)
 
-- **EVAL-67:** `NOT_DUE` (gate exit 10) at `2026-11-17T01:12:19Z`; `overlap_seconds = 253436.131` (strictly decreasing; baseline 273337.532), `disjoint = false`. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate exit 1 (expected).
-- **EVAL-68:** `WAIT_EVAL67` (gate exit 10); `eval67_sealed = false`; `overlap_seconds = 253435.885`. Prereg `EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.{json,md}` present; `data/raw/eval68/` absent; seal gate exit 1 (expected). Acquires only after EVAL-67 seals.
-- **EVAL-69:** `WAIT_EVAL68` (gate exit 10); `eval68_sealed = false`; `overlap_seconds = 253435.364`. Runner + gate + 37 tests green; prereg `EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.{json,md}` present; acquires nothing; seal gate exit 1 (expected).
-- **Tests:** **134 passed** targeted (124 prior + 10 new orchestrator tests) in 189.26 s; **27 passed** controller/campaign/diagnostics in 0.95 s; `verify_env.sh --check` → `OK`. Both suites were re-run from scratch this session.
+- **EVAL-67:** `NOT_DUE` (gate exit 10) at `2026-11-17T01:20:41Z`; `overlap_seconds = 252937.031` (strictly decreasing; baseline 273337.532), `disjoint = false`. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate exit 1 (expected).
+- **EVAL-68:** `WAIT_EVAL67` (gate exit 10); `eval67_sealed = false`; `overlap_seconds = 252936.779`. Prereg `EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.{json,md}` present; `data/raw/eval68/` absent; seal gate exit 1 (expected). Acquires only after EVAL-67 seals.
+- **EVAL-69:** `WAIT_EVAL68` (gate exit 10); `eval68_sealed = false`; `overlap_seconds = 252936.263`. Runner + gate + 37 tests green; prereg `EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.{json,md}` present; acquires nothing; seal gate exit 1 (expected).
+- **Tests:** **134 passed** targeted in 188.57 s; **27 passed** controller/campaign/diagnostics in 1.09 s; `verify_env.sh --check` → `OK`. Both suites re-run from scratch this session.
 - **Data-availability constraint (hard):** earliest disjoint floor-compliant forward capture end = **2026-11-19T18:08:16Z** (prereg threshold **2026-11-20T00:00:00Z**). Past windows are non-viable because options retention is < 6 days and option trades only ~24 h.
 - **Power expectation (recorded pre-run):** EVAL-67 is underpowered for the EVAL-65 BTC effect (IC 0.088, n 596): one-sided ≈0.70, conjunction ≈0.53, ~790 pairs for 80%. EVAL-68 pooled at the EVAL-64 floor is power-adequate (n ≈1856 ≫ 790). EVAL-69 inherits the same pooled adequacy.
 - **Durable mechanism:** git-committed handoff + git-committed readiness JSON + external `*/5` cron + the three phase-B gates + `scripts/eval67_prethreshold_progress.py`. No bridges.
@@ -140,6 +140,7 @@ python3 scripts/eval69_phaseb_gate.py --execute
 - 2026-11-16T19:56:20Z … 22:01:46Z: pre-threshold gate carries (overlap strictly decreasing; tests green).
 - 2026-11-16T22:56:20Z: Built EVAL-69 end-to-end: pooled traded-form runner + gate + 37 tests + prereg; removed the “no out-of-sample traded-form monetization campaign” bottleneck.
 - **2026-11-17T01:12:22Z (this session — new verified heavy work):** Added `scripts/eval67_prethreshold_progress.py` + `tests/test_eval67_prethreshold_progress.py` (10 tests) to make the pre-threshold loop deterministic and unskippable: env check, **134 targeted tests**, **27 diagnostics**, all three arbiters in order, automatic `--execute` of DUE campaigns, seal-gate checks, and readiness refresh. Ran `python3 scripts/eval67_prethreshold_progress.py --execute` from scratch: **exit 0**, `overall_ok=true`, **134/134 targeted** in 189.26 s, **27/27 diagnostics** in 0.95 s, `verify_env.sh --check` → `OK`. All three arbiters re-ran: EVAL-67 `NOT_DUE` exit 10 (`overlap_seconds 253436.131`, strictly decreasing from 253702.095; baseline 273337.532; disjoint false); EVAL-68 `WAIT_EVAL67` exit 10 (`eval67_sealed=false`, `overlap_seconds 253435.885`); EVAL-69 `WAIT_EVAL68` exit 10 (`eval68_sealed=false`, `overlap_seconds 253435.364`). Seal gates: EVAL-66 exit 0; EVAL-67/68/69 exit 1 (expected). Refreshed `research_state/EVAL_67_PREWINDOW_READINESS.json` in place with the new evidence. Removed the manual timestamp-only-carry bottleneck; no sealed artifacts or `src/` touched; no synthetic data; paper-only.
+- **2026-11-17T01:20:41Z (this session — re-verified heavy work):** Re-ran the full pre-threshold driver `python3 scripts/eval67_prethreshold_progress.py --execute` from scratch: **exit 0**, `overall_ok=true`, `env_check=true`, **134/134 targeted** in 188.57 s, **27/27 diagnostics** in 1.09 s, `verify_env.sh --check` → `OK`. All three arbiters re-ran: EVAL-67 `NOT_DUE` exit 10 (`overlap_seconds 252937.031`, strictly decreasing from 253436.131; baseline 273337.532; disjoint false); EVAL-68 `WAIT_EVAL67` exit 10 (`eval67_sealed=false`, `overlap_seconds 252936.779`); EVAL-69 `WAIT_EVAL68` exit 10 (`eval68_sealed=false`, `overlap_seconds 252936.263`). Seal gates: EVAL-66 exit 0; EVAL-67/68/69 exit 1 (expected, all `ok=true`). Refreshed `research_state/EVAL_67_PREWINDOW_READINESS.json` in place with the new evidence. No sealed artifacts or `src/` touched; no synthetic data; paper-only. Only working-tree change: `research_state/EVAL_67_PREWINDOW_READINESS.json` (15 insertions, 15 deletions — purely the verified metrics + timestamp refresh).
 
 ## SEALED STATE (immutable; append only)
 
