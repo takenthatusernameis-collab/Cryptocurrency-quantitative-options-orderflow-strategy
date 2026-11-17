@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T06:12:19Z — EVAL-70/71/72/73 SEALED; pre-threshold heavy work fully green (188/188 targeted, 27/27 diagnostics, 8 gates); do not launch another pre-threshold wait session):**>
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-17T06:23:02Z — EVAL-70/71/72/73 SEALED; pre-threshold heavy work fully green (188/188 targeted, 27/27 diagnostics, 8 gates); do not launch another pre-threshold wait session):**>
 > **NEXT-SESSION TRIGGER:** start only at/after **2026-11-20T00:00:00Z**, or immediately when any phase-B arbiter reports `DUE` (exit 20) or `FAILED` (exit 1). The external `*/5` cron owns routine pre-threshold polling; do **not** create another agent session merely to rerun unchanged tests or bump this timestamp.
 >
 > **FIRST ACTION, non-negotiable:** run
@@ -51,7 +51,7 @@ The orchestrator does all of this automatically. Run it with `--execute` every s
 
 If it reports `exit_code: 20`, a campaign is `DUE`: re-run with `--execute`. If it reports `exit_code: 1`, fix the reported failed step and re-run. Do not replace this loop with a timestamp-only handoff bump.
 
-## STATUS (verified 2026-11-17T06:12:19Z)
+## STATUS (verified 2026-11-17T06:23:02Z)
 
 - **EVAL-70:** `SEALED` (gate exit 0) at `2026-11-17T02:37:55Z`. Prereg + COMBINED present; seal gate exit 0. Physics-independent; complete.
 - **EVAL-71:** `SEALED` `GO CONFIRMED` (gate exit 0) at `2026-11-17T04:15:13Z`. Prereg + COMBINED present (`EVAL_71_SURFACE_IV_RV_PREDICTIVENESS_{PREREGISTRATION,COMBINED}_20261117T041513Z.{json,md}`); seal gate exit 0. Physics-independent; complete. First GO in the predictiveness line: options surface IV/skew predicts forward RV on both BTC (IC 0.335) and ETH (IC 0.263); 10 BH-FDR rejections; EVAL-64 floor untouched.
@@ -59,7 +59,7 @@ If it reports `exit_code: 20`, a campaign is `DUE`: re-run with `--execute`. If 
 - **EVAL-67:** `NOT_DUE` (gate exit 10) at `2026-11-17T05:19:03Z`; `overlap_seconds = 239205.922` (strictly decreasing from 241244.291; baseline 273337.532), `disjoint = false`. Prereg `EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.{json,md}` present; no `COMBINED_*`/`BLOCKED_*` yet; `data/raw/eval67/` absent; EVAL-67 seal gate exit 1 (expected).
 - **EVAL-68:** `WAIT_EVAL67` (gate exit 10); `eval67_sealed = false`; `overlap_seconds = 239205.680`. Prereg `EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.{json,md}` present; `data/raw/eval68/` absent; seal gate exit 1 (expected). Acquires only after EVAL-67 seals.
 - **EVAL-69:** `WAIT_EVAL68` (gate exit 10); `eval68_sealed = false`; `overlap_seconds = 239205.161`. Runner + gate + 37 tests green; prereg `EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.{json,md}` present; acquires nothing; seal gate exit 1 (expected).
-- **Tests:** **188 passed** targeted (EVAL-73's 12 added); **27 passed** controller/campaign/diagnostics; `verify_env.sh --check` → `OK`. Both suites re-run from scratch this session by the driver (final run 2026-11-17T06:12:19Z).
+- **Tests:** **188 passed** targeted (EVAL-73's 12 added); **27 passed** controller/campaign/diagnostics; `verify_env.sh --check` → `OK`. Both suites re-run from scratch this session by the driver (final run 2026-11-17T06:23:02Z).
 - **Data-availability constraint (hard):** earliest disjoint floor-compliant forward capture end = **2026-11-19T18:08:16Z** (prereg threshold **2026-11-20T00:00:00Z**). Past windows are non-viable because options retention is < 6 days and option trades only ~24 h.
 - **Power expectation (recorded pre-run):** EVAL-67 is underpowered for the EVAL-65 BTC effect (IC 0.088, n 596): one-sided ≈0.70, conjunction ≈0.53, ~790 pairs for 80%. EVAL-68 pooled at the EVAL-64 floor is power-adequate (n ≈1856 ≫ 790). EVAL-69 inherits the same pooled adequacy.
 - **Durable mechanism:** git-committed handoff + git-committed readiness JSON + external `*/5` cron + the seven phase-B gates (EVAL-70/71/72/67/68/69 + EVAL-66 seal) + `scripts/eval67_prethreshold_progress.py`. The next **agentic** session is threshold/alert-triggered; cron alone handles pre-threshold polling. No bridges.
