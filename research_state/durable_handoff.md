@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-18T11:19:01Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow + underlying order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-18T11:30:05Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow + underlying order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **VERIFIED STATE (this session):** EVAL-96 is **SEALED** and wired (idempotent, seal-gate exit 0). Last fully-green driver refresh in `research_state/EVAL_67_PREWINDOW_READINESS.json` is **2026-11-18T10:40:37Z** (exit 0, env OK, **675/675 targeted + 27/27 diagnostics = 702**, **29** gates, **30** seal-gate specs ok, EVAL-67 `NOT_DUE` overlap **132946.927s**, EVAL-68 `WAIT_EVAL67`, EVAL-69 `WAIT_EVAL68`). A driver refresh incorporating EVAL-96 wiring (**693/693 targeted + 27/27 diagnostics = 720**, **30** gates, **31** seal-gate specs) may not have completed by handoff time; **first action is to run the driver and require exit 0 + refreshed `overall_ok: true`** (idempotent; EVAL-96 is already `SEALED`).
 >
