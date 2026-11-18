@@ -79,6 +79,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval88_phaseb_gate.py",
     "tests/test_eval89_cross_sectional_skew_basis_relative_vrp_spread.py",
     "tests/test_eval89_phaseb_gate.py",
+    "tests/test_eval90_cross_sectional_atm_iv_basis_relative_vol_of_vol_spread.py",
+    "tests/test_eval90_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -87,7 +89,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 506
+EXPECTED_TARGETED_TESTS = 534
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -189,6 +191,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-89",
         "script": ROOT / "scripts" / "eval89_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-90",
+        "script": ROOT / "scripts" / "eval90_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -376,6 +383,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_89_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_VRP_SPREAD_COMBINED_*",
         "blocked": "EVAL_89_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_VRP_SPREAD_BLOCKED_*",
         "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-90",
+        "task_id": "INIT-2026-11-18T04:30:00Z-EVAL90-CROSS-SECTIONAL-ATM-IV-BASIS-RELATIVE-VOL-OF-VOL-SPREAD",
+        "prereg": "EVAL_90_CROSS_SECTIONAL_ATM_IV_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_90_CROSS_SECTIONAL_ATM_IV_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_COMBINED_*",
+        "blocked": "EVAL_90_CROSS_SECTIONAL_ATM_IV_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
     },
     {
         "name": "EVAL-67",
@@ -774,6 +789,7 @@ def update_readiness(
                 "eval83": _compact_gate(gates.get("EVAL-83", {})),
                 "eval88": _compact_gate(gates.get("EVAL-88", {})),
                 "eval89": _compact_gate(gates.get("EVAL-89", {})),
+                "eval90": _compact_gate(gates.get("EVAL-90", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),
