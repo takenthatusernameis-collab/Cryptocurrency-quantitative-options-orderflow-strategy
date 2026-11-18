@@ -117,6 +117,10 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval107_phaseb_gate.py",
     "tests/test_eval108_cross_sectional_term_slope_basis_relative_vol_of_vol_spread.py",
     "tests/test_eval108_phaseb_gate.py",
+    "tests/test_eval109_single_asset_atm_iv_forward_return_skewness.py",
+    "tests/test_eval109_phaseb_gate.py",
+    "tests/test_eval110_cross_sectional_skew_basis_relative_tail_asymmetry_spread.py",
+    "tests/test_eval110_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -125,7 +129,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 905
+EXPECTED_TARGETED_TESTS = 940
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -322,6 +326,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-108",
         "script": ROOT / "scripts" / "eval108_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-109",
+        "script": ROOT / "scripts" / "eval109_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-110",
+        "script": ROOT / "scripts" / "eval110_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -660,7 +674,23 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_108_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_PREREGISTRATION_*",
         "combined": "EVAL_108_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_COMBINED_*",
         "blocked": "EVAL_108_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_BLOCKED_*",
-        "expected_exit": 1,
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-109",
+        "task_id": "INIT-2026-11-18T23:00:00Z-EVAL109-SINGLE-ASSET-ATM-IV-FORWARD-RETURN-SKEWNESS",
+        "prereg": "EVAL_109_SINGLE_ASSET_ATM_IV_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
+        "combined": "EVAL_109_SINGLE_ASSET_ATM_IV_FORWARD_RETURN_SKEWNESS_COMBINED_*",
+        "blocked": "EVAL_109_SINGLE_ASSET_ATM_IV_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-110",
+        "task_id": "INIT-2026-11-18T23:00:00Z-EVAL110-CROSS-SECTIONAL-SKEW-BASIS-RELATIVE-TAIL-ASYMMETRY-SPREAD",
+        "prereg": "EVAL_110_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_110_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_COMBINED_*",
+        "blocked": "EVAL_110_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
     },
     {
         "name": "EVAL-67",
@@ -1042,6 +1072,10 @@ def update_readiness(
         f"exit={gates.get('EVAL-107', {}).get('exit_code')}; "
         f"EVAL-108={(gates.get('EVAL-108', {}).get('payload') or {}).get('phase')} "
         f"exit={gates.get('EVAL-108', {}).get('exit_code')}; "
+        f"EVAL-109={(gates.get('EVAL-109', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-109', {}).get('exit_code')}; "
+        f"EVAL-110={(gates.get('EVAL-110', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-110', {}).get('exit_code')}; "
         f"EVAL-67={p67.get('phase')} exit={g67.get('exit_code')} "
         f"overlap_seconds={d67.get('overlap_seconds')} disjoint={d67.get('disjoint')}; "
         f"EVAL-68={p68.get('phase')} exit={g68.get('exit_code')} "
@@ -1110,6 +1144,8 @@ def update_readiness(
                 "eval106": _compact_gate(gates.get("EVAL-106", {})),
                 "eval107": _compact_gate(gates.get("EVAL-107", {})),
                 "eval108": _compact_gate(gates.get("EVAL-108", {})),
+                "eval109": _compact_gate(gates.get("EVAL-109", {})),
+                "eval110": _compact_gate(gates.get("EVAL-110", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),

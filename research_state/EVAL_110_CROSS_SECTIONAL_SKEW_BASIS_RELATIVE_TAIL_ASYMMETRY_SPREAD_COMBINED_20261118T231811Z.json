@@ -1,0 +1,283 @@
+{
+  "report_id": "EVAL_110_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_COMBINED",
+  "generated_at": "2026-11-18T23:18:11Z",
+  "task": "EVAL110-CROSS-SECTIONAL-SKEW-BASIS-RELATIVE-TAIL-ASYMMETRY-SPREAD",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "wrapper-free information-content test: Spearman rank IC between the causal cross-sectional options skew basis (ETH - BTC near-ATM put-call skew) and the subsequent BTC-minus-ETH forward relative tail-asymmetry spread on the real on-disk captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_option_trades_per_underlying": 1000,
+    "min_near_atm_option_trades_per_underlying": 400,
+    "min_perp_candles_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 82000.0,
+    "min_aligned_common_bars": 200,
+    "min_usable_pairs_per_config": 120,
+    "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s) PLUS the sealed EVAL-77 cross-sectional alignment floor (>= min_aligned_common_bars=200 aligned common bar-ends on the coarsest grid), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  },
+  "campaign_floor": {
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "per_underlying": {
+      "BTC": {
+        "underlying": "BTC",
+        "n_option_trades": 2748,
+        "n_near_atm_option_trades": 2331,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "checks": {
+          "option_trades_ok": true,
+          "near_atm_ok": true,
+          "candles_ok": true,
+          "span_ok": true
+        },
+        "ok": true
+      },
+      "ETH": {
+        "underlying": "ETH",
+        "n_option_trades": 3547,
+        "n_near_atm_option_trades": 1509,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "checks": {
+          "option_trades_ok": true,
+          "near_atm_ok": true,
+          "candles_ok": true,
+          "span_ok": true
+        },
+        "ok": true
+      }
+    },
+    "underlyings_ok": true,
+    "aligned_common_bars_by_grid": {
+      "60.0": 1370,
+      "300.0": 274
+    },
+    "aligned_common_bars_binding": 274,
+    "aligned_ok": true,
+    "checks": {
+      "underlyings_ok": true,
+      "aligned_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-110",
+    "title": "Cross-sectional options implied-vol SKEW basis (BTC-vs-ETH relative near-ATM put-call skew) -> subsequent relative return-tail-asymmetry spread (BTC-minus-ETH forward tail asymmetry): wrapper-free Spearman rank information coefficient (predictiveness) falsification on the real on-disk three-way captures",
+    "extends": "EVAL-77 (same cross-sectional BTC-vs-ETH alignment and ``_relative_signal_series``, reused verbatim) and EVAL-85 (same forward return-tail-asymmetry target, reused verbatim) but a DISTINCT cell: the *cross-sectional skew basis* (not the single-underlying skew of EVAL-85, not the skew basis -> relative VRP of EVAL-89, not the skew basis -> relative vol-of-vol of EVAL-91, not the term basis -> relative tail asymmetry of EVAL-105/106) with the forward relative *tail-asymmetry* spread; no new acquisition",
+    "supersedes": "nothing \u2014 this is the skew-basis partner to EVAL-85 (own-asset skew -> own tail asymmetry), EVAL-89/91 (skew basis -> relative VRP / vol-of-vol) and EVAL-105/106 (term basis -> relative tail asymmetry). It makes a predictiveness claim only, no traded-form / monetization claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "cross_section": {
+      "baseline": "BTC",
+      "relative": "ETH",
+      "relative_signal": "rel_z_k = expanding_z( skew[ETH](k) - skew[BTC](k) )",
+      "target": "y_k = tail_asym_BTC(k) - tail_asym_ETH(k) with tail_asym_i(k) = (q95 - median) - (median - q05) over the next H perp log returns strictly after k (relative tail-asymmetry spread)"
+    },
+    "surface_signals": [
+      "skew"
+    ],
+    "target": "forward_relative_tail_asymmetry_spread",
+    "signal_window_seconds": 900.0,
+    "atm_band": 0.05,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal per-bar near-ATM put-call skew (EVAL-71 ``build_surface_bars``: skew = mean(put iv) - mean(call iv) over near-ATM trades); the relative series (ETH - BTC) is forward-filled then expanding-zscored end-of-bar k on the EVAL-77 common aligned bar grid (reused e77._relative_signal_series / e61.expanding_zscore).",
+    "target_detail": "forward relative tail-asymmetry spread: per underlying tail_asym = (q95 - median) - (median - q05) over the next H perp log returns (strictly after the decision at bar k, EVAL-85 ``_forward_return_tail_asym`` verbatim), then BTC minus ETH on the common aligned bar grid",
+    "statistic": "Spearman rank correlation IC = rho(rel_z_k, y_k) over the common aligned bar-ends (H1: IC > 0, relatively positive ETH-minus-BTC skew basis predicts BTC subsequently carries a relatively richer forward tail-asymmetry spread)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle the relative tail-asymmetry spread",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH floors satisfied, at least one config (skew basis x bar grid x horizon) has Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, at least min_usable_pairs_per_config usable pairs, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real on-disk three-way captures (option trades with real iv/strike/expiry + perp candles for BTC and ETH); no new acquisition, no network; composes the EVAL-71 surface floor for both underlyings with the EVAL-77 cross-sectional alignment floor",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_option_trades_per_underlying": 1000,
+      "min_near_atm_option_trades_per_underlying": 400,
+      "min_perp_candles_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 82000.0,
+      "min_aligned_common_bars": 200,
+      "min_usable_pairs_per_config": 120,
+      "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s) PLUS the sealed EVAL-77 cross-sectional alignment floor (>= min_aligned_common_bars=200 aligned common bar-ends on the coarsest grid), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py",
+      "scripts/eval85_surface_skew_forward_return_tail.py",
+      "scripts/eval110_cross_sectional_skew_basis_relative_tail_asymmetry_spread.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval110_cross_sectional_skew_basis_relative_tail_asymmetry_spread.py tests/test_eval110_cross_sectional_skew_basis_relative_tail_asymmetry_spread.py",
+      "python3 -m pytest -q tests/test_eval110_cross_sectional_skew_basis_relative_tail_asymmetry_spread.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval110_cross_sectional_skew_basis_relative_tail_asymmetry_spread.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval110_cross_sectional_skew_basis_relative_tail_asymmetry_spread.py --capture-dir data/raw/eval61 --seal --task-label EVAL110-CROSS-SECTIONAL-SKEW-BASIS-RELATIVE-TAIL-ASYMMETRY-SPREAD"
+    ]
+  },
+  "per_config": [
+    {
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "target": "forward_relative_tail_asymmetry_spread",
+      "n_common_bars": 1370,
+      "n_pairs": 1364,
+      "spearman_ic": 0.0535400269277804,
+      "permutation_p": 0.026973026973026972,
+      "bootstrap_ci": [
+        0.05150404350221231,
+        -0.017000753331495273,
+        0.11540307772712517
+      ],
+      "nonzero_signal_pairs": 1360,
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "target": "forward_relative_tail_asymmetry_spread",
+      "n_common_bars": 1370,
+      "n_pairs": 1346,
+      "spearman_ic": -0.04541013545862918,
+      "permutation_p": 0.951048951048951,
+      "bootstrap_ci": [
+        -0.04362271069275845,
+        -0.12009444222339222,
+        0.027777783621432933
+      ],
+      "nonzero_signal_pairs": 1342,
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "target": "forward_relative_tail_asymmetry_spread",
+      "n_common_bars": 1370,
+      "n_pairs": 1298,
+      "spearman_ic": -0.04858937776235035,
+      "permutation_p": 0.9600399600399601,
+      "bootstrap_ci": [
+        -0.04772779227682922,
+        -0.11912765501904796,
+        0.028401472206611118
+      ],
+      "nonzero_signal_pairs": 1294,
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "target": "forward_relative_tail_asymmetry_spread",
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": -0.016671051433995422,
+      "permutation_p": 0.6233766233766234,
+      "bootstrap_ci": [
+        -0.02003305591611521,
+        -0.16899221496178077,
+        0.12044617221864222
+      ],
+      "nonzero_signal_pairs": 264,
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "target": "forward_relative_tail_asymmetry_spread",
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": -0.03687045266706298,
+      "permutation_p": 0.7102897102897103,
+      "bootstrap_ci": [
+        -0.029508205566827202,
+        -0.20680844166242898,
+        0.14667616074136455
+      ],
+      "nonzero_signal_pairs": 246,
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "target": "forward_relative_tail_asymmetry_spread",
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.13504392919435065,
+      "permutation_p": 0.028971028971028972,
+      "bootstrap_ci": [
+        0.1417205368108248,
+        -0.040538376085673865,
+        0.3134843897411658
+      ],
+      "nonzero_signal_pairs": 198,
+      "pass": false,
+      "reason": "gate_fail"
+    }
+  ],
+  "summary": {
+    "n_configs": 6,
+    "n_pass": 0,
+    "pass_configs": [],
+    "best_ic": 0.13504392919435065,
+    "best_config": "skew::bar300.0::h72"
+  },
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [
+        "skew::bar300.0::h72"
+      ],
+      "thresholds": {
+        "skew::bar60.0::h6": 0.016666666666666666,
+        "skew::bar300.0::h72": 0.03333333333333333,
+        "skew::bar300.0::h6": 0.05000000000000001,
+        "skew::bar300.0::h24": 0.06666666666666667,
+        "skew::bar60.0::h24": 0.08333333333333333,
+        "skew::bar60.0::h72": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 6,
+      "method": "Benjamini-Hochberg"
+    },
+    "any_config_pass": false,
+    "campaign_state": "EVAL_110_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD"
+  },
+  "errors": []
+}
