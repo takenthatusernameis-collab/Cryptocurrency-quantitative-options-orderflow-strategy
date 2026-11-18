@@ -111,6 +111,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval104_phaseb_gate.py",
     "tests/test_eval105_cross_sectional_term_ratio_basis_relative_tail_asymmetry_spread.py",
     "tests/test_eval105_phaseb_gate.py",
+    "tests/test_eval106_cross_sectional_term_slope_basis_relative_tail_asymmetry_spread.py",
+    "tests/test_eval106_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -119,7 +121,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 854
+EXPECTED_TARGETED_TESTS = 871
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -301,6 +303,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-105",
         "script": ROOT / "scripts" / "eval105_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-106",
+        "script": ROOT / "scripts" / "eval106_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -615,6 +622,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_105_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_PREREGISTRATION_*",
         "combined": "EVAL_105_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_COMBINED_*",
         "blocked": "EVAL_105_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-106",
+        "task_id": "INIT-2026-11-18T20:36:00Z-EVAL106-CROSS-SECTIONAL-TERM-SLOPE-BASIS-RELATIVE-TAIL-ASYMMETRY-SPREAD",
+        "prereg": "EVAL_106_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_106_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_COMBINED_*",
+        "blocked": "EVAL_106_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_BLOCKED_*",
         "expected_exit": 0,
     },
     {
