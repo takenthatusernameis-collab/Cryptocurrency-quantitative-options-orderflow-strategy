@@ -113,6 +113,10 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval105_phaseb_gate.py",
     "tests/test_eval106_cross_sectional_term_slope_basis_relative_tail_asymmetry_spread.py",
     "tests/test_eval106_phaseb_gate.py",
+    "tests/test_eval107_cross_sectional_term_ratio_basis_relative_vol_of_vol_spread.py",
+    "tests/test_eval107_phaseb_gate.py",
+    "tests/test_eval108_cross_sectional_term_slope_basis_relative_vol_of_vol_spread.py",
+    "tests/test_eval108_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -121,7 +125,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 871
+EXPECTED_TARGETED_TESTS = 905
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -308,6 +312,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-106",
         "script": ROOT / "scripts" / "eval106_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-107",
+        "script": ROOT / "scripts" / "eval107_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-108",
+        "script": ROOT / "scripts" / "eval108_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -631,6 +645,22 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_106_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_COMBINED_*",
         "blocked": "EVAL_106_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_BLOCKED_*",
         "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-107",
+        "task_id": "INIT-2026-11-18T20:36:00Z-EVAL107-CROSS-SECTIONAL-TERM-RATIO-BASIS-RELATIVE-VOL-OF-VOL-SPREAD",
+        "prereg": "EVAL_107_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_107_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_COMBINED_*",
+        "blocked": "EVAL_107_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-108",
+        "task_id": "INIT-2026-11-18T20:36:00Z-EVAL108-CROSS-SECTIONAL-TERM-SLOPE-BASIS-RELATIVE-VOL-OF-VOL-SPREAD",
+        "prereg": "EVAL_108_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_108_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_COMBINED_*",
+        "blocked": "EVAL_108_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_BLOCKED_*",
+        "expected_exit": 1,
     },
     {
         "name": "EVAL-67",
@@ -1006,6 +1036,12 @@ def update_readiness(
         f"exit={gates.get('EVAL-104', {}).get('exit_code')}; "
         f"EVAL-105={(gates.get('EVAL-105', {}).get('payload') or {}).get('phase')} "
         f"exit={gates.get('EVAL-105', {}).get('exit_code')}; "
+        f"EVAL-106={(gates.get('EVAL-106', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-106', {}).get('exit_code')}; "
+        f"EVAL-107={(gates.get('EVAL-107', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-107', {}).get('exit_code')}; "
+        f"EVAL-108={(gates.get('EVAL-108', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-108', {}).get('exit_code')}; "
         f"EVAL-67={p67.get('phase')} exit={g67.get('exit_code')} "
         f"overlap_seconds={d67.get('overlap_seconds')} disjoint={d67.get('disjoint')}; "
         f"EVAL-68={p68.get('phase')} exit={g68.get('exit_code')} "
@@ -1071,6 +1107,9 @@ def update_readiness(
                 "eval103": _compact_gate(gates.get("EVAL-103", {})),
                 "eval104": _compact_gate(gates.get("EVAL-104", {})),
                 "eval105": _compact_gate(gates.get("EVAL-105", {})),
+                "eval106": _compact_gate(gates.get("EVAL-106", {})),
+                "eval107": _compact_gate(gates.get("EVAL-107", {})),
+                "eval108": _compact_gate(gates.get("EVAL-108", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),
