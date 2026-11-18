@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Deterministic pre-threshold progress driver for the EVAL-67/68/69 ladder
-plus the physics-independent EVAL-70..83 campaigns.
+plus the physics-independent EVAL-70..92 campaigns.
 
 This is the single heavy-work entrypoint for sessions that run before the
 2026-11-20 disjointness threshold. It removes the repeated manual loop that
@@ -8,7 +8,7 @@ previously let sessions do timestamp-only carries:
 
 1. bootstrap and verify the environment;
 2. run the full targeted + controller/campaign/diagnostics test suites;
-3. run all campaign arbiters in order (EVAL-70..83 first -- they are
+3. run all campaign arbiters in order (EVAL-70..92 first -- they are
          physics-independent and runnable now -- then the EVAL-67 -> EVAL-68 ->
          EVAL-69 disjoint-forward ladder);
 4. if requested with --execute, execute any arbiter that is DUE;
@@ -83,6 +83,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval90_phaseb_gate.py",
     "tests/test_eval91_cross_sectional_skew_basis_relative_vol_of_vol_spread.py",
     "tests/test_eval91_phaseb_gate.py",
+    "tests/test_eval92_cross_sectional_atm_iv_basis_relative_vrp_spread.py",
+    "tests/test_eval92_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -91,7 +93,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 562
+EXPECTED_TARGETED_TESTS = 593
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -203,6 +205,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-91",
         "script": ROOT / "scripts" / "eval91_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-92",
+        "script": ROOT / "scripts" / "eval92_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -405,6 +412,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_91_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_PREREGISTRATION_*",
         "combined": "EVAL_91_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_COMBINED_*",
         "blocked": "EVAL_91_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_VOL_OF_VOL_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-92",
+        "task_id": "INIT-2026-11-18T08:20:00Z-EVAL92-CROSS-SECTIONAL-ATM-IV-BASIS-RELATIVE-VRP-SPREAD",
+        "prereg": "EVAL_92_CROSS_SECTIONAL_ATM_IV_BASIS_RELATIVE_VRP_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_92_CROSS_SECTIONAL_ATM_IV_BASIS_RELATIVE_VRP_SPREAD_COMBINED_*",
+        "blocked": "EVAL_92_CROSS_SECTIONAL_ATM_IV_BASIS_RELATIVE_VRP_SPREAD_BLOCKED_*",
         "expected_exit": 0,
     },
     {
@@ -806,6 +821,7 @@ def update_readiness(
                 "eval89": _compact_gate(gates.get("EVAL-89", {})),
                 "eval90": _compact_gate(gates.get("EVAL-90", {})),
                 "eval91": _compact_gate(gates.get("EVAL-91", {})),
+                "eval92": _compact_gate(gates.get("EVAL-92", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),
