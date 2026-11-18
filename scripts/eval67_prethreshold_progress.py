@@ -105,6 +105,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval101_phaseb_gate.py",
     "tests/test_eval102_single_asset_term_ratio_forward_signed_return.py",
     "tests/test_eval102_phaseb_gate.py",
+    "tests/test_eval103_single_asset_skew_forward_signed_return.py",
+    "tests/test_eval103_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -113,7 +115,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 801
+EXPECTED_TARGETED_TESTS = 819
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -280,6 +282,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-102",
         "script": ROOT / "scripts" / "eval102_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-103",
+        "script": ROOT / "scripts" / "eval103_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -570,6 +577,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_102_SINGLE_ASSET_TERM_RATIO_FORWARD_SIGNED_RETURN_PREREGISTRATION_*",
         "combined": "EVAL_102_SINGLE_ASSET_TERM_RATIO_FORWARD_SIGNED_RETURN_COMBINED_*",
         "blocked": "EVAL_102_SINGLE_ASSET_TERM_RATIO_FORWARD_SIGNED_RETURN_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-103",
+        "task_id": "INIT-2026-11-18T18:45:00Z-EVAL103-SINGLE-ASSET-SKEW-FORWARD-SIGNED-RETURN",
+        "prereg": "EVAL_103_SINGLE_ASSET_SKEW_FORWARD_SIGNED_RETURN_PREREGISTRATION_*",
+        "combined": "EVAL_103_SINGLE_ASSET_SKEW_FORWARD_SIGNED_RETURN_COMBINED_*",
+        "blocked": "EVAL_103_SINGLE_ASSET_SKEW_FORWARD_SIGNED_RETURN_BLOCKED_*",
         "expected_exit": 0,
     },
     {
