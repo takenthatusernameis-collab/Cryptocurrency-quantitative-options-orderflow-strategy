@@ -107,6 +107,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval102_phaseb_gate.py",
     "tests/test_eval103_single_asset_skew_forward_signed_return.py",
     "tests/test_eval103_phaseb_gate.py",
+    "tests/test_eval104_single_asset_term_slope_forward_signed_return.py",
+    "tests/test_eval104_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -115,7 +117,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 819
+EXPECTED_TARGETED_TESTS = 837
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -287,6 +289,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-103",
         "script": ROOT / "scripts" / "eval103_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-104",
+        "script": ROOT / "scripts" / "eval104_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -585,6 +592,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_103_SINGLE_ASSET_SKEW_FORWARD_SIGNED_RETURN_PREREGISTRATION_*",
         "combined": "EVAL_103_SINGLE_ASSET_SKEW_FORWARD_SIGNED_RETURN_COMBINED_*",
         "blocked": "EVAL_103_SINGLE_ASSET_SKEW_FORWARD_SIGNED_RETURN_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-104",
+        "task_id": "INIT-2026-11-18T18:53:00Z-EVAL104-SINGLE-ASSET-TERM-SLOPE-FORWARD-SIGNED-RETURN",
+        "prereg": "EVAL_104_SINGLE_ASSET_TERM_SLOPE_FORWARD_SIGNED_RETURN_PREREGISTRATION_*",
+        "combined": "EVAL_104_SINGLE_ASSET_TERM_SLOPE_FORWARD_SIGNED_RETURN_COMBINED_*",
+        "blocked": "EVAL_104_SINGLE_ASSET_TERM_SLOPE_FORWARD_SIGNED_RETURN_BLOCKED_*",
         "expected_exit": 0,
     },
     {
@@ -955,6 +970,10 @@ def update_readiness(
         f"exit={gates.get('EVAL-101', {}).get('exit_code')}; "
         f"EVAL-102={(gates.get('EVAL-102', {}).get('payload') or {}).get('phase')} "
         f"exit={gates.get('EVAL-102', {}).get('exit_code')}; "
+        f"EVAL-103={(gates.get('EVAL-103', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-103', {}).get('exit_code')}; "
+        f"EVAL-104={(gates.get('EVAL-104', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-104', {}).get('exit_code')}; "
         f"EVAL-67={p67.get('phase')} exit={g67.get('exit_code')} "
         f"overlap_seconds={d67.get('overlap_seconds')} disjoint={d67.get('disjoint')}; "
         f"EVAL-68={p68.get('phase')} exit={g68.get('exit_code')} "
@@ -1017,6 +1036,8 @@ def update_readiness(
                 "eval100": _compact_gate(gates.get("EVAL-100", {})),
                 "eval101": _compact_gate(gates.get("EVAL-101", {})),
                 "eval102": _compact_gate(gates.get("EVAL-102", {})),
+                "eval103": _compact_gate(gates.get("EVAL-103", {})),
+                "eval104": _compact_gate(gates.get("EVAL-104", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),
