@@ -85,6 +85,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval91_phaseb_gate.py",
     "tests/test_eval92_cross_sectional_atm_iv_basis_relative_vrp_spread.py",
     "tests/test_eval92_phaseb_gate.py",
+    "tests/test_eval93_cross_sectional_term_slope_basis_relative_rv_spread.py",
+    "tests/test_eval93_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -93,7 +95,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 593
+EXPECTED_TARGETED_TESTS = 625
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -210,6 +212,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-92",
         "script": ROOT / "scripts" / "eval92_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-93",
+        "script": ROOT / "scripts" / "eval93_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -421,6 +428,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_92_CROSS_SECTIONAL_ATM_IV_BASIS_RELATIVE_VRP_SPREAD_COMBINED_*",
         "blocked": "EVAL_92_CROSS_SECTIONAL_ATM_IV_BASIS_RELATIVE_VRP_SPREAD_BLOCKED_*",
         "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-93",
+        "task_id": "INIT-2026-11-18T08:30:00Z-EVAL93-CROSS-SECTIONAL-TERM-SLOPE-BASIS-RELATIVE-RV-SPREAD",
+        "prereg": "EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_COMBINED_*",
+        "blocked": "EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_BLOCKED_*",
+        "expected_exit": 1,
     },
     {
         "name": "EVAL-67",
@@ -770,6 +785,8 @@ def update_readiness(
         f"exit={gates.get('EVAL-82', {}).get('exit_code')}; "
         f"EVAL-83={(gates.get('EVAL-83', {}).get('payload') or {}).get('phase')} "
         f"exit={gates.get('EVAL-83', {}).get('exit_code')}; "
+        f"EVAL-93={(gates.get('EVAL-93', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-93', {}).get('exit_code')}; "
         f"EVAL-67={p67.get('phase')} exit={g67.get('exit_code')} "
         f"overlap_seconds={d67.get('overlap_seconds')} disjoint={d67.get('disjoint')}; "
         f"EVAL-68={p68.get('phase')} exit={g68.get('exit_code')} "
@@ -822,6 +839,7 @@ def update_readiness(
                 "eval90": _compact_gate(gates.get("EVAL-90", {})),
                 "eval91": _compact_gate(gates.get("EVAL-91", {})),
                 "eval92": _compact_gate(gates.get("EVAL-92", {})),
+                "eval93": _compact_gate(gates.get("EVAL-93", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),
