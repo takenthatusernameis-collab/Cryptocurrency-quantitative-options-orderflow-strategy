@@ -11,7 +11,7 @@
     "gate_phase": "WAIT_EVAL67",
     "min_pooled_pairs": 790,
     "note": "Pooled BTC+ETH power-adequate predictiveness successor to EVAL-67. Acquires ONLY after EVAL-67 seals (single forward window; gate enforces WAIT_EVAL67). EVAL-64 floor verbatim; BLOCKED on under-floor/missing-underlying/non-disjoint.",
-    "overlap_seconds": 137170.448,
+    "overlap_seconds": 135997.101,
     "prereg_files": [
       "EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.json",
       "EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.md"
@@ -29,7 +29,7 @@
     "gate_phase": "WAIT_EVAL68",
     "min_pooled_returns": 790,
     "note": "Pooled BTC+ETH traded-form net-of-cost monetization capstone (repo-priority 'tradeable alpha'). Reuses EVAL-68's disjoint forward capture (NO acquisition; gate enforces WAIT_EVAL68). EVAL-64 floor verbatim; BLOCKED on under-floor/missing-underlying/non-disjoint. Runs only after EVAL-68 seals.",
-    "overlap_seconds": 137169.932,
+    "overlap_seconds": 135996.586,
     "prereg_files": [
       "EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.json",
       "EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.md"
@@ -52,9 +52,9 @@
       "execute": false,
       "exit_code": 10,
       "name": "EVAL-67",
-      "overlap_seconds": 137170.692,
+      "overlap_seconds": 135997.346,
       "phase": "NOT_DUE",
-      "tail": ",\n    \"window_end\": \"2026-11-18T09:30:05Z\",\n    \"span_seconds\": 319680.0,\n    \"meets_min_span\": true,\n    \"sealed_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"overlap_seconds\": 137170.692,\n    \"disjoint\": false,\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"readiness\": {\n    \"prereg_present\": true,\n    \"prereg_files\": [\n      \"EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.json\",\n      \"EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.md\"\n    ],\n    \"capture_dir_present\": false,\n    \"capture_files\": [],\n    \"task_id\": \"INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION\",\n    \"threshold\": \"2026-11-20T00:00:00Z\",\n    \"sealed_btc_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"contract\": \"CORRECT CARRY (not a completion). Durably carry via the git-committed handoff + external */5 cron. Do NOT bump the handoff timestamp without new verified facts. Do NOT spawn a capture bridge (it dies with the <=6h job). At/after 2026-11-20T00:00:00Z run: python3 scripts/eval67_phaseb_gate.py --execute\"\n}\n"
+      "tail": ",\n    \"window_end\": \"2026-11-18T09:49:38Z\",\n    \"span_seconds\": 319680.0,\n    \"meets_min_span\": true,\n    \"sealed_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"overlap_seconds\": 135997.346,\n    \"disjoint\": false,\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"readiness\": {\n    \"prereg_present\": true,\n    \"prereg_files\": [\n      \"EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.json\",\n      \"EVAL_67_BTC_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T132805Z.md\"\n    ],\n    \"capture_dir_present\": false,\n    \"capture_files\": [],\n    \"task_id\": \"INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION\",\n    \"threshold\": \"2026-11-20T00:00:00Z\",\n    \"sealed_btc_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"contract\": \"CORRECT CARRY (not a completion). Durably carry via the git-committed handoff + external */5 cron. Do NOT bump the handoff timestamp without new verified facts. Do NOT spawn a capture bridge (it dies with the <=6h job). At/after 2026-11-20T00:00:00Z run: python3 scripts/eval67_phaseb_gate.py --execute\"\n}\n"
     },
     "eval68": {
       "classification": "ok",
@@ -65,27 +65,27 @@
       "execute": false,
       "exit_code": 10,
       "name": "EVAL-68",
-      "overlap_seconds": 137170.448,
+      "overlap_seconds": 135997.101,
       "phase": "WAIT_EVAL67",
       "tail": "\"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"readiness\": {\n    \"prereg_present\": true,\n    \"prereg_files\": [\n      \"EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.json\",\n      \"EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_PREREGISTRATION_20261116T194851Z.md\"\n    ],\n    \"capture_dir_present\": false,\n    \"capture_btc\": [],\n    \"capture_eth\": [],\n    \"task_id\": \"INIT-2026-11-16T19:45:00Z-EVAL68-POOLED-BTC-ETH-OFLOW-TOX-RV-OOS\",\n    \"threshold\": \"2026-11-20T00:00:00Z\",\n    \"underlyings\": [\n      \"BTC\",\n      \"ETH\"\n    ],\n    \"sealed_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\",\n    \"eval67_sealed\": false\n  },\n  \"contract\": \"EVAL-67 has not sealed (or now < threshold). Do NOT acquire EVAL-68 data (it would compete with EVAL-67's single forward window). Do the BUILD-ONLY heavy work: keep scripts/eval68_pooled_btc_eth_oflow_tox_rv_oos.py + eval68_phaseb_gate.py + their tests green and the EVAL-68 prereg present. Then durably carry via the git-committed handoff. At/after the threshold with EVAL-67 sealed run: python3 scripts/eval68_phaseb_gate.py --execute\"\n}\n"
     },
     "eval69": {
       "classification": "ok",
       "disjoint": false,
-      "duration_seconds": 0.528,
+      "duration_seconds": 0.521,
       "eval67_sealed": null,
       "eval68_sealed": false,
       "execute": false,
       "exit_code": 10,
       "name": "EVAL-69",
-      "overlap_seconds": 137169.932,
+      "overlap_seconds": 135996.586,
       "phase": "WAIT_EVAL68",
       "tail": "alse,\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\"\n  },\n  \"readiness\": {\n    \"prereg_present\": true,\n    \"prereg_files\": [\n      \"EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.json\",\n      \"EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_PREREGISTRATION_20261116T225549Z.md\"\n    ],\n    \"capture_dir_present\": false,\n    \"capture_btc\": [],\n    \"capture_eth\": [],\n    \"task_id\": \"INIT-2026-11-16T22:45:00Z-EVAL69-POOLED-BTC-ETH-OFLOW-TOX-RV-TRADED-OOS\",\n    \"threshold\": \"2026-11-20T00:00:00Z\",\n    \"underlyings\": [\n      \"BTC\",\n      \"ETH\"\n    ],\n    \"sealed_window\": [\n      \"2026-11-09T06:48:16Z\",\n      \"2026-11-16T06:48:16Z\"\n    ],\n    \"earliest_disjoint_capture_end\": \"2026-11-19T18:08:16Z\",\n    \"eval68_sealed\": false\n  },\n  \"contract\": \"EVAL-68 has not sealed (or now < threshold). Do NOT run EVAL-69 (it reads EVAL-68's disjoint forward capture). Do the BUILD-ONLY heavy work: keep scripts/eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py + eval69_phaseb_gate.py + their tests green and the EVAL-69 prereg present. Then durably carry via the git-committed handoff. Once EVAL-68 has sealed run: python3 scripts/eval69_phaseb_gate.py --execute\"\n}\n"
     },
     "eval70": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.478,
+      "duration_seconds": 0.477,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -98,7 +98,7 @@
     "eval71": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.471,
+      "duration_seconds": 0.486,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -111,7 +111,7 @@
     "eval72": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.475,
+      "duration_seconds": 0.472,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -124,7 +124,7 @@
     "eval73": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.509,
+      "duration_seconds": 0.474,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -137,7 +137,7 @@
     "eval74": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.477,
+      "duration_seconds": 0.473,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -150,7 +150,7 @@
     "eval75": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.472,
+      "duration_seconds": 0.473,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -163,7 +163,7 @@
     "eval76": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.483,
+      "duration_seconds": 0.474,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -176,7 +176,7 @@
     "eval77": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.478,
+      "duration_seconds": 0.484,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -202,7 +202,7 @@
     "eval79": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.475,
+      "duration_seconds": 0.474,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -215,7 +215,7 @@
     "eval80": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.479,
+      "duration_seconds": 0.476,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -228,7 +228,7 @@
     "eval81": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.477,
+      "duration_seconds": 0.474,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -241,7 +241,7 @@
     "eval82": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.479,
+      "duration_seconds": 0.478,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -254,7 +254,7 @@
     "eval83": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.479,
+      "duration_seconds": 0.476,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -267,7 +267,7 @@
     "eval88": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.477,
+      "duration_seconds": 0.48,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -280,7 +280,7 @@
     "eval89": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.479,
+      "duration_seconds": 0.473,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -293,7 +293,7 @@
     "eval90": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.471,
+      "duration_seconds": 0.473,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -319,7 +319,7 @@
     "eval92": {
       "classification": "ok",
       "disjoint": null,
-      "duration_seconds": 0.472,
+      "duration_seconds": 0.474,
       "eval67_sealed": null,
       "eval68_sealed": null,
       "execute": false,
@@ -341,19 +341,32 @@
       "overlap_seconds": null,
       "phase": "SEALED",
       "tail": "{\n  \"phase\": \"SEALED\",\n  \"exit_code\": 0,\n  \"seal_gate_rc\": 0,\n  \"artifacts\": [\n    {\n      \"name\": \"EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T091858Z.json\",\n      \"stamp\": \"20261118T091858Z\",\n      \"kind\": \"COMBINED\"\n    },\n    {\n      \"name\": \"EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T091858Z.md\",\n      \"stamp\": \"20261118T091858Z\",\n      \"kind\": \"COMBINED\"\n    }\n  ],\n  \"seal_gate_tail\": \"OK: EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_20261118T091858Z.json (stamp 20261118T091858Z >= 20261118T083000Z)\\nOK: EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_20261118T091858Z.md (stamp 20261118T091858Z >= 20261118T083000Z)\\nOK (required-any): EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T091858Z.json (stamp 20261118T091858Z >= 20261118T083000Z)\\nOK (required-any): EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T091858Z.md (stamp 20261118T091858Z >= 20261118T083000Z)\\n\",\n  \"note\": \"EVAL-93 campaign complete; idempotent no-op. Do not re-run.\"\n}\n"
+    },
+    "eval94": {
+      "classification": "ok",
+      "disjoint": null,
+      "duration_seconds": 0.489,
+      "eval67_sealed": null,
+      "eval68_sealed": null,
+      "execute": false,
+      "exit_code": 0,
+      "name": "EVAL-94",
+      "overlap_seconds": null,
+      "phase": "SEALED",
+      "tail": "{\n  \"phase\": \"SEALED\",\n  \"exit_code\": 0,\n  \"seal_gate_rc\": 0,\n  \"artifacts\": [\n    {\n      \"name\": \"EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T094306Z.json\",\n      \"stamp\": \"20261118T094306Z\",\n      \"kind\": \"COMBINED\"\n    },\n    {\n      \"name\": \"EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T094306Z.md\",\n      \"stamp\": \"20261118T094306Z\",\n      \"kind\": \"COMBINED\"\n    }\n  ],\n  \"seal_gate_tail\": \"OK: EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_20261118T094306Z.json (stamp 20261118T094306Z >= 20261118T083000Z)\\nOK: EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_20261118T094306Z.md (stamp 20261118T094306Z >= 20261118T083000Z)\\nOK (required-any): EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T094306Z.json (stamp 20261118T094306Z >= 20261118T083000Z)\\nOK (required-any): EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T094306Z.md (stamp 20261118T094306Z >= 20261118T083000Z)\\n\",\n  \"note\": \"EVAL-93 campaign complete; idempotent no-op. Do not re-run.\"\n}\n"
     }
   },
-  "notes": "Verified 2026-11-18T09:30:13Z by scripts/eval67_prethreshold_progress.py (execute_requested=True): env_check=OK; targeted_tests=625/625 (rc=0); diagnostics=27/27 (rc=0); EVAL-70=SEALED exit=0; EVAL-71=SEALED exit=0; EVAL-72=SEALED exit=0; EVAL-73=SEALED exit=0; EVAL-74=SEALED exit=0; EVAL-75=SEALED exit=0; EVAL-76=SEALED exit=0; EVAL-77=SEALED exit=0; EVAL-78=SEALED exit=0; EVAL-79=SEALED exit=0; EVAL-80=SEALED exit=0; EVAL-81=SEALED exit=0; EVAL-82=SEALED exit=0; EVAL-83=SEALED exit=0; EVAL-93=SEALED exit=0; EVAL-67=NOT_DUE exit=10 overlap_seconds=137170.692 disjoint=False; EVAL-68=WAIT_EVAL67 exit=10 eval67_sealed=False; EVAL-69=WAIT_EVAL68 exit=10 eval68_sealed=False; overall_ok=True exit=0. This is a verified pre-threshold carry, not a completion.",
+  "notes": "Verified 2026-11-18T09:49:46Z by scripts/eval67_prethreshold_progress.py (execute_requested=True): env_check=OK; targeted_tests=657/657 (rc=0); diagnostics=27/27 (rc=0); EVAL-70=SEALED exit=0; EVAL-71=SEALED exit=0; EVAL-72=SEALED exit=0; EVAL-73=SEALED exit=0; EVAL-74=SEALED exit=0; EVAL-75=SEALED exit=0; EVAL-76=SEALED exit=0; EVAL-77=SEALED exit=0; EVAL-78=SEALED exit=0; EVAL-79=SEALED exit=0; EVAL-80=SEALED exit=0; EVAL-81=SEALED exit=0; EVAL-82=SEALED exit=0; EVAL-83=SEALED exit=0; EVAL-93=SEALED exit=0; EVAL-94=SEALED exit=0; EVAL-67=NOT_DUE exit=10 overlap_seconds=135997.346 disjoint=False; EVAL-68=WAIT_EVAL67 exit=10 eval67_sealed=False; EVAL-69=WAIT_EVAL68 exit=10 eval68_sealed=False; overall_ok=True exit=0. This is a verified pre-threshold carry, not a completion.",
   "orchestrator": {
     "execute_requested": true,
     "exit_code": 0,
     "failures": [],
-    "generated_at": "2026-11-18T09:30:13Z",
+    "generated_at": "2026-11-18T09:49:46Z",
     "needs_execute": [],
     "overall_ok": true,
     "script": "scripts/eval67_prethreshold_progress.py"
   },
-  "overlap_seconds": 137170.692,
+  "overlap_seconds": 135997.346,
   "schema_version": 3,
   "seal_gates": {
     "EVAL-66": {
@@ -551,19 +564,26 @@
       "name": "EVAL-93",
       "ok": true,
       "tail": "OK: EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_20261118T091858Z.json (stamp 20261118T091858Z >= 20261118T083000Z)\nOK: EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_20261118T091858Z.md (stamp 20261118T091858Z >= 20261118T083000Z)\nOK (required-any): EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T091858Z.json (stamp 20261118T091858Z >= 20261118T083000Z)\nOK (required-any): EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T091858Z.md (stamp 20261118T091858Z >= 20261118T083000Z)\n"
+    },
+    "EVAL-94": {
+      "exit_code": 0,
+      "expected_exit": 0,
+      "name": "EVAL-94",
+      "ok": true,
+      "tail": "OK: EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_20261118T094306Z.json (stamp 20261118T094306Z >= 20261118T083000Z)\nOK: EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_20261118T094306Z.md (stamp 20261118T094306Z >= 20261118T083000Z)\nOK (required-any): EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T094306Z.json (stamp 20261118T094306Z >= 20261118T083000Z)\nOK (required-any): EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_COMBINED_20261118T094306Z.md (stamp 20261118T094306Z >= 20261118T083000Z)\n"
     }
   },
   "task_id": "INIT-2026-11-16T13:25:40Z-EVAL67-BTC-OFLOW-TOX-RV-OOS-REPLICATION",
   "test_details": {
-    "diagnostics_duration_seconds": 1.209,
+    "diagnostics_duration_seconds": 0.956,
     "diagnostics_expected": 27,
     "diagnostics_rc": 0,
-    "targeted_duration_seconds": 246.214,
-    "targeted_expected": 625,
+    "targeted_duration_seconds": 249.271,
+    "targeted_expected": 657,
     "targeted_rc": 0
   },
-  "tests_passed": 625,
+  "tests_passed": 657,
   "threshold": "2026-11-20T00:00:00Z",
-  "total_tests_passed": 652,
-  "updated_at": "2026-11-18T09:30:13Z"
+  "total_tests_passed": 684,
+  "updated_at": "2026-11-18T09:49:46Z"
 }

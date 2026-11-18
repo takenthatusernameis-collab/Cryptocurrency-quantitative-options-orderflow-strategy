@@ -222,6 +222,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-94",
+        "script": ROOT / "scripts" / "eval94_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -437,6 +442,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_*",
         "combined": "EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_COMBINED_*",
         "blocked": "EVAL_93_CROSS_SECTIONAL_TERM_SLOPE_BASIS_RELATIVE_RV_SPREAD_BLOCKED_*",
+        "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-94",
+        "task_id": "INIT-2026-11-18T08:30:00Z-EVAL94-CROSS-SECTIONAL-TERM-SLOPE-BASIS-RELATIVE-RV-SPREAD",
+        "prereg": "EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_COMBINED_*",
+        "blocked": "EVAL_94_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RV_SPREAD_BLOCKED_*",
         "expected_exit": 1,
     },
     {
@@ -789,6 +802,8 @@ def update_readiness(
         f"exit={gates.get('EVAL-83', {}).get('exit_code')}; "
         f"EVAL-93={(gates.get('EVAL-93', {}).get('payload') or {}).get('phase')} "
         f"exit={gates.get('EVAL-93', {}).get('exit_code')}; "
+        f"EVAL-94={(gates.get('EVAL-94', {}).get('payload') or {}).get('phase')} "
+        f"exit={gates.get('EVAL-94', {}).get('exit_code')}; "
         f"EVAL-67={p67.get('phase')} exit={g67.get('exit_code')} "
         f"overlap_seconds={d67.get('overlap_seconds')} disjoint={d67.get('disjoint')}; "
         f"EVAL-68={p68.get('phase')} exit={g68.get('exit_code')} "
@@ -842,6 +857,7 @@ def update_readiness(
                 "eval91": _compact_gate(gates.get("EVAL-91", {})),
                 "eval92": _compact_gate(gates.get("EVAL-92", {})),
                 "eval93": _compact_gate(gates.get("EVAL-93", {})),
+                "eval94": _compact_gate(gates.get("EVAL-94", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),
