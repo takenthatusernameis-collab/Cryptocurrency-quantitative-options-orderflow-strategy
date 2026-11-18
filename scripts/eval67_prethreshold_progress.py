@@ -73,6 +73,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval85_phaseb_gate.py",
     "tests/test_eval86_surface_skew_forward_vrp_predictiveness.py",
     "tests/test_eval86_phaseb_gate.py",
+    "tests/test_eval87_surface_atm_iv_forward_tail_asymmetry.py",
+    "tests/test_eval87_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -81,7 +83,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 427
+EXPECTED_TARGETED_TESTS = 453
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -168,6 +170,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-86",
         "script": ROOT / "scripts" / "eval86_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-87",
+        "script": ROOT / "scripts" / "eval87_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -330,6 +337,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_86_SURFACE_SKEW_FORWARD_VRP_PREDICTIVENESS_PREREGISTRATION_*",
         "combined": "EVAL_86_SURFACE_SKEW_FORWARD_VRP_PREDICTIVENESS_COMBINED_*",
         "blocked": "EVAL_86_SURFACE_SKEW_FORWARD_VRP_PREDICTIVENESS_BLOCKED_*",
+        "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-87",
+        "task_id": "INIT-2026-11-18T00:37:00Z-EVAL87-SURFACE-ATM-IV-FORWARD-RETURN-TAIL-ASYMMETRY",
+        "prereg": "EVAL_87_SURFACE_ATM_IV_FORWARD_RETURN_TAIL_ASYMMETRY_PREREGISTRATION_*",
+        "combined": "EVAL_87_SURFACE_ATM_IV_FORWARD_RETURN_TAIL_ASYMMETRY_COMBINED_*",
+        "blocked": "EVAL_87_SURFACE_ATM_IV_FORWARD_RETURN_TAIL_ASYMMETRY_BLOCKED_*",
         "expected_exit": 1,
     },
     {
