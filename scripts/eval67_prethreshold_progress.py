@@ -129,6 +129,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval113_phaseb_gate.py",
     "tests/test_eval114_cross_asset_atm_iv_spillover_forward_return_skewness.py",
     "tests/test_eval114_phaseb_gate.py",
+    "tests/test_eval115_single_asset_atm_iv_forward_downside_semivariance_share.py",
+    "tests/test_eval115_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -137,7 +139,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1012
+EXPECTED_TARGETED_TESTS = 1040
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -364,6 +366,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-114",
         "script": ROOT / "scripts" / "eval114_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-115",
+        "script": ROOT / "scripts" / "eval115_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -750,6 +757,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_114_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
         "combined": "EVAL_114_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED_*",
         "blocked": "EVAL_114_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-115",
+        "task_id": "INIT-2026-11-19T02:24:37Z-EVAL115-SINGLE-ASSET-ATM-IV-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE",
+        "prereg": "EVAL_115_SINGLE_ASSET_ATM_IV_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
+        "combined": "EVAL_115_SINGLE_ASSET_ATM_IV_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
+        "blocked": "EVAL_115_SINGLE_ASSET_ATM_IV_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
         "expected_exit": 0,
     },
     {
