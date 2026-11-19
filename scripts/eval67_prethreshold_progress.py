@@ -158,6 +158,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval128_phaseb_gate.py",
     "tests/test_eval129_single_asset_term_ratio_forward_return_kurtosis.py",
     "tests/test_eval129_phaseb_gate.py",
+    "tests/test_eval130_cross_sectional_atm_iv_basis_forward_relative_return_tail_asymmetry_spread.py",
+    "tests/test_eval130_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -166,7 +168,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1362
+EXPECTED_TARGETED_TESTS = 1388
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -468,6 +470,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-129",
         "script": ROOT / "scripts" / "eval129_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-130",
+        "script": ROOT / "scripts" / "eval130_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -974,6 +981,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_129_SINGLE_ASSET_TERM_RATIO_FORWARD_RETURN_KURTOSIS_PREREGISTRATION_*",
         "combined": "EVAL_129_SINGLE_ASSET_TERM_RATIO_FORWARD_RETURN_KURTOSIS_COMBINED_*",
         "blocked": "EVAL_129_SINGLE_ASSET_TERM_RATIO_FORWARD_RETURN_KURTOSIS_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-130",
+        "task_id": "INIT-2026-11-19T17:42:00Z-EVAL130-CROSS-SECTIONAL-ATM-IV-BASIS-FORWARD-RELATIVE-RETURN-TAIL-ASYMMETRY-SPREAD",
+        "prereg": "EVAL_130_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_130_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_COMBINED_*",
+        "blocked": "EVAL_130_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_BLOCKED_*",
         "expected_exit": 0,
     },
     {
