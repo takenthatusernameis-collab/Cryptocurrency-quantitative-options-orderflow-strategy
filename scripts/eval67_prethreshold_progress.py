@@ -133,6 +133,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval115_phaseb_gate.py",
     "tests/test_eval116_cross_sectional_skew_basis_forward_relative_return_skewness_spread.py",
     "tests/test_eval116_phaseb_gate.py",
+    "tests/test_eval117_single_asset_term_slope_forward_return_kurtosis.py",
+    "tests/test_eval117_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -141,7 +143,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1066
+EXPECTED_TARGETED_TESTS = 1084
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -378,6 +380,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-116",
         "script": ROOT / "scripts" / "eval116_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-117",
+        "script": ROOT / "scripts" / "eval117_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -781,6 +788,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_116_CROSS_SECTIONAL_SKEW_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_COMBINED_*",
         "blocked": "EVAL_116_CROSS_SECTIONAL_SKEW_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_BLOCKED_*",
         "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-117",
+        "task_id": "INIT-2026-11-19T04:15:00Z-EVAL117-SINGLE-ASSET-TERM-SLOPE-FORWARD-RETURN-KURTOSIS",
+        "prereg": "EVAL_117_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_KURTOSIS_PREREGISTRATION_*",
+        "combined": "EVAL_117_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_KURTOSIS_COMBINED_*",
+        "blocked": "EVAL_117_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_KURTOSIS_BLOCKED_*",
+        "expected_exit": 0,
     },
     {
         "name": "EVAL-67",
