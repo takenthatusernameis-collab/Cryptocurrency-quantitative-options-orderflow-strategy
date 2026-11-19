@@ -1,0 +1,280 @@
+{
+  "report_id": "EVAL_125_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_COMBINED",
+  "generated_at": "2026-11-19T13:38:28Z",
+  "task": "EVAL125-CROSS-SECTIONAL-TERM-RATIO-BASIS-FORWARD-RELATIVE-RETURN-KURTOSIS-SPREAD",
+  "verdict": "GO CONFIRMED",
+  "verdict_detail": "wrapper-free information-content test: Spearman rank IC between the causal cross-sectional near-to-far ATM IV term-ratio basis (ETH - BTC) and the subsequent forward relative realized return kurtosis spread (kurtosis[ETH] - kurtosis[BTC]) on the real on-disk captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_aligned_common_bars": 200,
+    "min_usable_pairs_per_config": 120,
+    "note": "EVAL-77 consumes both underlyings' trade-tape IV surfaces and both perp series. It composes the sealed EVAL-71 surface floor (applied to BOTH BTC and ETH, reused verbatim, neither weakened) with a cross-sectional alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal near-ATM IV on the coarsest grid). This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+  },
+  "campaign_floor": {
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "per_underlying": {
+      "BTC": {
+        "underlying": "BTC",
+        "surface_floor_ok": true,
+        "surface_floor": {
+          "underlying": "BTC",
+          "n_option_trades": 2748,
+          "n_near_atm_option_trades": 2331,
+          "n_perp_candles": 1441,
+          "perp_span_seconds": 86400.0,
+          "checks": {
+            "option_trades_ok": true,
+            "near_atm_ok": true,
+            "candles_ok": true,
+            "span_ok": true
+          },
+          "ok": true
+        },
+        "checks": {
+          "surface_floor_ok": true
+        },
+        "ok": true
+      },
+      "ETH": {
+        "underlying": "ETH",
+        "surface_floor_ok": true,
+        "surface_floor": {
+          "underlying": "ETH",
+          "n_option_trades": 3547,
+          "n_near_atm_option_trades": 1509,
+          "n_perp_candles": 1441,
+          "perp_span_seconds": 86400.0,
+          "checks": {
+            "option_trades_ok": true,
+            "near_atm_ok": true,
+            "candles_ok": true,
+            "span_ok": true
+          },
+          "ok": true
+        },
+        "checks": {
+          "surface_floor_ok": true
+        },
+        "ok": true
+      }
+    },
+    "underlyings_ok": true,
+    "aligned_common_bars_by_grid": {
+      "60.0": 1370,
+      "300.0": 274
+    },
+    "aligned_common_bars_binding": 274,
+    "aligned_ok": true,
+    "checks": {
+      "underlyings_ok": true,
+      "aligned_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-125",
+    "title": "Cross-sectional causal near-to-far ATM implied-vol term-ratio basis (ETH - BTC) -> subsequent forward relative realized return kurtosis spread (Spearman rank IC) predictiveness on the real on-disk captures",
+    "extends": "EVAL-77 (cross-sectional surface basis atm_iv+skew -> forward realized-vol spread) and EVAL-105 (cross-sectional term-ratio basis -> forward relative tail-asymmetry spread) and EVAL-120 (cross-sectional term-ratio basis -> forward relative return skewness spread): same Spearman rank-IC statistic and sealed signal reconstructions reused verbatim, but a distinct on-charter signal x target cell \u2014 the *cross-sectional* term-ratio basis (term_ratio_ETH - term_ratio_BTC) -> forward *relative realized return kurtosis spread* (fourth moment / tail fatness); no new acquisition",
+    "supersedes": "nothing \u2014 complements EVAL-77/105/120; makes no traded-form claim",
+    "capture_dir": "data/raw/eval61",
+    "cross_section": {
+      "baseline": "BTC",
+      "relative": "ETH",
+      "relative_signal": "rel_k = term_ratio[ETH](k) - term_ratio[BTC](k)",
+      "target": "spread_k = forward_kurtosis[ETH](k+1..k+H) - forward_kurtosis[BTC](k+1..k+H)"
+    },
+    "term_signals": [
+      "term_ratio"
+    ],
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal per-bar near-to-far ATM IV term ratio (EVAL-74 _term_bars, term_ratio = IV(near) / IV(far) - 1) for BTC and ETH; the relative series (ETH - BTC) is forward-filled then expanding-z-scored end-of-bar k (reused e61.expanding_zscore)",
+    "target": "forward realized-return kurtosis = fourth standardized moment m4 / m2**2 of log returns over the next H perp bars, computed per underlying on the common aligned bar grid; target = kurtosis[ETH] - kurtosis[BTC] (relative realized return kurtosis spread)",
+    "statistic": "Spearman rank correlation IC = rho(rel_z_k, spread_k) over the common aligned bar-ends (H1: IC > 0)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle the relative forward-return-kurtosis spread",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120
+    },
+    "go_bar": "GO only if at least one config (signal x bar grid x horizon) has Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, at least min_usable_pairs_per_config usable pairs, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real on-disk three-way captures (option trades with real iv + perp candles for BTC and ETH); no new acquisition, no network; composes the EVAL-71 surface floor for both underlyings with a cross-sectional alignment floor",
+      "capture_dir": "data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_aligned_common_bars": 200,
+      "min_usable_pairs_per_config": 120,
+      "note": "EVAL-77 consumes both underlyings' trade-tape IV surfaces and both perp series. It composes the sealed EVAL-71 surface floor (applied to BOTH BTC and ETH, reused verbatim, neither weakened) with a cross-sectional alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal near-ATM IV on the coarsest grid). This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval74_surface_term_structure_predictiveness.py",
+      "scripts/eval77_cross_sectional_surface_basis_rv_predictiveness.py",
+      "scripts/eval125_cross_sectional_term_ratio_basis_forward_relative_return_kurtosis_spread.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval125_cross_sectional_term_ratio_basis_forward_relative_return_kurtosis_spread.py tests/test_eval125_cross_sectional_term_ratio_basis_forward_relative_return_kurtosis_spread.py",
+      "python3 -m pytest -q tests/test_eval125_cross_sectional_term_ratio_basis_forward_relative_return_kurtosis_spread.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures; no network:",
+      "python3 scripts/eval125_cross_sectional_term_ratio_basis_forward_relative_return_kurtosis_spread.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval125_cross_sectional_term_ratio_basis_forward_relative_return_kurtosis_spread.py --capture-dir data/raw/eval61 --seal --task-label EVAL125-CROSS-SECTIONAL-TERM-RATIO-BASIS-FORWARD-RELATIVE-RETURN-KURTOSIS-SPREAD"
+    ]
+  },
+  "per_config": [
+    {
+      "signal": "term_ratio",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_common_bars": 1370,
+      "n_pairs": 1364,
+      "spearman_ic": 0.012853461508475451,
+      "permutation_p": 0.3226773226773227,
+      "bootstrap_ci": [
+        0.015467324395670981,
+        -0.05639473159271755,
+        0.07866851201707274
+      ],
+      "nonzero_signal_pairs": 1360,
+      "pass": false
+    },
+    {
+      "signal": "term_ratio",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_common_bars": 1370,
+      "n_pairs": 1346,
+      "spearman_ic": -0.043927791304566914,
+      "permutation_p": 0.9530469530469531,
+      "bootstrap_ci": [
+        -0.04133628604030802,
+        -0.11767101449105091,
+        0.02826304470534071
+      ],
+      "nonzero_signal_pairs": 1342,
+      "pass": false
+    },
+    {
+      "signal": "term_ratio",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_common_bars": 1370,
+      "n_pairs": 1298,
+      "spearman_ic": -0.19902960730987873,
+      "permutation_p": 1.0,
+      "bootstrap_ci": [
+        -0.19734428913097657,
+        -0.277750827143267,
+        -0.1272488442763345
+      ],
+      "nonzero_signal_pairs": 1294,
+      "pass": false
+    },
+    {
+      "signal": "term_ratio",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": 0.07291287741714275,
+      "permutation_p": 0.11588411588411589,
+      "bootstrap_ci": [
+        0.07220618814439143,
+        -0.06402627012924948,
+        0.20221661698124113
+      ],
+      "nonzero_signal_pairs": 264,
+      "pass": false
+    },
+    {
+      "signal": "term_ratio",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": 0.36504692564158037,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.3619176761274248,
+        0.21270382630171666,
+        0.48775871937911797
+      ],
+      "nonzero_signal_pairs": 246,
+      "pass": true
+    },
+    {
+      "signal": "term_ratio",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.4127834688342662,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.4094327561947944,
+        0.1880615041450513,
+        0.5791020001194167
+      ],
+      "nonzero_signal_pairs": 198,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "n_configs": 6,
+    "n_pass": 2,
+    "pass_configs": [
+      "term_ratio::bar300.0::h24",
+      "term_ratio::bar300.0::h72"
+    ],
+    "best_ic": 0.4127834688342662,
+    "best_config": "term_ratio::bar300.0::h72"
+  },
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [
+        "term_ratio::bar300.0::h24",
+        "term_ratio::bar300.0::h72"
+      ],
+      "thresholds": {
+        "term_ratio::bar300.0::h24": 0.016666666666666666,
+        "term_ratio::bar300.0::h72": 0.03333333333333333,
+        "term_ratio::bar300.0::h6": 0.05000000000000001,
+        "term_ratio::bar60.0::h6": 0.06666666666666667,
+        "term_ratio::bar60.0::h24": 0.08333333333333333,
+        "term_ratio::bar60.0::h72": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 6,
+      "method": "Benjamini-Hochberg"
+    },
+    "any_config_pass": true,
+    "campaign_state": "EVAL_125_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD"
+  },
+  "errors": []
+}
