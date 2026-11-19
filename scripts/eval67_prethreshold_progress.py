@@ -152,6 +152,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval125_phaseb_gate.py",
     "tests/test_eval126_cross_sectional_term_slope_basis_forward_relative_return_kurtosis_spread.py",
     "tests/test_eval126_phaseb_gate.py",
+    "tests/test_eval127_cross_sectional_atm_iv_basis_forward_relative_return_kurtosis_spread.py",
+    "tests/test_eval127_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -160,7 +162,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1292
+EXPECTED_TARGETED_TESTS = 1318
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -447,6 +449,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-126",
         "script": ROOT / "scripts" / "eval126_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-127",
+        "script": ROOT / "scripts" / "eval127_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -930,6 +937,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_126_CROSS_SECTIONAL_TERM_SLOPE_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_COMBINED_*",
         "blocked": "EVAL_126_CROSS_SECTIONAL_TERM_SLOPE_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_BLOCKED_*",
         "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-127",
+        "task_id": "INIT-2026-11-19T15:44:13Z-EVAL127-CROSS-SECTIONAL-ATM-IV-BASIS-FORWARD-RELATIVE-RETURN-KURTOSIS-SPREAD",
+        "prereg": "EVAL_127_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_127_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_COMBINED_*",
+        "blocked": "EVAL_127_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
     },
     {
         "name": "EVAL-67",
