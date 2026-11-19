@@ -1,0 +1,100 @@
+{
+  "report_id": "EVAL_124_CROSS_ASSET_TERM_SLOPE_SPILLOVER_RISK_REVERSAL_NET_OF_COST_BLOCKED",
+  "generated_at": "2026-11-19T12:50:55Z",
+  "task": "EVAL124-CROSS-ASSET-TERM-SLOPE-SPILLOVER-RISK-REVERSAL-NET-OF-COST",
+  "verdict": "BLOCKED",
+  "verdict_detail": "capture below the sealed EVAL-64 feasible floor; no verdict (never a NO-GO)",
+  "floor_ok": false,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "campaign_floor": {
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "per_underlying": {
+      "BTC": {
+        "underlying": "BTC",
+        "n_surface_snapshots": 289,
+        "n_surface_instruments": 92,
+        "n_surface_bars_5m": 289,
+        "n_option_trades": 2748,
+        "n_of_instruments": 87,
+        "of_span_seconds": 86350.967,
+        "n_of_bars_5m": 287,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "n_perp_bars_5m": 288,
+        "n_common_bars_5m": 288,
+        "checks": {
+          "snapshots_ok": false,
+          "surface_instruments_ok": false,
+          "surface_bars_ok": false,
+          "trades_ok": true,
+          "of_instruments_ok": false,
+          "of_span_ok": true,
+          "of_bars_ok": true,
+          "perp_bars_ok": false,
+          "perp_span_ok": false,
+          "common_overlap_ok": true
+        },
+        "ok": false
+      },
+      "ETH": {
+        "underlying": "ETH",
+        "n_surface_snapshots": 289,
+        "n_surface_instruments": 280,
+        "n_surface_bars_5m": 289,
+        "n_option_trades": 3558,
+        "n_of_instruments": 227,
+        "of_span_seconds": 86289.223,
+        "n_of_bars_5m": 287,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "n_perp_bars_5m": 288,
+        "n_common_bars_5m": 287,
+        "checks": {
+          "snapshots_ok": false,
+          "surface_instruments_ok": true,
+          "surface_bars_ok": false,
+          "trades_ok": true,
+          "of_instruments_ok": true,
+          "of_span_ok": true,
+          "of_bars_ok": true,
+          "perp_bars_ok": false,
+          "perp_span_ok": false,
+          "common_overlap_ok": true
+        },
+        "ok": false
+      }
+    },
+    "underlyings_ok": false,
+    "checks": {
+      "underlyings_ok": false
+    },
+    "ok": false
+  },
+  "floor": {
+    "min_underlyings": 2,
+    "min_surface_snapshots_per_underlying": 1000,
+    "min_surface_instruments_per_underlying": 100,
+    "min_surface_bars_5m_per_underlying": 1000,
+    "min_option_trades_per_underlying": 2000,
+    "min_of_instruments_per_underlying": 150,
+    "min_of_span_seconds_per_underlying": 82000.0,
+    "min_of_bars_5m_per_underlying": 240,
+    "min_perp_bars_5m_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 300000.0,
+    "min_common_bars_per_underlying": 240,
+    "note": "Floor = sealed EVAL-64 feasible floor verbatim (scripts/eval64_orderflow_realized_vol_markpath_feasible.py: min_surface_snapshots=1000, min_surface_instruments=100, min_surface_bars_5m=1000, min_option_trades=2000, min_of_instruments=150, min_of_span_seconds=82000, min_of_bars_5m=240, min_perp_bars_5m=1000, min_perp_span_seconds=300000, min_common_bars=240, min_underlyings=2), applied to BOTH BTC and ETH, reused via e64._underlying_floor_strict, NOT weakened. This governs the EVAL-67/68/69 ladder and is untouched here. Below this floor the campaign seals BLOCKED, never NO-GO."
+  },
+  "errors": [
+    "BTC<-ETH::term_slope::bar60.0: AttributeError(\"module 'scripts.eval61_orderflow_realized_vol_net_of_cost' has no attribute '_expiry_date'\")",
+    "BTC<-ETH::term_slope::bar300.0: AttributeError(\"module 'scripts.eval61_orderflow_realized_vol_net_of_cost' has no attribute '_expiry_date'\")",
+    "ETH<-BTC::term_slope::bar60.0: AttributeError(\"module 'scripts.eval61_orderflow_realized_vol_net_of_cost' has no attribute '_expiry_date'\")",
+    "ETH<-BTC::term_slope::bar300.0: AttributeError(\"module 'scripts.eval61_orderflow_realized_vol_net_of_cost' has no attribute '_expiry_date'\")"
+  ]
+}

@@ -198,7 +198,7 @@ COMMANDS: Tuple[str, ...] = (
     "python3 -m py_compile scripts/eval124_cross_asset_term_slope_spillover_risk_reversal_net_of_cost.py "
     "tests/test_eval124_cross_asset_term_slope_spillover_risk_reversal_net_of_cost.py",
     "python3 -m pytest -q tests/test_eval124_cross_asset_term_slope_spillover_risk_reversal_net_of_cost.py",
-    "# no acquisition needed — consume the already-acquired real captures:",
+    "# no acquisition, no network — consume the already-acquired real captures:",
     "python3 scripts/eval124_cross_asset_term_slope_spillover_risk_reversal_net_of_cost.py "
     "--capture-dir data/raw/eval61 --no-write",
     "python3 scripts/eval124_cross_asset_term_slope_spillover_risk_reversal_net_of_cost.py "
