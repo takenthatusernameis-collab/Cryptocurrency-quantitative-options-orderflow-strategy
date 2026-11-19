@@ -114,6 +114,22 @@ def _run(cmd: Sequence[str], *, cwd: Path = ROOT) -> Tuple[int, str]:
         return 1, repr(exc)
 
 
+CAPTURE_DIR = ROOT / "data" / "raw" / "eval61"
+
+
+def capture_ready(capture_dir: Path = CAPTURE_DIR) -> Dict[str, Any]:
+    """Report whether the EVAL-125 capture directory holds both-asset three-way captures."""
+    p = Path(capture_dir)
+    btc = sorted(p.glob("three_way_BTC_*.json")) if p.is_dir() else []
+    eth = sorted(p.glob("three_way_ETH_*.json")) if p.is_dir() else []
+    return {
+        "present": bool(btc and eth),
+        "btc": [x.name for x in btc],
+        "eth": [x.name for x in eth],
+        "capture_dir": str(p),
+    }
+
+
 def run_seal_gate_check(*, research_state_dir: Path = RS_DIR) -> Tuple[int, str]:
     """Invoke the authoritative seal-gate for EVAL-125."""
     cmd = [
