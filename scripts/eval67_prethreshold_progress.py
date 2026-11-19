@@ -137,6 +137,10 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval117_phaseb_gate.py",
     "tests/test_eval118_cross_sectional_term_slope_basis_forward_relative_return_skewness_spread.py",
     "tests/test_eval118_phaseb_gate.py",
+    "tests/test_eval119_single_asset_atm_iv_forward_return_kurtosis.py",
+    "tests/test_eval119_phaseb_gate.py",
+    "tests/test_eval120_cross_sectional_term_ratio_basis_relative_return_skewness_spread.py",
+    "tests/test_eval120_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -145,7 +149,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1110
+EXPECTED_TARGETED_TESTS = 1146
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -392,6 +396,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-118",
         "script": ROOT / "scripts" / "eval118_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-119",
+        "script": ROOT / "scripts" / "eval119_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-120",
+        "script": ROOT / "scripts" / "eval120_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -810,6 +824,22 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_118_CROSS_SECTIONAL_TERM_SLOPE_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_PREREGISTRATION_*",
         "combined": "EVAL_118_CROSS_SECTIONAL_TERM_SLOPE_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_COMBINED_*",
         "blocked": "EVAL_118_CROSS_SECTIONAL_TERM_SLOPE_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-119",
+        "task_id": "INIT-2026-11-19T05:54:27Z-EVAL119-SINGLE-ASSET-ATM-IV-FORWARD-RETURN-KURTOSIS",
+        "prereg": "EVAL_119_SINGLE_ASSET_ATM_IV_FORWARD_RETURN_KURTOSIS_PREREGISTRATION_*",
+        "combined": "EVAL_119_SINGLE_ASSET_ATM_IV_FORWARD_RETURN_KURTOSIS_COMBINED_*",
+        "blocked": "EVAL_119_SINGLE_ASSET_ATM_IV_FORWARD_RETURN_KURTOSIS_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-120",
+        "task_id": "INIT-2026-11-19T06:10:00Z-EVAL120-CROSS-SECTIONAL-TERM-RATIO-BASIS-RELATIVE-RETURN-SKEWNESS-SPREAD",
+        "prereg": "EVAL_120_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RETURN_SKEWNESS_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_120_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RETURN_SKEWNESS_SPREAD_COMBINED_*",
+        "blocked": "EVAL_120_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_RETURN_SKEWNESS_SPREAD_BLOCKED_*",
         "expected_exit": 0,
     },
     {
