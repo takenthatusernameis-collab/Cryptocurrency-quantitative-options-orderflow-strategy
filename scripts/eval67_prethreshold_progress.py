@@ -127,6 +127,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval112_phaseb_gate.py",
     "tests/test_eval113_single_asset_term_slope_forward_return_skewness.py",
     "tests/test_eval113_phaseb_gate.py",
+    "tests/test_eval114_cross_asset_atm_iv_spillover_forward_return_skewness.py",
+    "tests/test_eval114_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -135,7 +137,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 994
+EXPECTED_TARGETED_TESTS = 1012
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -357,6 +359,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-113",
         "script": ROOT / "scripts" / "eval113_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-114",
+        "script": ROOT / "scripts" / "eval114_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -735,6 +742,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_113_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
         "combined": "EVAL_113_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_SKEWNESS_COMBINED_*",
         "blocked": "EVAL_113_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-114",
+        "task_id": "INIT-2026-11-19T02:01:53Z-EVAL114-CROSS-ASSET-ATM-IV-SPILLOVER-FORWARD-RETURN-SKEWNESS",
+        "prereg": "EVAL_114_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
+        "combined": "EVAL_114_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED_*",
+        "blocked": "EVAL_114_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
         "expected_exit": 0,
     },
     {
