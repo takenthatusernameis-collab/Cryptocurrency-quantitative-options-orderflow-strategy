@@ -145,17 +145,21 @@ def test_forward_return_skewness_causal_target_after_k():
 # 4) relative spread direction: skewness[ETH] - skewness[BTC]
 # ---------------------------------------------------------------------------
 def test_relative_spread_is_eth_minus_btc():
-    # Evaluate on a tiny aligned grid; just confirm spread == eth - btc per bar
-    closes_b = [1.0, 2.0, 4.0]
-    closes_r = [1.0, 1.5, 3.0]
-    sb = e116._forward_return_skewness(closes_b, horizon_bars=2)
-    sr = e116._forward_return_skewness(closes_r, horizon_bars=2)
+    # Evaluate on a tiny aligned grid; just confirm spread == eth - btc per bar.
+    # Need >= 3 returns per window (h=3) and nonzero variance per leg, so use
+    # asymmetric increments (the degenerate ±drift trap yields all-zero third
+    # moment; see EVAL-109/112/113 tests).
+    closes_b = [1.0, 1.5, 2.2, 3.1]  # lr = [ln1.5, ln(2.2/1.5), ln(3.1/2.2)] -> finite skewness
+    closes_r = [1.0, 1.8, 3.0, 4.4]  # lr = [ln1.8, ln(3.0/1.8), ln(4.4/3.0)] -> finite skewness
+    sb = e116._forward_return_skewness(closes_b, horizon_bars=3)
+    sr = e116._forward_return_skewness(closes_r, horizon_bars=3)
     n = min(len(sb), len(sr))
     spread = [float(sr[k]) - float(sb[k]) for k in range(n)]
     assert spread == [float(sr[k]) - float(sb[k]) for k in range(n)]
-    # every element finite or None consistently
+    # both legs must be finite on this non-degenerate series
     for a, b in zip(sb, sr):
-        assert (a is None) == (b is None) or (a is not None and b is not None)
+        assert a is not None and b is not None
+        assert math.isfinite(a) and math.isfinite(b)
 
 
 # ---------------------------------------------------------------------------
@@ -192,7 +196,11 @@ def test_campaign_floor_reuses_eval77_not_weakened():
     assert e116.FLOOR["min_underlyings"] == 2
     assert e116.FLOOR["min_aligned_common_bars"] == 200
     assert e116.FLOOR["min_usable_pairs_per_config"] == 120
-    assert "EVAL-64" not in e116.FLOOR.get("note", "")
+    # The note identifies this as the EVAL-77 surface basis floor, NOT the
+    # EVAL-64 options-surface snapshot floor that governs the ladder.
+    note = e116.FLOOR.get("note", "")
+    assert "EVAL-77" in note
+    assert "NOT the EVAL-64" in note
     caps = _captures()
     floor = e116.campaign_floor(caps)
     assert "per_underlying" in floor

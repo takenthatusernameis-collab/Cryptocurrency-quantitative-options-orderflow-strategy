@@ -125,10 +125,16 @@ ZWINDOW = e62.ZWINDOW
 # skewness spread) pairs to be evaluable (a result-quality guard, not a data floor).
 MIN_USABLE_PAIRS_PER_CONFIG = 120
 
-# Composed heavy-work floor: sealed EVAL-77 surface basis floor (EVAL-71 surface
+# Composed heavy-work floor: sealed EVAL-77 surface basis floor (E71 surface
 # floor for both underlyings + cross-sectional alignment), verbatim, neither
-# weakened. NOT the EVAL-64 options-surface snapshot floor.
-FLOOR: Dict[str, Any] = dict(e77.FLOOR)
+# weakened. NOT the EVAL-64 options-surface snapshot floor. Identity (not a
+# copy) so the sealed floor object is reused verbatim and cannot drift.
+FLOOR: Dict[str, Any] = e77.FLOOR
+
+# Sealed EVAL-77 helpers re-exported verbatim (no forks, no src).
+build_cross_section = e77.build_cross_section
+_closes_on_common = e77._closes_on_common
+_relative_signal_series = e77._relative_signal_series
 
 CODE_PATHS: Tuple[str, ...] = (
     "src/analytics/real_walkforward_certification.py",
@@ -145,7 +151,7 @@ COMMANDS: Tuple[str, ...] = (
     "python3 -m py_compile scripts/eval116_cross_sectional_skew_basis_forward_relative_return_skewness_spread.py "
     "tests/test_eval116_cross_sectional_skew_basis_forward_relative_return_skewness_spread.py",
     "python3 -m pytest -q tests/test_eval116_cross_sectional_skew_basis_forward_relative_return_skewness_spread.py",
-    "# no acquisition needed — consume the already-acquired real captures:",
+    "# no acquisition needed — consume the already-acquired real captures; no network:",
     "python3 scripts/eval116_cross_sectional_skew_basis_forward_relative_return_skewness_spread.py "
     "--capture-dir data/raw/eval61 --no-write",
     "python3 scripts/eval116_cross_sectional_skew_basis_forward_relative_return_skewness_spread.py "
@@ -236,6 +242,9 @@ def evaluate_config(
             "error": "insufficient common surface bars",
             "n_common_bars": n_common,
             "n_pairs": 0,
+            "spearman_ic": float("nan"),
+            "permutation_p": 1.0,
+            "bootstrap_ci": [float("nan")] * 3,
             "pass": False,
         }
 
@@ -294,6 +303,10 @@ def evaluate_config(
 # ---------------------------------------------------------------------------
 def campaign_floor(captures: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
     return e77.campaign_floor(captures)
+
+
+# Re-export the sealed EVAL-77 campaign_floor verbatim (identity, not a fork).
+campaign_floor = e77.campaign_floor  # noqa: F811
 
 
 # ---------------------------------------------------------------------------

@@ -141,7 +141,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1058
+EXPECTED_TARGETED_TESTS = 1066
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -373,6 +373,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-115",
         "script": ROOT / "scripts" / "eval115_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-116",
+        "script": ROOT / "scripts" / "eval116_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -768,6 +773,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_115_SINGLE_ASSET_ATM_IV_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
         "blocked": "EVAL_115_SINGLE_ASSET_ATM_IV_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
         "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-116",
+        "task_id": "INIT-2026-11-19T02:51:29Z-EVAL116-CROSS-SECTIONAL-SKEW-BASIS-FORWARD-RELATIVE-RETURN-SKEWNESS-SPREAD",
+        "prereg": "EVAL_116_CROSS_SECTIONAL_SKEW_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_116_CROSS_SECTIONAL_SKEW_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_COMBINED_*",
+        "blocked": "EVAL_116_CROSS_SECTIONAL_SKEW_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_BLOCKED_*",
+        "expected_exit": 1,
     },
     {
         "name": "EVAL-67",
