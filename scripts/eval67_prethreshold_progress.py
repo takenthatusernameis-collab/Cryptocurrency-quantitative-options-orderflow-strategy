@@ -150,6 +150,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval124_phaseb_gate.py",
     "tests/test_eval125_cross_sectional_term_ratio_basis_forward_relative_return_kurtosis_spread.py",
     "tests/test_eval125_phaseb_gate.py",
+    "tests/test_eval126_cross_sectional_term_slope_basis_forward_relative_return_kurtosis_spread.py",
+    "tests/test_eval126_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -158,7 +160,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1250
+EXPECTED_TARGETED_TESTS = 1268
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -440,6 +442,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-125",
         "script": ROOT / "scripts" / "eval125_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-126",
+        "script": ROOT / "scripts" / "eval126_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -914,6 +921,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_125_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_PREREGISTRATION_*",
         "combined": "EVAL_125_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_COMBINED_*",
         "blocked": "EVAL_125_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_BLOCKED_*",
+        "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-126",
+        "task_id": "INIT-2026-11-19T14:10:03Z-EVAL126-CROSS-SECTIONAL-TERM-SLOPE-BASIS-FORWARD-RELATIVE-RETURN-KURTOSIS-SPREAD",
+        "prereg": "EVAL_126_CROSS_SECTIONAL_TERM_SLOPE_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_126_CROSS_SECTIONAL_TERM_SLOPE_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_COMBINED_*",
+        "blocked": "EVAL_126_CROSS_SECTIONAL_TERM_SLOPE_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_BLOCKED_*",
         "expected_exit": 1,
     },
     {
