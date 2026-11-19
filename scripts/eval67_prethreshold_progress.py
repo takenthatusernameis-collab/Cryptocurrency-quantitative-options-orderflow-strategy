@@ -142,6 +142,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval120_phaseb_gate.py",
     "tests/test_eval121_single_asset_skew_forward_return_kurtosis.py",
     "tests/test_eval121_phaseb_gate.py",
+    "tests/test_eval122_cross_asset_term_slope_spillover_forward_return_skewness.py",
+    "tests/test_eval122_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -150,7 +152,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1165
+EXPECTED_TARGETED_TESTS = 1183
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -412,6 +414,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-121",
         "script": ROOT / "scripts" / "eval121_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-122",
+        "script": ROOT / "scripts" / "eval122_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -854,6 +861,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_121_SINGLE_ASSET_SKEW_FORWARD_RETURN_KURTOSIS_PREREGISTRATION_*",
         "combined": "EVAL_121_SINGLE_ASSET_SKEW_FORWARD_RETURN_KURTOSIS_COMBINED_*",
         "blocked": "EVAL_121_SINGLE_ASSET_SKEW_FORWARD_RETURN_KURTOSIS_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-122",
+        "task_id": "INIT-2026-11-19T08:18:00Z-EVAL122-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-RETURN-SKEWNESS",
+        "prereg": "EVAL_122_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
+        "combined": "EVAL_122_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED_*",
+        "blocked": "EVAL_122_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
         "expected_exit": 0,
     },
     {
@@ -1316,6 +1331,7 @@ def update_readiness(
                 "eval110": _compact_gate(gates.get("EVAL-110", {})),
                 "eval111": _compact_gate(gates.get("EVAL-111", {})),
                 "eval121": _compact_gate(gates.get("EVAL-121", {})),
+                "eval122": _compact_gate(gates.get("EVAL-122", {})),
                 "eval67": _compact_gate(g67),
                 "eval68": _compact_gate(g68),
                 "eval69": _compact_gate(g69),
