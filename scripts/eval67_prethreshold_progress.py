@@ -160,6 +160,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval129_phaseb_gate.py",
     "tests/test_eval130_cross_sectional_atm_iv_basis_forward_relative_return_tail_asymmetry_spread.py",
     "tests/test_eval130_phaseb_gate.py",
+    "tests/test_eval131_cross_sectional_term_ratio_basis_forward_relative_return_tail_asymmetry_spread.py",
+    "tests/test_eval131_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -168,7 +170,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1388
+EXPECTED_TARGETED_TESTS = 1414
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -475,6 +477,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-130",
         "script": ROOT / "scripts" / "eval130_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-131",
+        "script": ROOT / "scripts" / "eval131_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -989,6 +996,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_130_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_PREREGISTRATION_*",
         "combined": "EVAL_130_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_COMBINED_*",
         "blocked": "EVAL_130_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-131",
+        "task_id": "INIT-2026-11-19T18:15:00Z-EVAL131-CROSS-SECTIONAL-TERM-RATIO-BASIS-FORWARD-RELATIVE-TAIL-ASYMMETRY-SPREAD",
+        "prereg": "EVAL_131_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_131_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_COMBINED_*",
+        "blocked": "EVAL_131_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_BLOCKED_*",
         "expected_exit": 0,
     },
     {

@@ -1,0 +1,17 @@
+{
+  "prereg_id": "EVAL_131_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_PREREGISTRATION",
+  "generated_at": "2026-11-19T23:10:35Z",
+  "task": "EVAL131-CROSS-SECTIONAL-TERM-RATIO-BASIS-FORWARD-RELATIVE-RETURN-TAIL-ASYMMETRY-SPREAD",
+  "task_id": "INIT-2026-11-19T18:15:00Z-EVAL131-CROSS-SECTIONAL-TERM-RATIO-BASIS-FORWARD-RELATIVE-TAIL-ASYMMETRY-SPREAD",
+  "task_id_floor_stamp": "20261119T181500Z",
+  "hypothesis": "The causal cross-sectional near-to-far ATM implied-vol term-ratio basis (term_ratio_ETH - term_ratio_BTC, expanding-z-scored) has a positive monotone (Spearman rank) relationship with the subsequent forward relative realized return tail-asymmetry spread (tail_asym_BTC - tail_asym_ETH over the next H perp log returns), independent of any trading wrapper; tested on real on-disk captures at the composed EVAL-77 surface basis floor.",
+  "extends": null,
+  "protocol": {},
+  "capture_dir": null,
+  "floor": {
+    "min_underlyings": 2,
+    "min_aligned_common_bars": 200,
+    "min_usable_pairs_per_config": 120,
+    "note": "EVAL-77 consumes both underlyings' trade-tape IV surfaces and both perp series. It composes the sealed EVAL-71 surface floor (applied to BOTH BTC and ETH, reused verbatim, neither weakened) with a cross-sectional alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal near-ATM IV on the coarsest grid). This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+  }
+}

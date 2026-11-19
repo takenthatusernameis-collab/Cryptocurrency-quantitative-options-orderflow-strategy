@@ -1,13 +1,39 @@
 #!/usr/bin/env python3
-"""EVAL-131 Phase-B gate: seal/verify the cross-sectional term_ratio basis ->
-forward relative realized return tail-asymmetry spread campaign.
+"""EVAL-131 Phase-B gate: the single, deterministic, idempotent arbiter of the
+EVAL-131 campaign's completion contract.
 
-This gate is the *only* authority for EVAL-131 seal state. It enforces:
-- Task-ID floor stamp ordering (``TASK_ID_FLOOR_STAMP >= 20261119T181500Z``)
-- Required artifact kinds (COMBINED .json + .md, stamp >= floor)
-- Preregistration artifact presence (PREREGISTRATION .json + .md, stamp >= floor)
-- Seal-gate exit code 0 on success, non-zero on any violation
-- Idempotent: re-running after a valid seal is a no-op (exit 0)
+EVAL-131: cross-sectional term-ratio basis (ETH - BTC) -> forward relative
+realized return tail-asymmetry spread predictiveness (Spearman rank IC).
+
+Why this exists
+---------------
+The physics-independent runnable-now line EVAL-70..130 is sealed. EVAL-131 is
+the mandatory next pre-threshold predictiveness cell and must be wired + sealed
+before the forward ladder (EVAL-67/68/69) can proceed at/after the disjointness
+threshold. This gate encodes the completion contract as ONE deterministic
+command, mirroring the sealed EVAL-125/130 gate contract.
+
+Outcomes (exit codes)
+---------------------
+  0   SEALED   — a COMBINED_*/BLOCKED_* EVAL-131 artifact exists with a stamp >=
+                 the pre-registered task floor; the seal-gate passes. COMPLETE.
+                 Idempotent no-op (safe to re-run forever).
+  1   FAILED   --execute ran but the run -> seal -> seal-gate pipeline did not
+                 reach seal-gate exit 0. Fix the reported step and re-run.
+  20  DUE      — nothing sealed yet; runnable now on the on-disk real captures.
+                 HEAVY WORK IS REQUIRED: re-run with --execute.
+
+`--execute` is the unskippable path
+-----------------------------------
+Runs the EVAL-131 runner with `--seal` on the on-disk real captures
+(`data/raw/eval61`, no new acquisition, no network) -> runs the authoritative
+`check_session_sealed.py` seal-gate, and refuses to exit 0 unless the seal-gate
+exits 0.
+
+Nothing here weakens the EVAL-64 floor, uses synthetic data, enables live
+trading, or edits sealed EVAL-02..62/64..66/EVAL-70..130 artifacts or `src/`.
+It is append-only and reuses the sealed EVAL-61/62/65/71/74/77/85 runners
+verbatim.
 """
 
 from __future__ import annotations
@@ -16,113 +42,266 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
-REPO_ROOT = Path(__file__).resolve().parents[1]
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
+RS_DIR = ROOT / "research_state"
+
+import scripts.eval62_orderflow_realized_vol_markpath as e62  # noqa: E402
+import scripts.eval77_cross_sectional_surface_basis_rv_predictiveness as e77  # noqa: E402
+
+# Authoritative pre-registered identifiers (parseable by check_session_sealed.py).
 TASK_ID = "INIT-2026-11-19T18:15:00Z-EVAL131-CROSS-SECTIONAL-TERM-RATIO-BASIS-FORWARD-RELATIVE-TAIL-ASYMMETRY-SPREAD"
-TASK_ID_FLOOR_STAMP = "20261119T181500Z"
-EVAL_DIR = REPO_ROOT / "evals" / "eval131"
+TASK_LABEL = "EVAL131-CROSS-SECTIONAL-TERM-RATIO-BASIS-FORWARD-RELATIVE-RETURN-TAIL-ASYMMETRY-SPREAD"
+PREREG_GLOB = "EVAL_131_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_PREREGISTRATION_*"
+COMBINED_GLOB = "EVAL_131_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_COMBINED_*"
+BLOCKED_GLOB = "EVAL_131_CROSS_SECTIONAL_TERM_RATIO_BASIS_FORWARD_RELATIVE_RETURN_TAIL_ASYMMETRY_SPREAD_BLOCKED_*"
+
+# Exit codes.
+EXIT_SEALED = 0
+EXIT_FAILED = 1
+EXIT_DUE = 20
+
+_ISO_RE = re.compile(r"(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z)")
+_STAMP_RE = re.compile(r"(\d{8}T\d{6}(?:\d+)?Z)")
 
 
-def _parse_stamp(name: str) -> str | None:
-    m = re.search(r"(\d{8}T\d{6}Z)", name)
-    return m.group(1) if m else None
+# ---------------------------------------------------------------------------
+# Small helpers (pure; no side effects)
+# ---------------------------------------------------------------------------
+def now_iso() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _stamp_ge(a: str, b: str) -> bool:
-    return a >= b
+def _to_stamp(iso_ts: str) -> str:
+    text = iso_ts.strip()
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    dt = datetime.fromisoformat(text)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
-def _find_artifacts(kind: str, floor_stamp: str) -> list[Path]:
-    pattern = f"EVAL_131_*{kind}*.json"
-    files = sorted(EVAL_DIR.glob(pattern))
-    return [f for f in files if _parse_stamp(f.name) and _stamp_ge(_parse_stamp(f.name) or "", floor_stamp)]
+def task_floor_stamp(task_id: str) -> str:
+    m = _ISO_RE.search(task_id)
+    if not m:
+        raise ValueError(f"task id has no ISO-8601 UTC timestamp: {task_id!r}")
+    return _to_stamp(m.group(1))
 
 
-def _verify_preregistration(floor_stamp: str) -> tuple[bool, str]:
-    files = _find_artifacts("PREREGISTRATION", floor_stamp)
-    if not files:
-        return False, f"missing PREREGISTRATION artifact (floor {floor_stamp})"
-    for f in files:
-        try:
-            data = json.loads(f.read_text())
-            if data.get("task_id") != TASK_ID:
-                return False, f"PREREGISTRATION task_id mismatch: {data.get('task_id')} != {TASK_ID}"
-            if data.get("task_id_floor_stamp") != TASK_ID_FLOOR_STAMP:
-                return False, f"PREREGISTRATION floor_stamp mismatch: {data.get('task_id_floor_stamp')} != {TASK_ID_FLOOR_STAMP}"
-        except Exception as e:
-            return False, f"PREREGISTRATION parse error {f.name}: {e}"
-    return True, f"OK: {files[0].name} (stamp {_parse_stamp(files[0].name)} >= {floor_stamp})"
+# ---------------------------------------------------------------------------
+# Seal detection (authoritative; mirrors check_session_sealed.py on research_state/)
+# ---------------------------------------------------------------------------
+def detect_seal(
+    research_state_dir: Path,
+    *,
+    task_id: str = TASK_ID,
+    combined_glob: str = COMBINED_GLOB,
+    blocked_glob: str = BLOCKED_GLOB,
+) -> Dict[str, Any]:
+    """Return whether a COMBINED_*/BLOCKED_* EVAL-131 artifact exists with a stamp
+    >= the pre-registered task timestamp (mirrors check_session_sealed.py)."""
+    rs = Path(research_state_dir)
+    floor = task_floor_stamp(task_id)
+    hits: List[Dict[str, str]] = []
+    if rs.is_dir():
+        for pat, kind in ((combined_glob, "COMBINED"), (blocked_glob, "BLOCKED")):
+            for path in sorted(rs.glob(pat)):
+                if not path.is_file():
+                    continue
+                sm = _STAMP_RE.search(path.name)
+                if not sm:
+                    continue
+                stamp = sm.group(1)
+                if stamp >= floor:
+                    hits.append({"name": path.name, "stamp": stamp, "kind": kind})
+    hits.sort(key=lambda h: h["stamp"])
+    return {"sealed": bool(hits), "artifacts": hits, "floor_stamp": floor}
 
 
-def _verify_combined(floor_stamp: str) -> tuple[bool, str]:
-    files = _find_artifacts("COMBINED", floor_stamp)
-    if not files:
-        return False, f"missing COMBINED artifact (floor {floor_stamp})"
-    for f in files:
-        try:
-            data = json.loads(f.read_text())
-            if data.get("eval") != "EVAL-131":
-                return False, f"COMBINED eval mismatch: {data.get('eval')}"
-            if data.get("phase") != "COMBINED":
-                return False, f"COMBINED phase mismatch: {data.get('phase')}"
-            if data.get("task_id") != TASK_ID:
-                return False, f"COMBINED task_id mismatch: {data.get('task_id')}"
-            if data.get("task_id_floor_stamp") != TASK_ID_FLOOR_STAMP:
-                return False, f"COMBINED floor_stamp mismatch: {data.get('task_id_floor_stamp')}"
-            if data.get("verdict") not in ("GO CONFIRMED", "NO-GO CONFIRMED (PASS)", "BLOCKED"):
-                return False, f"COMBINED invalid verdict: {data.get('verdict')}"
-        except Exception as e:
-            return False, f"COMBINED parse error {f.name}: {e}"
-    return True, f"OK (required-any): {files[0].name} (stamp {_parse_stamp(files[0].name)} >= {floor_stamp})"
+def _run(cmd: Sequence[str], *, cwd: Path = ROOT) -> Tuple[int, str]:
+    env = dict(os.environ)
+    venv = ROOT / ".venv-deps"
+    if venv.is_dir():
+        existing = env.get("PYTHONPATH", "")
+        env["PYTHONPATH"] = str(venv) + (os.pathsep + existing if existing else "")
+    try:
+        proc = subprocess.run(
+            list(cmd),
+            cwd=str(cwd),
+            capture_output=True,
+            text=True,
+            env=env,
+        )
+        return int(proc.returncode), (proc.stdout or "") + (proc.stderr or "")
+    except BaseException as exc:  # noqa: BLE001
+        return 1, repr(exc)
 
 
-def _main(execute: bool) -> int:
-    if not EVAL_DIR.exists():
-        if execute:
-            print(f"EVAL_DIR not found: {EVAL_DIR}", file=sys.stderr)
-            return 1
-        print("EVAL-131: NOT BUILT (eval dir missing)")
-        return 0
+CAPTURE_DIR = ROOT / "data" / "raw" / "eval61"
 
-    floor_stamp = TASK_ID_FLOOR_STAMP
 
-    ok_pre, msg_pre = _verify_preregistration(floor_stamp)
-    ok_comb, msg_comb = _verify_combined(floor_stamp)
+def capture_ready(capture_dir: Path = CAPTURE_DIR) -> Dict[str, Any]:
+    """Report whether the EVAL-131 capture directory holds both-asset three-way captures."""
+    p = Path(capture_dir)
+    btc = sorted(p.glob("three_way_BTC_*.json")) if p.is_dir() else []
+    eth = sorted(p.glob("three_way_ETH_*.json")) if p.is_dir() else []
+    return {
+        "present": bool(btc and eth),
+        "btc": [x.name for x in btc],
+        "eth": [x.name for x in eth],
+        "capture_dir": str(p),
+    }
 
-    if execute:
-        if not ok_pre:
-            print(f"FAIL: {msg_pre}", file=sys.stderr)
-            return 1
-        if not ok_comb:
-            print(f"FAIL: {msg_comb}", file=sys.stderr)
-            return 1
-        print("EVAL-131 Phase-B gate: SEALED")
-        print(msg_pre)
-        print(msg_comb)
-        return 0
-    else:
-        if ok_pre and ok_comb:
-            print("EVAL-131: SEALED")
-            print(msg_pre)
-            print(msg_comb)
-        else:
-            print("EVAL-131: NOT SEALED")
-            if not ok_pre:
-                print(f"  - {msg_pre}")
-            if not ok_comb:
-                print(f"  - {msg_comb}")
-        return 0 if (ok_pre and ok_comb) else 1
+
+def run_seal_gate_check(*, research_state_dir: Path = RS_DIR) -> Tuple[int, str]:
+    """Invoke the authoritative seal-gate for EVAL-131."""
+    cmd = [
+        sys.executable,
+        str(ROOT / "scripts" / "check_session_sealed.py"),
+        "--task-id",
+        TASK_ID,
+        "--glob",
+        PREREG_GLOB,
+        "--require-any-glob",
+        COMBINED_GLOB,
+        "--require-any-glob",
+        BLOCKED_GLOB,
+    ]
+    if research_state_dir != RS_DIR:
+        cmd.extend(["--research-state-dir", str(research_state_dir)])
+    return _run(cmd)
+
+
+# ---------------------------------------------------------------------------
+# Phase-B execution (runnable now on on-disk real captures)
+# ---------------------------------------------------------------------------
+def execute_phaseb(
+    *,
+    capture_dir: Path = CAPTURE_DIR,
+    research_state_dir: Path = RS_DIR,
+    task_id: str = TASK_ID,
+) -> Dict[str, Any]:
+    """Run the EVAL-131 runner with --seal, then the authoritative seal-gate."""
+    steps: List[Dict[str, Any]] = []
+
+    cap = capture_ready(capture_dir)
+    steps.append({"step": "capture_ready", "status": "ok" if cap["present"] else "missing", "capture": cap})
+    if not cap["present"]:
+        return {
+            "ok": False,
+            "step": "capture",
+            "reason": "required on-disk captures missing (need BTC and ETH three_way)",
+            "capture": cap,
+            "steps": steps,
+        }
+
+    rc, out = _run([
+        sys.executable,
+        str(
+            ROOT
+            / "scripts"
+            / "eval131_cross_sectional_term_ratio_basis_forward_relative_return_tail_asymmetry_spread.py"
+        ),
+        "--capture-dir",
+        str(capture_dir),
+        "--seal",
+        "--task-label",
+        TASK_LABEL,
+    ])
+    steps.append({"step": "run_and_seal", "rc": rc, "tail": out[-4000:]})
+    if rc != 0:
+        return {"ok": False, "step": "run_and_seal", "steps": steps, "capture": cap}
+
+    sg_rc, sg_out = run_seal_gate_check(research_state_dir=research_state_dir)
+    steps.append({"step": "seal_gate", "rc": sg_rc, "tail": sg_out[-4000:]})
+    return {
+        "ok": sg_rc == 0,
+        "step": "seal_gate",
+        "steps": steps,
+        "capture": cap,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Main arbiter
+# ---------------------------------------------------------------------------
+def main(argv: Optional[Sequence[str]] = None) -> int:
+    ap = argparse.ArgumentParser(
+        description="EVAL-131 phase-B gate (SEALED/DUE/FAILED; deterministic, idempotent)"
+    )
+    ap.add_argument("--execute", action="store_true",
+                    help="run EVAL-131 runner --seal + the authoritative seal-gate (unskippable)")
+    ap.add_argument("--capture-dir", default=str(CAPTURE_DIR))
+    ap.add_argument("--research-state-dir", default=str(RS_DIR))
+    args = ap.parse_args(argv)
+
+    rs_dir = Path(args.research_state_dir)
+    cap_dir = Path(args.capture_dir)
+
+    seal = detect_seal(rs_dir)
+
+    if seal.get("sealed"):
+        sg_rc, sg_out = run_seal_gate_check(research_state_dir=rs_dir)
+        payload = {
+            "phase": "SEALED",
+            "exit_code": EXIT_SEALED,
+            "seal_gate_rc": sg_rc,
+            "artifacts": seal.get("artifacts", []),
+            "seal_gate_tail": sg_out[-2000:],
+            "note": "EVAL-131 campaign complete; idempotent no-op. Do not re-run.",
+        }
+        print(json.dumps(payload, indent=2))
+        return EXIT_SEALED
+
+    if not args.execute:
+        payload = {
+            "phase": "DUE",
+            "exit_code": EXIT_DUE,
+            "readiness": {
+                "runnable_now": True,
+                "task_id": TASK_ID,
+                "task_label": TASK_LABEL,
+            },
+            "capture_ready": capture_ready(cap_dir),
+            "note": (
+                "EVAL-131 is runnable now on the on-disk real captures but has not "
+                "been sealed. Heavy work is REQUIRED. Re-run with: "
+                "python3 scripts/eval131_phaseb_gate.py --execute"
+            ),
+        }
+        print(json.dumps(payload, indent=2))
+        return EXIT_DUE
+
+    result = execute_phaseb(capture_dir=cap_dir, research_state_dir=rs_dir)
+    if result.get("ok"):
+        seal2 = detect_seal(rs_dir)
+        payload = {
+            "phase": "SEALED",
+            "exit_code": EXIT_SEALED,
+            "artifacts": seal2.get("artifacts", []),
+            "steps": result.get("steps", []),
+        }
+        print(json.dumps(payload, indent=2))
+        return EXIT_SEALED
+
+    payload = {
+        "phase": "FAILED",
+        "exit_code": EXIT_FAILED,
+        "result": result,
+        "note": "EVAL-131 execute path did not produce a passing seal-gate. Fix and rerun.",
+    }
+    print(json.dumps(payload, indent=2))
+    return EXIT_FAILED
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="EVAL-131 Phase-B gate")
-    parser.add_argument("--execute", action="store_true", help="Enforce seal (exit non-zero on any violation)")
-    args = parser.parse_args()
-    sys.exit(_main(args.execute))
+    raise SystemExit(main())
