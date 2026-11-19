@@ -131,6 +131,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval114_phaseb_gate.py",
     "tests/test_eval115_single_asset_atm_iv_forward_downside_semivariance_share.py",
     "tests/test_eval115_phaseb_gate.py",
+    "tests/test_eval116_cross_sectional_skew_basis_forward_relative_return_skewness_spread.py",
+    "tests/test_eval116_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -139,7 +141,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1040
+EXPECTED_TARGETED_TESTS = 1058
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
