@@ -154,6 +154,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval126_phaseb_gate.py",
     "tests/test_eval127_cross_sectional_atm_iv_basis_forward_relative_return_kurtosis_spread.py",
     "tests/test_eval127_phaseb_gate.py",
+    "tests/test_eval128_cross_sectional_atm_iv_basis_forward_relative_return_skewness_spread.py",
+    "tests/test_eval128_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -162,7 +164,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1318
+EXPECTED_TARGETED_TESTS = 1344
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -454,6 +456,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-127",
         "script": ROOT / "scripts" / "eval127_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-128",
+        "script": ROOT / "scripts" / "eval128_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -944,6 +951,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_127_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_PREREGISTRATION_*",
         "combined": "EVAL_127_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_COMBINED_*",
         "blocked": "EVAL_127_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-128",
+        "task_id": "INIT-2026-11-19T16:17:47Z-EVAL128-CROSS-SECTIONAL-ATM-IV-BASIS-FORWARD-RELATIVE-RETURN-SKEWNESS-SPREAD",
+        "prereg": "EVAL_128_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_128_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_COMBINED_*",
+        "blocked": "EVAL_128_CROSS_SECTIONAL_ATM_IV_BASIS_FORWARD_RELATIVE_RETURN_SKEWNESS_SPREAD_BLOCKED_*",
         "expected_exit": 0,
     },
     {
