@@ -123,6 +123,10 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval110_phaseb_gate.py",
     "tests/test_eval111_single_asset_skew_forward_return_skewness.py",
     "tests/test_eval111_phaseb_gate.py",
+    "tests/test_eval112_single_asset_term_ratio_forward_return_skewness.py",
+    "tests/test_eval112_phaseb_gate.py",
+    "tests/test_eval113_single_asset_term_slope_forward_return_skewness.py",
+    "tests/test_eval113_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -131,7 +135,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 958
+EXPECTED_TARGETED_TESTS = 994
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -343,6 +347,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-111",
         "script": ROOT / "scripts" / "eval111_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-112",
+        "script": ROOT / "scripts" / "eval112_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-113",
+        "script": ROOT / "scripts" / "eval113_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -700,11 +714,27 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "expected_exit": 0,
     },
     {
-        "name": "EVAL-111",
-        "task_id": "INIT-2026-11-18T23:00:00Z-EVAL111-SINGLE-ASSET-SKEW-FORWARD-RETURN-SKEWNESS",
-        "prereg": "EVAL_111_SINGLE_ASSET_SKEW_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
-        "combined": "EVAL_111_SINGLE_ASSET_SKEW_FORWARD_RETURN_SKEWNESS_COMBINED_*",
-        "blocked": "EVAL_111_SINGLE_ASSET_SKEW_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
+        "name": "EVAL-110",
+        "task_id": "INIT-2026-11-18T23:00:00Z-EVAL110-CROSS-SECTIONAL-SKEW-BASIS-RELATIVE-TAIL-ASYMMETRY-SPREAD",
+        "prereg": "EVAL_110_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_PREREGISTRATION_*",
+        "combined": "EVAL_110_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_COMBINED_*",
+        "blocked": "EVAL_110_CROSS_SECTIONAL_SKEW_BASIS_RELATIVE_TAIL_ASYMMETRY_SPREAD_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-112",
+        "task_id": "INIT-2026-11-18T23:00:00Z-EVAL112-SINGLE-ASSET-TERM-RATIO-FORWARD-RETURN-SKEWNESS",
+        "prereg": "EVAL_112_SINGLE_ASSET_TERM_RATIO_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
+        "combined": "EVAL_112_SINGLE_ASSET_TERM_RATIO_FORWARD_RETURN_SKEWNESS_COMBINED_*",
+        "blocked": "EVAL_112_SINGLE_ASSET_TERM_RATIO_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-113",
+        "task_id": "INIT-2026-11-19T00:12:00Z-EVAL113-SINGLE-ASSET-TERM-SLOPE-FORWARD-RETURN-SKEWNESS",
+        "prereg": "EVAL_113_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
+        "combined": "EVAL_113_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_SKEWNESS_COMBINED_*",
+        "blocked": "EVAL_113_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
         "expected_exit": 0,
     },
     {

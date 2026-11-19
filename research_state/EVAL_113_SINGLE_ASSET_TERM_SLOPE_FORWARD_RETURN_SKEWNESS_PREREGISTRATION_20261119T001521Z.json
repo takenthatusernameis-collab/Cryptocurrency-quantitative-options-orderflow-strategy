@@ -1,0 +1,79 @@
+{
+  "prereg_id": "EVAL_113_SINGLE_ASSET_TERM_SLOPE_FORWARD_RETURN_SKEWNESS_PREREGISTRATION",
+  "generated_at": "2026-11-19T00:15:21Z",
+  "task": "EVAL113-SINGLE-ASSET-TERM-SLOPE-FORWARD-RETURN-SKEWNESS",
+  "hypothesis": "The causal near-to-far ATM implied-vol term slope (term_slope) has a positive monotone (Spearman rank) relationship with the subsequent forward realized return skewness (third standardized moment) of the same underlying, independent of any trading wrapper; tested on real on-disk captures at the EVAL-74 term floor.",
+  "extends": "EVAL-74/96/104 (same term_slope signal path and sealed EVAL-74 term floor) + EVAL-109/111/112 (same forward realized-return-skewness target and EVAL-85 forward-window convention); distinct cell: single-asset term_slope -> forward realized return skewness",
+  "protocol": {
+    "eval": "EVAL-113",
+    "title": "Options near-to-far ATM implied-vol term slope (term_slope) -> forward own-asset realized return skewness predictiveness (Spearman rank IC)",
+    "extends": "EVAL-74/96/104 (same term_slope signal path and sealed EVAL-74 term floor) + EVAL-109/111/112 (same forward realized-return-skewness target and EVAL-85 forward-window convention); distinct cell: single-asset term_slope -> forward realized return skewness",
+    "supersedes": "nothing -- complements EVAL-74/84/96/99/104/112; no traded-form claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signal": "term_slope",
+    "target": "realized_return_skewness",
+    "signal_window_seconds": 900.0,
+    "atm_band": 0.05,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal per-bar near-to-far ATM IV term slope (e74._term_bars term_slope), forward-filled and expanding-zscored end-of-bar k (reused e71._forward_fill / e61.expanding_zscore)",
+    "target_detail": "forward realized return skewness = m3 / m2**1.5 over the SAME underlying's next H perp log returns (strictly after the decision at bar k, lr[k:k+h]), transcribed verbatim from sealed EVAL-109/111/112",
+    "statistic": "Spearman rank correlation IC = rho(term_slope_z_k, skew_k); directional permutation H1: IC>0 (higher term slope -> more right-skewed forward returns)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle target series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses already-acquired real on-disk three-way captures (option trades with iv/strike/expiry + perp candles); no new acquisition, no network",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_distinct_expiries": 2,
+      "min_expiry_trades": 5,
+      "min_bars_with_term": 40,
+      "min_usable_pairs_per_config": 120,
+      "note": "Reuses the sealed EVAL-74 term floor verbatim (EVAL-71 surface floor: min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s + term adequacy: >= MIN_DISTINCT_EXPIRIES distinct near-ATM expiries with >= MIN_EXPIRY_TRADES trades each and >= MIN_BARS_WITH_TERM bars with a non-null term signal), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval74_surface_term_structure_predictiveness.py",
+      "scripts/eval113_single_asset_term_slope_forward_return_skewness.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval113_single_asset_term_slope_forward_return_skewness.py tests/test_eval113_single_asset_term_slope_forward_return_skewness.py",
+      "python3 -m pytest -q tests/test_eval113_single_asset_term_slope_forward_return_skewness.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval113_single_asset_term_slope_forward_return_skewness.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval113_single_asset_term_slope_forward_return_skewness.py --capture-dir data/raw/eval61 --seal --task-label EVAL113-SINGLE-ASSET-TERM-SLOPE-FORWARD-RETURN-SKEWNESS"
+    ]
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "floor": {
+    "min_underlyings": 2,
+    "min_distinct_expiries": 2,
+    "min_expiry_trades": 5,
+    "min_bars_with_term": 40,
+    "min_usable_pairs_per_config": 120,
+    "note": "Reuses the sealed EVAL-74 term floor verbatim (EVAL-71 surface floor: min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s + term adequacy: >= MIN_DISTINCT_EXPIRIES distinct near-ATM expiries with >= MIN_EXPIRY_TRADES trades each and >= MIN_BARS_WITH_TERM bars with a non-null term signal), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  }
+}

@@ -378,7 +378,7 @@ def build_protocol(capture_dir: str) -> Dict[str, Any]:
     }
 
 
-def run_eval102(
+def run_eval112(
     *,
     capture_dir: str = "data/raw/eval61",
     write: bool = True,
@@ -628,7 +628,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     write = not args.no_write
     try:
-        report = run_eval102(capture_dir=args.capture_dir, write=write, task_label=args.task_label)
+        report = run_eval112(capture_dir=args.capture_dir, write=write, task_label=args.task_label)
     except BaseException as exc:  # noqa: BLE001
         traceback.print_exc()
         if write:
