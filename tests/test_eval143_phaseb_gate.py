@@ -1,7 +1,7 @@
-"""Unit tests for the EVAL-139 Phase-B gate (deterministic completion arbiter).
+"""Unit tests for the EVAL-143 Phase-B gate (deterministic completion arbiter).
 
 The gate has three honest outcomes — SEALED (0), DUE (20), FAILED (1) — and,
-unlike EVAL-67/68/69, no NOT_DUE phase: the EVAL-139 inputs are on disk, so the
+unlike EVAL-67/68/69, no NOT_DUE phase: the EVAL-143 inputs are on disk, so the
 honest pre-execution state is DUE (heavy work required now).
 
 No real data, no network, no research_state writes (temp dirs only).
@@ -36,7 +36,7 @@ def test_detect_seal_missing(tmp_path):
 
 
 def test_detect_seal_hit(tmp_path):
-    name = f"{gate.COMBINED_GLOB.rstrip('*')}20261120T100000Z.json"
+    name = f"{gate.COMBINED_GLOB.rstrip('*')}20261120T150000Z.json"
     (tmp_path / name).write_text("{}")
     res = gate.detect_seal(tmp_path)
     assert res["sealed"] is True

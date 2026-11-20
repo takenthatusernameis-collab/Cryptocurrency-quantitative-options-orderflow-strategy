@@ -1,13 +1,13 @@
-"""Unit tests for EVAL-138: does the **cross-asset causal near-ATM IV term-structure
+"""Unit tests for EVAL-143: does the **cross-asset causal near-ATM IV term-structure
 spillover** (the OTHER underlying's ``term_ratio = IV(near)/IV(far) - 1``) predict
-the subsequent **forward realized return kurtosis** (fourth standardized moment)
+the subsequent **forward realized return skewness** (third standardized moment)
 of the target underlying?
 
-EVAL-138 is the next cell of the physics-independent predictiveness line after
-EVAL-137 seals: cross-asset term_ratio spillover -> forward realized return
-kurtosis. It reuses the EVAL-74 ``term_ratio`` signal verbatim, the EVAL-71
-surface floor verbatim, the cross-asset alignment, and the EVAL-117/119/121/129
-forward realized-return-kurtosis target verbatim; the new logic is the
+EVAL-143 is the next cell of the physics-independent predictiveness line after
+EVAL-142 seals: cross-asset term_ratio spillover -> forward realized return
+skewness. It reuses the EVAL-74 ``term_ratio`` signal verbatim, the EVAL-71
+surface floor verbatim, the cross-asset alignment, and the EVAL-109/112/113/116
+forward realized-return-skewness target verbatim; the new logic is the
 cross-asset term_ratio spillover pairing.
 
 Deterministic in-memory fixtures only (unit-test inputs). No real data, no
@@ -160,10 +160,10 @@ def test_spillover_signal_is_other_asset():
     assert all(v is not None for v in filled_btc)
 
 
-# 6) _eval_one_config targets forward realized return kurtosis with cross-asset term_ratio, deterministically
+# 6) _eval_one_config targets forward realized return skewness with cross-asset term_ratio, deterministically
 def test_eval_one_config_structure_and_deterministic(monkeypatch):
-    monkeypatch.setattr(e138, "PERMUTATION_PERMS", 50)
-    monkeypatch.setattr(e138, "BOOTSTRAP_RESAMPLES", 50)
+    monkeypatch.setattr(e143, "PERMUTATION_PERMS", 50)
+    monkeypatch.setattr(e143, "BOOTSTRAP_RESAMPLES", 50)
     caps = {
         "BTC": _craft_term_capture("BTC", n_bars=300, seed=5),
         "ETH": _craft_term_capture("ETH", n_bars=300, seed=6),
@@ -202,12 +202,12 @@ def test_below_floor_blocks_not_nogo():
 
 # 8) run_eval143(write=False) meets floor and summarizes (floor monkeypatched ok)
 def test_run_eval143_no_write_meets_floor_and_summarizes(monkeypatch):
-    monkeypatch.setattr(e138, "GRID_BAR_SECONDS", (300.0,))
-    monkeypatch.setattr(e138, "FORWARD_HORIZONS_BARS", (6,))
-    monkeypatch.setattr(e138, "PERMUTATION_PERMS", 50)
-    monkeypatch.setattr(e138, "BOOTSTRAP_RESAMPLES", 50)
+    monkeypatch.setattr(e143, "GRID_BAR_SECONDS", (300.0,))
+    monkeypatch.setattr(e143, "FORWARD_HORIZONS_BARS", (6,))
+    monkeypatch.setattr(e143, "PERMUTATION_PERMS", 50)
+    monkeypatch.setattr(e143, "BOOTSTRAP_RESAMPLES", 50)
     monkeypatch.setattr(
-        e138, "campaign_floor",
+        e143, "campaign_floor",
         lambda captures: {"checks": {}, "ok": True},
     )
     caps = {
@@ -260,12 +260,12 @@ def test_campaign_floor_requires_both_and_alignment():
 
 # 11) per-target summary keys signal/target pairing
 def test_per_target_summary_pairing(monkeypatch):
-    monkeypatch.setattr(e138, "GRID_BAR_SECONDS", (300.0,))
-    monkeypatch.setattr(e138, "FORWARD_HORIZONS_BARS", (6,))
-    monkeypatch.setattr(e138, "PERMUTATION_PERMS", 50)
-    monkeypatch.setattr(e138, "BOOTSTRAP_RESAMPLES", 50)
+    monkeypatch.setattr(e143, "GRID_BAR_SECONDS", (300.0,))
+    monkeypatch.setattr(e143, "FORWARD_HORIZONS_BARS", (6,))
+    monkeypatch.setattr(e143, "PERMUTATION_PERMS", 50)
+    monkeypatch.setattr(e143, "BOOTSTRAP_RESAMPLES", 50)
     monkeypatch.setattr(
-        e138, "campaign_floor",
+        e143, "campaign_floor",
         lambda captures: {"checks": {}, "ok": True},
     )
     caps = {
@@ -285,12 +285,12 @@ def test_per_target_summary_pairing(monkeypatch):
 
 # 12) pooled BH-FDR key present and campaign_state set
 def test_pooled_bh_fdr_and_campaign_state(monkeypatch):
-    monkeypatch.setattr(e138, "GRID_BAR_SECONDS", (300.0,))
-    monkeypatch.setattr(e138, "FORWARD_HORIZONS_BARS", (6,))
-    monkeypatch.setattr(e138, "PERMUTATION_PERMS", 50)
-    monkeypatch.setattr(e138, "BOOTSTRAP_RESAMPLES", 50)
+    monkeypatch.setattr(e143, "GRID_BAR_SECONDS", (300.0,))
+    monkeypatch.setattr(e143, "FORWARD_HORIZONS_BARS", (6,))
+    monkeypatch.setattr(e143, "PERMUTATION_PERMS", 50)
+    monkeypatch.setattr(e143, "BOOTSTRAP_RESAMPLES", 50)
     monkeypatch.setattr(
-        e138, "campaign_floor",
+        e143, "campaign_floor",
         lambda captures: {"checks": {}, "ok": True},
     )
     caps = {
@@ -302,6 +302,6 @@ def test_pooled_bh_fdr_and_campaign_state(monkeypatch):
     assert "bh_fdr" in report["pooled"]
     assert "campaign_state" in report["pooled"]
     assert report["pooled"]["campaign_state"] in (
-        "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_KURTOSIS",
+        "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS",
         "EVAL_143_BLOCKED_FLOOR",
     )

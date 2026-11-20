@@ -4,23 +4,22 @@ EVAL-143 campaign's completion contract.
 
 Why this exists
 ---------------
-EVAL-137 sealed cross-sectional ``term_ratio`` basis relative-value straddle
-spread net-of-cost (BLOCKED, capture below the sealed EVAL-64 floor). The
-pre-registered build queue makes EVAL-143 — cross-asset ``term_ratio`` spillover
--> forward realized return kurtosis — the next mandatory build. EVAL-143
-measures whether the OTHER underlying's near-ATM IV term_ratio carries
-information about the target underlying's subsequent forward return kurtosis on
-the already-acquired real on-disk captures (both underlyings' option-trade IV
-tapes + both perp candle series), with no acquisition and no network, so it is
-runnable **now**. EVAL-143 is the successor: cross-asset ``term_ratio`` spillover
--> forward realized return skewness.
+EVAL-142 sealed cross-asset ``term_ratio`` risk-reversal net-of-cost (BLOCKED,
+capture below the sealed EVAL-64 floor). The pre-registered build queue makes
+EVAL-143 — pooled BTC+ETH cross-asset ``term_ratio`` spillover -> forward
+realized return skewness — the next mandatory build. EVAL-143 measures whether
+the OTHER underlying's near-ATM IV term_ratio carries information about the
+target underlying's subsequent forward return skewness on the already-acquired
+real on-disk captures (both underlyings' option-trade IV tapes + both perp
+candle series), with no acquisition and no network, so it is runnable **now**.
 
 EVAL-143 reuses the sealed EVAL-61/62/65/71/74 signal/inference reconstructions,
 the EVAL-71 surface floor verbatim, the cross-asset alignment
-(``build_cross_section``), and the EVAL-109/112/113/116 forward realized-return-
-skewness target verbatim; it does not re-litigate EVAL-71, EVAL-74, EVAL-77,
-EVAL-114, EVAL-122, EVAL-132, EVAL-134, EVAL-136, EVAL-109, EVAL-112, EVAL-113,
-EVAL-116, or any sealed campaign.
+(``build_cross_section`` returning both ``maps`` for the EVAL-71 surface bar and
+``term_maps`` for the EVAL-74 term bar), and the EVAL-109/112/113/116 forward
+realized-return-skewness target verbatim; it does not re-litigate EVAL-71,
+EVAL-74, EVAL-77, EVAL-114, EVAL-122, EVAL-132, EVAL-134, EVAL-136, EVAL-138,
+EVAL-139, EVAL-140, EVAL-141, EVAL-142, or any sealed campaign.
 
 Outcomes (exit codes)
 ---------------------
