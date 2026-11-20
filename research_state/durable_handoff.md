@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T22:01:03Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T22:03:27Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
 >
@@ -14,7 +14,7 @@
 >
 > **THIRD ACTION, mandatory (build the next focus campaign):** define + seal **EVAL-148** — cross-asset spillover → forward **signed return mean** (directional). No cross-asset signed-return cell exists yet. Signal path from EVAL-114/122/132 (`build_cross_section` cross-asset spillover), target from EVAL-101/102/104 (forward signed return mean). `SURFACE_SIGNAL` ∈ {`atm_iv`, `term_slope`, `term_ratio`, `skew`} — build all four cross-asset cells against forward signed return mean on the real on-disk captures (`data/raw/eval61`), no acquisition. EVAL-148 runner `scripts/eval148_cross_asset_<signal>_spillover_forward_signed_return_mean.py`, gate `scripts/eval148_<signal>_phaseb_gate.py`, tests `tests/test_eval148_*`. Wire into `scripts/eval67_prethreshold_progress.py` (+2 test files to `TARGETED_TEST_FILES`, `GATE_SPECS` `wait_phase: "DUE"`, `SEAL_SPECS` `expected_exit: 1`, bump `EXPECTED_TARGETED_TESTS` 1719→1755), then `pytest -q tests/test_eval148_*.py` green → `python3 scripts/eval148_*_phaseb_gate.py --execute` → flip `expected_exit` 1→0 → driver green again. Do not stop at "everything is sealed".
 
-## VERIFIED STATE (2026-11-20T22:01:03Z, this session)
+## VERIFIED STATE (2026-11-20T22:03:27Z, this session)
 
 Driver source of truth: `EXPECTED_TARGETED_TESTS=1719`, `EXPECTED_DIAGNOSTIC_TESTS=27` (see `scripts/eval67_prethreshold_progress.py`). All `EVAL-70..147` `SEALED`; `EVAL-67/68/69` `SEALED` (forward disjoint-window ladder complete; disjoint-window threshold `2026-11-20T00:00:00Z` PASSED). Readiness refreshed at `research_state/EVAL_67_PREWINDOW_READINESS.json` (1719 targeted + 27 diagnostics = 1746, 81/81 GATE_SPECS + 82 SEAL_SPECS, exit 0).
 
