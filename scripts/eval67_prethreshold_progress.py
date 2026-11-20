@@ -180,8 +180,13 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1510
+EXPECTED_TARGETED_TESTS = 1511
 EXPECTED_DIAGNOSTIC_TESTS = 27
+
+STALE_READINESS_KEYS: Tuple[str, ...] = (
+    "eval66_seal_gate_exit",
+    "eval67_seal_gate_exit",
+)
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
@@ -1378,6 +1383,8 @@ def update_readiness(
     execute_requested: bool,
 ) -> Dict[str, Any]:
     data = _load_readiness()
+    for stale in STALE_READINESS_KEYS:
+        data.pop(stale, None)
     gates = _gate_summary(gate_results)
     seals = {str(s.get("name")): s for s in seal_results}
 
