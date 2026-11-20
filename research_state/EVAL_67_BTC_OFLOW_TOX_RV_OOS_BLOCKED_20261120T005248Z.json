@@ -1,0 +1,74 @@
+{
+  "report_id": "EVAL_67_BTC_OFLOW_TOX_RV_OOS_BLOCKED",
+  "generated_at": "2026-11-20T00:52:48Z",
+  "task": "EVAL67-BTC-OFLOW-TOX-RV-OOS",
+  "verdict": "BLOCKED",
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval67",
+  "underlyings": [
+    "BTC"
+  ],
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_surface_snapshots": 1066,
+      "n_surface_instruments": 103,
+      "n_surface_bars_5m": 1001,
+      "n_option_trades": 3443,
+      "n_of_instruments": 101,
+      "of_span_seconds": 86299.536,
+      "n_of_bars_5m": 287,
+      "n_perp_candles": 5001,
+      "perp_span_seconds": 300000.0,
+      "n_perp_bars_5m": 1000,
+      "n_common_bars_5m": 287,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": false,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": false
+    }
+  },
+  "floor": {
+    "min_surface_snapshots_per_underlying": 1000,
+    "min_surface_instruments_per_underlying": 100,
+    "min_surface_bars_5m_per_underlying": 1000,
+    "min_option_trades_per_underlying": 2000,
+    "min_of_instruments_per_underlying": 150,
+    "min_of_span_seconds_per_underlying": 82000.0,
+    "min_of_bars_5m_per_underlying": 240,
+    "min_perp_bars_5m_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 300000.0,
+    "min_common_bars_per_underlying": 240,
+    "min_underlyings": 1,
+    "note": "order-flow span floor is a heavier-than-EVAL-62 24h bar because Deribit tick-trade retention is ~24h; surface/perp floors require the full >=7d"
+  },
+  "floor_ok": false,
+  "disjointness_ok": true,
+  "disjointness": {
+    "BTC": {
+      "underlying": "BTC",
+      "ok": true,
+      "reason": "disjoint",
+      "capture_window": [
+        "2026-11-16T07:36:28Z",
+        "2026-11-20T00:24:28Z"
+      ],
+      "sealed_window": [
+        "2026-11-09T06:48:16Z",
+        "2026-11-16T06:48:16Z"
+      ],
+      "overlap_seconds": 0.0,
+      "capture_span_seconds": 319680.0,
+      "meets_min_span": true
+    }
+  },
+  "errors": []
+}
