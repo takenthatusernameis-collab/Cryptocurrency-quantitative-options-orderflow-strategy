@@ -186,6 +186,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval142_phaseb_gate.py",
     "tests/test_eval143_pooled_cross_asset_term_ratio_spillover_forward_return_skewness.py",
     "tests/test_eval143_phaseb_gate.py",
+    "tests/test_eval144_cross_asset_term_ratio_spillover_forward_downside_semivariance_share.py",
+    "tests/test_eval144_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -194,7 +196,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1647
+EXPECTED_TARGETED_TESTS = 1665
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -571,6 +573,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-143",
         "script": ROOT / "scripts" / "eval143_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-144",
+        "script": ROOT / "scripts" / "eval144_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -1189,6 +1196,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
         "combined": "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED_*",
         "blocked": "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-144",
+        "task_id": "INIT-2026-11-20T18:49:23Z-EVAL144-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE",
+        "prereg": "EVAL_144_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
+        "combined": "EVAL_144_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
+        "blocked": "EVAL_144_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
         "expected_exit": 0,
     },
     {
