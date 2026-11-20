@@ -299,8 +299,8 @@ def _verify_prereg(prereg_path: Path) -> Tuple[bool, List[str]]:
             errors.append(f"PREREG: fdr_alpha mismatch: {stats.get('fdr_alpha')}")
         if stats.get("seed") != e62.SEED:
             errors.append(f"PREREG: seed mismatch: {stats.get('seed')}")
-        if stats.get("zwindow") != e62.ZWINDOW:
-            errors.append(f"PREREG: zwindow mismatch: {stats.get('zwindow')}")
+        if proto.get("zwindow") != e62.ZWINDOW:
+            errors.append(f"PREREG: zwindow mismatch: {proto.get('zwindow')}")
         if stats.get("min_states_per_config") != 100:
             errors.append(f"PREREG: min_states_per_config mismatch: {stats.get('min_states_per_config')}")
 
@@ -459,14 +459,43 @@ def run_verification() -> Tuple[bool, List[str]]:
 # ---------------------------------------------------------------------------
 # Execute path
 # ---------------------------------------------------------------------------
-def execute_phaseb(*, research_state_dir: Path = RS_DIR) -> Dict[str, Any]:
-    """Run the verification then the authoritative seal-gate."""
+def execute_phaseb(
+    *,
+    capture_dir: Path = CAPTURE_DIR,
+    research_state_dir: Path = RS_DIR,
+) -> Dict[str, Any]:
+    """Run the heavy work (runner --seal) then the verification + authoritative
+    seal-gate. Returns a structured result with ok=True only if the seal-gate
+    exits 0."""
     steps: List[Dict[str, Any]] = []
+
+    cap = capture_ready(capture_dir)
+    if not cap["present"]:
+        return {
+            "ok": False,
+            "step": "capture",
+            "reason": "required on-disk captures missing (need BTC and ETH three_way)",
+            "capture": cap,
+            "steps": steps,
+        }
+
+    rc, out = _run([
+        sys.executable,
+        str(ROOT / "scripts" / "eval137_cross_sectional_term_ratio_basis_relative_value_straddle_spread_net_of_cost.py"),
+        "--capture-dir",
+        str(capture_dir),
+        "--seal",
+        "--task-label",
+        TASK_LABEL,
+    ])
+    steps.append({"step": "run_and_seal", "rc": rc, "tail": out[-4000:]})
+    if rc != 0:
+        return {"ok": False, "step": "run_and_seal", "steps": steps, "capture": cap}
 
     ok, errors = run_verification()
     steps.append({"step": "verification", "ok": ok, "errors": errors})
     if not ok:
-        return {"ok": False, "step": "verification", "steps": steps}
+        return {"ok": False, "step": "verification", "steps": steps, "capture": cap}
 
     sg_rc, sg_out = run_seal_gate_check(research_state_dir=research_state_dir)
     steps.append({"step": "seal_gate", "rc": sg_rc, "tail": sg_out[-4000:]})
@@ -474,6 +503,7 @@ def execute_phaseb(*, research_state_dir: Path = RS_DIR) -> Dict[str, Any]:
         "ok": sg_rc == 0,
         "step": "seal_gate",
         "steps": steps,
+        "capture": cap,
     }
 
 
@@ -485,13 +515,22 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         description="EVAL-137 phase-B gate (SEALED/DUE/FAILED; deterministic, idempotent)"
     )
     ap.add_argument("--execute", action="store_true",
-                    help="run EVAL-137 verification + the authoritative seal-gate (unskippable)")
+                    help="run EVAL-137 --seal + verification + the authoritative seal-gate (unskippable)")
+    ap.add_argument("--capture-dir", default=str(CAPTURE_DIR))
     ap.add_argument("--research-state-dir", default=str(RS_DIR))
     args = ap.parse_args(argv)
 
     rs_dir = Path(args.research_state_dir)
+    cap_dir = Path(args.capture_dir)
 
     seal = detect_seal(rs_dir)
+    cap = capture_ready(cap_dir)
+    readiness = {
+        "capture": cap,
+        "runnable_now": bool(cap.get("present")),
+        "task_id": TASK_ID,
+        "task_label": TASK_LABEL,
+    }
 
     if seal.get("sealed"):
         sg_rc, sg_out = run_seal_gate_check(research_state_dir=rs_dir)
@@ -510,11 +549,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         payload = {
             "phase": "DUE",
             "exit_code": EXIT_DUE,
-            "readiness": {
-                "runnable_now": True,
-                "task_id": TASK_ID,
-                "task_label": TASK_LABEL,
-            },
+            "readiness": readiness,
             "note": (
                 "EVAL-137 is runnable now on the on-disk real captures but has not "
                 "been sealed. Heavy work is REQUIRED. Re-run with: "
@@ -524,7 +559,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         print(json.dumps(payload, indent=2))
         return EXIT_DUE
 
-    result = execute_phaseb(research_state_dir=rs_dir)
+    result = execute_phaseb(capture_dir=cap_dir, research_state_dir=rs_dir)
     if result.get("ok"):
         seal2 = detect_seal(rs_dir)
         payload = {
