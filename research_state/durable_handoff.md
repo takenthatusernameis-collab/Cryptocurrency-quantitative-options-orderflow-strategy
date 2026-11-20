@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T19:31:02Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T19:33:37Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
 >
@@ -12,7 +12,7 @@
 >
 > **SECOND ACTION, mandatory (anti-avoidance):** a green driver plus all-sealed is **NOT** session completion. EVAL-144 sealed `NO-GO CONFIRMED (PASS)` (`20261120T190227Z`): cross-asset `term_ratio` spillover → forward downside-semivariance share (Spearman rank IC); BTC best IC -0.0385 / ETH best IC -0.0069, 0 pass configs, BH-FDR rejected: []; floor OK (BTC, ETH). The pre-registered queue EVAL-140→141→142→143→144 is **COMPLETE**. Define **+ seal EVAL-145** as the next physics-independent predictiveness rung on the real on-disk captures (no acquisition). Timestamp-only carries are prohibited. Do not stop at "everything is sealed".
 
-## VERIFIED STATE (2026-11-20T19:31:02Z, this session)
+## VERIFIED STATE (2026-11-20T19:33:37Z, this session)
 
 Driver source of truth: `EXPECTED_TARGETED_TESTS=1665`, `EXPECTED_DIAGNOSTIC_TESTS=27` (see `scripts/eval67_prethreshold_progress.py`). All `EVAL-70..144` `SEALED`; `EVAL-67/68/69` `SEALED` (forward disjoint-window ladder complete; disjoint-window threshold `2026-11-20T00:00:00Z` PASSED). Readiness refreshed at `research_state/EVAL_67_PREWINDOW_READINESS.json` (1665 targeted + 27 diagnostics = 1692, 78/78 seal gates, exit 0).
 
@@ -125,5 +125,7 @@ EVAL-02..62, 64..66, 67..69, 70..136, 137, 138, 139, 140, 141, 142, 143, 144 sea
 - **2026-11-20T18:39:26Z:** **EVAL-143 SEALED** (pooled BTC+ETH cross-asset `term_ratio` spillover → forward realized return skewness). Repaired copy-paste clone (bottleneck #13). Driver green: **1647/1647** targeted + **27/27** diagnostics = 1674, all **77/77** seal-gate specs ok, exit 0. **Pre-registered queue COMPLETE (EVAL-140→141→142→143 all sealed).** Next mandated build: **EVAL-144** (new physics-independent predictiveness cell on real captures; define signal/target/floor per charter). Anti-avoidance in force — a green driver + all-sealed is NOT completion; define + build + seal EVAL-144 in the same session.
 - **2026-11-20T18:46:56Z:** Durable handoff refreshed with current timestamp; next mandated build remains **EVAL-144** (new physics-independent predictiveness cell on real captures; define signal/target/floor per charter; no acquisition). Anti-avoidance in force — a green driver + all-sealed is NOT completion; define + build + seal EVAL-144 in the same session.
 - **2026-11-20T19:31:02Z:** **EVAL-144 SEALED** (`NO-GO CONFIRMED (PASS)`): cross-asset `term_ratio` spillover → forward downside-semivariance share (Spearman rank IC); BTC best IC -0.0385 / ETH best IC -0.0069, 0 pass configs, BH-FDR rejected: []; floor OK (BTC, ETH). Driver green: **1665/1665** targeted + **27/27** diagnostics = 1692, all **78/78** seal-gate specs ok, exit 0. Readiness refreshed at `research_state/EVAL_67_PREWINDOW_READINESS.json`. **Pre-registered queue COMPLETE (EVAL-140→141→142→143→144 all sealed).** Next mandated build: **EVAL-145** (new physics-independent predictiveness cell on real captures; define signal/target/floor per charter; no acquisition). Anti-avoidance in force — a green driver + all-sealed is NOT completion; define + build + seal EVAL-145 in the same session.
+
+- **2026-11-20T19:33:37Z:** Refreshed durable handoff timestamp; EVAL-144 SEALED `NO-GO CONFIRMED (PASS)` (`20261120T190227Z`). Pre-registered queue COMPLETE (EVAL-140→141→142→143→144 all sealed). Next mandated build: **EVAL-145** (new physics-independent predictiveness cell on real captures; define signal/target/floor per charter; no acquisition). Anti-avoidance in force — a green driver + all-sealed is NOT completion; define + build + seal EVAL-145 in the same session.
 
 (End of file)
