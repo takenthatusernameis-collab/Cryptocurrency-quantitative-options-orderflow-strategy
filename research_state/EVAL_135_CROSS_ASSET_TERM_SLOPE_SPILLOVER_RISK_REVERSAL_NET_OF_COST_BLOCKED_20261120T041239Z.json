@@ -1,0 +1,95 @@
+{
+  "report_id": "EVAL_135_CROSS_ASSET_TERM_SLOPE_SPILLOVER_RISK_REVERSAL_NET_OF_COST_BLOCKED",
+  "generated_at": "2026-11-20T04:12:39Z",
+  "task": "EVAL135-CROSS-ASSET-TERM-SLOPE-SPILLOVER-RISK-REVERSAL-NET-OF-COST",
+  "verdict": "BLOCKED",
+  "verdict_detail": "capture below the sealed EVAL-64 feasible floor; no verdict (never a NO-GO)",
+  "floor_ok": false,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval68",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "campaign_floor": {
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "per_underlying": {
+      "BTC": {
+        "underlying": "BTC",
+        "n_surface_snapshots": 1067,
+        "n_surface_instruments": 99,
+        "n_surface_bars_5m": 1001,
+        "n_option_trades": 3469,
+        "n_of_instruments": 96,
+        "of_span_seconds": 86390.521,
+        "n_of_bars_5m": 287,
+        "n_perp_candles": 5001,
+        "perp_span_seconds": 300000.0,
+        "n_perp_bars_5m": 1000,
+        "n_common_bars_5m": 288,
+        "checks": {
+          "snapshots_ok": true,
+          "surface_instruments_ok": false,
+          "surface_bars_ok": true,
+          "trades_ok": true,
+          "of_instruments_ok": false,
+          "of_span_ok": true,
+          "of_bars_ok": true,
+          "perp_bars_ok": true,
+          "perp_span_ok": true,
+          "common_overlap_ok": true
+        },
+        "ok": false
+      },
+      "ETH": {
+        "underlying": "ETH",
+        "n_surface_snapshots": 1067,
+        "n_surface_instruments": 106,
+        "n_surface_bars_5m": 1001,
+        "n_option_trades": 1895,
+        "n_of_instruments": 93,
+        "of_span_seconds": 84035.496,
+        "n_of_bars_5m": 280,
+        "n_perp_candles": 5001,
+        "perp_span_seconds": 300000.0,
+        "n_perp_bars_5m": 1000,
+        "n_common_bars_5m": 280,
+        "checks": {
+          "snapshots_ok": true,
+          "surface_instruments_ok": true,
+          "surface_bars_ok": true,
+          "trades_ok": false,
+          "of_instruments_ok": false,
+          "of_span_ok": true,
+          "of_bars_ok": true,
+          "perp_bars_ok": true,
+          "perp_span_ok": true,
+          "common_overlap_ok": true
+        },
+        "ok": false
+      }
+    },
+    "underlyings_ok": false,
+    "checks": {
+      "underlyings_ok": false
+    },
+    "ok": false
+  },
+  "floor": {
+    "min_underlyings": 2,
+    "min_surface_snapshots_per_underlying": 1000,
+    "min_surface_instruments_per_underlying": 100,
+    "min_surface_bars_5m_per_underlying": 1000,
+    "min_option_trades_per_underlying": 2000,
+    "min_of_instruments_per_underlying": 150,
+    "min_of_span_seconds_per_underlying": 82000.0,
+    "min_of_bars_5m_per_underlying": 240,
+    "min_perp_bars_5m_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 300000.0,
+    "min_common_bars_per_underlying": 240,
+    "note": "Floor = sealed EVAL-64 feasible floor verbatim (scripts/eval64_orderflow_realized_vol_markpath_feasible.py: min_surface_snapshots=1000, min_surface_instruments=100, min_surface_bars_5m=1000, min_option_trades=2000, min_of_instruments=150, min_of_span_seconds=82000, min_of_bars_5m=240, min_perp_bars_5m=1000, min_perp_span_seconds=300000, min_common_bars=240, min_underlyings=2), applied to BOTH BTC and ETH, reused via e64._underlying_floor_strict, NOT weakened. This governs the EVAL-67/68/69 ladder and is untouched here. Below this floor the campaign seals BLOCKED, never NO-GO."
+  },
+  "errors": []
+}

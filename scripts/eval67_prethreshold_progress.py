@@ -166,6 +166,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval132_phaseb_gate.py",
     "tests/test_eval133_cross_asset_term_slope_spillover_forward_return_kurtosis.py",
     "tests/test_eval133_phaseb_gate.py",
+    "tests/test_eval135_cross_asset_term_slope_spillover_risk_reversal_net_of_cost.py",
+    "tests/test_eval135_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -174,7 +176,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1450
+EXPECTED_TARGETED_TESTS = 1474
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 GATE_SPECS: Tuple[Dict[str, Any], ...] = (
@@ -496,6 +498,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-133",
         "script": ROOT / "scripts" / "eval133_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-135",
+        "script": ROOT / "scripts" / "eval135_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -1034,7 +1041,15 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_133_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_RETURN_KURTOSIS_PREREGISTRATION_*",
         "combined": "EVAL_133_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_RETURN_KURTOSIS_COMBINED_*",
         "blocked": "EVAL_133_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_RETURN_KURTOSIS_BLOCKED_*",
-        "expected_exit": 1,
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-135",
+        "task_id": "INIT-2026-11-20T04:06:36Z-EVAL135-CROSS-ASSET-TERM-SLOPE-SPILLOVER-RISK-REVERSAL-NET-OF-COST-CORRECTED",
+        "prereg": "EVAL_135_CROSS_ASSET_TERM_SLOPE_SPILLOVER_RISK_REVERSAL_NET_OF_COST_PREREGISTRATION_*",
+        "combined": "EVAL_135_CROSS_ASSET_TERM_SLOPE_SPILLOVER_RISK_REVERSAL_NET_OF_COST_COMBINED_*",
+        "blocked": "EVAL_135_CROSS_ASSET_TERM_SLOPE_SPILLOVER_RISK_REVERSAL_NET_OF_COST_BLOCKED_*",
+        "expected_exit": 0,
     },
     {
         "name": "EVAL-67",
