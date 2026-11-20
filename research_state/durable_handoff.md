@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T13:51:31Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**>> **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T14:28:20Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**>> **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
 >
 > ```bash
 > python3 scripts/eval67_prethreshold_progress.py --execute
@@ -8,7 +8,7 @@
 >
 > Require: `targeted_tests: 1605/1605`, `diagnostic_tests: 27/27`, `EVAL-70..141` all `SEALED`, `EVAL-67/68/69` `SEALED`, `EVAL-137` `SEALED` (BLOCKED), `EVAL-138/139` `SEALED` (GO CONFIRMED), `EVAL-140/141` `SEALED` (NO-GO), all `76/76` seal-gate specs ok, `overall_ok=True exit=0`. The driver's `--execute` is an idempotent no-op for every sealed rung.
 >
-> **SECOND ACTION, mandatory (anti-avoidance):** a green driver plus all-sealed is **NOT** session completion. Build **+ seal EVAL-142** in the same session (cross-asset `term_ratio` spillover → risk-reversal net-of-cost, traded form; spec in the queue below), then re-run the driver green. Continue the pre-registered queue (EVAL-142 → EVAL-143). Timestamp-only carries are prohibited. Do not stop at "everything is sealed".
+> **SECOND ACTION, mandatory (anti-avoidance):** a green driver plus all-sealed is **NOT** session completion. Build **+ seal EVAL-143** in the same session (pooled BTC+ETH cross-asset `term_ratio` spillover → forward realized return skewness; spec in the queue below), repairing the EVAL-143 gate copy-paste clone first, then re-run the driver green. Continue the pre-registered queue. Timestamp-only carries are prohibited. Do not stop at "everything is sealed".
 
 ## VERIFIED STATE (2026-11-20T13:51:31Z, this session)
 
@@ -120,4 +120,4 @@ EVAL-02..62, 64..66, 67..69, 70..136, 137, 138, 139, 140, and 141 sealed. EVAL-6
 - **2026-11-20T12:28:50Z:** Refreshed durable handoff timestamp; next mandated build remains **EVAL-142** (cross-asset `term_ratio` spillover → risk-reversal net-of-cost, traded form, EVAL-64 floor verbatim), then **EVAL-143**. Queue EVAL-142 → EVAL-143; anti-avoidance in force — a green driver + all-sealed is NOT completion; build + seal EVAL-142 in the same session.
 - **2026-11-20T12:38:04Z:** Driver re-verified green: **1605/1605** targeted + **27/27** diagnostics = 1632, all **76/76** seal-gate specs ok, exit 0. EVAL-140/141 SEALED (NO-GO CONFIRMED). Next mandated build remains **EVAL-142** (cross-asset `term_ratio` spillover → risk-reversal net-of-cost, traded form, EVAL-64 floor verbatim), then **EVAL-143**. Queue EVAL-142 → EVAL-143; anti-avoidance in force — a green driver + all-sealed is NOT completion; build + seal EVAL-142 in the same session.
 
-- **2026-11-20T13:51:31Z:** Refreshed durable handoff timestamp; next mandated build remains **EVAL-142** (cross-asset `term_ratio` spillover → risk-reversal net-of-cost, traded form, EVAL-64 floor verbatim), then **EVAL-143**. Queue EVAL-142 → EVAL-143; anti-avoidance in force — a green driver + all-sealed is NOT completion; build + seal EVAL-142 in the same session.
+- **2026-11-20T14:28:20Z:** EVAL-142 SEALED `BLOCKED` (cross-asset `term_ratio` spillover risk-reversal net-of-cost; under EVAL-64 floor). Next mandated build: **EVAL-143** (pooled BTC+ETH cross-asset `term_ratio` spillover → forward realized return skewness, power-adequate pooled successor to EVAL-139; acquires nothing). Note: `scripts/eval143_phaseb_gate.py` is an un-updated EVAL-139 clone (copy-paste bottleneck) — repair ids/labels/globs per bottleneck #13 before sealing; runner and tests exist. Queue EVAL-143; anti-avoidance in force — a green driver + all-sealed is NOT completion; build + seal EVAL-143 in the same session.
