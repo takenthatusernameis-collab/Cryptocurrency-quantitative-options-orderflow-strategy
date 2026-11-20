@@ -97,7 +97,7 @@ def test_ids_are_eval139():
     assert e138.BLOCKED_ID.startswith("EVAL_139_")
     assert "TERM_RATIO" in e138.REPORT_ID
     assert "SPILLOVER" in e138.REPORT_ID
-    assert "FORWARD_RETURN_KURTOSIS" in e138.REPORT_ID
+    assert "FORWARD_RETURN_SKEWNESS" in e138.REPORT_ID
     assert e138.SURFACE_SIGNAL == "term_ratio"
     assert e138.TARGET == "realized_return_skewness"
 

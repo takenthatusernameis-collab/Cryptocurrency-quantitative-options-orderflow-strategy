@@ -1,7 +1,7 @@
-"""Unit tests for the EVAL-138 Phase-B gate (deterministic completion arbiter).
+"""Unit tests for the EVAL-139 Phase-B gate (deterministic completion arbiter).
 
 The gate has three honest outcomes — SEALED (0), DUE (20), FAILED (1) — and,
-unlike EVAL-67/68/69, no NOT_DUE phase: the EVAL-138 inputs are on disk, so the
+unlike EVAL-67/68/69, no NOT_DUE phase: the EVAL-139 inputs are on disk, so the
 honest pre-execution state is DUE (heavy work required now).
 
 No real data, no network, no research_state writes (temp dirs only).
@@ -15,18 +15,18 @@ import scripts.eval139_phaseb_gate as gate
 def test_ids_and_globs_are_eval139():
     assert gate.TASK_ID.startswith("INIT-")
     assert "EVAL139" in gate.TASK_ID
-    assert gate.TASK_ID.endswith("EVAL139-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-KURTOSIS")
-    assert gate.TASK_LABEL == "EVAL139-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-KURTOSIS"
+    assert gate.TASK_ID.endswith("EVAL139-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS")
+    assert gate.TASK_LABEL == "EVAL139-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS"
     assert gate.PREREG_GLOB.startswith("EVAL_139_")
     assert gate.COMBINED_GLOB.startswith("EVAL_139_")
     assert gate.BLOCKED_GLOB.startswith("EVAL_139_")
     assert "TERM_RATIO" in gate.COMBINED_GLOB
     assert "SPILLOVER" in gate.COMBINED_GLOB
-    assert "FORWARD_RETURN_KURTOSIS" in gate.COMBINED_GLOB
+    assert "FORWARD_RETURN_SKEWNESS" in gate.COMBINED_GLOB
 
 
 def test_task_floor_stamp_parses_iso():
-    assert gate.task_floor_stamp(gate.TASK_ID) == "20261120T093047Z"
+    assert gate.task_floor_stamp(gate.TASK_ID) == "20261120T093729Z"
 
 
 def test_detect_seal_missing(tmp_path):

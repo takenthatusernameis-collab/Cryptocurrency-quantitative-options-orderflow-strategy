@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T09:46:49Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T10:34:05Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
 >
@@ -8,18 +8,19 @@
 > python3 scripts/eval67_prethreshold_progress.py --execute
 > ```
 >
-> Require: `targeted_tests: 1549/1549`, `diagnostic_tests: 27/27`, all `EVAL-70..136` `SEALED`, `EVAL-67/68/69` `SEALED`, `EVAL-137` `SEALED` (BLOCKED), `EVAL-138` `SEALED` (GO CONFIRMED), all `71/71` seal-gate specs ok, `overall_ok=True exit=0`. The driver's `--execute` is an idempotent no-op for sealed rungs (EVAL-137, EVAL-138).
+> Require: `targeted_tests: 1567/1567`, `diagnostic_tests: 27/27`, all `EVAL-70..136` `SEALED`, `EVAL-67/68/69` `SEALED`, `EVAL-137` `SEALED` (BLOCKED), `EVAL-138` `SEALED` (GO CONFIRMED), `EVAL-139` `SEALED` (GO CONFIRMED), all `72/72` seal-gate specs ok, `overall_ok=True exit=0`. The driver's `--execute` is an idempotent no-op for sealed rungs (EVAL-137, EVAL-138, EVAL-139).
 >
-> **SECOND ACTION, mandatory (anti-avoidance):** a green driver plus all-sealed is **NOT** session completion. Build **+ seal EVAL-139** (cross-asset `term_ratio` spillover → forward realized return skewness; same EVAL-114/122/134 spillover path as EVAL-138, swap target kurtosis → skewness; floor = EVAL-71 surface floor + alignment ≥ 200 common bars) in the same session, then re-run the driver green. Continue the pre-registered queue EVAL-140. Timestamp-only carries are prohibited. Do not stop at "everything is sealed".
+> **SECOND ACTION, mandatory (anti-avoidance):** a green driver plus all-sealed is **NOT** session completion. Build **+ seal EVAL-140** (composite multi-signal → forward realized return skewness: combine the two strongest surviving spillover GOs — EVAL-122 `term_slope` spillover and EVAL-114 `atm_iv` spillover — into one equal-weight z-score composite; require both-asset BH-FDR rejection that beats each leg's best IC; floor = EVAL-71 surface floor + alignment ≥ 200 common bars) in the same session, then re-run the driver green. Continue the pre-registered queue. Timestamp-only carries are prohibited. Do not stop at "everything is sealed".
 
-## VERIFIED STATE (2026-11-20T09:46:49Z, this session)
+## VERIFIED STATE (2026-11-20T10:34:05Z, this session)
 
-Driver source of truth: `EXPECTED_TARGETED_TESTS=1549`, `EXPECTED_DIAGNOSTIC_TESTS=27` (see `scripts/eval67_prethreshold_progress.py`). All `EVAL-70..136` `SEALED`, `EVAL-67/68/69` `SEALED` (forward disjoint-window ladder complete; disjoint-window threshold `2026-11-20T00:00:00Z` PASSED). Readiness refreshed at `research_state/EVAL_67_PREWINDOW_READINESS.json`.
+Driver source of truth: `EXPECTED_TARGETED_TESTS=1567`, `EXPECTED_DIAGNOSTIC_TESTS=27` (see `scripts/eval67_prethreshold_progress.py`). All `EVAL-70..136` `SEALED`, `EVAL-67/68/69` `SEALED` (forward disjoint-window ladder complete; disjoint-window threshold `2026-11-20T00:00:00Z` PASSED). Readiness refreshed at `research_state/EVAL_67_PREWINDOW_READINESS.json`.
 
 - **EVAL-136 BUILT + SEALED** (`20261120T055501Z`): cross-asset `skew` spillover → forward realized return kurtosis; verdict `NO-GO CONFIRMED (PASS)` (floor OK both underlyings; BTC best IC `0.1158` `ETH->BTC::skew::bar300.0::h6`, 0/6 pass; ETH best IC `-0.0031`, 0/6; 0 pooled BH-FDR).
 - **EVAL-137 BUILT + WIRED + SEALED** (`20261120T073226Z`): net-of-cost relative-value straddle spread on the EVAL-125 `term_ratio` basis GO; verdict `BLOCKED` (capture below the sealed EVAL-64 feasible floor; never NO-GO). Runner `scripts/eval137_cross_sectional_term_ratio_basis_relative_value_straddle_spread_net_of_cost.py`, gate `scripts/eval137_phaseb_gate.py`, tests `tests/test_eval137_*` (21 pass, runner + gate compile clean). Reuses sealed EVAL-125 term-ratio signal path + EVAL-80 relative-value straddle-spread trade construction + EVAL-62 mark-path net-of-cost P&L/permutation/bootstrap + EVAL-64 floor verbatim via `e64._underlying_floor_strict`. Gate `wait_phase: "DUE"` but `detect_seal` returns SEALED (exit 0) because the BLOCKED artifact stamp `20261120T073226Z` ≥ task floor `20261120T070801Z`. Driver `--execute` is idempotent no-op. `SEAL_SPECS expected_exit: 0`.
 - **EVAL-138 BUILT + WIRED + SEALED** (`20261120T093729Z`): cross-asset `term_ratio` spillover → forward realized return kurtosis; verdict `GO CONFIRMED` (floor OK both underlyings; BTC best IC `0.2931` `ETH->BTC::term_ratio::bar60.0::h72` 1/6 pass; ETH best IC `0.4679` `BTC->ETH::term_ratio::bar300.0::h72` 2/6 pass; 6 pooled BH-FDR rejections). Runner `scripts/eval138_cross_asset_term_ratio_spillover_forward_return_kurtosis.py`, gate `scripts/eval138_phaseb_gate.py`, tests `tests/test_eval138_*` (18 pass, runner + gate compile clean). Reuses sealed EVAL-74 `term_ratio` signal path (`e74._term_bars`) + EVAL-117/119/121/129 forward realized-return-kurtosis target verbatim + EVAL-71 surface floor + EVAL-77 cross-asset alignment + EVAL-65/62 inference. Wired into `scripts/eval67_prethreshold_progress.py` (+2 test files to `TARGETED_TEST_FILES`, `GATE_SPECS`, `SEAL_SPECS` `expected_exit: 0`, `EXPECTED_TARGETED_TESTS` 1531→1549). Driver `--execute` idempotent no-op on re-run. `SEAL_SPECS expected_exit: 0`.
-- No sealed artifacts or `src/` modified (EVAL-138 is append-only).
+- **EVAL-139 BUILT + WIRED + SEALED** (`20261120T103405Z`): cross-asset `term_ratio` spillover → forward realized return skewness; verdict `GO CONFIRMED` (floor OK both underlyings; BTC best IC `0.2613` `ETH->BTC::term_ratio::bar300.0::h72` 3/6 pass; ETH best IC `0.4878` `BTC->ETH::term_ratio::bar300.0::h24` 3/6 pass; 7 pooled BH-FDR rejections). Runner `scripts/eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py`, gate `scripts/eval139_phaseb_gate.py`, tests `tests/test_eval139_*` (18 pass, runner + gate compile clean). Reuses sealed EVAL-74 `term_ratio` signal path (`e74._term_bars`) + EVAL-109/112/113/116 forward realized-return-skewness target verbatim + EVAL-71 surface floor + EVAL-77 cross-asset alignment + EVAL-65/62 inference. Wired into `scripts/eval67_prethreshold_progress.py` (+2 test files to `TARGETED_TEST_FILES`, `GATE_SPECS`, `SEAL_SPECS` `expected_exit: 0`, `EXPECTED_TARGETED_TESTS` 1549→1567). Driver `--execute` idempotent no-op on re-run. `SEAL_SPECS expected_exit: 0`.
+- No sealed artifacts or `src/` modified (EVAL-138, EVAL-139 are append-only).
 
 ## CAMPAIGN LEDGER (all sealed; append-only)
 
@@ -31,6 +32,7 @@ Driver source of truth: `EXPECTED_TARGETED_TESTS=1549`, `EXPECTED_DIAGNOSTIC_TES
 | Traded-form net-of-cost | EVAL-72/75 (straddle), 76 (risk reversal), 80 (relative-value straddle spread), 82 (butterfly), 124/135 (cross-asset term_slope risk reversal) | all `NO-GO`/`BLOCKED` |
 | Traded-form net-of-cost (EVAL-137) | EVAL-137 | **SEALED** (`BLOCKED`, capture below EVAL-64 floor) |
 | Physics-independent predictiveness (EVAL-138) | EVAL-138 | **SEALED** (`GO CONFIRMED`, `20261120T093729Z`) |
+| Physics-independent predictiveness (EVAL-139) | EVAL-139 | **SEALED** (`GO CONFIRMED`, `20261120T103405Z`) |
 
 All verdicts live in `research_state/EVAL_<n>_*.md`. Do not re-run a sealed rung as a substitute for new work.
 
@@ -40,7 +42,7 @@ Every cell is pre-registered, physics-independent, runnable **now** on the on-di
 
 1. **EVAL-137 — traded-form net-of-cost monetization of the EVAL-125 cross-sectional `term_ratio` basis GO.** **ALREADY SEALED** (`BLOCKED`, capture below EVAL-64 floor). Driver `--execute` is idempotent no-op. Do not re-run as substitute for new work.
 2. **EVAL-138 — cross-asset `term_ratio` spillover → forward realized return kurtosis** (EVAL-114/122/134 spillover path, swap signal → `term_ratio`; kurtosis target). **ALREADY BUILT + SEALED** (`GO CONFIRMED`, stamp `20261120T093729Z`; runner `scripts/eval138_*.py`, gate `scripts/eval138_phaseb_gate.py`, tests `tests/test_eval138_*`, wired into driver with `EXPECTED_TARGETED_TESTS=1549`). Do not re-run as substitute for new work.
-3. **EVAL-139 — cross-asset `term_ratio` spillover → forward realized return skewness** (same EVAL-114/122/134 spillover path as EVAL-138; swap target kurtosis → skewness). Floor: EVAL-71 surface floor + alignment ≥ 200 common bars. **NEXT MANDATORY BUILD after EVAL-138 seals.** Write `scripts/eval139_*.py` runner, `scripts/eval139_phaseb_gate.py` gate, `tests/test_eval139_*` tests → `pytest -q tests/test_eval139_*.py` green → wire into `scripts/eval67_prethreshold_progress.py` (`TARGETED_TEST_FILES`, `GATE_SPECS`, `SEAL_SPECS`, `EXPECTED_TARGETED_TESTS` bump) → `python3 scripts/eval139_phaseb_gate.py --execute` → driver green.
+3. **EVAL-139 — cross-asset `term_ratio` spillover → forward realized return skewness** (same EVAL-114/122/134 spillover path as EVAL-138; swap target kurtosis → skewness). Floor: EVAL-71 surface floor + alignment ≥ 200 common bars. **ALREADY BUILT + SEALED** (`GO CONFIRMED`, stamp `20261120T103405Z`; runner `scripts/eval139_*.py`, gate `scripts/eval139_phaseb_gate.py`, tests `tests/test_eval139_*`, wired into driver with `EXPECTED_TARGETED_TESTS=1567`). Do not re-run as substitute for new work.
 4. **EVAL-140 — composite multi-signal → forward realized return skewness**: combine the two strongest surviving spillover GOs (EVAL-122 `term_slope` spillover, EVAL-114 `atm_iv` spillover) into one equal-weight z-score composite; require both-asset BH-FDR rejection that beats each leg's best IC; floor = EVAL-71 + alignment.
 
 Already covered — do **not** rebuild: EVAL-77, 88..136. Do not test `atm_iv`→VRP (mechanical overlap), do not re-test `term_ratio`→VRP, do not rebuild the collar (EVAL-76), do not re-litigate sealed cells, do not weaken EVAL-64, do not touch `src/`.
@@ -50,7 +52,7 @@ Already covered — do **not** rebuild: EVAL-77, 88..136. Do not test `atm_iv`�
 - EVAL-67: `SEALED`(0) complete. EVAL-68/69: `SEALED`(0) complete.
 - EVAL-70..136 gates: `SEALED`(0) idempotent no-op; `DUE`(20) run `--execute` now; `FAILED`(1) fix and rerun.
 - EVAL-137: `SEALED`(0) complete (BLOCKED). Idempotent no-op; do not re-run.
-- Green driver = env OK, `1549/1549` targeted (or higher after new builds), `27/27` diagnostics, all `EVAL-70..136` `SEALED`, `EVAL-67/68/69` `SEALED`, `EVAL-137` `SEALED`, `EVAL-138` `SEALED`, `71/71` seal-gate specs ok, exit 0.
+- Green driver = env OK, `1567/1567` targeted (or higher after new builds), `27/27` diagnostics, all `EVAL-70..136` `SEALED`, `EVAL-67/68/69` `SEALED`, `EVAL-137` `SEALED`, `EVAL-138` `SEALED`, `EVAL-139` `SEALED`, `72/72` seal-gate specs ok, exit 0.
 - Adding a rung: write runner+gate+tests → `pytest -q tests/test_evalNNN_*.py` green → wire the three driver tables + bump `EXPECTED_TARGETED_TESTS` → `python3 scripts/evalNNN_phaseb_gate.py --execute` (flips `expected_exit` 1→0) → driver green.
 
 ## BOTTLENECKS REMOVED / DO NOT REDISCOVER
@@ -68,10 +70,11 @@ Already covered — do **not** rebuild: EVAL-77, 88..136. Do not test `atm_iv`�
 11. EVAL-112 runner `run_eval102` naming bug; EVAL-120 gate exit-code protocol — both fixed.
 12. Stale prose in handoff/AGENTS.md — fixed this session; trust the driver's `EXPECTED_TARGETED_TESTS` (=1549 after EVAL-138) and the readiness JSON over prose. **EVAL-137 was incorrectly described as "DUE/NOT SEALED" in the prior handoff; it is SEALED (BLOCKED). EVAL-138 is now SEALED (GO CONFIRMED); next session must proceed directly to EVAL-139.**
 13. Missing EVAL-138 code — **RESOLVED** this session: runner `scripts/eval138_*.py`, gate `scripts/eval138_phaseb_gate.py`, tests `tests/test_eval138_*` written, wired into the driver, sealed `GO CONFIRMED` (`20261120T093729Z`). Do not skip to EVAL-139/140 without building EVAL-139 first.
+14. EVAL-139 KURTOSIS/SKEWNESS copy-paste bug in runner/gate/tests — **RESOLVED** this session: fixed PREREG_ID, REPORT_ID, BLOCKED_ID, TASK_ID, TASK_LABEL, globs in runner/gate/tests from KURTOSIS→SKEWNESS; tests green; sealed `GO CONFIRMED` (`20261120T103405Z`).
 
 ## PROHIBITED / INVARIANTS (non-negotiable)
 
-- Do not re-run / re-litigate / re-seal / edit sealed EVAL-02..62, EVAL-64..66, EVAL-70..136 artifacts or `src/`. Append-only for new authorized work.
+- Do not re-run / re-litigate / re-seal / edit sealed EVAL-02..62, EVAL-64..66, EVAL-70..136, EVAL-137, EVAL-138, EVAL-139 artifacts or `src/`. Append-only for new authorized work.
 - Never synthetic / relabeled-as-real; real loaders raise `RealDataUnavailable`; never emit `{"valid": true}`. Public read-only network only; polite rate limiting; EVAL-68 acquires BTC+ETH in ONE process; EVAL-69 acquires nothing.
 - Paper-only: `.env` absent; `LIVE_TRADING_ENABLED=false`; no live enablement, venue/config/credential mutation, or order placement.
 - No pre-registered floor weakening. Under-floor, missing-underlying, or non-disjoint non-empty real ⇒ `BLOCKED`, not NO-GO.
@@ -86,23 +89,23 @@ Already covered — do **not** rebuild: EVAL-77, 88..136. Do not test `atm_iv`�
 # 0) Fresh runner only (deps are git-ignored, not in checkout):
 ./scripts/verify_env.sh
 
-# 1) Full heavy-work loop; run every session (idempotent). EVAL-137 is SEALED; no-op on re-run:
+# 1) Full heavy-work loop; run every session (idempotent). EVAL-137/138/139 SEALED; no-op on re-run:
 python3 scripts/eval67_prethreshold_progress.py --execute
 
 # 2) Verify a sealed campaign idempotently:
 python3 scripts/eval136_phaseb_gate.py
 
-# 3) Build/seal a new rung (pattern for EVAL-138):
+# 3) Build/seal a new rung (pattern for EVAL-139):
 export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"
-python3 -m pytest -q tests/test_eval138_*.py
-python3 scripts/eval138_phaseb_gate.py --execute
+python3 -m pytest -q tests/test_eval139_*.py
+python3 scripts/eval139_phaseb_gate.py --execute
 ```
 
 Targeted/diagnostic pytest runs need `PYTHONPATH=$PWD/.venv-deps` (the driver sets it itself); a bare `python3 scripts/eval1xx_*.py` fails on `numpy` without it.
 
 ## SEALED STATE (immutable; append only)
 
-EVAL-02..62, 64..66, 67..69, 70..136, 137, and 138 sealed. EVAL-63 never sealed. Predictiveness GOs: EVAL-71, 73, 77, 83, 85, 86, 87 (`GO/BLOCKED`), 88, 90, 91, 93, 97, 99, 100, 101, 102, 104, 109, 111, 112, 113, 114, 116, 120, 122, 125, 138 (`GO CONFIRMED`). NO-GO CONFIRMED (PASS): EVAL-70, 72, 74, 75, 76, 78, 79, 80, 81, 82, 84, 89, 92, 94, 95, 96, 98, 103, 105, 106, 107, 108, 110, 115, 117, 118, 119, 121, 123, 126, 127, 128, 129, 130, 131, 133, 134, 136. BLOCKED: EVAL-124, EVAL-135, EVAL-137. EVAL-67/68/69 SEALED (forward ladder complete). Strongest surviving GO IC anchors: EVAL-101 `atm_iv`→signed return (BTC 0.2313 / ETH 0.3442); EVAL-102 `term_ratio`→signed return (BTC 0.3926 / ETH 0.2559); EVAL-104 `term_slope`→signed return (BTC 0.4058 / ETH 0.2600); EVAL-114 `atm_iv` spillover→return skewness (BTC 0.4039 / ETH 0.1173); **EVAL-122 `term_slope` spillover→return skewness (BTC 0.3817 / ETH 0.4643, 6 BH-FDR rejections — strongest cross-asset GO)**; **EVAL-125 `term_ratio` basis→return-kurtosis spread (IC 0.4128, 2 BH-FDR rejections — EVAL-137's monetization source)**; **EVAL-138 `term_ratio` spillover→return kurtosis (BTC 0.2931 / ETH 0.4679, 6 BH-FDR rejections — EVAL-139's skewness target source)**. Do not modify sealed artifacts.
+EVAL-02..62, 64..66, 67..69, 70..136, 137, 138, and 139 sealed. EVAL-63 never sealed. Predictiveness GOs: EVAL-71, 73, 77, 83, 85, 86, 87 (`GO/BLOCKED`), 88, 90, 91, 93, 97, 99, 100, 101, 102, 104, 109, 111, 112, 113, 114, 116, 120, 122, 125, 138, 139 (`GO CONFIRMED`). NO-GO CONFIRMED (PASS): EVAL-70, 72, 74, 75, 76, 78, 79, 80, 81, 82, 84, 89, 92, 94, 95, 96, 98, 103, 105, 106, 107, 108, 110, 115, 117, 118, 119, 121, 123, 126, 127, 128, 129, 130, 131, 133, 134, 136. BLOCKED: EVAL-124, EVAL-135, EVAL-137. EVAL-67/68/69 SEALED (forward ladder complete). Strongest surviving GO IC anchors: EVAL-101 `atm_iv`→signed return (BTC 0.2313 / ETH 0.3442); EVAL-102 `term_ratio`→signed return (BTC 0.3926 / ETH 0.2559); EVAL-104 `term_slope`→signed return (BTC 0.4058 / ETH 0.2600); EVAL-114 `atm_iv` spillover→return skewness (BTC 0.4039 / ETH 0.1173); **EVAL-122 `term_slope` spillover→return skewness (BTC 0.3817 / ETH 0.4643, 6 BH-FDR rejections — strongest cross-asset GO)**; **EVAL-125 `term_ratio` basis→return-kurtosis spread (IC 0.4128, 2 BH-FDR rejections — EVAL-137's monetization source)**; **EVAL-138 `term_ratio` spillover→return kurtosis (BTC 0.2931 / ETH 0.4679, 6 BH-FDR rejections — EVAL-139's skewness target source)**; **EVAL-139 `term_ratio` spillover→return skewness (BTC 0.2613 / ETH 0.4878, 7 BH-FDR rejections)**. Do not modify sealed artifacts.
 
 ## SESSION LOG (append-only; only load-bearing entries retained)
 
@@ -115,3 +118,4 @@ EVAL-02..62, 64..66, 67..69, 70..136, 137, and 138 sealed. EVAL-63 never sealed.
 - **2026-11-20T07:55:11Z:** Rewrote this single durable handoff (lean). Stale prose: described EVAL-137 as "DUE/NOT SEALED" though it was already sealed. Corrected driver source of truth to `EXPECTED_TARGETED_TESTS=1531`. No sealed artifacts or `src/` modified.
 - **2026-11-20T09:20:46Z:** Corrected handoff: EVAL-137 is **SEALED** (BLOCKED, stamp `20261120T073226Z`), not DUE. Removed bottleneck #13 (missing EVAL-138 code — must be built from pre-registered spec). Updated INITIAL TASK MESSAGE timestamped now: driver green (EVAL-137 idempotent no-op), then build + seal **EVAL-138** (cross-asset `term_ratio` spillover → forward realized return kurtosis), then EVAL-139 → EVAL-140. No sealed artifacts or `src/` modified.
 - **2026-11-20T09:37:29Z:** Built + wired + sealed **EVAL-138** (cross-asset `term_ratio` spillover → forward realized return kurtosis). Runner `scripts/eval138_cross_asset_term_ratio_spillover_forward_return_kurtosis.py`, gate `scripts/eval138_phaseb_gate.py`, tests `tests/test_eval138_*` (18). Verdict **`GO CONFIRMED`**, sealed `20261120T093729Z` (floor OK both underlyings; BTC best IC 0.2931 `ETH->BTC::term_ratio::bar60.0::h72` 1/6; ETH best IC 0.4679 `BTC->ETH::term_ratio::bar300.0::h72` 2/6; 6 pooled BH-FDR rejections). Wired into `scripts/eval67_prethreshold_progress.py` (+2 test files, GATE_SPECS, SEAL_SPECS `expected_exit`→0, `EXPECTED_TARGETED_TESTS` 1531→1549). Driver green: **1549/1549** targeted + **27/27** diagnostics = 1576, all `71/71` seal-gate specs ok, exit 0. Bottleneck #13 resolved. Next mandated build: **EVAL-139** (cross-asset `term_ratio` spillover → forward realized return skewness).
+- **2026-11-20T10:34:05Z:** Built + wired + sealed **EVAL-139** (cross-asset `term_ratio` spillover → forward realized return skewness). Runner `scripts/eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py`, gate `scripts/eval139_phaseb_gate.py`, tests `tests/test_eval139_*` (18). Verdict **`GO CONFIRMED`**, sealed `20261120T103405Z` (floor OK both underlyings; BTC best IC 0.2613 `ETH->BTC::term_ratio::bar300.0::h72` 3/6; ETH best IC 0.4878 `BTC->ETH::term_ratio::bar300.0::h24` 3/6; 7 pooled BH-FDR rejections). Fixed KURTOSIS→SKEWNESS copy-paste bug in runner/gate/tests. Wired into `scripts/eval67_prethreshold_progress.py` (+2 test files, GATE_SPECS, SEAL_SPECS `expected_exit`→0, `EXPECTED_TARGETED_TESTS` 1549→1567). Driver green: **1567/1567** targeted + **27/27** diagnostics = 1594, all `72/72` seal-gate specs ok, exit 0. Next mandated build: **EVAL-140** (composite multi-signal → forward realized return skewness).
