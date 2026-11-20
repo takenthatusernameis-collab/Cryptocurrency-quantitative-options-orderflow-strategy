@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-"""EVAL-139 Phase-B gate: the single, deterministic, idempotent arbiter of the
-EVAL-139 campaign's completion contract.
+"""EVAL-143 Phase-B gate: the single, deterministic, idempotent arbiter of the
+EVAL-143 campaign's completion contract.
 
 Why this exists
 ---------------
 EVAL-137 sealed cross-sectional ``term_ratio`` basis relative-value straddle
 spread net-of-cost (BLOCKED, capture below the sealed EVAL-64 floor). The
-pre-registered build queue makes EVAL-138 — cross-asset ``term_ratio`` spillover
--> forward realized return kurtosis — the next mandatory build. EVAL-138
+pre-registered build queue makes EVAL-143 — cross-asset ``term_ratio`` spillover
+-> forward realized return kurtosis — the next mandatory build. EVAL-143
 measures whether the OTHER underlying's near-ATM IV term_ratio carries
 information about the target underlying's subsequent forward return kurtosis on
 the already-acquired real on-disk captures (both underlyings' option-trade IV
 tapes + both perp candle series), with no acquisition and no network, so it is
-runnable **now**. EVAL-139 is the successor: cross-asset ``term_ratio`` spillover
+runnable **now**. EVAL-143 is the successor: cross-asset ``term_ratio`` spillover
 -> forward realized return skewness.
 
-EVAL-139 reuses the sealed EVAL-61/62/65/71/74 signal/inference reconstructions,
+EVAL-143 reuses the sealed EVAL-61/62/65/71/74 signal/inference reconstructions,
 the EVAL-71 surface floor verbatim, the cross-asset alignment
 (``build_cross_section``), and the EVAL-109/112/113/116 forward realized-return-
 skewness target verbatim; it does not re-litigate EVAL-71, EVAL-74, EVAL-77,
@@ -24,7 +24,7 @@ EVAL-116, or any sealed campaign.
 
 Outcomes (exit codes)
 ---------------------
-  0   SEALED   — a COMBINED_*/BLOCKED_* EVAL-139 artifact already exists with a
+  0   SEALED   — a COMBINED_*/BLOCKED_* EVAL-143 artifact already exists with a
                      stamp >= the pre-registered task id; the seal-gate passes.
                      COMPLETE; idempotent no-op (safe to re-run forever).
   20  DUE      — nothing sealed yet and this was a status check only (no
@@ -33,19 +33,19 @@ Outcomes (exit codes)
   1   FAILED   --execute was requested but the run -> seal -> seal-gate pipeline
                      did not produce a passing seal-gate exit 0. Fix and re-run.
 
-Unlike EVAL-67/68/69 there is no NOT_DUE phase: the EVAL-139 inputs are on disk,
+Unlike EVAL-67/68/69 there is no NOT_DUE phase: the EVAL-143 inputs are on disk,
 so the honest pre-execution state is DUE (heavy work required), never a physics
 wait.
 
 ``--execute`` is the unskippable path: it runs
-``eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py --seal``
+``eval143_pooled_cross_asset_term_ratio_spillover_forward_return_skewness.py --seal``
 then the authoritative seal-gate, and refuses to exit 0 unless the seal-gate
 exits 0.
 
-Nothing here weakens the EVAL-64 floor (EVAL-139 composes the sealed EVAL-71
+Nothing here weakens the EVAL-64 floor (EVAL-143 composes the sealed EVAL-71
 surface floor verbatim, plus an alignment floor, neither weakened), uses
-synthetic data, enables live trading, or edits sealed EVAL-02..62/64..66/70..138
-artifacts or src/ (EVAL-139 is appended here). It is append-only and reuses the
+synthetic data, enables live trading, or edits sealed EVAL-02..62/64..66/70..142
+artifacts or src/ (EVAL-143 is appended here). It is append-only and reuses the
 sealed EVAL-61/62/65/71/74 runners.
 """
 
@@ -67,11 +67,11 @@ if str(ROOT) not in sys.path:
 RS_DIR = ROOT / "research_state"
 
 # Authoritative pre-registered identifiers (parseable by check_session_sealed.py).
-TASK_ID = "INIT-2026-11-20T09:37:29Z-EVAL139-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS"
-TASK_LABEL = "EVAL139-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS"
-PREREG_GLOB = "EVAL_139_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*"
-COMBINED_GLOB = "EVAL_139_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED_*"
-BLOCKED_GLOB = "EVAL_139_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED_*"
+TASK_ID = "INIT-2026-11-20T14:37:00Z-EVAL143-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS"
+TASK_LABEL = "EVAL143-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS"
+PREREG_GLOB = "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*"
+COMBINED_GLOB = "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED_*"
+BLOCKED_GLOB = "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED_*"
 
 CAPTURE_DIR = ROOT / "data" / "raw" / "eval61"
 
@@ -115,7 +115,7 @@ def detect_seal(
     combined_glob: str = COMBINED_GLOB,
     blocked_glob: str = BLOCKED_GLOB,
 ) -> Dict[str, Any]:
-    """Return whether a COMBINED_*/BLOCKED_* EVAL-139 artifact exists with a stamp
+    """Return whether a COMBINED_*/BLOCKED_* EVAL-143 artifact exists with a stamp
     >= the pre-registered task timestamp (mirrors check_session_sealed.py)."""
     rs = Path(research_state_dir)
     floor = task_floor_stamp(task_id)
@@ -154,7 +154,7 @@ def _run(cmd: Sequence[str], *, cwd: Path = ROOT) -> Tuple[int, str]:
 
 
 def run_seal_gate_check(*, research_state_dir: Path = RS_DIR) -> Tuple[int, str]:
-    """Invoke the authoritative seal-gate for EVAL-138."""
+    """Invoke the authoritative seal-gate for EVAL-143."""
     cmd = [
         sys.executable,
         str(ROOT / "scripts" / "check_session_sealed.py"),
@@ -208,7 +208,7 @@ def execute_phaseb(
 
     rc, out = _run([
         sys.executable,
-        str(ROOT / "scripts" / "eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py"),
+        str(ROOT / "scripts" / "eval143_pooled_cross_asset_term_ratio_spillover_forward_return_skewness.py"),
         "--capture-dir",
         str(capture_dir),
         "--seal",
@@ -234,10 +234,10 @@ def execute_phaseb(
 # ---------------------------------------------------------------------------
 def main(argv: Optional[Sequence[str]] = None) -> int:
     ap = argparse.ArgumentParser(
-        description="EVAL-138 phase-B gate (SEALED/DUE/FAILED; deterministic, idempotent)"
+        description="EVAL-143 phase-B gate (SEALED/DUE/FAILED; deterministic, idempotent)"
     )
     ap.add_argument("--execute", action="store_true",
-                    help="run EVAL-138 --seal + the authoritative seal-gate (unskippable)")
+                    help="run EVAL-143 --seal + the authoritative seal-gate (unskippable)")
     ap.add_argument("--capture-dir", default=str(CAPTURE_DIR))
     ap.add_argument("--research-state-dir", default=str(RS_DIR))
     args = ap.parse_args(argv)
@@ -262,7 +262,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "seal_gate_rc": sg_rc,
             "artifacts": seal.get("artifacts", []),
             "seal_gate_tail": sg_out[-2000:],
-            "note": "EVAL-138 campaign complete; idempotent no-op. Do not re-run.",
+            "note": "EVAL-143 campaign complete; idempotent no-op. Do not re-run.",
         }
         print(json.dumps(payload, indent=2))
         return EXIT_SEALED
@@ -273,9 +273,9 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "exit_code": EXIT_DUE,
             "readiness": readiness,
             "note": (
-                "EVAL-138 is runnable now on the on-disk real captures but has not "
+                "EVAL-143 is runnable now on the on-disk real captures but has not "
                 "been sealed. Heavy work is REQUIRED. Re-run with: "
-                "python3 scripts/eval139_phaseb_gate.py --execute"
+                "python3 scripts/eval143_phaseb_gate.py --execute"
             ),
         }
         print(json.dumps(payload, indent=2))
@@ -297,7 +297,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         "phase": "FAILED",
         "exit_code": EXIT_FAILED,
         "result": result,
-        "note": "EVAL-138 execute path did not produce a passing seal-gate. Fix and rerun.",
+        "note": "EVAL-143 execute path did not produce a passing seal-gate. Fix and rerun.",
     }
     print(json.dumps(payload, indent=2))
     return EXIT_FAILED

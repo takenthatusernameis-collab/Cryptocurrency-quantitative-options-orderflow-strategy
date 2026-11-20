@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""EVAL-138: does the **cross-asset causal options term-structure spillover**
+"""EVAL-143: does the **cross-asset causal options term-structure spillover**
 (the OTHER underlying's ``term_ratio = IV(near)/IV(far) - 1``) predict the
 subsequent **forward realized return skewness** (fourth standardized moment) of
 the target underlying? A distinct, on-charter, runnable-**now** predictiveness
@@ -12,11 +12,11 @@ is *crypto options **surface** + options order-flow + underlying order-flow ->
 tradeable, net-of-cost alpha on REAL public data*. The physics-independent
 runnable-now line EVAL-70..136 is sealed and EVAL-137 is sealed (BLOCKED,
 capture below the sealed EVAL-64 floor). The pre-registered build queue
-(EVAL-137 -> EVAL-138 -> EVAL-139 -> EVAL-140) makes EVAL-138 the next
+(EVAL-142 -> EVAL-143) makes EVAL-143 the next
 mandatory build; a green driver plus all-sealed is **not** session completion.
 
 EVAL-114/122/134 tested cross-asset ``atm_iv``/``term_slope``/``skew`` spillover
-into forward realized return skewness/kurtosis. None tested the cross-asset
+into forward realized return skewness. None tested the cross-asset
 *term_ratio* spillover into **forward realized return skewness**: does the other
 asset's near-minus-far IV ratio carry information about the target's subsequent
 forward return tail fatness?
@@ -25,8 +25,8 @@ The genuinely distinct, on-charter, runnable-**now** cell tested here is: does
 the causal per-bar options term-structure ``term_ratio`` of the *other*
 underlying at bar ``k`` (reconstructed exactly as EVAL-74 ``e74._term_bars``,
 EVAL-71 signal window / ATM band constants verbatim) carry monotone
-(Spearman rank) information about the target underlying's subsequent **fourth
-standardized moment (kurtosis) = m4 / m2**2** of its per-bar log returns over
+(Spearman rank) information about the target underlying's subsequent **third
+standardized moment (skewness) = m3 / m2**1.5** of its per-bar log returns over
 bars ``k+1..k+H``? It is **predictiveness only** — no traded-form or
 monetization claim.
 
@@ -61,7 +61,7 @@ and pooled BH-FDR rejects that config; else ``NO-GO CONFIRMED (PASS)``.
 
 Feasible floor (pre-registered for THIS campaign; NOT the EVAL-64 ladder floor)
 -------------------------------------------------------------------------------
-EVAL-138 consumes both underlyings' trade-tape IV surfaces (term structure needs
+EVAL-143 consumes both underlyings' trade-tape IV surfaces (term structure needs
 >= 2 near-ATM expiries each with trades) and both perp series, so it composes
 two honestly pre-registered floors and requires both:
 
@@ -75,7 +75,7 @@ two honestly pre-registered floors and requires both:
   (>= 200).
 
 Neither is weakened. Below the composed floor it seals
-``EVAL_139_..._BLOCKED_<UTC>`` (never a NO-GO). The EVAL-64 feasible floor that
+``EVAL_143_..._BLOCKED_<UTC>`` (never a NO-GO). The EVAL-64 feasible floor that
 governs the EVAL-67/68/69 ladder is untouched.
 
 This does **not** re-litigate any sealed result: EVAL-71 measured surface ->
@@ -83,11 +83,11 @@ forward *RV level*; EVAL-132 measured cross-asset ``skew`` spillover -> forward
 *realized return skewness*; EVAL-133/134 measured cross-asset
 ``term_slope``/``atm_iv`` spillover -> forward *realized return skewness*;
 EVAL-117/119/121/129 measured single-asset signals -> forward *realized return
-kurtosis*. EVAL-138 measures the **cross-asset** ``term_ratio`` **spillover**
+skewness*. EVAL-143 measures the **cross-asset** ``term_ratio`` **spillover**
 (other asset's term_ratio) -> **own forward realized return skewness**, reusing
 all sealed signal/target reconstructions and the EVAL-65 inference verbatim.
 
-Seals ``EVAL_139_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_<UTC>``
+Seals ``EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_<UTC>``
 then ``..._COMBINED_<UTC>`` (or ``..._BLOCKED_<UTC>``).
 """
 
@@ -117,9 +117,9 @@ from src.analytics.real_walkforward_certification import (  # noqa: E402
 )
 
 OUT_DIR = ROOT / "research_state"
-REPORT_ID = "EVAL_139_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED"
-PREREG_ID = "EVAL_139_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION"
-BLOCKED_ID = "EVAL_139_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED"
+REPORT_ID = "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED"
+PREREG_ID = "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION"
+BLOCKED_ID = "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED"
 
 # Cross-asset term-structure signal (near-ATM IV near/far ratio, exactly EVAL-74's path).
 SURFACE_SIGNAL: str = "term_ratio"
@@ -183,20 +183,20 @@ CODE_PATHS: Tuple[str, ...] = (
     "scripts/eval65_orderflow_tox_rv_predictiveness.py",
     "scripts/eval71_surface_iv_rv_predictiveness.py",
     "scripts/eval74_surface_term_structure_predictiveness.py",
-    "scripts/eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py",
+    "scripts/eval143_cross_asset_term_ratio_spillover_forward_return_skewness.py",
 )
 
 COMMANDS: Tuple[str, ...] = (
     'export PYTHONPATH="$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}"',
-    "python3 -m py_compile scripts/eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py "
-    "tests/test_eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py",
-    "python3 -m pytest -q tests/test_eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py",
+    "python3 -m py_compile scripts/eval143_cross_asset_term_ratio_spillover_forward_return_skewness.py "
+    "tests/test_eval143_cross_asset_term_ratio_spillover_forward_return_skewness.py",
+    "python3 -m pytest -q tests/test_eval143_cross_asset_term_ratio_spillover_forward_return_skewness.py",
     "# no acquisition needed — consume the already-acquired real captures:",
-    "python3 scripts/eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py "
+    "python3 scripts/eval143_cross_asset_term_ratio_spillover_forward_return_skewness.py "
     "--capture-dir data/raw/eval61 --no-write",
-    "python3 scripts/eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py "
+    "python3 scripts/eval143_cross_asset_term_ratio_spillover_forward_return_skewness.py "
     "--capture-dir data/raw/eval61 --seal --task-label "
-    "EVAL139-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-KURTOSIS",
+    "EVAL143-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS",
 )
 
 
@@ -257,7 +257,7 @@ def _forward_return_skewness(
 
 # ---------------------------------------------------------------------------
 # Cross-asset term-structure alignment (mirror EVAL-77 build_cross_section /
-# EVAL-138; signal = EVAL-74 _term_bars term_ratio).
+# EVAL-143; signal = EVAL-74 _term_bars term_ratio).
 # ---------------------------------------------------------------------------
 def build_cross_section(
     captures: Dict[str, Dict[str, Any]], *, bar_seconds: float
@@ -430,7 +430,7 @@ def _select_captures(capture_dir: str) -> List[Dict[str, Any]]:
 
 def build_protocol(capture_dir: str) -> Dict[str, Any]:
     return {
-        "eval": "EVAL-138",
+        "eval": "EVAL-143",
         "title": "Cross-asset near-ATM IV term-structure spillover (other asset's term_ratio) -> "
                  "forward own-asset realized return skewness predictiveness (Spearman rank IC)",
         "extends": "EVAL-74 (term_ratio signal verbatim) + "
@@ -490,11 +490,11 @@ def build_protocol(capture_dir: str) -> Dict[str, Any]:
     }
 
 
-def run_eval139(
+def run_eval143(
     *,
     capture_dir: str = "data/raw/eval61",
     write: bool = True,
-    task_label: str = "EVAL139-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-KURTOSIS",
+    task_label: str = "EVAL143-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS",
 ) -> Dict[str, Any]:
     generated_at = _utc_now_iso()
     capture_dir_abs = Path(capture_dir)
@@ -577,8 +577,8 @@ def run_eval139(
     go = bool(floor_ok and all_pass and len(rejected) >= 1)
     verdict = "GO CONFIRMED" if go else "NO-GO CONFIRMED (PASS)"
     campaign_state = (
-        "EVAL_139_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_KURTOSIS" if floor_ok
-        else "EVAL_139_BLOCKED_FLOOR"
+        "EVAL_143_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS" if floor_ok
+        else "EVAL_143_BLOCKED_FLOOR"
     )
 
     report: Dict[str, Any] = {
@@ -589,7 +589,7 @@ def run_eval139(
         "verdict_detail": (
             "wrapper-free Spearman rank IC between the causal cross-asset near-ATM IV term_ratio "
             "spillover (other asset's term_ratio) and forward own-asset realized return "
-            "kurtosis on real captures"
+            "skewness on real captures"
             if floor_ok else "capture below the composed EVAL-71 + alignment floor; no verdict"
         ),
         "floor_ok": bool(floor_ok),
@@ -763,17 +763,17 @@ def _build_blocked_md(r: Dict[str, Any]) -> str:
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
     ap = argparse.ArgumentParser(
-        description="EVAL-138: causal cross-asset term_ratio spillover -> forward realized return skewness predictiveness (Spearman rank IC)"
+        description="EVAL-143: causal cross-asset term_ratio spillover -> forward realized return skewness predictiveness (Spearman rank IC)"
     )
     ap.add_argument("--capture-dir", default="data/raw/eval61")
     ap.add_argument("--no-write", action="store_true", help="compute + print, seal nothing")
     ap.add_argument("--seal", action="store_true", help="seal prereg + combined (default)")
-    ap.add_argument("--task-label", default="EVAL139-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-KURTOSIS")
+    ap.add_argument("--task-label", default="EVAL143-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS")
     args = ap.parse_args(argv)
 
     write = not args.no_write
     try:
-        report = run_eval139(capture_dir=args.capture_dir, write=write, task_label=args.task_label)
+        report = run_eval143(capture_dir=args.capture_dir, write=write, task_label=args.task_label)
     except BaseException as exc:  # noqa: BLE001
         traceback.print_exc()
         if write:
