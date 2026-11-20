@@ -180,6 +180,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval139_phaseb_gate.py",
     "tests/test_eval140_composite_atm_iv_term_slope_spillover_forward_return_skewness.py",
     "tests/test_eval140_phaseb_gate.py",
+    "tests/test_eval141_composite_atm_iv_term_ratio_spillover_forward_return_skewness.py",
+    "tests/test_eval141_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -188,7 +190,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1586
+EXPECTED_TARGETED_TESTS = 1605
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -550,6 +552,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-140",
         "script": ROOT / "scripts" / "eval140_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-141",
+        "script": ROOT / "scripts" / "eval141_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -1144,6 +1151,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_140_COMPOSITE_ATM_IV_TERM_SLOPE_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
         "combined": "EVAL_140_COMPOSITE_ATM_IV_TERM_SLOPE_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED_*",
         "blocked": "EVAL_140_COMPOSITE_ATM_IV_TERM_SLOPE_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-141",
+        "task_id": "INIT-2026-11-20T11:40:42Z-EVAL141-COMPOSITE-ATM-IV-TERM-RATIO-SPILLOVER-FORWARD-RETURN-SKEWNESS",
+        "prereg": "EVAL_141_COMPOSITE_ATM_IV_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION_*",
+        "combined": "EVAL_141_COMPOSITE_ATM_IV_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_COMBINED_*",
+        "blocked": "EVAL_141_COMPOSITE_ATM_IV_TERM_RATIO_SPILLOVER_FORWARD_RETURN_SKEWNESS_BLOCKED_*",
         "expected_exit": 0,
     },
     {
