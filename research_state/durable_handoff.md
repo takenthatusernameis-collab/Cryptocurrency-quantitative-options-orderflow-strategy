@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T12:13:58Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**>> **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T12:26:15Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**>> **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
 >
 > ```bash
 > python3 scripts/eval67_prethreshold_progress.py --execute
@@ -10,7 +10,7 @@
 >
 > **SECOND ACTION, mandatory (anti-avoidance):** a green driver plus all-sealed is **NOT** session completion. Build **+ seal EVAL-142** in the same session (cross-asset `term_ratio` spillover → risk-reversal net-of-cost, traded form; spec in the queue below), then re-run the driver green. Continue the pre-registered queue (EVAL-142 → EVAL-143). Timestamp-only carries are prohibited. Do not stop at "everything is sealed".
 
-## VERIFIED STATE (2026-11-20T12:13:34Z, this session)
+## VERIFIED STATE (2026-11-20T12:26:15Z, this session)
 
 Driver source of truth: `EXPECTED_TARGETED_TESTS=1605`, `EXPECTED_DIAGNOSTIC_TESTS=27` (see `scripts/eval67_prethreshold_progress.py`). All `EVAL-70..141` `SEALED`; `EVAL-67/68/69` `SEALED` (forward disjoint-window ladder complete; disjoint-window threshold `2026-11-20T00:00:00Z` PASSED). Readiness refreshed at `research_state/EVAL_67_PREWINDOW_READINESS.json` (1605 targeted + 27 diagnostics = 1632, 76/76 seal gates, exit 0).
 
@@ -115,7 +115,6 @@ EVAL-02..62, 64..66, 67..69, 70..136, 137, 138, 139, 140, and 141 sealed. EVAL-6
 - **2026-11-20T09:37:29Z:** Built + wired + sealed **EVAL-138** (cross-asset `term_ratio` spillover → forward realized return kurtosis). Verdict `GO CONFIRMED` (BTC 0.2931 / ETH 0.4679, 6 BH-FDR). Driver green 1549/1549+27/27, 71/71 seal gates.
 - **2026-11-20T10:34:05Z:** Built + wired + sealed **EVAL-139** (cross-asset `term_ratio` spillover → forward realized return skewness). Verdict `GO CONFIRMED` (BTC 0.2613 / ETH 0.4878, 7 BH-FDR). Fixed KURTOSIS→SKEWNESS copy-paste bug. Driver green 1567/1567+27/27, 72/72 seal gates.
 - **2026-11-20T11:12:00Z:** Built + wired + sealed **EVAL-140** (equal-weight z-score composite of EVAL-114 `atm_iv` + EVAL-122 `term_slope` cross-asset spillover → forward realized return skewness; GO additionally requires beating each leg's best IC). Runner `scripts/eval140_composite_atm_iv_term_slope_spillover_forward_return_skewness.py`, gate `scripts/eval140_phaseb_gate.py`, tests `tests/test_eval140_*` (19). Verdict `NO-GO CONFIRMED (PASS)`, sealed `20261120T110420Z` (BTC composite 0.5052 beats both legs, 2 pass + 2 BH-FDR; ETH composite 0.3883 loses to term_slope leg 0.4643, 2 pass + 3 BH-FDR). Wired into driver (+2 test files, `GATE_SPECS`, `SEAL_SPECS` `expected_exit: 0`, `EXPECTED_TARGETED_TESTS` 1567→1586). Driver green: **1586/1586** targeted + **27/27** diagnostics = 1613, `74/74` seal gates, exit 0. Rewrote this handoff: fresh timestamped task message, EVAL-141→EVAL-143 queue, bottleneck #14 (composite-beats-each-leg trap). Next mandated build: **EVAL-141** (composite `atm_iv` + `term_ratio` spillover → forward realized return skewness).
-
 - **2026-11-20T11:40:16Z:** Refreshed durable handoff timestamp; next mandated build remains **EVAL-141** (composite `atm_iv` + `term_ratio` cross-asset spillover → forward realized return skewness). Queue EVAL-141 → EVAL-142 → EVAL-143 unchanged; anti-avoidance in force.
-
 - **2026-11-20T12:13:58Z:** Refreshed durable handoff timestamp; next mandated build remains **EVAL-142** (cross-asset `term_ratio` spillover → risk-reversal net-of-cost, EVAL-64 floor verbatim), then EVAL-143. Queue EVAL-142 → EVAL-143; anti-avoidance in force.
+- **2026-11-20T12:26:15Z:** Driver green: **1605/1605** targeted + **27/27** diagnostics = 1632, all **76/76** seal gates ok, exit 0. EVAL-140 & EVAL-141 both `SEALED` `NO-GO CONFIRMED (PASS)`. Next mandated build: **EVAL-142** (cross-asset `term_ratio` spillover → risk-reversal net-of-cost, traded form, EVAL-64 floor verbatim), then **EVAL-143**. Queue EVAL-142 → EVAL-143; anti-avoidance in force — a green driver + all-sealed is NOT completion; build + seal EVAL-142 in the same session.
