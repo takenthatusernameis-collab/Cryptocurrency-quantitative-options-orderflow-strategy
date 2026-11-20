@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T09:44:14Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T09:46:49Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
 >
@@ -12,7 +12,7 @@
 >
 > **SECOND ACTION, mandatory (anti-avoidance):** a green driver plus all-sealed is **NOT** session completion. Build **+ seal EVAL-139** (cross-asset `term_ratio` spillover → forward realized return skewness; same EVAL-114/122/134 spillover path as EVAL-138, swap target kurtosis → skewness; floor = EVAL-71 surface floor + alignment ≥ 200 common bars) in the same session, then re-run the driver green. Continue the pre-registered queue EVAL-140. Timestamp-only carries are prohibited. Do not stop at "everything is sealed".
 
-## VERIFIED STATE (2026-11-20T09:44:14Z, this session)
+## VERIFIED STATE (2026-11-20T09:46:49Z, this session)
 
 Driver source of truth: `EXPECTED_TARGETED_TESTS=1549`, `EXPECTED_DIAGNOSTIC_TESTS=27` (see `scripts/eval67_prethreshold_progress.py`). All `EVAL-70..136` `SEALED`, `EVAL-67/68/69` `SEALED` (forward disjoint-window ladder complete; disjoint-window threshold `2026-11-20T00:00:00Z` PASSED). Readiness refreshed at `research_state/EVAL_67_PREWINDOW_READINESS.json`.
 
