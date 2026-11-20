@@ -190,6 +190,10 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval144_phaseb_gate.py",
     "tests/test_eval145_cross_asset_term_slope_spillover_forward_downside_semivariance_share.py",
     "tests/test_eval145_phaseb_gate.py",
+    "tests/test_eval146_cross_asset_atm_iv_spillover_forward_downside_semivariance_share.py",
+    "tests/test_eval146_phaseb_gate.py",
+    "tests/test_eval147_cross_asset_skew_spillover_forward_downside_semivariance_share.py",
+    "tests/test_eval147_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -198,7 +202,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1683
+EXPECTED_TARGETED_TESTS = 1719
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -585,6 +589,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-145",
         "script": ROOT / "scripts" / "eval145_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-146",
+        "script": ROOT / "scripts" / "eval146_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-147",
+        "script": ROOT / "scripts" / "eval147_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -1219,6 +1233,22 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_145_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
         "combined": "EVAL_145_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
         "blocked": "EVAL_145_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-146",
+        "task_id": "INIT-2026-11-20T21:32:26Z-EVAL146-CROSS-ASSET-ATM-IV-SPILLOVER-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE",
+        "prereg": "EVAL_146_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
+        "combined": "EVAL_146_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
+        "blocked": "EVAL_146_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-147",
+        "task_id": "INIT-2026-11-20T21:32:26Z-EVAL147-CROSS-ASSET-SKEW-SPILLOVER-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE",
+        "prereg": "EVAL_147_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
+        "combined": "EVAL_147_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
+        "blocked": "EVAL_147_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
         "expected_exit": 0,
     },
     {
