@@ -1,0 +1,90 @@
+{
+  "prereg_id": "EVAL_145_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION",
+  "generated_at": "2026-11-20T20:15:18Z",
+  "task": "EVAL145-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE",
+  "hypothesis": "The causal per-bar near-ATM IV term_slope of the OTHER underlying (cross-asset term-structure spillover) has a positive monotone (Spearman rank) relationship with the subsequent forward downside-semivariance share of the target underlying, independent of any trading wrapper; tested on real on-disk captures at the composed EVAL-71 + alignment floor.",
+  "extends": "EVAL-74 (term_slope signal verbatim) + EVAL-114/122/132/138/139 (cross-asset spillover path verbatim) + EVAL-115 (forward downside-semivariance-share target verbatim) + EVAL-71 (surface floor) + EVAL-77 (cross-asset alignment) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed); distinct cell: cross-asset term_slope spillover -> forward downside semivariance share",
+  "protocol": {
+    "eval": "EVAL-145",
+    "title": "Cross-asset near-ATM IV term-structure spillover (other asset's term_slope) -> forward own-asset downside-semivariance share predictiveness (Spearman rank IC)",
+    "extends": "EVAL-74 (term_slope signal verbatim) + EVAL-114/122/132/138/139 (cross-asset spillover path verbatim) + EVAL-115 (forward downside-semivariance-share target verbatim) + EVAL-71 (surface floor) + EVAL-77 (cross-asset alignment) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed); distinct cell: cross-asset term_slope spillover -> forward downside semivariance share",
+    "supersedes": "nothing -- complements EVAL-115 (single-asset atm_iv), EVAL-122/133 (cross-asset term_slope -> skewness/kurtosis) and EVAL-144 (cross-asset term_ratio -> downside); no traded-form claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signal": "term_slope",
+    "target": "forward_downside_semivariance_share",
+    "signal_window_seconds": 900.0,
+    "atm_band": 0.05,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "cross_section": {
+      "baseline": "BTC",
+      "relative": "ETH",
+      "spillover_signal": "signal_k = term_slope[OTHER](k)  (other asset's near-ATM IV near-minus-far slope)"
+    },
+    "signal": "causal per-bar near-ATM IV term_slope of the OTHER underlying (e74._term_bars term_slope), aligned to the common BTC-vs-ETH bar grid (build_cross_section), forward-filled and expanding-zscored end-of-bar k (reused e71._forward_fill / e61.expanding_zscore)",
+    "target_detail": "forward downside-semivariance share = mean(min(r-mu,0)**2) / mean((r-mu)**2) over the TARGET underlying's next H perp log returns (strictly after the decision at bar k, lr[k:k+h]); transcribed verbatim from sealed EVAL-115",
+    "statistic": "Spearman rank correlation IC = rho(other_term_slope_z_k, own_dss_k); directional permutation H1: IC>0 (steeper other-asset near-ATM IV near-minus-far slope -> more downside-concentrated forward variance on the target)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle target series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120,
+      "min_aligned_common_bars": 200
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses already-acquired real on-disk three-way captures (option trades with iv/strike/expiry + perp candles); no new acquisition, no network",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_option_trades_per_underlying": 1000,
+      "min_near_atm_option_trades_per_underlying": 400,
+      "min_perp_candles_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 82000.0,
+      "min_aligned_common_bars": 200,
+      "min_usable_pairs_per_config": 120,
+      "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s), applied to BOTH BTC and ETH, plus a cross-asset alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal near-ATM term_slope on the coarsest grid). Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval74_surface_term_structure_predictiveness.py",
+      "scripts/eval115_single_asset_atm_iv_forward_downside_semivariance_share.py",
+      "scripts/eval145_cross_asset_term_slope_spillover_forward_downside_semivariance_share.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval145_cross_asset_term_slope_spillover_forward_downside_semivariance_share.py tests/test_eval145_cross_asset_term_slope_spillover_forward_downside_semivariance_share.py",
+      "python3 -m pytest -q tests/test_eval145_cross_asset_term_slope_spillover_forward_downside_semivariance_share.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval145_cross_asset_term_slope_spillover_forward_downside_semivariance_share.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval145_cross_asset_term_slope_spillover_forward_downside_semivariance_share.py --capture-dir data/raw/eval61 --seal --task-label EVAL145-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE"
+    ]
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "floor": {
+    "min_underlyings": 2,
+    "min_option_trades_per_underlying": 1000,
+    "min_near_atm_option_trades_per_underlying": 400,
+    "min_perp_candles_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 82000.0,
+    "min_aligned_common_bars": 200,
+    "min_usable_pairs_per_config": 120,
+    "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s), applied to BOTH BTC and ETH, plus a cross-asset alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal near-ATM term_slope on the coarsest grid). Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  }
+}

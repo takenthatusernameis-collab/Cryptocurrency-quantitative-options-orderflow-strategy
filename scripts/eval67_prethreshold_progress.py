@@ -188,6 +188,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval143_phaseb_gate.py",
     "tests/test_eval144_cross_asset_term_ratio_spillover_forward_downside_semivariance_share.py",
     "tests/test_eval144_phaseb_gate.py",
+    "tests/test_eval145_cross_asset_term_slope_spillover_forward_downside_semivariance_share.py",
+    "tests/test_eval145_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -196,7 +198,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1665
+EXPECTED_TARGETED_TESTS = 1683
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -578,6 +580,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-144",
         "script": ROOT / "scripts" / "eval144_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-145",
+        "script": ROOT / "scripts" / "eval145_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -1204,6 +1211,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_144_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
         "combined": "EVAL_144_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
         "blocked": "EVAL_144_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-145",
+        "task_id": "INIT-2026-11-20T20:12:44Z-EVAL145-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE",
+        "prereg": "EVAL_145_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
+        "combined": "EVAL_145_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
+        "blocked": "EVAL_145_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
         "expected_exit": 0,
     },
     {
