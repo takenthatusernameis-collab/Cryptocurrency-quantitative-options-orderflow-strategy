@@ -172,6 +172,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval135_phaseb_gate.py",
     "tests/test_eval136_cross_asset_skew_spillover_forward_return_kurtosis.py",
     "tests/test_eval136_phaseb_gate.py",
+    "tests/test_eval137_cross_sectional_term_ratio_basis_relative_value_straddle_spread_net_of_cost.py",
+    "tests/test_eval137_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -180,7 +182,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1511
+EXPECTED_TARGETED_TESTS = 1531
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -522,6 +524,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-136",
         "script": ROOT / "scripts" / "eval136_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-137",
+        "script": ROOT / "scripts" / "eval137_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
@@ -1085,6 +1092,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_136_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_RETURN_KURTOSIS_COMBINED_*",
         "blocked": "EVAL_136_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_RETURN_KURTOSIS_BLOCKED_*",
         "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-137",
+        "task_id": "INIT-2026-11-20T07:08:01Z-EVAL137-CROSS-SECTIONAL-TERM-RATIO-BASIS-RELATIVE-VALUE-STRADDLE-SPREAD-NET-OF-COST",
+        "prereg": "EVAL_137_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_VALUE_STRADDLE_SPREAD_NET_OF_COST_PREREGISTRATION_*",
+        "combined": "EVAL_137_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_VALUE_STRADDLE_SPREAD_NET_OF_COST_COMBINED_*",
+        "blocked": "EVAL_137_CROSS_SECTIONAL_TERM_RATIO_BASIS_RELATIVE_VALUE_STRADDLE_SPREAD_NET_OF_COST_BLOCKED_*",
+        "expected_exit": 1,
     },
     {
         "name": "EVAL-67",
