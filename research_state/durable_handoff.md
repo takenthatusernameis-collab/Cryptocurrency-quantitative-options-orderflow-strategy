@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T06:02:30Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T06:53:29Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
 >
@@ -12,7 +12,7 @@
 >
 > **SECOND ACTION, mandatory (this is the anti-avoidance rule):** a green driver plus all-sealed is **NOT** session completion. The repo mandate is continuous heavy work on the charter. Build **+ seal EVAL-137** in the same session, then re-run the driver green. EVAL-137 is fully specified in the queue below. Timestamp-only carries are prohibited. Do not stop at "everything is sealed".
 >
-> **VERIFIED STATE (2026-11-20T06:02:30Z, this session):** driver green `targeted_tests=1510/1510`, `diagnostics=27/27`, `70/70` seal-gate specs ok, all `EVAL-70..136` `SEALED`, `EVAL-67/68/69` `SEALED` (forward ladder complete; disjoint-window threshold `2026-11-20T00:00:00Z` PASSED). **EVAL-136 BUILT + SEALED this session** (`20261120T055501Z`): cross-asset `skew` spillover → forward realized return kurtosis; verdict `NO-GO CONFIRMED (PASS)` (floor OK both underlyings; BTC best IC `0.1158` `ETH->BTC::skew::bar300.0::h6`, 0/6 pass; ETH best IC `-0.0031`, 0/6; 0 pooled BH-FDR). Readiness refreshed at `research_state/EVAL_67_PREWINDOW_READINESS.json`.
+> **VERIFIED STATE (2026-11-20T06:53:29Z, this session):** driver green `targeted_tests=1510/1510`, `diagnostics=27/27`, `70/70` seal-gate specs ok, all `EVAL-70..136` `SEALED`, `EVAL-67/68/69` `SEALED` (forward ladder complete; disjoint-window threshold `2026-11-20T00:00:00Z` PASSED). **EVAL-136 BUILT + SEALED this session** (`20261120T055501Z`): cross-asset `skew` spillover → forward realized return kurtosis; verdict `NO-GO CONFIRMED (PASS)` (floor OK both underlyings; BTC best IC `0.1158` `ETH->BTC::skew::bar300.0::h6`, 0/6 pass; ETH best IC `-0.0031`, 0/6; 0 pooled BH-FDR). Readiness refreshed at `research_state/EVAL_67_PREWINDOW_READINESS.json`.
 
 ## VERIFIED CAMPAIGN LEDGER (all sealed; append-only)
 
