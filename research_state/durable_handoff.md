@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T12:13:34Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**>> **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-20T12:13:58Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**>> **FIRST ACTION, non-negotiable:** run the full heavy-work driver and require exit 0.
 >
 > ```bash
 > python3 scripts/eval67_prethreshold_progress.py --execute
@@ -118,4 +118,4 @@ EVAL-02..62, 64..66, 67..69, 70..136, 137, 138, 139, 140, and 141 sealed. EVAL-6
 
 - **2026-11-20T11:40:16Z:** Refreshed durable handoff timestamp; next mandated build remains **EVAL-141** (composite `atm_iv` + `term_ratio` cross-asset spillover → forward realized return skewness). Queue EVAL-141 → EVAL-142 → EVAL-143 unchanged; anti-avoidance in force.
 
-- **2026-11-20T12:13:34Z:** Refreshed durable handoff timestamp; EVAL-141 sealed `NO-GO CONFIRMED (PASS)`; next mandated build is **EVAL-142** (cross-asset `term_ratio` spillover → risk-reversal net-of-cost, EVAL-64 floor verbatim), then EVAL-143. Queue EVAL-142 → EVAL-143; anti-avoidance in force.
+- **2026-11-20T12:13:58Z:** Refreshed durable handoff timestamp; next mandated build remains **EVAL-142** (cross-asset `term_ratio` spillover → risk-reversal net-of-cost, EVAL-64 floor verbatim), then EVAL-143. Queue EVAL-142 → EVAL-143; anti-avoidance in force.
