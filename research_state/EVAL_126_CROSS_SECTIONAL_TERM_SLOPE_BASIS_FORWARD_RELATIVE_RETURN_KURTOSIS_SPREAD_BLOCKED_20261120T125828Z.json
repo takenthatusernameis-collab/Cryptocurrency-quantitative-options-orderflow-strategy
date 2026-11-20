@@ -1,0 +1,72 @@
+{
+  "report_id": "EVAL_126_CROSS_SECTIONAL_TERM_SLOPE_BASIS_FORWARD_RELATIVE_RETURN_KURTOSIS_SPREAD_BLOCKED",
+  "generated_at": "2026-11-20T12:58:28Z",
+  "task": "EVAL126-CROSS-SECTIONAL-TERM-SLOPE-BASIS-FORWARD-RELATIVE-RETURN-KURTOSIS-SPREAD",
+  "verdict": "BLOCKED",
+  "verdict_detail": "capture below the composed EVAL-74 term + EVAL-77 alignment floor; no verdict (never a NO-GO)",
+  "floor_ok": false,
+  "capture_dir": "/home/runner/work/_temp/kilo-tmp/tmp_fg0qcb_/captures",
+  "underlyings": [
+    "None"
+  ],
+  "campaign_floor": {
+    "underlyings": [
+      "None"
+    ],
+    "per_underlying": {
+      "None": {
+        "underlying": "?",
+        "eval71_floor_ok": false,
+        "eval71_floor": {
+          "underlying": "?",
+          "n_option_trades": 0,
+          "n_near_atm_option_trades": 0,
+          "n_perp_candles": 0,
+          "perp_span_seconds": 0.0,
+          "checks": {
+            "option_trades_ok": false,
+            "near_atm_ok": false,
+            "candles_ok": false,
+            "span_ok": false
+          },
+          "ok": false
+        },
+        "term_adequacy": {
+          "n_distinct_expiries": 0,
+          "distinct_expiries": [],
+          "bars_with_term_max": 0,
+          "checks": {
+            "distinct_expiries_ok": false,
+            "bars_with_term_ok": false
+          },
+          "ok": false
+        },
+        "checks": {
+          "eval71_floor_ok": false,
+          "distinct_expiries_ok": false,
+          "bars_with_term_ok": false
+        },
+        "ok": false
+      }
+    },
+    "underlyings_ok": false,
+    "aligned_common_bars_by_grid": {},
+    "aligned_common_bars_binding": 0,
+    "aligned_ok": false,
+    "checks": {
+      "underlyings_ok": false,
+      "aligned_ok": false
+    },
+    "ok": false
+  },
+  "floor": {
+    "min_underlyings": 2,
+    "min_distinct_expiries": 2,
+    "min_expiry_trades": 5,
+    "min_bars_with_term": 40,
+    "min_aligned_common_bars": 200,
+    "min_usable_pairs_per_config": 120,
+    "note": "EVAL-126 consumes both underlyings' trade-tape IV surfaces and both perp series. It composes the sealed EVAL-74 term-structure floor (EVAL-71 surface floor + term adequacy: >= MIN_DISTINCT_EXPIRIES distinct near-ATM expiries with >= MIN_EXPIRY_TRADES trades each, and >= MIN_BARS_WITH_TERM bars carrying a term signal; applied to BOTH BTC and ETH, reused verbatim, neither weakened) with the sealed EVAL-77 cross-sectional alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal surface bar on the coarsest grid). This is NOT the EVAL-64 options-surface snapshot floor, which governs the EVAL-67/68/69 ladder and is untouched here."
+  },
+  "errors": []
+}
