@@ -258,6 +258,9 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval166_phaseb_gate.py",
     "tests/test_eval167_single_asset_term_slope_forward_downside_semivariance_share.py",
     "tests/test_eval167_phaseb_gate.py",
+    # EVAL-168: cross-asset atm_iv spillover -> forward CVaR (+2 files, +18 tests)
+    "tests/test_eval168_cross_asset_atm_iv_spillover_forward_cvar.py",
+    "tests/test_eval168_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
