@@ -270,6 +270,9 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-171: cross-asset skew spillover -> forward CVaR (+2 files, +18 tests)
     "tests/test_eval171_cross_asset_skew_spillover_forward_cvar.py",
     "tests/test_eval171_phaseb_gate.py",
+    # EVAL-172: single-asset atm_iv -> forward variance (+2 files, +17 tests)
+    "tests/test_eval172_single_asset_atm_iv_forward_variance.py",
+    "tests/test_eval172_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -278,7 +281,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2216
+EXPECTED_TARGETED_TESTS = 2233
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -813,6 +816,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-172",
+        "script": ROOT / "scripts" / "eval172_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -1004,6 +1012,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_171_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_CVAR_PREREGISTRATION_*",
         "combined": "EVAL_171_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_CVAR_COMBINED_*",
         "blocked": "EVAL_171_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_CVAR_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-172",
+        "task_id": "INIT-2026-11-21T20:45:00Z-EVAL172-SINGLE-ASSET-ATM-IV-FORWARD-VARIANCE",
+        "prereg": "EVAL_172_SINGLE_ASSET_ATM_IV_FORWARD_VARIANCE_PREREGISTRATION_*",
+        "combined": "EVAL_172_SINGLE_ASSET_ATM_IV_FORWARD_VARIANCE_COMBINED_*",
+        "blocked": "EVAL_172_SINGLE_ASSET_ATM_IV_FORWARD_VARIANCE_BLOCKED_*",
         "expected_exit": 0,
     },
     {

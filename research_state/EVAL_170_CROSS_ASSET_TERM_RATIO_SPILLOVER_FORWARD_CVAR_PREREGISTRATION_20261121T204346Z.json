@@ -1,0 +1,99 @@
+{
+  "prereg_id": "EVAL_170_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_CVAR_PREREGISTRATION",
+  "generated_at": "2026-11-21T20:43:46Z",
+  "task": "EVAL170-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-CVAR",
+  "hypothesis": "The causal ATM implied-vol term ratio of the OTHER underlying (cross-asset term_ratio spillover) has a positive monotone (Spearman rank) relationship with the subsequent forward expected shortfall (CVaR) of the target underlying, independent of any trading wrapper; tested on real on-disk captures at the composed EVAL-71 + EVAL-74 + alignment floor.",
+  "extends": "EVAL-74 (_term_bars term_ratio verbatim + EVAL-74 term floor + EVAL-71 surface floor) + EVAL-148 (cross-asset alignment via build_cross_section) + EVAL-163 (forward CVaR target verbatim) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed); distinct cell: cross-asset term_ratio spillover -> forward CVaR",
+  "protocol": {
+    "eval": "EVAL-170",
+    "title": "Cross-asset ATM implied-vol term-ratio spillover (other asset's term_ratio) -> forward own-asset expected shortfall / CVaR predictiveness (Spearman rank IC)",
+    "extends": "EVAL-74 (_term_bars term_ratio verbatim + EVAL-74 term floor + EVAL-71 surface floor) + EVAL-148 (cross-asset alignment via build_cross_section) + EVAL-163 (forward CVaR target verbatim) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed); distinct cell: cross-asset term_ratio spillover -> forward CVaR",
+    "supersedes": "nothing -- complements EVAL-163 (single-asset atm_iv -> CVaR), EVAL-161/162 (single-asset term_ratio/term_ratio -> CVaR, both NO-GO), EVAL-168 (cross-asset atm_iv -> CVaR, GO CONFIRMED); no traded-form claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signal": "term_ratio",
+    "target": "forward_cvar",
+    "cvar_alpha": 0.05,
+    "signal_window_seconds": 900.0,
+    "atm_band": 0.05,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "cross_section": {
+      "baseline": "BTC",
+      "relative": "ETH",
+      "spillover_signal": "signal_k = term_ratio[OTHER](k)  (other asset's ATM IV term ratio)"
+    },
+    "signal": "causal per-bar ATM implied-vol term ratio of the OTHER underlying (e74._term_bars term_ratio \u2014 TERM bar, not the surface bar), aligned to the common BTC-vs-ETH bar grid (build_cross_section), forward-filled and expanding-zscored end-of-bar k (reused e71._forward_fill / e61.expanding_zscore)",
+    "target_detail": "forward CVaR (expected shortfall of the worst CVAR_ALPHA tail) = mean of the worst alpha-tail of the TARGET underlying's next H perp log returns (strictly after the decision at bar k, r_i=log(close_i/close_{i-1}) over i in k+1..k+H); transcribed verbatim from sealed EVAL-163",
+    "statistic": "Spearman rank correlation IC = rho(other_term_ratio_z_k, own_cvar_k); directional permutation H1: IC>0 (higher other-asset term slope -> higher / less-negative forward CVaR on the target)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle target series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120,
+      "min_aligned_common_bars": 200
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses already-acquired real on-disk three-way captures (option trades with iv/strike/expiry + perp candles); no new acquisition, no network",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_option_trades_per_underlying": 1000,
+      "min_near_atm_option_trades_per_underlying": 400,
+      "min_perp_candles_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 82000.0,
+      "min_distinct_expiries": 2,
+      "min_expiry_trades": 5,
+      "min_bars_with_term": 40,
+      "min_aligned_common_bars": 200,
+      "min_usable_pairs_per_config": 120,
+      "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s), applied to BOTH BTC and ETH, plus the sealed EVAL-74 term-structure adequacy floor (min_distinct_expiries=2, min_expiry_trades=5, min_bars_with_term=40), plus a cross-asset alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal term bar on the coarsest grid). Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval74_surface_term_structure_predictiveness.py",
+      "scripts/eval148_cross_asset_atm_iv_spillover_forward_signed_return_mean.py",
+      "scripts/eval163_single_asset_atm_iv_forward_cvar.py",
+      "scripts/eval168_cross_asset_atm_iv_spillover_forward_cvar.py",
+      "scripts/eval170_cross_asset_term_ratio_spillover_forward_cvar.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval170_cross_asset_term_ratio_spillover_forward_cvar.py tests/test_eval170_cross_asset_term_ratio_spillover_forward_cvar.py",
+      "python3 -m pytest -q tests/test_eval170_cross_asset_term_ratio_spillover_forward_cvar.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval170_cross_asset_term_ratio_spillover_forward_cvar.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval170_cross_asset_term_ratio_spillover_forward_cvar.py --capture-dir data/raw/eval61 --seal --task-label EVAL170-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-CVAR"
+    ]
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "floor": {
+    "min_underlyings": 2,
+    "min_option_trades_per_underlying": 1000,
+    "min_near_atm_option_trades_per_underlying": 400,
+    "min_perp_candles_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 82000.0,
+    "min_distinct_expiries": 2,
+    "min_expiry_trades": 5,
+    "min_bars_with_term": 40,
+    "min_aligned_common_bars": 200,
+    "min_usable_pairs_per_config": 120,
+    "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s), applied to BOTH BTC and ETH, plus the sealed EVAL-74 term-structure adequacy floor (min_distinct_expiries=2, min_expiry_trades=5, min_bars_with_term=40), plus a cross-asset alignment floor (>= min_aligned_common_bars bar-ends where both underlyings carry a causal term bar on the coarsest grid). Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  }
+}
