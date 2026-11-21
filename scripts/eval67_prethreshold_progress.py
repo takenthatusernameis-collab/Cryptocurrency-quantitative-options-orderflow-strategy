@@ -227,6 +227,12 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-156: cross-asset oflow imbalance spillover -> forward downside-semivariance share (+2 files, +19 tests)
     "tests/test_eval156_cross_asset_orderflow_imbalance_spillover_forward_downside_semivariance_share.py",
     "tests/test_eval156_phaseb_gate.py",
+    # EVAL-157: cross-asset oflow toxicity spillover -> forward realized return kurtosis (+2 files, +19 tests)
+    "tests/test_eval157_cross_asset_orderflow_toxicity_spillover_forward_return_kurtosis.py",
+    "tests/test_eval157_phaseb_gate.py",
+    # EVAL-158: cross-asset oflow imbalance spillover -> forward realized return kurtosis (+2 files, +19 tests)
+    "tests/test_eval158_cross_asset_orderflow_imbalance_spillover_forward_return_kurtosis.py",
+    "tests/test_eval158_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -235,7 +241,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1939
+EXPECTED_TARGETED_TESTS = 1977
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -695,6 +701,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-157",
+        "script": ROOT / "scripts" / "eval157_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-158",
+        "script": ROOT / "scripts" / "eval158_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -767,6 +783,22 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_156_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
         "blocked": "EVAL_156_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
         "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-157",
+        "task_id": "INIT-2026-11-21T05:15:13Z-EVAL157-CROSS-ASSET-ORDERFLOW-TOXICITY-SPILLOVER-FORWARD-RETURN-KURTOSIS",
+        "prereg": "EVAL_157_CROSS_ASSET_ORDERFLOW_TOXICITY_SPILLOVER_FORWARD_RETURN_KURTOSIS_PREREGISTRATION_*",
+        "combined": "EVAL_157_CROSS_ASSET_ORDERFLOW_TOXICITY_SPILLOVER_FORWARD_RETURN_KURTOSIS_COMBINED_*",
+        "blocked": "EVAL_157_CROSS_ASSET_ORDERFLOW_TOXICITY_SPILLOVER_FORWARD_RETURN_KURTOSIS_BLOCKED_*",
+        "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-158",
+        "task_id": "INIT-2026-11-21T05:40:00Z-EVAL158-CROSS-ASSET-ORDERFLOW-IMBALANCE-SPILLOVER-FORWARD-RETURN-KURTOSIS",
+        "prereg": "EVAL_158_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_RETURN_KURTOSIS_PREREGISTRATION_*",
+        "combined": "EVAL_158_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_RETURN_KURTOSIS_COMBINED_*",
+        "blocked": "EVAL_158_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_RETURN_KURTOSIS_BLOCKED_*",
+        "expected_exit": 1,
     },
     {
         "name": "EVAL-66",

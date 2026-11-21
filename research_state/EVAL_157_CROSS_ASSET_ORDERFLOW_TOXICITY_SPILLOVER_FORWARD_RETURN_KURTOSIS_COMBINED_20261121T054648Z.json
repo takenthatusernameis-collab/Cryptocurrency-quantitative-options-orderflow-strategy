@@ -1,0 +1,400 @@
+{
+  "report_id": "EVAL_157_CROSS_ASSET_ORDERFLOW_TOXICITY_SPILLOVER_FORWARD_RETURN_KURTOSIS_COMBINED",
+  "generated_at": "2026-11-21T05:46:48Z",
+  "task": "EVAL157-CROSS-ASSET-ORDERFLOW-TOXICITY-SPILLOVER-FORWARD-RETURN-KURTOSIS",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "wrapper-free Spearman rank IC between the causal cross-asset options order-flow toxicity spillover (other asset's level) and forward own-asset realized return kurtosis on real captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_oflow_states_per_underlying": 1,
+    "min_aligned_common_bars": 1,
+    "min_usable_pairs_per_config": 120,
+    "note": "EVAL-157 cross-asset options order-flow toxicity floor: both underlyings (BTC, ETH) present, each with >= min_oflow_states_per_underlying constructible toxicity states on the coarsest grid, and >= min_aligned_common_bars non-disjoint common bar-ends. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  },
+  "campaign_floor": {
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "per_underlying": {
+      "BTC": {
+        "n_states": 289,
+        "ok": true
+      },
+      "ETH": {
+        "n_states": 289,
+        "ok": true
+      }
+    },
+    "underlyings_ok": true,
+    "aligned_common_bars": 274,
+    "aligned_ok": true,
+    "checks": {
+      "underlyings_ok": true,
+      "aligned_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-157",
+    "title": "Cross-asset options order-flow toxicity spillover (other asset's toxicity z) -> forward own-asset realized return kurtosis predictiveness (Spearman rank IC)",
+    "extends": "EVAL-81 (options order-flow imbalance -> signed return verbatim) + EVAL-152 (cross-asset toxicity spillover path verbatim) + EVAL-138 (forward realized return kurtosis target verbatim) + EVAL-77 (cross-asset alignment) + EVAL-101 (perp close series) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed); distinct cell: cross-asset order-flow toxicity spillover -> forward realized return kurtosis",
+    "supersedes": "nothing -- complements EVAL-152 (toxicity -> signed return mean), EVAL-138 (surface term_ratio -> kurtosis); no traded-form claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signal": "toxicity",
+    "target": "realized_return_kurtosis",
+    "signal_window_seconds": 900.0,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "cross_section": {
+      "baseline": "BTC",
+      "relative": "ETH",
+      "spillover_signal": "signal_k = tox_z[OTHER](k)  (other asset's order-flow toxicity z)"
+    },
+    "signal": "causal per-bar options order-flow toxicity z of the OTHER underlying (e62.build_states tox_signal='tox', expanding-z-scored), aligned to the common BTC-vs-ETH bar grid (build_cross_section on toxicity states), forward-filled and expanding-zscored end-of-bar k (reused e71._forward_fill / e61.expanding_zscore)",
+    "target_detail": "forward realized return kurtosis = m4 / m2**2 over the TARGET underlying's next H perp log returns (strictly after the decision at bar k, lr[k:k+h]); fourth standardized moment, transcribed verbatim from sealed EVAL-138",
+    "statistic": "Spearman rank correlation IC = rho(other_tox_z_k, own_kurt_k); directional permutation H1: IC>0 (higher other-asset order-flow toxicity -> more fat-tailed forward realized return kurtosis on the target)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle target series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120,
+      "min_aligned_common_bars": 1
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses already-acquired real on-disk three-way captures (option trades with direction + surface snapshots + perp candles); no new acquisition, no network; e62.build_states(tox_signal='tox') constructibility verified on all three data/raw/eval61 tapes (289 states each)",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_oflow_states_per_underlying": 1,
+      "min_aligned_common_bars": 1,
+      "min_usable_pairs_per_config": 120,
+      "note": "EVAL-157 cross-asset options order-flow toxicity floor: both underlyings (BTC, ETH) present, each with >= min_oflow_states_per_underlying constructible toxicity states on the coarsest grid, and >= min_aligned_common_bars non-disjoint common bar-ends. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval138_cross_asset_term_ratio_spillover_forward_return_kurtosis.py",
+      "scripts/eval157_cross_asset_orderflow_toxicity_spillover_forward_return_kurtosis.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval157_cross_asset_orderflow_toxicity_spillover_forward_return_kurtosis.py tests/test_eval157_cross_asset_orderflow_toxicity_spillover_forward_return_kurtosis.py",
+      "python3 -m pytest -q tests/test_eval157_cross_asset_orderflow_toxicity_spillover_forward_return_kurtosis.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval157_cross_asset_orderflow_toxicity_spillover_forward_return_kurtosis.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval157_cross_asset_orderflow_toxicity_spillover_forward_return_kurtosis.py --capture-dir data/raw/eval61 --seal --task-label EVAL157-CROSS-ASSET-ORDERFLOW-TOXICITY-SPILLOVER-FORWARD-RETURN-KURTOSIS"
+    ]
+  },
+  "per_config": [
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": 0.07846820957906894,
+      "permutation_p": 0.08591408591408592,
+      "bootstrap_median": 0.08598920946008495,
+      "bootstrap_ci": [
+        0.08598920946008495,
+        -0.044845432731461785,
+        0.2113016307284807
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": -0.033804125769996106,
+      "permutation_p": 0.6673326673326674,
+      "bootstrap_median": -0.0281147848207044,
+      "bootstrap_ci": [
+        -0.0281147848207044,
+        -0.15569848338451187,
+        0.09767622175443412
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.1004232377475903,
+      "permutation_p": 0.07492507492507493,
+      "bootstrap_median": 0.09896479261089941,
+      "bootstrap_ci": [
+        0.09896479261089941,
+        -0.04293339361425481,
+        0.23482158360275018
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": 0.027216514255092687,
+      "permutation_p": 0.3166833166833167,
+      "bootstrap_median": 0.02999645408036992,
+      "bootstrap_ci": [
+        0.02999645408036992,
+        -0.08443937917234329,
+        0.13842322885703864
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": -0.002214951691938402,
+      "permutation_p": 0.5304695304695305,
+      "bootstrap_median": -0.0012688250004608322,
+      "bootstrap_ci": [
+        -0.0012688250004608322,
+        -0.13476048742588095,
+        0.13580098518238076
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.08164615752010848,
+      "permutation_p": 0.1038961038961039,
+      "bootstrap_median": 0.07998162480011858,
+      "bootstrap_ci": [
+        0.07998162480011858,
+        -0.05972268128149612,
+        0.2189017491696795
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": -0.11817564911711004,
+      "permutation_p": 0.9760239760239761,
+      "bootstrap_median": -0.12043199867589863,
+      "bootstrap_ci": [
+        -0.12043199867589863,
+        -0.24431581726697243,
+        0.01590654394992334
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": 0.09272729367327354,
+      "permutation_p": 0.07192807192807193,
+      "bootstrap_median": 0.09270692041472071,
+      "bootstrap_ci": [
+        0.09270692041472071,
+        -0.046394320037819306,
+        0.2268761068353044
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.02708022735761509,
+      "permutation_p": 0.3756243756243756,
+      "bootstrap_median": 0.02874404866630361,
+      "bootstrap_ci": [
+        0.02874404866630361,
+        -0.1276495678041683,
+        0.18507272518780907
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": -0.07822974986052594,
+      "permutation_p": 0.9050949050949051,
+      "bootstrap_median": -0.0767957844552107,
+      "bootstrap_ci": [
+        -0.0767957844552107,
+        -0.19751065981682983,
+        0.04668992034329302
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": -0.044788642612558174,
+      "permutation_p": 0.7542457542457542,
+      "bootstrap_median": -0.0439705106980122,
+      "bootstrap_ci": [
+        -0.0439705106980122,
+        -0.17097735938253072,
+        0.07629184607375361
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "toxicity",
+      "target": "realized_return_kurtosis",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.03681600587053832,
+      "permutation_p": 0.3206793206793207,
+      "bootstrap_median": 0.03651971393204613,
+      "bootstrap_ci": [
+        0.03651971393204613,
+        -0.09209248416919638,
+        0.17053773688275292
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    }
+  ],
+  "per_target": [
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "n_configs": 6,
+      "best_ic": 0.1004232377475903,
+      "best_config": "ETH->BTC::toxicity::bar60.0::h72",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "n_configs": 6,
+      "best_ic": 0.09272729367327354,
+      "best_config": "BTC->ETH::toxicity::bar60.0::h24",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [],
+      "thresholds": {
+        "ETH<-BTC::toxicity::bar60.0::h24": 0.008333333333333333,
+        "BTC<-ETH::toxicity::bar60.0::h72": 0.016666666666666666,
+        "BTC<-ETH::toxicity::bar60.0::h6": 0.025000000000000005,
+        "BTC<-ETH::toxicity::bar300.0::h72": 0.03333333333333333,
+        "BTC<-ETH::toxicity::bar300.0::h6": 0.041666666666666664,
+        "ETH<-BTC::toxicity::bar300.0::h72": 0.05000000000000001,
+        "ETH<-BTC::toxicity::bar60.0::h72": 0.05833333333333334,
+        "BTC<-ETH::toxicity::bar300.0::h24": 0.06666666666666667,
+        "BTC<-ETH::toxicity::bar60.0::h24": 0.075,
+        "ETH<-BTC::toxicity::bar300.0::h24": 0.08333333333333333,
+        "ETH<-BTC::toxicity::bar300.0::h6": 0.09166666666666667,
+        "ETH<-BTC::toxicity::bar60.0::h6": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 12,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_targets_pass": false,
+    "campaign_state": "EVAL_157_CROSS_ASSET_ORDERFLOW_TOXICITY_SPILLOVER_FORWARD_RETURN_KURTOSIS"
+  },
+  "errors": []
+}

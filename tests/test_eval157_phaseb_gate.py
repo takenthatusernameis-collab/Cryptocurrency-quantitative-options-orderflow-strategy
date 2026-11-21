@@ -1,7 +1,7 @@
-"""Unit tests for the EVAL-153 Phase-B gate (deterministic completion arbiter).
+"""Unit tests for the EVAL-157 Phase-B gate (deterministic completion arbiter).
 
 The gate has three honest outcomes — SEALED (0), DUE (20), FAILED (1) — and,
-unlike EVAL-67/68/69, no NOT_DUE phase: the EVAL-153 inputs are on disk, so the
+unlike EVAL-67/68/69, no NOT_DUE phase: the EVAL-157 inputs are on disk, so the
 honest pre-execution state is DUE (heavy work required now).
 
 No real data, no network, no research_state writes (temp dirs only).
@@ -14,23 +14,23 @@ import scripts.eval157_phaseb_gate as gate
 
 def test_ids_and_globs_are_eval157():
     assert gate.TASK_ID.startswith("INIT-")
-    assert "EVAL153" in gate.TASK_ID
+    assert "EVAL157" in gate.TASK_ID
     assert gate.TASK_ID.endswith(
-        "EVAL153-CROSS-ASSET-ORDERFLOW-TOXICITY-SPILLOVER-FORWARD-RETURN-SKEWNESS"
+        "EVAL157-CROSS-ASSET-ORDERFLOW-TOXICITY-SPILLOVER-FORWARD-RETURN-KURTOSIS"
     )
     assert gate.TASK_LABEL == (
-        "EVAL153-CROSS-ASSET-ORDERFLOW-TOXICITY-SPILLOVER-FORWARD-RETURN-SKEWNESS"
+        "EVAL157-CROSS-ASSET-ORDERFLOW-TOXICITY-SPILLOVER-FORWARD-RETURN-KURTOSIS"
     )
-    assert gate.PREREG_GLOB.startswith("EVAL_153_")
-    assert gate.COMBINED_GLOB.startswith("EVAL_153_")
-    assert gate.BLOCKED_GLOB.startswith("EVAL_153_")
+    assert gate.PREREG_GLOB.startswith("EVAL_157_")
+    assert gate.COMBINED_GLOB.startswith("EVAL_157_")
+    assert gate.BLOCKED_GLOB.startswith("EVAL_157_")
     assert "ORDERFLOW_TOXICITY" in gate.COMBINED_GLOB
     assert "SPILLOVER" in gate.COMBINED_GLOB
-    assert "FORWARD_RETURN_SKEWNESS" in gate.COMBINED_GLOB
+    assert "FORWARD_RETURN_KURTOSIS" in gate.COMBINED_GLOB
 
 
 def test_task_floor_stamp_parses_iso():
-    assert gate.task_floor_stamp(gate.TASK_ID) == "20261121T025323Z"
+    assert gate.task_floor_stamp(gate.TASK_ID) == "20261121T051513Z"
 
 
 def test_detect_seal_missing(tmp_path):
@@ -40,7 +40,7 @@ def test_detect_seal_missing(tmp_path):
 
 
 def test_detect_seal_hit(tmp_path):
-    name = f"{gate.COMBINED_GLOB.rstrip('*')}20261121T030000Z.json"
+    name = f"{gate.COMBINED_GLOB.rstrip('*')}20261121T060000Z.json"
     (tmp_path / name).write_text("{}")
     res = gate.detect_seal(tmp_path)
     assert res["sealed"] is True
