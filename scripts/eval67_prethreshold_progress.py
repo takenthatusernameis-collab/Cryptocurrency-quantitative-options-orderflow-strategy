@@ -194,6 +194,18 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     "tests/test_eval146_phaseb_gate.py",
     "tests/test_eval147_cross_asset_skew_spillover_forward_downside_semivariance_share.py",
     "tests/test_eval147_phaseb_gate.py",
+    # EVAL-148: cross-asset surface/term spillover -> forward signed return mean (4 cells, +8 files, +72 tests)
+    "tests/test_eval148_cross_asset_atm_iv_spillover_forward_signed_return_mean.py",
+    "tests/test_eval148_atm_iv_phaseb_gate.py",
+    "tests/test_eval148_cross_asset_skew_spillover_forward_signed_return_mean.py",
+    "tests/test_eval148_skew_phaseb_gate.py",
+    "tests/test_eval148_cross_asset_term_slope_spillover_forward_signed_return_mean.py",
+    "tests/test_eval148_term_slope_phaseb_gate.py",
+    "tests/test_eval148_cross_asset_term_ratio_spillover_forward_signed_return_mean.py",
+    "tests/test_eval148_term_ratio_phaseb_gate.py",
+    # EVAL-149: cross-asset options order-flow imbalance spillover -> forward signed return mean (+2 files, +18 tests)
+    "tests/test_eval149_cross_asset_orderflow_imbalance_spillover_forward_signed_return_mean.py",
+    "tests/test_eval149_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -202,7 +214,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1719
+EXPECTED_TARGETED_TESTS = 1809
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -599,6 +611,31 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
     {
         "name": "EVAL-147",
         "script": ROOT / "scripts" / "eval147_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-148-ATM-IV",
+        "script": ROOT / "scripts" / "eval148_atm_iv_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-148-SKEW",
+        "script": ROOT / "scripts" / "eval148_skew_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-148-TERM-SLOPE",
+        "script": ROOT / "scripts" / "eval148_term_slope_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-148-TERM-RATIO",
+        "script": ROOT / "scripts" / "eval148_term_ratio_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-149",
+        "script": ROOT / "scripts" / "eval149_phaseb_gate.py",
         "wait_phase": "DUE",
     },
     {
