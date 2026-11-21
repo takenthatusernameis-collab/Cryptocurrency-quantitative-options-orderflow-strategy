@@ -209,6 +209,12 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-150: cross-asset oflow x atm_iv interaction spillover -> forward signed return mean (+2 files, +18 tests)
     "tests/test_eval150_cross_asset_oflow_atm_iv_interaction_spillover_forward_signed_return_mean.py",
     "tests/test_eval150_phaseb_gate.py",
+    # EVAL-151: cross-asset oflow toxicity x atm_iv interaction spillover -> forward signed return mean (+2 files, +18 tests)
+    "tests/test_eval151_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_signed_return_mean.py",
+    "tests/test_eval151_phaseb_gate.py",
+    # EVAL-152: cross-asset oflow toxicity spillover alone -> forward signed return mean (+2 files, +18 tests)
+    "tests/test_eval152_cross_asset_orderflow_toxicity_spillover_forward_signed_return_mean.py",
+    "tests/test_eval152_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -217,7 +223,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1827
+EXPECTED_TARGETED_TESTS = 1845
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -647,6 +653,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-151",
+        "script": ROOT / "scripts" / "eval151_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -671,6 +682,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_150_CROSS_ASSET_OFLOW_ATM_IV_INTERACTION_SPILLOVER_FORWARD_SIGNED_RETURN_MEAN_COMBINED_*",
         "blocked": "EVAL_150_CROSS_ASSET_OFLOW_ATM_IV_INTERACTION_SPILLOVER_FORWARD_SIGNED_RETURN_MEAN_BLOCKED_*",
         "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-151",
+        "task_id": "INIT-2026-11-21T02:00:00Z-EVAL151-CROSS-ASSET-OFLOW-TOX-ATM-IV-INTERACTION-SPILLOVER-FORWARD-SIGNED-RETURN-MEAN",
+        "prereg": "EVAL_151_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_SIGNED_RETURN_MEAN_PREREGISTRATION_*",
+        "combined": "EVAL_151_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_SIGNED_RETURN_MEAN_COMBINED_*",
+        "blocked": "EVAL_151_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_SIGNED_RETURN_MEAN_BLOCKED_*",
+        "expected_exit": 0,
     },
     {
         "name": "EVAL-66",
