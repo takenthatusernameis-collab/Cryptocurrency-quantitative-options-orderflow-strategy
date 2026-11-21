@@ -250,7 +250,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2015
+EXPECTED_TARGETED_TESTS = 2027
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
