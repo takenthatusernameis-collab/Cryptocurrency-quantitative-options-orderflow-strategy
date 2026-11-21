@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-21T03:55:40Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-21T03:59:52Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **REPO-NAME PRIORITIZATION (load-bearing, do not re-derive):** `...options...orderflow...` ⇒ two load-bearing halves; the **options order-flow half is the highest charter-relevance rung** and is the mandated line. The surface-signal line (EVAL-138..148) is saturated; the **order-flow line EVAL-149 → EVAL-150 → EVAL-151 → EVAL-152 → EVAL-153 → EVAL-154 → EVAL-155 → EVAL-156** is the active heavy-work queue. The order-flow → directional line (signed-return mean) is saturated (149/150/151/152) and the order-flow → skewness line is now complete for both signals (153 toxicity, 154 imbalance). The next mandated heavy work is the **downside-semivariance share (DSS)** distributional target for both order-flow signals:
 >   - EVAL-149 cross-asset imbalance → forward signed return mean — SEALED `20261121T010848Z`.
