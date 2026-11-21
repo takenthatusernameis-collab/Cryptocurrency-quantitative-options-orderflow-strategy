@@ -273,6 +273,9 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-172: single-asset atm_iv -> forward variance (+2 files, +17 tests)
     "tests/test_eval172_single_asset_atm_iv_forward_variance.py",
     "tests/test_eval172_phaseb_gate.py",
+    # EVAL-173: single-asset skew -> forward variance (+2 files, +19 tests)
+    "tests/test_eval173_single_asset_skew_forward_variance.py",
+    "tests/test_eval173_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -281,7 +284,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2233
+EXPECTED_TARGETED_TESTS = 2252
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -821,6 +824,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-173",
+        "script": ROOT / "scripts" / "eval173_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -1020,6 +1028,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_172_SINGLE_ASSET_ATM_IV_FORWARD_VARIANCE_PREREGISTRATION_*",
         "combined": "EVAL_172_SINGLE_ASSET_ATM_IV_FORWARD_VARIANCE_COMBINED_*",
         "blocked": "EVAL_172_SINGLE_ASSET_ATM_IV_FORWARD_VARIANCE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-173",
+        "task_id": "INIT-2026-11-21T21:17:00Z-EVAL173-SINGLE-ASSET-SKEW-FORWARD-VARIANCE",
+        "prereg": "EVAL_173_SINGLE_ASSET_SKEW_FORWARD_VARIANCE_PREREGISTRATION_*",
+        "combined": "EVAL_173_SINGLE_ASSET_SKEW_FORWARD_VARIANCE_COMBINED_*",
+        "blocked": "EVAL_173_SINGLE_ASSET_SKEW_FORWARD_VARIANCE_BLOCKED_*",
         "expected_exit": 0,
     },
     {

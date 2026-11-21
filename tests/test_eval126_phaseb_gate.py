@@ -122,24 +122,24 @@ def test_main_without_execute_returns_due_when_not_sealed():
         assert rc == 20
 
 
-def test_main_with_execute_returns_failed_when_no_artifacts():
+def test_main_with_execute_returns_failed_when_no_artifacts(monkeypatch):
+    monkeypatch.setattr(
+        g126,
+        "execute_phaseb",
+        lambda **kwargs: {"ok": False, "step": "seal_gate", "steps": []},
+    )
     with tempfile.TemporaryDirectory() as td:
         rs = Path(td)
         cap = Path(td) / "captures"
         cap.mkdir()
         (cap / "three_way_BTC_20230101T000000Z.json").write_text("{}")
         (cap / "three_way_ETH_20230101T000000Z.json").write_text("{}")
-        # --execute with no sealed artifacts should FAIL (1) because runner won't produce seal
         rc = g126.main([
             "--execute",
             "--research-state-dir", str(rs),
             "--capture-dir", str(cap),
         ])
-        # The execute path runs the runner, which will fail because the captures
-        # are empty (below floor). But since it's a fake capture dir, the runner
-        # will seal a BLOCKED artifact, so seal-gate should pass. However the
-        # verification logic may fail. Let's just check it returns something.
-        assert rc in (0, 1)  # SEALED or FAILED depending on verification
+        assert rc == 1
 
 
 def test_seal_gate_check_invokes_check_session_sealed():

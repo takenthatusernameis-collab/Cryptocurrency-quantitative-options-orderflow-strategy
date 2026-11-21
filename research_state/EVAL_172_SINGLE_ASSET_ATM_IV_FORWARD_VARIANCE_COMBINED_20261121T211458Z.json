@@ -1,0 +1,395 @@
+{
+  "report_id": "EVAL_172_SINGLE_ASSET_ATM_IV_FORWARD_VARIANCE_COMBINED",
+  "generated_at": "2026-11-21T21:14:58Z",
+  "task": "EVAL172-SINGLE-ASSET-ATM-IV-FORWARD-VARIANCE",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "wrapper-free information-content test: Spearman rank IC between the causal options implied-vol surface ATM_IV level and forward realized return variance of the signed return on the real on-disk captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_option_trades_per_underlying": 1000,
+    "min_near_atm_option_trades_per_underlying": 400,
+    "min_perp_candles_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 82000.0,
+    "min_usable_pairs_per_config": 120,
+    "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_option_trades": 2748,
+      "n_near_atm_option_trades": 2331,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "checks": {
+        "option_trades_ok": true,
+        "near_atm_ok": true,
+        "candles_ok": true,
+        "span_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_option_trades": 3547,
+      "n_near_atm_option_trades": 1509,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "checks": {
+        "option_trades_ok": true,
+        "near_atm_ok": true,
+        "candles_ok": true,
+        "span_ok": true
+      },
+      "ok": true
+    }
+  },
+  "campaign_floor": {
+    "checks": {
+      "underlyings_ok": true,
+      "all_underlyings_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-172",
+    "title": "Single-asset options implied-vol surface ATM_IV level -> forward realized return variance of the signed return predictiveness (Spearman rank IC)",
+    "extends": "EVAL-71 (identical atm_iv surface signal via build_surface_bars, 900s window) + EVAL-101 (single-asset atm_iv signal path verbatim) + EVAL-159 (forward realized return variance target verbatim) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed / zwindow); distinct cell: single-asset atm_iv -> forward realized return variance of signed return",
+    "supersedes": "nothing -- complements EVAL-101 (atm_iv -> signed return mean) with a second-moment target (variance); no traded-form claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signal": "atm_iv",
+    "target": "forward_variance",
+    "signal_window_seconds": 900.0,
+    "atm_band": 0.05,
+    "min_option_trades_per_underlying": 1000,
+    "min_near_atm_option_trades_per_underlying": 400,
+    "min_perp_candles_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 82000.0,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal per-bar near-ATM implied-vol surface level from the real Deribit option trade tape: atm_iv = amount-weighted mean iv of near-ATM trades (|strike/spot-1|<=atm_band) over the trailing 900s window, forward-filled then expanding-zscored end-of-bar k (reused e61.expanding_zscore)",
+    "target_detail": "forward realized return variance = mean((r - mean(r))**2) of the next H perp log returns, strictly after the decision at bar k; transcribed verbatim from sealed EVAL-159",
+    "statistic": "Spearman rank correlation IC = rho(atm_iv_z_k, var_forward_k); directional permutation H1: IC>0 (higher near-ATM IV level -> higher forward realized variance)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle variance series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real on-disk three-way captures (option trades with real iv + perp candles); no new acquisition, no network; reuses EVAL-71's surface floor verbatim",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_option_trades_per_underlying": 1000,
+      "min_near_atm_option_trades_per_underlying": 400,
+      "min_perp_candles_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 82000.0,
+      "min_usable_pairs_per_config": 120,
+      "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval172_single_asset_atm_iv_forward_variance.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval172_single_asset_atm_iv_forward_variance.py tests/test_eval172_single_asset_atm_iv_forward_variance.py",
+      "python3 -m pytest -q tests/test_eval172_single_asset_atm_iv_forward_variance.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval172_single_asset_atm_iv_forward_variance.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval172_single_asset_atm_iv_forward_variance.py --capture-dir data/raw/eval61 --seal --task-label EVAL172-SINGLE-ASSET-ATM-IV-FORWARD-VARIANCE"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "target": "forward_variance",
+      "spearman_ic": -0.09468153391609,
+      "permutation_p": 1.0,
+      "bootstrap_median": -0.0962235092745493,
+      "bootstrap_ci": [
+        -0.0962235092745493,
+        -0.16980026758567057,
+        -0.021362994768816004
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "target": "forward_variance",
+      "spearman_ic": -0.14860441809814462,
+      "permutation_p": 1.0,
+      "bootstrap_median": -0.14922410443117357,
+      "bootstrap_ci": [
+        -0.14922410443117357,
+        -0.2290980166346027,
+        -0.07428620604220403
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "target": "forward_variance",
+      "spearman_ic": -0.07226945580454407,
+      "permutation_p": 0.993006993006993,
+      "bootstrap_median": -0.0722782432932918,
+      "bootstrap_ci": [
+        -0.0722782432932918,
+        -0.1537125600251007,
+        0.008394176442386584
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "target": "forward_variance",
+      "spearman_ic": -0.12991256867355977,
+      "permutation_p": 0.984015984015984,
+      "bootstrap_median": -0.13540181927927736,
+      "bootstrap_ci": [
+        -0.13540181927927736,
+        -0.2817817068520074,
+        0.03334527318322828
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "target": "forward_variance",
+      "spearman_ic": 0.007333095818074983,
+      "permutation_p": 0.47352647352647353,
+      "bootstrap_median": 0.0014171049239655098,
+      "bootstrap_ci": [
+        0.0014171049239655098,
+        -0.15973761620301027,
+        0.1771333194594746
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "target": "forward_variance",
+      "spearman_ic": -0.2597657912966544,
+      "permutation_p": 1.0,
+      "bootstrap_median": -0.26598445197728043,
+      "bootstrap_ci": [
+        -0.26598445197728043,
+        -0.4543201669647901,
+        -0.08026263864924017
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "target": "forward_variance",
+      "spearman_ic": -0.04117222386819708,
+      "permutation_p": 0.9340659340659341,
+      "bootstrap_median": -0.03981336958826963,
+      "bootstrap_ci": [
+        -0.03981336958826963,
+        -0.10914231853619541,
+        0.024415231908035892
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "target": "forward_variance",
+      "spearman_ic": -0.09505221899601433,
+      "permutation_p": 0.999000999000999,
+      "bootstrap_median": -0.0954834739352075,
+      "bootstrap_ci": [
+        -0.0954834739352075,
+        -0.17038277072168612,
+        -0.019352644152942796
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "target": "forward_variance",
+      "spearman_ic": -0.042759815479991754,
+      "permutation_p": 0.935064935064935,
+      "bootstrap_median": -0.04140400716654021,
+      "bootstrap_ci": [
+        -0.04140400716654021,
+        -0.12590830120835372,
+        0.033023935663536404
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "target": "forward_variance",
+      "spearman_ic": 0.011725015546092725,
+      "permutation_p": 0.42357642357642356,
+      "bootstrap_median": 0.017578554163922483,
+      "bootstrap_ci": [
+        0.017578554163922483,
+        -0.14235452978542842,
+        0.17077877880633896
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "target": "forward_variance",
+      "spearman_ic": 0.2392122661055387,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.24120019713738394,
+      "bootstrap_ci": [
+        0.24120019713738394,
+        0.06313820924565662,
+        0.37566768104538467
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "target": "forward_variance",
+      "spearman_ic": 0.15928493709152153,
+      "permutation_p": 0.013986013986013986,
+      "bootstrap_median": 0.16091395806792846,
+      "bootstrap_ci": [
+        0.16091395806792846,
+        0.009934527371481558,
+        0.31603518607747544
+      ],
+      "pass": true,
+      "reason": "ok"
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 6,
+      "best_ic": 0.007333095818074983,
+      "best_config": "atm_iv::bar300.0::h24",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 6,
+      "best_ic": 0.2392122661055387,
+      "best_config": "atm_iv::bar300.0::h24",
+      "n_pass": 2,
+      "pass_configs": [
+        "ETH::atm_iv::bar300.0::h24",
+        "ETH::atm_iv::bar300.0::h72"
+      ],
+      "any_pass": true
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [
+        "ETH::atm_iv::bar300.0::h24",
+        "ETH::atm_iv::bar300.0::h72"
+      ],
+      "thresholds": {
+        "ETH::atm_iv::bar300.0::h24": 0.008333333333333333,
+        "ETH::atm_iv::bar300.0::h72": 0.016666666666666666,
+        "ETH::atm_iv::bar300.0::h6": 0.025000000000000005,
+        "BTC::atm_iv::bar300.0::h24": 0.03333333333333333,
+        "ETH::atm_iv::bar60.0::h6": 0.041666666666666664,
+        "ETH::atm_iv::bar60.0::h72": 0.05000000000000001,
+        "BTC::atm_iv::bar300.0::h6": 0.05833333333333334,
+        "BTC::atm_iv::bar60.0::h72": 0.06666666666666667,
+        "ETH::atm_iv::bar60.0::h24": 0.075,
+        "BTC::atm_iv::bar60.0::h6": 0.08333333333333333,
+        "BTC::atm_iv::bar60.0::h24": 0.09166666666666667,
+        "BTC::atm_iv::bar300.0::h72": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 12,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": false,
+    "campaign_state": "EVAL_172_SINGLE_ASSET_ATM_IV_FORWARD_VARIANCE"
+  },
+  "errors": []
+}
