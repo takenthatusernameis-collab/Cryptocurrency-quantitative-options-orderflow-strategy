@@ -276,6 +276,12 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-173: single-asset skew -> forward variance (+2 files, +19 tests)
     "tests/test_eval173_single_asset_skew_forward_variance.py",
     "tests/test_eval173_phaseb_gate.py",
+    # EVAL-174: single-asset term_slope -> forward variance (+2 files, +17 tests)
+    "tests/test_eval174_single_asset_term_slope_forward_variance.py",
+    "tests/test_eval174_phaseb_gate.py",
+    # EVAL-175: single-asset term_ratio -> forward variance (+2 files, +17 tests)
+    "tests/test_eval175_single_asset_term_ratio_forward_variance.py",
+    "tests/test_eval175_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -284,7 +290,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2252
+EXPECTED_TARGETED_TESTS = 2286
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -829,6 +835,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-174",
+        "script": ROOT / "scripts" / "eval174_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-175",
+        "script": ROOT / "scripts" / "eval175_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -1036,6 +1052,22 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_173_SINGLE_ASSET_SKEW_FORWARD_VARIANCE_PREREGISTRATION_*",
         "combined": "EVAL_173_SINGLE_ASSET_SKEW_FORWARD_VARIANCE_COMBINED_*",
         "blocked": "EVAL_173_SINGLE_ASSET_SKEW_FORWARD_VARIANCE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-174",
+        "task_id": "INIT-2026-11-21T22:10:03Z-EVAL174-SINGLE-ASSET-TERM-SLOPE-FORWARD-VARIANCE",
+        "prereg": "EVAL_174_SINGLE_ASSET_TERM_SLOPE_FORWARD_VARIANCE_PREREGISTRATION_*",
+        "combined": "EVAL_174_SINGLE_ASSET_TERM_SLOPE_FORWARD_VARIANCE_COMBINED_*",
+        "blocked": "EVAL_174_SINGLE_ASSET_TERM_SLOPE_FORWARD_VARIANCE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-175",
+        "task_id": "INIT-2026-11-21T22:27:36Z-EVAL175-SINGLE-ASSET-TERM-RATIO-FORWARD-VARIANCE",
+        "prereg": "EVAL_175_SINGLE_ASSET_TERM_RATIO_FORWARD_VARIANCE_PREREGISTRATION_*",
+        "combined": "EVAL_175_SINGLE_ASSET_TERM_RATIO_FORWARD_VARIANCE_COMBINED_*",
+        "blocked": "EVAL_175_SINGLE_ASSET_TERM_RATIO_FORWARD_VARIANCE_BLOCKED_*",
         "expected_exit": 0,
     },
     {
