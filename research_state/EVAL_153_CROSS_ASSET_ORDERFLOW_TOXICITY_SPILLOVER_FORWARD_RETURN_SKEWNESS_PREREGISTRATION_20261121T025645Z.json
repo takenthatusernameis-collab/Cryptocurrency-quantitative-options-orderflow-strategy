@@ -1,0 +1,82 @@
+{
+  "prereg_id": "EVAL_153_CROSS_ASSET_ORDERFLOW_TOXICITY_SPILLOVER_FORWARD_RETURN_SKEWNESS_PREREGISTRATION",
+  "generated_at": "2026-11-21T02:56:45Z",
+  "task": "EVAL153-CROSS-ASSET-ORDERFLOW-TOXICITY-SPILLOVER-FORWARD-RETURN-SKEWNESS",
+  "hypothesis": "The causal options order-flow toxicity level of the OTHER underlying (cross-asset order-flow toxicity spillover) has a positive monotone (Spearman rank) relationship with the subsequent forward realized return skewness (third standardized moment) of the target underlying, independent of any trading wrapper; tested on real on-disk captures at the composed EVAL-153 floor.",
+  "extends": "EVAL-81 (options order-flow imbalance -> signed return verbatim) + EVAL-152 (cross-asset toxicity spillover path verbatim) + EVAL-139 (forward realized return skewness target verbatim) + EVAL-77 (cross-asset alignment) + EVAL-101 (perp close series) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed); distinct cell: cross-asset order-flow toxicity spillover -> forward realized return skewness",
+  "protocol": {
+    "eval": "EVAL-153",
+    "title": "Cross-asset options order-flow toxicity spillover (other asset's toxicity z) -> forward own-asset realized return skewness predictiveness (Spearman rank IC)",
+    "extends": "EVAL-81 (options order-flow imbalance -> signed return verbatim) + EVAL-152 (cross-asset toxicity spillover path verbatim) + EVAL-139 (forward realized return skewness target verbatim) + EVAL-77 (cross-asset alignment) + EVAL-101 (perp close series) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed); distinct cell: cross-asset order-flow toxicity spillover -> forward realized return skewness",
+    "supersedes": "nothing -- complements EVAL-152 (toxicity -> signed return mean), EVAL-139 (surface term_ratio -> skewness); no traded-form claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signal": "toxicity",
+    "target": "realized_return_skewness",
+    "signal_window_seconds": 900.0,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "cross_section": {
+      "baseline": "BTC",
+      "relative": "ETH",
+      "spillover_signal": "signal_k = tox_z[OTHER](k)  (other asset's order-flow toxicity z)"
+    },
+    "signal": "causal per-bar options order-flow toxicity z of the OTHER underlying (e62.build_states tox_signal='tox', expanding-z-scored), aligned to the common BTC-vs-ETH bar grid (build_cross_section on toxicity states), forward-filled and expanding-zscored end-of-bar k (reused e71._forward_fill / e61.expanding_zscore)",
+    "target_detail": "forward realized return skewness = m3 / m2**1.5 over the TARGET underlying's next H perp log returns (strictly after the decision at bar k, lr[k:k+h]); third standardized moment, transcribed verbatim from sealed EVAL-139",
+    "statistic": "Spearman rank correlation IC = rho(other_tox_z_k, own_skew_k); directional permutation H1: IC>0 (higher other-asset order-flow toxicity -> more positive forward realized return skewness on the target)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle target series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120,
+      "min_aligned_common_bars": 1
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses already-acquired real on-disk three-way captures (option trades with direction + surface snapshots + perp candles); no new acquisition, no network; e62.build_states(tox_signal='tox') constructibility verified on all three data/raw/eval61 tapes (289 states each)",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_oflow_states_per_underlying": 1,
+      "min_aligned_common_bars": 1,
+      "min_usable_pairs_per_config": 120,
+      "note": "EVAL-153 cross-asset options order-flow toxicity floor: both underlyings (BTC, ETH) present, each with >= min_oflow_states_per_underlying constructible toxicity states on the coarsest grid, and >= min_aligned_common_bars non-disjoint common bar-ends. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval139_cross_asset_term_ratio_spillover_forward_return_skewness.py",
+      "scripts/eval153_cross_asset_orderflow_toxicity_spillover_forward_return_skewness.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval153_cross_asset_orderflow_toxicity_spillover_forward_return_skewness.py tests/test_eval153_cross_asset_orderflow_toxicity_spillover_forward_return_skewness.py",
+      "python3 -m pytest -q tests/test_eval153_cross_asset_orderflow_toxicity_spillover_forward_return_skewness.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval153_cross_asset_orderflow_toxicity_spillover_forward_return_skewness.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval153_cross_asset_orderflow_toxicity_spillover_forward_return_skewness.py --capture-dir data/raw/eval61 --seal --task-label EVAL153-CROSS-ASSET-ORDERFLOW-TOXICITY-SPILLOVER-FORWARD-RETURN-SKEWNESS"
+    ]
+  },
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "floor": {
+    "min_underlyings": 2,
+    "min_oflow_states_per_underlying": 1,
+    "min_aligned_common_bars": 1,
+    "min_usable_pairs_per_config": 120,
+    "note": "EVAL-153 cross-asset options order-flow toxicity floor: both underlyings (BTC, ETH) present, each with >= min_oflow_states_per_underlying constructible toxicity states on the coarsest grid, and >= min_aligned_common_bars non-disjoint common bar-ends. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  }
+}
