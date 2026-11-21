@@ -248,6 +248,8 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-163: single-asset atm_iv -> forward CVaR (expected shortfall) (+2 files, +16 tests)
     "tests/test_eval163_single_asset_atm_iv_forward_cvar.py",
     "tests/test_eval163_phaseb_gate.py",
+    "tests/test_eval164_single_asset_skew_forward_cvar.py",
+    "tests/test_eval164_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -751,6 +753,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-164",
+        "script": ROOT / "scripts" / "eval164_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -878,6 +885,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_163_SINGLE_ASSET_ATM_IV_FORWARD_CVAR_PREREGISTRATION_*",
         "combined": "EVAL_163_SINGLE_ASSET_ATM_IV_FORWARD_CVAR_COMBINED_*",
         "blocked": "EVAL_163_SINGLE_ASSET_ATM_IV_FORWARD_CVAR_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-164",
+        "task_id": "INIT-2026-11-21T12:52:27Z-EVAL164-SINGLE-ASSET-SKEW-FORWARD-CVAR",
+        "prereg": "EVAL_164_SINGLE_ASSET_SKEW_FORWARD_CVAR_PREREGISTRATION_*",
+        "combined": "EVAL_164_SINGLE_ASSET_SKEW_FORWARD_CVAR_COMBINED_*",
+        "blocked": "EVAL_164_SINGLE_ASSET_SKEW_FORWARD_CVAR_BLOCKED_*",
         "expected_exit": 0,
     },
     {
