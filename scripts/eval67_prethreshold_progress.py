@@ -269,7 +269,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2144
+EXPECTED_TARGETED_TESTS = 2162
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -784,6 +784,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-168",
+        "script": ROOT / "scripts" / "eval168_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -943,6 +948,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_167_SINGLE_ASSET_TERM_SLOPE_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
         "combined": "EVAL_167_SINGLE_ASSET_TERM_SLOPE_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
         "blocked": "EVAL_167_SINGLE_ASSET_TERM_SLOPE_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-168",
+        "task_id": "INIT-2026-11-21T17:00:00Z-EVAL168-CROSS-ASSET-ATM-IV-SPILLOVER-FORWARD-CVAR",
+        "prereg": "EVAL_168_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_CVAR_PREREGISTRATION_*",
+        "combined": "EVAL_168_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_CVAR_COMBINED_*",
+        "blocked": "EVAL_168_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_CVAR_BLOCKED_*",
         "expected_exit": 0,
     },
     {
