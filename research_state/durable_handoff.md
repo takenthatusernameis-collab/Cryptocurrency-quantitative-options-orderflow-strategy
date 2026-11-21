@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-21T20:29:19Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-21T20:31:38Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **REPO-NAME PRIORITIZATION (load-bearing, do not re-derive):** `...options...orderflow...strategy` ⇒ two load-bearing signal halves (options **surface** + options **order-flow**) feeding one deliverable (a **tradeable, net-of-cost strategy**). The order-flow half's distributional-moment sweep is COMPLETE and uniformly NO-GO CONFIRMED (PASS). The surviving directional alpha is on the **surface** line. The single-asset surface distributional grids are complete for signed-return-mean / skewness / kurtosis / CVaR / downside-semivariance share. The cross-asset order-flow distributional sweep is complete. The cross-asset surface/term → forward-CVaR grid is atm_iv (EVAL-168, sealed GO CONFIRMED) + term_slope (EVAL-169, sealed) + **term_ratio (EVAL-170) + skew (EVAL-171), both DUE (unsealed)** — completing this campaign is the next mandated heavy work.
 >
@@ -22,7 +22,7 @@ The charter's terminal deliverable is a *tradeable, net-of-cost* strategy. Every
 
 **Half-built runner bottleneck removed:** a pre-existing `scripts/eval169_cross_asset_term_slope_spillover_forward_cvar.py` runner had no gate, no tests, and no driver wiring (half-wired trap, Bottleneck 9). Completed as EVAL-169: `scripts/eval169_phaseb_gate.py` + `tests/test_eval169_*.py` (2 files, 18 tests) + wired into driver (TARGETED_TEST_FILES, GATE_SPECS DUE, SEAL_SPECS, `EXPECTED_TARGETED_TESTS` reconciled) + sealed via `driver --execute`. Fixed a TASK_ID/TASK_LABEL (`ATM-IV`→`TERM-SLOPE`) inconsistency in the gate.
 
-## VERIFIED STATE (2026-11-21T20:29:19Z)
+## VERIFIED STATE (2026-11-21T20:31:38Z)
 
 Driver source of truth: `EXPECTED_TARGETED_TESTS=2216`, `EXPECTED_DIAGNOSTIC_TESTS=27`. All `EVAL-66..169` sealed (107 seal gates ok); **EVAL-170 and EVAL-171 are `DUE` (unsealed) — status-mode driver exits 20 with `needs_execute: ["EVAL-170","EVAL-171"]`.** `EVAL-67/68/69` SEALED (forward disjoint-window ladder complete; threshold `2026-11-20T00:00:00Z` PASSED).
 
