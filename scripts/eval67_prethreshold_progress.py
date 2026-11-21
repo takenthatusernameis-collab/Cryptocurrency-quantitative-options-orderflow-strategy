@@ -239,6 +239,9 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-160: cross-asset oflow imbalance spillover -> forward realized return variance (+2 files, +19 tests)
     "tests/test_eval160_cross_asset_orderflow_imbalance_spillover_forward_return_variance.py",
     "tests/test_eval160_phaseb_gate.py",
+    # EVAL-161 TRACK B: single-asset term_slope -> forward CVaR (expected shortfall) (+2 files, +16 tests)
+    "tests/test_eval161_single_asset_term_slope_forward_cvar.py",
+    "tests/test_eval161_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
