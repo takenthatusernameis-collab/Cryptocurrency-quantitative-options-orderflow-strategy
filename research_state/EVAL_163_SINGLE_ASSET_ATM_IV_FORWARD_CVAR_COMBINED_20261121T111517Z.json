@@ -1,0 +1,421 @@
+{
+  "report_id": "EVAL_163_SINGLE_ASSET_ATM_IV_FORWARD_CVAR_COMBINED",
+  "generated_at": "2026-11-21T11:15:17Z",
+  "task": "EVAL163-SINGLE-ASSET-ATM-IV-FORWARD-CVAR",
+  "verdict": "GO CONFIRMED",
+  "verdict_detail": "wrapper-free information-content test: Spearman rank IC between the causal options implied-vol surface ATM_IV level and forward expected shortfall / CVaR of the signed return on the real on-disk captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_option_trades_per_underlying": 1000,
+    "min_near_atm_option_trades_per_underlying": 400,
+    "min_perp_candles_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 82000.0,
+    "min_usable_pairs_per_config": 120,
+    "cvar_alpha": 0.05,
+    "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_option_trades": 2748,
+      "n_near_atm_option_trades": 2331,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "checks": {
+        "option_trades_ok": true,
+        "near_atm_ok": true,
+        "candles_ok": true,
+        "span_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_option_trades": 3547,
+      "n_near_atm_option_trades": 1509,
+      "n_perp_candles": 1441,
+      "perp_span_seconds": 86400.0,
+      "checks": {
+        "option_trades_ok": true,
+        "near_atm_ok": true,
+        "candles_ok": true,
+        "span_ok": true
+      },
+      "ok": true
+    }
+  },
+  "campaign_floor": {
+    "checks": {
+      "underlyings_ok": true,
+      "all_underlyings_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-163",
+    "title": "Single-asset options implied-vol surface ATM_IV level -> forward expected shortfall / CVaR of the signed return predictiveness (Spearman rank IC)",
+    "extends": "EVAL-71 (identical atm_iv surface signal via build_surface_bars, 900s window) + EVAL-101 (single-asset atm_iv signal path verbatim) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed / zwindow); distinct cell: single-asset atm_iv -> forward CVaR (expected shortfall) of signed return",
+    "supersedes": "nothing -- complements EVAL-101 (atm_iv -> signed return mean) with a tail-risk target (CVaR); no traded-form claim",
+    "capture_dir": "data/raw/eval61",
+    "surface_signal": "atm_iv",
+    "target": "forward_cvar",
+    "cvar_alpha": 0.05,
+    "signal_window_seconds": 900.0,
+    "atm_band": 0.05,
+    "min_option_trades_per_underlying": 1000,
+    "min_near_atm_option_trades_per_underlying": 400,
+    "min_perp_candles_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 82000.0,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal per-bar near-ATM implied-vol surface level from the real Deribit option trade tape: atm_iv = amount-weighted mean iv of near-ATM trades (|strike/spot-1|<=atm_band) over the trailing 900s window, forward-filled then expanding-zscored end-of-bar k (reused e61.expanding_zscore)",
+    "target_detail": "forward CVaR (expected shortfall) of signed log-returns = mean of the worst CVAR_ALPHA-tail of the next H perp log returns, strictly after the decision at bar k",
+    "statistic": "Spearman rank correlation IC = rho(atm_iv_z_k, cvar_forward_k); directional permutation H1: IC>0 (higher near-ATM IV level -> higher forward expected shortfall)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle CVaR series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120,
+      "cvar_alpha": 0.05
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real on-disk three-way captures (option trades with real iv + perp candles); no new acquisition, no network; reuses EVAL-71's surface floor verbatim",
+      "capture_dir": "data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_option_trades_per_underlying": 1000,
+      "min_near_atm_option_trades_per_underlying": 400,
+      "min_perp_candles_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 82000.0,
+      "min_usable_pairs_per_config": 120,
+      "cvar_alpha": 0.05,
+      "note": "Reuses the sealed EVAL-71 surface floor verbatim (min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval163_single_asset_atm_iv_forward_cvar.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval163_single_asset_atm_iv_forward_cvar.py tests/test_eval163_single_asset_atm_iv_forward_cvar.py",
+      "python3 -m pytest -q tests/test_eval163_single_asset_atm_iv_forward_cvar.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval163_single_asset_atm_iv_forward_cvar.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval163_single_asset_atm_iv_forward_cvar.py --capture-dir data/raw/eval61 --seal --task-label EVAL163-SINGLE-ASSET-ATM-IV-FORWARD-CVAR"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.06198966790140367,
+      "permutation_p": 0.008991008991008992,
+      "bootstrap_median": 0.06302907674964861,
+      "bootstrap_ci": [
+        0.06302907674964861,
+        -0.016935337523497955,
+        0.13707015136178932
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.20678653193618599,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.20636702479674457,
+      "bootstrap_ci": [
+        0.20636702479674457,
+        0.13026045229328395,
+        0.2885849994588232
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.1899468455803657,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.18994430255800845,
+      "bootstrap_ci": [
+        0.18994430255800845,
+        0.1131221334879482,
+        0.2642257742896291
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.1549257083270768,
+      "permutation_p": 0.004995004995004995,
+      "bootstrap_median": 0.15168775568815,
+      "bootstrap_ci": [
+        0.15168775568815,
+        -0.0029038193873934036,
+        0.3049064837500682
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.06562814608698186,
+      "permutation_p": 0.12687312687312688,
+      "bootstrap_median": 0.0661886320874215,
+      "bootstrap_ci": [
+        0.0661886320874215,
+        -0.10112288185194036,
+        0.23296781968894756
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.10878669492812407,
+      "permutation_p": 0.053946053946053944,
+      "bootstrap_median": 0.11349366689551696,
+      "bootstrap_ci": [
+        0.11349366689551696,
+        -0.04634159735798484,
+        0.25977891480500825
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.017855542640990194,
+      "permutation_p": 0.25574425574425574,
+      "bootstrap_median": 0.017414239924466203,
+      "bootstrap_ci": [
+        0.017414239924466203,
+        -0.05033081346201308,
+        0.08332733981773807
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.09504496281578181,
+      "permutation_p": 0.001998001998001998,
+      "bootstrap_median": 0.09459377386525464,
+      "bootstrap_ci": [
+        0.09459377386525464,
+        0.021014885661572693,
+        0.16748219491721852
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.11599134225356605,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.11510413833393308,
+      "bootstrap_ci": [
+        0.11510413833393308,
+        0.0404064711818288,
+        0.19091506534707303
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.009391831202042617,
+      "permutation_p": 0.4385614385614386,
+      "bootstrap_median": 0.005609125302712157,
+      "bootstrap_ci": [
+        0.005609125302712157,
+        -0.1394252125777511,
+        0.1576260229253947
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": -0.12802781675652064,
+      "permutation_p": 0.9760239760239761,
+      "bootstrap_median": -0.1283839728573308,
+      "bootstrap_ci": [
+        -0.1283839728573308,
+        -0.26768275266852365,
+        0.03775621536232607
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "target": "forward_cvar",
+      "cvar_alpha": 0.05,
+      "spearman_ic": 0.2480535163936792,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_median": 0.24066192131483588,
+      "bootstrap_ci": [
+        0.24066192131483588,
+        0.05711249643365788,
+        0.41812914708594495
+      ],
+      "pass": true,
+      "reason": "ok"
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 6,
+      "best_ic": 0.20678653193618599,
+      "best_config": "atm_iv::bar60.0::h24",
+      "n_pass": 2,
+      "pass_configs": [
+        "BTC::atm_iv::bar60.0::h24",
+        "BTC::atm_iv::bar60.0::h72"
+      ],
+      "any_pass": true
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 6,
+      "best_ic": 0.2480535163936792,
+      "best_config": "atm_iv::bar300.0::h72",
+      "n_pass": 3,
+      "pass_configs": [
+        "ETH::atm_iv::bar60.0::h24",
+        "ETH::atm_iv::bar60.0::h72",
+        "ETH::atm_iv::bar300.0::h72"
+      ],
+      "any_pass": true
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [
+        "BTC::atm_iv::bar60.0::h24",
+        "BTC::atm_iv::bar60.0::h72",
+        "ETH::atm_iv::bar60.0::h72",
+        "ETH::atm_iv::bar300.0::h72",
+        "ETH::atm_iv::bar60.0::h24",
+        "BTC::atm_iv::bar300.0::h6",
+        "BTC::atm_iv::bar60.0::h6",
+        "BTC::atm_iv::bar300.0::h72"
+      ],
+      "thresholds": {
+        "BTC::atm_iv::bar60.0::h24": 0.008333333333333333,
+        "BTC::atm_iv::bar60.0::h72": 0.016666666666666666,
+        "ETH::atm_iv::bar60.0::h72": 0.025000000000000005,
+        "ETH::atm_iv::bar300.0::h72": 0.03333333333333333,
+        "ETH::atm_iv::bar60.0::h24": 0.041666666666666664,
+        "BTC::atm_iv::bar300.0::h6": 0.05000000000000001,
+        "BTC::atm_iv::bar60.0::h6": 0.05833333333333334,
+        "BTC::atm_iv::bar300.0::h72": 0.06666666666666667,
+        "BTC::atm_iv::bar300.0::h24": 0.075,
+        "ETH::atm_iv::bar60.0::h6": 0.08333333333333333,
+        "ETH::atm_iv::bar300.0::h6": 0.09166666666666667,
+        "ETH::atm_iv::bar300.0::h24": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 12,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": true,
+    "campaign_state": "EVAL_163_SINGLE_ASSET_ATM_IV_FORWARD_CVAR"
+  },
+  "errors": []
+}
