@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-21T21:29:25Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-21T21:45:25Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **REPO-NAME PRIORITIZATION (load-bearing, do not re-derive):** the two signal halves are options **surface** and options **order-flow**; the deliverable is a **tradeable, net-of-cost strategy**. The order-flow distributional sweep is complete and uniformly NO-GO CONFIRMED (PASS). The surviving directional alpha is on the **surface** line. The single-asset surface distributional grids are complete for signed-return-mean / skewness / kurtosis / CVaR / downside-semivariance share. The cross-asset order-flow distributional sweep is complete. The cross-asset surface/term → forward-CVaR grid is complete (EVAL-168 atm_iv, 169 term_slope, 170 term_ratio, 171 skew; all sealed).
 >
@@ -14,11 +14,11 @@
 > ```
 > This should seal EVAL-173 (EVAL-172 is already sealed), then be an idempotent no-op after the seal. Require after the seal: `targeted_tests: 2252/2252`, `diagnostic_tests: 27/27`, all `EVAL-70..173` gates classified `ok`/phase `SEALED`, all `seal_gates` ok, `failures: []`, `gate_exit=0`. If EVAL-173 is still DUE after `--execute`, the run FAILED — investigate; do not hand-wave.
 >
-> **THEN build the next runnable-now rung in the SAME session (never stop at “driver green”):** identify the next genuine gap from the sealed space (never duplicate a sealed cell) and build it as a DUE gate (runner + gate + 2 test files + driver `TARGETED_TEST_FILES`/`GATE_SPECS`/`SEAL_SPECS` + bump `EXPECTED_TARGETED_TESTS` by the verified `pytest --collect-only` delta), run the driver `--execute` to seal, require exit 0. Do not re-run, re-litigate, or re-seal sealed EVAL-02..62, EVAL-64..66, EVAL-70..172 artifacts or `src/`.
+> **THEN build the next runnable-now rung in the SAME session (never stop at "driver green"):** identify the next genuine gap from the sealed space (never duplicate a sealed cell) and build it as a DUE gate (runner + gate + 2 test files + driver `TARGETED_TEST_FILES`/`GATE_SPECS`/`SEAL_SPECS` + bump `EXPECTED_TARGETED_TESTS` by the verified `pytest --collect-only` delta), run the driver `--execute` to seal, require exit 0. Do not re-run, re-litigate, or re-seal sealed EVAL-02..62, EVAL-64..66, EVAL-70..172 artifacts or `src/`.
 >
 > **TRACK A (NON-BLOCKING background, NOT a per-session gate):** a fresh ~3.7-day three-way capture (`python3 scripts/eval60_acquire_three_way.py --underlying BTC --underlying ETH --days 3.7 --out-dir data/raw/eval162cap`, under `background_process`/`start` if available, else operator-deferred) → EVAL-64 floor probe → **if and only if the floor is met**, build the next unsealed traded-form rung (single-asset `atm_iv`/`term_slope` → directional delta-hedged traded-form net-of-cost; reuse EVAL-64 floor + EVAL-62 mark-path verbatim), else seal `BLOCKED` (never NO-GO). Never block the session on TRACK A (~3.7 days, never in-session).
 
-## VERIFIED STATE (2026-11-21T21:29:25Z)
+## VERIFIED STATE (2026-11-21T21:45:25Z)
 
 Driver source of truth: `EXPECTED_TARGETED_TESTS=2252`, `EXPECTED_DIAGNOSTIC_TESTS=27`. EVAL-66..172 are sealed (EVAL-63 never sealed). **EVAL-173 is `DUE` (unsealed) — status-mode driver exits 20 with `needs_execute: ["EVAL-173"]`.** EVAL-67/68/69 are SEALED (forward disjoint-window ladder complete; threshold `2026-11-20T00:00:00Z` PASSED).
 
@@ -62,7 +62,7 @@ The order-flow sweep is complete and uniformly NO-GO; the surface-line direction
 
 1. Zombie capture bridge / liveness churn — removed; cron owns polling.
 2. Competing handoff pointers/copies — removed; this file is the single handoff (do not create copies or edit `AGENTS.md` into a competing queue).
-3. “No heavy work left” avoidance — removed; EVAL-173 is wired as DUE, forcing the driver red until executed. When sealed, build the next gap as DUE.
+3. "No heavy work left" avoidance — removed; EVAL-173 is wired as DUE, forcing the driver red until executed. When sealed, build the next gap as DUE.
 4. Manual pre-threshold loop / timestamp-only carry — removed by `scripts/eval67_prethreshold_progress.py`.
 5. Stale `SEAL_SPECS` `expected_exit` after a driver-driven seal — the driver overrides `expected_exit` to 0 whenever the matching gate is `SEALED`; flip 1→0 in the same session for clarity.
 6. Stale-handoff / timestamp-refresh treadmill — fixed: this handoff reflects TRUE state (EVAL-172 sealed; EVAL-173 DUE) and points at genuinely-next runnable work. Do not refresh the timestamp without new verified facts.
@@ -73,11 +73,11 @@ The order-flow sweep is complete and uniformly NO-GO; the surface-line direction
 11. Composite/both-asset GO bar — GO requires BOTH BTC and ETH to pass; single-asset pass is legitimate `NO-GO CONFIRMED (PASS)`; do not relax.
 12. Surface-bar vs term-bar vs order-flow signal path — `atm_iv`/`skew` via `e71.build_surface_bars`; `term_slope`/`term_ratio` via `e74._term_bars`; order-flow via `e62.build_states`. Do not cross them.
 13. No-hyphen/underscore/hyphenated task-label traps — grep for ALL THREE forms before sealing.
-14. Traded-form “data-blocked” misread as “unbuilt” — the per-session heavy work is ALWAYS a runnable predictiveness rung, never the data-blocked traded-form.
+14. Traded-form "data-blocked" misread as "unbuilt" — the per-session heavy work is ALWAYS a runnable predictiveness rung, never the data-blocked traded-form.
 15. Duplicate-artifact churn on sealed EVAL-126 — do not re-run EVAL-126, do not commit churn files, never enumerate `research_state/`. The EVAL-126 gate unit test now monkeypatches `execute_phaseb`; do not reintroduce a real `main --execute` call with fake captures.
 16. Dict-vs-list iteration in a cloned runner — iterate `.values()` over `{underlying: capture}` dicts; ensure `_campaign_floor` is actually CALLED.
 17. Multi-day acquisition not a per-session gate — TRACK A (~3.7 days) cannot finish in one session; non-blocking background only.
-18. **“No runnable-now predictiveness rung” avoidance** — the driver is left RED (EVAL-173 DUE) so the next session is forced to execute heavy work.
+18. **"No runnable-now predictiveness rung" avoidance** — the driver is left RED (EVAL-173 DUE) so the next session is forced to execute heavy work.
 
 ## PROHIBITED / INVARIANTS (non-negotiable)
 
