@@ -250,7 +250,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2027
+EXPECTED_TARGETED_TESTS = 2031
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -730,6 +730,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-161",
+        "script": ROOT / "scripts" / "eval161_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -834,6 +839,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "combined": "EVAL_160_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_RETURN_VARIANCE_COMBINED_*",
         "blocked": "EVAL_160_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_RETURN_VARIANCE_BLOCKED_*",
         "expected_exit": 1,
+    },
+    {
+        "name": "EVAL-161",
+        "task_id": "INIT-2026-11-21T08:15:41Z-EVAL161-SINGLE-ASSET-TERM-SLOPE-FORWARD-CVAR",
+        "prereg": "EVAL_161_SINGLE_ASSET_TERM_SLOPE_FORWARD_CVAR_PREREGISTRATION_*",
+        "combined": "EVAL_161_SINGLE_ASSET_TERM_SLOPE_FORWARD_CVAR_COMBINED_*",
+        "blocked": "EVAL_161_SINGLE_ASSET_TERM_SLOPE_FORWARD_CVAR_BLOCKED_*",
+        "expected_exit": 0,
     },
     {
         "name": "EVAL-66",

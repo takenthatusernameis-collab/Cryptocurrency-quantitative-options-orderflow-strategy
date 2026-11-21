@@ -329,19 +329,16 @@ def run_eval161(
     captures = {str(c.get("underlying")): c for c in selected}
 
     per_underlying_floor: Dict[str, Dict[str, Any]] = {}
-    for c in captures:
+    for c in captures.values():
         inst = c.get("underlying", "?")
         per_underlying_floor[inst] = _underlying_floor(c)
 
-    floor_ok = bool(
-        len(captures) >= int(FLOOR["min_underlyings"])
-        and per_underlying_floor
-        and all(v["ok"] for v in per_underlying_floor.values())
-    )
+    campaign_floor = _campaign_floor(per_underlying_floor)
+    floor_ok = bool(campaign_floor.get("ok"))
 
     per_config: List[Dict[str, Any]] = []
     errors: List[str] = []
-    for cap in captures:
+    for cap in captures.values():
         for bar_s in GRID_BAR_SECONDS:
             for horizon in FORWARD_HORIZONS_BARS:
                 try:
@@ -419,6 +416,7 @@ def run_eval161(
         "underlyings": sorted(per_underlying_floor),
         "floor": dict(FLOOR),
         "per_underlying_floor": per_underlying_floor,
+        "campaign_floor": campaign_floor,
         "protocol": build_protocol(capture_dir),
         "per_config": per_config,
         "per_underlying": inst_summary,
