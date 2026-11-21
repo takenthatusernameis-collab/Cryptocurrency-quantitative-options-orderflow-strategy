@@ -236,6 +236,9 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-159: cross-asset oflow toxicity spillover -> forward realized return variance (+2 files, +19 tests)
     "tests/test_eval159_cross_asset_orderflow_toxicity_spillover_forward_return_variance.py",
     "tests/test_eval159_phaseb_gate.py",
+    # EVAL-160: cross-asset oflow imbalance spillover -> forward realized return variance (+2 files, +19 tests)
+    "tests/test_eval160_cross_asset_orderflow_imbalance_spillover_forward_return_variance.py",
+    "tests/test_eval160_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -244,7 +247,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 1996
+EXPECTED_TARGETED_TESTS = 2015
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -719,6 +722,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-160",
+        "script": ROOT / "scripts" / "eval160_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -814,6 +822,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_159_CROSS_ASSET_ORDERFLOW_TOXICITY_SPILLOVER_FORWARD_RETURN_VARIANCE_PREREGISTRATION_*",
         "combined": "EVAL_159_CROSS_ASSET_ORDERFLOW_TOXICITY_SPILLOVER_FORWARD_RETURN_VARIANCE_COMBINED_*",
         "blocked": "EVAL_159_CROSS_ASSET_ORDERFLOW_TOXICITY_SPILLOVER_FORWARD_RETURN_VARIANCE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-160",
+        "task_id": "INIT-2026-11-21T07:20:54Z-EVAL160-CROSS-ASSET-ORDERFLOW-IMBALANCE-SPILLOVER-FORWARD-RETURN-VARIANCE",
+        "prereg": "EVAL_160_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_RETURN_VARIANCE_PREREGISTRATION_*",
+        "combined": "EVAL_160_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_RETURN_VARIANCE_COMBINED_*",
+        "blocked": "EVAL_160_CROSS_ASSET_ORDERFLOW_IMBALANCE_SPILLOVER_FORWARD_RETURN_VARIANCE_BLOCKED_*",
         "expected_exit": 1,
     },
     {
