@@ -253,6 +253,11 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-165 TRACK B: single-asset skew -> forward downside-semivariance share (+2 files, +25 tests)
     "tests/test_eval165_single_asset_skew_forward_downside_semivariance_share.py",
     "tests/test_eval165_phaseb_gate.py",
+    # EVAL-166/167: single-asset term_ratio/term_slope -> forward downside-semivariance share (+4 files, +40 tests)
+    "tests/test_eval166_single_asset_term_ratio_forward_downside_semivariance_share.py",
+    "tests/test_eval166_phaseb_gate.py",
+    "tests/test_eval167_single_asset_term_slope_forward_downside_semivariance_share.py",
+    "tests/test_eval167_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -261,7 +266,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2104
+EXPECTED_TARGETED_TESTS = 2144
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -766,6 +771,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-166",
+        "script": ROOT / "scripts" / "eval166_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-167",
+        "script": ROOT / "scripts" / "eval167_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -909,6 +924,22 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_165_SINGLE_ASSET_SKEW_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
         "combined": "EVAL_165_SINGLE_ASSET_SKEW_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
         "blocked": "EVAL_165_SINGLE_ASSET_SKEW_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-166",
+        "task_id": "INIT-2026-11-21T15:56:57Z-EVAL166-SINGLE-ASSET-TERM-RATIO-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE",
+        "prereg": "EVAL_166_SINGLE_ASSET_TERM_RATIO_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
+        "combined": "EVAL_166_SINGLE_ASSET_TERM_RATIO_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
+        "blocked": "EVAL_166_SINGLE_ASSET_TERM_RATIO_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-167",
+        "task_id": "INIT-2026-11-21T15:56:57Z-EVAL167-SINGLE-ASSET-TERM-SLOPE-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE",
+        "prereg": "EVAL_167_SINGLE_ASSET_TERM_SLOPE_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_PREREGISTRATION_*",
+        "combined": "EVAL_167_SINGLE_ASSET_TERM_SLOPE_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED_*",
+        "blocked": "EVAL_167_SINGLE_ASSET_TERM_SLOPE_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_BLOCKED_*",
         "expected_exit": 0,
     },
     {

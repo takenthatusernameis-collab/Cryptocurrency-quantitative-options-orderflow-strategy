@@ -1,0 +1,443 @@
+{
+  "report_id": "EVAL_167_SINGLE_ASSET_TERM_SLOPE_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE_COMBINED",
+  "generated_at": "2026-11-21T16:28:52Z",
+  "task": "EVAL167-SINGLE-ASSET-TERM-SLOPE-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "wrapper-free information-content test: Spearman rank IC between the causal options implied-vol TERM SLOPE and forward downside-semivariance share of the signed return on the real on-disk captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_distinct_expiries": 2,
+    "min_expiry_trades": 5,
+    "min_bars_with_term": 40,
+    "min_usable_pairs_per_config": 120,
+    "note": "Reuses the sealed EVAL-74 term floor verbatim (EVAL-71 surface floor: min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s + term adequacy: >= MIN_DISTINCT_EXPIRIES distinct near-ATM expiries with >= MIN_EXPIRY_TRADES trades each and >= MIN_BARS_WITH_TERM bars with a non-null term signal), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  },
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "eval71_floor_ok": true,
+      "eval71_floor": {
+        "underlying": "BTC",
+        "n_option_trades": 2748,
+        "n_near_atm_option_trades": 2331,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "checks": {
+          "option_trades_ok": true,
+          "near_atm_ok": true,
+          "candles_ok": true,
+          "span_ok": true
+        },
+        "ok": true
+      },
+      "term_adequacy": {
+        "n_distinct_expiries": 8,
+        "distinct_expiries": [
+          "16NOV26",
+          "17NOV26",
+          "18NOV26",
+          "19NOV26",
+          "20NOV26",
+          "25DEC26",
+          "27NOV26",
+          "4DEC26"
+        ],
+        "bars_with_term_max": 557,
+        "checks": {
+          "distinct_expiries_ok": true,
+          "bars_with_term_ok": true
+        },
+        "ok": true
+      },
+      "checks": {
+        "eval71_floor_ok": true,
+        "distinct_expiries_ok": true,
+        "bars_with_term_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "eval71_floor_ok": true,
+      "eval71_floor": {
+        "underlying": "ETH",
+        "n_option_trades": 3547,
+        "n_near_atm_option_trades": 1509,
+        "n_perp_candles": 1441,
+        "perp_span_seconds": 86400.0,
+        "checks": {
+          "option_trades_ok": true,
+          "near_atm_ok": true,
+          "candles_ok": true,
+          "span_ok": true
+        },
+        "ok": true
+      },
+      "term_adequacy": {
+        "n_distinct_expiries": 8,
+        "distinct_expiries": [
+          "16NOV26",
+          "17NOV26",
+          "18NOV26",
+          "19NOV26",
+          "20NOV26",
+          "25DEC26",
+          "27NOV26",
+          "4DEC26"
+        ],
+        "bars_with_term_max": 329,
+        "checks": {
+          "distinct_expiries_ok": true,
+          "bars_with_term_ok": true
+        },
+        "ok": true
+      },
+      "checks": {
+        "eval71_floor_ok": true,
+        "distinct_expiries_ok": true,
+        "bars_with_term_ok": true
+      },
+      "ok": true
+    }
+  },
+  "campaign_floor": {
+    "checks": {
+      "underlyings_ok": true,
+      "all_underlyings_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-167",
+    "title": "Single-asset options implied-vol term slope (near/far near-ATM IV) -> forward downside-semivariance share of the signed return predictiveness (Spearman rank IC)",
+    "extends": "EVAL-74 (identical term_slope signal via _term_bars) + EVAL-104 (single-asset term_slope signal path verbatim) + EVAL-115/EVAL-165 (forward downside-semivariance-share target verbatim) + EVAL-65 (permutation / bootstrap inference) + EVAL-62 (FDR / seed / zwindow); distinct cell: single-asset term_slope -> forward downside-semivariance share",
+    "supersedes": "nothing -- fills the term_slope cell of the downside-semivariance-share grid (atm_iv EVAL-115, skew EVAL-165); complements EVAL-104 (term_slope -> signed return mean) and EVAL-161 (term_slope -> CVaR) with a distributional-dispersion target; no traded-form claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "term_signal": "term_slope",
+    "target": "forward_downside_semivariance_share",
+    "signal_window_seconds": 900.0,
+    "atm_band": 0.05,
+    "min_expiry_trades": 5,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "signal": "causal per-bar implied-vol term structure from the real Deribit option trade tape: term_slope = IV(near expiry) - IV(far expiry), forward-filled then expanding-zscored end-of-bar k (reused e61.expanding_zscore)",
+    "target_detail": "forward downside-semivariance share = downside_semivariance / total_variance over the SAME underlying's next H perp log returns (strictly after the decision at bar k); downside semivariance = mean(min(r - mu, 0)^2), total variance = mean((r - mu)^2)",
+    "statistic": "Spearman rank correlation IC = rho(term_slope_z_k, downside_share_forward_k); directional permutation H1: IC>0 (higher near/far IV slope -> higher forward downside-semivariance share)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle downside-semivariance-share series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses the already-acquired real on-disk three-way captures (option trades with real iv/strike/expiry + perp candles); no new acquisition, no network; reuses EVAL-74's term floor verbatim",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_distinct_expiries": 2,
+      "min_expiry_trades": 5,
+      "min_bars_with_term": 40,
+      "min_usable_pairs_per_config": 120,
+      "note": "Reuses the sealed EVAL-74 term floor verbatim (EVAL-71 surface floor: min_option_trades_per_underlying=1000, min_near_atm_option_trades_per_underlying=400, min_perp_candles_per_underlying=1000, min_perp_span_seconds_per_underlying=82000s + term adequacy: >= MIN_DISTINCT_EXPIRIES distinct near-ATM expiries with >= MIN_EXPIRY_TRADES trades each and >= MIN_BARS_WITH_TERM bars with a non-null term signal), applied to BOTH BTC and ETH. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval74_surface_term_structure_predictiveness.py",
+      "scripts/eval167_single_asset_term_slope_forward_downside_semivariance_share.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval167_single_asset_term_slope_forward_downside_semivariance_share.py tests/test_eval167_single_asset_term_slope_forward_downside_semivariance_share.py",
+      "python3 -m pytest -q tests/test_eval167_single_asset_term_slope_forward_downside_semivariance_share.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval167_single_asset_term_slope_forward_downside_semivariance_share.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval167_single_asset_term_slope_forward_downside_semivariance_share.py --capture-dir data/raw/eval61 --seal --task-label EVAL167-SINGLE-ASSET-TERM-SLOPE-FORWARD-DOWNSIDE-SEMIVARIANCE-SHARE"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "signal": "term_slope",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.07248879223146851,
+      "permutation_p": 0.995004995004995,
+      "bootstrap_median": -0.07246702438761125,
+      "bootstrap_ci": [
+        -0.07246702438761125,
+        -0.13959374780744455,
+        -0.00547345313139552
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "term_slope",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.20338185955265478,
+      "permutation_p": 1.0,
+      "bootstrap_median": -0.20176693564914885,
+      "bootstrap_ci": [
+        -0.20176693564914885,
+        -0.26394620668739777,
+        -0.13805526710603025
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "term_slope",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.3230465347393188,
+      "permutation_p": 1.0,
+      "bootstrap_median": -0.3248323644903568,
+      "bootstrap_ci": [
+        -0.3248323644903568,
+        -0.3882947836695659,
+        -0.25087428139321866
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "term_slope",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": 0.06160960788933674,
+      "permutation_p": 0.18981018981018982,
+      "bootstrap_median": 0.06379406130788101,
+      "bootstrap_ci": [
+        0.06379406130788101,
+        -0.08875245494405577,
+        0.20296579842223314
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "term_slope",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.22313903832139018,
+      "permutation_p": 1.0,
+      "bootstrap_median": -0.2181789690360445,
+      "bootstrap_ci": [
+        -0.2181789690360445,
+        -0.3643068029703805,
+        -0.06858855107725624
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "BTC",
+      "signal": "term_slope",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.06024682165907455,
+      "permutation_p": 0.8211788211788211,
+      "bootstrap_median": -0.06066791550933402,
+      "bootstrap_ci": [
+        -0.06066791550933402,
+        -0.24577495929068768,
+        0.14118178340108267
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "term_slope",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_pairs": 1435,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.043996868330775166,
+      "permutation_p": 0.9530469530469531,
+      "bootstrap_median": -0.0438029697159957,
+      "bootstrap_ci": [
+        -0.0438029697159957,
+        -0.113907912984849,
+        0.027557159002601413
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "term_slope",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_pairs": 1417,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.08035506019754987,
+      "permutation_p": 0.999000999000999,
+      "bootstrap_median": -0.07909025047576353,
+      "bootstrap_ci": [
+        -0.07909025047576353,
+        -0.1545789472684733,
+        3.66515698927603e-05
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "term_slope",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_pairs": 1369,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.17656599917541435,
+      "permutation_p": 1.0,
+      "bootstrap_median": -0.17564037647390107,
+      "bootstrap_ci": [
+        -0.17564037647390107,
+        -0.2561756686309,
+        -0.0907147088620812
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "term_slope",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_pairs": 283,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.0922109692735036,
+      "permutation_p": 0.9440559440559441,
+      "bootstrap_median": -0.08886488009087927,
+      "bootstrap_ci": [
+        -0.08886488009087927,
+        -0.2409811305788372,
+        0.056788745817904336
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "term_slope",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_pairs": 265,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.19439345747561576,
+      "permutation_p": 1.0,
+      "bootstrap_median": -0.19798207391366873,
+      "bootstrap_ci": [
+        -0.19798207391366873,
+        -0.3550893776373985,
+        -0.03733474862028772
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "underlying": "ETH",
+      "signal": "term_slope",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_pairs": 217,
+      "target": "forward_downside_semivariance_share",
+      "spearman_ic": -0.3028941093170997,
+      "permutation_p": 1.0,
+      "bootstrap_median": -0.29424438759783544,
+      "bootstrap_ci": [
+        -0.29424438759783544,
+        -0.48235613688512397,
+        -0.12003795982389555
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    }
+  ],
+  "per_underlying": [
+    {
+      "underlying": "BTC",
+      "n_configs": 6,
+      "best_ic": 0.06160960788933674,
+      "best_config": "term_slope::bar300.0::h6",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    },
+    {
+      "underlying": "ETH",
+      "n_configs": 6,
+      "best_ic": -0.043996868330775166,
+      "best_config": "term_slope::bar60.0::h6",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [],
+      "thresholds": {
+        "BTC::term_slope::bar300.0::h6": 0.008333333333333333,
+        "BTC::term_slope::bar300.0::h72": 0.016666666666666666,
+        "ETH::term_slope::bar300.0::h6": 0.025000000000000005,
+        "ETH::term_slope::bar60.0::h6": 0.03333333333333333,
+        "BTC::term_slope::bar60.0::h6": 0.041666666666666664,
+        "ETH::term_slope::bar60.0::h24": 0.05000000000000001,
+        "BTC::term_slope::bar60.0::h24": 0.05833333333333334,
+        "BTC::term_slope::bar60.0::h72": 0.06666666666666667,
+        "BTC::term_slope::bar300.0::h24": 0.075,
+        "ETH::term_slope::bar60.0::h72": 0.08333333333333333,
+        "ETH::term_slope::bar300.0::h24": 0.09166666666666667,
+        "ETH::term_slope::bar300.0::h72": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 12,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_underlyings_pass": false,
+    "campaign_state": "EVAL_167_SINGLE_ASSET_TERM_SLOPE_FORWARD_DOWNSIDE_SEMIVARIANCE_SHARE"
+  },
+  "errors": []
+}
