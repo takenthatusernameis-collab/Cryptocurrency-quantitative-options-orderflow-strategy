@@ -261,6 +261,15 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-168: cross-asset atm_iv spillover -> forward CVaR (+2 files, +18 tests)
     "tests/test_eval168_cross_asset_atm_iv_spillover_forward_cvar.py",
     "tests/test_eval168_phaseb_gate.py",
+    # EVAL-169: cross-asset term_slope spillover -> forward CVaR (+2 files, +18 tests)
+    "tests/test_eval169_cross_asset_term_slope_spillover_forward_cvar.py",
+    "tests/test_eval169_phaseb_gate.py",
+    # EVAL-170: cross-asset term_ratio spillover -> forward CVaR (+2 files, +18 tests)
+    "tests/test_eval170_cross_asset_term_ratio_spillover_forward_cvar.py",
+    "tests/test_eval170_phaseb_gate.py",
+    # EVAL-171: cross-asset skew spillover -> forward CVaR (+2 files, +18 tests)
+    "tests/test_eval171_cross_asset_skew_spillover_forward_cvar.py",
+    "tests/test_eval171_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -269,7 +278,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2162
+EXPECTED_TARGETED_TESTS = 2216
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -789,6 +798,21 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-169",
+        "script": ROOT / "scripts" / "eval169_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-170",
+        "script": ROOT / "scripts" / "eval170_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-171",
+        "script": ROOT / "scripts" / "eval171_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -956,6 +980,30 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_168_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_CVAR_PREREGISTRATION_*",
         "combined": "EVAL_168_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_CVAR_COMBINED_*",
         "blocked": "EVAL_168_CROSS_ASSET_ATM_IV_SPILLOVER_FORWARD_CVAR_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-169",
+        "task_id": "INIT-2026-11-21T19:40:00Z-EVAL169-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-CVAR",
+        "prereg": "EVAL_169_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_CVAR_PREREGISTRATION_*",
+        "combined": "EVAL_169_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_CVAR_COMBINED_*",
+        "blocked": "EVAL_169_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_CVAR_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-170",
+        "task_id": "INIT-2026-11-21T19:40:00Z-EVAL170-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-CVAR",
+        "prereg": "EVAL_170_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_CVAR_PREREGISTRATION_*",
+        "combined": "EVAL_170_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_CVAR_COMBINED_*",
+        "blocked": "EVAL_170_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_CVAR_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-171",
+        "task_id": "INIT-2026-11-21T19:40:00Z-EVAL171-CROSS-ASSET-SKEW-SPILLOVER-FORWARD-CVAR",
+        "prereg": "EVAL_171_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_CVAR_PREREGISTRATION_*",
+        "combined": "EVAL_171_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_CVAR_COMBINED_*",
+        "blocked": "EVAL_171_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_CVAR_BLOCKED_*",
         "expected_exit": 0,
     },
     {

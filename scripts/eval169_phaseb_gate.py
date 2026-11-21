@@ -5,29 +5,29 @@ campaign's completion contract.
 Why this exists
 ---------------
 EVAL-169 is the anti-avoidance heavy-work backstop: cross-asset ``term_slope``
-spillover (the OTHER underlying's ATM IV term-structure slope) -> forward
+spillover (the OTHER underlying's near-ATM term-structure level) -> forward
 **expected shortfall (CVaR)** of the target underlying's signed log-returns
 predictiveness, runnable now on the real on-disk captures (no acquisition, no
-network). It fills the unbuilt cross-asset surface x tail-risk cell:
-cross-asset ``term_slope`` spillover -> forward CVaR had never been measured
-(single-asset ``term_slope``/``term_ratio`` -> CVaR both NO-GO; cross-asset
-``atm_iv`` -> CVaR EVAL-168 GO CONFIRMED). It reuses the sealed EVAL-74
-``_term_bars`` term-slope signal path, EVAL-148 ``build_cross_section``
-cross-asset alignment, EVAL-71 surface floor + EVAL-74 term adequacy, EVAL-61
-expanding_zscore, EVAL-65 ``_perm_p_ic``/_boot_ci_ic inference, and the EVAL-163
-forward CVaR target verbatim (distinct from EVAL-163 single-asset atm_iv->CVaR,
-EVAL-161/162 single-asset term->CVaR, EVAL-168 cross-asset atm_iv->CVaR).
+network). It fills the unbuilt cross-asset surface x tail-risk cell: the
+cross-asset surface-spillover x forward-CVaR grid had never been measured
+(single-asset term_slope -> CVaR is the strongest surviving GO, EVAL-163). It
+reuses the sealed EVAL-71 build_surface_bars term_slope signal path, EVAL-148
+build_cross_section cross-asset alignment, EVAL-71 _forward_fill, EVAL-61
+expanding_zscore, EVAL-65 _perm_p_ic/_boot_ci_ic inference, and the EVAL-163
+forward CVaR target verbatim (distinct from EVAL-163 single-asset term_slope->CVaR,
+EVAL-148 cross-asset term_slope->signed-return-mean, EVAL-114 cross-asset
+term_slope->skewness, EVAL-146 cross-asset term_slope->downside-semivariance-share).
 
 Outcomes (exit codes)
 ---------------------
   0   SEALED   — a COMBINED_*/BLOCKED_* EVAL-169 artifact already exists with a
-                            stamp >= the pre-registered task id; the seal-gate passes.
-                            COMPLETE; idempotent no-op (safe to re-run forever).
+                           stamp >= the pre-registered task id; the seal-gate passes.
+                           COMPLETE; idempotent no-op (safe to re-run forever).
   20  DUE      — nothing sealed yet and this was a status check only (no
-                            --execute). The heavy work is REQUIRED now (data is on
-                            disk): re-run with --execute.
+                           --execute). The heavy work is REQUIRED now (data is on
+                           disk): re-run with --execute.
   1   FAILED   --execute was requested but the run -> seal -> seal-gate pipeline
-                            did not produce a passing seal-gate exit 0. Fix and re-run.
+                           did not produce a passing seal-gate exit 0. Fix and re-run.
 
 Unlike EVAL-67/68/69 there is no NOT_DUE phase: the EVAL-169 inputs are on disk,
 so the honest pre-execution state is DUE (heavy work required), never a physics
@@ -38,9 +38,9 @@ wait.
 authoritative seal-gate, and refuses to exit 0 unless the seal-gate exits 0.
 
 Nothing here weakens the EVAL-64 floor, uses synthetic data, enables live
-trading, or edits sealed EVAL-02..62/64..66/70..168 artifacts or src/ (EVAL-169
-is appended here). It is append-only and reuses the sealed EVAL-61/62/65/71/74/
-163/168 runners.
+trading, or edits sealed EVAL-02..62/64..66/70..167 artifacts or src/ (EVAL-169
+is appended here). It is append-only and reuses the sealed EVAL-61/62/65/71/148/
+163 runners.
 """
 
 from __future__ import annotations
@@ -61,7 +61,7 @@ if str(ROOT) not in sys.path:
 RS_DIR = ROOT / "research_state"
 
 # Authoritative pre-registered identifiers (parseable by check_session_sealed.py).
-TASK_ID = "INIT-2026-11-21T18:15:00Z-EVAL169-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-CVAR"
+TASK_ID = "INIT-2026-11-21T19:40:00Z-EVAL169-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-CVAR"
 TASK_LABEL = "EVAL169-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-CVAR"
 PREREG_GLOB = "EVAL_169_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_CVAR_PREREGISTRATION_*"
 COMBINED_GLOB = "EVAL_169_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_CVAR_COMBINED_*"
