@@ -242,6 +242,9 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-161 TRACK B: single-asset term_slope -> forward CVaR (expected shortfall) (+2 files, +16 tests)
     "tests/test_eval161_single_asset_term_slope_forward_cvar.py",
     "tests/test_eval161_phaseb_gate.py",
+    # EVAL-162 TRACK B: single-asset term_ratio -> forward CVaR (expected shortfall) (+2 files, +16 tests)
+    "tests/test_eval162_single_asset_term_ratio_forward_cvar.py",
+    "tests/test_eval162_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -250,7 +253,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2031
+EXPECTED_TARGETED_TESTS = 2047
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -735,6 +738,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-162",
+        "script": ROOT / "scripts" / "eval162_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -846,6 +854,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_161_SINGLE_ASSET_TERM_SLOPE_FORWARD_CVAR_PREREGISTRATION_*",
         "combined": "EVAL_161_SINGLE_ASSET_TERM_SLOPE_FORWARD_CVAR_COMBINED_*",
         "blocked": "EVAL_161_SINGLE_ASSET_TERM_SLOPE_FORWARD_CVAR_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-162",
+        "task_id": "INIT-2026-11-21T10:30:00Z-EVAL162-SINGLE-ASSET-TERM-RATIO-FORWARD-CVAR",
+        "prereg": "EVAL_162_SINGLE_ASSET_TERM_RATIO_FORWARD_CVAR_PREREGISTRATION_*",
+        "combined": "EVAL_162_SINGLE_ASSET_TERM_RATIO_FORWARD_CVAR_COMBINED_*",
+        "blocked": "EVAL_162_SINGLE_ASSET_TERM_RATIO_FORWARD_CVAR_BLOCKED_*",
         "expected_exit": 0,
     },
     {
