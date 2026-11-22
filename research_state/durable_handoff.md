@@ -1,10 +1,10 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T10:24:49Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T10:42:20Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
-> **START HERE — DO NOT STOP AT A GREEN DRIVER OR ANOTHER HANDOFF EDIT.** EVAL-185 is **SEALED** (`EVAL_185_SURFACE_TRADED_ROBUSTNESS_GRID_COMBINED_20261122T092235Z.{json,md}`, stamp `20261122T092235Z`, gate exit 0, seal-gate exit 0): the surface NO-GO is **robust to monetization** (0 grid configs pass the both-asset GO bar across the 45-config cost×horizon grid). Both traded-form lines are now `NO-GO CONFIRMED (PASS)` (EVAL-69 order-flow, EVAL-185 surface). The remaining on-charter work is **TRACK A — fresh-window replication (EVAL-186)**, now a first-class campaign with a runner, a pre-capture gate, and 23 passing tests.
+> **START HERE — DO NOT STOP AT A GREEN DRIVER OR ANOTHER HANDOFF EDIT.** EVAL-184 (`20261122T081750Z`) and EVAL-185 (`20261122T092235Z`, 0/45 grid configs pass) are both SEALED `NO-GO CONFIRMED (PASS)`. Both traded-form lines (EVAL-69 order-flow, EVAL-184/185 surface) are resolved; the surface NO-GO is robust to monetization. There is no unsealed predictiveness rung. The remaining on-charter heavy work is **EVAL-186 — TRACK A fresh-window replication** of the dual traded-form NO-GO on a strictly forward BTC+ETH capture at `data/raw/eval185cap` (runner + gate + 23 tests already built; nothing else to build).
 >
-> **STARTING COMMAND FOR THIS SESSION (run immediately):** `python3 scripts/eval186_phaseb_gate.py`. It currently reports `WAIT_CAPTURE` (exit 10) because `data/raw/eval185cap` does not yet exist. That is the only missing input. Do not substitute `data/raw/eval84cap` (that is the sealed EVAL-84/185 window). The gate encodes the exact required acquisition; the recommended forward window is:
+> **STARTING COMMAND FOR THIS SESSION (run immediately):** `python3 scripts/eval186_phaseb_gate.py`. It reports `WAIT_CAPTURE` (exit 10) because `data/raw/eval185cap` does not yet exist — that is the only missing input. Do not substitute `data/raw/eval84cap` (the sealed EVAL-84/185 window). Acquire the strictly forward capture:
 >
 > ```bash
 > python3 scripts/eval60_acquire_three_way.py \
