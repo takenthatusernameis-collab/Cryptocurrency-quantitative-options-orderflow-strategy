@@ -1,0 +1,405 @@
+{
+  "report_id": "EVAL_182_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_VARIANCE_COMBINED",
+  "generated_at": "2026-11-22T02:05:47Z",
+  "task": "EVAL182-CROSS-ASSET-OFLOW-TOX-ATM-IV-INTERACTION-SPILLOVER-FORWARD-VARIANCE",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "wrapper-free Spearman rank IC between the causal cross-asset options order-flow toxicity x atm_iv interaction spillover (other asset's level product) and forward own-asset realized return variance on real captures",
+  "floor_ok": true,
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_underlyings": 2,
+    "min_oflow_states_per_underlying": 1,
+    "min_surface_bars_per_underlying": 1,
+    "min_aligned_common_bars": 1,
+    "min_usable_pairs_per_config": 120,
+    "note": "EVAL-182 cross-asset order-flow toxicity x atm_iv interaction spillover floor: both underlyings (BTC, ETH) present, each with >= min_oflow_states_per_underlying constructible toxicity states and >= min_surface_bars_per_underlying constructible surface atm_iv bars on the coarsest grid, and >= min_aligned_common_bars non-disjoint common bar-ends where both signals coexist. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+  },
+  "campaign_floor": {
+    "underlyings": [
+      "BTC",
+      "ETH"
+    ],
+    "per_underlying": {
+      "BTC": {
+        "n_tox_states": 289,
+        "n_surface_bars": 289,
+        "ok": true
+      },
+      "ETH": {
+        "n_tox_states": 289,
+        "n_surface_bars": 289,
+        "ok": true
+      }
+    },
+    "underlyings_ok": true,
+    "aligned_common_bars": 274,
+    "aligned_ok": true,
+    "checks": {
+      "underlyings_ok": true,
+      "aligned_ok": true
+    },
+    "ok": true
+  },
+  "protocol": {
+    "eval": "EVAL-182",
+    "title": "Cross-asset options order-flow toxicity x atm_iv surface interaction spillover (other asset's tox_z * atm_iv_z) -> forward own-asset realized return variance predictiveness (Spearman rank IC)",
+    "extends": "EVAL-176 (cross-asset atm_iv -> realized return variance) + EVAL-159 (cross-asset order-flow toxicity -> realized return variance) + EVAL-180 (cross-asset order-flow imbalance x atm_iv interaction -> realized return variance) + EVAL-151 (cross-asset order-flow toxicity x atm_iv interaction -> forward signed return mean) + EVAL-71 (surface atm_iv verbatim) + EVAL-62 (toxicity verbatim) + EVAL-77 (cross-asset alignment) + EVAL-172 (forward realized return variance target verbatim) + EVAL-65 (permutation / bootstrap inference); distinct cell: interaction spillover -> forward realized return variance",
+    "supersedes": "nothing -- complements EVAL-176 (atm_iv alone), EVAL-159 (toxicity alone), EVAL-180 (imbalance x atm_iv interaction); no traded-form claim",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61",
+    "surface_signal": "oflow_tox_atm_iv_interaction",
+    "target": "forward_variance",
+    "signal_window_seconds": 900.0,
+    "atm_band": 0.05,
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "forward_horizons_bars": [
+      6,
+      24,
+      72
+    ],
+    "cross_section": {
+      "baseline": "BTC",
+      "relative": "ETH",
+      "spillover_signal": "signal_k = tox_z[OTHER](k) * atm_iv_z[OTHER](k)  (interaction of the other asset's order-flow toxicity z and near-ATM IV z)"
+    },
+    "signal": "causal per-bar interaction of the OTHER underlying's z-scored options order-flow toxicity and near-ATM implied-vol level (e62.build_states tox_signal='tox' x e71.build_surface_bars atm_iv \u2014 SURFACE bar, not the term bar), aligned to the common BTC-vs-ETH bar grid, forward-filled and expanding-zscored end-of-bar k (reused e71._forward_fill / e61.expanding_zscore)",
+    "target_detail": "forward realized return variance = mean((r - mean(r))**2) over the TARGET underlying's next H perp log returns (strictly after the decision at bar k, r_i=log(close_i/close_{i-1}) over i in k+1..k+H); transcribed verbatim from sealed EVAL-172",
+    "statistic": "Spearman rank correlation IC = rho(other_interaction_z_k, own_variance_k); directional permutation H1: IC>0 (higher other-asset order-flow toxicity x atm_iv interaction -> higher forward realized return variance on the target)",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle target series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42,
+      "zwindow": 20,
+      "min_usable_pairs_per_config": 120,
+      "min_aligned_common_bars": 1
+    },
+    "go_bar": "GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).",
+    "data_availability": {
+      "note": "uses already-acquired real on-disk three-way captures (option trades with direction + IV + perp candles); no new acquisition, no network; e62.build_states(tox_signal='tox') constructibility verified on all three data/raw/eval61 tapes (289 states each); surface atm_iv via EVAL-71 build_surface_bars on the same tapes",
+      "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61"
+    },
+    "floor": {
+      "min_underlyings": 2,
+      "min_oflow_states_per_underlying": 1,
+      "min_surface_bars_per_underlying": 1,
+      "min_aligned_common_bars": 1,
+      "min_usable_pairs_per_config": 120,
+      "note": "EVAL-182 cross-asset order-flow toxicity x atm_iv interaction spillover floor: both underlyings (BTC, ETH) present, each with >= min_oflow_states_per_underlying constructible toxicity states and >= min_surface_bars_per_underlying constructible surface atm_iv bars on the coarsest grid, and >= min_aligned_common_bars non-disjoint common bar-ends where both signals coexist. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor."
+    },
+    "code_paths": [
+      "src/analytics/real_walkforward_certification.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval65_orderflow_tox_rv_predictiveness.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval172_single_asset_atm_iv_forward_variance.py",
+      "scripts/eval182_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_variance.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval182_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_variance.py tests/test_eval182_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_variance.py",
+      "python3 -m pytest -q tests/test_eval182_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_variance.py",
+      "# no acquisition needed \u2014 consume the already-acquired real captures:",
+      "python3 scripts/eval182_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_variance.py --capture-dir data/raw/eval61 --no-write",
+      "python3 scripts/eval182_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_variance.py --capture-dir data/raw/eval61 --seal --task-label EVAL182-CROSS-ASSET-OFLOW-TOX-ATM-IV-INTERACTION-SPILLOVER-FORWARD-VARIANCE"
+    ]
+  },
+  "per_config": [
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": 0.12606383426410275,
+      "permutation_p": 0.017982017982017984,
+      "bootstrap_median": 0.12858480403928174,
+      "bootstrap_ci": [
+        0.12858480403928174,
+        0.01447703612449497,
+        0.23321888978267363
+      ],
+      "pass": true,
+      "reason": "ok"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": 0.07260264503953293,
+      "permutation_p": 0.12387612387612387,
+      "bootstrap_median": 0.07192179973663403,
+      "bootstrap_ci": [
+        0.07192179973663403,
+        -0.06114587257690702,
+        0.20400520981046935
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.11490897549461133,
+      "permutation_p": 0.056943056943056944,
+      "bootstrap_median": 0.11437884109747076,
+      "bootstrap_ci": [
+        0.11437884109747076,
+        -0.011133846040869515,
+        0.2554351842111276
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": -0.105509229949796,
+      "permutation_p": 0.961038961038961,
+      "bootstrap_median": -0.10204032010695491,
+      "bootstrap_ci": [
+        -0.10204032010695491,
+        -0.23301419096990644,
+        0.014187991984847522
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": -0.05958711580122499,
+      "permutation_p": 0.8451548451548452,
+      "bootstrap_median": -0.05707424686776639,
+      "bootstrap_ci": [
+        -0.05707424686776639,
+        -0.1714048713995587,
+        0.05687001038989173
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": 0.01759122833593464,
+      "permutation_p": 0.36563436563436563,
+      "bootstrap_median": 0.021989446085090167,
+      "bootstrap_ci": [
+        0.021989446085090167,
+        -0.1332753320369066,
+        0.1791938508119267
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": -0.03439212565490982,
+      "permutation_p": 0.7032967032967034,
+      "bootstrap_median": -0.03517492072013275,
+      "bootstrap_ci": [
+        -0.03517492072013275,
+        -0.16586306082642083,
+        0.08536746552283099
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": 0.07656521204874103,
+      "permutation_p": 0.12487512487512488,
+      "bootstrap_median": 0.07670236402135627,
+      "bootstrap_ci": [
+        0.07670236402135627,
+        -0.05743892292282955,
+        0.2085613823804557
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": -0.028637340430677956,
+      "permutation_p": 0.6703296703296703,
+      "bootstrap_median": -0.034253743431819667,
+      "bootstrap_ci": [
+        -0.034253743431819667,
+        -0.16228116475629348,
+        0.11646660026908494
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 6,
+      "n_common_bars": 274,
+      "n_pairs": 268,
+      "spearman_ic": -0.12472658956795961,
+      "permutation_p": 0.983016983016983,
+      "bootstrap_median": -0.12679988696824407,
+      "bootstrap_ci": [
+        -0.12679988696824407,
+        -0.2477070512102514,
+        -0.004496987227415405
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 24,
+      "n_common_bars": 274,
+      "n_pairs": 250,
+      "spearman_ic": -0.02491475047237439,
+      "permutation_p": 0.6623376623376623,
+      "bootstrap_median": -0.024813061025773887,
+      "bootstrap_ci": [
+        -0.024813061025773887,
+        -0.16324977226677892,
+        0.113258419889838
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "signal": "oflow_tox_atm_iv_interaction",
+      "target": "forward_variance",
+      "bar_seconds": 300.0,
+      "horizon_bars": 72,
+      "n_common_bars": 274,
+      "n_pairs": 202,
+      "spearman_ic": -0.1170069651517255,
+      "permutation_p": 0.9530469530469531,
+      "bootstrap_median": -0.1175879166586183,
+      "bootstrap_ci": [
+        -0.1175879166586183,
+        -0.2921120168397367,
+        0.054663212820804115
+      ],
+      "pass": false,
+      "reason": "gate_fail"
+    }
+  ],
+  "per_target": [
+    {
+      "target_underlying": "BTC",
+      "signal_underlying": "ETH",
+      "n_configs": 6,
+      "best_ic": 0.12606383426410275,
+      "best_config": "ETH->BTC::oflow_tox_atm_iv_interaction::bar60.0::h6",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    },
+    {
+      "target_underlying": "ETH",
+      "signal_underlying": "BTC",
+      "n_configs": 6,
+      "best_ic": 0.07656521204874103,
+      "best_config": "BTC->ETH::oflow_tox_atm_iv_interaction::bar60.0::h24",
+      "n_pass": 0,
+      "pass_configs": [],
+      "any_pass": false
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [],
+      "thresholds": {
+        "BTC<-ETH::oflow_tox_atm_iv_interaction::bar60.0::h6": 0.008333333333333333,
+        "BTC<-ETH::oflow_tox_atm_iv_interaction::bar60.0::h72": 0.016666666666666666,
+        "BTC<-ETH::oflow_tox_atm_iv_interaction::bar60.0::h24": 0.025000000000000005,
+        "ETH<-BTC::oflow_tox_atm_iv_interaction::bar60.0::h24": 0.03333333333333333,
+        "BTC<-ETH::oflow_tox_atm_iv_interaction::bar300.0::h72": 0.041666666666666664,
+        "ETH<-BTC::oflow_tox_atm_iv_interaction::bar300.0::h24": 0.05000000000000001,
+        "ETH<-BTC::oflow_tox_atm_iv_interaction::bar60.0::h72": 0.05833333333333334,
+        "ETH<-BTC::oflow_tox_atm_iv_interaction::bar60.0::h6": 0.06666666666666667,
+        "BTC<-ETH::oflow_tox_atm_iv_interaction::bar300.0::h24": 0.075,
+        "ETH<-BTC::oflow_tox_atm_iv_interaction::bar300.0::h72": 0.08333333333333333,
+        "BTC<-ETH::oflow_tox_atm_iv_interaction::bar300.0::h6": 0.09166666666666667,
+        "ETH<-BTC::oflow_tox_atm_iv_interaction::bar300.0::h6": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 12,
+      "method": "Benjamini-Hochberg"
+    },
+    "all_targets_pass": false,
+    "campaign_state": "EVAL_182_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_VARIANCE"
+  },
+  "errors": []
+}
