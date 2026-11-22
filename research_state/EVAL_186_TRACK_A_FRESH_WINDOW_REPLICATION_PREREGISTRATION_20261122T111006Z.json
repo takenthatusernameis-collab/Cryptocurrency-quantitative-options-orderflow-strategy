@@ -1,0 +1,90 @@
+{
+  "prereg_id": "EVAL_186_TRACK_A_FRESH_WINDOW_REPLICATION_PREREGISTRATION",
+  "generated_at": "2026-11-22T11:10:06Z",
+  "task": "EVAL186-TRACK-A-FRESH-WINDOW-REPLICATION",
+  "hypothesis": "The EVAL-69 order-flow and EVAL-184 surface traded-form NO-GO results are temporally robust on a strictly forward, floor-compliant BTC+ETH capture that does not overlap the sealed EVAL-64/65 or EVAL-84/185 windows. A GO in either family refutes the dual NO-GO; under-floor or overlapping data is BLOCKED and never NO-GO.",
+  "extends": "EVAL-69 and EVAL-184 (both family runners execute with write=False on a new capture; neither sealed artifact is modified)",
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval185cap",
+  "previous_window": [
+    "2026-11-18T13:58:43Z",
+    "2026-11-22T06:46:43Z"
+  ],
+  "sealed_window": [
+    "2026-11-09T06:48:16Z",
+    "2026-11-16T06:48:16Z"
+  ],
+  "earliest_forward_capture_end": "2026-11-25T23:34:43Z",
+  "recommended_capture_end": "2026-11-26T00:00:00Z",
+  "protocol": {
+    "eval": "EVAL-186",
+    "title": "TRACK A fresh-window replication of the EVAL-69 order-flow and EVAL-184 surface traded-form NO-GO results on a strictly forward real BTC+ETH capture",
+    "extends": "EVAL-69 and EVAL-184 (both family runners execute with write=False on a new capture; neither sealed artifact is modified)",
+    "supersedes": "nothing - this is a temporal robustness check of the dual NO-GO, not a re-seal of either family",
+    "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval185cap",
+    "underlyings_required": [
+      "BTC",
+      "ETH"
+    ],
+    "previous_capture_dir": "data/raw/eval84cap",
+    "previous_window": [
+      "2026-11-18T13:58:43Z",
+      "2026-11-22T06:46:43Z"
+    ],
+    "sealed_window": [
+      "2026-11-09T06:48:16Z",
+      "2026-11-16T06:48:16Z"
+    ],
+    "acquire_days": 3.7,
+    "earliest_forward_capture_end": "2026-11-25T23:34:43Z",
+    "recommended_capture_end": "2026-11-26T00:00:00Z",
+    "min_capture_span_seconds": 300000.0,
+    "families": {
+      "order_flow": {
+        "runner": "scripts.eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py",
+        "write": false
+      },
+      "surface": {
+        "runner": "scripts.eval184_surface_traded_netofcost_oos.py",
+        "write": false
+      }
+    },
+    "go_bar": "GO CONFIRMED if either family independently returns GO CONFIRMED on the fresh forward capture. NO-GO CONFIRMED (PASS) only if both families return NO-GO CONFIRMED (PASS) and both are power adequate. INCONCLUSIVE (UNDERPOWERED) if neither is GO and either is underpowered. BLOCKED if an underlying is missing, the EVAL-64 floor fails, or the capture overlaps the sealed EVAL-64/65 window or the EVAL-84/185 window. Under-floor or non-disjoint data is never NO-GO.",
+    "floor": {
+      "source": "EVAL-64 feasible floor reused verbatim (never weakened)",
+      "min_underlyings": 2,
+      "checks": [
+        "snapshots_ok",
+        "surface_instruments_ok",
+        "surface_bars_ok",
+        "trades_ok",
+        "of_instruments_ok",
+        "of_span_ok",
+        "of_bars_ok",
+        "perp_bars_ok",
+        "perp_span_ok",
+        "common_overlap_ok"
+      ]
+    },
+    "min_pooled_returns": 790,
+    "code_paths": [
+      "scripts/eval60_acquire_three_way.py",
+      "scripts/eval61_orderflow_realized_vol_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval64_orderflow_realized_vol_markpath_feasible.py",
+      "scripts/eval67_btc_oflow_tox_rv_oos.py",
+      "scripts/eval69_pooled_btc_eth_oflow_tox_rv_traded_oos.py",
+      "scripts/eval184_surface_traded_netofcost_oos.py",
+      "scripts/eval186_track_a_fresh_window_replication.py",
+      "scripts/eval186_phaseb_gate.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval186_track_a_fresh_window_replication.py scripts/eval186_phaseb_gate.py tests/test_eval186_track_a_fresh_window_replication.py",
+      "python3 -m pytest -q tests/test_eval186_track_a_fresh_window_replication.py",
+      "python3 scripts/eval60_acquire_three_way.py --underlying BTC --underlying ETH --days 3.7 --end 2026-11-26T00:00:00Z --max-per-expiry 30 --out-dir data/raw/eval185cap --seal",
+      "python3 scripts/eval186_track_a_fresh_window_replication.py --capture-dir data/raw/eval185cap --no-write",
+      "python3 scripts/eval186_track_a_fresh_window_replication.py --capture-dir data/raw/eval185cap --seal --task-label EVAL186-TRACK-A-FRESH-WINDOW-REPLICATION",
+      "python3 scripts/eval186_phaseb_gate.py --execute"
+    ]
+  }
+}

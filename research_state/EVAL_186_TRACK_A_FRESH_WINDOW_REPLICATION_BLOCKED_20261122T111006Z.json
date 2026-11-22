@@ -1,0 +1,158 @@
+{
+  "report_id": "EVAL_186_TRACK_A_FRESH_WINDOW_REPLICATION_BLOCKED",
+  "generated_at": "2026-11-22T11:10:06Z",
+  "task": "EVAL186-TRACK-A-FRESH-WINDOW-REPLICATION",
+  "verdict": "BLOCKED",
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval185cap",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "missing_underlyings": [],
+  "floor_ok": false,
+  "forward_disjointness_ok": true,
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_surface_snapshots": 47,
+      "n_surface_instruments": 195,
+      "n_surface_bars_5m": 47,
+      "n_option_trades": 864,
+      "n_of_instruments": 126,
+      "of_span_seconds": 13687.932,
+      "n_of_bars_5m": 45,
+      "n_perp_candles": 231,
+      "perp_span_seconds": 13800.0,
+      "n_perp_bars_5m": 46,
+      "n_common_bars_5m": 46,
+      "checks": {
+        "snapshots_ok": false,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": false,
+        "trades_ok": false,
+        "of_instruments_ok": false,
+        "of_span_ok": false,
+        "of_bars_ok": false,
+        "perp_bars_ok": false,
+        "perp_span_ok": false,
+        "common_overlap_ok": false
+      },
+      "ok": false
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_surface_snapshots": 48,
+      "n_surface_instruments": 188,
+      "n_surface_bars_5m": 48,
+      "n_option_trades": 615,
+      "n_of_instruments": 104,
+      "of_span_seconds": 14045.699,
+      "n_of_bars_5m": 46,
+      "n_perp_candles": 236,
+      "perp_span_seconds": 14100.0,
+      "n_perp_bars_5m": 47,
+      "n_common_bars_5m": 47,
+      "checks": {
+        "snapshots_ok": false,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": false,
+        "trades_ok": false,
+        "of_instruments_ok": false,
+        "of_span_ok": false,
+        "of_bars_ok": false,
+        "perp_bars_ok": false,
+        "perp_span_ok": false,
+        "common_overlap_ok": false
+      },
+      "ok": false
+    }
+  },
+  "forward_disjointness": {
+    "BTC": {
+      "underlying": "BTC",
+      "ok": true,
+      "reason": "strictly_forward_disjoint",
+      "capture_window": [
+        "2026-11-22T07:12:00Z",
+        "2026-11-26T00:00:00Z"
+      ],
+      "sealed_window": [
+        "2026-11-09T06:48:16Z",
+        "2026-11-16T06:48:16Z"
+      ],
+      "previous_window": [
+        "2026-11-18T13:58:43Z",
+        "2026-11-22T06:46:43Z"
+      ],
+      "sealed_overlap_seconds": 0.0,
+      "previous_overlap_seconds": 0.0,
+      "starts_after_previous": true,
+      "capture_span_seconds": 319680.0,
+      "meets_min_span": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "ok": true,
+      "reason": "strictly_forward_disjoint",
+      "capture_window": [
+        "2026-11-22T07:12:00Z",
+        "2026-11-26T00:00:00Z"
+      ],
+      "sealed_window": [
+        "2026-11-09T06:48:16Z",
+        "2026-11-16T06:48:16Z"
+      ],
+      "previous_window": [
+        "2026-11-18T13:58:43Z",
+        "2026-11-22T06:46:43Z"
+      ],
+      "sealed_overlap_seconds": 0.0,
+      "previous_overlap_seconds": 0.0,
+      "starts_after_previous": true,
+      "capture_span_seconds": 319680.0,
+      "meets_min_span": true
+    }
+  },
+  "families": {
+    "order_flow": {
+      "family": "order_flow",
+      "source_report_id": null,
+      "verdict": "BLOCKED",
+      "floor_ok": false,
+      "disjointness_ok": false,
+      "floor_and_disjoint_ok": false,
+      "missing_underlyings": [
+        "BTC",
+        "ETH"
+      ],
+      "max_pooled_returns": 0,
+      "power_adequate": false,
+      "min_pooled_returns": 790,
+      "pass_configs": [],
+      "bh_fdr_rejected": [],
+      "per_config": [],
+      "errors": []
+    },
+    "surface": {
+      "family": "surface",
+      "source_report_id": null,
+      "verdict": "BLOCKED",
+      "floor_ok": false,
+      "disjointness_ok": false,
+      "floor_and_disjoint_ok": false,
+      "missing_underlyings": [
+        "BTC",
+        "ETH"
+      ],
+      "max_pooled_returns": 0,
+      "power_adequate": false,
+      "min_pooled_returns": 790,
+      "pass_configs": [],
+      "bh_fdr_rejected": [],
+      "per_config": [],
+      "errors": []
+    }
+  },
+  "errors": [],
+  "note": "measured BLOCKED; not NO-GO"
+}
