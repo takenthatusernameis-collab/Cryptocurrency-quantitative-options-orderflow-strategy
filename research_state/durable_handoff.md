@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T04:06:51Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T04:08:19Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **REPO-NAME PRIORITIZATION (load-bearing, do not re-derive):** the two signal halves are options **surface** and options **order-flow**; the deliverable is a **tradeable, net-of-cost strategy**. The predictiveness rungs EVAL-02..183 are all sealed. The order-flow × surface interaction cells are uniformly NO-GO CONFIRMED (PASS). The single-asset and cross-asset surface/term distributional grids are complete. The only surviving directional/tail alpha is on the **surface** line (EVAL-177 skew → variance GO; EVAL-168/169 atm_iv/term_slope → CVaR GO).
 >
