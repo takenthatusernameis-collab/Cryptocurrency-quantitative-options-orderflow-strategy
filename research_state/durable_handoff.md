@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T00:11:32Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T00:37:01Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **REPO-NAME PRIORITIZATION (load-bearing, do not re-derive):** the two signal halves are options **surface** and options **order-flow**; the deliverable is a **tradeable, net-of-cost strategy**. The order-flow distributional sweep is complete and uniformly NO-GO CONFIRMED (PASS). The surviving directional alpha is on the **surface** line. The single-asset surface distributional grids are complete (signed-return-mean / skewness / kurtosis / CVaR / downside-semivariance share / **variance**). The cross-asset order-flow sweep is complete. The cross-asset surface/term → forward-CVaR grid is complete (EVAL-168 atm_iv, 169 term_slope, 170 term_ratio, 171 skew; all sealed). **The cross-asset surface/term → forward variance grid is now COMPLETE: EVAL-176 (atm_iv, NO-GO) sealed; EVAL-177 (skew, GO CONFIRMED) sealed; EVAL-178 (term_slope) sealed; EVAL-179 (term_ratio) sealed — all four cells sealed via `driver --execute`.**
 >
@@ -21,7 +21,7 @@
 >
 > **TRACK A (NON-BLOCKING background, NOT a per-session gate):** a fresh ~3.7-day three-way capture (`python3 scripts/eval60_acquire_three_way.py --underlying BTC --underlying ETH --days 3.7 --out-dir data/raw/eval162cap`, under `background_process`/`start` if available, else operator-deferred) → EVAL-64 floor probe → **if and only if the floor is met**, build the next unsealed traded-form rung (single-asset `atm_iv`/`term_slope` → directional delta-hedged traded-form net-of-cost; reuse EVAL-64 floor + EVAL-62 mark-path verbatim), else seal `BLOCKED` (never NO-GO). Never block the session on TRACK A (~3.7 days, never in-session).
 
-## VERIFIED STATE (2026-11-22T00:10:36Z)
+## VERIFIED STATE (2026-11-22T00:37:01Z)
 
 Driver source of truth: `EXPECTED_TARGETED_TESTS=2358`, `EXPECTED_DIAGNOSTIC_TESTS=27`. EVAL-66..179 are sealed (EVAL-63 never sealed). **All gates `ok`/phase `SEALED`; driver exit 0; idempotent no-op.** EVAL-67/68/69 are SEALED (forward disjoint-window ladder complete; threshold `2026-11-20T00:00:00Z` PASSED).
 
