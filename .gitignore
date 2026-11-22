@@ -46,5 +46,10 @@ research_state/INTEGRATED_STEP_*.json
 # historically; stop adding more so the checkout and every checkpoint stay cheap.
 research_state/phase*/
 
+# EVAL-84 floor-compliant 3.7d three-way capture (~300 MB, both underlyings)
+# exceeds GitHub's 100 MB per-file push limit; keep it local only and never
+# commit or push it. Re-acquire locally via the EVAL-60 acquisition step.
+data/raw/eval84cap/
+
 # Local verification runtime (scripts/verify_env.sh target)
 .venv-deps/

@@ -1,0 +1,257 @@
+{
+  "report_id": "EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS_COMBINED",
+  "generated_at": "2026-11-22T05:33:27Z",
+  "task": "EVAL68-POOLED-BTC-ETH-OFLOW-TOX-RV-OOS",
+  "verdict": "GO CONFIRMED",
+  "verdict_detail": "pooled OOS replication (disjoint real BTC+ETH window) of the suggestive EVAL-65 slice tox/imbalance::bar60::h72; pooled-sample Spearman rank IC with EVAL-62 signal + EVAL-64 feasible floor reused",
+  "floor_ok": true,
+  "disjointness_ok": true,
+  "floor_and_disjoint_ok": true,
+  "missing_underlyings": [],
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval84cap",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "min_surface_snapshots_per_underlying": 1000,
+    "min_surface_instruments_per_underlying": 100,
+    "min_surface_bars_5m_per_underlying": 1000,
+    "min_option_trades_per_underlying": 2000,
+    "min_of_instruments_per_underlying": 150,
+    "min_of_span_seconds_per_underlying": 82000.0,
+    "min_of_bars_5m_per_underlying": 240,
+    "min_perp_bars_5m_per_underlying": 1000,
+    "min_perp_span_seconds_per_underlying": 300000.0,
+    "min_common_bars_per_underlying": 240,
+    "min_underlyings": 2,
+    "note": "order-flow span floor is a heavier-than-EVAL-62 24h bar because Deribit tick-trade retention is ~24h; surface/perp floors require the full >=7d"
+  },
+  "disjointness_rule": "A capture is usable only if [window_start, window_end] does not overlap [2026-11-09T06:48:16Z, 2026-11-16T06:48:16Z]. Because the free Deribit perp 1m endpoint returns at most 5001 candles (300000 s), each capture must also span >=300000 s. The earliest floor-compliant end is 2026-11-19T18:08:16Z (sealed end + 300000 s); for margin use 2026-11-20T00:00:00Z or later. A naive trailing --days 7 capture before the sealed window has cleared will overlap and must seal BLOCKED.",
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_surface_snapshots": 1066,
+      "n_surface_instruments": 248,
+      "n_surface_bars_5m": 1001,
+      "n_option_trades": 8489,
+      "n_of_instruments": 227,
+      "of_span_seconds": 86344.549,
+      "n_of_bars_5m": 287,
+      "n_perp_candles": 5001,
+      "perp_span_seconds": 300000.0,
+      "n_perp_bars_5m": 1000,
+      "n_common_bars_5m": 288,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_surface_snapshots": 1066,
+      "n_surface_instruments": 240,
+      "n_surface_bars_5m": 1001,
+      "n_option_trades": 6055,
+      "n_of_instruments": 199,
+      "of_span_seconds": 84590.167,
+      "n_of_bars_5m": 281,
+      "n_perp_candles": 5001,
+      "perp_span_seconds": 300000.0,
+      "n_perp_bars_5m": 1000,
+      "n_common_bars_5m": 282,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    }
+  },
+  "disjointness": {
+    "BTC": {
+      "underlying": "BTC",
+      "ok": true,
+      "reason": "disjoint",
+      "capture_window": [
+        "2026-11-18T11:35:59Z",
+        "2026-11-22T04:23:59Z"
+      ],
+      "sealed_window": [
+        "2026-11-09T06:48:16Z",
+        "2026-11-16T06:48:16Z"
+      ],
+      "overlap_seconds": 0.0,
+      "capture_span_seconds": 319680.0,
+      "meets_min_span": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "ok": true,
+      "reason": "disjoint",
+      "capture_window": [
+        "2026-11-18T11:35:59Z",
+        "2026-11-22T04:23:59Z"
+      ],
+      "sealed_window": [
+        "2026-11-09T06:48:16Z",
+        "2026-11-16T06:48:16Z"
+      ],
+      "overlap_seconds": 0.0,
+      "capture_span_seconds": 319680.0,
+      "meets_min_span": true
+    }
+  },
+  "protocol": {
+    "eval": "EVAL-68",
+    "title": "Pooled BTC+ETH disjoint-window OOS replication of the suggestive EVAL-65 options order-flow toxicity -> forward realized-vol slice (tox/imbalance, bar60, horizon 72), pooled-sample Spearman rank IC for power adequacy",
+    "extends": "EVAL-65/EVAL-67 (identical signal/statistic/floor reused; BTC and ETH pooled into one rank-IC sample on a fresh disjoint real window)",
+    "supersedes": "nothing \u2014 power-adequate pooled replication of the suggestive EVAL-65 slice; non-replication, underpowered, or BLOCKED is a valid sealed result",
+    "capture_dir": "data/raw/eval84cap",
+    "underlyings_required": [
+      "BTC",
+      "ETH"
+    ],
+    "disjoint_from": "data/raw/eval63/three_way_{BTC,ETH}_20261116T064816Z.json (window 2026-11-09T06:48:16Z..2026-11-16T06:48:16Z)",
+    "disjointness_rule": "A capture is usable only if [window_start, window_end] does not overlap [2026-11-09T06:48:16Z, 2026-11-16T06:48:16Z]. Because the free Deribit perp 1m endpoint returns at most 5001 candles (300000 s), each capture must also span >=300000 s. The earliest floor-compliant end is 2026-11-19T18:08:16Z (sealed end + 300000 s); for margin use 2026-11-20T00:00:00Z or later. A naive trailing --days 7 capture before the sealed window has cleared will overlap and must seal BLOCKED.",
+    "capture_window_rule": "Only after EVAL-67 has sealed: --underlying BTC --underlying ETH --days 3.7 --end <now-ISO> --out-dir data/raw/eval68 --seal. At end 2026-11-20T00:00:00Z this gives start 2026-11-16T07:12:00Z (disjoint from 2026-11-16T06:48:16Z; span 319680 s). Do not weaken the EVAL-64 floor.",
+    "tox_signals": [
+      "tox",
+      "imbalance"
+    ],
+    "bar_seconds_grid": [
+      60.0
+    ],
+    "forward_horizons_bars": [
+      72
+    ],
+    "signal": "signal_z_k = expanding-zscore of per-bar options order-flow toxicity (tox) / signed-aggressor imbalance (imbalance), reused verbatim from EVAL-61/EVAL-62 (causal, end-of-bar k)",
+    "target": "rv_{k+1..k+H} = sqrt(mean(log-return^2)) over the next H perp 1m/5m bars (forward realized vol, strictly after the decision at k)",
+    "statistic": "Pooled Spearman rank correlation IC = rho(signal_z_k, rv_forward_k) over the concatenation of BTC and ETH pairs for each config",
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation": "directional (H1: IC>0), shuffle realized-vol series",
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "pbo_k_folds": 4,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "go_bar": "GO only if, pooled across BTC+ETH and at least one of the pre-registered configs (tox::bar60::h72, imbalance::bar60::h72), the pooled Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, pooled pairs >= 790 (80% power), pooled BH-FDR rejects that config, the EVAL-64 floor is met on BOTH underlyings, and both capture windows are disjoint from the sealed window; else NO-GO CONFIRMED (PASS) when floor+disjoint+power but not predictive, INCONCLUSIVE (UNDERPOWERED) when floor+disjoint but pooled pairs < 790, or BLOCKED when floor/disjoint fails.",
+    "data_availability": {
+      "note": "fresh real BTC+ETH three-way capture, disjoint from the sealed eval63 window; public read-only, polite rate limiting, single acquisition process; no synthetic data",
+      "sealed_window": [
+        "2026-11-09T06:48:16Z",
+        "2026-11-16T06:48:16Z"
+      ],
+      "earliest_disjoint_capture_end": "2026-11-20T00:00:00Z",
+      "deribit_perp_1m_retention_seconds_approx": 300000
+    },
+    "floor": {
+      "min_surface_snapshots_per_underlying": 1000,
+      "min_surface_instruments_per_underlying": 100,
+      "min_surface_bars_5m_per_underlying": 1000,
+      "min_option_trades_per_underlying": 2000,
+      "min_of_instruments_per_underlying": 150,
+      "min_of_span_seconds_per_underlying": 82000.0,
+      "min_of_bars_5m_per_underlying": 240,
+      "min_perp_bars_5m_per_underlying": 1000,
+      "min_perp_span_seconds_per_underlying": 300000.0,
+      "min_common_bars_per_underlying": 240,
+      "min_underlyings": 2,
+      "note": "order-flow span floor is a heavier-than-EVAL-62 24h bar because Deribit tick-trade retention is ~24h; surface/perp floors require the full >=7d"
+    },
+    "min_underlyings": 2,
+    "min_pooled_pairs": 790
+  },
+  "per_config": [
+    {
+      "signal": "tox",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "underlyings": [
+        "BTC",
+        "ETH"
+      ],
+      "per_underlying_n_pairs": {
+        "BTC": 928,
+        "ETH": 928
+      },
+      "n_pairs": 1856,
+      "n_pairs_power_adequate": true,
+      "min_pooled_pairs": 790,
+      "spearman_ic": -0.005995410085512278,
+      "permutation_p": 0.6113886113886113,
+      "bootstrap_ci": [
+        -0.007470027666032366,
+        -0.07402442369712303,
+        0.04985383874992083
+      ],
+      "nonzero_signal_pairs": 427,
+      "pass": false
+    },
+    {
+      "signal": "imbalance",
+      "bar_seconds": 60.0,
+      "horizon_bars": 72,
+      "underlyings": [
+        "BTC",
+        "ETH"
+      ],
+      "per_underlying_n_pairs": {
+        "BTC": 928,
+        "ETH": 928
+      },
+      "n_pairs": 1856,
+      "n_pairs_power_adequate": true,
+      "min_pooled_pairs": 790,
+      "spearman_ic": 0.1395537637942294,
+      "permutation_p": 0.000999000999000999,
+      "bootstrap_ci": [
+        0.13920249269790386,
+        0.08093527600571655,
+        0.1975733130777455
+      ],
+      "nonzero_signal_pairs": 427,
+      "pass": true
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [
+        "imbalance::bar60.0::h72"
+      ],
+      "thresholds": {
+        "imbalance::bar60.0::h72": 0.05,
+        "tox::bar60.0::h72": 0.1
+      },
+      "alpha": 0.1,
+      "m_tests": 2,
+      "method": "Benjamini-Hochberg"
+    },
+    "pass_configs": [
+      "imbalance::bar60.0::h72"
+    ],
+    "max_pooled_pairs": 1856,
+    "power_adequate": true,
+    "min_pooled_pairs": 790,
+    "campaign_state": "EVAL_68_POOLED_BTC_ETH_OFLOW_TOX_RV_OOS"
+  },
+  "errors": []
+}
