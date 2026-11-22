@@ -288,6 +288,12 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-177: cross-asset skew spillover -> forward variance (+2 files, +18 tests)
     "tests/test_eval177_cross_asset_skew_spillover_forward_variance.py",
     "tests/test_eval177_phaseb_gate.py",
+    # EVAL-178: cross-asset term_slope spillover -> forward variance (+2 files, +18 tests)
+    "tests/test_eval178_cross_asset_term_slope_spillover_forward_variance.py",
+    "tests/test_eval178_phaseb_gate.py",
+    # EVAL-179: cross-asset term_ratio spillover -> forward variance (+2 files, +18 tests)
+    "tests/test_eval179_cross_asset_term_ratio_spillover_forward_variance.py",
+    "tests/test_eval179_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -296,7 +302,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2322
+EXPECTED_TARGETED_TESTS = 2358
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -861,6 +867,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-178",
+        "script": ROOT / "scripts" / "eval178_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-179",
+        "script": ROOT / "scripts" / "eval179_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -1100,6 +1116,22 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_177_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_VARIANCE_PREREGISTRATION_*",
         "combined": "EVAL_177_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_VARIANCE_COMBINED_*",
         "blocked": "EVAL_177_CROSS_ASSET_SKEW_SPILLOVER_FORWARD_VARIANCE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-178",
+        "task_id": "INIT-2026-11-21T23:30:48Z-EVAL178-CROSS-ASSET-TERM-SLOPE-SPILLOVER-FORWARD-VARIANCE",
+        "prereg": "EVAL_178_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_VARIANCE_PREREGISTRATION_*",
+        "combined": "EVAL_178_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_VARIANCE_COMBINED_*",
+        "blocked": "EVAL_178_CROSS_ASSET_TERM_SLOPE_SPILLOVER_FORWARD_VARIANCE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-179",
+        "task_id": "INIT-2026-11-21T23:30:48Z-EVAL179-CROSS-ASSET-TERM-RATIO-SPILLOVER-FORWARD-VARIANCE",
+        "prereg": "EVAL_179_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_VARIANCE_PREREGISTRATION_*",
+        "combined": "EVAL_179_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_VARIANCE_COMBINED_*",
+        "blocked": "EVAL_179_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_VARIANCE_BLOCKED_*",
         "expected_exit": 0,
     },
     {
