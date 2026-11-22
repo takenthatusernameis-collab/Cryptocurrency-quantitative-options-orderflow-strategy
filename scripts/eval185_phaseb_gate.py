@@ -18,10 +18,11 @@ The genuinely-next on-charter heavy work is to **bound whether that surface NO-G
 is a monetization/horizon artifact** rather than a robust economic result: re-run
 the surface-line traded-form under a PRE-REGISTERED alternative cost x horizon grid
 on the same floor-compliant disjoint capture (data/raw/eval84cap), with pooled
-BH-FDR across the FULL grid and a both-asset GO bar. Pre-registered GO bar: >=1
-config with pooled BH-FDR rejection + Sharpe>0 + bootstrap CI lower>0 under >=2 of
-3 cost scenarios (0.5x / 1x / 2x base). Else NO-GO CONFIRMED (PASS): the surface
-NO-GO is robust to monetization.
+BH-FDR across the FULL grid and a both-asset GO bar. The exact grid is 3 signals x
+5 horizons {60,120,240,300,360}s x 3 cost haircuts {0.5x,1x,2x} = 45 configs.
+Pre-registered GO bar: >=1 config with pooled BH-FDR rejection + Sharpe>0 +
+bootstrap CI lower>0 under >=2 of 3 cost scenarios (robust to cost). Else
+NO-GO CONFIRMED (PASS): the surface NO-GO is robust to monetization.
 
 This gate encodes that ordering + the completion contract as ONE deterministic
 command so future sessions cannot avoid or substitute the heavy work. It is
@@ -66,7 +67,7 @@ if str(ROOT) not in sys.path:
 RS_DIR = ROOT / "research_state"
 
 # Authoritative pre-registered identifiers (parseable by check_session_sealed.py).
-TASK_ID = "INIT-2026-11-22T08:25:00Z-EVAL185-SURFACE-TRADED-ROBUSTNESS-GRID"
+TASK_ID = "INIT-2026-11-22T08:40:00Z-EVAL185-SURFACE-TRADED-ROBUSTNESS-GRID"
 TASK_LABEL = "EVAL185-SURFACE-TRADED-ROBUSTNESS-GRID"
 PREREG_GLOB = "EVAL_185_SURFACE_TRADED_ROBUSTNESS_GRID_PREREGISTRATION_*"
 COMBINED_GLOB = "EVAL_185_SURFACE_TRADED_ROBUSTNESS_GRID_COMBINED_*"
@@ -93,6 +94,15 @@ SURFACE_GO_CELLS: Tuple[Dict[str, str], ...] = (
     {"signal": "atm_iv", "builder": "e71.build_surface_bars", "rung": "EVAL-168", "target": "forward_cvar"},
     {"signal": "term_slope", "builder": "e74._term_bars", "rung": "EVAL-169", "target": "forward_cvar"},
 )
+
+# Exact pre-registered robustness grid: three signals x five bar horizons x three
+# cost haircuts = 45 pooled configurations. Horizons are the EVAL-184 bases
+# {60, 300}s plus one 60s bar on each side where positive: 60-60=0 is omitted.
+BASE_HORIZONS_SECONDS: Tuple[float, ...] = (60.0, 300.0)
+HORIZON_STEP_SECONDS = 60.0
+HORIZON_GRID_SECONDS: Tuple[float, ...] = (60.0, 120.0, 240.0, 300.0, 360.0)
+COST_HAIRCUTS: Tuple[float, ...] = (0.5, 1.0, 2.0)
+GRID_CONFIG_COUNT = len(SURFACE_GO_CELLS) * len(HORIZON_GRID_SECONDS) * len(COST_HAIRCUTS)
 
 # The runner that performs the heavy computation (built by the next session; this
 # gate refuses to seal until it is present AND green).
@@ -366,6 +376,11 @@ def _readiness_evidence(research_state_dir: Path = RS_DIR,
         "sealed_window": [SEALED_WINDOW_START, SEALED_WINDOW_END],
         "earliest_disjoint_capture_end": EARLIEST_DISJOINT_CAPTURE_END,
         "surface_go_cells": [dict(c) for c in SURFACE_GO_CELLS],
+        "base_horizons_seconds": [float(b) for b in BASE_HORIZONS_SECONDS],
+        "horizon_step_seconds": float(HORIZON_STEP_SECONDS),
+        "horizon_grid_seconds": [float(b) for b in HORIZON_GRID_SECONDS],
+        "cost_haircuts": [float(c) for c in COST_HAIRCUTS],
+        "grid_config_count": int(GRID_CONFIG_COUNT),
         "runner": RUNNER_REL,
     }
 
@@ -451,12 +466,14 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "contract": "A floor-compliant disjoint capture exists but the EVAL-185 "
                         "surface-line traded-form robustness runner is missing or not "
                         "green. BUILD-ONLY HEAVY WORK: implement "
-                        f"{RUNNER_REL} (the EVAL-184 runner + a PRE-REGISTERED cost x "
-                        "horizon grid: cost haircuts {0.5x,1x,2x} base x bar horizons "
-                        "{base, +/-1 bar}; pooled BH-FDR across the FULL grid; both-asset "
-                        "GO bar; EVAL-64 floor verbatim; never weaken), add its prereg + "
-                        "tests, and make the runner --no-write dry-run pass. Then re-run "
-                        "this gate with --execute.",
+                         f"{RUNNER_REL} (the EVAL-184 runner + a PRE-REGISTERED cost x "
+                         "horizon grid: 3 signals x horizons {60,120,240,300,360}s "
+                         "(EVAL-184 bases {60,300}s +/- one 60s bar, dropping nonpositive) "
+                         "x cost haircuts {0.5x,1x,2x} = 45 configs; scale both hedge fees "
+                         "and real spreads by the haircut; pooled BH-FDR across the FULL "
+                         "grid; both-asset GO bar; EVAL-64 floor verbatim; never weaken), "
+                         "add its prereg + tests, and make the runner --no-write dry-run "
+                         "pass. Then re-run this gate with --execute.",
         })
         return EXIT_WAIT_RUNNER
 
