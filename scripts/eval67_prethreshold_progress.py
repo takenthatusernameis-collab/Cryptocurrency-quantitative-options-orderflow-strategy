@@ -294,6 +294,12 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-179: cross-asset term_ratio spillover -> forward variance (+2 files, +18 tests)
     "tests/test_eval179_cross_asset_term_ratio_spillover_forward_variance.py",
     "tests/test_eval179_phaseb_gate.py",
+    # EVAL-180: cross-asset oflow imbalance x atm_iv interaction -> forward variance (+2 files, +18 tests)
+    "tests/test_eval180_cross_asset_oflow_atm_iv_interaction_spillover_forward_variance.py",
+    "tests/test_eval180_phaseb_gate.py",
+    # EVAL-181: cross-asset oflow imbalance x atm_iv interaction -> forward CVaR (+2 files, +18 tests)
+    "tests/test_eval181_cross_asset_oflow_atm_iv_interaction_spillover_forward_cvar.py",
+    "tests/test_eval181_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -302,7 +308,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2358
+EXPECTED_TARGETED_TESTS = 2394
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -877,6 +883,16 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-180",
+        "script": ROOT / "scripts" / "eval180_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
+        "name": "EVAL-181",
+        "script": ROOT / "scripts" / "eval181_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -1132,6 +1148,22 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_179_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_VARIANCE_PREREGISTRATION_*",
         "combined": "EVAL_179_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_VARIANCE_COMBINED_*",
         "blocked": "EVAL_179_CROSS_ASSET_TERM_RATIO_SPILLOVER_FORWARD_VARIANCE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-180",
+        "task_id": "INIT-2026-11-22T01:07:00Z-EVAL180-CROSS-ASSET-OFLOW-ATM-IV-INTERACTION-SPILLOVER-FORWARD-VARIANCE",
+        "prereg": "EVAL_180_CROSS_ASSET_OFLOW_ATM_IV_INTERACTION_SPILLOVER_FORWARD_VARIANCE_PREREGISTRATION_*",
+        "combined": "EVAL_180_CROSS_ASSET_OFLOW_ATM_IV_INTERACTION_SPILLOVER_FORWARD_VARIANCE_COMBINED_*",
+        "blocked": "EVAL_180_CROSS_ASSET_OFLOW_ATM_IV_INTERACTION_SPILLOVER_FORWARD_VARIANCE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-181",
+        "task_id": "INIT-2026-11-22T01:25:00Z-EVAL181-CROSS-ASSET-OFLOW-ATM-IV-INTERACTION-SPILLOVER-FORWARD-CVAR",
+        "prereg": "EVAL_181_CROSS_ASSET_OFLOW_ATM_IV_INTERACTION_SPILLOVER_FORWARD_CVAR_PREREGISTRATION_*",
+        "combined": "EVAL_181_CROSS_ASSET_OFLOW_ATM_IV_INTERACTION_SPILLOVER_FORWARD_CVAR_COMBINED_*",
+        "blocked": "EVAL_181_CROSS_ASSET_OFLOW_ATM_IV_INTERACTION_SPILLOVER_FORWARD_CVAR_BLOCKED_*",
         "expected_exit": 0,
     },
     {

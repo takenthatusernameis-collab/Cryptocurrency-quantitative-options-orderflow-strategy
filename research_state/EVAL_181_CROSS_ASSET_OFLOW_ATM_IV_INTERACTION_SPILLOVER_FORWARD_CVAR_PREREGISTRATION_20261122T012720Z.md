@@ -1,0 +1,30 @@
+# EVAL_181_CROSS_ASSET_OFLOW_ATM_IV_INTERACTION_SPILLOVER_FORWARD_CVAR_PREREGISTRATION — cross-asset oflow x atm_iv interaction spillover -> forward expected shortfall (CVaR) (Spearman rank IC)
+
+- Generated: `2026-11-22T01:27:20Z`
+- Task: `EVAL181-CROSS-ASSET-OFLOW-ATM-IV-INTERACTION-SPILLOVER-FORWARD-CVAR`
+- Hypothesis: The causal options order-flow imbalance x near-ATM implied-vol interaction level of the OTHER underlying (cross-asset interaction spillover) has a positive monotone (Spearman rank) relationship with the subsequent forward expected shortfall (CVaR) of the target underlying, independent of any trading wrapper; tested on real on-disk captures at the composed EVAL-181 floor.
+- Capture dir: `/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval61`
+- Extends: EVAL-176 (cross-asset atm_iv -> expected shortfall (CVaR)) + EVAL-159/160 (cross-asset order-flow toxicity/imbalance -> expected shortfall (CVaR)) + EVAL-71 (surface atm_iv verbatim) + EVAL-62 (imbalance verbatim) + EVAL-77 (cross-asset alignment) + EVAL-168 (forward expected shortfall (CVaR) target verbatim) + EVAL-65 (permutation / bootstrap inference); distinct cell: interaction spillover -> forward expected shortfall (CVaR)
+
+## Pre-declared protocol
+
+- Cross-asset spillover: baseline `BTC`, relative `ETH`
+- Spillover signal: signal_k = imbalance_z[OTHER](k) * atm_iv_z[OTHER](k)  (interaction of the other asset's order-flow imbalance z and near-ATM IV z)
+- Signal: oflow_atm_iv_interaction
+- Target: forward_cvar — forward expected shortfall (CVaR) = mean((r - mean(r))**2) over the TARGET underlying's next H perp log returns (strictly after the decision at bar k, r_i=log(close_i/close_{i-1}) over i in k+1..k+H); transcribed verbatim from sealed EVAL-168
+- Bar grid (s): [60.0, 300.0]
+- Forward horizons (bars): [6, 24, 72]
+- Signal detail: causal per-bar interaction of the OTHER underlying's z-scored options order-flow imbalance and near-ATM implied-vol level (e62.build_states tox_signal='imbalance' x e71.build_surface_bars atm_iv — SURFACE bar, not the term bar), aligned to the common BTC-vs-ETH bar grid, forward-filled and expanding-zscored end-of-bar k (reused e71._forward_fill / e61.expanding_zscore)
+- Statistic: Spearman rank correlation IC = rho(other_interaction_z_k, own_cvar_k); directional permutation H1: IC>0 (higher other-asset order-flow imbalance x atm_iv interaction -> higher forward expected shortfall (CVaR) on the target)
+- Stats: perm 1000 / bootstrap 1000 block 2 / BH-FDR alpha 0.1 / seed 42 / zwindow 20 / min usable pairs 120 / min aligned common bars 1
+
+## Pre-declared GO bar
+
+GO only if, on BOTH BTC and ETH and at least one config, Spearman IC > 0, directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, and pooled BH-FDR rejects that config; else NO-GO CONFIRMED (PASS).
+
+## Pre-registered composed floor (both underlyings + imbalance states + surface bars + alignment)
+
+- EVAL-181 cross-asset order-flow imbalance x atm_iv interaction spillover floor: both underlyings (BTC, ETH) present, each with >= min_oflow_states_per_underlying constructible imbalance states and >= min_surface_bars_per_underlying constructible surface atm_iv bars on the coarsest grid, and >= min_aligned_common_bars non-disjoint common bar-ends where both signals coexist. Below the floor the campaign seals BLOCKED, never NO-GO. This is NOT the EVAL-64 ladder floor.
+- Min underlyings: 2
+- Min aligned common bars (coarsest grid): 1
+- Min usable pairs per config: 120
