@@ -306,6 +306,16 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-183: cross-asset oflow tox x atm_iv interaction -> forward CVaR (+2 files, +18 tests)
     "tests/test_eval183_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_cvar.py",
     "tests/test_eval183_phaseb_gate.py",
+    # EVAL-184/185/186: surface traded-form net-of-cost OOS + robustness grid + TRACK A
+    # fresh-window replication + forward-data preflight anti-avoidance gate
+    # (+4 files, +54 tests). Closes the gap where the mandated driver claimed full
+    # sealed-surface coverage but did not run the EVAL-184/185/186 suites. The
+    # preflight test enforces that every session runs the forward-data sufficiency
+    # check before claiming "no on-charter heavy work" while EVAL-186 is BLOCKED.
+    "tests/test_eval184_surface_traded_netofcost_oos.py",
+    "tests/test_eval185_surface_traded_robustness_oos.py",
+    "tests/test_eval186_track_a_fresh_window_replication.py",
+    "tests/test_eval186_forward_data_preflight.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -314,7 +324,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2430
+EXPECTED_TARGETED_TESTS = 2484
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
