@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T09:32:27Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T09:43:57Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
 >
 > **START HERE — DO NOT STOP AT A GREEN DRIVER OR ANOTHER HANDOFF EDIT.** EVAL-185 is now **SEALED** (`EVAL_185_SURFACE_TRADED_ROBUSTNESS_GRID_COMBINED_20261122T092235Z.{json,md}`, stamp `20261122T092235Z`, gate exit 0, seal-gate exit 0): the surface NO-GO is **robust to monetization** (0 grid configs pass the both-asset GO bar across the 45-config cost×horizon grid). Both traded-form lines are now `NO-GO CONFIRMED (PASS)` (EVAL-69 order-flow, EVAL-185 surface). The remaining on-charter work is **TRACK A — fresh-window replication** (non-blocking, background, ~3.7 days for new data): acquire `data/raw/eval185cap` and re-run EVAL-69 + EVAL-184 runners on the fresh window to confirm the dual NO-GO is temporally robust (not a single-window artifact). Under-floor ⇒ `BLOCKED`, never NO-GO. Do not invent a substitute rung.
 >
