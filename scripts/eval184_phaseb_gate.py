@@ -190,6 +190,17 @@ def capture_inventory(capture_dir: Path) -> Dict[str, List[str]]:
     return {"btc": btc, "eth": eth, "present": bool(btc and eth), "dir": str(d)}
 
 
+def _child_env() -> Dict[str, str]:
+    """Environment for runner subprocesses: prepend ``.venv-deps`` to PYTHONPATH so
+    numpy/pandas/scipy resolve on a fresh checkout (deps are gitignored, not vendored
+    in ``src/``). Without this the runner subprocess raises ModuleNotFoundError and
+    every ``--execute`` fails at the dry-run step."""
+    env = dict(os.environ)
+    deps_dir = str(ROOT / ".venv-deps")
+    env["PYTHONPATH"] = deps_dir + (":" + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
+    return env
+
+
 def runner_present_and_green(*, capture_dir: Path, runner_rel: str = RUNNER_REL) -> Dict[str, Any]:
     """Return whether the EVAL-184 runner exists and passes its --no-write dry run
     against the capture (proves the surface signal pipeline is wired + usable).
@@ -199,9 +210,7 @@ def runner_present_and_green(*, capture_dir: Path, runner_rel: str = RUNNER_REL)
         return {"runner_present": False, "runner_green": False,
                 "runner": str(runner), "reason": "runner_missing"}
     cmd = [sys.executable, str(runner), "--capture-dir", str(capture_dir), "--no-write"]
-    env = dict(os.environ)
-    deps_dir = str(ROOT / ".venv-deps")
-    env["PYTHONPATH"] = deps_dir + (":" + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
+    env = _child_env()
     try:
         proc = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True, env=env)
     except Exception as exc:  # pragma: no cover - defensive
@@ -286,7 +295,8 @@ def run_seal_gate_check(
 # AND the runner is green)
 # ---------------------------------------------------------------------------
 def _run(cmd: Sequence[str], *, cwd: Path = ROOT) -> Tuple[int, str]:
-    proc = subprocess.run(list(cmd), cwd=str(cwd), capture_output=True, text=True)
+    proc = subprocess.run(list(cmd), cwd=str(cwd), capture_output=True, text=True,
+                          env=_child_env())
     return proc.returncode, (proc.stdout + proc.stderr)
 
 
@@ -422,7 +432,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     now = datetime.now(timezone.utc)
     sealed = detect_seal(rs, task_id=args.task_id)
     inv = capture_inventory(cap)
-    green = runner_present_and_green(capture_dir=cap, runner_rel=args.runner)
+    # Efficiency: once SEALED, skip the heavy runner --no-write (minutes on the large
+    # capture) — the seal is already proven by the artifact + seal-gate below.
+    green = ({"runner_present": None, "runner_green": False, "runner": args.runner,
+              "reason": "skipped_already_sealed"}
+             if sealed["sealed"] else
+             runner_present_and_green(capture_dir=cap, runner_rel=args.runner))
     phase = decide_phase(now, parse_iso(THRESHOLD_ISO), sealed["sealed"],
                          inv["present"], bool(green.get("runner_green")))
     evidence = _readiness_evidence(rs, capture_dir=cap)

@@ -1,0 +1,85 @@
+{
+  "manifest_id": "POST_EVAL_THREE_WAY_OPTIONS_ORDERFLOW_ACQUISITION",
+  "task_id": "INIT-2026-11-22T06:46:58Z-POST-EVAL-THREE-WAY-OPTIONS-ORDERFLOW-FUSION",
+  "generated_at": "2026-11-22T06:46:58Z",
+  "schema": "three_way_options_surface_orderflow_okx_perp_capture_v1",
+  "venue": "deribit+okx",
+  "window_start": "2026-11-18T13:58:43Z",
+  "window_end": "2026-11-22T06:46:43Z",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "captures": {
+    "BTC": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval84cap/three_way_BTC_20261122T064658Z.json",
+      "sha256": "e6289abc32d5aebfe48785dab031e0efc07cbd082177f33b9446708ba33194f1",
+      "underlying": "BTC",
+      "surface": {
+        "n_snapshots": 1067,
+        "n_instruments_with_data": 248,
+        "min_quotes_realized": 83,
+        "max_quotes_realized": 248,
+        "span_seconds": 319800.0,
+        "n_bars_5m": 1066,
+        "non_degenerate": true
+      },
+      "orderflow": {
+        "underlying": "BTC",
+        "n_option_trades": 5446,
+        "n_instruments_with_trades": 206,
+        "n_distinct_strikes": 29,
+        "n_buy": 3227,
+        "n_sell": 2219,
+        "notional": 1349972022.2820024,
+        "span_seconds": 86376.917,
+        "n_perp_candles": 5001,
+        "non_degenerate": true
+      },
+      "okx_orderflow": {
+        "n_okx_perp_trades": 555870,
+        "n_buy": 290654,
+        "n_sell": 265216,
+        "span_seconds": 139384.276,
+        "n_bars_5m": 464,
+        "non_degenerate": true
+      }
+    },
+    "ETH": {
+      "path": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval84cap/three_way_ETH_20261122T064658Z.json",
+      "sha256": "29075239c90685e17c3126013ad944b31a622cab29d8ef62acddb8dbd065d639",
+      "underlying": "ETH",
+      "surface": {
+        "n_snapshots": 1067,
+        "n_instruments_with_data": 241,
+        "min_quotes_realized": 95,
+        "max_quotes_realized": 241,
+        "span_seconds": 319800.0,
+        "n_bars_5m": 1066,
+        "non_degenerate": true
+      },
+      "orderflow": {
+        "underlying": "ETH",
+        "n_option_trades": 4017,
+        "n_instruments_with_trades": 173,
+        "n_distinct_strikes": 31,
+        "n_buy": 2465,
+        "n_sell": 1552,
+        "notional": 138896049.84000033,
+        "span_seconds": 84470.77,
+        "n_perp_candles": 5001,
+        "non_degenerate": true
+      },
+      "okx_orderflow": {
+        "n_okx_perp_trades": 571629,
+        "n_buy": 287183,
+        "n_sell": 284446,
+        "span_seconds": 194557.514,
+        "n_bars_5m": 648,
+        "non_degenerate": true
+      }
+    }
+  },
+  "synthetic": false,
+  "provenance": "real Deribit options surface (5m candles) + Deribit options-venue order flow (signed trades) + real OKX perpetual history-trades (signed taker flow) + Deribit perpetual 1m candles; synchronized window; no synthetic data"
+}

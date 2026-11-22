@@ -1,0 +1,769 @@
+{
+  "report_id": "EVAL_184_SURFACE_TRADED_NETFCOST_OOS_COMBINED",
+  "generated_at": "2026-11-22T08:17:50Z",
+  "task": "EVAL184-SURFACE-TRADED-NETOFCOST-OOS",
+  "verdict": "NO-GO CONFIRMED (PASS)",
+  "verdict_detail": "surface-line traded-form net-of-cost OOS (disjoint real BTC+ETH window at data/raw/eval84cap) of the EVAL-177/168/169 surface GOs; pooled sample Sharpe / max-DD / permutation / bootstrap on the mark-path net-of-cost P&L with EVAL-62 signal/P&L + EVAL-64 feasible floor reused",
+  "floor_ok": true,
+  "disjointness_ok": true,
+  "floor_and_disjoint_ok": true,
+  "missing_underlyings": [],
+  "capture_dir": "/home/runner/work/Cryptocurrency-quantitative-options-orderflow-strategy/Cryptocurrency-quantitative-options-orderflow-strategy/data/raw/eval84cap",
+  "underlyings": [
+    "BTC",
+    "ETH"
+  ],
+  "floor": {
+    "source": "EVAL-64 feasible floor reused verbatim (never weakened)",
+    "min_underlyings": 2,
+    "checks": [
+      "snapshots_ok",
+      "surface_instruments_ok",
+      "surface_bars_ok",
+      "trades_ok",
+      "of_instruments_ok",
+      "of_span_ok",
+      "of_bars_ok",
+      "perp_bars_ok",
+      "perp_span_ok",
+      "common_overlap_ok"
+    ]
+  },
+  "disjointness_rule": "A capture is usable only if [window_start, window_end] does not overlap [2026-11-09T06:48:16Z, 2026-11-16T06:48:16Z] (sealed EVAL-64/65 window); the surface-line traded-form must consume a forward capture disjoint from it, at/after 2026-11-20T00:00:00Z.",
+  "per_underlying_floor": {
+    "BTC": {
+      "underlying": "BTC",
+      "n_surface_snapshots": 1067,
+      "n_surface_instruments": 248,
+      "n_surface_bars_5m": 1001,
+      "n_option_trades": 5446,
+      "n_of_instruments": 206,
+      "of_span_seconds": 86376.917,
+      "n_of_bars_5m": 287,
+      "n_perp_candles": 5001,
+      "perp_span_seconds": 300000.0,
+      "n_perp_bars_5m": 1000,
+      "n_common_bars_5m": 288,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "n_surface_snapshots": 1067,
+      "n_surface_instruments": 241,
+      "n_surface_bars_5m": 1001,
+      "n_option_trades": 4017,
+      "n_of_instruments": 173,
+      "of_span_seconds": 84470.77,
+      "n_of_bars_5m": 281,
+      "n_perp_candles": 5001,
+      "perp_span_seconds": 300000.0,
+      "n_perp_bars_5m": 1000,
+      "n_common_bars_5m": 281,
+      "checks": {
+        "snapshots_ok": true,
+        "surface_instruments_ok": true,
+        "surface_bars_ok": true,
+        "trades_ok": true,
+        "of_instruments_ok": true,
+        "of_span_ok": true,
+        "of_bars_ok": true,
+        "perp_bars_ok": true,
+        "perp_span_ok": true,
+        "common_overlap_ok": true
+      },
+      "ok": true
+    }
+  },
+  "disjointness": {
+    "BTC": {
+      "underlying": "BTC",
+      "ok": true,
+      "reason": "disjoint",
+      "capture_window": [
+        "2026-11-18T13:58:43Z",
+        "2026-11-22T06:46:43Z"
+      ],
+      "sealed_window": [
+        "2026-11-09T06:48:16Z",
+        "2026-11-16T06:48:16Z"
+      ],
+      "overlap_seconds": 0.0,
+      "capture_span_seconds": 319680.0,
+      "meets_min_span": true
+    },
+    "ETH": {
+      "underlying": "ETH",
+      "ok": true,
+      "reason": "disjoint",
+      "capture_window": [
+        "2026-11-18T13:58:43Z",
+        "2026-11-22T06:46:43Z"
+      ],
+      "sealed_window": [
+        "2026-11-09T06:48:16Z",
+        "2026-11-16T06:48:16Z"
+      ],
+      "overlap_seconds": 0.0,
+      "capture_span_seconds": 319680.0,
+      "meets_min_span": true
+    }
+  },
+  "protocol": {
+    "eval": "EVAL-184",
+    "title": "Surface-line traded-form net-of-cost OOS monetization of the EVAL-177/168/169 surface GOs (skew/atm_iv/term_slope -> forward variance/CVaR) via signal-timed delta-hedged ATM straddle with correct mark-path net-of-cost P&L, pooled across BTC+ETH",
+    "extends": "EVAL-69 (identical pooled traded-form + BH-FDR + EVAL-64 floor reused verbatim) with a surface signal source instead of the order-flow toxicity; fresh disjoint forward capture at data/raw/eval84cap",
+    "supersedes": "nothing \u2014 disjoint forward OOS traded-form test of the surface line; EVAL-69 sealed NO-GO CONFIRMED (PASS) for the order-flow line only.",
+    "capture_dir": "data/raw/eval84cap",
+    "surface_signals": [
+      "skew",
+      "atm_iv",
+      "term_slope"
+    ],
+    "signal_target": {
+      "skew": "forward_variance",
+      "atm_iv": "forward_cvar",
+      "term_slope": "forward_cvar"
+    },
+    "signal_builder": {
+      "skew": "e71.build_surface_bars",
+      "atm_iv": "e71.build_surface_bars",
+      "term_slope": "e74._term_bars"
+    },
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "signal_window_seconds": 900.0,
+    "position": "side_k = sign(z_k); exposure_k = min(|z_k|, SIZE_CAP); causal decision at bar k; z_k = expanding-z of the causal surface signal",
+    "traded_form": "ATM straddle (front expiry, common strike nearest spot, IV backed out of the real mark via EVAL-57 helpers) with the EVAL-62 mark-path net-of-cost P&L: delta-hedge + half real 2-leg spread + hedge fee, spot-normalized",
+    "zwindow": 20,
+    "size_cap": 1.0,
+    "hedge_fee_bps": 5.0,
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "min_pooled_returns": 790,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, nonzero positions > 0, pooled returns >= 790 (power), pooled BH-FDR rejects that config, the EVAL-64 floor is met on BOTH underlyings, and both capture windows are disjoint from the sealed window; else NO-GO CONFIRMED (PASS) when floor+disjoint+power but not monetizable, INCONCLUSIVE (UNDERPOWERED) when floor+disjoint but pooled returns < 790, or BLOCKED when floor/disjoint fails.",
+    "floor": {
+      "source": "EVAL-64 feasible floor reused verbatim (never weakened)",
+      "min_underlyings": 2,
+      "checks": [
+        "snapshots_ok",
+        "surface_instruments_ok",
+        "surface_bars_ok",
+        "trades_ok",
+        "of_instruments_ok",
+        "of_span_ok",
+        "of_bars_ok",
+        "perp_bars_ok",
+        "perp_span_ok",
+        "common_overlap_ok"
+      ]
+    },
+    "code_paths": [
+      "src/analytics/integrated_options_orderflow_evaluation.py",
+      "src/analytics/real_walkforward_certification.py",
+      "src/analytics/strategy_evaluation.py",
+      "scripts/eval57_vrp_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval64_orderflow_realized_vol_markpath_feasible.py",
+      "scripts/eval67_btc_oflow_tox_rv_oos.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval74_surface_term_structure_predictiveness.py",
+      "scripts/eval184_surface_traded_netofcost_oos.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval184_surface_traded_netofcost_oos.py tests/test_eval184_surface_traded_netofcost_oos.py",
+      "python3 -m pytest -q tests/test_eval184_surface_traded_netofcost_oos.py",
+      "# heavy work: acquire the floor-compliant disjoint capture first (~1h):",
+      "python3 scripts/eval60_acquire_three_way.py --underlying BTC --underlying ETH --days 3.7 --end <at/after 2026-11-19T18:08:16Z> --max-per-expiry 30 --out-dir data/raw/eval84cap --seal",
+      "# then verify the EVAL-64 floor, dry-run green, and seal:",
+      "python3 scripts/eval184_surface_traded_netofcost_oos.py --capture-dir data/raw/eval84cap --no-write",
+      "python3 scripts/eval184_surface_traded_netofcost_oos.py --capture-dir data/raw/eval84cap --seal --task-label EVAL184-SURFACE-TRADED-NETOFCOST-OOS",
+      "python3 scripts/eval184_phaseb_gate.py --execute  # require SEALED(0)"
+    ]
+  },
+  "per_config": [
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "n_states": 1000,
+      "n_returns": 999,
+      "nonzero_positions": 288,
+      "n_hedge_rebalances": 287,
+      "n_side_flips": 35,
+      "sharpe": 0.08551648481143223,
+      "max_drawdown": 0.05055071328020272,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8601398601398601,
+      "bootstrap_ci": [
+        0.08551648481143223,
+        -0.5702015436687103,
+        0.7009246152251826
+      ],
+      "dsr": 0.003433634919111528,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 532,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 199
+        },
+        {
+          "test_start": 532,
+          "test_end": 731,
+          "oos_sharpe": 0.3554616260230801,
+          "oos_max_drawdown": 0.03518567674500851,
+          "n": 199
+        },
+        {
+          "test_start": 731,
+          "test_end": 930,
+          "oos_sharpe": 0.12364979547727667,
+          "oos_max_drawdown": 0.050550713280202705,
+          "n": 199
+        }
+      ],
+      "mean_return": 2.5449019468727628e-05,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "n_states": 1001,
+      "n_returns": 1000,
+      "nonzero_positions": 289,
+      "n_hedge_rebalances": 288,
+      "n_side_flips": 41,
+      "sharpe": -0.1322137321598,
+      "max_drawdown": 0.08933320432648478,
+      "kill_switch_breach": false,
+      "permutation_p": 0.7842157842157842,
+      "bootstrap_ci": [
+        -0.1322137321598,
+        -0.7519353799199451,
+        0.46793894934809055
+      ],
+      "dsr": 0.9999858157167518,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 533,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 200
+        },
+        {
+          "test_start": 533,
+          "test_end": 733,
+          "oos_sharpe": -0.40674115628360963,
+          "oos_max_drawdown": 0.06597251455159481,
+          "n": 200
+        },
+        {
+          "test_start": 733,
+          "test_end": 933,
+          "oos_sharpe": -0.04826579225268142,
+          "oos_max_drawdown": 0.06351432524823376,
+          "n": 200
+        }
+      ],
+      "mean_return": -4.1408450547469e-05,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "n_states": 1000,
+      "n_returns": 999,
+      "nonzero_positions": 289,
+      "n_hedge_rebalances": 288,
+      "n_side_flips": 0,
+      "sharpe": -0.09532654723517524,
+      "max_drawdown": 0.06748129965775272,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8511488511488512,
+      "bootstrap_ci": [
+        -0.09532654723517524,
+        -0.6440470596132152,
+        0.49326928361285644
+      ],
+      "dsr": 0.9987302145070318,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 532,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 199
+        },
+        {
+          "test_start": 532,
+          "test_end": 731,
+          "oos_sharpe": -0.38885873747167204,
+          "oos_max_drawdown": 0.0384414779555291,
+          "n": 199
+        },
+        {
+          "test_start": 731,
+          "test_end": 930,
+          "oos_sharpe": -0.047357193378070594,
+          "oos_max_drawdown": 0.06748129965775253,
+          "n": 199
+        }
+      ],
+      "mean_return": -2.9979263219308314e-05,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "n_states": 1001,
+      "n_returns": 1000,
+      "nonzero_positions": 289,
+      "n_hedge_rebalances": 288,
+      "n_side_flips": 0,
+      "sharpe": -0.09527887032189383,
+      "max_drawdown": 0.06748129965775272,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8381618381618382,
+      "bootstrap_ci": [
+        -0.09527887032189383,
+        -0.6453199324752212,
+        0.4835749004090884
+      ],
+      "dsr": 0.9987301884122954,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 533,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 200
+        },
+        {
+          "test_start": 533,
+          "test_end": 733,
+          "oos_sharpe": -0.3854602775133664,
+          "oos_max_drawdown": 0.0384414779555291,
+          "n": 200
+        },
+        {
+          "test_start": 733,
+          "test_end": 933,
+          "oos_sharpe": -0.048480725176419874,
+          "oos_max_drawdown": 0.06748129965775299,
+          "n": 200
+        }
+      ],
+      "mean_return": -2.9949283956089007e-05,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "term_slope",
+      "bar_seconds": 60.0,
+      "n_states": 1000,
+      "n_returns": 999,
+      "nonzero_positions": 288,
+      "n_hedge_rebalances": 287,
+      "n_side_flips": 49,
+      "sharpe": 0.07615458543962143,
+      "max_drawdown": 0.05437539507570859,
+      "kill_switch_breach": false,
+      "permutation_p": 0.9020979020979021,
+      "bootstrap_ci": [
+        0.07615458543962143,
+        -0.495073953081232,
+        0.6891780964979828
+      ],
+      "dsr": 0.007960249195580138,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 532,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 199
+        },
+        {
+          "test_start": 532,
+          "test_end": 731,
+          "oos_sharpe": 0.4294164914680754,
+          "oos_max_drawdown": 0.03743593706225111,
+          "n": 199
+        },
+        {
+          "test_start": 731,
+          "test_end": 930,
+          "oos_sharpe": 0.0908606848953811,
+          "oos_max_drawdown": 0.05171802686264231,
+          "n": 199
+        }
+      ],
+      "mean_return": 1.988726901489288e-05,
+      "pass": false
+    },
+    {
+      "underlying": "BTC",
+      "signal": "term_slope",
+      "bar_seconds": 300.0,
+      "n_states": 1001,
+      "n_returns": 1000,
+      "nonzero_positions": 289,
+      "n_hedge_rebalances": 288,
+      "n_side_flips": 42,
+      "sharpe": -0.33973650118142706,
+      "max_drawdown": 0.11201404521821412,
+      "kill_switch_breach": false,
+      "permutation_p": 0.4945054945054945,
+      "bootstrap_ci": [
+        -0.33973650118142706,
+        -0.9722835675273571,
+        0.30583853404554806
+      ],
+      "dsr": 1.0,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 533,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 200
+        },
+        {
+          "test_start": 533,
+          "test_end": 733,
+          "oos_sharpe": -1.1738928496142786,
+          "oos_max_drawdown": 0.06911670311215745,
+          "n": 200
+        },
+        {
+          "test_start": 733,
+          "test_end": 933,
+          "oos_sharpe": -0.07106902163753621,
+          "oos_max_drawdown": 0.050424473773633106,
+          "n": 200
+        }
+      ],
+      "mean_return": -8.121836253618149e-05,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 60.0,
+      "n_states": 1000,
+      "n_returns": 999,
+      "nonzero_positions": 282,
+      "n_hedge_rebalances": 280,
+      "n_side_flips": 34,
+      "sharpe": -0.17762884020225045,
+      "max_drawdown": 0.1255751803841624,
+      "kill_switch_breach": false,
+      "permutation_p": 0.7152847152847153,
+      "bootstrap_ci": [
+        -0.17762884020225045,
+        -1.042073587850945,
+        0.626046259732858
+      ],
+      "dsr": 0.9999999855266952,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 532,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 199
+        },
+        {
+          "test_start": 532,
+          "test_end": 731,
+          "oos_sharpe": -0.7693543978306596,
+          "oos_max_drawdown": 0.0066245884087263954,
+          "n": 199
+        },
+        {
+          "test_start": 731,
+          "test_end": 930,
+          "oos_sharpe": -0.3589474497454504,
+          "oos_max_drawdown": 0.1255751803841628,
+          "n": 199
+        }
+      ],
+      "mean_return": -6.748735881367326e-05,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "skew",
+      "bar_seconds": 300.0,
+      "n_states": 1001,
+      "n_returns": 1000,
+      "nonzero_positions": 283,
+      "n_hedge_rebalances": 281,
+      "n_side_flips": 34,
+      "sharpe": -0.11187192999155997,
+      "max_drawdown": 0.09477950374774592,
+      "kill_switch_breach": false,
+      "permutation_p": 0.8531468531468531,
+      "bootstrap_ci": [
+        -0.11187192999155997,
+        -0.9847987831130225,
+        0.8083663311017447
+      ],
+      "dsr": 0.9998007762523029,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 533,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 200
+        },
+        {
+          "test_start": 533,
+          "test_end": 733,
+          "oos_sharpe": -0.9610392218514305,
+          "oos_max_drawdown": 0.007006017976035016,
+          "n": 200
+        },
+        {
+          "test_start": 733,
+          "test_end": 933,
+          "oos_sharpe": -0.19391375407886213,
+          "oos_max_drawdown": 0.09477950374774619,
+          "n": 200
+        }
+      ],
+      "mean_return": -4.353662200003928e-05,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 60.0,
+      "n_states": 1000,
+      "n_returns": 999,
+      "nonzero_positions": 283,
+      "n_hedge_rebalances": 281,
+      "n_side_flips": 0,
+      "sharpe": -0.04856447699774621,
+      "max_drawdown": 0.09947807843036668,
+      "kill_switch_breach": false,
+      "permutation_p": 0.922077922077922,
+      "bootstrap_ci": [
+        -0.04856447699774621,
+        -1.0146635900440306,
+        0.7735427586866022
+      ],
+      "dsr": 0.9376319955484298,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 532,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 199
+        },
+        {
+          "test_start": 532,
+          "test_end": 731,
+          "oos_sharpe": -1.3607079335910883,
+          "oos_max_drawdown": 0.007843639279737757,
+          "n": 199
+        },
+        {
+          "test_start": 731,
+          "test_end": 930,
+          "oos_sharpe": -0.06037402036095156,
+          "oos_max_drawdown": 0.09947807843036803,
+          "n": 199
+        }
+      ],
+      "mean_return": -2.0052068484312216e-05,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "atm_iv",
+      "bar_seconds": 300.0,
+      "n_states": 1001,
+      "n_returns": 1000,
+      "nonzero_positions": 283,
+      "n_hedge_rebalances": 281,
+      "n_side_flips": 0,
+      "sharpe": -0.04854018845850282,
+      "max_drawdown": 0.09947807843036668,
+      "kill_switch_breach": false,
+      "permutation_p": 0.926073926073926,
+      "bootstrap_ci": [
+        -0.04854018845850282,
+        -0.9731410851923644,
+        0.7935277497014764
+      ],
+      "dsr": 0.9376319417039038,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 533,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 200
+        },
+        {
+          "test_start": 533,
+          "test_end": 733,
+          "oos_sharpe": -1.3473902204692685,
+          "oos_max_drawdown": 0.007843639279737757,
+          "n": 200
+        },
+        {
+          "test_start": 733,
+          "test_end": 933,
+          "oos_sharpe": -0.06073329669113834,
+          "oos_max_drawdown": 0.09947807843036735,
+          "n": 200
+        }
+      ],
+      "mean_return": -2.0032016415827902e-05,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "term_slope",
+      "bar_seconds": 60.0,
+      "n_states": 1000,
+      "n_returns": 999,
+      "nonzero_positions": 281,
+      "n_hedge_rebalances": 280,
+      "n_side_flips": 30,
+      "sharpe": 0.23127426580464974,
+      "max_drawdown": 0.0856720822315718,
+      "kill_switch_breach": false,
+      "permutation_p": 0.6853146853146853,
+      "bootstrap_ci": [
+        0.23127426580464974,
+        -0.6149455875705748,
+        1.0410895680570342
+      ],
+      "dsr": 1.5295320565655857e-11,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 532,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 199
+        },
+        {
+          "test_start": 532,
+          "test_end": 731,
+          "oos_sharpe": 0.15604743509888006,
+          "oos_max_drawdown": 0.002577854300142875,
+          "n": 199
+        },
+        {
+          "test_start": 731,
+          "test_end": 930,
+          "oos_sharpe": 0.5136513418654942,
+          "oos_max_drawdown": 0.08567208223157155,
+          "n": 199
+        }
+      ],
+      "mean_return": 7.56529771390248e-05,
+      "pass": false
+    },
+    {
+      "underlying": "ETH",
+      "signal": "term_slope",
+      "bar_seconds": 300.0,
+      "n_states": 1001,
+      "n_returns": 1000,
+      "nonzero_positions": 282,
+      "n_hedge_rebalances": 281,
+      "n_side_flips": 28,
+      "sharpe": 0.2726396153273663,
+      "max_drawdown": 0.07928664663472132,
+      "kill_switch_breach": false,
+      "permutation_p": 0.5704295704295704,
+      "bootstrap_ci": [
+        0.2726396153273663,
+        -0.630960172908401,
+        1.0585928211032614
+      ],
+      "dsr": 8.948397578478762e-14,
+      "walkforward": [
+        {
+          "test_start": 333,
+          "test_end": 533,
+          "oos_sharpe": 0.0,
+          "oos_max_drawdown": 0.0,
+          "n": 200
+        },
+        {
+          "test_start": 533,
+          "test_end": 733,
+          "oos_sharpe": -1.8606091808336152,
+          "oos_max_drawdown": 0.004095056753387853,
+          "n": 200
+        },
+        {
+          "test_start": 733,
+          "test_end": 933,
+          "oos_sharpe": 0.5473493235126149,
+          "oos_max_drawdown": 0.07928664663472132,
+          "n": 200
+        }
+      ],
+      "mean_return": 0.00010162389044445173,
+      "pass": false
+    }
+  ],
+  "pooled": {
+    "bh_fdr": {
+      "rejected": [],
+      "thresholds": {
+        "term_slope::bar60.0": 0.016666666666666666,
+        "skew::bar300.0": 0.03333333333333333,
+        "atm_iv::bar60.0": 0.05000000000000001,
+        "atm_iv::bar300.0": 0.06666666666666667,
+        "skew::bar60.0": 0.08333333333333333,
+        "term_slope::bar300.0": 0.10000000000000002
+      },
+      "alpha": 0.1,
+      "m_tests": 6,
+      "method": "Benjamini-Hochberg"
+    },
+    "pass_configs": [],
+    "max_pooled_returns": 2000,
+    "power_adequate": true,
+    "min_pooled_returns": 790,
+    "campaign_state": "EVAL_184_SURFACE_TRADED_NETFCOST_OOS"
+  },
+  "errors": []
+}
