@@ -1,6 +1,8 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T06:35:00Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+> **INITIAL TASK MESSAGE FOR NEXT AGENTIC SESSION (2026-11-22T06:59:10Z — repository: `Cryptocurrency-quantitative-options-orderflow-strategy` ⇒ crypto OPTIONS surface + OPTIONS order-flow → tradeable, net-of-cost alpha on REAL public data; paper-only, never synthetic, never weaken the EVAL-64 floor).**
+>
+> **STATUS THIS SESSION (2026-11-22T06:59Z):** green driver (`eval67_prethreshold_progress.py --execute` exit 0; 2430/2430 targeted, 27/27 diagnostics, `failures: []`, all EVAL-70..183 + EVAL-67/68/69 gates SEALED, 120/120 seal_gates ok). EVAL-184 anti-avoidance gate `scripts/eval184_phaseb_gate.py` built and reports `WAIT_CAPTURE` (exit 10) with **`runner_green: true`** and **`prereg_present: true`** — the EVAL-184 runner `scripts/eval184_surface_traded_netofcost_oos.py` (+ prereg + 13 tests) is built and its `--no-write` dry-run is green. Prereg written: `EVAL_184_SURFACE_TRADED_NETFCOST_OOS_PREREGISTRATION_20261122T065050Z.{json,md}`. The EVAL-64-floor-disjoint capture `data/raw/eval84cap` is STILL absent (gitignored); a fresh 3.7-day BTC+ETH acquisition was started in the background (~1 h wall, `pid 3971`, `--end 2026-11-22T06:46:43Z --max-per-expiry 30 --seal`) and is NOT yet complete.
 >
 > **REPO-NAME PRIORITIZATION (load-bearing, do not re-derive):** the two signal halves are options **surface** and options **order-flow**; the deliverable is a **tradeable, net-of-cost strategy**. The predictiveness rungs EVAL-02..183 are all sealed. The order-flow × surface interaction cells are uniformly NO-GO CONFIRMED (PASS). The single-asset and cross-asset surface/term distributional grids are complete. The only surviving directional/tail alpha is on the **surface** line (EVAL-177 skew → variance GO; EVAL-168/169 atm_iv/term_slope → CVaR GO).
 >
@@ -26,7 +28,7 @@
 >
 > **NEXT FOCUS CAMPAIGN (anti-avoidance — future agents must not defer or substitute):** green driver + all-sealed through EVAL-183 (and EVAL-67/68/69) is **NOT** session completion. The mandated heavy work is the **surface-line traded-form net-of-cost OOS verdict (EVAL-184)**, enforced by `scripts/eval184_phaseb_gate.py`. The capture must be freshly acquired (~1 h); the runner must be built and green; the gate must reach `SEALED`. Do not invent a substitute predictiveness rung (none remains unsealed). Do not declare completion on green-driver + all-sealed alone. Do not refresh this timestamp without new verified facts (a sealed EVAL-184 artifact).
 
-## VERIFIED STATE (2026-11-22T06:42:00Z)
+## VERIFIED STATE (2026-11-22T06:59:10Z)
 
 Driver source of truth: `EXPECTED_TARGETED_TESTS=2430`, `EXPECTED_DIAGNOSTIC_TESTS=27`. EVAL-66..183 are sealed (EVAL-63 never sealed). EVAL-67/68/69 are sealed **COMBINED** (EVAL-67 GO, EVAL-68 GO, EVAL-69 `NO-GO CONFIRMED (PASS)`). **All gates `ok`/phase `SEALED`; driver exit 0; idempotent no-op; verified this session (2430/2430 targeted, 27/27 diagnostics, `failures: []`, all EVAL-70..183 + EVAL-67/68/69 gates SEALED, 120/120 seal gates ok).**
 
@@ -35,7 +37,7 @@ Driver source of truth: `EXPECTED_TARGETED_TESTS=2430`, `EXPECTED_DIAGNOSTIC_TES
 - **EVAL-69 sealed COMBINED `NO-GO CONFIRMED (PASS)`** (`EVAL_69_POOLED_BTC_ETH_OFLOW_TOX_RV_TRADED_OOS_COMBINED_20261122T053616Z.json/.md` + prereg). Floor OK, disjointness OK, power adequate (1998 pooled returns), but **0 BH-FDR rejections** (pooled Sharpe 0.19–0.20 for tox/imbalance bar60, perm_p 0.59–0.60, CI95 spans 0). The order-flow toxicity→realized-vol slice is **predictive but not tradeable net-of-cost**.
 - `data/raw/eval84cap` (when present) is gitignored and must stay LOCAL — never commit/push. `data/raw/eval61|eval67|eval68` are git-tracked read-only inputs.
 - EVAL-180/181/182/183 sealed (cross-asset order-flow × atm_iv interaction cells, all `NO-GO CONFIRMED (PASS)`). EVAL-177 (skew → forward variance, GO) and EVAL-168/169 (atm_iv/term_slope → forward CVaR, GO) remain the surviving surface-line GOs.
-- **NEW this session:** `scripts/eval184_phaseb_gate.py` added (append-only, touches no sealed artifact/src). It currently reports `WAIT_CAPTURE` (exit 10) because `data/raw/eval84cap` is absent — this is the correct, expected pre-acquisition state, not a failure. No sealed EVAL artifact or `src/` modified.
+- **NEW this session:** `scripts/eval184_phaseb_gate.py` added (append-only, touches no sealed artifact/src) and **`scripts/eval184_surface_traded_netofcost_oos.py` built + prereg + 13 tests (all pass)**. The gate reports `WAIT_CAPTURE` (exit 10) because `data/raw/eval84cap` is absent — correct pre-acquisition state, not a failure — but **`runner_green: true`** and **`prereg_present: true`**, so once the capture lands the gate proceeds `WAIT_CAPTURE → DUE → SEALED` via `--execute`. Prereg: `EVAL_184_SURFACE_TRADED_NETFCOST_OOS_PREREGISTRATION_20261122T065050Z.{json,md}`. No sealed EVAL artifact or `src/` modified.
 
 ## CAMPAIGN LEDGER (all sealed; append-only)
 

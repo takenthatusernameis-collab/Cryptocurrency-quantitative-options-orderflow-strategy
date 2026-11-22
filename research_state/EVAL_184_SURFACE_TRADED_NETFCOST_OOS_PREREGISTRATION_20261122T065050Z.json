@@ -1,0 +1,99 @@
+{
+  "prereg_id": "EVAL_184_SURFACE_TRADED_NETFCOST_OOS_PREREGISTRATION",
+  "generated_at": "2026-11-22T06:50:50Z",
+  "task": "EVAL184-SURFACE-TRADED-NETOFCOST-OOS",
+  "hypothesis": "Pooled across BTC and ETH, the surface-line signals (skew -> forward variance, atm_iv/term_slope -> forward CVaR) are monetizable net-of-cost out-of-sample on a fresh disjoint real forward window (data/raw/eval84cap): pooled Sharpe > 0, no kill-switch breach (max-DD <= 0.20), directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, >=790 pooled returns (power), and BH-FDR rejects, at the sealed EVAL-64 floor on both underlyings.",
+  "extends": "EVAL-69 (identical pooled traded-form + BH-FDR + EVAL-64 floor reused verbatim) with a surface signal source instead of the order-flow toxicity; fresh disjoint forward capture at data/raw/eval84cap",
+  "disjointness_rule": "A capture is usable only if [window_start, window_end] does not overlap [2026-11-09T06:48:16Z, 2026-11-16T06:48:16Z] (sealed EVAL-64/65 window); the surface-line traded-form must consume a forward capture disjoint from it, at/after 2026-11-20T00:00:00Z.",
+  "data_availability": {
+    "note": "consumes the freshly acquired disjoint BTC+ETH three-way capture at data/raw/eval84cap; public read-only; no synthetic data",
+    "sealed_window": [
+      "2026-11-09T06:48:16Z",
+      "2026-11-16T06:48:16Z"
+    ],
+    "earliest_disjoint_capture_end": "2026-11-19T18:08:16Z"
+  },
+  "protocol": {
+    "eval": "EVAL-184",
+    "title": "Surface-line traded-form net-of-cost OOS monetization of the EVAL-177/168/169 surface GOs (skew/atm_iv/term_slope -> forward variance/CVaR) via signal-timed delta-hedged ATM straddle with correct mark-path net-of-cost P&L, pooled across BTC+ETH",
+    "extends": "EVAL-69 (identical pooled traded-form + BH-FDR + EVAL-64 floor reused verbatim) with a surface signal source instead of the order-flow toxicity; fresh disjoint forward capture at data/raw/eval84cap",
+    "supersedes": "nothing \u2014 disjoint forward OOS traded-form test of the surface line; EVAL-69 sealed NO-GO CONFIRMED (PASS) for the order-flow line only.",
+    "capture_dir": "data/raw/eval84cap",
+    "surface_signals": [
+      "skew",
+      "atm_iv",
+      "term_slope"
+    ],
+    "signal_target": {
+      "skew": "forward_variance",
+      "atm_iv": "forward_cvar",
+      "term_slope": "forward_cvar"
+    },
+    "signal_builder": {
+      "skew": "e71.build_surface_bars",
+      "atm_iv": "e71.build_surface_bars",
+      "term_slope": "e74._term_bars"
+    },
+    "bar_seconds_grid": [
+      60.0,
+      300.0
+    ],
+    "signal_window_seconds": 900.0,
+    "position": "side_k = sign(z_k); exposure_k = min(|z_k|, SIZE_CAP); causal decision at bar k; z_k = expanding-z of the causal surface signal",
+    "traded_form": "ATM straddle (front expiry, common strike nearest spot, IV backed out of the real mark via EVAL-57 helpers) with the EVAL-62 mark-path net-of-cost P&L: delta-hedge + half real 2-leg spread + hedge fee, spot-normalized",
+    "zwindow": 20,
+    "size_cap": 1.0,
+    "hedge_fee_bps": 5.0,
+    "stats": {
+      "permutation_perms": 1000,
+      "permutation_paired": true,
+      "bootstrap_resamples": 1000,
+      "bootstrap_block": 2,
+      "fdr_alpha": 0.1,
+      "seed": 42
+    },
+    "kill_switch_max_dd": 0.2,
+    "min_pooled_returns": 790,
+    "go_bar": "GO only if, on both BTC and ETH and at least one grid config, net-of-cost Sharpe > 0, no kill-switch breach (max-DD <= 0.20), directional permutation p < 0.05, block-bootstrap 95% CI lower > 0, nonzero positions > 0, pooled returns >= 790 (power), pooled BH-FDR rejects that config, the EVAL-64 floor is met on BOTH underlyings, and both capture windows are disjoint from the sealed window; else NO-GO CONFIRMED (PASS) when floor+disjoint+power but not monetizable, INCONCLUSIVE (UNDERPOWERED) when floor+disjoint but pooled returns < 790, or BLOCKED when floor/disjoint fails.",
+    "floor": {
+      "source": "EVAL-64 feasible floor reused verbatim (never weakened)",
+      "min_underlyings": 2,
+      "checks": [
+        "snapshots_ok",
+        "surface_instruments_ok",
+        "surface_bars_ok",
+        "trades_ok",
+        "of_instruments_ok",
+        "of_span_ok",
+        "of_bars_ok",
+        "perp_bars_ok",
+        "perp_span_ok",
+        "common_overlap_ok"
+      ]
+    },
+    "code_paths": [
+      "src/analytics/integrated_options_orderflow_evaluation.py",
+      "src/analytics/real_walkforward_certification.py",
+      "src/analytics/strategy_evaluation.py",
+      "scripts/eval57_vrp_net_of_cost.py",
+      "scripts/eval62_orderflow_realized_vol_markpath.py",
+      "scripts/eval64_orderflow_realized_vol_markpath_feasible.py",
+      "scripts/eval67_btc_oflow_tox_rv_oos.py",
+      "scripts/eval71_surface_iv_rv_predictiveness.py",
+      "scripts/eval74_surface_term_structure_predictiveness.py",
+      "scripts/eval184_surface_traded_netofcost_oos.py"
+    ],
+    "commands": [
+      "export PYTHONPATH=\"$PWD/.venv-deps${PYTHONPATH:+:$PYTHONPATH}\"",
+      "python3 -m py_compile scripts/eval184_surface_traded_netofcost_oos.py tests/test_eval184_surface_traded_netofcost_oos.py",
+      "python3 -m pytest -q tests/test_eval184_surface_traded_netofcost_oos.py",
+      "# heavy work: acquire the floor-compliant disjoint capture first (~1h):",
+      "python3 scripts/eval60_acquire_three_way.py --underlying BTC --underlying ETH --days 3.7 --end <at/after 2026-11-19T18:08:16Z> --max-per-expiry 30 --out-dir data/raw/eval84cap --seal",
+      "# then verify the EVAL-64 floor, dry-run green, and seal:",
+      "python3 scripts/eval184_surface_traded_netofcost_oos.py --capture-dir data/raw/eval84cap --no-write",
+      "python3 scripts/eval184_surface_traded_netofcost_oos.py --capture-dir data/raw/eval84cap --seal --task-label EVAL184-SURFACE-TRADED-NETOFCOST-OOS",
+      "python3 scripts/eval184_phaseb_gate.py --execute  # require SEALED(0)"
+    ]
+  },
+  "capture_dir": "data/raw/eval84cap"
+}
