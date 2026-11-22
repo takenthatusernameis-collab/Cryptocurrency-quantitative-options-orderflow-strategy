@@ -56,6 +56,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -198,8 +199,11 @@ def runner_present_and_green(*, capture_dir: Path, runner_rel: str = RUNNER_REL)
         return {"runner_present": False, "runner_green": False,
                 "runner": str(runner), "reason": "runner_missing"}
     cmd = [sys.executable, str(runner), "--capture-dir", str(capture_dir), "--no-write"]
+    env = dict(os.environ)
+    deps_dir = str(ROOT / ".venv-deps")
+    env["PYTHONPATH"] = deps_dir + (":" + env["PYTHONPATH"] if env.get("PYTHONPATH") else "")
     try:
-        proc = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True)
+        proc = subprocess.run(cmd, cwd=str(ROOT), capture_output=True, text=True, env=env)
     except Exception as exc:  # pragma: no cover - defensive
         return {"runner_present": True, "runner_green": False,
                 "runner": str(runner), "reason": f"runner_error:{exc}"}
