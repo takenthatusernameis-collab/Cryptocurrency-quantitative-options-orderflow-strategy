@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-22T16:56:30Z**
+> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-22T17:07:27Z**
 > **Repository: `Cryptocurrency-quantitative-options-orderflow-strategy`.**
 > **Charter (from the repo name, highest priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic/relabeled. Never weaken the EVAL-64 feasible floor. Append-only for sealed rungs.
 >
@@ -9,7 +9,7 @@
 > - **Traded-form monetization is NO-GO on both lines:** EVAL-69 (order-flow) = `NO-GO CONFIRMED (PASS)`; EVAL-184 (surface OOS) = `NO-GO CONFIRMED (PASS)` (`20261122T081750Z`); EVAL-185 (surface 45-config cost×horizon grid, 0/45 pass) = `NO-GO CONFIRMED (PASS)` (`20261122T092235Z`). The predictive edge does not cover costs.
 > - **The ONE remaining on-charter rung is EVAL-186 TRACK A fresh-window replication**, currently **SEALED `BLOCKED`** (stamp `20261122T111006Z`, seal-gate 0). It cannot reach `NO-GO CONFIRMED (PASS)` until a **strictly-forward, disjoint, floor-compliant** BTC+ETH capture exists — which is physically impossible until **real time ≥ 2026-11-25T23:34:43Z**. This is a measured wall-clock dependency, **not** a code problem.
 >
-> **THIS SESSION'S FRESH VERIFICATION (2026-11-22T16:56Z, clean checkout):** `python3 scripts/eval186_forward_data_preflight.py` → **`WAIT_FORWARD_DATA` (exit 10)**, `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `earliest_forward_capture_end=2026-11-25T23:34:43Z`, `seconds_until_earliest_forward_end≈283083` (~3.28 d), `now=2026-11-22T16:56:39Z`. Underlying state: `data/raw/eval185cap` EXISTS (BTC+ETH, strictly-forward disjoint, **under-floor**: BTC perp_span ≈13800 s / ETH ≈14100 s vs 300000 s floor; option_trades 864/615 vs 2000); `data/raw/eval84cap` is **MISSING**. Sealed gates remain `SEALED` idempotent no-op (`COMBINED`/`COMBINED`/`BLOCKED` stamp `20261122T111006Z`).
+> **THIS SESSION'S FRESH VERIFICATION (2026-11-22T17:07Z, clean checkout):** `python3 scripts/eval186_forward_data_preflight.py` → **`WAIT_FORWARD_DATA` (exit 10)**, `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `earliest_forward_capture_end=2026-11-25T23:34:43Z`, `seconds_until_earliest_forward_end≈282436` (~3.27 d), `now=2026-11-22T17:07:27Z`. Underlying state: `data/raw/eval185cap` EXISTS (BTC+ETH, strictly-forward disjoint, **under-floor**: BTC perp_span ≈13800 s / ETH ≈14100 s vs 300000 s floor; option_trades 864/615 vs 2000); `data/raw/eval84cap` is **MISSING**. Sealed gates remain `SEALED` idempotent no-op (`COMBINED`/`COMBINED`/`BLOCKED` stamp `20261122T111006Z`). The driver `eval67_prethreshold_progress.py --execute` re-ran GREEN this session (`ok=true`, targeted `2484/2484`, diagnostics `27/27`, `failures:[]`, 120/120 gates `classification:ok`, 121/121 seal_gates ok, `generated_at=2026-11-22T17:06:47Z`) — the regenerated `research_state/EVAL_67_PREWINDOW_READINESS.json` is the legitimate, verifiable checkpoint for this session.
 >
 > **START HERE — RUN THESE IN ORDER, EVERY SESSION (this is the whole job while `now < 2026-11-25T23:34:43Z`):**
 > 1. `python3 scripts/eval67_prethreshold_progress.py --execute` — require exit 0: `2484/2484` targeted, `27/27` diagnostics, `failures: []`, 120/120 gates ok, 121/121 seal_gates ok.
@@ -94,7 +94,7 @@ All verdicts live in `research_state/EVAL_<n>_*.md`. Do not re-run a sealed rung
 - No pre-registered floor weakening. Under-floor, missing-underlying, or non-disjoint non-empty real ⇒ `BLOCKED`, not `NO-GO`.
 - Use correct task IDs (`INIT-2026-11-22T09:51:17Z-EVAL186-TRACK-A-FRESH-WINDOW-REPLICATION`); do not use retired compact task IDs.
 - Existing `data/raw/eval61|eval67|eval68` captures are git-TRACKED read-only inputs. `data/raw/eval84cap` is **MISSING** (gitignored; do not claim it exists). `data/raw/eval185cap` is **git-TRACKED/committed** in this checkout (~20 MB, under-floor); keep the **floor-compliant** re-acquisition LOCAL and never commit/push it. No full-suite discovery, no `research_state/` enumeration loops, no timestamped handoff copies.
-- No timestamp-only bumps without new verified facts: green driver + green tests + green gates (+ the mandatory preflight verdict). Do not refresh this timestamp without a sealed EVAL-186 re-attempt or a new verified measurement.
+- No timestamp-only bumps without new verified facts: green driver + green tests + green gates (+ the mandatory preflight verdict). Do not refresh this timestamp without a sealed EVAL-186 re-attempt or a new verified measurement. The `2026-11-22T17:07:27Z` refresh is backed by a NEW verified measurement this session (driver GREEN at `17:06:47Z` with `2484/2484`+`27/27`+`failures:[]`, plus the preflight `WAIT_FORWARD_DATA` verdict at `17:07:27Z` with `seconds_until≈282436`) — it is not a timestamp-only bump.
 
 ## REPRO / KEY COMMANDS
 
