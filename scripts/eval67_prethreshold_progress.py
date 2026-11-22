@@ -303,6 +303,9 @@ TARGETED_TEST_FILES: Tuple[str, ...] = (
     # EVAL-182: cross-asset oflow tox x atm_iv interaction -> forward variance (+2 files, +18 tests)
     "tests/test_eval182_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_variance.py",
     "tests/test_eval182_phaseb_gate.py",
+    # EVAL-183: cross-asset oflow tox x atm_iv interaction -> forward CVaR (+2 files, +18 tests)
+    "tests/test_eval183_cross_asset_oflow_tox_atm_iv_interaction_spillover_forward_cvar.py",
+    "tests/test_eval183_phaseb_gate.py",
 )
 DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_controller_progress_accounting.py",
@@ -311,7 +314,7 @@ DIAGNOSTIC_TEST_FILES: Tuple[str, ...] = (
     "tests/test_campaign_resume.py",
 )
 
-EXPECTED_TARGETED_TESTS = 2412
+EXPECTED_TARGETED_TESTS = 2430
 EXPECTED_DIAGNOSTIC_TESTS = 27
 
 STALE_READINESS_KEYS: Tuple[str, ...] = (
@@ -901,6 +904,11 @@ GATE_SPECS: Tuple[Dict[str, Any], ...] = (
         "wait_phase": "DUE",
     },
     {
+        "name": "EVAL-183",
+        "script": ROOT / "scripts" / "eval183_phaseb_gate.py",
+        "wait_phase": "DUE",
+    },
+    {
         "name": "EVAL-67",
         "script": ROOT / "scripts" / "eval67_phaseb_gate.py",
         "wait_phase": "NOT_DUE",
@@ -1180,6 +1188,14 @@ SEAL_SPECS: Tuple[Dict[str, Any], ...] = (
         "prereg": "EVAL_182_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_VARIANCE_PREREGISTRATION_*",
         "combined": "EVAL_182_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_VARIANCE_COMBINED_*",
         "blocked": "EVAL_182_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_VARIANCE_BLOCKED_*",
+        "expected_exit": 0,
+    },
+    {
+        "name": "EVAL-183",
+        "task_id": "INIT-2026-11-22T02:30:00Z-EVAL183-CROSS-ASSET-OFLOW-TOX-ATM-IV-INTERACTION-SPILLOVER-FORWARD-CVAR",
+        "prereg": "EVAL_183_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_CVAR_PREREGISTRATION_*",
+        "combined": "EVAL_183_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_CVAR_COMBINED_*",
+        "blocked": "EVAL_183_CROSS_ASSET_OFLOW_TOX_ATM_IV_INTERACTION_SPILLOVER_FORWARD_CVAR_BLOCKED_*",
         "expected_exit": 0,
     },
     {
