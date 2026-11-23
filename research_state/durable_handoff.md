@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-23T05:28:03Z**
+> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-23T05:52:49Z**
 > **Repository: `Cryptocurrency-quantitative-options-orderflow-strategy`.**
 > **Charter (from the repository name, highest priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 feasible floor. Sealed rungs are append-only.
 >
@@ -8,15 +8,15 @@
 > - Predictiveness EVAL-02..183 is sealed (EVAL-63 was never sealed). EVAL-67/68 are predictive `GO CONFIRMED`; EVAL-69 order-flow traded-form is `NO-GO CONFIRMED (PASS)`.
 > - Surface traded-form EVAL-184 is `NO-GO CONFIRMED (PASS)` (`20261122T081750Z`), and the EVAL-185 cost×horizon robustness grid is `NO-GO CONFIRMED (PASS)` (`20261122T092235Z`, 0/45 configs pass).
 > - The **only remaining on-charter campaign** is **EVAL-186 TRACK A fresh-window replication**. It is sealed `BLOCKED` (`20261122T111006Z`, seal-gate 0), not `NO-GO`: the real forward capture is present and disjoint but under the EVAL-64 floor. The earliest possible strictly-forward capture end is **2026-11-25T23:34:43Z**.
-
-> **THIS SESSION'S FRESH VERIFICATION (refreshed 2026-11-23T05:28:03Z):**
-> - `eval67_prethreshold_progress.py --execute` at `2026-11-23T05:27:40Z` → **exit 0, `ok:true`, `failures:[]`, `2484/2484` targeted passed, `27/27` diagnostics passed, readiness `gate_phase=SEALED`/`gate_exit=0`**, regenerated `research_state/EVAL_67_PREWINDOW_READINESS.json`.
+>
+> **THIS SESSION'S FRESH VERIFICATION (refreshed 2026-11-23T05:52:49Z):**
+> - `eval67_prethreshold_progress.py --execute` at `2026-11-23T05:52:49Z` → **exit 0, `ok:true`, `failures:[]`, `2484/2484` targeted passed, `27/27` diagnostics passed, readiness `gate_phase=SEALED`/`gate_exit=0`**, regenerated `research_state/EVAL_67_PREWINDOW_READINESS.json`.
 > - `eval184_phaseb_gate.py`, `eval185_phaseb_gate.py`, `eval186_phaseb_gate.py` all print `SEALED` and exit 0 as idempotent no-ops (COMBINED `20261122T081750Z`, COMBINED `20261122T092235Z`, BLOCKED `20261122T111006Z` respectively).
-> - `python3 scripts/eval186_forward_data_preflight.py` at `2026-11-23T05:28:03Z` → **`WAIT_FORWARD_DATA` (exit 10)**: `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=237999.623` (~2.76 days). BTC/ETH are present with disjoint windows, but perp spans are 13,800/14,100 seconds versus the 300,000-second floor (BTC/ETH option trades: 864/615).
+> - `python3 scripts/eval186_forward_data_preflight.py` at `2026-11-23T05:52:49Z` → **`WAIT_FORWARD_DATA` (exit 10)**: `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=236513.603` (~2.74 days). BTC/ETH are present with disjoint windows (capture spans 319,680 s each), but perp spans are 13,800/14,100 seconds versus the 300,000-second floor (BTC/ETH option trades: 864/615).
 > - `data/raw/eval185cap` exists and is git-tracked/committed, but it is the **under-floor** capture. `data/raw/eval84cap` is **MISSING**. Do not claim either is a floor-compliant EVAL-186 capture.
 > - The heavy driver passes **2484/2484** targeted and **27/27** diagnostics (exit 0, readiness `gate_phase=SEALED`/`gate_exit=0`).
-
-> **BOTTLENECK REVIEW (2026-11-23T05:28:03Z):** no writable campaign bottleneck remains. The five-minute controller can dispatch repeated waiting sessions, but `.github/workflows/main.yml` is controller-managed and the checkpoint code explicitly restores it; do not edit the controller or skip the heavy driver to shorten the queue. Run the complete verification sequence once per session and stop while the preflight is `WAIT_FORWARD_DATA`. The fresh-checkout partial-environment crash in `scripts/eval186_forward_data_preflight.py` was already fixed (validates `numpy`, `scipy`, `pydantic`, `yaml` and bootstraps `requirements.txt` into `.venv-deps`). All acquisition/compute/gate/preflight scripts are present and functional. The only remaining campaign block is the measured wall-clock dependency (`now < 2026-11-25T23:34:43Z`). Do not remove or weaken the 2,484-test heavy driver, the preflight, or the EVAL-64 floor.
+>
+> **BOTTLENECK REVIEW (2026-11-23T05:52:49Z):** no writable campaign bottleneck remains. The five-minute controller can dispatch repeated waiting sessions, but `.github/workflows/main.yml` is controller-managed and the checkpoint code explicitly restores it; do not edit the controller or skip the heavy driver to shorten the queue. Run the complete verification sequence once per session and stop while the preflight is `WAIT_FORWARD_DATA`. The fresh-checkout partial-environment crash in `scripts/eval186_forward_data_preflight.py` was already fixed (validates `numpy`, `scipy`, `pydantic`, `yaml` and bootstraps `requirements.txt` into `.venv-deps`). All acquisition/compute/gate/preflight scripts are present and functional. The only remaining campaign block is the measured wall-clock dependency (`now < 2026-11-25T23:34:43Z`). Do not remove or weaken the 2,484-test heavy driver, the preflight, or the EVAL-64 floor.
 
 > **START HERE — RUN THESE IN ORDER, EVERY SESSION:**
 > 1. `python3 scripts/eval67_prethreshold_progress.py --execute` — require exit 0, `ok:true`, `failures:[]`, `2484/2484` targeted, `27/27` diagnostics, all reported gates/seal-gates green, and readiness `gate_phase=SEALED`.
