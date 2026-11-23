@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-23T17:07:21Z**
+> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-23T17:34:21Z**
 > **Repository: `Cryptocurrency-quantitative-options-orderflow-strategy`.**
 > **Charter (from the repository name, highest priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 feasible floor. Sealed rungs are append-only.
 > **Immediate next-session task:** run the mandated session protocol in order — heavy driver (`eval67_prethreshold_progress.py --execute`, require exit 0 / 2484/2484 / 27/27 / ok:true), EVAL-187 real-data readiness audit (`eval187_real_data_readiness_audit.py --execute` + pytest, require ok:true), the three sealed gates (`eval184/185/186_phaseb_gate.py`, each `SEALED` exit 0), then the mandatory preflight (`eval186_forward_data_preflight.py`) and show its verdict verbatim. Preflight is `WAIT_FORWARD_DATA` until `now >= 2026-11-25T23:34:43Z`; when it flips to `READY_TO_ACQUIRE`, execute the printed `acquire_command` + `followup_commands` to re-acquire a floor-compliant forward capture and re-attempt EVAL-186 for a terminal `NO-GO CONFIRMED (PASS)` (or `GO CONFIRMED`). Stop after the preflight verdict; do not invent substitute rungs, do not weaken the floor, do not timestamp-only-refresh this file.
