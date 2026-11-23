@@ -1,6 +1,6 @@
 # EVAL_187_REAL_DATA_READINESS_AUDIT — real-data readiness audit (non-verdict)
 
-- Generated: `2026-11-23T18:31:30Z`
+- Generated: `2026-11-23T19:08:45Z`
 - Task: `EVAL187-REAL-DATA-READINESS-AUDIT`
 - Verdict rung: `False`
 - Audit status: **PASS**
