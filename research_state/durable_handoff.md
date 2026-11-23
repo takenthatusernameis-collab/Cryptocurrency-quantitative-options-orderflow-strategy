@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-23T03:54:50Z**
+> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-23T04:09:30Z**
 > **Repository: `Cryptocurrency-quantitative-options-orderflow-strategy`.**
 > **Charter (from the repository name, highest priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 feasible floor. Sealed rungs are append-only.
 >
@@ -9,13 +9,13 @@
 > - Surface traded-form EVAL-184 is `NO-GO CONFIRMED (PASS)` (`20261122T081750Z`), and the EVAL-185 cost×horizon robustness grid is `NO-GO CONFIRMED (PASS)` (`20261122T092235Z`, 0/45 configs pass).
 > - The **only remaining on-charter campaign** is **EVAL-186 TRACK A fresh-window replication**. It is sealed `BLOCKED` (`20261122T111006Z`, seal-gate 0), not `NO-GO`: the real forward capture is present and disjoint but under the EVAL-64 floor. The earliest possible strictly-forward capture end is **2026-11-25T23:34:43Z**.
 >
-> **THIS SESSION'S FRESH VERIFICATION (2026-11-23T03:54:50Z):**
+> **THIS SESSION'S FRESH VERIFICATION (2026-11-23T04:09:30Z):**
 > - `eval184_phaseb_gate.py`, `eval185_phaseb_gate.py`, and `eval186_phaseb_gate.py` all print `SEALED` and exit 0 as idempotent no-ops (COMBINED `20261122T081750Z`, COMBINED `20261122T092235Z`, BLOCKED `20261122T111006Z` respectively).
-> - `python3 scripts/eval186_forward_data_preflight.py` → **`WAIT_FORWARD_DATA` (exit 10)** at `2026-11-23T03:59:52Z`: `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=243290.092` (~2.82 days). BTC/ETH are present with disjoint windows, but perp spans are 13,800/14,100 seconds versus the 300,000-second floor (BTC/ETH option trades: 864/615).
+> - `python3 scripts/eval186_forward_data_preflight.py` → **`WAIT_FORWARD_DATA` (exit 10)** at `2026-11-23T04:02:50Z`: `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=243112.924` (~2.81 days). BTC/ETH are present with disjoint windows, but perp spans are 13,800/14,100 seconds versus the 300,000-second floor (BTC/ETH option trades: 864/615).
 > - `data/raw/eval185cap` exists and is git-tracked/committed, but it is the **under-floor** capture. `data/raw/eval84cap` is **MISSING**. Do not claim either is a floor-compliant EVAL-186 capture.
-> - The EVAL-186 regression suites pass **29/29** after the bootstrap fix.
+> - The heavy driver passes **2484/2484** targeted and **27/27** diagnostics at `2026-11-23T04:08:55Z` (`ok:true`, `failures:[]`, exit 0, readiness `gate_phase=SEALED`/`gate_exit=0`).
 >
-> **BOTTLENECK REVIEW (2026-11-23T03:54:50Z):** no bottlenecks remain to remove. The workflow serialization bottleneck (`.github/workflows/main.yml`, `concurrency.group: kilo-repository`, `cancel-in-progress: false`) was already confirmed absent of overlapping-activation issues. The fresh-checkout partial-environment crash in `scripts/eval186_forward_data_preflight.py` was fixed (now validates `numpy`, `scipy`, `pydantic`, `yaml` and bootstraps `requirements.txt` into `.venv-deps`). The only remaining block is the measured wall-clock dependency (`now < 2026-11-25T23:34:43Z`). Do not remove or weaken the 2,484-test heavy driver, the preflight, or the EVAL-64 floor.
+> **BOTTLENECK REVIEW (2026-11-23T04:09:30Z):** no bottlenecks remain to remove. The workflow serialization bottleneck (`.github/workflows/main.yml`, `concurrency.group: kilo-repository`, `cancel-in-progress: false`) is confirmed absent of overlapping-activation issues. The fresh-checkout partial-environment crash in `scripts/eval186_forward_data_preflight.py` was already fixed (validates `numpy`, `scipy`, `pydantic`, `yaml` and bootstraps `requirements.txt` into `.venv-deps`). All acquisition/compute/gate/preflight scripts are present and functional. The only remaining block is the measured wall-clock dependency (`now < 2026-11-25T23:34:43Z`). Do not remove or weaken the 2,484-test heavy driver, the preflight, or the EVAL-64 floor.
 >
 > **START HERE — RUN THESE IN ORDER, EVERY SESSION:**
 > 1. `python3 scripts/eval67_prethreshold_progress.py --execute` — require exit 0, `ok:true`, `failures:[]`, `2484/2484` targeted, `27/27` diagnostics, all reported gates/seal-gates green, and readiness `gate_phase=SEALED`.
@@ -85,7 +85,7 @@ All verdicts live in `research_state/EVAL_<n>_*.md`. Do not rerun a sealed rung 
 - No pre-registered floor weakening. Under-floor, missing-underlying, or non-disjoint non-empty real data is `BLOCKED`, not `NO-GO`.
 - Use the correct task ID `INIT-2026-11-22T09:51:17Z-EVAL186-TRACK-A-FRESH-WINDOW-REPLICATION`; do not use retired compact task IDs.
 - Existing `data/raw/eval61|eval67|eval68` captures are git-tracked read-only inputs. `data/raw/eval84cap` is MISSING (gitignored; never claim it exists). `data/raw/eval185cap` is git-tracked/committed but under-floor; keep any floor-compliant re-acquisition LOCAL and never commit/push it. No full-suite discovery, no `research_state/` enumeration loops, and no timestamped handoff copies.
-- No timestamp-only refresh without new verified facts: use the green driver, green gates, and mandatory preflight verdict as evidence. This refresh is backed by the post-fix driver run at `2026-11-23T03:43:26Z`, the sealed gate runs, the `WAIT_FORWARD_DATA` preflight at `2026-11-23T03:43:33Z`, and the bootstrap code fix.
+- No timestamp-only refresh without new verified facts: use the green driver, green gates, and mandatory preflight verdict as evidence. This refresh is backed by the driver run at `2026-11-23T04:08:55Z` (2484/2484 targeted, 27/27 diagnostics, `ok:true`, `failures:[]`, exit 0, readiness `gate_phase=SEALED`/`gate_exit=0`), the three sealed gate runs (all `SEALED` exit 0), and the `WAIT_FORWARD_DATA` preflight at `2026-11-23T04:02:50Z`.
 - Task-floor-stamp ordering: `SEAL_SPECS`/gate `TASK_ID` ISO stamps must be ≤ the artifact stamp; use the session start time, never a projected future time.
 - Degenerate moment/tail fixtures need dispersed increments with occasional large jumps, never alternating ±drift. Check new runners/gates/tests for stale task IDs, signal/target names, helper references, and all hyphen/underscore task-label variants before sealing.
 - Composite/both-asset GO requires BOTH BTC and ETH to pass; single-asset pass remains a legitimate `NO-GO CONFIRMED (PASS)` and must not be relaxed. Use `atm_iv`/`skew` via `e71.build_surface_bars` and `term_slope`/`term_ratio` via `e74._term_bars`; do not cross those paths.
