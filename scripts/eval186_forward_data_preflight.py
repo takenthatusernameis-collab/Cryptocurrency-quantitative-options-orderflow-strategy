@@ -54,14 +54,46 @@ sys.path.insert(0, str(_REPO_ROOT / "scripts"))
 sys.path.insert(0, str(_REPO_ROOT))
 
 # Self-bootstrap runtime deps so `python3 scripts/eval186_forward_data_preflight.py`
-# works without a PYTHONPATH=.venv-deps prefix (the runner imports numpy/pandas/scipy).
-# Mirrors the driver's _child_env() trap fix; deps are git-ignored, not in checkout.
+# works STANDALONE on a fresh checkout (no PYTHONPATH=.venv-deps prefix and no prior
+# verify_env.sh / driver run). The checkout ships no third-party packages (they are
+# git-ignored), so when numpy is missing we install them into the local, git-ignored
+# `.venv-deps` dir (mirrors scripts/verify_env.sh::bootstrap) before adding it to
+# sys.path. Without this, the anti-avoidance gate crashes with ModuleNotFoundError
+# before it can print a WAIT/READY verdict — which would let a session mis-report
+# "nothing to do". This makes the gate robust in isolation.
 try:  # pragma: no cover - import-side bootstrap
     import numpy  # noqa: F401
 except ModuleNotFoundError:  # pragma: no cover
     _deps = _REPO_ROOT / ".venv-deps"
-    if _deps.is_dir():
-        sys.path.insert(0, str(_deps))
+    if not _deps.is_dir() or not any(_deps.iterdir()):
+        import subprocess
+
+        try:
+            subprocess.run(
+                [
+                    sys.executable,
+                    "-m",
+                    "pip",
+                    "install",
+                    "--disable-pip-version-check",
+                    "--no-input",
+                    "--target",
+                    str(_deps),
+                    "-r",
+                    str(_REPO_ROOT / "requirements.txt"),
+                ],
+                check=True,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+        except Exception as exc:  # noqa: BLE001
+            raise ModuleNotFoundError(
+                "numpy/pandas/scipy are required by the EVAL-186 forward-data "
+                f"preflight. Automatic bootstrap into {_deps} failed: {exc}. "
+                "Run ./scripts/verify_env.sh to bootstrap the runtime deps, then "
+                "re-run this preflight."
+            ) from exc
+    sys.path.insert(0, str(_deps))
 
 import scripts.eval186_track_a_fresh_window_replication as e186  # noqa: E402
 
