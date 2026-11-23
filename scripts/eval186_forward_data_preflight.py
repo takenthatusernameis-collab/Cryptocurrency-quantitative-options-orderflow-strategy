@@ -41,6 +41,7 @@ floor. It only reports. The heavy compute + seal remains
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import sys
 from datetime import datetime, timezone
@@ -56,44 +57,70 @@ sys.path.insert(0, str(_REPO_ROOT))
 # Self-bootstrap runtime deps so `python3 scripts/eval186_forward_data_preflight.py`
 # works STANDALONE on a fresh checkout (no PYTHONPATH=.venv-deps prefix and no prior
 # verify_env.sh / driver run). The checkout ships no third-party packages (they are
-# git-ignored), so when numpy is missing we install them into the local, git-ignored
-# `.venv-deps` dir (mirrors scripts/verify_env.sh::bootstrap) before adding it to
-# sys.path. Without this, the anti-avoidance gate crashes with ModuleNotFoundError
-# before it can print a WAIT/READY verdict — which would let a session mis-report
-# "nothing to do". This makes the gate robust in isolation.
-try:  # pragma: no cover - import-side bootstrap
-    import numpy  # noqa: F401
-except ModuleNotFoundError:  # pragma: no cover
-    _deps = _REPO_ROOT / ".venv-deps"
-    if not _deps.is_dir() or not any(_deps.iterdir()):
-        import subprocess
+# git-ignored), so when a required package is missing we install requirements.txt
+# into the local, git-ignored `.venv-deps` dir (mirrors scripts/verify_env.sh::bootstrap)
+# before adding it to sys.path. Check the third-party modules imported by the runner:
+# a partial environment with numpy but no scipy/pydantic/yaml must also bootstrap.
+_REQUIRED_RUNTIME_MODULES = (
+    "numpy",
+    "scipy",
+    "pydantic",
+    "yaml",
+)
 
+
+def _missing_runtime_modules() -> List[str]:
+    missing: List[str] = []
+    for module in _REQUIRED_RUNTIME_MODULES:
         try:
-            subprocess.run(
-                [
-                    sys.executable,
-                    "-m",
-                    "pip",
-                    "install",
-                    "--disable-pip-version-check",
-                    "--no-input",
-                    "--target",
-                    str(_deps),
-                    "-r",
-                    str(_REPO_ROOT / "requirements.txt"),
-                ],
-                check=True,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
-        except Exception as exc:  # noqa: BLE001
-            raise ModuleNotFoundError(
-                "numpy/pandas/scipy are required by the EVAL-186 forward-data "
-                f"preflight. Automatic bootstrap into {_deps} failed: {exc}. "
-                "Run ./scripts/verify_env.sh to bootstrap the runtime deps, then "
-                "re-run this preflight."
-            ) from exc
+            found = importlib.util.find_spec(module) is not None
+        except (ImportError, AttributeError, ValueError):
+            found = False
+        if not found:
+            missing.append(module)
+    return missing
+
+
+_deps = _REPO_ROOT / ".venv-deps"
+if _deps.is_dir() and str(_deps) not in sys.path:
     sys.path.insert(0, str(_deps))
+
+_missing_deps = _missing_runtime_modules()
+if _missing_deps:  # pragma: no cover - exercised by standalone bootstrap
+    import subprocess
+
+    try:
+        subprocess.run(
+            [
+                sys.executable,
+                "-m",
+                "pip",
+                "install",
+                "--disable-pip-version-check",
+                "--no-input",
+                "--target",
+                str(_deps),
+                "-r",
+                str(_REPO_ROOT / "requirements.txt"),
+            ],
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except Exception as exc:  # noqa: BLE001
+        raise ModuleNotFoundError(
+            "the EVAL-186 forward-data preflight runtime requirements are required. "
+            f"Automatic bootstrap into {_deps} failed for "
+            f"{', '.join(_missing_deps)}: {exc}. "
+            "Run ./scripts/verify_env.sh to bootstrap the runtime deps, then "
+            "re-run this preflight."
+        ) from exc
+    _still_missing = _missing_runtime_modules()
+    if _still_missing:
+        raise ModuleNotFoundError(
+            "EVAL-186 forward-data preflight dependencies are still missing after "
+            f"bootstrap: {', '.join(_still_missing)}. Run ./scripts/verify_env.sh."
+        )
 
 import scripts.eval186_track_a_fresh_window_replication as e186  # noqa: E402
 
