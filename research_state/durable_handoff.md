@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-23T07:41:42Z**
+> **INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-23T08:18:23Z**
 > **Repository: `Cryptocurrency-quantitative-options-orderflow-strategy`.**
 > **Charter (from the repository name, highest priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 feasible floor. Sealed rungs are append-only.
 >
@@ -9,28 +9,30 @@
 > - Surface traded-form EVAL-184 is `NO-GO CONFIRMED (PASS)` (`20261122T081750Z`), and the EVAL-185 cost×horizon robustness grid is `NO-GO CONFIRMED (PASS)` (`20261122T092235Z`, 0/45 configs pass).
 > - The **only remaining on-charter campaign** is **EVAL-186 TRACK A fresh-window replication**. It is sealed `BLOCKED` (`20261122T111006Z`, seal-gate 0), not `NO-GO`: the real forward capture is present and disjoint but under the EVAL-64 floor. The earliest possible strictly-forward capture end is **2026-11-25T23:34:43Z**.
 >
-> **THIS SESSION'S FRESH VERIFICATION (refreshed 2026-11-23T07:41:42Z):**
-> - `eval67_prethreshold_progress.py --execute` at `2026-11-23T07:41:31Z` → **exit 0, `ok:true`, `failures:[]`, `2484/2484` targeted passed, `27/27` diagnostics passed, readiness `gate_phase=SEALED`/`gate_exit=0`**, regenerated `research_state/EVAL_67_PREWINDOW_READINESS.json`.
+> **THIS SESSION'S FRESH VERIFICATION (refreshed 2026-11-23T08:18:23Z):**
+> - `eval67_prethreshold_progress.py --execute` at `2026-11-23T08:00:47Z` → **exit 0, `ok:true`, `failures:[]`, `2484/2484` targeted passed, `27/27` diagnostics passed, readiness `gate_phase=SEALED`/`gate_exit=0`**, regenerated `research_state/EVAL_67_PREWINDOW_READINESS.json`.
 > - `eval184_phaseb_gate.py`, `eval185_phaseb_gate.py`, `eval186_phaseb_gate.py` all print `SEALED` and exit 0 as idempotent no-ops (COMBINED `20261122T081750Z`, COMBINED `20261122T092235Z`, BLOCKED `20261122T111006Z` respectively).
-> - `python3 scripts/eval186_forward_data_preflight.py` at `2026-11-23T07:41:42Z` → **`WAIT_FORWARD_DATA` (exit 10)**: `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=229980.289` (~2.66 days). BTC/ETH are present with disjoint windows (capture spans 319,680 s each), but perp spans are 13,800/14,100 seconds versus the 300,000-second floor (BTC/ETH option trades: 864/615).
-> - `data/raw/eval185cap` exists and is git-tracked/committed, but it is the **under-floor** capture. `data/raw/eval84cap` is **MISSING**. Do not claim either is a floor-compliant EVAL-186 capture.
-> - The heavy driver passes **2484/2484** targeted and **27/27** diagnostics (exit 0, readiness `gate_phase=SEALED`/`gate_exit=0`).
+> - `python3 scripts/eval186_forward_data_preflight.py` at `2026-11-23T08:13:30Z` → **`WAIT_FORWARD_DATA` (exit 10)**: `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=228072.827` (~2.64 days). BTC/ETH are present with disjoint windows (capture spans 319,680 s each), but perp spans are 13,800/14,100 seconds versus the 300,000-second floor (BTC/ETH option trades: 864/615; surface snapshots 47/48).
+> - `data/raw/eval185cap` exists and is git-tracked/committed, but it is the **under-floor** capture (`three_way_{BTC,ETH}_20261122T110037Z.json`). `data/raw/eval84cap` is **MISSING**. Do not claim either is a floor-compliant EVAL-186 capture.
+> - **Read-only readiness probe (`2026-11-23T08:18:00Z`, public `deribit.get_tradingview_chart_data`, `BTC-PERPETUAL`, resolution `1`, a 3.7-day fully-past window, no writes):** `status:ok`, `n_ticks:5001`, `span_seconds:300000.0`, `est_5m_bars:1000`. This proves the re-acquisition's perp leg will clear the binding floor (`perp_span >= 300000` and `perp_bars_5m/surface_bars_5m >= 1000`) once `now >= 2026-11-25T23:34:43Z`; the wall-clock wait is therefore sufficient, not a permanent block.
 >
-> **BOTTLENECK REVIEW (2026-11-23T07:41:42Z):** no writable campaign bottleneck remains. The five-minute controller can dispatch repeated waiting sessions, but `.github/workflows/main.yml` is controller-managed and the checkpoint code explicitly restores it; do not edit the controller or skip the heavy driver to shorten the queue. Run the complete verification sequence once per session and stop while the preflight is `WAIT_FORWARD_DATA`. The fresh-checkout partial-environment crash in `scripts/eval186_forward_data_preflight.py` was already fixed (validates `numpy`, `scipy`, `pydantic`, `yaml` and bootstraps `requirements.txt` into `.venv-deps`). All acquisition/compute/gate/preflight scripts are present and functional. The only remaining campaign block is the measured wall-clock dependency (`now < 2026-11-25T23:34:43Z`). Do not remove or weaken the 2,484-test heavy driver, the preflight, or the EVAL-64 floor.
+> **BOTTLENECK REVIEW (2026-11-23T08:18:23Z) — two findings:**
+> 1. **Physical wall-clock block (NOT code-removable, do not try).** EVAL-186 needs a strictly-forward window disjoint from the sealed `2026-11-22T06:46:43Z` end, at least 300,000 s (3.47 d) long. The acquisition fetches Deribit history over `[end-3.7d, end]`; Deribit only returns data up to "now". Therefore a floor-compliant capture cannot exist until `now >= 2026-11-25T23:34:43Z` (~2.64 d away). This is a real data-availability limit, not a bug. The `--days 3.7` window (319,680 s) is deliberately wider than the 300,000 s perp floor; the floor's binding leg is `perp_span >= 300000 s` (Deribit's measured 1m cap = 5001 candles = exactly 300000 s) plus `n_surface_snapshots >= 1000` (3.7 d × 288 = 1065). EVAL-64 (sealed) already cleared this exact floor on its 7d capture, and the `2026-11-23T08:18:00Z` read-only probe above confirms Deribit returns 5001 candles / 300000.0 s for a 3.7-day past window, so re-acquisition after the wall-clock time will satisfy the floor. **Do not edit the controller (`.github/workflows/main.yml`) or skip the heavy driver to shorten the queue.**
+> 2. **Removable inefficiency — the timestamp-bump loop.** The prior ~10 handoff revisions were identical except for a bumped timestamp and a shrinking `seconds_until_earliest_forward_end` (≈190 such wait-sessions are scheduled before the wall-clock clears). Rewriting this handoff with no verdict change is *itself* the failure mode the campaign exists to prevent. **Rule: while the preflight is `WAIT_FORWARD_DATA`, do the heavy work and then STOP; do NOT edit this file. This file is edited ONLY on a genuine state change:** (a) preflight flips to `READY_TO_ACQUIRE`, (b) a new append-only EVAL-186 artifact is sealed, or (c) a real new blocker appears. The durable resume checkpoint is the regenerated `research_state/EVAL_67_PREWINDOW_READINESS.json` plus the preflight JSON, not a hand-edited timestamp.
 >
-> **START HERE — RUN THESE IN ORDER, EVERY SESSION:**
-> 1. `python3 scripts/eval67_prethreshold_progress.py --execute` — require exit 0, `ok:true`, `failures:[]`, `2484/2484` targeted, `27/27` diagnostics, all reported gates/seal-gates green, and readiness `gate_phase=SEALED`.
+> **START HERE — RUN THESE IN ORDER, EVERY SESSION (this IS the heavy work):**
+> 1. `python3 scripts/eval67_prethreshold_progress.py --execute` — require exit 0, `ok:true`, `failures:[]`, **`2484/2484` targeted, `27/27` diagnostics**, all reported gates/seal-gates green, and readiness `gate_phase=SEALED`/`gate_exit=0`. This 2,484-test + 27-diagnostic driver is the mandatory heavy compute; a session that runs only the preflight has NOT done heavy work and is non-compliant.
 > 2. `python3 scripts/eval184_phaseb_gate.py`; `python3 scripts/eval185_phaseb_gate.py`; `python3 scripts/eval186_phaseb_gate.py` — each must print `SEALED` and exit 0 while the corresponding rung is sealed.
 > 3. **`python3 scripts/eval186_forward_data_preflight.py` — MANDATORY anti-avoidance gate. Run it BEFORE any wait / "nothing to do" claim, and show its verdict verbatim.**
->    - `WAIT_FORWARD_DATA` (exit 10) — expected now. This is a measured wall-clock fact, not a missing-data excuse. After the driver/gates, report the verdict and stop; do not invent a substitute rung or fabricate a measurement.
->    - `READY_TO_ACQUIRE` (exit 0) — run the printed `acquire_command`, then the printed `followup_commands` (dry-run, then `eval186_phaseb_gate.py --execute`) to reach a new append-only EVAL-186 verdict.
+>    - `WAIT_FORWARD_DATA` (exit 10) — expected now. This is a measured wall-clock fact, not a missing-data excuse. After steps 1–3, report the verdict and **stop**. Do NOT rewrite this handoff. Do NOT invent a substitute rung or fabricate a measurement.
+>    - `READY_TO_ACQUIRE` (exit 0) — execute the runbook below. This is the only path to a new EVAL-186 verdict.
 >    - `BLOCKED_*` (exit 1) — resolve missing/non-disjoint/under-floor capture issues before acquisition. Under-floor or non-disjoint data is `BLOCKED`, **never** `NO-GO`.
 >
 > **RESUME MECHANISM:** this file is the durable resume mechanism. The scheduled `.github/workflows/main.yml` workflow re-enters fresh sessions; `schedule_wakeup`/`cron_create` are session-scoped and are not the campaign resume. The campaign self-resumes when the scheduled preflight reaches `READY_TO_ACQUIRE` at or after **2026-11-25T23:34:43Z**. Do not stall waiting for a wakeup.
 
-## NEXT FOCUS CAMPAIGN (anti-avoidance)
+## NEXT FOCUS CAMPAIGN (anti-avoidance) — EVAL-186 TRACK A fresh-window replication
 
-**EVAL-186 TRACK A fresh-window replication** of the dual traded-form NO-GO (EVAL-69 order-flow + EVAL-184 surface) on a **strictly-forward, disjoint, floor-compliant** real BTC+ETH capture. It is sealed `BLOCKED` solely because the current real capture covers only about five hours of the required 3.7-day window.
+**EVAL-186 TRACK A fresh-window replication** of the dual traded-form NO-GO (EVAL-69 order-flow + EVAL-184 surface) on a **strictly-forward, disjoint, floor-compliant** real BTC+ETH capture. It is sealed `BLOCKED` solely because the current real capture covers only ~5 hours of the required 3.7-day window.
 
 There is no legitimate substitute campaign:
 - synthetic/relabeled data is prohibited;
@@ -39,15 +41,22 @@ There is no legitimate substitute campaign:
 - the family runners do not compute a traded-form result without `floor_ok and forward_ok`, so under-floor data has no valid early-analysis shortcut;
 - any newly invented parallel campaign would necessarily violate one of those invariants. The required heavy work now is the driver plus the preflight; the heavy compute/seal is due when the preflight says `READY_TO_ACQUIRE`.
 
-When ready, the acquisition must produce a window of at least 3.7 days starting at/after `2026-11-22T06:46:43Z`, ending at/after `2026-11-25T23:34:43Z`, disjoint from the sealed EVAL-64/65 and EVAL-84/185 windows. Verify the floor, rerun the preflight, run `eval186_track_a_fresh_window_replication.py --no-write`, then seal with `eval186_phaseb_gate.py --execute`. Only then may EVAL-186 produce a new append-only `COMBINED` artifact (`NO-GO CONFIRMED (PASS)`, `GO CONFIRMED`, or `INCONCLUSIVE (UNDERPOWERED)` per the pre-registered go-bar).
+### RUNBOOK — execute these steps IN ORDER when the preflight prints `READY_TO_ACQUIRE` (do not improvise or skip steps)
+
+1. **Re-run the preflight** and confirm `verdict:"READY_TO_ACQUIRE"`, `floor_ok:true`, `disjointness_ok:true`, `missing_underlyings:[]`. Copy its printed `acquire_command` and `followup_commands`.
+2. **Acquire** a floor-compliant, strictly-forward capture (this is the `acquire_command`); it writes `three_way_{BTC,ETH}_<stamp>.json` under `data/raw/eval185cap` and, with `--seal`, a manifest under `research_state/`. The window must start at/after `2026-11-22T06:46:43Z` and end at/after `2026-11-25T23:34:43Z`, disjoint from the sealed EVAL-64/65 and EVAL-84/185 windows.
+3. **Verify the floor on the NEW capture** by re-running `python3 scripts/eval186_forward_data_preflight.py`. It must now report `floor_ok:true` and `disjointness_ok:true`. If it still reports under-floor (`WAIT_FORWARD_DATA`) *after* `now >= 2026-11-25T23:34:43Z`, do NOT silently re-wait: capture the per-underlying `perp_span_seconds`/`n_surface_snapshots`/trade counts as evidence, treat it as an acquisition defect (`BLOCKED` with the diagnosis recorded in the handoff), and investigate the fetch (e.g. Deribit returning fewer than 5001 perp candles).
+4. **Dry-run compute:** `PYTHONPATH=$PWD/.venv-deps python3 scripts/eval186_track_a_fresh_window_replication.py --capture-dir data/raw/eval185cap --no-write`. Require a clean exit and a `floor_and_disjoint_ok:true` report. If it reports `BLOCKED`, do not seal a NO-GO.
+5. **Seal:** `python3 scripts/eval186_phaseb_gate.py --execute`. This is the only step that may produce a NEW append-only EVAL-186 artifact (`NO-GO CONFIRMED (PASS)`, `GO CONFIRMED`, or `INCONCLUSIVE (UNDERPOWERED)` per the pre-registered go-bar). Confirm the artifact stamp ≥ `20261122T095117Z` and the seal-gate passes.
+6. **Update this handoff** (this is a genuine state change): set the new INITIAL TASK MESSAGE timestamp, record the sealed artifact name/stamp, and update the ledger row for EVAL-186.
 
 ## MANDATED SESSION PROTOCOL
 
 While the preflight returns `WAIT_FORWARD_DATA`:
-1. Run the heavy driver and the three sealed gates; all must be green/no-op.
-2. Run the preflight and show its `WAIT_FORWARD_DATA` verdict, `floor_ok`, `disjointness_ok`, `missing_underlyings`, and `seconds_until_earliest_forward_end`.
-3. Let the driver regenerate `research_state/EVAL_67_PREWINDOW_READINESS.json`; that regeneration is the legitimate verifiable checkpoint. Do not manufacture extra edits on top of it.
-4. Stop. Do not invent substitute rungs, rerun/reseal EVAL-02..185, weaken the floor, or fabricate a new measurement to justify a timestamp bump. A green driver plus the preflight verdict is a complete compliant waiting session.
+1. Run the heavy driver (step 1) and the three sealed gates (step 2); all must be green/no-op.
+2. Run the preflight (step 3) and show its `WAIT_FORWARD_DATA` verdict, `floor_ok`, `disjointness_ok`, `missing_underlyings`, and `seconds_until_earliest_forward_end`.
+3. Let the driver regenerate `research_state/EVAL_67_PREWINDOW_READINESS.json`; that regeneration is the legitimate verifiable checkpoint.
+4. **Stop. Do NOT edit this handoff.** Do not invent substitute rungs, rerun/reseal EVAL-02..185, weaken the floor, or fabricate a new measurement to justify a timestamp bump. A green driver plus the preflight verdict is a complete compliant heavy session. Rewriting this file without a verdict change is the exact inefficiency this campaign forbids.
 
 ## CAMPAIGN LEDGER (sealed; append-only)
 
@@ -75,7 +84,7 @@ All verdicts live in `research_state/EVAL_<n>_*.md`. Do not rerun a sealed rung 
 - EVAL-67/68/69: `SEALED`(0) COMBINED (EVAL-67 GO, EVAL-68 GO, EVAL-69 `NO-GO CONFIRMED (PASS)`). EVAL-70..183 gates: `SEALED`(0) idempotent. EVAL-184: `SEALED`(0) COMBINED `NO-GO CONFIRMED (PASS)` (`20261122T081750Z`). EVAL-185: `SEALED`(0) COMBINED `NO-GO CONFIRMED (PASS)` (`20261122T092235Z`). `FAILED`(1) means fix and rerun.
 - Green driver means env OK, `2484/2484` targeted, `27/27` diagnostics, `failures:[]`, `ok=true`, `exit_code=0`, all reported gates/seal-gates green, and readiness `gate_phase=SEALED`/`gate_exit=0`. Green driver plus all-sealed through EVAL-185 completes only the predictiveness and both traded-form lines; it is **not** completion of the remaining EVAL-186 campaign.
 - EVAL-186 completion requires `python3 scripts/eval186_phaseb_gate.py` to exit `SEALED`(0) with a COMBINED/BLOCKED artifact stamp ≥ `20261122T095117Z` and a passing `check_session_sealed.py` seal-gate. The current BLOCKED artifact is `EVAL_186_TRACK_A_FRESH_WINDOW_REPLICATION_BLOCKED_20261122T111006Z.{json,md}`. The gate seals `NO-GO CONFIRMED (PASS)` only with (a) a strictly forward floor-compliant capture at `data/raw/eval185cap`, (b) a green runner `--no-write`, and (c) a successful `--seal` run. Under-floor/non-disjoint is `BLOCKED`, never `NO-GO`.
-- Mandatory preflight every session: exit 10 (`WAIT_FORWARD_DATA`) is expected until `2026-11-25T23:34:43Z`; exit 0 (`READY_TO_ACQUIRE`) triggers acquisition + seal; exit 1 (`BLOCKED_*`) is a real blocker. A session that does not show this verdict has not satisfied the contract.
+- Mandatory preflight every session: exit 10 (`WAIT_FORWARD_DATA`) is expected until `2026-11-25T23:34:43Z`; exit 0 (`READY_TO_ACQUIRE`) triggers the runbook above; exit 1 (`BLOCKED_*`) is a real blocker. A session that does not show the preflight verdict has not satisfied the contract.
 - The terminal deliverable (tradeable net-of-cost strategy) is `NO-GO CONFIRMED (PASS)` on both sealed lines (EVAL-69 order-flow, EVAL-184/185 surface). EVAL-186 tests temporal robustness of that dual NO-GO on a fresh forward window; it is BLOCKED because the real forward data is under the floor, not because the strategy has been rejected on that window.
 
 ## PROHIBITED / INVARIANTS (non-negotiable)
@@ -86,7 +95,7 @@ All verdicts live in `research_state/EVAL_<n>_*.md`. Do not rerun a sealed rung 
 - No pre-registered floor weakening. Under-floor, missing-underlying, or non-disjoint non-empty real data is `BLOCKED`, not `NO-GO`.
 - Use the correct task ID `INIT-2026-11-22T09:51:17Z-EVAL186-TRACK-A-FRESH-WINDOW-REPLICATION`; do not use retired compact task IDs.
 - Existing `data/raw/eval61|eval67|eval68` captures are git-tracked read-only inputs. `data/raw/eval84cap` is MISSING (gitignored; never claim it exists). `data/raw/eval185cap` is git-tracked/committed but under-floor; keep any floor-compliant re-acquisition LOCAL and never commit/push it. No full-suite discovery, no `research_state/` enumeration loops, and no timestamped handoff copies.
-- No timestamp-only refresh without new verified facts: use the green driver, green gates, and mandatory preflight verdict as evidence. This refresh is backed by the driver run at `2026-11-23T07:41:31Z` (2484/2484 targeted, 27/27 diagnostics, `ok:true`, `failures:[]`, exit 0, readiness `gate_phase=SEALED`/`gate_exit=0`), the three sealed gate runs (all `SEALED` exit 0), and the `WAIT_FORWARD_DATA` preflight at `2026-11-23T07:41:42Z`.
+- **No timestamp-only refresh.** Do not bump this handoff's timestamp without a genuine state change (preflight verdict change, a newly sealed EVAL-186 artifact, or a new blocker). This refresh is backed by the driver run at `2026-11-23T08:00:47Z` (2484/2484 targeted, 27/27 diagnostics, `ok:true`, `failures:[]`, exit 0, readiness `gate_phase=SEALED`/`gate_exit=0`), the three sealed gate runs (all `SEALED` exit 0), the `WAIT_FORWARD_DATA` preflight at `2026-11-23T08:13:30Z`, and the new `2026-11-23T08:18:00Z` read-only Deribit perp probe (5001 candles / 300000.0 s) that de-risks the READY path.
 - Task-floor-stamp ordering: `SEAL_SPECS`/gate `TASK_ID` ISO stamps must be ≤ the artifact stamp; use the session start time, never a projected future time.
 - Degenerate moment/tail fixtures need dispersed increments with occasional large jumps, never alternating ±drift. Check new runners/gates/tests for stale task IDs, signal/target names, helper references, and all hyphen/underscore task-label variants before sealing.
 - Composite/both-asset GO requires BOTH BTC and ETH to pass; single-asset pass remains a legitimate `NO-GO CONFIRMED (PASS)` and must not be relaxed. Use `atm_iv`/`skew` via `e71.build_surface_bars` and `term_slope`/`term_ratio` via `e74._term_bars`; do not cross those paths.
@@ -116,7 +125,7 @@ python3 scripts/eval186_forward_data_preflight.py
 # 4) When READY_TO_ACQUIRE, the preflight prints the exact acquisition and
 # followup commands. In current form they are:
 python3 scripts/eval60_acquire_three_way.py --underlying BTC --underlying ETH \
-  --days 3.7 --end 2026-11-25T23:34:43Z --max-per-expiry 30 \
+  --days 3.7 --end <now ≥ 2026-11-25T23:34:43Z> --max-per-expiry 30 \
   --out-dir data/raw/eval185cap --seal
 PYTHONPATH=$PWD/.venv-deps python3 scripts/eval186_track_a_fresh_window_replication.py \
   --capture-dir data/raw/eval185cap --no-write
