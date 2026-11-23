@@ -1,22 +1,22 @@
 # EVAL_187_REAL_DATA_READINESS_AUDIT — real-data readiness audit (non-verdict)
 
-- Generated: `2026-11-23T11:54:02Z`
+- Generated: `2026-11-23T14:50:38Z`
 - Task: `EVAL187-REAL-DATA-READINESS-AUDIT`
 - Verdict rung: `False`
 - Audit status: **PASS**
-- Captures scanned: `12`
-- Bytes scanned: `641729724`
-- Records scanned: `3243272`
-- Surface snapshots: `5318`
-- Option trades: `32845`
-- Perp candles: `25557`
-- OKX perp trades: `3179552`
+- Captures scanned: `10`
+- Bytes scanned: `623919229`
+- Records scanned: `3236815`
+- Surface snapshots: `4740`
+- Option trades: `30821`
+- Perp candles: `22675`
+- OKX perp trades: `3178579`
 
 ## Status counts
 
 | status | count |
 |---|---:|
-| OK | 12 |
+| OK | 10 |
 | SPARSE | 0 |
 | DEGENERATE | 0 |
 | ERROR | 0 |
@@ -33,8 +33,6 @@
 |---|---|---|---:|---:|---:|---:|---:|---:|---|
 | data/raw/eval185cap/three_way_BTC_20261122T110037Z.json | BTC | OK | 319680.0 | 47 | 8850 | 864 | 231 | 62230 |  |
 | data/raw/eval185cap/three_way_ETH_20261122T110037Z.json | ETH | OK | 319680.0 | 48 | 8828 | 615 | 236 | 35931 |  |
-| data/raw/eval187rehearsal/three_way_BTC_20261123T110236Z.json | BTC | OK | 86400.0 | 289 | 16301 | 1121 | 1441 | 492 |  |
-| data/raw/eval187rehearsal/three_way_ETH_20261123T110236Z.json | ETH | OK | 86400.0 | 289 | 16018 | 903 | 1441 | 481 |  |
 | data/raw/eval60/three_way_BTC_20261115T232807Z.json | BTC | OK | 86400.0 | 289 | 28711 | 3068 | 1441 | 356839 |  |
 | data/raw/eval60/three_way_ETH_20261116T001342Z.json | ETH | OK | 86400.0 | 289 | 75179 | 4289 | 1441 | 231050 |  |
 | data/raw/eval61/three_way_BTC_20261116T005923Z.json | BTC | OK | 86400.0 | 289 | 74998 | 6872 | 1441 | 337531 |  |
