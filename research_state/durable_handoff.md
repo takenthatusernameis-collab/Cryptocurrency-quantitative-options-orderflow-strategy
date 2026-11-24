@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-24T14:17:50Z
+> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-24T14:22:53Z
 > **Repository:** `Cryptocurrency-quantitative-options-orderflow-strategy`
 > **Charter (inferred from the repository name — HIGHEST priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 feasible floor. Sealed rungs are append-only; do not re-run/re-seal EVAL-02..185 or edit `src/`.
 >
@@ -17,7 +17,7 @@
 >    - `BLOCKED_*` (exit 1) — resolve missing/non-disjoint capture first; under-floor/non-disjoint is `BLOCKED`, never `NO-GO`.
 > 6. **PROOF OF HEAVY WORK (paste all three in your final message — avoidance is detected by their absence):** the driver's `updated_at` from `research_state/EVAL_67_PREWINDOW_READINESS.json`; the audit's `generated_at` from `research_state/EVAL_187_REAL_DATA_READINESS.json`; the preflight's `verdict` + `seconds_until_earliest_forward_end`.
 >
-> ### VERIFIED STATE THIS SESSION (2026-11-24T14:17:50Z) — verdict unchanged WAIT_FORWARD_DATA; preflight RE-RUN this session; driver/audit durable checkpoints below are the resume points
+> ### VERIFIED STATE THIS SESSION (2026-11-24T14:22:53Z) — verdict unchanged WAIT_FORWARD_DATA; preflight RE-RUN this session; driver/audit durable checkpoints below are the resume points
 > - **Heavy driver** durability checkpoint `updated_at 2026-11-24T14:06:43Z`: `gate_phase SEALED`, `gate_exit 0`, `env_check OK`, `tests_passed 2484` (2484/2484 targeted), `diagnostics_passed 27` (27/27), `orchestrator.overall_ok true`, `orchestrator.failures []`, `orchestrator.exit_code 0` (exit 0). **Durable resume point: `research_state/EVAL_67_PREWINDOW_READINESS.json`.** Re-run the driver this session per the mandated protocol; the regenerated checkpoint is the durable resume point.
 > - **EVAL-187 audit** `generated_at 2026-11-24T14:15:32Z`: `audit_status PASS`, `ok true`, 10 git-tracked captures, 623,919,229 bytes, 3,236,815 records; `tests/test_eval187_real_data_readiness_audit.py` 5/5 pass; rolling report at `research_state/EVAL_187_REAL_DATA_READINESS.{json,md}`. **Durable resume point: `research_state/EVAL_187_REAL_DATA_READINESS.json`.** Re-run the audit this session per the mandated protocol.
 > - **Three sealed gates:** each `SEALED` exit 0 (EVAL-184 `COMBINED_20261122T081750Z`, EVAL-185 `COMBINED_20261122T092235Z`, EVAL-186 `BLOCKED_20261122T111006Z`).
