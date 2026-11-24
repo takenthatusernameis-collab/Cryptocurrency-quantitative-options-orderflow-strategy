@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-24T05:03:00Z
+> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-24T05:04:07Z
 > **Repository:** `Cryptocurrency-quantitative-options-orderflow-strategy`
 > **Charter (inferred from the repository name — HIGHEST priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 feasible floor. Sealed rungs are append-only; do not re-run/re-seal EVAL-02..185 or edit `src/`.
 >
@@ -17,12 +17,12 @@
 >    - `BLOCKED_*` (exit 1) — resolve missing/non-disjoint capture first; under-floor/non-disjoint is `BLOCKED`, never `NO-GO`.
 > 6. **PROOF OF HEAVY WORK (paste all three in your final message — avoidance is detected by their absence):** the driver's `updated_at` from `research_state/EVAL_67_PREWINDOW_READINESS.json`; the audit's `generated_at` from `research_state/EVAL_187_REAL_DATA_READINESS.json`; the preflight's `verdict` + `seconds_until_earliest_forward_end`.
 >
-> ### VERIFIED STATE THIS SESSION (2026-11-24T04:55–05:03Z) — all green, verdict unchanged `WAIT_FORWARD_DATA`
+> ### VERIFIED STATE THIS SESSION (2026-11-24T04:55–05:07Z) — all green, verdict unchanged `WAIT_FORWARD_DATA`
 > - **Heavy driver** readiness `updated_at 2026-11-24T05:01:43Z`: `gate_phase SEALED`, `gate_exit 0`, `env_check OK`, `tests_passed 2484` (2484/2484 targeted), `diagnostics_passed 27` (27/27), `total_tests_passed 2511`, `orchestrator.overall_ok true`, `orchestrator.failures []`.
 > - **EVAL-187 audit** `generated_at 2026-11-24T05:01:47Z`: `audit_status PASS`, 10 git-tracked captures, 623,919,229 bytes, 3,236,815 records (7.04 s scan); `tests/test_eval187_real_data_readiness_audit.py` 5/5 pass; rolling report at `research_state/EVAL_187_REAL_DATA_READINESS.{json,md}`.
 > - **Three sealed gates:** each `SEALED` exit 0 (EVAL-186 stays `BLOCKED` stamp `20261122T111006Z`).
 > - **EVAL-186 under-floor dry-run** on `data/raw/eval185cap`: `BLOCKED`, `family_verdicts order_flow/surface = BLOCKED`, `power_adequate false` — no NO-GO emitted. Correct under-floor behavior.
-> - **Preflight (2026-11-24T04:55:32Z):** **`WAIT_FORWARD_DATA`, exit 10**, `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=153550.737` (~1.78 days until `2026-11-25T23:34:43Z`). BTC/ETH present and strictly-forward-disjoint (capture span 319,680 s each) but perp spans (13,800 / 14,100 s) and surface snapshots (47/48) are under the 300,000 s / 1,000-snapshot EVAL-64 floor.
+> - **Preflight (2026-11-24T05:06:48Z):** **`WAIT_FORWARD_DATA`, exit 10**, `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=152874.914` (~1.77 days until `2026-11-25T23:34:43Z`). BTC/ETH present and strictly-forward-disjoint (capture span 319,680 s each) but perp spans (13,800 / 14,100 s) and surface snapshots (47/48) are under the 300,000 s / 1,000-snapshot EVAL-64 floor.
 >
 > ### THE ONLY BLOCKER (bottleneck review) — and what to do about it
 > 1. **Physical wall-clock (NOT code-removable — do not try).** EVAL-186 needs a strictly-forward window with ≥300,000 s perp span disjoint from the sealed `2026-11-22T06:46:43Z` end. Earliest viable end = prev_end + `ACQUIRE_DAYS`(3.7 d) = **`2026-11-25T23:34:43Z`** (`scripts/eval186_track_a_fresh_window_replication.py:54-56`). Deribit serves history only up to "now", so a floor-compliant capture cannot exist until `now >= 2026-11-25T23:34:43Z`. Reducing `ACQUIRE_DAYS`/`MIN_CAPTURE_SPAN_SECONDS` = weakening the sealed EVAL-64 floor = forbidden.
