@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-24T06:28:20Z
+> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-24T06:50:45Z
 > **Repository:** `Cryptocurrency-quantitative-options-orderflow-strategy`
 > **Charter (inferred from the repository name — HIGHEST priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 feasible floor. Sealed rungs are append-only; do not re-run/re-seal EVAL-02..185 or edit `src/`.
 >
@@ -17,12 +17,12 @@
 >    - `BLOCKED_*` (exit 1) — resolve missing/non-disjoint capture first; under-floor/non-disjoint is `BLOCKED`, never `NO-GO`.
 > 6. **PROOF OF HEAVY WORK (paste all three in your final message — avoidance is detected by their absence):** the driver's `updated_at` from `research_state/EVAL_67_PREWINDOW_READINESS.json`; the audit's `generated_at` from `research_state/EVAL_187_REAL_DATA_READINESS.json`; the preflight's `verdict` + `seconds_until_earliest_forward_end`.
 >
-> ### VERIFIED STATE THIS SESSION (2026-11-24T06:28–06:41Z) — all green, verdict unchanged `WAIT_FORWARD_DATA`
-> - **Heavy driver** readiness `updated_at 2026-11-24T06:37:06Z`: `gate_phase SEALED`, `gate_exit 0`, `env_check OK`, `tests_passed 2484` (2484/2484 targeted), `diagnostics_passed 27` (27/27), `total_tests_passed 2511`, `orchestrator.overall_ok true`, `orchestrator.failures []` (exit 0).
-> - **EVAL-187 audit** `generated_at 2026-11-24T06:40:01Z`: `audit_status PASS`, 10 git-tracked captures, 623,919,229 bytes, 3,236,815 records (7.062 s scan); `tests/test_eval187_real_data_readiness_audit.py` 5/5 pass; rolling report at `research_state/EVAL_187_REAL_DATA_READINESS.{json,md}`.
+> ### VERIFIED STATE THIS SESSION (2026-11-24T06:43–06:50Z) — all green, verdict unchanged `WAIT_FORWARD_DATA`
+> - **Heavy driver** readiness `updated_at 2026-11-24T06:50:02Z`: `gate_phase SEALED`, `gate_exit 0`, `env_check OK`, `tests_passed 2484` (2484/2484 targeted), `diagnostics_passed 27` (27/27), `total_tests_passed 2511`, `orchestrator.overall_ok true`, `orchestrator.failures []` (exit 0).
+> - **EVAL-187 audit** `generated_at 2026-11-24T06:50:08Z`: `audit_status PASS`, 10 git-tracked captures, 623,919,229 bytes, 3,236,815 records (7.121 s scan); `tests/test_eval187_real_data_readiness_audit.py` 5/5 pass; rolling report at `research_state/EVAL_187_REAL_DATA_READINESS.{json,md}`.
 > - **Three sealed gates:** each `SEALED` exit 0 (EVAL-184 `COMBINED_20261122T081750Z`, EVAL-185 `COMBINED_20261122T092235Z`, EVAL-186 `BLOCKED_20261122T111006Z`).
 > - **EVAL-186 under-floor dry-run** on `data/raw/eval185cap`: `BLOCKED`, `family_verdicts order_flow/surface = BLOCKED`, `power_adequate false` — no NO-GO emitted. Correct under-floor behavior.
-> - **Preflight (2026-11-24T06:40:23Z):** **`WAIT_FORWARD_DATA`, exit 10**, `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=147259.926` (~1.70 days until `2026-11-25T23:34:43Z`). BTC/ETH present and strictly-forward-disjoint (capture span 319,680 s each) but perp spans (13,800 / 14,100 s) and surface snapshots (47/48) are under the 300,000 s / 1,000-snapshot EVAL-64 floor.
+> - **Preflight (2026-11-24T06:50:36Z):** **`WAIT_FORWARD_DATA`, exit 10**, `floor_ok:false`, `disjointness_ok:true`, `missing_underlyings:[]`, `seconds_until_earliest_forward_end=146646.829` (~1.697 days until `2026-11-25T23:34:43Z`). BTC/ETH present and strictly-forward-disjoint (capture span 319,680 s each) but perp spans (13,800 / 14,100 s) and surface snapshots (47/48) are under the 300,000 s / 1,000-snapshot EVAL-64 floor.
 >
 > ### THE ONLY BLOCKER (bottleneck review) — and what to do about it
 > 1. **Physical wall-clock (NOT code-removable — do not try).** EVAL-186 needs a strictly-forward window with ≥300,000 s perp span disjoint from the sealed `2026-11-22T06:46:43Z` end. Earliest viable end = prev_end + `ACQUIRE_DAYS`(3.7 d) = **`2026-11-25T23:34:43Z`** (`scripts/eval186_track_a_fresh_window_replication.py:54-56`). Deribit serves history only up to "now", so a floor-compliant capture cannot exist until `now >= 2026-11-25T23:34:43Z`. Reducing `ACQUIRE_DAYS`/`MIN_CAPTURE_SPAN_SECONDS` = weakening the sealed EVAL-64 floor = forbidden. **Resume trigger:** when the preflight flips to `READY_TO_ACQUIRE` (exit 0), execute the EVAL-186 runbook immediately — do not wait for a second nudge.
@@ -51,7 +51,7 @@
 
 **What it does:** scans every real `three_way_*.json` capture under `data/raw/`, parses each capture, and reports: schema, underlying, venue, window start/end, capture span; surface snapshots / 5m bars / instruments / quotes / bid-ask / mark / IV coverage; option-trade count / price-size / instrument / timestamp coverage and span; perp-candle count / OHLC / timestamp coverage and span; OKX perp-trade count / price-size / timestamp coverage and span; source provenance (`public_read_only`, `authenticated`), synthetic markers, and per-capture status (`OK`, `SPARSE`, `DEGENERATE`, `ERROR`); and the forward capture in `data/raw/eval185cap` and its status.
 
-**Heavy-work evidence this session (2026-11-24T06:18:12Z):** 10 real git-tracked `three_way_*.json` captures, 623,919,229 bytes, 3,236,815 records, `audit_status:PASS`, 0 `SPARSE`/`DEGENERATE`/`ERROR`; forward capture `data/raw/eval185cap` 2 files OK; rolling report at `research_state/EVAL_187_REAL_DATA_READINESS.{json,md}`.
+**Heavy-work evidence this session (2026-11-24T06:50:08Z):** 10 real git-tracked `three_way_*.json` captures, 623,919,229 bytes, 3,236,815 records, `audit_status:PASS`, 0 `SPARSE`/`DEGENERATE`/`ERROR`; forward capture `data/raw/eval185cap` 2 files OK; rolling report at `research_state/EVAL_187_REAL_DATA_READINESS.{json,md}`.
 
 **Acquisition rehearsal (LOCAL, NOT DURABLE):** `data/raw/eval187rehearsal` is **gitignored (`.gitignore:56`) and absent on any fresh checkout/CI runner** (verified absent 2026-11-24T05:02Z) — the removable bottleneck already fixed in a prior revision. Do NOT depend on it; it is an optional local extra. The **durable** under-floor rehearsal target is the git-tracked `data/raw/eval185cap` (BTC/ETH `three_way_*_20261122T110037Z.json`), which always exists and exercises the real-data `floor_ok:false → BLOCKED, never NO-GO` path identically.
 
