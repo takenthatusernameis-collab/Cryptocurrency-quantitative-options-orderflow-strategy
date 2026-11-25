@@ -1,6 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-25T17:01:14Z
+> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-25T17:08:52Z
 > **Repository:** `Cryptocurrency-quantitative-options-orderflow-strategy`
 > **Charter (inferred from the repository name — HIGHEST priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 floor. Sealed rungs are append-only; do not re-run/re-seal EVAL-02..185 or edit `src/`.
 >
