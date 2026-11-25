@@ -72,21 +72,36 @@ def test_ready_when_floor_and_disjoint_now(monkeypatch):
     assert report["followup_commands"]
 
 
-def test_wait_when_under_floor_but_disjoint(monkeypatch):
+def test_wait_before_earliest_then_ready_at_earliest_when_under_floor(monkeypatch):
     caps = [
         _cap("BTC", "2026-11-22T07:12:00Z", "2026-11-26T00:00:00Z"),
         _cap("ETH", "2026-11-22T07:12:00Z", "2026-11-26T00:00:00Z"),
     ]
     _patch(monkeypatch, captures=caps, has_capture=True, floor_ok=False, disjoint_ok=True)
-    now = _utc("2026-11-22T12:34:00Z")  # before earliest forward end
-    report = preflight.build_report("x", "data/raw/eval185cap", now=now)
-    assert report["verdict"] == "WAIT_FORWARD_DATA"
-    assert report["exit_code"] == preflight.EXIT_WAIT
-    assert report["floor_ok"] is False
-    assert report["disjointness_ok"] is True
-    assert report["seconds_until_earliest_forward_end"] > 0
-    assert report["earliest_forward_capture_end"] == e186.EARLIEST_FORWARD_CAPTURE_END
-    assert report["suggested_acquire_end"] == e186.EARLIEST_FORWARD_CAPTURE_END
+
+    before = preflight.build_report(
+        "x", "data/raw/eval185cap", now=_utc("2026-11-22T12:34:00Z")
+    )
+    assert before["verdict"] == "WAIT_FORWARD_DATA"
+    assert before["exit_code"] == preflight.EXIT_WAIT
+    assert before["floor_ok"] is False
+    assert before["disjointness_ok"] is True
+    assert before["seconds_until_earliest_forward_end"] > 0
+    assert before["earliest_forward_capture_end"] == e186.EARLIEST_FORWARD_CAPTURE_END
+    assert before["suggested_acquire_end"] == e186.EARLIEST_FORWARD_CAPTURE_END
+
+    at_earliest = preflight.build_report(
+        "x", "data/raw/eval185cap", now=_utc("2026-11-25T23:34:43Z")
+    )
+    assert at_earliest["verdict"] == "READY_TO_ACQUIRE"
+    assert at_earliest["exit_code"] == preflight.EXIT_READY
+    assert at_earliest["floor_ok"] is False
+    assert at_earliest["disjointness_ok"] is True
+    assert at_earliest["now_past_earliest_forward_end"] is True
+    assert at_earliest["wallclock_ready"] is True
+    assert at_earliest["acquisition_ready"] is True
+    assert at_earliest["seconds_until_earliest_forward_end"] == 0.0
+    assert at_earliest["acquire_command"][1] == "scripts/eval60_acquire_three_way.py"
 
 
 def test_blocked_non_disjoint(monkeypatch):

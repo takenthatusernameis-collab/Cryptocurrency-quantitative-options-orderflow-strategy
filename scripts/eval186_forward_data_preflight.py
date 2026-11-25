@@ -16,14 +16,18 @@ the previous/sealed windows, or the earliest viable forward window end.
 
 Verdicts (printed as JSON, exit code in parentheses):
 
-* ``READY_TO_ACQUIRE`` (0)  — real forward data now covers a floor-compliant
-  strictly-forward window; ``acquire_command`` is the exact
+* ``READY_TO_ACQUIRE`` (0)  — acquisition is now the correct next action. This
+  happens either when the on-disk capture already satisfies the EVAL-64 floor
+  and strict forward disjointness, or when the on-disk capture is under-floor
+  but strictly-forward disjoint and the wall clock has reached
+  ``earliest_forward_capture_end``. ``acquire_command`` is the exact
   ``scripts/eval60_acquire_three_way.py`` invocation to run, followed by the
   runner ``--no-write`` check and the ``eval186_phaseb_gate.py --execute`` seal.
   Use ``--end`` = the suggested end (or any later strictly-forward end that is
   disjoint from both sealed windows).
 
-* ``WAIT_FORWARD_DATA`` (10) — forward real data is still insufficient. The
+* ``WAIT_FORWARD_DATA`` (10) — the on-disk capture is under-floor, disjoint,
+  and the wall clock has not yet reached ``earliest_forward_capture_end``. The
   script prints the runner's ``earliest_forward_capture_end`` (the first end
   that guarantees >= MIN_CAPTURE_SPAN_SECONDS of perp span after the previous
   window), the wall-clock seconds remaining, and the exact acquire command to
@@ -264,21 +268,29 @@ def build_report(capture_dir: str, out_dir: str, now: Optional[datetime] = None)
             "On-disk capture overlaps a sealed/previous window or is missing an "
             "underlying. Acquire a strictly-forward capture (see acquire_command)."
         )
-    elif floor_ok and disjoint_ok:
+    elif floor_ok or now_past_earliest:
+        # Either the on-disk capture is already floor-compliant, or the wall
+        # clock has reached the earliest viable forward end and the under-floor
+        # on-disk capture must be replaced by a fresh acquisition. Without this
+        # branch the preflight could never flip to READY_TO_ACQUIRE by waiting:
+        # the old under-floor capture would keep floor_ok false forever.
         verdict = "READY_TO_ACQUIRE"
         exit_code = EXIT_READY
         action = (
-            "Floor + disjointness now satisfied on disk. Run acquire_command, then "
-            "followup commands (runner --no-write, then eval186_phaseb_gate.py --execute)."
+            "Run acquire_command now, then followup commands (runner --no-write, "
+            "then eval186_phaseb_gate.py --execute). Under-floor/non-disjoint "
+            "data is BLOCKED, never NO-GO."
         )
     else:
-        # Under-floor but disjoint and present: the expected WAIT state.
+        # Under-floor but disjoint and present, and the wall clock has not yet
+        # reached the earliest viable forward end: the expected WAIT state.
         verdict = "WAIT_FORWARD_DATA"
         exit_code = EXIT_WAIT
         action = (
-            "Forward real data still under the EVAL-64 floor. This is a measured "
-            "wall-clock wait, not a missing-data excuse. Re-run this preflight once "
-            "now >= earliest_forward_capture_end, then run acquire_command + followup."
+            "Forward real data still under the EVAL-64 floor and now < "
+            "earliest_forward_capture_end. This is a measured wall-clock wait, "
+            "not a missing-data excuse. Re-run once now >= "
+            "earliest_forward_capture_end, then run acquire_command + followup."
         )
 
     return {
@@ -300,6 +312,8 @@ def build_report(capture_dir: str, out_dir: str, now: Optional[datetime] = None)
         "acquire_days": float(e186.ACQUIRE_DAYS),
         "now": _iso(now),
         "now_past_earliest_forward_end": bool(now_past_earliest),
+        "wallclock_ready": bool(now_past_earliest),
+        "acquisition_ready": verdict == "READY_TO_ACQUIRE",
         "seconds_until_earliest_forward_end": round(secs_remaining, 3),
         "suggested_acquire_end": suggested_end,
         "acquire_command": acquire_command,
