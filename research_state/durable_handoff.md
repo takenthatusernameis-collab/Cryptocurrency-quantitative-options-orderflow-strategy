@@ -1,10 +1,10 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-26T00:43:56Z
+> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-26T01:07:31Z
 > **Repository:** `Cryptocurrency-quantitative-options-orderflow-strategy`
 > **Charter (inferred from the repository name — HIGHEST priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 floor. Sealed rungs are append-only; do not re-run/re-seal EVAL-02..185 or edit `src/`.
 >
-> **STATE CHANGE (genuine):** the EVAL-186 forward-data preflight remains **`READY_TO_ACQUIRE`** (exit 0) at `2026-11-26T00:36:42Z`; `now >= 2026-11-25T23:34:43Z`, so the physical wall-clock bottleneck is **REMOVED**. `data/raw/eval185cap` currently holds an under-floor BTC+ETH capture (perp spans 13,800/14,100 s vs 300,000 s floor; 47/48 surface snapshots vs 1,000 floor) that is strictly-forward-disjoint but NOT floor-compliant.
+> **STATE CHANGE (genuine):** the EVAL-186 forward-data preflight remains **`READY_TO_ACQUIRE`** (exit 0) at `2026-11-26T01:07:31Z`; `now >= 2026-11-25T23:34:43Z`, so the physical wall-clock bottleneck is **REMOVED**. An acquisition attempt (`eval60_acquire_three_way.py --underlying BTC --underlying ETH --days 3.7 --end 2026-11-26T00:46:50Z --max-per-expiry 30 --out-dir data/raw/eval185cap --seal`) was launched at `2026-11-26T00:47:31Z` and **timed out after 10+ minutes with zero output and zero new capture files**; the process was stopped. The on-disk capture remains the under-floor BTC+ETH set (perp spans 13,800/14,100 s vs 300,000 s floor; 47/48 surface snapshots vs 1,000 floor) that is strictly-forward-disjoint but NOT floor-compliant. **New bottleneck: network-dependent acquisition (Deribit + OKX real-data fetch) is hanging/timing out in this environment; the next session must retry the acquisition runbook (step 6) with a longer timeout or investigate the fetch.**
 >
 > **Your single objective this session: execute the EVAL-186 acquisition runbook IMMEDIATELY (steps 1–5 below), then STOP. Do not passively wait, do not do a timestamp-only handoff bump, do not invent substitute verdict rungs.** A session that finds the preflight `READY_TO_ACQUIRE` and does not execute the acquisition runbook is non-compliance.
 >
