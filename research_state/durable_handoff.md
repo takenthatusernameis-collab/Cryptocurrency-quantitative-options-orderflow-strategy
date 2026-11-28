@@ -1,7 +1,6 @@
 # SINGLE DURABLE HANDOFF — READ FIRST (the only actionable handoff)
 
-> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-28T03:58:25Z
-> **Repository:** `Cryptocurrency-quantitative-options-orderflow-strategy`
+> ## INITIAL TASK MESSAGE FOR THE NEXT AGENTIC SESSION — 2026-11-28T04:02:43Z> **Repository:** `Cryptocurrency-quantitative-options-orderflow-strategy`
 > **Charter (inferred from the repository name — HIGHEST priority):** crypto **OPTIONS surface** + **OPTIONS order-flow** → a **tradeable, net-of-cost alpha strategy** on **REAL public data**. Paper-only. Never synthetic or relabeled. Never weaken the EVAL-64 floor. Sealed rungs are append-only; do not re-run/re-seal EVAL-02..186 or edit `src/`.
 >
 > **STATE (terminal — EVAL-186 SEALED `NO-GO CONFIRMED (PASS)`):** every sealed line answers `NO-GO CONFIRMED (PASS)` (predictiveness EVAL-02..183; order-flow EVAL-69; surface EVAL-184/185; fresh-window EVAL-186 COMBINED `20261126T021741Z`, `floor_ok:true`, `forward_disjointness_ok:true`, both families `order_flow`+`surface` NO-GO). **There is NO unsealed verdict rung. Inventing a substitute verdict rung is prohibited.**
